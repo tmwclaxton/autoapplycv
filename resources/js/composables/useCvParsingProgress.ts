@@ -2,6 +2,7 @@ import { computed, onUnmounted, ref, watch } from 'vue';
 import {
     CV_PARSING_STAGES,
     hintForElapsed,
+    labelForElapsed,
     stageIndexForElapsed,
 } from '@/lib/cvParsingProgress';
 import type { Ref } from 'vue';
@@ -55,12 +56,7 @@ export function useCvParsingProgress(active: Ref<boolean>) {
     });
 
     const currentIndex = computed(() => stageIndexForElapsed(elapsedMs.value));
-    const currentLabel = computed(
-        () =>
-            CV_PARSING_STAGES[
-                Math.min(currentIndex.value, CV_PARSING_STAGES.length - 1)
-            ]?.label ?? 'Reading your CV…',
-    );
+    const currentLabel = computed(() => labelForElapsed(elapsedMs.value));
     const hint = computed(() => hintForElapsed(elapsedMs.value));
 
     return {

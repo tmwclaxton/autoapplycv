@@ -11,22 +11,22 @@ use Tests\TestCase;
 class CvExtractionServiceTest extends TestCase
 {
     #[Test]
-    public function test_extract_passes_long_timeout_max_tokens_and_limited_retries(): void
+    public function test_extract_passes_fast_timeout_max_tokens_and_single_retry(): void
     {
         config([
-            'cv.extraction_model' => 'google/gemini-3.1-flash-lite:ttfs',
-            'cv.extraction_timeout' => 90,
-            'cv.extraction_max_tokens' => 16384,
+            'cv.extraction_model' => 'google/gemini-3.1-flash-lite:speed',
+            'cv.extraction_timeout' => 45,
+            'cv.extraction_max_tokens' => 8192,
         ]);
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')
                 ->once()
                 ->withArgs(function (array $messages, array $options): bool {
-                    return ($options['timeout'] ?? null) === 90
-                        && ($options['max_tokens'] ?? null) === 16384
-                        && ($options['retry_attempts'] ?? null) === 2
-                        && ($options['model'] ?? null) === 'google/gemini-3.1-flash-lite:ttfs';
+                    return ($options['timeout'] ?? null) === 45
+                        && ($options['max_tokens'] ?? null) === 8192
+                        && ($options['retry_attempts'] ?? null) === 1
+                        && ($options['model'] ?? null) === 'google/gemini-3.1-flash-lite:speed';
                 })
                 ->andReturn([
                     'full_name' => 'Alex Developer',
@@ -40,7 +40,7 @@ class CvExtractionServiceTest extends TestCase
                         'completion_tokens' => 20,
                         'total_tokens' => 30,
                         'credits' => 0.01,
-                        'model' => 'google/gemini-3.1-flash-lite:ttfs',
+                        'model' => 'google/gemini-3.1-flash-lite:speed',
                     ],
                 ]);
         });

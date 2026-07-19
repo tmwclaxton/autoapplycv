@@ -16,11 +16,12 @@ return [
 
     /*
     | Recommended NANOGPT_CV_MODEL values (optional override via .env):
-    | - google/gemini-3.1-flash-lite:ttfs        fast default for clean PDF/Word text
+    | - google/gemini-3.1-flash-lite:speed       default - prefer speed/throughput over :ttfs for extract
+    | - google/gemini-3.1-flash-lite:throughput  capacity / fallback tier
     | - deepseek/deepseek-v4-flash:throughput    best for OCR / garbled extracts (NANOGPT_CV_OCR_MODEL)
     | Avoid qwen3.7-max for uploads - high quality but 10x+ slower on full CV output.
     */
-    'extraction_model' => env('NANOGPT_CV_MODEL') ?: 'google/gemini-3.1-flash-lite:ttfs',
+    'extraction_model' => env('NANOGPT_CV_MODEL') ?: 'google/gemini-3.1-flash-lite:speed',
 
     'extraction_model_ocr' => env('NANOGPT_CV_OCR_MODEL') ?: 'deepseek/deepseek-v4-flash:throughput',
 
@@ -52,11 +53,11 @@ return [
 
     'job_context_model' => 'google/gemini-3.1-flash-lite:ttfs',
 
-    // Full structured CV JSON is much larger than assist replies - keep above assist timeout.
-    'extraction_timeout' => 90,
+    // Healthy extracts finish in ~8-15s; fail over before a single slow tier burns the upload.
+    'extraction_timeout' => 45,
 
-    // Prevent mid-object truncation that soft-fails as "AI parsing timed out or failed".
-    'extraction_max_tokens' => 16384,
+    // Large CVs need headroom, but 16k invites long generation; ~8k covers multi-page resumes.
+    'extraction_max_tokens' => 8192,
 
     'extraction_cache_ttl' => 86400,
 

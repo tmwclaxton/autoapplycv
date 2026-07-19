@@ -55,6 +55,7 @@ const saveError = ref<string | null>(null);
 const {
     stages: parsingStages,
     currentIndex: parsingStageIndex,
+    currentLabel: parsingCurrentLabel,
     hint: parsingHint,
 } = useCvParsingProgress(isUploading);
 
@@ -302,6 +303,7 @@ async function saveProfile() {
                 <CvParsingProgress
                     :stages="parsingStages"
                     :current-index="parsingStageIndex"
+                    :current-label="parsingCurrentLabel"
                     :hint="parsingHint"
                 />
             </div>

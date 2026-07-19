@@ -7,7 +7,7 @@ const props = defineProps<{
     show: boolean;
 }>();
 
-const { stages, currentIndex, hint } = useCvParsingProgress(
+const { stages, currentIndex, currentLabel, hint } = useCvParsingProgress(
     toRef(props, 'show'),
 );
 </script>
@@ -25,6 +25,7 @@ const { stages, currentIndex, hint } = useCvParsingProgress(
             <CvParsingProgress
                 :stages="stages"
                 :current-index="currentIndex"
+                :current-label="currentLabel"
                 :hint="hint"
             />
         </div>

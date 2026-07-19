@@ -7,6 +7,8 @@ defineProps<{
     stages: readonly CvParsingStage[];
     currentIndex: number;
     hint: string;
+    /** Dynamic headline (e.g. extracting with live seconds). */
+    currentLabel?: string;
     /** When true, omit the large spinner (parent already shows one). */
     compact?: boolean;
 }>();
@@ -22,7 +24,10 @@ defineProps<{
 
         <div class="w-full space-y-3">
             <p class="font-bold text-postbox-navy">
-                {{ stages[Math.min(currentIndex, stages.length - 1)]?.label }}
+                {{
+                    currentLabel ??
+                    stages[Math.min(currentIndex, stages.length - 1)]?.label
+                }}
             </p>
 
             <ol class="space-y-2 text-left" aria-label="Parsing progress">

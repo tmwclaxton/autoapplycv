@@ -12,6 +12,7 @@ import {
     CV_PARSING_SLOW_HINT_AFTER_MS,
     CV_PARSING_STAGES,
     hintForElapsed,
+    labelForElapsed,
     stageIndexForElapsed,
     stageStatus,
 } from '../../resources/js/lib/cvParsingProgress.ts';
@@ -22,7 +23,7 @@ describe('cvParsingProgress stages', () => {
     it('exposes calm upload → read → AI extract labels (no fake Saving stage)', () => {
         assert.deepEqual(
             CV_PARSING_STAGES.map((stage) => stage.id),
-            ['uploading', 'reading', 'extracting', 'extracting_slow'],
+            ['uploading', 'reading', 'extracting'],
         );
         assert.deepEqual(
             CV_PARSING_STAGES.map((stage) => stage.label),
@@ -30,7 +31,6 @@ describe('cvParsingProgress stages', () => {
                 'Uploading…',
                 'Reading PDF / OCR…',
                 'Extracting profile with AI…',
-                'Still extracting - large CVs take longer…',
             ],
         );
         assert.ok(
@@ -38,23 +38,35 @@ describe('cvParsingProgress stages', () => {
         );
     });
 
-    it('advances by elapsed time without a fake stuck 99%', () => {
+    it('advances by elapsed time without a fake stuck final stage', () => {
         assert.equal(stageIndexForElapsed(0), 0);
-        assert.equal(stageIndexForElapsed(1_499), 0);
-        assert.equal(stageIndexForElapsed(1_500), 1);
-        assert.equal(stageIndexForElapsed(7_999), 1);
-        assert.equal(stageIndexForElapsed(8_000), 2);
-        assert.equal(stageIndexForElapsed(44_999), 2);
-        assert.equal(stageIndexForElapsed(45_000), 3);
-        assert.equal(stageIndexForElapsed(120_000), 3);
+        assert.equal(stageIndexForElapsed(1_199), 0);
+        assert.equal(stageIndexForElapsed(1_200), 1);
+        assert.equal(stageIndexForElapsed(3_999), 1);
+        assert.equal(stageIndexForElapsed(4_000), 2);
+        assert.equal(stageIndexForElapsed(45_000), 2);
+        assert.equal(stageIndexForElapsed(120_000), 2);
     });
 
-    it('shows a minute-scale AI hint after 45s', () => {
-        assert.equal(CV_PARSING_SLOW_HINT_AFTER_MS, 45_000);
+    it('shows a live seconds label during AI extract', () => {
+        assert.equal(labelForElapsed(1_000), 'Uploading…');
+        assert.equal(labelForElapsed(2_000), 'Reading PDF / OCR…');
+        assert.equal(
+            labelForElapsed(4_000),
+            'Extracting profile with AI (4s)…',
+        );
+        assert.equal(
+            labelForElapsed(12_400),
+            'Extracting profile with AI (12s)…',
+        );
+    });
+
+    it('shows a calm AI hint after 20s', () => {
+        assert.equal(CV_PARSING_SLOW_HINT_AFTER_MS, 20_000);
         assert.equal(hintForElapsed(0), CV_PARSING_DEFAULT_HINT);
-        assert.equal(hintForElapsed(44_999), CV_PARSING_DEFAULT_HINT);
-        assert.equal(hintForElapsed(45_000), CV_PARSING_SLOW_HINT);
-        assert.match(CV_PARSING_SLOW_HINT, /up to a minute/i);
+        assert.equal(hintForElapsed(19_999), CV_PARSING_DEFAULT_HINT);
+        assert.equal(hintForElapsed(20_000), CV_PARSING_SLOW_HINT);
+        assert.match(CV_PARSING_DEFAULT_HINT, /under 20 seconds/i);
     });
 
     it('marks earlier stages done and later ones pending', () => {
@@ -75,6 +87,7 @@ describe('cvParsingProgress stages', () => {
 
         assert.match(onboarding, /CvParsingProgress/);
         assert.match(onboarding, /useCvParsingProgress/);
+        assert.match(onboarding, /parsingCurrentLabel/);
         assert.match(onboarding, /step\.value = 'review'/);
         assert.match(onboarding, /PostboxMark/);
         assert.match(onboarding, /Accept: 'application\/json'/);
@@ -82,6 +95,7 @@ describe('cvParsingProgress stages', () => {
         assert.doesNotMatch(onboarding, />OK</);
         assert.match(overlay, /CvParsingProgress/);
         assert.match(overlay, /useCvParsingProgress/);
+        assert.match(overlay, /current-label/);
         assert.doesNotMatch(onboarding, /Reading your CV…/);
     });
 });
