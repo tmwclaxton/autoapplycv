@@ -363,6 +363,17 @@ export function evaluateAnswerTypeCoherence(field, answer) {
     }
 
     if (category === 'yes_no_choice') {
+        // Digits / essays must not land on Yes/No radios (live Ashby 4+ years
+        // applied profile YOE "2" and failed to click).
+        if (!isBareYesNoAnswer(text)) {
+            return {
+                coherent: false,
+                reason: 'non_yes_no_on_yes_no_choice',
+                category,
+                rejected: true,
+            };
+        }
+
         return { coherent: true, reason: null, category, rejected: false };
     }
 

@@ -620,6 +620,14 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
         'Yes',
     );
     assert.equal(
+        normalizeFieldAnswerForQuestion(
+            'do you have 4+ years of experience as a full-time engineer?',
+            '2',
+            { fieldType: 'radio', options: ['Yes', 'No'] },
+        ),
+        'No',
+    );
+    assert.equal(
         isCityLocationQuestionLabel(
             'which country do you intend to work from?',
         ),
@@ -659,6 +667,44 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
             (item) =>
                 item.ref === 'f7' && /united kingdom/i.test(String(item.answer)),
         ),
+    );
+
+    // Stale YOE=2 must not dump the digit onto the Yes/No gate (live Ashby bug).
+    const lowYoePlan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'do you have 4+ years of experience as a full-time engineer?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            profile: { country: 'United Kingdom' },
+            application_settings: { years_of_experience: 2 },
+        },
+        questionMemo: {},
+    });
+    const lowYoeAnswers = lowYoePlan.applyStages.flatMap(
+        (stage) => stage.answers || [],
+    );
+    assert.ok(
+        !lowYoeAnswers.some(
+            (item) => item.ref === 'f1' && String(item.answer).trim() === '2',
+        ),
+        'must not apply raw years digit to Yes/No experience gate',
+    );
+    assert.ok(
+        evaluateAnswerTypeCoherence(
+            {
+                label: 'do you have 4+ years of experience as a full-time engineer?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            '2',
+        ).rejected,
+        'type coherence must reject digits on Yes/No gates',
     );
 });
 

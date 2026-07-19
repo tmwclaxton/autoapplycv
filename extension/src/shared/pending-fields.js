@@ -1,4 +1,6 @@
 import {
+    coerceYearsThresholdToYesNo,
+    extractYearsExperienceThreshold,
     filterMeaningfulChoiceOptions,
     findExactChoiceOptionMatch,
     isNoticePeriodStyleQuestion,
@@ -1801,6 +1803,11 @@ export function isGenericTotalExperienceQuestionLabel(label) {
     const normalized = normalizeLabelForMapping(label);
 
     if (!normalized) {
+        return false;
+    }
+
+    // "Do you have 4+ years…?" is a Yes/No filter gate, not a numeric YOE ask.
+    if (extractYearsExperienceThreshold(label) !== null) {
         return false;
     }
 
@@ -3756,6 +3763,15 @@ export function isProfileMappingMismatch(field, mapping) {
     if (
         mapping?.path === 'application_settings.years_of_experience' &&
         isSkillSpecificYearsExperienceQuestionLabel(label)
+    ) {
+        return true;
+    }
+
+    // Numeric YOE must never dump onto Yes/No radios. Threshold gates are handled
+    // only by coerceYearsThresholdToYesNo in resolvePreferenceProfileAnswer.
+    if (
+        mapping?.path === 'application_settings.years_of_experience' &&
+        fieldHasYesNoOptions(field)
     ) {
         return true;
     }
@@ -6535,6 +6551,32 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
     );
 
     if (!mapping || !isPreferenceProfilePath(mapping.path)) {
+        return '';
+    }
+
+    // "Do you have 4+ years…?" Yes/No gates: coerce YOE digits before the
+    // years+Yes/No mapping mismatch (which blocks raw digit dumps in screener).
+    // Only auto-apply Yes (filter-pass). Leave below-threshold for NanoGPT.
+    if (
+        mapping.path === 'application_settings.years_of_experience' &&
+        fieldHasYesNoOptions(field)
+    ) {
+        const rawYears = profileValueForApply(mapping, profileData, field);
+
+        if (!isMeaningfulAnswer(rawYears)) {
+            return '';
+        }
+
+        const coerced = coerceYearsThresholdToYesNo(
+            label,
+            String(rawYears),
+            field.options,
+        );
+
+        if (coerced && /^yes$/i.test(coerced)) {
+            return coerced;
+        }
+
         return '';
     }
 

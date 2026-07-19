@@ -10,10 +10,37 @@ var AutoCVApplyAnswerNormalization = (() => {
     const OVER_AGE_QUESTION_PATTERN = /\b(?:over|above|at least|older than)\s+(?:the\s+)?age\s+of\s+(\d{1,3})\b|\b(\d{1,3})\s*\+\s*(?:years?\s+old)?\b/i;
     const CHOICE_FIELD_TYPES = new Set(['select', 'radio', 'checkbox']);
 
+    function extractYearsExperienceThreshold(label) {
+        const text = String(label || '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        if (!text || !/\byears?\b/i.test(text)) {
+            return null;
+        }
+
+        const match = text.match(
+            /(?:at\s+least|minimum(?:\s+of)?|more\s+than|over|above)\s+(\d{1,2})\s*\+?\s*years?|(\d{1,2})\s*\+\s*years?|(\d{1,2})\s+or\s+more\s+years?/i,
+        );
+
+        if (!match) {
+            return null;
+        }
+
+        const threshold = Number.parseInt(match[1] || match[2] || match[3], 10);
+
+        return Number.isNaN(threshold) ? null : threshold;
+    }
+
     function isYearsExperienceQuestion(label) {
         const text = String(label || '').replace(/\s+/g, ' ').trim();
 
         if (!text) {
+            return false;
+        }
+
+        // "Do you have 4+ years…?" is a Yes/No gate, not a numeric years field.
+        if (extractYearsExperienceThreshold(text) !== null) {
             return false;
         }
 
@@ -51,6 +78,11 @@ var AutoCVApplyAnswerNormalization = (() => {
             }
 
             return options.fallback ?? '';
+        }
+
+        // Preserve Yes/No gate answers - never rewrite them to profile YOE digits.
+        if (/^(yes|no)$/i.test(raw)) {
+            return raw;
         }
 
         if (YEARS_INTEGER_PATTERN.test(raw)) {
@@ -219,6 +251,26 @@ var AutoCVApplyAnswerNormalization = (() => {
         return findYesNoOption(options, age >= threshold ? 'yes' : 'no');
     }
 
+    function coerceYearsThresholdToYesNo(label, answer, options) {
+        if (!isYesNoChoiceOptions(options)) {
+            return null;
+        }
+
+        const threshold = extractYearsExperienceThreshold(label);
+
+        if (threshold === null) {
+            return null;
+        }
+
+        const years = Number.parseInt(String(answer ?? '').trim(), 10);
+
+        if (Number.isNaN(years)) {
+            return null;
+        }
+
+        return findYesNoOption(options, years >= threshold ? 'yes' : 'no');
+    }
+
     function normalizeChoiceAnswerForQuestion(label, answer, options = {}) {
         const choiceOptions = options.options;
         const trimmed = String(answer ?? '').trim();
@@ -231,6 +283,16 @@ var AutoCVApplyAnswerNormalization = (() => {
 
         if (ageCoerced) {
             return ageCoerced;
+        }
+
+        const yearsCoerced = coerceYearsThresholdToYesNo(
+            label,
+            trimmed,
+            choiceOptions,
+        );
+
+        if (yearsCoerced) {
+            return yearsCoerced;
         }
 
         if (!isYesNoChoiceOptions(choiceOptions)) {
@@ -247,12 +309,32 @@ var AutoCVApplyAnswerNormalization = (() => {
     }
 
     function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
+        const trimmedEarly = String(answer ?? '').trim();
+        const fieldTypeEarly = String(options.fieldType || '').toLowerCase();
+
+        // Yes/No "4+ years" must coerce before numeric years normalization returns "7".
+        if (
+            (CHOICE_FIELD_TYPES.has(fieldTypeEarly) ||
+                Array.isArray(options.options)) &&
+            isYesNoChoiceOptions(options.options)
+        ) {
+            const yearsYesNo = coerceYearsThresholdToYesNo(
+                label,
+                trimmedEarly,
+                options.options,
+            );
+
+            if (yearsYesNo) {
+                return yearsYesNo;
+            }
+        }
+
         if (isYearsExperienceQuestion(label)) {
             return normalizeYearsExperienceAnswer(answer, options);
         }
 
-        const trimmed = String(answer ?? '').trim();
-        const fieldType = String(options.fieldType || '').toLowerCase();
+        const trimmed = trimmedEarly;
+        const fieldType = fieldTypeEarly;
 
         if (CHOICE_FIELD_TYPES.has(fieldType) || Array.isArray(options.options)) {
             const choiceNormalized = normalizeChoiceAnswerForQuestion(label, trimmed, options);
@@ -280,6 +362,8 @@ var AutoCVApplyAnswerNormalization = (() => {
         extractAgeFromAnswer,
         extractOverAgeThreshold,
         coerceAgeStatementToYesNo,
+        extractYearsExperienceThreshold,
+        coerceYearsThresholdToYesNo,
         normalizeChoiceAnswerForQuestion,
         normalizeFieldAnswerForQuestion,
     };

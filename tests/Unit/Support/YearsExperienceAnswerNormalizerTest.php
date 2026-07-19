@@ -47,4 +47,15 @@ class YearsExperienceAnswerNormalizerTest extends TestCase
         $this->assertTrue(YearsExperienceAnswerNormalizer::isGenericTotalExperienceQuestion($label));
         $this->assertSame('6', YearsExperienceAnswerNormalizer::normalize('', '6', $label));
     }
+
+    #[Test]
+    public function it_does_not_treat_years_threshold_yes_no_gates_as_numeric_years(): void
+    {
+        $label = 'Do you have 4+ years of experience as a full-time engineer?';
+
+        $this->assertSame(4, YearsExperienceAnswerNormalizer::extractYearsExperienceThreshold($label));
+        $this->assertFalse(YearsExperienceAnswerNormalizer::isYearsExperienceQuestion($label));
+        $this->assertSame('Yes', YearsExperienceAnswerNormalizer::normalize('Yes', '2', $label));
+        $this->assertSame('No', YearsExperienceAnswerNormalizer::normalize('No', '8', $label));
+    }
 }

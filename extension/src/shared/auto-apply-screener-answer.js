@@ -1,4 +1,5 @@
 import {
+    extractYearsExperienceThreshold,
     filterMeaningfulChoiceOptions,
     normalizeFieldAnswerForQuestion,
     normalizeNoticePeriodAnswer,
@@ -408,6 +409,12 @@ function resolveGenericTotalExperienceFromSettings(settings = {}) {
  */
 function shouldDeferScreenerQuestionToLlm(label) {
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+        return true;
+    }
+
+    // Below-threshold preference leaves these blank so NanoGPT can filter-pass
+    // from work history instead of dumping profile YOE digits onto Yes/No.
+    if (extractYearsExperienceThreshold(label) !== null) {
         return true;
     }
 

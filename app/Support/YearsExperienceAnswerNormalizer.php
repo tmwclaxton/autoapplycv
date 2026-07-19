@@ -12,6 +12,11 @@ class YearsExperienceAnswerNormalizer
             return false;
         }
 
+        // "Do you have 4+ years…?" is a Yes/No gate, not a numeric years field.
+        if (self::extractYearsExperienceThreshold($text) !== null) {
+            return false;
+        }
+
         if (preg_match('/\bwhole number between 0 and 99\b/i', $text) === 1) {
             return true;
         }
@@ -22,6 +27,33 @@ class YearsExperienceAnswerNormalizer
 
         return preg_match('/\byears? of (?:work )?experience\b/i', $text) === 1
             && preg_match('/\b(how many|with|in|using|have|do you)\b/i', $text) === 1;
+    }
+
+    public static function extractYearsExperienceThreshold(string $label): ?int
+    {
+        $text = trim(preg_replace('/\s+/u', ' ', $label) ?? '');
+
+        if ($text === '' || preg_match('/\byears?\b/i', $text) !== 1) {
+            return null;
+        }
+
+        if (preg_match(
+            '/(?:at\s+least|minimum(?:\s+of)?|more\s+than|over|above)\s+(\d{1,2})\s*\+?\s*years?|(\d{1,2})\s*\+\s*years?|(\d{1,2})\s+or\s+more\s+years?/i',
+            $text,
+            $match,
+        ) !== 1) {
+            return null;
+        }
+
+        $rawThreshold = $match[1] ?: ($match[2] ?: ($match[3] ?? null));
+
+        if ($rawThreshold === null || $rawThreshold === '') {
+            return null;
+        }
+
+        $threshold = (int) $rawThreshold;
+
+        return $threshold > 0 ? $threshold : null;
     }
 
     public static function isSkillSpecificYearsExperienceQuestion(string $label): bool
@@ -35,6 +67,10 @@ class YearsExperienceAnswerNormalizer
         $normalized = mb_strtolower(trim(preg_replace('/\s+/u', ' ', $label) ?? ''));
 
         if ($normalized === '') {
+            return false;
+        }
+
+        if (self::extractYearsExperienceThreshold($label) !== null) {
             return false;
         }
 
@@ -61,6 +97,11 @@ class YearsExperienceAnswerNormalizer
             }
 
             return '';
+        }
+
+        // Preserve Yes/No gate answers - never rewrite them to profile YOE digits.
+        if (preg_match('/^(yes|no)$/i', $raw) === 1) {
+            return $raw;
         }
 
         if (preg_match('/^\d+$/', $raw) === 1) {

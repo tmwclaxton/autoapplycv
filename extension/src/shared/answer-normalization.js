@@ -209,6 +209,11 @@ export function isYearsExperienceQuestion(label) {
         return false;
     }
 
+    // "Do you have 4+ years…?" is a Yes/No gate, not a numeric years field.
+    if (extractYearsExperienceThreshold(text) !== null) {
+        return false;
+    }
+
     if (/\bwhole number between 0 and 99\b/i.test(text)) {
         return true;
     }
@@ -243,6 +248,11 @@ export function normalizeYearsExperienceAnswer(answer, options = {}) {
         }
 
         return options.fallback ?? '';
+    }
+
+    // Preserve Yes/No gate answers - never rewrite them to profile YOE digits.
+    if (/^(yes|no)$/i.test(raw)) {
+        return raw;
     }
 
     if (YEARS_INTEGER_PATTERN.test(raw)) {

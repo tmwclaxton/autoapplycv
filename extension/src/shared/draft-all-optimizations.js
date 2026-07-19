@@ -18,6 +18,7 @@ import {
     isAgreementCheckboxField,
 } from './draft-all/consent-fields.js';
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
+import { isPositionApplyingForQuestionLabel } from './auto-apply-screener-answer.js';
 import {
     isEmployerScreeningTrapLabel,
     isInterviewAccommodationQuestionLabel,
@@ -406,6 +407,12 @@ export function partitionFieldsByQuestionMemo(
             field.options.some((option) => /^yes$/i.test(String(option).trim())) &&
             field.options.some((option) => /^no$/i.test(String(option).trim()))
         ) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Personio Stelle/Bereich must use the current job title, not a stale essay.
+        if (isPositionApplyingForQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }
