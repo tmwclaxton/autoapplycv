@@ -228,6 +228,31 @@ test('UK profile answers No to US/Canada permanent work-auth when options unharv
     assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
 });
 
+test('free-text require work authorization stays pending instead of dumping Yes', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            legally_authorized: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f10',
+        label: 'do you require work authorization?',
+        field_type: 'text',
+        options: null,
+        dom: { tag: 'input', type: 'text' },
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), '');
+    const { pendingFields, remainingFields } = partitionPreferenceProfileFields(
+        [field],
+        profile,
+    );
+    assert.equal(pendingFields.length, 1);
+    assert.equal(pendingFields[0].ref, 'f10');
+    assert.equal(remainingFields.length, 0);
+});
+
 test('Polish work-auth status select leaves pending instead of inventing nationality', () => {
     const profile = {
         country: 'United Kingdom',

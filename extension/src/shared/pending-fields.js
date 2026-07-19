@@ -3122,6 +3122,33 @@ function resolveWorkAuthYesNoForCountry(field, profileCountry, aliases) {
     return '';
 }
 
+/**
+ * Free-text "Do you require work authorization?" is ambiguous and job-country
+ * dependent. Leave it pending instead of dumping legally_authorized Yes/No.
+ */
+function shouldLeaveWorkAuthFreeTextPending(field) {
+    const label = field?.label || field?.question || '';
+    const fieldType = String(field?.field_type || '').toLowerCase();
+    const isText =
+        fieldType === 'text' ||
+        fieldType === 'textarea' ||
+        (!fieldType && field?.dom?.tag === 'input');
+
+    if (!isText) {
+        return false;
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return false;
+    }
+
+    return (
+        isWorkAuthorizationQuestionLabel(label) ||
+        (/\b(require|requiring|need)\b/.test(normalizeQuestionLabel(label)) &&
+            /\bwork authori[sz]ation\b/.test(normalizeQuestionLabel(label)))
+    );
+}
+
 function resolveCountrySpecificWorkAuthAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
     const context = field?.context || '';
@@ -4946,6 +4973,14 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return '';
     }
 
+    // Free-text work-auth asks are employer/country specific; do not dump Yes/No.
+    if (
+        mapping.path === 'application_settings.legally_authorized' &&
+        shouldLeaveWorkAuthFreeTextPending(field)
+    ) {
+        return '';
+    }
+
     // "Do you require a work permit?" is the inverse of legally authorized.
     if (
         mapping.path === 'application_settings.legally_authorized' &&
@@ -5340,6 +5375,18 @@ export function partitionPreferenceProfileFields(fields, profileData) {
                 dom: field.dom || null,
                 answer: DRAFT_FIELD_CLEAR_SENTINEL,
             });
+            continue;
+        }
+
+        if (shouldLeaveWorkAuthFreeTextPending(field)) {
+            const pending = createPendingField(
+                field,
+                profileMappingByPath('application_settings.legally_authorized'),
+                'missing_profile_data',
+            );
+            pending.pending_hint =
+                'This work-authorization question needs a short written answer for this employer/country. Add the answer in the sidebar.';
+            pendingFields.push(pending);
             continue;
         }
 
