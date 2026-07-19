@@ -5,7 +5,11 @@ import { test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const { buildDraftAllApplyPlan, partitionDraftAllBatchAnswers } = await import(
+const {
+    buildDraftAllApplyPlan,
+    enrichPercentageFromClassificationAnswers,
+    partitionDraftAllBatchAnswers,
+} = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
 );
 const { mergePendingFields } = await import(
@@ -1364,6 +1368,58 @@ test('interview accommodation free-text is cleared and not sent to LLM', () => {
     assert.equal(clearStage.answers[0].answer, '__CLEAR__');
     assert.equal(
         (plan.llmFields || []).some((field) => field.ref === 'f0'),
+        false,
+    );
+});
+
+test('enrichPercentageFromClassificationAnswers derives lower-bound % from First-Class band', () => {
+    const fieldsByRef = new Map([
+        [
+            'f11',
+            {
+                ref: 'f11',
+                label: 'what was your numeric percentage average?',
+                field_type: 'text',
+            },
+        ],
+        [
+            'f12',
+            {
+                ref: 'f12',
+                label: 'what was your degree classification?',
+                field_type: 'select',
+            },
+        ],
+    ]);
+
+    const enriched = enrichPercentageFromClassificationAnswers(
+        [
+            { ref: 'f11', answer: null },
+            {
+                ref: 'f12',
+                answer: 'First-Class Honours (First or 1st) (70% and above)',
+            },
+        ],
+        fieldsByRef,
+    );
+
+    assert.equal(enriched.find((item) => item.ref === 'f11')?.answer, '70');
+
+    const { toApply, pending } = partitionDraftAllBatchAnswers(
+        [
+            { ref: 'f11', answer: null },
+            {
+                ref: 'f12',
+                answer: 'First-Class Honours (First or 1st) (70% and above)',
+            },
+        ],
+        fieldsByRef,
+        profileData,
+    );
+
+    assert.equal(toApply.find((item) => item.ref === 'f11')?.answer, '70');
+    assert.equal(
+        pending.some((item) => item.ref === 'f11'),
         false,
     );
 });

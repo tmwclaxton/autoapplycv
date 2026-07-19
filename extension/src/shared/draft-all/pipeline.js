@@ -45,7 +45,110 @@ import {
     partitionElectronicSignatureFields,
     partitionMarketingConsentFields,
 } from './consent-fields.js';
+import { isMeaningfulAnswer } from './answer-utils.js';
 import { tagAnswersWithSource } from './type-coherence.js';
+
+function isNumericPercentageAverageQuestion(label) {
+    const normalized = String(label || '')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!normalized) {
+        return false;
+    }
+
+    return (
+        /\b(?:numeric\s+)?percentage\s+average\b/.test(normalized) ||
+        /\baverage\s+(?:mark|grade|percentage|percent)\b/.test(normalized) ||
+        /\b(?:overall\s+)?(?:percentage|percent|mark)\s+average\b/.test(
+            normalized,
+        ) ||
+        (/\bgpa\b/.test(normalized) &&
+            /\b(?:numeric|number|score|average)\b/.test(normalized))
+    );
+}
+
+function isDegreeClassificationQuestion(label) {
+    const normalized = String(label || '')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    return (
+        /\bdegree\s+classification\b/.test(normalized) ||
+        (/\bclassification\b/.test(normalized) &&
+            /\b(?:degree|honours|honors|class)\b/.test(normalized))
+    );
+}
+
+/**
+ * When NanoGPT leaves "numeric percentage average" empty but the same batch
+ * answered degree classification with a % band ("70% and above"), derive the
+ * lower-bound number so required education fields are not left pending.
+ *
+ * @param {Array<{ ref?: string, label?: string, answer?: string|null }>} answers
+ * @param {Map<string, object>} fieldsByRef
+ */
+export function enrichPercentageFromClassificationAnswers(
+    answers,
+    fieldsByRef,
+) {
+    const list = Array.isArray(answers) ? answers : [];
+
+    if (list.length === 0 || !(fieldsByRef instanceof Map)) {
+        return list;
+    }
+
+    let derivedPercent = '';
+
+    for (const item of list) {
+        if (!isMeaningfulAnswer(item?.answer)) {
+            continue;
+        }
+
+        const field = item?.ref ? fieldsByRef.get(item.ref) : null;
+        const label = field?.label || field?.question || item?.label || '';
+
+        if (!isDegreeClassificationQuestion(label)) {
+            continue;
+        }
+
+        const match = String(item.answer).match(/(\d{1,3})\s*%/);
+
+        if (match) {
+            const value = Number(match[1]);
+
+            if (Number.isFinite(value) && value >= 0 && value <= 100) {
+                derivedPercent = String(value);
+                break;
+            }
+        }
+    }
+
+    if (!derivedPercent) {
+        return list;
+    }
+
+    return list.map((item) => {
+        if (isMeaningfulAnswer(item?.answer)) {
+            return item;
+        }
+
+        const field = item?.ref ? fieldsByRef.get(item.ref) : null;
+        const label = field?.label || field?.question || item?.label || '';
+
+        if (!isNumericPercentageAverageQuestion(label)) {
+            return item;
+        }
+
+        return {
+            ...item,
+            answer: derivedPercent,
+            source: item?.source || 'derived_classification',
+        };
+    });
+}
 
 /**
  * Plan deterministic Draft All stages before any LLM stream.
@@ -516,5 +619,10 @@ export function partitionDraftAllBatchAnswers(
     fieldsByRef,
     profileData,
 ) {
-    return partitionBatchAnswers(answers, fieldsByRef, profileData);
+    const enriched = enrichPercentageFromClassificationAnswers(
+        answers,
+        fieldsByRef,
+    );
+
+    return partitionBatchAnswers(enriched, fieldsByRef, profileData);
 }

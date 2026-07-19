@@ -430,7 +430,9 @@ export function partitionFieldsByQuestionMemo(
         if (
             extractYearsExperienceThreshold(label) !== null &&
             Array.isArray(field?.options) &&
-            field.options.some((option) => /^yes$/i.test(String(option).trim())) &&
+            field.options.some((option) =>
+                /^yes$/i.test(String(option).trim()),
+            ) &&
             field.options.some((option) => /^no$/i.test(String(option).trim()))
         ) {
             remainingFields.push(field);
@@ -516,10 +518,14 @@ function siblingLocalityBatchContext(fields) {
     const localityHints = [];
 
     for (const field of fields || []) {
-        const label = String(field?.label || field?.question || '').toLowerCase();
+        const label = String(
+            field?.label || field?.question || '',
+        ).toLowerCase();
 
         if (
-            /\b(?:city|town|postcode|postal code|zip|street|address)\b/.test(label)
+            /\b(?:city|town|postcode|postal code|zip|street|address)\b/.test(
+                label,
+            )
         ) {
             localityHints.push(
                 String(field.label || field.question || '').trim(),
@@ -534,8 +540,41 @@ function siblingLocalityBatchContext(fields) {
     return `Sibling locality fields in this batch: ${localityHints.join(' | ')}. Keep city/postcode/street consistent with the profile; use null if a part is missing.`;
 }
 
+function siblingEducationGradeBatchContext(fields) {
+    let hasPercentage = false;
+    let hasClassification = false;
+
+    for (const field of fields || []) {
+        const label = String(field?.label || field?.question || '')
+            .toLowerCase()
+            .replace(/\s+/g, ' ');
+
+        if (
+            /\b(?:numeric\s+)?percentage\s+average\b/.test(label) ||
+            /\baverage\s+(?:mark|grade|percentage|percent)\b/.test(label)
+        ) {
+            hasPercentage = true;
+        }
+
+        if (
+            /\bdegree\s+classification\b/.test(label) ||
+            (/\bclassification\b/.test(label) &&
+                /\b(?:degree|honours|honors|class)\b/.test(label))
+        ) {
+            hasClassification = true;
+        }
+    }
+
+    if (!hasPercentage || !hasClassification) {
+        return '';
+    }
+
+    return 'Sibling education grade fields in this batch include percentage average and degree classification. If classification options include a % band (e.g. 70% and above), answer percentage average with that lower-bound number rather than null.';
+}
+
 export function compactFieldsForDraft(fields) {
     const siblingLocalityHint = siblingLocalityBatchContext(fields);
+    const siblingEducationHint = siblingEducationGradeBatchContext(fields);
 
     return (fields || []).map((field, index) => {
         const fieldType = field.field_type || 'text';
@@ -548,10 +587,7 @@ export function compactFieldsForDraft(fields) {
 
         const maxChars = Number(field.max_chars);
 
-        if (
-            Number.isFinite(maxChars) &&
-            maxChars >= MIN_API_FIELD_MAX_CHARS
-        ) {
+        if (Number.isFinite(maxChars) && maxChars >= MIN_API_FIELD_MAX_CHARS) {
             // Workable cover-letter fields expose max_chars=200000; sending that
             // fails DraftAllApplicationRequest and the browser follows a 302 HTML
             // redirect, which looks like an empty successful NDJSON stream.
@@ -601,6 +637,18 @@ export function compactFieldsForDraft(fields) {
                 )
             ) {
                 contextParts.push(siblingLocalityHint);
+            }
+        }
+
+        if (siblingEducationHint) {
+            const label = String(field?.label || '').toLowerCase();
+
+            if (
+                /\b(?:percentage|percent|classification|honours|honors|gpa|average)\b/.test(
+                    label,
+                )
+            ) {
+                contextParts.push(siblingEducationHint);
             }
         }
 
