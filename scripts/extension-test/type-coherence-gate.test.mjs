@@ -510,6 +510,68 @@ test('available from is notice not date and rejects bare integers', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
 });
 
+test('4+ years Yes/No coerces from profile years and country intend maps to country', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+    const { normalizeFieldAnswerForQuestion } = await import(
+        '../../extension/src/shared/answer-normalization.js'
+    );
+    const { isCityLocationQuestionLabel } = await import(
+        '../../extension/src/shared/pending-fields.js'
+    );
+
+    assert.equal(
+        normalizeFieldAnswerForQuestion(
+            'do you have 4+ years of experience as a full-time engineer?',
+            '7',
+            { fieldType: 'radio', options: ['Yes', 'No'] },
+        ),
+        'Yes',
+    );
+    assert.equal(
+        isCityLocationQuestionLabel(
+            'which country do you intend to work from?',
+        ),
+        false,
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'do you have 4+ years of experience as a full-time engineer?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                id: 7,
+                ref: 'f7',
+                label: 'which country do you intend to work from?',
+                field_type: 'select',
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+            },
+            application_settings: { years_of_experience: 7 },
+        },
+        questionMemo: {},
+    });
+
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(answers.some((item) => item.ref === 'f1' && item.answer === 'Yes'));
+    assert.ok(
+        answers.some(
+            (item) =>
+                item.ref === 'f7' && /united kingdom/i.test(String(item.answer)),
+        ),
+    );
+});
+
 test('security clearance Yes/No does not inherit legally_authorized', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'

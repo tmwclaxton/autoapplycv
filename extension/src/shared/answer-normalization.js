@@ -401,6 +401,54 @@ export function coerceAgeStatementToYesNo(label, answer, options) {
     return findYesNoOption(options, age >= threshold ? 'yes' : 'no');
 }
 
+/**
+ * "Do you have 4+ years of experience?" with profile years 7 -> Yes.
+ *
+ * @param {string|null|undefined} label
+ * @returns {number|null}
+ */
+export function extractYearsExperienceThreshold(label) {
+    const text = String(label || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!text || !/\byears?\b/i.test(text)) {
+        return null;
+    }
+
+    const match = text.match(
+        /(?:at\s+least|minimum(?:\s+of)?|more\s+than|over|above)\s+(\d{1,2})\s*\+?\s*years?|(\d{1,2})\s*\+\s*years?|(\d{1,2})\s+or\s+more\s+years?/i,
+    );
+
+    if (!match) {
+        return null;
+    }
+
+    const threshold = Number.parseInt(match[1] || match[2] || match[3], 10);
+
+    return Number.isNaN(threshold) ? null : threshold;
+}
+
+export function coerceYearsThresholdToYesNo(label, answer, options) {
+    if (!isYesNoChoiceOptions(options)) {
+        return null;
+    }
+
+    const threshold = extractYearsExperienceThreshold(label);
+
+    if (threshold === null) {
+        return null;
+    }
+
+    const years = Number.parseInt(String(answer ?? '').trim(), 10);
+
+    if (Number.isNaN(years)) {
+        return null;
+    }
+
+    return findYesNoOption(options, years >= threshold ? 'yes' : 'no');
+}
+
 export function normalizeChoiceAnswerForQuestion(label, answer, options = {}) {
     const choiceOptions = options.options;
     const trimmed = String(answer ?? '').trim();
@@ -413,6 +461,16 @@ export function normalizeChoiceAnswerForQuestion(label, answer, options = {}) {
 
     if (ageCoerced) {
         return ageCoerced;
+    }
+
+    const yearsCoerced = coerceYearsThresholdToYesNo(
+        label,
+        trimmed,
+        choiceOptions,
+    );
+
+    if (yearsCoerced) {
+        return yearsCoerced;
     }
 
     if (!isYesNoChoiceOptions(choiceOptions)) {
@@ -468,6 +526,26 @@ export function resolveDeterministicChoiceAnswer(label, answer, field) {
 }
 
 export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
+    const trimmedEarly = String(answer ?? '').trim();
+    const fieldTypeEarly = String(options.fieldType || '').toLowerCase();
+
+    // Yes/No "4+ years" must coerce before numeric years normalization returns "7".
+    if (
+        (CHOICE_FIELD_TYPES.has(fieldTypeEarly) ||
+            Array.isArray(options.options)) &&
+        isYesNoChoiceOptions(options.options)
+    ) {
+        const yearsYesNo = coerceYearsThresholdToYesNo(
+            label,
+            trimmedEarly,
+            options.options,
+        );
+
+        if (yearsYesNo) {
+            return yearsYesNo;
+        }
+    }
+
     if (isYearsExperienceQuestion(label)) {
         const yearsOptions = isSkillSpecificYearsExperienceQuestionLabel(label)
             || !isGenericTotalExperienceQuestionLabel(label)
@@ -481,8 +559,8 @@ export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
         return normalizeNoticePeriodAnswer(label, answer, options);
     }
 
-    const trimmed = String(answer ?? '').trim();
-    const fieldType = String(options.fieldType || '').toLowerCase();
+    const trimmed = trimmedEarly;
+    const fieldType = fieldTypeEarly;
 
     if (CHOICE_FIELD_TYPES.has(fieldType) || Array.isArray(options.options)) {
         const choiceNormalized = normalizeChoiceAnswerForQuestion(label, trimmed, options);

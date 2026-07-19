@@ -2968,7 +2968,14 @@ export function isCityLocationQuestionLabel(label) {
         return true;
     }
 
-    // Greenhouse: "From where do you intend to work?"
+    // Greenhouse: "From where do you intend to work?" (city/locality, not country).
+    if (
+        /\bcountry\b/.test(normalized) &&
+        !/\b(?:city|town)\b/.test(normalized)
+    ) {
+        return false;
+    }
+
     if (
         /\bintend to work\b/.test(normalized) ||
         /\bwhere (?:will|do) you (?:intend to )?work\b/.test(normalized)
