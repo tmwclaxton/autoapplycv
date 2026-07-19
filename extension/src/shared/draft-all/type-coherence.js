@@ -25,8 +25,13 @@ export function isBareYesNoAnswer(answer) {
 
 function fieldHasYesNoOptions(field) {
     const options = Array.isArray(field?.options) ? field.options : [];
-    const hasYes = options.some((option) => /^yes$/i.test(String(option).trim()));
-    const hasNo = options.some((option) => /^no$/i.test(String(option).trim()));
+    // Exact Yes/No or prefixed ("No, I do not require a visa") - live Mytos Lever.
+    const hasYes = options.some((option) =>
+        /^(yes)\b/i.test(String(option).trim()),
+    );
+    const hasNo = options.some((option) =>
+        /^(no)\b/i.test(String(option).trim()),
+    );
 
     return hasYes && hasNo;
 }

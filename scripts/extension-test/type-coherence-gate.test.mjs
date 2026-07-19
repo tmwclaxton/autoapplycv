@@ -745,6 +745,26 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
     );
 });
 
+test('Lever visa Yes/No with prefixed options accepts bare No', async () => {
+    const { evaluateAnswerTypeCoherence } = await import(
+        '../../extension/src/shared/draft-all/type-coherence.js'
+    );
+
+    const result = evaluateAnswerTypeCoherence(
+        {
+            label: 'do you require a visa to work in the uk?',
+            field_type: 'select',
+            options: [
+                'Yes, I require a visa',
+                'No, I do not require a visa',
+            ],
+        },
+        'No',
+    );
+    assert.equal(result.rejected, false);
+    assert.equal(result.category, 'yes_no_choice');
+});
+
 test('Greenhouse Yes/No combobox without harvested options accepts bare No', async () => {
     const { evaluateAnswerTypeCoherence } = await import(
         '../../extension/src/shared/draft-all/type-coherence.js'
@@ -1240,6 +1260,18 @@ test('education school/degree fills from profile and pendings when missing', asy
         { ref: 'd', label: 'degree', field_type: 'text', required: true },
         { ref: 'di', label: 'discipline', field_type: 'text', required: true },
         {
+            ref: 'u2',
+            label: 'which was the most recent university you attended?',
+            field_type: 'select',
+            required: true,
+        },
+        {
+            ref: 'd2',
+            label: 'what degree did you complete at the above university?',
+            field_type: 'text',
+            required: true,
+        },
+        {
             ref: 'trap',
             label: 'are you returning to full-time school or work in the fall?',
             field_type: 'radio',
@@ -1271,6 +1303,8 @@ test('education school/degree fills from profile and pendings when missing', asy
     assert.equal(answers.u, "Queen's University Belfast");
     assert.equal(answers.d, 'BSc Computer Science');
     assert.equal(answers.di, 'Computer Science');
+    assert.equal(answers.u2, "Queen's University Belfast");
+    assert.equal(answers.d2, 'BSc Computer Science');
     assert.equal(filled.pendingFields.length, 0);
     assert.deepEqual(
         filled.llmFields.map((field) => field.ref),
@@ -1282,7 +1316,7 @@ test('education school/degree fills from profile and pendings when missing', asy
         profileData: { profile: { education: [] } },
         questionMemo: {},
     });
-    assert.equal(missing.pendingFields.length, 3);
+    assert.equal(missing.pendingFields.length, 5);
     assert.ok(
         missing.pendingFields.every(
             (field) => field.reason === 'missing_profile_data',
