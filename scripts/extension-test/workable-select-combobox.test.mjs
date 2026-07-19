@@ -197,4 +197,9 @@ test('Workable orphan illustrated select is inventoriable and fillable', async (
 
     assert.equal(filled, true);
     assert.equal(hidden.value, '5938003');
+
+    const cleared = await heuristics.setFieldValue(hidden, '__CLEAR__');
+
+    assert.equal(cleared, true);
+    assert.equal(hidden.value, '');
 });

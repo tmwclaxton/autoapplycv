@@ -12676,34 +12676,52 @@ var AutoCVApplyFormHeuristics = (() => {
             return clearComboboxFieldValue(element);
         }
 
+        // Workable orphan / hidden companion: clear via the select root.
+        const workableRoot = getWorkableSelectRoot(element);
+
+        if (workableRoot) {
+            const combobox = workableRoot.querySelector('[role="combobox"]');
+
+            if (combobox) {
+                return clearComboboxFieldValue(combobox);
+            }
+
+            return clearWorkableSelectRoot(workableRoot, element);
+        }
+
         return clearTextFieldValue(element);
     }
 
-    async function clearComboboxFieldValue(element) {
-        if (!element || element.getAttribute?.('role') !== 'combobox') {
+    async function clearWorkableSelectRoot(root, element) {
+        if (!root) {
             return false;
         }
 
-        const doc = element.ownerDocument || document;
+        const combobox =
+            root.querySelector('[role="combobox"]') ||
+            (element?.getAttribute?.('role') === 'combobox' ? element : null);
+        const hidden =
+            resolveWorkableHiddenSelectInput(root, combobox || element) ||
+            root.querySelector('input[aria-hidden="true"]');
+        const illustrated = root.querySelector(
+            '[data-role="illustrated-input"]',
+        );
+        const clearButtons = Array.from(
+            root.querySelectorAll(
+                'button[aria-label*="clear" i], button[aria-label*="Clear" i], button[aria-label*="remove" i], [data-role="clear"], .clear-button, button[class*="clear"], button[class*="Clear"]',
+            ),
+        );
 
-        if (isWorkableSelectCombobox(element)) {
-            const root = element.closest('[data-input-type="select"]');
-            const hidden = resolveWorkableHiddenSelectInput(root, element);
-            const illustrated = root?.querySelector(
-                '[data-role="illustrated-input"]',
-            );
-            const clearButton = root?.querySelector(
-                'button[aria-label*="clear" i], button[aria-label*="Clear" i], [data-role="clear"], .clear-button, button[class*="clear"]',
-            );
+        for (const clearButton of clearButtons) {
+            dispatchPointerClick(clearButton);
+            nativeClick(clearButton);
+            await pauseMs(60);
+        }
 
-            if (clearButton) {
-                dispatchPointerClick(clearButton);
-                await pauseMs(80);
-            }
-
-            element.focus();
-            setNativeValue(element, '');
-            element.dispatchEvent(
+        if (combobox) {
+            combobox.focus();
+            setNativeValue(combobox, '');
+            combobox.dispatchEvent(
                 new InputEvent('input', {
                     bubbles: true,
                     cancelable: true,
@@ -12711,8 +12729,35 @@ var AutoCVApplyFormHeuristics = (() => {
                     data: null,
                 }),
             );
-            element.dispatchEvent(new Event('change', { bubbles: true }));
-            element.dispatchEvent(
+            // Select-all + delete helps when Workable keeps a readonly display value.
+            combobox.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'a',
+                    code: 'KeyA',
+                    metaKey: true,
+                    ctrlKey: true,
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            combobox.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'Backspace',
+                    code: 'Backspace',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            combobox.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'Delete',
+                    code: 'Delete',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            combobox.dispatchEvent(new Event('change', { bubbles: true }));
+            combobox.dispatchEvent(
                 new KeyboardEvent('keydown', {
                     key: 'Escape',
                     code: 'Escape',
@@ -12720,7 +12765,9 @@ var AutoCVApplyFormHeuristics = (() => {
                     cancelable: true,
                 }),
             );
+        }
 
+        for (let attempt = 0; attempt < 3; attempt += 1) {
             if (hidden) {
                 setNativeValue(hidden, '');
                 hidden.removeAttribute('value');
@@ -12738,34 +12785,89 @@ var AutoCVApplyFormHeuristics = (() => {
             if (illustrated) {
                 illustrated.textContent = '';
                 illustrated.removeAttribute('data-value');
+
+                for (const node of Array.from(illustrated.childNodes || [])) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.textContent = '';
+                    }
+                }
             }
 
-            root?.setAttribute('data-open', 'false');
-            root?.setAttribute('data-error', 'false');
-            root?.removeAttribute('data-value');
-            element.setAttribute('aria-expanded', 'false');
-            element.blur();
+            await pauseMs(40);
 
-            const remaining = String(
-                readReactSelectValue(element) || element.value || '',
-            ).trim();
-            const hiddenRemaining = String(hidden?.value || '').trim();
+            if (!String(hidden?.value || '').trim()) {
+                break;
+            }
+        }
 
-            heuristicsLog(
-                remaining || hiddenRemaining ? 'warn' : 'info',
-                'apply.combobox',
-                remaining || hiddenRemaining
-                    ? 'Workable combobox clear incomplete'
-                    : 'Workable combobox cleared',
-                {
-                    remainingPreview: remaining.slice(0, 40),
-                    hiddenPreview: hiddenRemaining.slice(0, 40),
-                },
+        root.setAttribute('data-open', 'false');
+        root.setAttribute('data-error', 'false');
+        root.removeAttribute('data-value');
+        combobox?.setAttribute('aria-expanded', 'false');
+        combobox?.blur();
+
+        const remaining = String(
+            (combobox &&
+                (readReactSelectValue(combobox) || combobox.value || '')) ||
+                '',
+        ).trim();
+        const hiddenRemaining = String(hidden?.value || '').trim();
+
+        // Last resort: reopen and Escape so Workable drops a sticky selection.
+        if (remaining || hiddenRemaining) {
+            openWorkableSelectDropdown(combobox || illustrated || element);
+            await pauseMs(80);
+            (combobox || illustrated || element)?.dispatchEvent?.(
+                new KeyboardEvent('keydown', {
+                    key: 'Escape',
+                    code: 'Escape',
+                    bubbles: true,
+                    cancelable: true,
+                }),
             );
 
-            // Visible label cleared is enough for sidebar honesty; hidden id may
-            // linger until the user picks a real option.
-            return !remaining;
+            if (hidden) {
+                setNativeValue(hidden, '');
+                hidden.removeAttribute('value');
+                hidden.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            await pauseMs(60);
+        }
+
+        const finalVisible = String(
+            (combobox &&
+                (readReactSelectValue(combobox) || combobox.value || '')) ||
+                '',
+        ).trim();
+        const finalHidden = String(hidden?.value || '').trim();
+
+        heuristicsLog(
+            finalVisible || finalHidden ? 'warn' : 'info',
+            'apply.combobox',
+            finalVisible || finalHidden
+                ? 'Workable combobox clear incomplete'
+                : 'Workable combobox cleared',
+            {
+                remainingPreview: finalVisible.slice(0, 40),
+                hiddenPreview: finalHidden.slice(0, 40),
+            },
+        );
+
+        // Prefer clearing the submitted hidden id so a wrong nationality cannot
+        // pass required validation. Visible label may lag React remounts.
+        return !finalHidden;
+    }
+
+    async function clearComboboxFieldValue(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        if (isWorkableSelectCombobox(element)) {
+            const root = element.closest('[data-input-type="select"]');
+
+            return clearWorkableSelectRoot(root, element);
         }
 
         if (isReactSelectComboboxShell(element)) {
