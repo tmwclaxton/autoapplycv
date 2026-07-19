@@ -99,7 +99,19 @@ export function mockAnswerForField(field, index) {
             const domId = field.dom?.id || '';
             const question = String(field.question || '').toLowerCase();
 
-            if (domId === 'country' || (/\bcountry\b/.test(question) && !/authorized|work in|right to work|this country|phone number country|dial code|phone country/i.test(question))) {
+            // Greenhouse phone dial combobox is id=country + role=combobox.
+            // Bare "United States" fails option match; live UK profiles use +44.
+            if (domId === 'country' && field.dom?.role === 'combobox') {
+                return 'United Kingdom (+44)';
+            }
+
+            if (
+                domId === 'country' ||
+                (/\bcountry\b/.test(question) &&
+                    !/authorized|work in|right to work|this country|phone number country|dial code|phone country/i.test(
+                        question,
+                    ))
+            ) {
                 return 'United States';
             }
 
