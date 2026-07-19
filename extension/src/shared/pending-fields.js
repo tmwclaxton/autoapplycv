@@ -4988,12 +4988,26 @@ function resolveUsLocationConfirmationYesNoAnswer(field, profileData) {
     return 'No';
 }
 
+function hasUsLocationConfirmationLongOptions(options) {
+    return (options || []).some((option) =>
+        /based in the usa|relocating to the usa|planning to relocate/i.test(
+            String(option || ''),
+        ),
+    );
+}
+
 function resolveUsLocationConfirmationAnswer(field, profileData) {
     const options = Array.isArray(field?.options) ? field.options : [];
 
     // Greenhouse react-select often has empty options until opened. Still answer
     // clear Yes/No "based in US/Canada" questions from the label alone.
-    if (fieldHasYesNoOptions(field) || options.length === 0) {
+    // Once Upon a Farm options start with Yes/No but need the full relocate
+    // wording - bare "No" matched the planning-to-relocate radio.
+    if (
+        options.length === 0 ||
+        (fieldHasYesNoOptions(field) &&
+            !hasUsLocationConfirmationLongOptions(options))
+    ) {
         return resolveUsLocationConfirmationYesNoAnswer(field, profileData);
     }
 
