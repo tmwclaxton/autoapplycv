@@ -27,6 +27,7 @@ import {
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
     resolvePriorEmployerRelationshipAnswer,
+    resolveReferralFollowUpNaAnswer,
     resolveServingNoticeFollowUpAnswer,
     resolveProfileMappingForLabel,
     readProfileValue,
@@ -438,6 +439,17 @@ export function resolveHeuristicScreenerAnswer(
     if (isMeaningfulAnswer(priorEmployerRelationshipAnswer)) {
         return normalizeHeuristicAnswerForField(
             priorEmployerRelationshipAnswer,
+            normalizedField,
+        );
+    }
+
+    const referralFollowUpNaAnswer =
+        resolveReferralFollowUpNaAnswer(normalizedField);
+
+    // N/A is a placeholder elsewhere; referral labels that ask for it are meaningful.
+    if (isMeaningfulFieldAnswer(normalizedField, referralFollowUpNaAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            referralFollowUpNaAnswer,
             normalizedField,
         );
     }

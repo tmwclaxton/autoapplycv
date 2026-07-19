@@ -14,8 +14,13 @@ const PLACEHOLDER_ANSWER_PATTERNS = [
 export function fieldAllowsExplicitNotApplicableAnswer(field) {
     const label = String(field?.label || field?.question || '').toLowerCase();
 
-    return /\bor n\/a if not applicable\b/.test(label)
-        || /\bn\/a if not applicable\b/.test(label);
+    return (
+        /\bor n\/a if not applicable\b/.test(label) ||
+        /\bn\/a if not applicable\b/.test(label) ||
+        /\bplease type\s*["']?n\/a["']?/.test(label) ||
+        (/\b(?:who referred|referred you)\b/.test(label) &&
+            /\bn\/a\b/.test(label))
+    );
 }
 
 export function isMeaningfulAnswer(answer) {

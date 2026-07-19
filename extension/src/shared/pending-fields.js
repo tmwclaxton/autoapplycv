@@ -2315,6 +2315,56 @@ export function resolvePriorEmployerRelationshipAnswer(field) {
     return pickLocalizedYesNoOption(field, false) || 'No';
 }
 
+/**
+ * Follow-ups that say "if you answered no, type N/A" (Real Ashby referral).
+ * Without a named referrer in profile, fill N/A rather than leave required blank.
+ */
+export function isReferralFollowUpNaQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    const asksReferrer =
+        /\bwho referred\b/.test(normalized) ||
+        /\breferred you\b/.test(normalized) ||
+        /\breferral(?:\s+name|\s+details)?\b/.test(normalized);
+
+    if (!asksReferrer) {
+        return false;
+    }
+
+    return (
+        /\btype\s*["']?n\s*\/\s*a["']?/.test(normalized) ||
+        /\bif you answered (?:yes|no)\b/.test(normalized) ||
+        /\bplease type\s*["']?n\s*\/\s*a["']?/.test(normalized)
+    );
+}
+
+export function resolveReferralFollowUpNaAnswer(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isReferralFollowUpNaQuestionLabel(label)) {
+        return '';
+    }
+
+    const fieldType = String(
+        field?.field_type || field?.type || '',
+    ).toLowerCase();
+
+    if (
+        fieldType === 'text' ||
+        fieldType === 'textarea' ||
+        fieldType === '' ||
+        fieldType === 'input'
+    ) {
+        return 'N/A';
+    }
+
+    return '';
+}
+
 function resolveReferenceFieldKey(field) {
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
 
@@ -4573,6 +4623,9 @@ function isEducationLevelConfirmationLabel(label) {
 
 export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
+    const fieldType = String(
+        field?.field_type || field?.type || '',
+    ).toLowerCase();
 
     // Optional skill-years stay silent; required ones need a sidebar answer.
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
@@ -4591,19 +4644,6 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
-    const availabilityPrompt = shouldPromptAvailabilityField(
-        field,
-        profileData,
-    );
-
-    if (availabilityPrompt !== null) {
-        return availabilityPrompt;
-    }
-
-    if (shouldSkipUserPromptForFieldLabel(field, profileData)) {
-        return false;
-    }
-
     if (isAgreementCheckboxField(field)) {
         return false;
     }
@@ -4616,6 +4656,20 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
+    // Files are handled by resume upload helpers, not the clarifying sidebar.
+    if (fieldType === 'file') {
+        return false;
+    }
+
+    const availabilityPrompt = shouldPromptAvailabilityField(
+        field,
+        profileData,
+    );
+
+    if (availabilityPrompt !== null) {
+        return availabilityPrompt;
+    }
+
     // Profile city can still fail to commit (Lever/Ashby geocomplete). Keep
     // those unfilled required fields in the sidebar instead of silent gaps.
     if (isLocationAutocompleteQuestionLabel(label)) {
@@ -4624,6 +4678,16 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
 
     if (shouldLeaveJobApplicationLocationPending(field, profileData)) {
         return true;
+    }
+
+    // Required empties after Draft All need sidebar attention even when the
+    // question is application-specific (Real SpringBoot 1-10, etc.).
+    if (field?.required === true) {
+        return true;
+    }
+
+    if (shouldSkipUserPromptForFieldLabel(field, profileData)) {
+        return false;
     }
 
     if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
@@ -6553,10 +6617,6 @@ export function buildPendingFieldsFromUnfilledSnapshot(
             continue;
         }
 
-        if (shouldSkipUserPromptForFieldLabel(field, profileData)) {
-            continue;
-        }
-
         if (isAgreementCheckboxField(field)) {
             continue;
         }
@@ -6569,6 +6629,9 @@ export function buildPendingFieldsFromUnfilledSnapshot(
             continue;
         }
 
+        // Do not pre-filter via shouldSkipUserPromptForFieldLabel here:
+        // required application-specific questions (skill ratings) must remain
+        // pending. shouldPromptUserForMissingDraftAnswer owns skip vs prompt.
         if (!shouldPromptUserForMissingDraftAnswer(field, profileData)) {
             continue;
         }
