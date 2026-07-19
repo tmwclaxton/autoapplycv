@@ -9,6 +9,7 @@ const { partitionDraftAllBatchAnswers } = await import(
 );
 const {
     collectEmptyBatchAnswerRetryRefs,
+    collectMissingCoverLetterRetryRefs,
     retryEmptyDraftBatchAnswers,
 } = await import(pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/empty-batch-retry.js')).href);
 const { isSkillSpecificYearsExperienceQuestionLabel } = await import(
@@ -127,6 +128,27 @@ test('retryEmptyDraftBatchAnswers does not inject profile total years into skill
     assert.equal(retried.retriedCount, 1);
     assert.equal(retried.toApply.length, 0);
     assert.equal(retried.pending.length, 0);
+});
+
+test('collectMissingCoverLetterRetryRefs targets cleared cover letters with no apply', () => {
+    const draftFields = [
+        { ref: 'f12', label: 'cover letter', field_type: 'textarea' },
+        { ref: 'f10', label: 'summary', field_type: 'textarea' },
+    ];
+    const applied = new Map([
+        ['f10', { ref: 'f10', answer: 'Summary text' }],
+    ]);
+
+    assert.deepEqual(
+        collectMissingCoverLetterRetryRefs(draftFields, applied),
+        ['f12'],
+    );
+    assert.deepEqual(
+        collectMissingCoverLetterRetryRefs(draftFields, new Map([
+            ['f12', { ref: 'f12', answer: 'I am applying to join Climax Studios.' }],
+        ])),
+        [],
+    );
 });
 
 test('empty cover letter after clear falls back to company-named template', async () => {

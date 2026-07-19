@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Services\ApplicationAssistantService;
 use App\Services\ApplicationDraftOrchestratorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Concurrency;
 use Mockery;
 use Mockery\MockInterface;
+use RuntimeException;
 use Tests\TestCase;
 
 class ApplicationDraftOrchestratorServiceTest extends TestCase
@@ -254,6 +256,142 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame('Toby', $answersByRef->get('f1')['answer'] ?? null);
         $this->assertSame('toby@example.com', $answersByRef->get('f2')['answer'] ?? null);
         $this->assertSame('I enjoy product marketing.', $answersByRef->get('f3')['answer'] ?? null);
+    }
+
+    public function test_run_batched_draft_stream_falls_back_to_sync_when_concurrency_fails(): void
+    {
+        config([
+            'cv.ai_assist.draft_all_batch_size' => 1,
+        ]);
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'formatted_cv_text' => 'Alex Developer - Laravel engineer',
+        ]);
+
+        Concurrency::shouldReceive('run')
+            ->once()
+            ->andThrow(new RuntimeException('Concurrent process timed out.'));
+
+        $this->mock(ApplicationAssistantService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('answerQuestions')
+                ->twice()
+                ->andReturn(
+                    [
+                        'answers' => [
+                            ['label' => 'Question one', 'ref' => 'f0', 'answer' => 'Answer one'],
+                        ],
+                        'usage' => [
+                            'prompt_tokens' => 10,
+                            'completion_tokens' => 5,
+                            'total_tokens' => 15,
+                            'model' => 'openai/gpt-4.1-mini',
+                        ],
+                    ],
+                    [
+                        'answers' => [
+                            ['label' => 'Question two', 'ref' => 'f1', 'answer' => 'Answer two'],
+                        ],
+                        'usage' => [
+                            'prompt_tokens' => 10,
+                            'completion_tokens' => 5,
+                            'total_tokens' => 15,
+                            'model' => 'openai/gpt-4.1-mini',
+                        ],
+                    ],
+                );
+        });
+
+        $orchestrator = app(ApplicationDraftOrchestratorService::class);
+        $emitted = [];
+
+        $summary = $orchestrator->runBatchedDraftStream(
+            $user,
+            $user->cvProfile,
+            [
+                'title' => 'Laravel Developer',
+                'company' => 'Example Ltd',
+            ],
+            [
+                ['id' => 0, 'ref' => 'f0', 'label' => 'Question one', 'field_type' => 'textarea'],
+                ['id' => 1, 'ref' => 'f1', 'label' => 'Question two', 'field_type' => 'textarea'],
+            ],
+            [],
+            static function (int $batchIndex, array $answers) use (&$emitted): void {
+                $emitted[] = [
+                    'batch_index' => $batchIndex,
+                    'answers' => $answers,
+                ];
+            },
+            static function (): void {},
+        );
+
+        $this->assertSame(2, $summary['batches_ok']);
+        $this->assertSame(0, $summary['batches_failed']);
+        $this->assertSame([0, 1], array_column($emitted, 'batch_index'));
+        $this->assertSame('Answer one', $emitted[0]['answers'][0]['answer'] ?? null);
+        $this->assertSame('Answer two', $emitted[1]['answers'][0]['answer'] ?? null);
+    }
+
+    public function test_run_batched_draft_stream_runs_single_llm_batch_in_process(): void
+    {
+        config([
+            'cv.ai_assist.draft_all_batch_size' => 10,
+        ]);
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'formatted_cv_text' => 'Alex Developer - Laravel engineer',
+        ]);
+
+        Concurrency::shouldReceive('run')->never();
+
+        $this->mock(ApplicationAssistantService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('answerQuestions')
+                ->once()
+                ->andReturn([
+                    'answers' => [
+                        [
+                            'label' => 'cover letter',
+                            'ref' => 'f12',
+                            'answer' => 'I am applying to join Example Ltd.',
+                        ],
+                    ],
+                    'usage' => [
+                        'prompt_tokens' => 10,
+                        'completion_tokens' => 5,
+                        'total_tokens' => 15,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ],
+                ]);
+        });
+
+        $orchestrator = app(ApplicationDraftOrchestratorService::class);
+        $emitted = [];
+
+        $summary = $orchestrator->runBatchedDraftStream(
+            $user,
+            $user->cvProfile,
+            [
+                'title' => 'Software Engineer',
+                'company' => 'Example Ltd',
+            ],
+            [
+                ['id' => 0, 'ref' => 'f12', 'label' => 'cover letter', 'field_type' => 'textarea'],
+            ],
+            [],
+            static function (int $batchIndex, array $answers) use (&$emitted): void {
+                $emitted[] = $answers;
+            },
+            static function (): void {},
+        );
+
+        $this->assertSame(1, $summary['batches_ok']);
+        $this->assertSame(0, $summary['batches_failed']);
+        $this->assertSame(
+            'I am applying to join Example Ltd.',
+            $emitted[0][0]['answer'] ?? null,
+        );
     }
 
     public function test_run_batched_draft_stream_errors_batches_when_quota_is_insufficient(): void

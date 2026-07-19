@@ -105,7 +105,7 @@ class ApplicationDraftOrchestratorService
         }
 
         /** @var array<int, ?array{answers: array<int, array{label: string, ref?: string|null, answer: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}}> $llmResults */
-        $llmResults = $llmTasks === [] ? [] : Concurrency::run($llmTasks);
+        $llmResults = $this->resolveLlmBatchResults($llmTasks);
 
         $batchesOk = 0;
         $batchesFailed = 0;
@@ -208,6 +208,46 @@ class ApplicationDraftOrchestratorService
 
             return $question;
         }, $batch);
+    }
+
+    /**
+     * Run NanoGPT batch closures. Single-batch drafts stay in-process (avoids the
+     * process-driver 60s kill that left Cleared cover letters empty). Multi-batch
+     * uses Concurrency, with sequential fallback if the worker pool fails.
+     *
+     * @param  array<int, callable(): (?array{answers: array<int, array{label: string, ref?: string|null, answer: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}})>  $llmTasks
+     * @return array<int, ?array{answers: array<int, array{label: string, ref?: string|null, answer: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}}>
+     */
+    private function resolveLlmBatchResults(array $llmTasks): array
+    {
+        if ($llmTasks === []) {
+            return [];
+        }
+
+        if (count($llmTasks) === 1) {
+            $key = array_key_first($llmTasks);
+
+            return [$key => ($llmTasks[$key])()];
+        }
+
+        try {
+            return Concurrency::run($llmTasks);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            $results = [];
+
+            foreach ($llmTasks as $batchIndex => $task) {
+                try {
+                    $results[$batchIndex] = $task();
+                } catch (\Throwable $taskException) {
+                    report($taskException);
+                    $results[$batchIndex] = null;
+                }
+            }
+
+            return $results;
+        }
     }
 
     /**

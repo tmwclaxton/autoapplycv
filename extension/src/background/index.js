@@ -54,7 +54,10 @@ import {
     logWarn,
 } from './debug-log.js';
 import { filterMarketingConsentPendingFields } from './draft-all/consent-fields.js';
-import { retryEmptyDraftBatchAnswers } from './draft-all/empty-batch-retry.js';
+import {
+    collectMissingCoverLetterRetryRefs,
+    retryEmptyDraftBatchAnswers,
+} from './draft-all/empty-batch-retry.js';
 import {
     buildMechanicalInventoryFields,
     canUseMechanicalInventory,
@@ -3660,6 +3663,88 @@ async function runDraftAll(tabId, e2eOptions = null) {
             },
         );
 
+        await Promise.all(applyPromises);
+
+        // Stream timeout / omitted cover-letter answers leave optional CLs blank
+        // after job-specific __CLEAR__. Recover via draft-field + template.
+        const missingCoverLetterRefs = collectMissingCoverLetterRetryRefs(
+            draftFields,
+            appliedAnswersByRef,
+        );
+
+        if (missingCoverLetterRefs.length > 0) {
+            const coverLetterRecovery = await retryEmptyDraftBatchAnswers({
+                batchAnswers: missingCoverLetterRefs.map((ref) => {
+                    const field = fieldsByRef.get(ref);
+
+                    return {
+                        ref,
+                        label: field?.label || field?.question || 'cover letter',
+                        answer: null,
+                    };
+                }),
+                partitionResult: { toApply: [], pending: [] },
+                fieldsByRef,
+                job,
+                settings,
+                profileData,
+                requestDraftField,
+                extraRetryRefs: missingCoverLetterRefs,
+                onFieldRetried: ({ ref, answer, error }) => {
+                    logDebug(
+                        'background',
+                        'draft-all.retry',
+                        'Post-stream cover letter recovery',
+                        {
+                            ref,
+                            answerPreview:
+                                typeof answer === 'string'
+                                    ? answer.slice(0, 80)
+                                    : answer,
+                            error: error || null,
+                        },
+                        tabId,
+                    );
+                },
+            });
+
+            if (coverLetterRecovery.toApply.length > 0) {
+                for (const answer of coverLetterRecovery.toApply) {
+                    if (answer?.ref && isMeaningfulAnswer(answer.answer)) {
+                        appliedAnswersByRef.set(answer.ref, answer);
+                    }
+                }
+
+                const recoveryApply = await applyDraftBatchToTab(
+                    tabId,
+                    enrichApplyAnswers(
+                        coverLetterRecovery.toApply,
+                        fieldsByRef,
+                        { profileYears },
+                    ),
+                    formFrameId,
+                );
+
+                totalFieldsFilled += Number(recoveryApply?.applied || 0);
+                void saveLocalMemo(
+                    coverLetterRecovery.toApply,
+                    fieldsByRef,
+                    profileData,
+                );
+
+                logInfo(
+                    'background',
+                    'draft-all.retry',
+                    'Recovered cover letter(s) after empty stream batch',
+                    {
+                        recoveredCount: coverLetterRecovery.toApply.length,
+                        applied: recoveryApply?.applied || 0,
+                    },
+                    tabId,
+                );
+            }
+        }
+
         if (!result.ok) {
             logWarn(
                 'background',
@@ -3673,10 +3758,15 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             applyCachedSubscription(result.subscription);
 
-            return { error: result.message || 'Draft-all failed.' };
+            // Identity/memo may already be on the page; only hard-fail when
+            // nothing was applied and cover-letter recovery also found nothing.
+            if (
+                totalFieldsFilled === 0 &&
+                appliedAnswersByRef.size === 0
+            ) {
+                return { error: result.message || 'Draft-all failed.' };
+            }
         }
-
-        await Promise.all(applyPromises);
 
         if (batchIndex === 0) {
             perf.end('draft.batch-1');

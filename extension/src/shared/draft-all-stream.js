@@ -76,6 +76,7 @@ export async function requestDraftAllStream(body, onEvent) {
     const decoder = new TextDecoder();
     let carry = '';
     let complete = null;
+    let streamError = null;
 
     while (true) {
         const { done, value } = await reader.read();
@@ -93,6 +94,11 @@ export async function requestDraftAllStream(body, onEvent) {
             if (event.type === 'complete') {
                 complete = event;
             }
+
+            if (event.type === 'error' && !streamError) {
+                streamError =
+                    event.message || 'Draft-all failed unexpectedly.';
+            }
         }
     }
 
@@ -105,7 +111,16 @@ export async function requestDraftAllStream(body, onEvent) {
             if (event.type === 'complete') {
                 complete = event;
             }
+
+            if (event.type === 'error' && !streamError) {
+                streamError =
+                    event.message || 'Draft-all failed unexpectedly.';
+            }
         }
+    }
+
+    if (streamError) {
+        return { ok: false, message: streamError, complete };
     }
 
     return { ok: true, complete };

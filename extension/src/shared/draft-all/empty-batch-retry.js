@@ -95,6 +95,31 @@ export function collectMissingCompanyEssayRetryRefs(partitionResult, fieldsByRef
         .filter(Boolean);
 }
 
+/**
+ * Cover letters that were cleared for job-specificity then never got a NanoGPT
+ * batch answer (stream timeout / omitted ref).
+ *
+ * @param {Array<object>} draftFields
+ * @param {Map<string, { answer?: string|null }>|null|undefined} appliedAnswersByRef
+ * @returns {string[]}
+ */
+export function collectMissingCoverLetterRetryRefs(
+    draftFields,
+    appliedAnswersByRef,
+) {
+    return (draftFields || [])
+        .filter((field) => {
+            if (!field?.ref || !isCoverLetterFieldLabel(fieldLabel(field))) {
+                return false;
+            }
+
+            const applied = appliedAnswersByRef?.get?.(field.ref);
+
+            return !isMeaningfulAnswer(applied?.answer);
+        })
+        .map((field) => field.ref);
+}
+
 function stripPendingRefs(pending, refsToRemove) {
     if (!refsToRemove?.size) {
         return pending || [];
@@ -129,6 +154,7 @@ export async function retryEmptyDraftBatchAnswers({
     profileData,
     requestDraftField,
     onFieldRetried,
+    extraRetryRefs = [],
 }) {
     const emptyRefs = collectEmptyBatchAnswerRetryRefs(
         batchAnswers,
@@ -138,7 +164,13 @@ export async function retryEmptyDraftBatchAnswers({
         partitionResult,
         fieldsByRef,
     );
-    const retryRefs = [...new Set([...emptyRefs, ...companyRejectedRefs])];
+    const retryRefs = [
+        ...new Set([
+            ...emptyRefs,
+            ...companyRejectedRefs,
+            ...(extraRetryRefs || []),
+        ]),
+    ];
 
     if (retryRefs.length === 0) {
         return {
