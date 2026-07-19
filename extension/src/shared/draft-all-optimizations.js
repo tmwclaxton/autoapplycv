@@ -44,6 +44,8 @@ const ATS_URL_PATTERNS = [
     { pattern: /jobs\.lever\.co\/([^/?#]+)/i, source: 'lever' },
     { pattern: /(?:^|\.)teamtailor\.com\/jobs/i, source: 'teamtailor' },
     { pattern: /jobs\.smartrecruiters\.com/i, source: 'smartrecruiters' },
+    // apply.workable.com/booksy-1/j/... - strip trailing -1 account suffixes later.
+    { pattern: /(?:^|\.)workable\.com\/([^/?#]+)/i, source: 'workable' },
 ];
 
 const MIN_SINGLE_PAGE_FIELD_COUNT = 5;
@@ -91,10 +93,41 @@ function formatCompanySlug(slug) {
         return null;
     }
 
-    return slug
+    // Workable account slugs are often "booksy-1", "fuseenergy".
+    const cleaned = slug
+        .replace(/\/.*$/, '')
+        .replace(/-\d+$/i, '')
         .replace(/[-_]+/g, ' ')
-        .replace(/\b\w/g, (char) => char.toUpperCase())
         .trim();
+
+    if (!cleaned || /^(j|jobs|apply|o)$/i.test(cleaned)) {
+        return null;
+    }
+
+    return cleaned.replace(/\b\w/g, (char) => char.toUpperCase()).trim();
+}
+
+function inferCompanyFromPageTitle(pageTitle) {
+    const title = String(pageTitle || '').trim();
+
+    if (!title) {
+        return null;
+    }
+
+    // "Role - Booksy - Application" / "Role | Acme | Careers"
+    const workableTail = title.match(
+        /\s[-|]\s+(.+?)\s[-|]\s+(?:Application|Apply|Careers|Jobs)\s*$/i,
+    );
+
+    if (workableTail?.[1]) {
+        const company = workableTail[1].trim();
+
+        if (company.length >= 2 && !/^unknown\b/i.test(company)) {
+            return company;
+        }
+    }
+
+    return null;
 }
 
 function parseJobTitleFromPageTitle(pageTitle, company) {
@@ -957,6 +990,10 @@ export function tryInferJobContextFromPage(pagePayload, tabTitle = '') {
             source = entry.source;
             break;
         }
+    }
+
+    if (!company || /^unknown\b/i.test(company)) {
+        company = inferCompanyFromPageTitle(pageTitle) || company;
     }
 
     const title = parseJobTitleFromPageTitle(pageTitle, company);
