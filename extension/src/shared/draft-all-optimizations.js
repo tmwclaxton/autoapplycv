@@ -17,6 +17,7 @@ import {
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
 import {
     isEmployerScreeningTrapLabel,
+    isSourceOfHireQuestionLabel,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
 } from './pending-fields.js';
@@ -273,6 +274,13 @@ export function partitionFieldsByQuestionMemo(
         }
 
         if (isJobSpecificMemoField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Source-of-hire must use board heuristics (LinkedIn/etc.), not a stale
+        // memo value like "Other" from a prior NanoGPT draft.
+        if (isSourceOfHireQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }

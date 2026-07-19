@@ -4589,28 +4589,39 @@ var AutoCVApplyFormHeuristics = (() => {
             openComboboxes.push(active);
         }
 
+        const KeyboardEventCtor =
+            typeof KeyboardEvent !== 'undefined' ? KeyboardEvent : null;
+        const MouseEventCtor =
+            typeof MouseEvent !== 'undefined' ? MouseEvent : null;
+
         for (const combobox of openComboboxes) {
-            combobox.dispatchEvent(
-                new KeyboardEvent('keydown', {
-                    key: 'Escape',
-                    bubbles: true,
-                    cancelable: true,
-                }),
-            );
-            combobox.dispatchEvent(
-                new KeyboardEvent('keyup', { key: 'Escape', bubbles: true }),
-            );
+            if (KeyboardEventCtor) {
+                combobox.dispatchEvent(
+                    new KeyboardEventCtor('keydown', {
+                        key: 'Escape',
+                        bubbles: true,
+                        cancelable: true,
+                    }),
+                );
+                combobox.dispatchEvent(
+                    new KeyboardEventCtor('keyup', {
+                        key: 'Escape',
+                        bubbles: true,
+                    }),
+                );
+            }
+
             combobox.setAttribute('aria-expanded', 'false');
         }
 
         // Greenhouse react-select treats a body mousedown as canceling an
         // in-flight selection and can wipe the previous field in a batch.
-        if (!isGreenhouseApplyHost(doc)) {
+        if (!isGreenhouseApplyHost(doc) && MouseEventCtor) {
             doc.body?.dispatchEvent(
-                new MouseEvent('mousedown', { bubbles: true }),
+                new MouseEventCtor('mousedown', { bubbles: true }),
             );
             doc.body?.dispatchEvent(
-                new MouseEvent('mouseup', { bubbles: true }),
+                new MouseEventCtor('mouseup', { bubbles: true }),
             );
         }
 
@@ -5598,16 +5609,49 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const isYesNoAnswer = /^(yes|no)\b/i.test(stringValue.trim());
         const canType = !element.readOnly && !element.disabled;
-
-        if (!isYesNoAnswer && canType) {
-            await typeComboboxFilterText(element, stringValue);
-            await pauseMs(120);
-        }
-
         const normalizedAnswer = normalizeOption(stringValue);
-        let options = isWorkableSelectCombobox(element)
-            ? collectLiveWorkableComboboxOptions(doc, element)
-            : collectComboboxOptions(doc, element);
+
+        const collectOpenComboboxOptions = () =>
+            isWorkableSelectCombobox(element)
+                ? collectLiveWorkableComboboxOptions(doc, element)
+                : collectComboboxOptions(doc, element);
+
+        const scoreOpenComboboxOptions = (optionElements) => {
+            let bestOption = null;
+            let bestOptionText = '';
+            let bestScore = 0;
+
+            for (const option of optionElements) {
+                const optionText = (
+                    option.textContent ||
+                    option.getAttribute('aria-label') ||
+                    ''
+                )
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                const prefixHit = normalizeOption(optionText).includes(
+                    normalizedAnswer.slice(0, 24),
+                );
+                const score = Math.max(
+                    scoreComboboxOptionMatch(optionText, stringValue),
+                    optionMatchesAnswer(optionText, stringValue) ? 500 : 0,
+                    prefixHit && normalizedAnswer.length >= 3 ? 200 : 0,
+                );
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestOption = option;
+                    bestOptionText = optionText;
+                }
+            }
+
+            return { bestOption, bestOptionText, bestScore };
+        };
+
+        // Match from the open menu before typing. Greenhouse react-select filter
+        // text can collapse a long source-of-hire list to one option and make
+        // batch verify look successful while the wrong/empty value remains.
+        let options = collectOpenComboboxOptions();
 
         if (options.length === 0) {
             options = await waitForComboboxOptions(doc, element, 250);
@@ -5627,6 +5671,26 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             options = await waitForComboboxOptions(doc, element, 1200);
+        }
+
+        let { bestOption, bestOptionText, bestScore } =
+            scoreOpenComboboxOptions(options);
+
+        if (
+            !(bestOption && bestScore >= 100) &&
+            !isYesNoAnswer &&
+            canType
+        ) {
+            await typeComboboxFilterText(element, stringValue);
+            await pauseMs(120);
+            options = collectOpenComboboxOptions();
+
+            if (options.length === 0) {
+                options = await waitForComboboxOptions(doc, element, 250);
+            }
+
+            ({ bestOption, bestOptionText, bestScore } =
+                scoreOpenComboboxOptions(options));
         }
 
         const reactSelectShell = element.closest(
@@ -5670,34 +5734,6 @@ var AutoCVApplyFormHeuristics = (() => {
                     (option.textContent || '').replace(/\s+/g, ' ').trim(),
                 ),
         });
-
-        let bestOption = null;
-        let bestOptionText = '';
-        let bestScore = 0;
-
-        for (const option of options) {
-            const optionText = (
-                option.textContent ||
-                option.getAttribute('aria-label') ||
-                ''
-            )
-                .replace(/\s+/g, ' ')
-                .trim();
-            const prefixHit = normalizeOption(optionText).includes(
-                normalizedAnswer.slice(0, 24),
-            );
-            const score = Math.max(
-                scoreComboboxOptionMatch(optionText, stringValue),
-                optionMatchesAnswer(optionText, stringValue) ? 500 : 0,
-                prefixHit && normalizedAnswer.length >= 3 ? 200 : 0,
-            );
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestOption = option;
-                bestOptionText = optionText;
-            }
-        }
 
         if (bestOption && bestScore >= 100) {
             heuristicsLog('info', 'apply.combobox', 'Combobox option matched', {

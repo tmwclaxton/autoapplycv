@@ -500,6 +500,44 @@ test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformI
     assert.equal(plan.llmFields.length, 0);
 });
 
+test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of LinkedIn', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f11',
+                label: 'how did you hear about us?',
+                field_type: 'select',
+                options: [
+                    'Family or Friend',
+                    'Google',
+                    'Indeed',
+                    'LinkedIn',
+                    'Other',
+                ],
+                dom: { role: 'combobox' },
+            },
+        ],
+        profileData,
+        questionMemo: {
+            'how did you hear about us?': 'Other',
+        },
+        pageUrl: 'https://careers.formlabs.com/job/7909577/apply/?gh_jid=7909577',
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
+    );
+
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'memo'),
+        false,
+    );
+    assert.equal(answersByRef.get('f11'), 'LinkedIn');
+    assert.equal(plan.skipsLlm, true);
+});
+
 test('buildDraftAllApplyPlan inverts work-permit questions from legally_authorized', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
