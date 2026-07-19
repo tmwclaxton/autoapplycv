@@ -484,16 +484,21 @@ test('optional Facebook/Twitter URL labels are skipped not essayed', () => {
         profileData: {
             linkedin_url: 'https://www.linkedin.com/in/toby-claxton/',
         },
-        questionMemo: {},
+        questionMemo: {
+            facebook: 'I do not have a public Facebook profile to share.',
+            twitter: 'I do not have a Twitter account.',
+        },
         existingPendingFields: [],
         pageUrl: 'https://jobs.smartrecruiters.com/x',
     });
-    const answeredRefs = plan.applyStages
-        .flatMap((stage) => stage.answers || [])
-        .map((answer) => answer.ref);
+    const answered = plan.applyStages.flatMap((stage) => stage.answers || []);
+    const answeredRefs = answered.map((answer) => answer.ref);
 
     assert.ok(answeredRefs.includes('f8'));
-    assert.ok(!answeredRefs.includes('f9'));
-    assert.ok(!answeredRefs.includes('f10'));
+    assert.ok(!answered.some((a) => a.ref === 'f9' && a.answer !== '__CLEAR__'));
+    assert.ok(!answered.some((a) => a.ref === 'f10' && a.answer !== '__CLEAR__'));
+    assert.ok(
+        answered.some((a) => a.ref === 'f9' && a.answer === '__CLEAR__'),
+    );
     assert.equal(plan.remainingFieldCount, 1);
 });

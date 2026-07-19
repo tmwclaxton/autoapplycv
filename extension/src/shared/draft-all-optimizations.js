@@ -17,6 +17,7 @@ import {
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
 import {
     isEmployerScreeningTrapLabel,
+    isOptionalSocialNetworkUrlLabel,
     isSourceOfHireOtherFollowUpLabel,
     isSourceOfHireQuestionLabel,
     resolvePreferenceProfileAnswer,
@@ -288,6 +289,12 @@ export function partitionFieldsByQuestionMemo(
 
         // "If Other, please explain" essays belong with source-of-hire, not memo.
         if (isSourceOfHireOtherFollowUpLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Stale Facebook/Twitter essay memos must not refill optional URL fields.
+        if (isOptionalSocialNetworkUrlLabel(label)) {
             remainingFields.push(field);
             continue;
         }

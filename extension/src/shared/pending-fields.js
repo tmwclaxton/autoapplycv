@@ -2606,18 +2606,24 @@ export function isOptionalSocialNetworkUrlLabel(label) {
 
 export function partitionOptionalAbsentSocialUrlFields(fields) {
     const remainingFields = [];
+    const clearAnswers = [];
 
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
 
         if (isOptionalSocialNetworkUrlLabel(label)) {
+            // Clear stale memo essays left in the DOM from prior Draft All runs.
+            clearAnswers.push({
+                ...field,
+                answer: '__CLEAR__',
+            });
             continue;
         }
 
         remainingFields.push(field);
     }
 
-    return { remainingFields };
+    return { remainingFields, clearAnswers };
 }
 
 /**

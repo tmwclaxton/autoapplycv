@@ -255,9 +255,11 @@ export function buildDraftAllApplyPlan({
         partitionMarketingConsentFields(remainingFields);
     remainingFields = marketingConsentPartition.remainingFields;
 
-    // Drop optional Facebook/Twitter URL fields so NanoGPT cannot invent essays.
-    remainingFields =
-        partitionOptionalAbsentSocialUrlFields(remainingFields).remainingFields;
+    // Drop optional Facebook/Twitter URL fields so NanoGPT cannot invent essays,
+    // and clear any stale memo essays already applied in a prior run.
+    const optionalSocialPartition =
+        partitionOptionalAbsentSocialUrlFields(remainingFields);
+    remainingFields = optionalSocialPartition.remainingFields;
 
     const applyStages = [];
 
@@ -302,13 +304,15 @@ export function buildDraftAllApplyPlan({
         });
     }
 
-    if ((preferencePartition.clearAnswers || []).length > 0) {
+    const clearAnswers = [
+        ...(preferencePartition.clearAnswers || []),
+        ...(optionalSocialPartition.clearAnswers || []),
+    ];
+
+    if (clearAnswers.length > 0) {
         applyStages.push({
             type: 'clear',
-            answers: tagAnswersWithSource(
-                preferencePartition.clearAnswers,
-                'screener',
-            ),
+            answers: tagAnswersWithSource(clearAnswers, 'screener'),
         });
     }
 
