@@ -158,7 +158,7 @@ export function isAgreementCheckboxField(field) {
     }
 
     return (
-        /\b(i certify|i have read|read and understood|read and understand|hereby confirm|i understand|i agree|i accept|accept the use of my data|applicant statement|terms (?:and|&) conditions|privacy policy|legal agreements?|acknowledge|true complete and correct|wyrażam zgodę|polityk[aę] prywatności)\b/.test(
+        /\b(i certify|i have read|read and understood|read and understand|hereby confirm|i understand|i agree|i accept|accept the use of my data|applicant statement|terms (?:and|&) conditions|privacy policy|legal agreements?|acknowledge|true complete and correct|wyrażam zgodę|polityk[aę] prywatności|by checking this box|agreed to these terms|confirm that you have read and agreed|will not use any (?:ai|artificial intelligence) tools)\b/.test(
             text,
         ) && !/\bprzyszł/.test(text)
     );
@@ -174,7 +174,7 @@ export function resolveAgreementCheckboxAnswer(field) {
         .filter((option) => option !== '');
 
     const affirmative = options.find((option) =>
-        /^(yes\b|i (?:agree|certify|have read|understand|accept|consent|provide|hereby confirm))/i.test(
+        /^(yes\b|i (?:agree|certify|have read|understand|accept|consent|provide|hereby confirm)|by checking this box)/i.test(
             option,
         ),
     );
