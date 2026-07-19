@@ -135,8 +135,20 @@ export function mockAnswerForField(field, index) {
         }
         case 'checkbox':
             return field.options?.[0] ?? 'Yes';
-        default:
+        default: {
+            const question = String(field.question || '').toLowerCase();
+
+            // Lever/Ashby geocomplete location text fields need a real city string.
+            if (
+                /\b(?:current )?location\b/.test(question) ||
+                /\bcity\b.*\bcountry\b/.test(question) ||
+                /\bwhere (?:are|do) you (?:live|based)\b/.test(question)
+            ) {
+                return 'High Wycombe, Buckinghamshire, England, United Kingdom';
+            }
+
             return `FillVerify-${index}`;
+        }
     }
 }
 
