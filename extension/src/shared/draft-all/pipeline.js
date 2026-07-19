@@ -336,7 +336,20 @@ export function buildDraftAllApplyPlan({
         });
     }
 
+    const stickyPreferenceSelectAnswers = (
+        preferencePartition.preferenceAnswers || []
+    ).filter((answer) => {
+        const fieldType = String(answer.field_type || '').toLowerCase();
+
+        return (
+            fieldType === 'select' ||
+            fieldType === 'radio' ||
+            answer.dom?.role === 'combobox'
+        );
+    });
+
     const stickySelectAnswers = [
+        ...tagAnswersWithSource(stickyPreferenceSelectAnswers, 'screener'),
         ...tagAnswersWithSource(eeoPartition.eeoAnswers || [], 'screener'),
         ...tagAnswersWithSource(sourceOfHireAnswers, 'screener'),
     ];

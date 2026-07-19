@@ -2954,13 +2954,54 @@ async function runDraftAll(tabId, e2eOptions = null) {
                                         : 'apply.identity';
 
             perf.start(perfPhase);
-            const applyResult = await applyDraftBatchToTab(
-                tabId,
-                enrichApplyAnswers(answersToApply, fieldsByRef, {
+            const enrichedAnswers = enrichApplyAnswers(
+                answersToApply,
+                fieldsByRef,
+                {
                     profileYears,
-                }),
-                formFrameId,
+                },
             );
+            // Greenhouse react-select can clear sibling comboboxes mid-batch.
+            // Sticky select answers are applied one-by-one, then a second pass.
+            let applyResult;
+
+            if (
+                stage.type === 'sticky_select' &&
+                enrichedAnswers.length > 1
+            ) {
+                let applied = 0;
+                let success = true;
+
+                for (const pass of [0, 1]) {
+                    for (const answer of enrichedAnswers) {
+                        const singleResult = await applyDraftBatchToTab(
+                            tabId,
+                            [answer],
+                            formFrameId,
+                        );
+
+                        if (singleResult?.success === false) {
+                            success = false;
+                        }
+
+                        if (pass === 1) {
+                            applied += Number(singleResult?.applied || 0);
+                        }
+                    }
+                }
+
+                applyResult = {
+                    success,
+                    applied,
+                };
+            } else {
+                applyResult = await applyDraftBatchToTab(
+                    tabId,
+                    enrichedAnswers,
+                    formFrameId,
+                );
+            }
+
             perf.end(perfPhase);
 
             const logPhase =
