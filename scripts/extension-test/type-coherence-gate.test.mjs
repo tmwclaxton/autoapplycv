@@ -177,6 +177,30 @@ test('rejects salary notice bleed both directions', () => {
     );
 });
 
+test('Polish notice/availability labels expand and reject bare integers', async () => {
+    const { normalizeFieldAnswerForQuestion } = await import(
+        '../../extension/src/shared/answer-normalization.js'
+    );
+    const polishLabel =
+        'Kiedy możesz dołączyć do naszego zespołu? Jaka jest Twoja dostępność/okres wypowiedzenia?';
+
+    assert.equal(classifyFieldExpectation({ label: polishLabel, field_type: 'text' }), 'notice');
+    assert.equal(
+        normalizeFieldAnswerForQuestion(polishLabel, '2', {
+            fallbackNoticePeriod: '2 weeks',
+        }),
+        '2 weeks',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence({ label: polishLabel, field_type: 'text' }, '2').reason,
+        'bare_number_on_notice',
+    );
+    assert.equal(
+        shouldRejectAnswerForTypeCoherence({ label: polishLabel, field_type: 'text' }, '2 weeks'),
+        false,
+    );
+});
+
 test('location Yes/No helper still rejects city county', () => {
     const field = { label: 'City, county', field_type: 'text' };
 

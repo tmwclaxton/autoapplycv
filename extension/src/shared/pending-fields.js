@@ -1,6 +1,7 @@
 import {
     filterMeaningfulChoiceOptions,
     findExactChoiceOptionMatch,
+    isNoticePeriodStyleQuestion,
     normalizeFieldAnswerForQuestion,
 } from './answer-normalization.js';
 import {
@@ -864,7 +865,7 @@ export function resolveSalaryMapping(label, profileData = null) {
 }
 
 export function isNoticePeriodQuestionLabel(label) {
-    return /notice period|okres wypowiedzenia/i.test(String(label || ''));
+    return isNoticePeriodStyleQuestion(label);
 }
 
 /** Salary prompts that ask for contract type + net/gross + period (common on Polish forms). */

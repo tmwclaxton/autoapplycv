@@ -179,7 +179,15 @@ function isNoticeField(field) {
         return false;
     }
 
-    if (/\bnotice period\b/.test(normalized)) {
+    // English + Polish (Recruitee "okres wypowiedzenia", "dostępność").
+    if (/\bnotice period\b/.test(normalized) || /okres wypowiedzenia/.test(normalized)) {
+        return true;
+    }
+
+    if (
+        /\bdost[eę]pno[sś][cć]\b/.test(normalized)
+        && /\b(wypowiedzenia|do[lł][aą]czy[cć]|start|notice)\b/.test(normalized)
+    ) {
         return true;
     }
 
@@ -376,6 +384,21 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         return {
             coherent: false,
             reason: 'salary_on_notice',
+            category,
+            rejected: true,
+        };
+    }
+
+    // Free-text notice/availability must include a unit ("2 weeks"), not a bare integer.
+    if (
+        category === 'notice'
+        && isFreeTextField(field)
+        && /^\d{1,3}$/.test(text)
+        && String(field?.field_type || '').toLowerCase() !== 'number'
+    ) {
+        return {
+            coherent: false,
+            reason: 'bare_number_on_notice',
             category,
             rejected: true,
         };

@@ -22,7 +22,15 @@ export function isNoticePeriodStyleQuestion(label) {
         return false;
     }
 
-    if (/\bnotice period\b/.test(text)) {
+    // English + common Polish Recruitee/Workable phrasings.
+    if (/\bnotice period\b/.test(text) || /okres wypowiedzenia/.test(text)) {
+        return true;
+    }
+
+    if (
+        /\bdost[eę]pno[sś][cć]\b/.test(text)
+        && /\b(wypowiedzenia|do[lł][aą]czy[cć]|start|notice)\b/.test(text)
+    ) {
         return true;
     }
 

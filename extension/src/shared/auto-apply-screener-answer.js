@@ -220,9 +220,12 @@ function isNoticePeriodOrAvailabilityQuestion(label) {
 
     return (
         /\bnotice period\b/.test(question) ||
+        /okres wypowiedzenia/.test(question) ||
+        /\bdost[eę]pno[sś][cć]\b/.test(question) ||
         /\bavailability\b/.test(question) ||
         /\bwhen can you start\b/.test(question) ||
-        /\bearliest start\b/.test(question)
+        /\bearliest start\b/.test(question) ||
+        /kiedy mo[zż]esz do[lł][aą]czy[cć]/.test(question)
     );
 }
 
