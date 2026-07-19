@@ -4040,7 +4040,12 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const clickStrategies = [clickAshbyYesNoButton, dispatchPointerClick];
+        const clickStrategies = [
+            clickAshbyYesNoButton,
+            dispatchPointerClick,
+            clickAshbyYesNoButton,
+            dispatchPointerClick,
+        ];
 
         for (let attempt = 0; attempt < clickStrategies.length; attempt += 1) {
             const currentButtons = resolveAshbyYesNoButtons(
@@ -4067,7 +4072,9 @@ var AutoCVApplyFormHeuristics = (() => {
                 });
 
                 clickStrategies[attempt](button);
-                await sleep(attempt === 0 ? 120 : 180);
+                // Live Ashby experience gates (4+ years) sometimes need a longer
+                // settle than sponsorship Yes/No before aria-pressed flips.
+                await sleep(attempt < 2 ? 160 : 280);
 
                 if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
                     const container = queryAshbyYesNoContainer(scope);
@@ -4088,6 +4095,25 @@ var AutoCVApplyFormHeuristics = (() => {
                     );
 
                     return true;
+                }
+
+                // Force inert checkbox/value sync between click strategies when
+                // the visible button did not stick (empty-value Ashby checkboxes).
+                if (scope && syncAshbyYesNoInertDom(scope, booleanAnswer, root)) {
+                    if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
+                        heuristicsLog(
+                            'info',
+                            'apply.yesno',
+                            'Yes/No committed after inert sync mid-retry',
+                            {
+                                dataFieldPath,
+                                booleanAnswer,
+                                attempt: attempt + 1,
+                            },
+                        );
+
+                        return true;
+                    }
                 }
             }
         }

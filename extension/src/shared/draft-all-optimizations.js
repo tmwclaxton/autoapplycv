@@ -8,7 +8,10 @@ const TEXT_LIKE_FIELD_TYPES = new Set([
     'textarea',
 ]);
 
-import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
+import {
+    extractYearsExperienceThreshold,
+    normalizeFieldAnswerForQuestion,
+} from './answer-normalization.js';
 import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
 import {
     isMarketingOrFutureConsentField,
@@ -266,7 +269,8 @@ export function resolveSavedApplicationAnswer(
         shouldRejectPhoneAnswerOnField(field, answer) ||
         shouldRejectAnswerForTypeCoherence(field, answer) ||
         isInterviewAccommodationQuestionLabel(label) ||
-        isOnSiteCommuteQuestionLabel(label)
+        isOnSiteCommuteQuestionLabel(label) ||
+        extractYearsExperienceThreshold(label) !== null
     ) {
         return null;
     }
@@ -390,6 +394,18 @@ export function partitionFieldsByQuestionMemo(
         // Office-days / onsite commute must use live location heuristics, not a
         // stale Yes/No memo from an earlier city or outdated decline path.
         if (isOnSiteCommuteQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // "4+ years of experience?" filter gates must use profile YOE coercion,
+        // not a stale No that would self-reject the application.
+        if (
+            extractYearsExperienceThreshold(label) !== null &&
+            Array.isArray(field?.options) &&
+            field.options.some((option) => /^yes$/i.test(String(option).trim())) &&
+            field.options.some((option) => /^no$/i.test(String(option).trim()))
+        ) {
             remainingFields.push(field);
             continue;
         }
