@@ -502,28 +502,14 @@ var AutoCVApplyFieldInventory = (() => {
             return elements;
         }
 
-        // Greenhouse embed/job-board Yes/No menus hang open during harvest and can
-        // block BUILD_FIELD_SNAPSHOT past the 45s Draft All timeout (live Ripple).
-        // Fill resolves options at apply time; skip inventory-time menu opens.
-        let greenhouseHost = false;
-
-        try {
-            greenhouseHost = /greenhouse\.io/i.test(window.location.hostname || '');
-        } catch {
-            greenhouseHost = false;
-        }
-
-        if (greenhouseHost) {
-            inventoryLog('info', 'snapshot.options', 'Skipping lazy combobox harvest on Greenhouse host', {
-                elementCount: (elements || []).length,
-            });
-
-            return elements;
-        }
-
+        // Greenhouse location/phone-country menus are already skipped inside
+        // harvestLazyComboboxOptionLabels. Keep a hard per-harvest cap so a stuck
+        // react-select open cannot block BUILD_FIELD_SNAPSHOT past Draft All's
+        // 45s timeout (live Ripple embed). Still harvest Yes/No screeners so
+        // type-coherence does not reject profile No as yes_no_on_choice.
         const MAX_LAZY_HARVESTS = 24;
-        const harvestDeadlineMs = Date.now() + 12_000;
-        const PER_HARVEST_TIMEOUT_MS = 2_000;
+        const harvestDeadlineMs = Date.now() + 8_000;
+        const PER_HARVEST_TIMEOUT_MS = 1_500;
         let harvestCount = 0;
 
         for (const element of elements || []) {

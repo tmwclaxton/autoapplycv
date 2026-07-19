@@ -745,6 +745,34 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
     );
 });
 
+test('Greenhouse Yes/No combobox without harvested options accepts bare No', async () => {
+    const { evaluateAnswerTypeCoherence } = await import(
+        '../../extension/src/shared/draft-all/type-coherence.js'
+    );
+
+    const canadaAuth = evaluateAnswerTypeCoherence(
+        {
+            label: 'are you legally authorized to work in canada?',
+            field_type: 'select',
+            options: null,
+        },
+        'No',
+    );
+    assert.equal(canadaAuth.rejected, false);
+    assert.equal(canadaAuth.category, 'yes_no_choice');
+
+    const priorEmployer = evaluateAnswerTypeCoherence(
+        {
+            label: 'have you previously been employed by ripple?',
+            field_type: 'select',
+            options: null,
+        },
+        'No',
+    );
+    assert.equal(priorEmployer.rejected, false);
+    assert.equal(priorEmployer.category, 'yes_no_choice');
+});
+
 test('available-to-start Yes/No filter-passes Yes and never dumps notice digits', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'

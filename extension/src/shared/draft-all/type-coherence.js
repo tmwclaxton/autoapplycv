@@ -31,14 +31,52 @@ function fieldHasYesNoOptions(field) {
     return hasYes && hasNo;
 }
 
+/**
+ * Greenhouse embeds often inventory Yes/No comboboxes before option harvest
+ * (options null). Still treat clear binary screener labels as Yes/No so profile
+ * No is not rejected as yes_no_on_choice (live Ripple Canada auth).
+ */
+function looksLikeBinaryYesNoQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /\b(?:status|which of the following|select all|prefer to self|how did you hear)\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
+    return (
+        /^(?:are|do|does|have|has|is|were|was|will|can|could|did) (?:you|we|they)\b/.test(
+            normalized,
+        )
+        || /\b(?:previously been employed|legally authorized|authorized to work|right to work|require sponsorship|need sponsorship|willing to relocate)\b/.test(
+            normalized,
+        )
+    );
+}
+
 function isChoiceYesNoField(field) {
     const fieldType = String(field?.field_type || '').toLowerCase();
 
-    if (CHOICE_FIELD_TYPES.has(fieldType) && fieldHasYesNoOptions(field)) {
+    if (!CHOICE_FIELD_TYPES.has(fieldType)) {
+        return false;
+    }
+
+    if (fieldHasYesNoOptions(field)) {
         return true;
     }
 
-    return false;
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    return options.length === 0 && looksLikeBinaryYesNoQuestionLabel(
+        field?.label || field?.question || '',
+    );
 }
 
 function isFreeTextField(field) {
