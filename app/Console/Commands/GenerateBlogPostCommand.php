@@ -161,23 +161,25 @@ class GenerateBlogPostCommand extends Command
     protected function fetchResearchSources(FirecrawlService $firecrawl, string $topic, array $seoTarget): array
     {
         $limit = (int) config('blog.generate.firecrawl_search_limit', 8);
-        $query = trim($seoTarget['primary'].' '.$topic);
-        if ($query === '') {
-            $query = $topic;
+        $minBeforeBroaden = max(1, (int) config('blog.sources.min_before_broaden', 2));
+        $primaryQuery = trim($seoTarget['primary'].' '.$topic);
+        if ($primaryQuery === '') {
+            $primaryQuery = $topic;
         }
 
         $this->line('  Researching via Firecrawl search...');
-        $this->line('  Query: '.$this->truncateLogLine($query, 100));
+        $sources = $this->runFirecrawlSearch($firecrawl, $primaryQuery, $limit);
 
-        try {
-            $sources = $firecrawl->search($query, $limit);
-        } catch (\Throwable $e) {
-            Log::warning('blog:generate Firecrawl search failed; continuing without web sources.', [
-                'message' => $e->getMessage(),
-            ]);
-            $this->warn('  Firecrawl search failed; continuing without web sources.');
-
-            return [];
+        if (count($sources) < $minBeforeBroaden) {
+            $broadQuery = $this->broadenResearchQuery($topic, $seoTarget);
+            if ($broadQuery !== '' && strcasecmp($broadQuery, $primaryQuery) !== 0) {
+                $this->line('  Broadening Firecrawl search (fewer than '.$minBeforeBroaden.' usable sources)...');
+                $this->line('  Broad query: '.$this->truncateLogLine($broadQuery, 100));
+                $sources = $this->mergeResearchSources(
+                    $sources,
+                    $this->runFirecrawlSearch($firecrawl, $broadQuery, $limit),
+                );
+            }
         }
 
         if ($sources === []) {
@@ -189,6 +191,66 @@ class GenerateBlogPostCommand extends Command
         $this->line('  Research sources: '.count($sources));
 
         return $sources;
+    }
+
+    /**
+     * @return array<int, array{title: string, url: string, description: string}>
+     */
+    protected function runFirecrawlSearch(FirecrawlService $firecrawl, string $query, int $limit): array
+    {
+        $this->line('  Query: '.$this->truncateLogLine($query, 100));
+
+        try {
+            return $firecrawl->search($query, $limit);
+        } catch (\Throwable $e) {
+            Log::warning('blog:generate Firecrawl search failed; continuing without web sources.', [
+                'query' => $query,
+                'message' => $e->getMessage(),
+            ]);
+            $this->warn('  Firecrawl search failed for query; continuing.');
+
+            return [];
+        }
+    }
+
+    /**
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>}  $seoTarget
+     */
+    protected function broadenResearchQuery(string $topic, array $seoTarget): string
+    {
+        $supporting = array_values(array_filter(
+            $seoTarget['selected_supporting'] ?? [],
+            fn (mixed $keyword): bool => is_string($keyword) && trim($keyword) !== '',
+        ));
+        $parts = array_filter([
+            $supporting[0] ?? null,
+            $supporting[1] ?? null,
+            'AutoCVApply',
+            $topic,
+        ], fn (mixed $part): bool => is_string($part) && trim($part) !== '');
+
+        return trim(implode(' ', $parts));
+    }
+
+    /**
+     * @param  array<int, array{title: string, url: string, description: string}>  $primary
+     * @param  array<int, array{title: string, url: string, description: string}>  $extra
+     * @return array<int, array{title: string, url: string, description: string}>
+     */
+    protected function mergeResearchSources(array $primary, array $extra): array
+    {
+        $merged = [];
+        $seen = [];
+        foreach (array_merge($primary, $extra) as $source) {
+            $key = strtolower($source['url']);
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $merged[] = $source;
+        }
+
+        return $merged;
     }
 
     /**

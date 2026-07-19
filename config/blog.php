@@ -15,6 +15,47 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Research source filtering (Firecrawl + persisted Blog sources)
+    |--------------------------------------------------------------------------
+    |
+    | Persist a shortlist of reputable sources. Competitor Chrome Web Store
+    | listings are always rejected; only the official AutoCVApply listing is kept.
+    |
+    */
+    'sources' => [
+        'target_min' => 3,
+        'target_max' => 5,
+        'min_before_broaden' => 2,
+        'official_chrome_extension_id' => 'mldeodhhcbnhnjklmelneecjpjkjemih',
+        'official_chrome_web_store_slug' => 'autocvapply',
+        'official_chrome_web_store_url' => 'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+        'preferred_host_suffixes' => [
+            'autocvapply.com',
+            'linkedin.com',
+            'indeed.com',
+            'indeed.co.uk',
+            'totaljobs.com',
+            'reed.co.uk',
+            'glassdoor.com',
+            'glassdoor.co.uk',
+            'cv-library.co.uk',
+            'simplyhired.com',
+            'gov.uk',
+            'prospects.ac.uk',
+            'targetjobs.co.uk',
+            'theguardian.com',
+            'bbc.co.uk',
+            'harvard.edu',
+            'forbes.com',
+            'businessinsider.com',
+            'workday.com',
+            'greenhouse.io',
+            'lever.co',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | SEO keyword strategy (weekly blog:generate)
     |--------------------------------------------------------------------------
     |

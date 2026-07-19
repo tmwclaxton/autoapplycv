@@ -179,7 +179,7 @@ class GenerateBlogPostCommandTest extends TestCase
         });
 
         $this->mock(FirecrawlService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('search')->once()->andReturn([]);
+            $mock->shouldReceive('search')->atLeast()->once()->andReturn([]);
         });
 
         $this->mock(NanoGptBlogHeroImageService::class, function (MockInterface $mock): void {

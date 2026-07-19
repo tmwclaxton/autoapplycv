@@ -123,13 +123,21 @@ class BlogArticleGenerationService
         $maxAttempts = (int) config('blog.generate.max_attempts_per_step', 3);
         $lastException = null;
 
+        $officialStore = (string) config(
+            'blog.sources.official_chrome_web_store_url',
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+        );
+        $targetMin = (int) config('blog.sources.target_min', 3);
+        $targetMax = (int) config('blog.sources.target_max', 5);
+
         $system = <<<PROMPT
 You plan blog articles for AutoCVApply (autocvapply.com), a tool that helps UK job seekers autofill application forms.
 Article format: {$formatName}. {$formatHint}
 Return JSON only with keys: title, excerpt, tags (array of 3-6 lowercase strings), sources (array of objects with title, url, description), sections (array of exactly {$sectionCount} objects with heading and beats).
 Optimise title, excerpt, and H2 headings for the SEO keyword target without stuffing.
 Do not invent AutoCVApply features beyond the research brief. Do not promise interviews or offers.
-For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer 3-6 most relevant. Never invent or guess URLs. If no web research is present, return an empty sources array.
+For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer {$targetMin}-{$targetMax} diverse, high-quality sources (autocvapply.com, official AutoCVApply Chrome Web Store, LinkedIn/Indeed/job-board docs, reputable career guides). Never invent or guess URLs. If no web research is present, return an empty sources array.
+Never cite competitor autofill or Easy Apply Chrome extensions as Sources or as if they were AutoCVApply. The only Chrome Web Store listing for this product is {$officialStore}.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n\n{$seoBlock}\n" : "\n";
@@ -204,6 +212,7 @@ UK job seekers audience. Practical, honest tone. ~{$wordRange['min']}-{$wordRang
 Use SEO keywords naturally where they fit this section; never keyword-stuff.
 Do not invent product features beyond the research brief.
 When the research brief includes Firecrawl web sources, ground non-product claims in those sources. Do not invent citations or URLs.
+Never describe competitor autofill / Easy Apply Chrome extensions as AutoCVApply. Only refer to AutoCVApply and its official Chrome Web Store listing when mentioning an extension install.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n{$seoBlock}\n" : "\n";

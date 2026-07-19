@@ -76,6 +76,38 @@ class FirecrawlServiceTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function test_normalize_search_results_drops_competitor_chrome_web_store_listing(): void
+    {
+        $results = FirecrawlService::normalizeSearchResults([
+            [
+                'title' => 'Easy Apply Automater - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+                'description' => 'Competitor extension.',
+            ],
+            [
+                'title' => 'AutoCVApply - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+                'description' => 'Official AutoCVApply listing.',
+            ],
+            [
+                'title' => 'AutoCVApply site',
+                'url' => 'https://autocvapply.com/blog',
+                'description' => 'Product blog.',
+            ],
+        ]);
+
+        $urls = array_column($results, 'url');
+        $this->assertNotContains(
+            'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+            $urls,
+        );
+        $this->assertContains(
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+            $urls,
+        );
+        $this->assertContains('https://autocvapply.com/blog', $urls);
+    }
+
     public function test_select_sources_for_article_keeps_only_research_urls(): void
     {
         $research = [
@@ -101,7 +133,69 @@ class FirecrawlServiceTest extends TestCase
         $this->assertSame('Guide B', $selected[0]['title']);
     }
 
-    public function test_select_sources_falls_back_to_all_research_when_plan_has_none(): void
+    public function test_select_sources_drops_competitor_cws_even_if_in_plan(): void
+    {
+        $research = [
+            [
+                'title' => 'Easy Apply Automater - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+                'description' => 'Competitor.',
+            ],
+            [
+                'title' => 'AutoCVApply',
+                'url' => 'https://autocvapply.com/',
+                'description' => 'Official site.',
+            ],
+            [
+                'title' => 'AutoCVApply - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+                'description' => 'Official store.',
+            ],
+            [
+                'title' => 'LinkedIn Easy Apply help',
+                'url' => 'https://www.linkedin.com/help/linkedin/answer/a1338828',
+                'description' => 'LinkedIn docs.',
+            ],
+        ];
+
+        $selected = FirecrawlService::selectSourcesForArticle($research, [
+            [
+                'title' => 'Easy Apply Automater - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+                'description' => 'Competitor.',
+            ],
+            [
+                'title' => 'AutoCVApply',
+                'url' => 'https://autocvapply.com/',
+                'description' => 'Official site.',
+            ],
+            [
+                'title' => 'AutoCVApply - Chrome Web Store',
+                'url' => 'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+                'description' => 'Official store.',
+            ],
+            [
+                'title' => 'LinkedIn Easy Apply help',
+                'url' => 'https://www.linkedin.com/help/linkedin/answer/a1338828',
+                'description' => 'LinkedIn docs.',
+            ],
+        ]);
+
+        $urls = array_column($selected, 'url');
+        $this->assertNotContains(
+            'https://chromewebstore.google.com/detail/easy-apply-automater/fbgbkbcaadloeejohondacplohgdkbkf',
+            $urls,
+        );
+        $this->assertContains('https://autocvapply.com/', $urls);
+        $this->assertContains(
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+            $urls,
+        );
+        $this->assertGreaterThanOrEqual(3, count($selected));
+        $this->assertLessThanOrEqual(5, count($selected));
+    }
+
+    public function test_select_sources_falls_back_to_ranked_research_when_plan_has_none(): void
     {
         $research = [
             [
@@ -109,14 +203,33 @@ class FirecrawlServiceTest extends TestCase
                 'url' => 'https://example.com/a',
                 'description' => 'A',
             ],
+            [
+                'title' => 'AutoCVApply',
+                'url' => 'https://autocvapply.com/how-to',
+                'description' => 'How to.',
+            ],
+            [
+                'title' => 'Indeed help',
+                'url' => 'https://www.indeed.com/career-advice/finding-a-job',
+                'description' => 'Career advice.',
+            ],
+            [
+                'title' => 'LinkedIn help',
+                'url' => 'https://www.linkedin.com/help/linkedin',
+                'description' => 'Help.',
+            ],
         ];
 
         $selected = FirecrawlService::selectSourcesForArticle($research, []);
 
-        $this->assertSame($research, $selected);
+        $urls = array_column($selected, 'url');
+        $this->assertContains('https://autocvapply.com/how-to', $urls);
+        $this->assertSame('https://autocvapply.com/how-to', $selected[0]['url']);
+        $this->assertGreaterThanOrEqual(3, count($selected));
+        $this->assertLessThanOrEqual(5, count($selected));
     }
 
-    public function test_format_sources_for_prompt_includes_titles_and_urls(): void
+    public function test_format_sources_for_prompt_includes_titles_urls_and_competitor_warning(): void
     {
         $prompt = FirecrawlService::formatSourcesForPrompt([
             [
@@ -130,5 +243,10 @@ class FirecrawlServiceTest extends TestCase
         $this->assertStringContainsString('Example Guide', $prompt);
         $this->assertStringContainsString('https://example.com/guide', $prompt);
         $this->assertStringContainsString('Useful snippet.', $prompt);
+        $this->assertStringContainsString('Never treat competitor autofill', $prompt);
+        $this->assertStringContainsString(
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+            $prompt,
+        );
     }
 }
