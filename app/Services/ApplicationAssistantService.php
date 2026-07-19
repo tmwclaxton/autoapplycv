@@ -83,7 +83,7 @@ class ApplicationAssistantService
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
-                        .'When job.company is set, motivation / why-join / cover-letter / additional-information answers MUST treat that company as the employer you are applying to - never name a different company as the place you want to join or the challenges you want to take on. Past employers from profile.experience may still be cited as experience. '
+                        .'When job.company is set, motivation / why-join / cover-letter / additional-information answers MUST name that company in the opening (for example "I am applying to join {job.company}") and treat it as the employer you are applying to - never name a different company as the place you want to join or the challenges you want to take on. Past employers from profile.experience may still be cited as experience. '
                         .$clarifyingInstructions
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
                         .'For eligibility / filter / screener questions (work authorization, sponsorship, right to work, location eligibility, experience thresholds, office attendance when the profile location can meet it): when the profile supports progressing, choose the option that passes the gate and lets the application continue - do not self-reject. Return null only when the profile truly lacks the fact. '
@@ -1301,7 +1301,7 @@ Write concise, truthful cover letters. Do not invent experience, employers, metr
 The PDF design template already shows the candidate name, headline, email, phone, and location in a header or sidebar - never repeat those as a letterhead in the body. Do not add date lines, "Re:" subject lines, or job meta lines above the greeting.
 
 Body content must earn the reader's time:
-- Name the employer and role early, and give one concrete reason this job fits (drawn from the job description or company context - not generic enthusiasm).
+- MUST name the target employer (job.company) and role in the first body paragraph, and give one concrete reason this job fits (drawn from the job description or company context - not generic enthusiasm).
 - Ground the middle in one real employer and job title from profile.experience, plus one concrete achievement, responsibility, or skill that maps to this role.
 - Close with a short, confident next-step sentence. Do not flatter the company or pad with filler.
 - Prefer specific verbs and outcomes over vague claims ("proven track record", "passionate about your mission", "perfect fit", "leverage synergies").

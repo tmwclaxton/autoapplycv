@@ -704,4 +704,18 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertCount(1, $result['answers']);
         $this->assertSame('Yes', $result['answers'][0]['answer']);
     }
+
+    public function test_cover_letter_and_form_prompts_require_naming_job_company(): void
+    {
+        $source = (string) file_get_contents(app_path('Services/ApplicationAssistantService.php'));
+
+        $this->assertStringContainsString(
+            'MUST name that company in the opening',
+            $source,
+        );
+        $this->assertStringContainsString(
+            'MUST name the target employer (job.company)',
+            $source,
+        );
+    }
 }
