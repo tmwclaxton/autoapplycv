@@ -39,6 +39,46 @@ class CvExtractionProfileMergeTest extends TestCase
         $this->assertArrayNotHasKey('email', $merged);
         $this->assertArrayNotHasKey('summary', $merged);
         $this->assertSame('Formatted CV', $merged['formatted_cv_text']);
+        $this->assertFalse($merged['parsing_complete']);
+    }
+
+    #[Test]
+    public function test_successful_parse_does_not_mark_incomplete_profile_complete(): void
+    {
+        $merged = CvExtractionProfileMerge::apply(null, [
+            'full_name' => 'Alex Developer',
+            'skills' => ['Go'],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [],
+            'formatted_cv_text' => 'Formatted',
+            'extra_context' => null,
+        ], 'raw', true);
+
+        $this->assertFalse($merged['parsing_complete']);
+        $this->assertSame('Alex Developer', $merged['full_name']);
+    }
+
+    #[Test]
+    public function test_reupload_keeps_parsing_complete_when_profile_already_complete(): void
+    {
+        $existing = new CvProfile([
+            'full_name' => 'Old Name',
+            'parsing_complete' => true,
+        ]);
+
+        $merged = CvExtractionProfileMerge::apply($existing, [
+            'full_name' => 'New Name',
+            'skills' => [],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [],
+            'formatted_cv_text' => 'Formatted',
+            'extra_context' => null,
+        ], 'raw', true);
+
+        $this->assertTrue($merged['parsing_complete']);
+        $this->assertSame('New Name', $merged['full_name']);
     }
 
     #[Test]

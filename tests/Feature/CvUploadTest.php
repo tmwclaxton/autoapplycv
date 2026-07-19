@@ -98,6 +98,7 @@ class CvUploadTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('profile.full_name', 'Alex Developer')
+            ->assertJsonPath('profile.parsing_complete', false)
             ->assertJsonPath('profile.raw_cv_text', 'Raw PDF extract for Alex Developer')
             ->assertJsonPath('profile.formatted_cv_text', "Alex Developer\nSenior Developer at Example Ltd")
             ->assertJsonPath('profile.structured_data.languages.0.language', 'English')
@@ -108,6 +109,7 @@ class CvUploadTest extends TestCase
             'user_id' => $user->id,
             'full_name' => 'Alex Developer',
             'city' => 'London',
+            'parsing_complete' => false,
         ]);
     }
 

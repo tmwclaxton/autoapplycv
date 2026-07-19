@@ -22,7 +22,10 @@ use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Concurrency;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CvUploadController extends Controller
 {
@@ -44,29 +47,40 @@ class CvUploadController extends Controller
 
         $this->cvDocuments->clearExistingCvArtifacts($user);
 
-        $extracted = $this->cvParser->extractTextWithMetadata($file);
-        $rawText = $extracted['text'];
-        $extractedUrls = $this->cvParser->extractHyperlinks($file);
-        $rawText = CvExtractionSchema::appendHyperlinksToRawText($rawText, $extractedUrls);
+        // Persist first so OCR/link extract can run from a stable path in parallel.
+        $originalFilename = $file->getClientOriginalName();
+        $mimeType = $file->getMimeType();
+        $fileSize = (int) $file->getSize();
         $contentHash = hash_file('sha256', $file->getRealPath() ?: '') ?: null;
-
         $storedPath = $file->store("cv-uploads/{$user->id}", 'local');
+        $absolutePath = Storage::disk('local')->path($storedPath);
 
         CvUpload::create([
             'user_id' => $user->id,
-            'original_filename' => $file->getClientOriginalName(),
+            'original_filename' => $originalFilename,
             'stored_path' => $storedPath,
-            'mime_type' => $file->getMimeType(),
-            'file_size' => $file->getSize(),
+            'mime_type' => $mimeType,
+            'file_size' => $fileSize,
         ]);
 
         $this->cvDocuments->recordCvUpload(
             $user,
             $storedPath,
-            $file->getClientOriginalName(),
-            $file->getMimeType(),
-            (int) $file->getSize(),
+            $originalFilename,
+            $mimeType,
+            $fileSize,
         );
+
+        [$extracted, $extractedUrls] = Concurrency::run([
+            fn (): array => app(CvParserService::class)->extractTextWithMetadata(
+                new UploadedFile($absolutePath, $originalFilename, $mimeType, null, true),
+            ),
+            fn (): array => app(CvParserService::class)->extractHyperlinks(
+                new UploadedFile($absolutePath, $originalFilename, $mimeType, null, true),
+            ),
+        ]);
+
+        $rawText = CvExtractionSchema::appendHyperlinksToRawText($extracted['text'], $extractedUrls);
 
         $parseWarning = null;
 
@@ -74,7 +88,7 @@ class CvUploadController extends Controller
             $parsed = $this->parseWithAi(
                 $user,
                 $rawText,
-                $file->getClientOriginalName(),
+                $originalFilename,
                 $extractedUrls,
                 $request,
                 $extracted['ocr_used'],

@@ -1,13 +1,15 @@
 /**
  * Optimistic CV parse progress stages for the sync upload/parse request.
  * Backend does not stream stage events - advance by elapsed time, then snap off when the request ends.
+ *
+ * Most wall time is NanoGPT extraction, not DB save - keep labels honest.
  */
 
 export type CvParsingStageId =
     | 'uploading'
     | 'reading'
     | 'extracting'
-    | 'saving';
+    | 'extracting_slow';
 
 export type CvParsingStage = {
     id: CvParsingStageId;
@@ -20,10 +22,14 @@ export const CV_PARSING_STAGES: readonly CvParsingStage[] = [
     { id: 'uploading', label: 'Uploading…', afterMs: 0 },
     { id: 'reading', label: 'Reading PDF / OCR…', afterMs: 1_500 },
     { id: 'extracting', label: 'Extracting profile with AI…', afterMs: 8_000 },
-    { id: 'saving', label: 'Saving your profile…', afterMs: 50_000 },
+    {
+        id: 'extracting_slow',
+        label: 'Still extracting - large CVs take longer…',
+        afterMs: 45_000,
+    },
 ] as const;
 
-/** NanoGPT extraction timeout is 45s (with retries) - reassure after that. */
+/** Reassure once AI extraction has been the current stage for a while. */
 export const CV_PARSING_SLOW_HINT_AFTER_MS = 45_000;
 
 export const CV_PARSING_DEFAULT_HINT =

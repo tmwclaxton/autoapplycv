@@ -19,10 +19,10 @@ import {
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
 describe('cvParsingProgress stages', () => {
-    it('exposes calm upload → read → AI → save labels', () => {
+    it('exposes calm upload → read → AI extract labels (no fake Saving stage)', () => {
         assert.deepEqual(
             CV_PARSING_STAGES.map((stage) => stage.id),
-            ['uploading', 'reading', 'extracting', 'saving'],
+            ['uploading', 'reading', 'extracting', 'extracting_slow'],
         );
         assert.deepEqual(
             CV_PARSING_STAGES.map((stage) => stage.label),
@@ -30,8 +30,11 @@ describe('cvParsingProgress stages', () => {
                 'Uploading…',
                 'Reading PDF / OCR…',
                 'Extracting profile with AI…',
-                'Saving your profile…',
+                'Still extracting - large CVs take longer…',
             ],
+        );
+        assert.ok(
+            !CV_PARSING_STAGES.some((stage) => /saving/i.test(stage.label)),
         );
     });
 
@@ -41,8 +44,8 @@ describe('cvParsingProgress stages', () => {
         assert.equal(stageIndexForElapsed(1_500), 1);
         assert.equal(stageIndexForElapsed(7_999), 1);
         assert.equal(stageIndexForElapsed(8_000), 2);
-        assert.equal(stageIndexForElapsed(49_999), 2);
-        assert.equal(stageIndexForElapsed(50_000), 3);
+        assert.equal(stageIndexForElapsed(44_999), 2);
+        assert.equal(stageIndexForElapsed(45_000), 3);
         assert.equal(stageIndexForElapsed(120_000), 3);
     });
 
@@ -72,6 +75,11 @@ describe('cvParsingProgress stages', () => {
 
         assert.match(onboarding, /CvParsingProgress/);
         assert.match(onboarding, /useCvParsingProgress/);
+        assert.match(onboarding, /step\.value = 'review'/);
+        assert.match(onboarding, /PostboxMark/);
+        assert.match(onboarding, /Accept: 'application\/json'/);
+        assert.doesNotMatch(onboarding, /router\.patch/);
+        assert.doesNotMatch(onboarding, />OK</);
         assert.match(overlay, /CvParsingProgress/);
         assert.match(overlay, /useCvParsingProgress/);
         assert.doesNotMatch(onboarding, /Reading your CV…/);
