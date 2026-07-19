@@ -11869,6 +11869,12 @@ var AutoCVApplyFormHeuristics = (() => {
                 return filled && verifyFieldApplied(element, 'select', value);
             }
 
+            // Motocol one-click City is role=combobox; must not fall through to
+            // Ashby/react-select Places fill (live apply_answer kept City empty).
+            if (isSmartRecruitersLocationInput(element)) {
+                return setSmartRecruitersLocationValue(element, value);
+            }
+
             const filled = await setAshbyComboboxValue(element, value);
 
             return filled && verifyFieldApplied(element, 'select', value);
