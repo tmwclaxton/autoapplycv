@@ -767,6 +767,39 @@ test('German verfügbar ab and Gehaltsvorstellung classify correctly', () => {
     );
 });
 
+test('Old Street London office days affirms Yes for England profiles', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'are you happy to work from our old street office 5 days a week?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+                location: 'High Wycombe, England',
+            },
+        },
+        questionMemo: {},
+    });
+
+    assert.ok(
+        plan.applyStages
+            .flatMap((stage) => stage.answers || [])
+            .some((item) => item.ref === 'f0' && item.answer === 'Yes'),
+    );
+    assert.equal((plan.pendingFields || []).length, 0);
+});
+
 test('NYC or London office days affirms Yes for England profiles', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'

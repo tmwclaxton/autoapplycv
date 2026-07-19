@@ -1005,6 +1005,14 @@ export function isEmployerOfficeAttendanceQuestionLabel(label) {
         return true;
     }
 
+    // Granola: "work from our old street office 5 days a week"
+    if (
+        /\bfrom our\b.+\boffices?\b/.test(normalized) &&
+        /\b(?:days?|week|hybrid|commit)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
     return (
         /\bcommit\b/.test(normalized) &&
         /\boffices?\b/.test(normalized) &&
@@ -1196,6 +1204,11 @@ function extractOfficeCitiesFromLabel(normalized) {
 
     if (/\bnew york\b/.test(normalized)) {
         cities.add('new york');
+    }
+
+    // London neighbourhood offices (Granola Old Street, etc.).
+    if (/\bold street\b/.test(normalized) || /\bshoreditch\b/.test(normalized)) {
+        cities.add('london');
     }
 
     return [...cities];
@@ -3643,6 +3656,16 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
+    // "Old Street office" must not map to street address.
+    if (
+        mapping?.path === 'structured_data.address_line_1' &&
+        (isOnSiteCommuteQuestionLabel(label) ||
+            isEmployerOfficeAttendanceQuestionLabel(label) ||
+            /\boffice\b/.test(normalizeQuestionLabel(label)))
+    ) {
+        return true;
+    }
+
     if (
         mapping &&
         isSalaryProfilePath(mapping.path) &&
@@ -4440,6 +4463,15 @@ export function resolveProfileMappingForLabel(
     }
 
     for (const mapping of PROFILE_FIELD_MAPPINGS) {
+        if (
+            mapping.path === 'structured_data.address_line_1' &&
+            (isOnSiteCommuteQuestionLabel(label) ||
+                isEmployerOfficeAttendanceQuestionLabel(label) ||
+                /\boffice\b/.test(normalized))
+        ) {
+            continue;
+        }
+
         if (mappingMatchesLabel(mapping, normalized)) {
             return mapping;
         }
@@ -6485,6 +6517,12 @@ export function partitionOnSiteCommuteFields(fields, profileData) {
             continue;
         }
 
+        // London/Old Street (or other reachable offices) can affirm Yes later.
+        if (resolveOfficeCommuteAffirmAnswer(field, profileData)) {
+            remainingFields.push(field);
+            continue;
+        }
+
         const profileLocation = profileLocationTokens(profileData);
         const profileInUk = /london|england|united kingdom|uk\b|britain/.test(
             profileLocation,
@@ -6495,21 +6533,12 @@ export function partitionOnSiteCommuteFields(fields, profileData) {
         );
         const wouldApplyYes =
             willingRaw === true || isAffirmativeRelocateAnswer(willingRaw);
-        const normalized = normalizeQuestionLabel(label);
-        const isStrictOnsiteRequirement =
-            (/\bon[- ]?site\b/.test(normalized) ||
-                /\bwork in (?:our )?office\b/.test(normalized)) &&
-            /\b(?:\d+\s+days?|five days|5 days|tuesday through friday|in the office|100\s*%?\s*onsite|work model|collaborate onsite|available to collaborate)\b/.test(
-                normalized,
-            );
+        const nearOffice = profileNearRelocateDestination(
+            label,
+            profileLocation,
+        );
 
-        if (
-            (profileInUk &&
-                (isStrictOnsiteRequirement ||
-                    !profileNearRelocateDestination(label, profileLocation))) ||
-            (wouldApplyYes &&
-                !profileNearRelocateDestination(label, profileLocation))
-        ) {
+        if ((profileInUk && !nearOffice) || (wouldApplyYes && !nearOffice)) {
             pendingFields.push(
                 createPendingField(
                     field,
