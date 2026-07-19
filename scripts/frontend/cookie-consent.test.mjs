@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import {
+    CONSENT_CATEGORIES,
     choicesToGtagConsent,
     defaultConsentChoices,
     isAnalyticsConsentGranted,
@@ -13,6 +14,20 @@ import {
 } from '../../resources/js/lib/cookieConsent.ts';
 
 describe('cookieConsent helpers', () => {
+    it('exposes Essential / Analytics / Advertising for the modal', () => {
+        assert.deepEqual(
+            CONSENT_CATEGORIES.map((category) => category.id),
+            ['functional', 'analytics', 'advertising'],
+        );
+        assert.deepEqual(
+            CONSENT_CATEGORIES.map((category) => category.label),
+            ['Essential', 'Analytics', 'Advertising'],
+        );
+        assert.equal(CONSENT_CATEGORIES[0].required, true);
+        assert.equal(CONSENT_CATEGORIES[1].defaultEnabled, true);
+        assert.equal(CONSENT_CATEGORIES[2].defaultEnabled, true);
+    });
+
     it('defaults optional categories to enabled (opt-out)', () => {
         const choices = defaultConsentChoices();
 

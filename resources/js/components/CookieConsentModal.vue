@@ -11,13 +11,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { CONSENT_CATEGORIES } from '@/lib/cookieConsent';
+import { privacy } from '@/routes';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { ConsentCategoryId } from '@/lib/cookieConsent';
-import { privacy } from '@/routes';
 
 const consentStore = useCookieConsentStore();
-const { isModalOpen, choices, categories, hydrated } =
-    storeToRefs(consentStore);
+const { isModalOpen, choices, hydrated } = storeToRefs(consentStore);
+const categories = CONSENT_CATEGORIES;
 
 onMounted(() => {
     if (!hydrated.value) {

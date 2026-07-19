@@ -56,7 +56,8 @@ function persistChoices(choices: ConsentChoices): void {
 }
 
 export const useCookieConsentStore = defineStore('cookieConsent', () => {
-    const categories = CONSENT_CATEGORIES;
+    // Must be a computed/ref so storeToRefs() includes it (plain arrays are skipped).
+    const categories = computed(() => CONSENT_CATEGORIES);
     const choices = ref<ConsentChoices>(defaultConsentChoices());
     const hasDecided = ref(false);
     const isSnoozed = ref(false);
@@ -91,7 +92,7 @@ export const useCookieConsentStore = defineStore('cookieConsent', () => {
     }
 
     function setChoice(id: ConsentCategoryId, enabled: boolean): void {
-        const category = categories.find((item) => item.id === id);
+        const category = categories.value.find((item) => item.id === id);
 
         if (!category || category.required) {
             return;
