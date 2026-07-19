@@ -580,6 +580,51 @@ test('listed EU/UK location Yes/No fills Yes for UK profiles', async () => {
     );
 });
 
+test('cover letter without target company is rejected as type_coherence', async () => {
+    const { partitionBatchAnswers, shouldRejectEssayMissingTargetCompany } =
+        await import('../../extension/src/shared/pending-fields.js');
+
+    const label = 'cover letter';
+    const generic =
+        'I am writing to apply for the Software Engineer role. During my time as a Software Engineer at Rapid7, I worked on a globally distributed team.';
+
+    assert.equal(
+        shouldRejectEssayMissingTargetCompany(
+            { label, field_type: 'textarea' },
+            generic,
+            'Climax Studios',
+        ),
+        true,
+    );
+    assert.equal(
+        shouldRejectEssayMissingTargetCompany(
+            { label, field_type: 'textarea' },
+            `${generic} I want to join Climax Studios next.`,
+            'Climax Studios',
+        ),
+        false,
+    );
+
+    const fieldsByRef = new Map([
+        [
+            'f12',
+            {
+                ref: 'f12',
+                label,
+                field_type: 'textarea',
+            },
+        ],
+    ]);
+    const { toApply, pending } = partitionBatchAnswers(
+        [{ ref: 'f12', label, field_type: 'textarea', answer: generic }],
+        fieldsByRef,
+        { job: { company: 'Climax Studios' } },
+    );
+    assert.equal(toApply.length, 0);
+    assert.equal(pending[0]?.reason, 'type_coherence');
+    assert.equal(pending[0]?.reject_reason, 'missing_target_company');
+});
+
 test('defence weekly travel comfort stays screening_clarify', async () => {
     const { partitionScreeningTrapFields } = await import(
         '../../extension/src/shared/pending-fields.js'

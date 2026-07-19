@@ -21,6 +21,7 @@ import {
     classifyFieldExpectation,
     evaluateAnswerTypeCoherence,
     shouldRejectAnswerForTypeCoherence,
+    shouldRejectEssayMissingTargetCompany,
     shouldRejectYesNoAnswerOnLocationField,
 } from './draft-all/type-coherence.js';
 import { normalizeQuestionLabel } from './draft-all-optimizations.js';
@@ -36,6 +37,7 @@ export {
     evaluateAnswerTypeCoherence,
     isBareYesNoAnswer,
     shouldRejectAnswerForTypeCoherence,
+    shouldRejectEssayMissingTargetCompany,
     shouldRejectYesNoAnswerOnLocationField,
 } from './draft-all/type-coherence.js';
 
@@ -7428,6 +7430,35 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
                 );
                 continue;
             }
+        }
+
+        const jobCompany =
+            profileData?.job?.company ||
+            profileData?.company ||
+            field?.job?.company ||
+            field?.company ||
+            null;
+
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            shouldRejectEssayMissingTargetCompany(
+                field,
+                resolvedAnswer,
+                jobCompany,
+            )
+        ) {
+            pending.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'type_coherence',
+                    {
+                        rejected_answer: String(resolvedAnswer),
+                        reject_reason: 'missing_target_company',
+                    },
+                ),
+            );
+            continue;
         }
 
         // Never auto-apply future-jobs / marketing opt-ins (unchecked is correct).

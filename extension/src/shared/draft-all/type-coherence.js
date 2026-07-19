@@ -583,6 +583,73 @@ export function shouldRejectAnswerForTypeCoherence(field, answer) {
 }
 
 /**
+ * Cover letters / why-join essays must name the target employer when known.
+ * Rejects generic truthful essays that never mention job.company (live Climax).
+ *
+ * @param {{ label?: string, question?: string, field_type?: string }|null|undefined} field
+ * @param {unknown} answer
+ * @param {string|null|undefined} jobCompany
+ * @returns {boolean}
+ */
+export function shouldRejectEssayMissingTargetCompany(
+    field,
+    answer,
+    jobCompany,
+) {
+    const company = String(jobCompany || '').trim();
+
+    if (!company || company.length < 2 || /^unknown\b/i.test(company)) {
+        return false;
+    }
+
+    const label = normalizeQuestionLabel(field?.label || field?.question || '');
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (fieldType !== 'textarea' && fieldType !== 'text') {
+        return false;
+    }
+
+    if (
+        !/\bcover letter\b/.test(label) &&
+        !/\bwhy (?:do you want|are you interested|should we)\b/.test(label) &&
+        !/\bwhy (?:this|our) (?:company|role|position|job|team)\b/.test(
+            label,
+        ) &&
+        !/\bwhat interests you (?:about|in)\b/.test(label) &&
+        !/\badditional information\b/.test(label)
+    ) {
+        return false;
+    }
+
+    const answerNorm = normalizeQuestionLabel(answer);
+
+    if (!answerNorm || answerNorm.length < 40) {
+        return false;
+    }
+
+    const companyNorm = normalizeQuestionLabel(company);
+
+    if (!companyNorm) {
+        return false;
+    }
+
+    if (answerNorm.includes(companyNorm)) {
+        return false;
+    }
+
+    // "Climax Studios" → require distinctive tokens (length >= 4), not "the".
+    const tokens = companyNorm
+        .split(/\s+/)
+        .filter((token) => token.length >= 4);
+
+    if (tokens.length === 0) {
+        return !answerNorm.includes(companyNorm);
+    }
+
+    return !tokens.every((token) => answerNorm.includes(token));
+}
+
+/**
  * Back-compat helper: Yes/No on free-text locality fields.
  *
  * @param {{ label?: string, question?: string, field_type?: string, options?: unknown[], dom?: object|null }|null|undefined} field
