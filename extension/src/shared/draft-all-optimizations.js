@@ -6,6 +6,7 @@ import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
 import { isMarketingOrFutureConsentField, isAgreementCheckboxField } from './draft-all/consent-fields.js';
 import {
     isEmployerScreeningTrapLabel,
+    isSkillSpecificYearsExperienceQuestionLabel,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
     shouldRejectYesNoAnswerOnLocationField,
@@ -164,6 +165,15 @@ export function resolveSavedApplicationAnswer(field, profileData = null, questio
         return null;
     }
 
+    // Judgment labels must not pull memo/application_answers into heuristic fill
+    // (exact memo still applies earlier via partitionFieldsByQuestionMemo).
+    if (
+        isSkillSpecificYearsExperienceQuestionLabel(label)
+        || shouldRejectJudgmentMemoReuse(label)
+    ) {
+        return null;
+    }
+
     const mergedMemo = mergeQuestionMemos(
         questionMemo,
         applicationAnswersToMemo(profileData?.application_answers),
@@ -179,6 +189,15 @@ export function resolveSavedApplicationAnswer(field, profileData = null, questio
     }
 
     return answer;
+}
+
+function shouldRejectJudgmentMemoReuse(label) {
+    const question = String(label || '');
+
+    return /\bout\s+of\s+\d+\b/i.test(question)
+        || /\brate\b.{0,80}\b(?:skill|yourself|proficiency|experience|knowledge)\b/i.test(question)
+        || /\b(?:tell\s+us\s+about|describe\s+your|share\s+an\s+example|give\s+an\s+example|walk\s+us\s+through)\b/i.test(question)
+        || /\b(?:okta|mdm|jamf|intune|helpline)\b/i.test(question);
 }
 
 export function matchMemoAnswer(questionMemo, fieldLabel) {

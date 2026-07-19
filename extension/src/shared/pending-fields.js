@@ -905,6 +905,15 @@ export function isGenericTotalExperienceQuestionLabel(label) {
         return false;
     }
 
+    // "years of experience with React" / "how many years of Go experience" are skill-specific.
+    if (/\bexperience (?:with|using)\b/i.test(normalized)) {
+        return false;
+    }
+
+    if (/\bhow many years of (?!professional\b|work\b|total\b|overall\b|experience\b)/i.test(normalized)) {
+        return false;
+    }
+
     const totalExperienceMapping = PROFILE_FIELD_MAPPINGS.find(
         (mapping) => mapping.path === 'application_settings.years_of_experience',
     );
@@ -3443,11 +3452,11 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
 function shouldAffirmLocalCommuteComfort(profileData) {
     const raw = readProfileValue(profileData, 'application_settings.affirm_local_commute');
 
-    if (raw === false || raw === 'no' || raw === '0') {
-        return false;
+    if (raw === true || raw === 'yes' || raw === '1' || raw === 1) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 function resolveAffirmLocalCommuteMapping(label) {
@@ -3498,11 +3507,11 @@ export function resolveLocalCommuteComfortAnswer(field, profileData) {
 function shouldAffirmLocalHybridWork(profileData) {
     const raw = readProfileValue(profileData, 'application_settings.affirm_local_hybrid');
 
-    if (raw === false || raw === 'no' || raw === '0') {
-        return false;
+    if (raw === true || raw === 'yes' || raw === '1' || raw === 1) {
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 function resolveAffirmLocalHybridMapping(label) {
@@ -3738,59 +3747,6 @@ export function partitionOnSiteCommuteFields(fields, profileData) {
     }
 
     return { pendingFields, remainingFields };
-}
-
-function isInterestCheckboxGroupField(field) {
-    const label = field?.label || field?.question || '';
-    const normalized = normalizeQuestionLabel(label);
-    const options = Array.isArray(field?.options) ? field.options : [];
-
-    return field?.field_type === 'checkbox'
-        && options.length >= 2
-        && /\b(interests? you|options below|department|area of interest|relevant experience in)\b/.test(normalized);
-}
-
-function resolveInterestCheckboxFallbackAnswer(field, profileData) {
-    if (!isInterestCheckboxGroupField(field)) {
-        return '';
-    }
-
-    const options = Array.isArray(field?.options) ? field.options : [];
-    const profileHaystack = [
-        readProfileValue(profileData, 'headline'),
-        readProfileValue(profileData, 'application_settings.job_preferences'),
-        readProfileValue(profileData, 'structured_data.summary'),
-    ].map((value) => normalizeQuestionLabel(String(value || ''))).join(' ');
-
-    const keywordSets = [
-        { pattern: /product|engineering|software|developer|technical/, optionPattern: /product development|engineering|technical|project management/i },
-        { pattern: /marketing|growth|brand/, optionPattern: /marketing|growth|brand|e-commerce/i },
-        { pattern: /design|creative|ux|ui/, optionPattern: /creative|design|motion/i },
-        { pattern: /operations|customer success|support/, optionPattern: /operations|customer experience/i },
-        { pattern: /finance|accounting/, optionPattern: /finance|accounting/i },
-        { pattern: /people|hr|human resources/, optionPattern: /people|hr/i },
-    ];
-
-    let bestOption = '';
-    let bestScore = 0;
-
-    for (const option of options) {
-        let score = 0;
-        const optionText = normalizeQuestionLabel(option);
-
-        for (const { pattern, optionPattern } of keywordSets) {
-            if (pattern.test(profileHaystack) && optionPattern.test(optionText)) {
-                score += 3;
-            }
-        }
-
-        if (score > bestScore) {
-            bestScore = score;
-            bestOption = option;
-        }
-    }
-
-    return bestScore > 0 ? bestOption : '';
 }
 
 function shouldRejectNonYesNoAnswerOnSponsorshipField(field, answer) {
@@ -4036,14 +3992,6 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
                     'missing_answer',
                 ));
                 continue;
-            }
-        }
-
-        if (!isMeaningfulAnswer(resolvedAnswer)) {
-            const interestCheckboxAnswer = resolveInterestCheckboxFallbackAnswer(field, profileData);
-
-            if (isMeaningfulAnswer(interestCheckboxAnswer)) {
-                resolvedAnswer = interestCheckboxAnswer;
             }
         }
 

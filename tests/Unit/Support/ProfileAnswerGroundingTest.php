@@ -137,4 +137,64 @@ class ProfileAnswerGroundingTest extends TestCase
 
         $this->assertSame($answer, $enforced[0]['answer'] ?? null);
     }
+
+    public function test_enforce_grounded_answers_revises_invented_tool_yes_to_no(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'skills' => ['PHP', 'Laravel'],
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Acme Corp',
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
+        ]);
+
+        $questions = [[
+            'label' => 'Do you have experience administering Okta?',
+            'ref' => 'okta',
+            'field_type' => 'radio',
+            'options' => ['Yes', 'No'],
+        ]];
+
+        $enforced = ProfileAnswerGrounding::enforceGroundedAnswers($profile, $questions, [[
+            'label' => 'Do you have experience administering Okta?',
+            'ref' => 'okta',
+            'answer' => 'Yes',
+        ]]);
+
+        $this->assertSame('No', $enforced[0]['answer'] ?? null);
+    }
+
+    public function test_enforce_grounded_answers_keeps_tool_yes_when_profile_lists_tool(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'skills' => ['Okta', 'IAM'],
+            'experience' => [
+                [
+                    'title' => 'Identity Engineer',
+                    'company' => 'Acme Corp',
+                    'technologies' => ['Okta'],
+                ],
+            ],
+        ]);
+
+        $questions = [[
+            'label' => 'Do you have experience administering Okta?',
+            'ref' => 'okta',
+            'field_type' => 'radio',
+            'options' => ['Yes', 'No'],
+        ]];
+
+        $enforced = ProfileAnswerGrounding::enforceGroundedAnswers($profile, $questions, [[
+            'label' => 'Do you have experience administering Okta?',
+            'ref' => 'okta',
+            'answer' => 'Yes',
+        ]]);
+
+        $this->assertSame('Yes', $enforced[0]['answer'] ?? null);
+    }
 }

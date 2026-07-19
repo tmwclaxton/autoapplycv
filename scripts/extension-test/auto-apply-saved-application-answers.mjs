@@ -92,8 +92,8 @@ assert.equal(
         profileData,
         questionMemo,
     ),
-    '7',
-    'profile preference should win over saved memo for experience years',
+    null,
+    'skill-specific years must defer to NanoGPT, not profile total years',
 );
 
 console.log('auto-apply saved application answer tests passed');

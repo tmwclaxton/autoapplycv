@@ -155,20 +155,20 @@ function resolveNoticePeriodFromSettings(settings = {}, field = null) {
     const domId = field?.dom?.id || field?.dom?.input_id || null;
     const fieldType = field?.type || field?.field_type || 'text';
 
-    if (isMeaningfulAnswer(settings.notice_period)) {
-        return normalizeNoticePeriodAnswer(
-            'notice period',
-            String(settings.notice_period).trim(),
-            {
-                fieldType,
-                domId,
-                profileYears,
-                fallbackNoticePeriod: '2 weeks',
-            },
-        );
+    if (!isMeaningfulAnswer(settings.notice_period)) {
+        return null;
     }
 
-    return '2 weeks';
+    return normalizeNoticePeriodAnswer(
+        'notice period',
+        String(settings.notice_period).trim(),
+        {
+            fieldType,
+            domId,
+            profileYears,
+            fallbackNoticePeriod: null,
+        },
+    );
 }
 
 function parsePositiveSalaryNumber(value) {
@@ -216,7 +216,7 @@ function resolveSalaryFromSettings(settings = {}) {
         return String(Math.round(weekly * 52));
     }
 
-    return '55000';
+    return null;
 }
 
 function isNumericExperienceField(fieldType, domId, label) {
@@ -239,15 +239,67 @@ function resolveGenericTotalExperienceFromSettings(settings = {}) {
     return null;
 }
 
+const NAMED_TOOL_PLATFORM_PATTERN = /\b(?:okta|mdm|jamf|intune|helpline|iam|active\s*directory|\bad\b|servicenow|salesforce|workday|jira|confluence|splunk|crowdstrike|sentinelone|kubernetes|k8s|terraform|ansible|puppet|chef|docker|aws|azure|gcp|google\s*cloud|microsoft\s*365|office\s*365|exchange|sharepoint|zoom|slack|notion|figma|tableau|looker|snowflake|databricks|hadoop|spark|kafka|redis|elasticsearch|mongodb|postgresql|mysql|oracle|sap|salesforce|hubspot|marketo|pardot|gong|outreach|okta|duo|1password|lastpass|bitwarden|cyberark|beyondtrust|ping\s*identity|auth0|keycloak)\b/i;
+
 /**
- * Open-ended employer screeners should reach NanoGPT via llmFields, not regex guesses.
+ * Judgment screeners (tools, ratings, essays) reach NanoGPT via llmFields, not inventing heuristics.
  */
-function shouldDeferScreenerQuestionToLlm(label) {
+export function shouldDeferScreenerQuestionToLlm(label) {
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
         return true;
     }
 
+    const question = String(label || '');
+
+    if (isNamedToolCompetenceQuestionLabel(question)) {
+        return true;
+    }
+
+    if (isSkillRatingQuestionLabel(question)) {
+        return true;
+    }
+
+    if (isOpenScreenerEssayQuestionLabel(question)) {
+        return true;
+    }
+
     return false;
+}
+
+/**
+ * Yes/No (or similar) about competence with a named tool/platform.
+ */
+export function isNamedToolCompetenceQuestionLabel(label) {
+    const question = String(label || '');
+
+    if (!NAMED_TOOL_PLATFORM_PATTERN.test(question)) {
+        return false;
+    }
+
+    return /\b(?:experience|experienced|familiar|proficient|knowledge|worked\s+with|hands[-\s]?on|used|using|support|administer|administering|administers|confident)\b/i.test(question)
+        || /\b(?:do\s+you|have\s+you|are\s+you|can\s+you)\b/i.test(question);
+}
+
+/**
+ * Skill self-ratings (e.g. "Rate your Okta skills out of 5").
+ */
+export function isSkillRatingQuestionLabel(label) {
+    const question = String(label || '');
+
+    return /\bout\s+of\s+\d+\b/i.test(question)
+        || /\brate\b.{0,80}\b(?:skill|yourself|proficiency|experience|knowledge)\b/i.test(question)
+        || /\b(?:skill|proficiency|confidence)\s+rating\b/i.test(question)
+        || /\bhow\s+(?:proficient|skilled|confident|strong)\b/i.test(question);
+}
+
+/**
+ * Open behavioral / example essays that must not get phone or memo bleeds.
+ */
+export function isOpenScreenerEssayQuestionLabel(label) {
+    const question = String(label || '');
+
+    return /\b(?:tell\s+us\s+about|describe\s+your|share\s+an\s+example|give\s+an\s+example|walk\s+us\s+through|provide\s+an\s+example|explain\s+how|how\s+would\s+you|what\s+is\s+your\s+experience\s+with)\b/i.test(question)
+        || /\b(?:example\s+of|situation\s+where|time\s+when)\b/i.test(question);
 }
 
 function shouldUseProfileSalaryAnswer(answer, label) {
@@ -284,7 +336,7 @@ function normalizeHeuristicAnswerForField(answer, field) {
                 fieldType: field?.type || field?.field_type,
                 domId: field?.dom?.id || field?.dom?.input_id,
                 profileYears: null,
-                fallbackNoticePeriod: '2 weeks',
+                fallbackNoticePeriod: null,
             });
         }
 
@@ -299,7 +351,7 @@ function normalizeHeuristicAnswerForField(answer, field) {
 
     const numeric = value.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
 
-    return numeric?.[0] || '55000';
+    return numeric?.[0] || value;
 }
 
 /**
@@ -334,6 +386,11 @@ export function resolveHeuristicScreenerAnswer(
 
     if (isMeaningfulAnswer(sourceOfHireAnswer)) {
         return normalizeHeuristicAnswerForField(sourceOfHireAnswer, normalizedField);
+    }
+
+    // Judgment questions never invent via identity/memo/defaults - NanoGPT only.
+    if (shouldDeferScreenerQuestionToLlm(label)) {
+        return null;
     }
 
     const identityAnswer = resolveIdentityProfileAnswer(normalizedField, profileData);
@@ -396,22 +453,24 @@ export function resolveHeuristicScreenerAnswer(
     ).toLowerCase();
     const settings = profileData?.application_settings || {};
 
-    if (shouldDeferScreenerQuestionToLlm(label)) {
-        return null;
-    }
-
     if (isNoticePeriodOrAvailabilityQuestion(label)) {
-        return normalizeHeuristicAnswerForField(
-            resolveNoticePeriodFromSettings(settings, normalizedField),
-            normalizedField,
-        );
+        const notice = resolveNoticePeriodFromSettings(settings, normalizedField);
+
+        if (!isMeaningfulAnswer(notice)) {
+            return null;
+        }
+
+        return normalizeHeuristicAnswerForField(notice, normalizedField);
     }
 
     if (isSalaryScreenerQuestion(label)) {
-        return normalizeHeuristicAnswerForField(
-            resolveSalaryFromSettings(settings),
-            normalizedField,
-        );
+        const salary = resolveSalaryFromSettings(settings);
+
+        if (!isMeaningfulAnswer(salary)) {
+            return null;
+        }
+
+        return normalizeHeuristicAnswerForField(salary, normalizedField);
     }
 
     if (
@@ -527,7 +586,7 @@ export function resolveTestModeFallbackAnswer(
         isGenericTotalExperienceQuestionLabel(label)
         && isNumericExperienceField(fieldType, domId, label)
     ) {
-        return resolveGenericTotalExperienceFromSettings(settings) || '2';
+        return resolveGenericTotalExperienceFromSettings(settings);
     }
 
     const preferenceAnswer = resolvePreferenceProfileAnswer(
