@@ -1150,6 +1150,36 @@ function extractOfficeCitiesFromLabel(normalized) {
         }
     }
 
+    // "hybrid position in berlin" / "office in paris" named EU metros.
+    for (const city of [
+        'berlin',
+        'paris',
+        'warsaw',
+        'warszaw',
+        'amsterdam',
+        'munich',
+        'madrid',
+        'dublin',
+        'stockholm',
+        'gothenburg',
+        'copenhagen',
+        'oslo',
+        'zurich',
+        'vienna',
+        'prague',
+        'lisbon',
+        'milan',
+        'rome',
+        'brussels',
+        'hamburg',
+        'frankfurt',
+        'london',
+    ]) {
+        if (new RegExp(`\\b${city}\\b`).test(normalized)) {
+            cities.add(city);
+        }
+    }
+
     return [...cities];
 }
 

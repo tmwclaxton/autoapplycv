@@ -502,6 +502,62 @@ test('German Gehaltsvorstellungen number field accepts yearly salary', () => {
     );
 });
 
+test('available from is notice not date and rejects bare integers', () => {
+    const field = { label: 'available from', field_type: 'text' };
+
+    assert.equal(classifyFieldExpectation(field), 'notice');
+    assert.equal(shouldRejectAnswerForTypeCoherence(field, '2'), true);
+    assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
+});
+
+test('Berlin hybrid Yes/No declines for UK profiles in apply plan', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f5',
+                label: 'this is a hybrid position in berlin (min. 2 days/week office), can you confirm that this work setup works for you?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+                required: true,
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'available from',
+                field_type: 'text',
+                required: true,
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+                location: 'High Wycombe, England',
+                application_settings: {
+                    notice_period: '2 weeks',
+                    willing_to_relocate: false,
+                },
+            },
+        },
+        questionMemo: {},
+    });
+
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.equal(
+        answers.find((item) => item.ref === 'f5')?.answer,
+        'No',
+    );
+    assert.equal(
+        answers.find((item) => item.ref === 'f1')?.answer,
+        '2 weeks',
+    );
+});
+
 test('tool-scoped years labels and language prompts shrink when profile clear', async () => {
     const {
         isSkillScopedYearsExperienceLabel,

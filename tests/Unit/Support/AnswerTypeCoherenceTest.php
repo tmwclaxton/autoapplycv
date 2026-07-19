@@ -230,4 +230,21 @@ class AnswerTypeCoherenceTest extends TestCase
             '55000',
         ));
     }
+
+    public function test_available_from_is_notice_and_rejects_bare_integer(): void
+    {
+        $profile = new CvProfile([]);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Available from', 'field_type' => 'text'],
+            '2',
+        ));
+
+        $this->assertFalse(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Available from', 'field_type' => 'text'],
+            '2 weeks',
+        ));
+    }
 }
