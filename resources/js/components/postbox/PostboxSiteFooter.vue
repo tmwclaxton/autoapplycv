@@ -1,5 +1,19 @@
 <script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Link } from '@inertiajs/vue3';
+import {
+    BarChart3,
+    BookOpen,
+    Chrome,
+    Cookie,
+    Github,
+    Info,
+    Mail,
+    Newspaper,
+    Scale,
+    Shield,
+    Tag,
+} from 'lucide-vue-next';
 import DiscordIcon from '@/components/DiscordIcon.vue';
 import PostboxMark from '@/components/postbox/PostboxMark.vue';
 import {
@@ -10,6 +24,7 @@ import {
     GITHUB_REPOSITORY_URL,
 } from '@/lib/site';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
+import type { LucideIcon } from 'lucide-vue-next';
 import {
     about,
     analytics,
@@ -35,12 +50,26 @@ const routeMap = {
     privacy,
 } as const;
 
+const linkIcons: Record<keyof typeof routeMap, LucideIcon> = {
+    blog: Newspaper,
+    'how-to': BookOpen,
+    pricing: Tag,
+    analytics: BarChart3,
+    about: Info,
+    contact: Mail,
+    terms: Scale,
+    privacy: Shield,
+};
+
 const legalRoutes = new Set(['terms', 'privacy']);
 
 const productLinks = FOOTER_LINKS.filter(
     (item) => !legalRoutes.has(item.route),
 );
 const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
+
+const linkClass =
+    'postbox-link inline-flex items-center gap-1.5 no-underline hover:underline';
 </script>
 
 <template>
@@ -77,8 +106,13 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
                         <li v-for="item in productLinks" :key="item.route">
                             <Link
                                 :href="routeMap[item.route]().url"
-                                class="postbox-link no-underline hover:underline"
+                                :class="linkClass"
                             >
+                                <component
+                                    :is="linkIcons[item.route]"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 {{ item.label }}
                             </Link>
                         </li>
@@ -93,17 +127,26 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
                         <li v-for="item in legalLinks" :key="item.route">
                             <Link
                                 :href="routeMap[item.route]().url"
-                                class="postbox-link no-underline hover:underline"
+                                :class="linkClass"
                             >
+                                <component
+                                    :is="linkIcons[item.route]"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 {{ item.label }}
                             </Link>
                         </li>
                         <li>
                             <button
                                 type="button"
-                                class="postbox-link text-left no-underline hover:underline"
+                                :class="[linkClass, 'text-left']"
                                 @click="cookieConsent.openPreferences()"
                             >
+                                <Cookie
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 Cookie preferences
                             </button>
                         </li>
@@ -123,8 +166,12 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
                                 :href="CHROME_WEB_STORE_URL"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="postbox-link no-underline hover:underline"
+                                :class="linkClass"
                             >
+                                <Chrome
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 Chrome Web Store
                             </a>
                         </li>
@@ -133,8 +180,13 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
                                 :href="FIREFOX_ADDONS_URL"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="postbox-link no-underline hover:underline"
+                                :class="linkClass"
                             >
+                                <FontAwesomeIcon
+                                    :icon="['fab', 'firefox-browser']"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 Firefox Add-ons
                             </a>
                         </li>
@@ -143,10 +195,10 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
                                 :href="DISCORD_INVITE_URL"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="postbox-link inline-flex items-center gap-1.5 no-underline hover:underline"
+                                :class="linkClass"
                             >
                                 <DiscordIcon
-                                    class="size-4"
+                                    class="size-4 shrink-0"
                                     aria-hidden="true"
                                 />
                                 Discord
@@ -159,14 +211,15 @@ const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
             <div
                 class="flex flex-col items-start justify-between gap-2 border-t-2 border-postbox-navy/15 pt-5 text-sm text-muted-foreground sm:flex-row sm:items-center"
             >
-                <p>
+                <p class="inline-flex flex-wrap items-center gap-1.5">
                     PolyForm Noncommercial ·
                     <a
                         :href="GITHUB_REPOSITORY_URL"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="postbox-link"
+                        class="postbox-link inline-flex items-center gap-1.5"
                     >
+                        <Github class="size-4 shrink-0" aria-hidden="true" />
                         tmwclaxton/autoapplycv
                     </a>
                 </p>
