@@ -1108,6 +1108,19 @@ function profileLocationMatchesOfficeCity(cityToken, profileLocation) {
         amsterdam: ['netherlands', 'holland'],
         copenhagen: ['denmark'],
         oslo: ['norway'],
+        // London hybrid/onsite asks: England-based UK profiles can commute.
+        london: [
+            'england',
+            'united kingdom',
+            'britain',
+            'london',
+            'wycombe',
+            'buckinghamshire',
+            'surrey',
+            'kent',
+            'essex',
+            'hertfordshire',
+        ],
     };
 
     for (const hint of cityCountryHints[city] || []) {
@@ -1174,10 +1187,15 @@ function extractOfficeCitiesFromLabel(normalized) {
         'hamburg',
         'frankfurt',
         'london',
+        'nyc',
     ]) {
         if (new RegExp(`\\b${city}\\b`).test(normalized)) {
-            cities.add(city);
+            cities.add(city === 'nyc' ? 'new york' : city);
         }
+    }
+
+    if (/\bnew york\b/.test(normalized)) {
+        cities.add('new york');
     }
 
     return [...cities];
@@ -1262,6 +1280,52 @@ export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
 
     if (fieldHasYesNoOptions(field)) {
         return 'No';
+    }
+
+    return '';
+}
+
+/**
+ * When an office list includes a city the profile can reach (e.g. NYC or London
+ * for an England-based applicant), affirm Yes instead of inventing No.
+ */
+export function resolveOfficeCommuteAffirmAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isOnSiteCommuteQuestionLabel(label)) {
+        return '';
+    }
+
+    if (resolveOfficeCommuteDeclineAnswer(field, profileData)) {
+        return '';
+    }
+
+    const profileLocation = profileLocationTokens(profileData);
+    const officeCities = extractOfficeCitiesFromLabel(
+        normalizeQuestionLabel(label),
+    );
+
+    if (
+        officeCities.length === 0 ||
+        !profileNearOfficeCities(officeCities, profileLocation)
+    ) {
+        return '';
+    }
+
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const hasLocalizedYes = options.some((option) =>
+        /^(yes|tak|oui|ja|si|sí)\b/i.test(String(option || '').trim()),
+    );
+    const hasLocalizedNo = options.some((option) =>
+        /^(no|nie|non|nein)\b/i.test(String(option || '').trim()),
+    );
+
+    if (hasLocalizedYes && hasLocalizedNo) {
+        return pickLocalizedYesNoOption(field, true);
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return 'Yes';
     }
 
     return '';
@@ -6232,6 +6296,15 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     if (isMeaningfulAnswer(officeCommuteDecline)) {
         return officeCommuteDecline;
+    }
+
+    const officeCommuteAffirm = resolveOfficeCommuteAffirmAnswer(
+        field,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(officeCommuteAffirm)) {
+        return officeCommuteAffirm;
     }
 
     const foreignTimezoneDecline = resolveForeignTimezoneDeclineAnswer(

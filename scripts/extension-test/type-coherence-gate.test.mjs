@@ -767,6 +767,43 @@ test('German verfügbar ab and Gehaltsvorstellung classify correctly', () => {
     );
 });
 
+test('NYC or London office days affirms Yes for England profiles', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'are you happy to work from our office at least 3 days a week? (nyc or london)',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                id: 5,
+                ref: 'f5',
+                label: 'this is a hybrid position in berlin (min. 2 days/week office), can you confirm that this work setup works for you?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+                location: 'High Wycombe, England',
+            },
+        },
+        questionMemo: {},
+    });
+
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(answers.some((item) => item.ref === 'f0' && item.answer === 'Yes'));
+    assert.ok(answers.some((item) => item.ref === 'f5' && item.answer === 'No'));
+});
+
 test('Berlin hybrid Yes/No declines for UK profiles in apply plan', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'
