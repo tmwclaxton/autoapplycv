@@ -1592,26 +1592,39 @@ export function isSkillSpecificYearsExperienceQuestionLabel(label) {
  * Tool-scoped years must stay blank without a matching profile skill - never copy
  * total years_of_experience or let NanoGPT invent (live Ashby Real Figma years).
  * Broad "software development experience" still uses total YOE via preference/screener.
+ * Required skill-years become sidebar pending instead of silent unfilledRequired.
  */
 export function partitionSkillSpecificYearsExperienceFields(fields) {
     const remainingFields = [];
     const clearAnswers = [];
+    const pendingFields = [];
 
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
 
-        if (isSkillScopedYearsExperienceLabel(label)) {
-            clearAnswers.push({
-                ...field,
-                answer: '__CLEAR__',
-            });
+        if (!isSkillScopedYearsExperienceLabel(label)) {
+            remainingFields.push(field);
             continue;
         }
 
-        remainingFields.push(field);
+        clearAnswers.push({
+            ...field,
+            answer: '__CLEAR__',
+        });
+
+        if (field?.required) {
+            const pending = createPendingField(
+                field,
+                null,
+                'missing_profile_data',
+            );
+            pending.pending_hint =
+                'Enter how many years of experience you have with this specific skill/tool. We do not invent this from your total years of experience.';
+            pendingFields.push(pending);
+        }
     }
 
-    return { remainingFields, clearAnswers };
+    return { remainingFields, clearAnswers, pendingFields };
 }
 
 /**
@@ -4394,8 +4407,9 @@ function isEducationLevelConfirmationLabel(label) {
 export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
 
+    // Optional skill-years stay silent; required ones need a sidebar answer.
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
-        return false;
+        return Boolean(field?.required);
     }
 
     if (isSourceOfHireQuestionLabel(label)) {

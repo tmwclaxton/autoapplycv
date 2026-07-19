@@ -121,6 +121,7 @@ test('Draft All plan clears skill years and maps notice radio', () => {
                 ref: 'f20',
                 label: 'years of experience in figma',
                 field_type: 'number',
+                required: true,
             },
             {
                 ref: 'f19',
@@ -141,4 +142,10 @@ test('Draft All plan clears skill years and maps notice radio', () => {
     assert.equal(byRef.f19, '2');
     assert.equal(byRef.f20, '__CLEAR__');
     assert.ok(!(plan.llmFields || []).some((field) => field.ref === 'f20'));
+    assert.ok(
+        (plan.pendingFields || []).some(
+            (field) =>
+                field.ref === 'f20' && field.reason === 'missing_profile_data',
+        ),
+    );
 });

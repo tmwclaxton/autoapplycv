@@ -187,6 +187,10 @@ export function buildDraftAllApplyPlan({
     const skillYearsPartition =
         partitionSkillSpecificYearsExperienceFields(remainingFields);
     remainingFields = skillYearsPartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        skillYearsPartition.pendingFields || [],
+    );
 
     const preferencePartition = partitionPreferenceProfileFields(
         remainingFields,
