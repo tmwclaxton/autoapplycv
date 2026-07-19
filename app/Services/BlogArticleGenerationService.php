@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Support\BlogArticleFormats;
+use App\Support\BlogKeywordStrategy;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -13,6 +14,7 @@ class BlogArticleGenerationService
     /**
      * @param  array{key: string, name: string, hint: string, title_pattern: string}  $format
      * @param  (callable(string, array<string, mixed>): void)|null  $onProgress
+     * @param  array{id?: string, primary: string, selected_supporting?: array<int, string>, supporting?: array<int, string>, angle_hints?: array<int, string>}|null  $seoTarget
      * @return array{title: string, excerpt: string, body: string, tags: array<int, string>, sources: array<int, mixed>}
      */
     public function generateFullArticle(
@@ -21,10 +23,12 @@ class BlogArticleGenerationService
         string $lengthKey,
         array $format = [],
         ?callable $onProgress = null,
+        ?array $seoTarget = null,
     ): array {
         $sectionCount = BlogArticleFormats::sectionCountForLength($lengthKey);
         $wordRange = BlogArticleFormats::perSectionWordRange($lengthKey, $sectionCount);
         $wordGuidance = BlogArticleFormats::articleBodyWordGuidance($lengthKey);
+        $seoBlock = $seoTarget !== null ? BlogKeywordStrategy::promptBlock($seoTarget) : '';
 
         $onProgress?->__invoke('planning_start', [
             'section_count' => $sectionCount,
@@ -32,7 +36,7 @@ class BlogArticleGenerationService
             'words_per_section_max' => $wordRange['max'],
         ]);
 
-        $plan = $this->planArticle($topic, $research, $lengthKey, $wordGuidance, $sectionCount, $wordRange, $format);
+        $plan = $this->planArticle($topic, $research, $lengthKey, $wordGuidance, $sectionCount, $wordRange, $format, $seoBlock);
 
         $onProgress?->__invoke('plan_complete', [
             'title' => $plan['title'],
@@ -66,6 +70,7 @@ class BlogArticleGenerationService
                 $wordRange,
                 $previousNotes,
                 $format,
+                $seoBlock,
             );
 
             $contentTrimmed = trim($content);
@@ -111,6 +116,7 @@ class BlogArticleGenerationService
         int $sectionCount,
         array $wordRange,
         array $format,
+        string $seoBlock = '',
     ): array {
         $formatName = $format['name'] ?? 'Article';
         $formatHint = $format['hint'] ?? '';
@@ -121,13 +127,16 @@ class BlogArticleGenerationService
 You plan blog articles for AutoCVApply (autocvapply.com), a tool that helps UK job seekers autofill application forms.
 Article format: {$formatName}. {$formatHint}
 Return JSON only with keys: title, excerpt, tags (array of 3-6 lowercase strings), sources (array of objects with title, url, description), sections (array of exactly {$sectionCount} objects with heading and beats).
+Optimise title, excerpt, and H2 headings for the SEO keyword target without stuffing.
 Do not invent AutoCVApply features beyond the research brief. Do not promise interviews or offers.
 PROMPT;
+
+        $seoSection = $seoBlock !== '' ? "\n\n{$seoBlock}\n" : "\n";
 
         $user = <<<PROMPT
 Topic:
 {$topic}
-
+{$seoSection}
 Research brief:
 {$research}
 
@@ -178,6 +187,7 @@ PROMPT;
         array $wordRange,
         array $previousNotes,
         array $format,
+        string $seoBlock = '',
     ): string {
         $wordGuidance = BlogArticleFormats::articleBodyWordGuidance($lengthKey);
         $formatName = $format['name'] ?? 'Article';
@@ -190,12 +200,15 @@ You write one section of a blog article for AutoCVApply ({$formatName}).
 Write ONLY this section's Markdown body in JSON field "content".
 Do NOT repeat the section heading as ## at the start. You may use ### subheadings with different wording.
 UK job seekers audience. Practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
+Use SEO keywords naturally where they fit this section; never keyword-stuff.
 Do not invent product features beyond the research brief.
 PROMPT;
 
+        $seoSection = $seoBlock !== '' ? "\n{$seoBlock}\n" : "\n";
+
         $user = <<<PROMPT
 Topic: {$topic}
-
+{$seoSection}
 Authoritative context:
 {$research}
 

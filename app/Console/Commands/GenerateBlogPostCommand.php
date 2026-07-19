@@ -9,6 +9,7 @@ use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogArticleFormats;
+use App\Support\BlogKeywordStrategy;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -42,8 +43,14 @@ class GenerateBlogPostCommand extends Command
         ]);
 
         $format = $this->randomArticleFormat();
-        $recentTitles = $this->recentBlogTitles();
-        $topic = $this->generateTopic($nanoGpt, $format['name'], $recentTitles);
+        $recent = $this->recentBlogSignals();
+        $seoTarget = BlogKeywordStrategy::selectTarget($recent['titles'], $recent['tags']);
+
+        $this->line('  SEO cluster: '.$seoTarget['id']);
+        $this->line('  Primary keyword: '.$seoTarget['primary']);
+        $this->line('  Supporting: '.implode(', ', $seoTarget['selected_supporting']));
+
+        $topic = $this->generateTopic($nanoGpt, $format['name'], $recent['titles'], $seoTarget);
 
         $this->line("  Topic: {$topic}");
         $this->line('  Format: '.$format['name']);
@@ -56,7 +63,7 @@ class GenerateBlogPostCommand extends Command
             return self::SUCCESS;
         }
 
-        $research = $this->buildResearchBrief($topic);
+        $research = $this->buildResearchBrief($topic, $seoTarget);
 
         $this->line('  Generating hero image...');
         $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
@@ -97,13 +104,13 @@ class GenerateBlogPostCommand extends Command
                     $context['content_words_approx'] ?? 0,
                 ));
             }
-        });
+        }, $seoTarget);
 
         $title = $this->normaliseDashes($post['title']);
         $body = $this->normaliseDashes($post['body']);
         $excerpt = $this->normaliseDashes($post['excerpt']);
         $tags = array_values(array_unique(array_merge(
-            ['autocvapply', 'job-search', 'careers'],
+            BlogKeywordStrategy::tagsForTarget($seoTarget),
             array_map(fn (string $tag): string => $this->normaliseDashes($tag), $post['tags'] ?? []),
         )));
         $sources = $this->normaliseDashesInSources($post['sources'] ?? []);
@@ -141,21 +148,27 @@ class GenerateBlogPostCommand extends Command
         return $formats[array_rand($formats)];
     }
 
-    protected function buildResearchBrief(string $topic): string
+    /**
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>}  $seoTarget
+     */
+    protected function buildResearchBrief(string $topic, array $seoTarget): string
     {
         $context = AutoCVApplyBlogContext::document();
+        $seoBlock = BlogKeywordStrategy::promptBlock($seoTarget);
 
-        return "## Article topic\n{$topic}\n\n## Authoritative AutoCVApply context (ground truth only)\n\n{$context}";
+        return "## Article topic\n{$topic}\n\n{$seoBlock}\n\n## Authoritative AutoCVApply context (ground truth only)\n\n{$context}";
     }
 
     /**
      * @param  array<int, string>  $recentTitles
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>, angle_hints?: array<int, string>}  $seoTarget
      */
-    protected function generateTopic(NanoGptService $nanoGpt, string $formatName, array $recentTitles): string
+    protected function generateTopic(NanoGptService $nanoGpt, string $formatName, array $recentTitles, array $seoTarget): string
     {
         $today = now()->format('jS F Y');
         $angle = BlogArticleFormats::topicAngles()[array_rand(BlogArticleFormats::topicAngles())];
         $contextBlock = AutoCVApplyBlogContext::document();
+        $seoBlock = BlogKeywordStrategy::promptBlock($seoTarget);
         $avoidSection = '';
 
         if ($recentTitles !== []) {
@@ -164,10 +177,13 @@ class GenerateBlogPostCommand extends Command
         }
 
         $system = 'You are a content strategist for AutoCVApply (autocvapply.com). '
-            .'Suggest one specific blog topic for UK job seekers. Emphasise benefits, time saved, reduced errors, and honest product facts. '
-            ."Format: {$formatName}. Return only the topic as one short sentence.{$avoidSection}";
+            .'Suggest one specific blog topic for UK job seekers that targets the SEO keyword cluster below. '
+            .'Emphasise benefits, time saved, reduced errors, and honest product facts. '
+            ."Format: {$formatName}. "
+            .'The topic sentence must naturally include or clearly target the primary keyword (no stuffing). '
+            ."Return only the topic as one short sentence.{$avoidSection}";
 
-        $user = "Authoritative context:\n\n{$contextBlock}\n\n---\nToday is {$today}.\nFocus area: {$angle}";
+        $user = "{$seoBlock}\n\nAuthoritative context:\n\n{$contextBlock}\n\n---\nToday is {$today}.\nSecondary focus area (optional colour): {$angle}";
 
         $maxAttempts = 3;
         $lastException = null;
@@ -198,15 +214,28 @@ class GenerateBlogPostCommand extends Command
     }
 
     /**
-     * @return array<int, string>
+     * @return array{titles: array<int, string>, tags: array<int, string>}
      */
-    protected function recentBlogTitles(int $limit = 20): array
+    protected function recentBlogSignals(int $limit = 20): array
     {
-        return Blog::query()
+        $blogs = Blog::query()
             ->latest('published_at')
             ->limit($limit)
-            ->pluck('title')
-            ->toArray();
+            ->get(['title', 'tags']);
+
+        $titles = $blogs->pluck('title')->filter()->values()->all();
+        $tags = $blogs
+            ->pluck('tags')
+            ->flatten()
+            ->filter(fn (mixed $tag): bool => is_string($tag) && trim($tag) !== '')
+            ->unique()
+            ->values()
+            ->all();
+
+        return [
+            'titles' => $titles,
+            'tags' => $tags,
+        ];
     }
 
     protected function uniqueSlug(string $base): string

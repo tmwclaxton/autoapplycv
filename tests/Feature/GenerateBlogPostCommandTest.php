@@ -8,6 +8,7 @@ use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogArticleFormats;
+use App\Support\BlogKeywordStrategy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -28,14 +29,31 @@ class GenerateBlogPostCommandTest extends TestCase
 
     public function test_dry_run_does_not_create_blog(): void
     {
-        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('chat')->once()->andReturn('How to save time on repetitive job applications.');
+        $captured = [];
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$captured): void {
+            $mock->shouldReceive('chat')
+                ->once()
+                ->andReturnUsing(function (array $messages) use (&$captured): string {
+                    $captured = $messages;
+
+                    return 'How to autofill job applications without retyping your CV.';
+                });
         });
 
         $this->artisan('blog:generate', ['--dry-run' => true])
             ->assertExitCode(0);
 
         $this->assertDatabaseCount('blogs', 0);
+
+        $promptText = collect($captured)->pluck('content')->implode("\n");
+        $this->assertStringContainsString('SEO keyword target', $promptText);
+        $this->assertTrue(
+            collect(BlogKeywordStrategy::clusters())
+                ->contains(fn (array $cluster): bool => str_contains($promptText, $cluster['primary'])),
+            'Topic generation prompt should include a configured primary keyword.',
+        );
+        $this->assertStringContainsString('Topics / angles to avoid', $promptText);
     }
 
     public function test_command_creates_published_blog_when_services_are_mocked(): void
@@ -78,7 +96,25 @@ class GenerateBlogPostCommandTest extends TestCase
         });
 
         $this->mock(BlogArticleGenerationService::class, function (MockInterface $mock) use ($article): void {
-            $mock->shouldReceive('generateFullArticle')->once()->andReturn($article);
+            $mock->shouldReceive('generateFullArticle')
+                ->once()
+                ->withArgs(function (
+                    string $topic,
+                    string $research,
+                    string $lengthKey,
+                    array $format,
+                    mixed $onProgress,
+                    ?array $seoTarget,
+                ): bool {
+                    $this->assertSame('short', $lengthKey);
+                    $this->assertIsArray($seoTarget);
+                    $this->assertArrayHasKey('primary', $seoTarget);
+                    $this->assertStringContainsString('SEO keyword target', $research);
+                    $this->assertStringContainsString($seoTarget['primary'], $research);
+
+                    return true;
+                })
+                ->andReturn($article);
         });
 
         $this->artisan('blog:generate', ['--length' => 'short'])
@@ -96,5 +132,12 @@ class GenerateBlogPostCommandTest extends TestCase
     public function test_topic_angles_list_is_non_empty(): void
     {
         $this->assertNotEmpty(BlogArticleFormats::topicAngles());
+    }
+
+    public function test_seo_keyword_strategy_is_configured_for_blog_generate(): void
+    {
+        $this->assertNotEmpty(config('blog.seo.clusters'));
+        $this->assertNotEmpty(config('blog.seo.primary_keywords'));
+        $this->assertContains('AutoCVApply', config('blog.seo.brand_terms'));
     }
 }
