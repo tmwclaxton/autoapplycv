@@ -154,7 +154,10 @@
       "question": "if hired by warp, will you be based in the u.s. or canada?",
       "field_type": "select",
       "max_chars": null,
-      "options": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
       "required": true,
       "dom": {
         "tag": "input",
@@ -175,7 +178,10 @@
       "question": "do you have permanent authorization to work for warp in the u.s. or canada?",
       "field_type": "select",
       "max_chars": null,
-      "options": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
       "required": true,
       "dom": {
         "tag": "input",
@@ -280,7 +286,11 @@
       "question": "are you hispanic/latino?",
       "field_type": "select",
       "max_chars": null,
-      "options": null,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
       "required": false,
       "dom": {
         "tag": "input",
@@ -301,7 +311,11 @@
       "question": "veteran status",
       "field_type": "select",
       "max_chars": null,
-      "options": null,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
       "required": false,
       "dom": {
         "tag": "input",
@@ -322,7 +336,11 @@
       "question": "disability status",
       "field_type": "select",
       "max_chars": null,
-      "options": null,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
       "required": false,
       "dom": {
         "tag": "input",
