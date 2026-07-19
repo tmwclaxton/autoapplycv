@@ -18,6 +18,8 @@ import {
     partitionMissingLocalityIdentityFields,
     partitionPreferenceProfileFields,
     partitionSkillSpecificYearsExperienceFields,
+    isSkillScopedYearsExperienceLabel,
+    isGenericTotalExperienceQuestionLabel,
     isOptionalSocialNetworkUrlLabel,
     resolveConciseLocationValue,
     resolveIdentityProfileAnswer,
@@ -684,4 +686,16 @@ test('skill-scoped years always become pending even when not marked required', (
     assert.equal(partitioned.clearAnswers.length, 1);
     assert.equal(partitioned.pendingFields.length, 1);
     assert.equal(partitioned.pendingFields[0].reason, 'missing_profile_data');
+});
+
+test('industry experience years are total YOE not skill-scoped', () => {
+    const label = 'how many years of industry experience do you have?';
+    assert.equal(isSkillScopedYearsExperienceLabel(label), false);
+    assert.equal(isGenericTotalExperienceQuestionLabel(label), true);
+
+    const partitioned = partitionSkillSpecificYearsExperienceFields([
+        { ref: 'f13', label, field_type: 'text', required: true },
+    ]);
+    assert.equal(partitioned.remainingFields.length, 1);
+    assert.equal(partitioned.pendingFields.length, 0);
 });

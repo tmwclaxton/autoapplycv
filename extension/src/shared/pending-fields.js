@@ -1829,10 +1829,11 @@ export function isSkillScopedYearsExperienceLabel(label) {
     }
 
     // "How many years of Go / Figma / Python experience…"
+    // Not "industry / professional / work experience" (OpenAI live).
     if (
         /\bhow many years of\b/.test(normalized) &&
         /\bexperience\b/.test(normalized) &&
-        !/\bhow many years of (?:work |professional |software(?: development)? |total |overall )?experience\b/.test(
+        !/\bhow many years of (?:work |professional |software(?: development)? |industry |total |overall )?experience\b/.test(
             normalized,
         )
     ) {
@@ -1869,10 +1870,10 @@ export function isGenericTotalExperienceQuestionLabel(label) {
         return false;
     }
 
-    // Broad career-years asks (software development / professional / total).
+    // Broad career-years asks (software development / professional / industry / total).
     if (
         /\bhow many years\b/.test(normalized) &&
-        /\b(?:software(?:\s+development)?|professional|work|total|overall)\s+experience\b/.test(
+        /\b(?:software(?:\s+development)?|professional|industry|work|total|overall)\s+experience\b/.test(
             normalized,
         )
     ) {
