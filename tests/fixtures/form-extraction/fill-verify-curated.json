@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-18T21:23:00.202Z",
+  "generated_at": "2026-07-19T13:12:37.864018Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -2471,6 +2471,22 @@
       "verify_engine": "playwright",
       "playwright": true,
       "playwright_priority": false
+    },
+    {
+      "id": "live-smartrecruiters-motocol-application-packager-flat-20260719",
+      "platform": "smartrecruiters",
+      "reason": "Live Motocol Easy Apply flat light-DOM twin (identity, city, phone, socials, message, consent)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox",
+        "file"
+      ],
+      "field_count": 13,
+      "priority": "high",
+      "verify_engine": "jsdom"
     }
   ]
 }
