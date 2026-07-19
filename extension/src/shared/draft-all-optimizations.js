@@ -173,6 +173,39 @@ export function isJobSpecificMemoField(field) {
     return false;
 }
 
+/**
+ * Wipe stale per-job essay DOM values before NanoGPT drafts replacements.
+ * Fields remain in the LLM batch; clear only removes prior Optro/etc. text.
+ *
+ * @param {Array<object>|null|undefined} fields
+ * @returns {{ remainingFields: Array<object>, clearAnswers: Array<object> }}
+ */
+export function partitionJobSpecificEssayClearFields(fields) {
+    const remainingFields = [];
+    const clearAnswers = [];
+
+    for (const field of fields || []) {
+        remainingFields.push(field);
+
+        if (!isJobSpecificMemoField(field)) {
+            continue;
+        }
+
+        const fieldType = String(field?.field_type || '').toLowerCase();
+
+        if (fieldType !== 'textarea' && fieldType !== 'text') {
+            continue;
+        }
+
+        clearAnswers.push({
+            ...field,
+            answer: '__CLEAR__',
+        });
+    }
+
+    return { remainingFields, clearAnswers };
+}
+
 export function applicationAnswersToMemo(applicationAnswers) {
     const memo = {};
 

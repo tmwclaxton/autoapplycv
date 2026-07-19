@@ -16,6 +16,7 @@ import {
 import {
     compactFieldsForDraft,
     partitionFieldsByQuestionMemo,
+    partitionJobSpecificEssayClearFields,
 } from '../draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
@@ -293,6 +294,12 @@ export function buildDraftAllApplyPlan({
         partitionInterviewAccommodationFields(remainingFields);
     remainingFields = accommodationPartition.remainingFields;
 
+    // Wipe stale why-company / additional-info DOM text before NanoGPT rewrites
+    // for the current employer (live Figma kept an Optro essay).
+    const jobEssayClearPartition =
+        partitionJobSpecificEssayClearFields(remainingFields);
+    remainingFields = jobEssayClearPartition.remainingFields;
+
     const applyStages = [];
 
     if (memoAnswers.length > 0) {
@@ -342,6 +349,7 @@ export function buildDraftAllApplyPlan({
         ...(optionalSocialPartition.clearAnswers || []),
         ...(accommodationPartition.clearAnswers || []),
         ...(skillYearsPartition.clearAnswers || []),
+        ...(jobEssayClearPartition.clearAnswers || []),
     ];
 
     if (clearAnswers.length > 0) {

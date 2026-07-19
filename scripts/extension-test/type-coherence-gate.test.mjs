@@ -865,6 +865,78 @@ test('NYC or London office days affirms Yes for England profiles', async () => {
     assert.ok(answers.some((item) => item.ref === 'f5' && item.answer === 'No'));
 });
 
+test('job-specific essays are cleared before LLM and preferred first name uses flat first_name', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+    const { partitionJobSpecificEssayClearFields } = await import(
+        '../../extension/src/shared/draft-all-optimizations.js'
+    );
+
+    const clearPlan = partitionJobSpecificEssayClearFields([
+        {
+            ref: 'f11',
+            label: 'additional information',
+            field_type: 'textarea',
+        },
+        {
+            ref: 'f9',
+            label: 'why do you want to join figma?',
+            field_type: 'textarea',
+        },
+        { ref: 'f2', label: 'email', field_type: 'email' },
+    ]);
+
+    assert.equal(clearPlan.clearAnswers.length, 2);
+    assert.ok(
+        clearPlan.clearAnswers.every((item) => item.answer === '__CLEAR__'),
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f13',
+                label: 'preferred first name',
+                field_type: 'text',
+            },
+            {
+                id: 1,
+                ref: 'f11',
+                label: 'additional information',
+                field_type: 'textarea',
+            },
+        ],
+        profileData: {
+            profile: {
+                first_name: 'Ada',
+                last_name: 'Lovelace',
+                country: 'United Kingdom',
+            },
+        },
+        questionMemo: {
+            'additional information': 'I want to join Optro next.',
+        },
+    });
+
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(
+        answers.some(
+            (item) => item.ref === 'f13' && item.answer === 'Ada',
+        ),
+    );
+    assert.ok(
+        answers.some(
+            (item) =>
+                item.ref === 'f11' &&
+                item.answer === '__CLEAR__' &&
+                item.source === 'screener',
+        ),
+    );
+    assert.equal(plan.memoAnswerCount, 0);
+    assert.ok((plan.llmFields || []).some((field) => field.ref === 'f11'));
+});
+
 test('Tracebit London office days affirms Yes and ignores stale No memo', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'

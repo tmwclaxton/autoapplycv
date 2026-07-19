@@ -10,6 +10,7 @@ use App\Support\AiPhraseDenylist;
 use App\Support\AnswerTypeCoherence;
 use App\Support\ApplicationAnswers;
 use App\Support\CoverLetterBodyText;
+use App\Support\JobCompanyAnswerGuard;
 use App\Support\ProfileAnswerGrounding;
 use App\Support\ProfileFieldRegistry;
 use App\Support\ProfileIdentityFieldResolver;
@@ -81,8 +82,10 @@ class ApplicationAssistantService
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
+                        .'When job.company is set, motivation / why-join / cover-letter / additional-information answers MUST treat that company as the employer you are applying to - never name a different company as the place you want to join or the challenges you want to take on. Past employers from profile.experience may still be cited as experience. '
                         .$clarifyingInstructions
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
+                        .'For eligibility / filter / screener questions (work authorization, sponsorship, right to work, location eligibility, experience thresholds, office attendance when the profile location can meet it): when the profile supports progressing, choose the option that passes the gate and lets the application continue - do not self-reject. Return null only when the profile truly lacks the fact. '
                         .'For open text questions about motivation, interest, fit, portfolio, GitHub, security, experience, or skills, write 2-4 sentences in first person. '
                         .'For culture-values, company-values, or "give an example from your professional experience that aligns with…" essays: when profile.experience has roles, you MUST draft 2-4 sentences (do not return null). '
                         .'Use values named in the question label or its context/helper text (for example Connect, Challenge, Own) and tie them to a real employer, role, and highlight from the profile - paraphrasing real experience to show alignment is required; inventing fake projects is not. '
@@ -161,13 +164,18 @@ class ApplicationAssistantService
             $answers[] = $entry;
         }
 
-        $answers = AnswerTypeCoherence::enforceCoherentAnswers(
+        $answers = JobCompanyAnswerGuard::enforceAnswers(
+            $job,
             $profile,
             $llmQuestions,
-            ProfileAnswerGrounding::enforceGroundedAnswers(
+            AnswerTypeCoherence::enforceCoherentAnswers(
                 $profile,
                 $llmQuestions,
-                ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
+                ProfileAnswerGrounding::enforceGroundedAnswers(
+                    $profile,
+                    $llmQuestions,
+                    ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
+                ),
             ),
         );
 

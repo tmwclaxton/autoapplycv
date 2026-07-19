@@ -4728,8 +4728,18 @@ export function readProfileValue(profileData, path) {
 
     if (path === 'full_name.first' || path === 'full_name.last') {
         const split = splitFullName(readProfileValue(profileData, 'full_name'));
+        const fromFullName = path === 'full_name.first' ? split.first : split.last;
 
-        return path === 'full_name.first' ? split.first : split.last;
+        if (fromFullName) {
+            return fromFullName;
+        }
+
+        // Some API payloads expose flat first_name / last_name without full_name.
+        if (path === 'full_name.first') {
+            return readProfileValue(profileData, 'first_name') || '';
+        }
+
+        return readProfileValue(profileData, 'last_name') || '';
     }
 
     if (
