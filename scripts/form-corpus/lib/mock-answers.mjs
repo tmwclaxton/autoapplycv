@@ -12,7 +12,12 @@ function shouldSkipFillVerifyField(field) {
     const question = String(field.question || '').trim().toLowerCase();
     const domId = field.dom?.id || '';
 
-    if (role === 'combobox' && question.includes('location')) {
+    // Lever/Ashby location geocomplete cannot commit in JSDOM fill-verify.
+    if (
+        (role === 'combobox' && question.includes('location')) ||
+        (/\b(?:current )?location\b/.test(question) &&
+            (field.field_type === 'text' || field.field_type === 'select'))
+    ) {
         return true;
     }
 
