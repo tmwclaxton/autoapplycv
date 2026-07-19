@@ -449,7 +449,11 @@ test('buildDraftAllApplyPlan keeps notice period deterministic and answers sourc
         true,
     );
     assert.equal(
-        plan.applyStages.some((stage) => stage.type === 'screener'),
+        plan.applyStages.some((stage) => stage.type === 'source_of_hire'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'sticky_select'),
         true,
     );
     const answersByRef = new Map(
@@ -533,6 +537,14 @@ test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of Link
     assert.equal(
         plan.applyStages.some((stage) => stage.type === 'memo'),
         false,
+    );
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'source_of_hire'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.at(-1)?.type,
+        'sticky_select',
     );
     assert.equal(answersByRef.get('f11'), 'LinkedIn');
     assert.equal(plan.skipsLlm, true);

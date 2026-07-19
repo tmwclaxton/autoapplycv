@@ -8,7 +8,10 @@
  *
  * Profile mapping and preference partitions remain in ../pending-fields.js for now.
  */
-import { partitionScreenerHeuristicFields } from '../auto-apply-screener-answer.js';
+import {
+    isSourceOfHireQuestionLabel,
+    partitionScreenerHeuristicFields,
+} from '../auto-apply-screener-answer.js';
 import {
     compactFieldsForDraft,
     partitionFieldsByQuestionMemo,
@@ -279,13 +282,21 @@ export function buildDraftAllApplyPlan({
         });
     }
 
-    if (screenerPartition.screenerAnswers.length > 0) {
+    const sourceOfHireAnswers = [];
+    const otherScreenerAnswers = [];
+
+    for (const answer of screenerPartition.screenerAnswers || []) {
+        if (isSourceOfHireQuestionLabel(answer.label)) {
+            sourceOfHireAnswers.push(answer);
+        } else {
+            otherScreenerAnswers.push(answer);
+        }
+    }
+
+    if (otherScreenerAnswers.length > 0) {
         applyStages.push({
             type: 'screener',
-            answers: tagAnswersWithSource(
-                screenerPartition.screenerAnswers,
-                'screener',
-            ),
+            answers: tagAnswersWithSource(otherScreenerAnswers, 'screener'),
         });
     }
 
@@ -299,10 +310,19 @@ export function buildDraftAllApplyPlan({
         });
     }
 
+    // Greenhouse react-select can wipe earlier combobox commits when a later
+    // menu opens. Apply EEO + source-of-hire last (and once more as sticky).
     if (eeoPartition.eeoAnswers.length > 0) {
         applyStages.push({
             type: 'eeo',
             answers: tagAnswersWithSource(eeoPartition.eeoAnswers, 'screener'),
+        });
+    }
+
+    if (sourceOfHireAnswers.length > 0) {
+        applyStages.push({
+            type: 'source_of_hire',
+            answers: tagAnswersWithSource(sourceOfHireAnswers, 'screener'),
         });
     }
 
@@ -313,6 +333,18 @@ export function buildDraftAllApplyPlan({
                 marketingConsentPartition.marketingConsentAnswers,
                 'screener',
             ),
+        });
+    }
+
+    const stickySelectAnswers = [
+        ...tagAnswersWithSource(eeoPartition.eeoAnswers || [], 'screener'),
+        ...tagAnswersWithSource(sourceOfHireAnswers, 'screener'),
+    ];
+
+    if (stickySelectAnswers.length > 0) {
+        applyStages.push({
+            type: 'sticky_select',
+            answers: stickySelectAnswers,
         });
     }
 

@@ -2888,6 +2888,10 @@ async function runDraftAll(tabId, e2eOptions = null) {
             signature: (count) =>
                 `Applying ${count} electronic signature field(s)…`,
             eeo: (count) => `Applying ${count} voluntary EEO field(s)…`,
+            source_of_hire: (count) =>
+                `Applying ${count} source-of-hire field(s)…`,
+            sticky_select: (count) =>
+                `Re-applying ${count} sticky select field(s)…`,
             marketing_consent: (count) =>
                 `Applying ${count} optional consent field(s)…`,
         };
@@ -2931,19 +2935,23 @@ async function runDraftAll(tabId, e2eOptions = null) {
                       ? 'apply.references'
                       : stage.type === 'eeo'
                         ? 'apply.eeo'
-                        : stage.type === 'clear'
-                          ? 'apply.clear'
-                          : stage.type === 'preference'
-                            ? 'apply.preference'
-                            : stage.type === 'screener'
-                            ? 'apply.screener'
-                            : stage.type === 'agreement'
-                              ? 'apply.agreement'
-                              : stage.type === 'signature'
-                                ? 'apply.signature'
-                                : stage.type === 'marketing_consent'
-                                  ? 'apply.marketing_consent'
-                                  : 'apply.identity';
+                        : stage.type === 'source_of_hire'
+                          ? 'apply.source_of_hire'
+                          : stage.type === 'sticky_select'
+                            ? 'apply.sticky_select'
+                            : stage.type === 'clear'
+                              ? 'apply.clear'
+                              : stage.type === 'preference'
+                                ? 'apply.preference'
+                                : stage.type === 'screener'
+                                  ? 'apply.screener'
+                                  : stage.type === 'agreement'
+                                    ? 'apply.agreement'
+                                    : stage.type === 'signature'
+                                      ? 'apply.signature'
+                                      : stage.type === 'marketing_consent'
+                                        ? 'apply.marketing_consent'
+                                        : 'apply.identity';
 
             perf.start(perfPhase);
             const applyResult = await applyDraftBatchToTab(
@@ -2962,17 +2970,21 @@ async function runDraftAll(tabId, e2eOptions = null) {
                       ? 'draft-all.references'
                       : stage.type === 'eeo'
                         ? 'draft-all.eeo'
-                        : stage.type === 'preference'
-                          ? 'draft-all.preference'
-                          : stage.type === 'screener'
-                            ? 'draft-all.screener'
-                            : stage.type === 'agreement'
-                              ? 'draft-all.agreement'
-                              : stage.type === 'signature'
-                                ? 'draft-all.signature'
-                                : stage.type === 'marketing_consent'
-                                  ? 'draft-all.marketing-consent'
-                                  : 'draft-all.identity';
+                        : stage.type === 'source_of_hire'
+                          ? 'draft-all.source_of_hire'
+                          : stage.type === 'sticky_select'
+                            ? 'draft-all.sticky_select'
+                            : stage.type === 'preference'
+                              ? 'draft-all.preference'
+                              : stage.type === 'screener'
+                                ? 'draft-all.screener'
+                                : stage.type === 'agreement'
+                                  ? 'draft-all.agreement'
+                                  : stage.type === 'signature'
+                                    ? 'draft-all.signature'
+                                    : stage.type === 'marketing_consent'
+                                      ? 'draft-all.marketing-consent'
+                                      : 'draft-all.identity';
 
             logInfo(
                 'background',
