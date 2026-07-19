@@ -2593,6 +2593,85 @@ export function isJobApplicationLocationChoiceLabel(label) {
     ) || /\blocation\s+are\s+you\s+applying\s+for\b/.test(normalized);
 }
 
+/**
+ * True when at least one job-site option is compatible with the profile country
+ * (or is worldwide/unspecified remote). Foreign-only boards (e.g. Remote USA /
+ * Remote Canada for a UK profile) must stay pending instead of NanoGPT guessing.
+ */
+export function jobApplicationLocationHasCompatibleOption(field, profileData) {
+    const options = Array.isArray(field?.options)
+        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        : [];
+
+    if (options.length === 0) {
+        return true;
+    }
+
+    const country = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    ).toLowerCase();
+    const profileInUk = /united kingdom|\buk\b|britain|england|scotland|wales/.test(
+        country,
+    );
+    const profileInUs = /united states|\busa\b|u\.s\.?a?\.?/.test(country);
+    const profileInCanada = /^canada$/.test(country);
+
+    return options.some((option) => {
+        const text = normalizeQuestionLabel(option);
+
+        if (!text) {
+            return false;
+        }
+
+        if (
+            /\b(?:worldwide|global|anywhere|any location|remote\s*[- ]?\s*worldwide)\b/.test(
+                text,
+            ) ||
+            /^remote$/.test(text)
+        ) {
+            return true;
+        }
+
+        if (
+            profileInUk &&
+            /\b(?:united kingdom|\buk\b|britain|europe|emea|london)\b/.test(text)
+        ) {
+            return true;
+        }
+
+        if (
+            profileInUs &&
+            /\b(?:united states|\busa\b|u\.?\s*s\.?\b|america)\b/.test(text)
+        ) {
+            return true;
+        }
+
+        if (profileInCanada && /\bcanada\b/.test(text)) {
+            return true;
+        }
+
+        return false;
+    });
+}
+
+export function shouldLeaveJobApplicationLocationPending(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isJobApplicationLocationChoiceLabel(label)) {
+        return false;
+    }
+
+    const options = Array.isArray(field?.options)
+        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        : [];
+
+    if (options.length < 2) {
+        return false;
+    }
+
+    return !jobApplicationLocationHasCompatibleOption(field, profileData);
+}
+
 export function isLocationAutocompleteQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -4017,6 +4096,10 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return true;
     }
 
+    if (shouldLeaveJobApplicationLocationPending(field, profileData)) {
+        return true;
+    }
+
     if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
         return false;
     }
@@ -5425,6 +5508,17 @@ export function partitionScreeningTrapFields(fields, profileData) {
             field.options.some((option) => /^no\b/i.test(String(option)))
         ) {
             remainingFields.push(field);
+            continue;
+        }
+
+        if (shouldLeaveJobApplicationLocationPending(field, profileData)) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'location_clarify',
+                ),
+            );
             continue;
         }
 

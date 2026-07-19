@@ -9,6 +9,8 @@ import {
     isJobApplicationLocationChoiceLabel,
     isLocalityIdentityField,
     isLocationAutocompleteQuestionLabel,
+    partitionScreeningTrapFields,
+    shouldLeaveJobApplicationLocationPending,
     isOnSiteCommuteQuestionLabel,
     isVisaSponsorshipQuestionLabel,
     partitionIdentityProfileFields,
@@ -167,6 +169,29 @@ test('unfilled Lever current location stays pending even when profile has city',
     assert.equal(pending.length, 1);
     assert.equal(pending[0].ref, 'f5');
     assert.equal(isLocationAutocompleteQuestionLabel('current location'), true);
+});
+
+test('foreign-only job application locations stay pending for UK profile', () => {
+    const field = {
+        ref: 'f0',
+        label: 'which location are you applying for?',
+        field_type: 'select',
+        options: ['Remote - USA', 'Remote - Canada'],
+    };
+    const profile = {
+        country: 'United Kingdom',
+        city: 'High Wycombe',
+        location: 'High Wycombe, England',
+    };
+
+    assert.equal(shouldLeaveJobApplicationLocationPending(field, profile), true);
+    const { pendingFields, remainingFields } = partitionScreeningTrapFields(
+        [field],
+        profile,
+    );
+    assert.equal(pendingFields.length, 1);
+    assert.equal(pendingFields[0].reason, 'location_clarify');
+    assert.equal(remainingFields.length, 0);
 });
 
 test('Lever which-location-are-you-applying-for is job site not residence', () => {
