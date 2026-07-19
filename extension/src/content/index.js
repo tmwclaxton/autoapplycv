@@ -674,12 +674,19 @@ function findCoverLetterFileInput() {
             return;
         }
 
-        for (const entry of doc.querySelectorAll('[data-field-path*="cover"], [aria-labelledby*="cover" i], [id*="cover-letter" i], [id*="upload-label-cover" i]')) {
-            if (!/cover letter/i.test(entry.textContent || entry.id || '')) {
+        for (const entry of doc.querySelectorAll('[data-field-path*="cover"], [aria-labelledby*="cover" i], [id*="cover-letter" i], [id*="cover_letter" i], [id*="upload-label-cover" i]')) {
+            if (!/cover letter|cover_letter|cover-letter/i.test(entry.textContent || entry.id || '')) {
                 continue;
             }
 
-            const candidate = entry.querySelector('input[type="file"]:not([disabled])');
+            const labeledId = String(entry.id || '').replace(/^upload-label-/, '');
+            const labeledInput = labeledId ? doc.getElementById(labeledId) : null;
+            const candidate = entry.querySelector('input[type="file"]:not([disabled])')
+                || entry.closest('.file-upload, .field-wrapper, [role="group"], fieldset, label')
+                    ?.querySelector('input[type="file"]:not([disabled])')
+                || (labeledInput?.type === 'file' && !labeledInput.disabled
+                    ? labeledInput
+                    : null);
 
             if (candidate && isCoverLetterFileInput(candidate)) {
                 fileInput = candidate;

@@ -279,6 +279,10 @@ copyFileSync(
     join(DIST, 'cover-letter-draft.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/cover-letter-attach.js'),
+    join(DIST, 'cover-letter-attach.js'),
+);
+copyFileSync(
     join(SRC, 'shared/cover-letter-designs.js'),
     join(DIST, 'cover-letter-designs.js'),
 );
