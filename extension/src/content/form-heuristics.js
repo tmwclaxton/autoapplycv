@@ -11069,6 +11069,49 @@ var AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(element.value, stringValue);
     }
 
+    async function clearTextFieldValue(element) {
+        if (!element) {
+            return false;
+        }
+
+        const tag = element.tagName?.toLowerCase();
+
+        if (tag !== 'input' && tag !== 'textarea') {
+            return false;
+        }
+
+        if (element.type === 'hidden' || element.type === 'file') {
+            return false;
+        }
+
+        element.focus();
+        setNativeValue(element, '');
+        element.dispatchEvent(
+            new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+                inputType: 'deleteContentBackward',
+                data: null,
+            }),
+        );
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.blur();
+
+        return String(element.value || '').trim() === '';
+    }
+
+    async function clearFieldValue(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (element.getAttribute?.('role') === 'combobox') {
+            return clearComboboxFieldValue(element);
+        }
+
+        return clearTextFieldValue(element);
+    }
+
     async function clearComboboxFieldValue(element) {
         if (!element || element.getAttribute?.('role') !== 'combobox') {
             return false;
@@ -11225,7 +11268,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 },
             );
 
-            return clearComboboxFieldValue(element);
+            return clearFieldValue(element);
         }
 
         if (value === '') {
@@ -12668,7 +12711,7 @@ var AutoCVApplyFormHeuristics = (() => {
         if (String(resolvedAnswer) === '__CLEAR__') {
             const clearTarget = Array.isArray(target) ? target[0] : target;
 
-            return clearComboboxFieldValue(clearTarget);
+            return clearFieldValue(clearTarget);
         }
 
         let applied = false;

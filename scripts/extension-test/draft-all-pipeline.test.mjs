@@ -541,6 +541,45 @@ test('buildDraftAllApplyPlan skips Other follow-up when source-of-hire is Linked
     assert.equal(plan.skipsLlm, true);
 });
 
+test('buildDraftAllApplyPlan clears Other follow-up when LinkedIn source-of-hire wins', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f5',
+                label: 'how did you hear about 9fin?',
+                field_type: 'select',
+                options: [],
+                dom: { role: 'combobox' },
+            },
+            {
+                id: 1,
+                ref: 'f6',
+                label: "if 'other', please state below how you came across 9fin.",
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {},
+        pageUrl:
+            'https://jobs.ashbyhq.com/9fin/181a7413-0257-4b3e-8cf5-6c9534d2ae11/application',
+    });
+
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'clear'),
+        true,
+    );
+    const clearAnswers = plan.applyStages.find(
+        (stage) => stage.type === 'clear',
+    )?.answers;
+    assert.equal(clearAnswers?.[0]?.ref, 'f6');
+    assert.equal(clearAnswers?.[0]?.answer, '__CLEAR__');
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f6'),
+        false,
+    );
+});
+
 test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of LinkedIn', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [

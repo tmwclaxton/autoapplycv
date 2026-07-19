@@ -156,6 +156,23 @@ test('Lever which-location-are-you-applying-for is job site not residence', () =
     assert.equal(remainingFields.length, 1);
 });
 
+test('UK profile answers No to require UK sponsorship even when global visa setting is Yes', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            visa_sponsorship: 'yes',
+        },
+    };
+    const field = {
+        ref: 'f0',
+        label: 'do you require sponsorship to work in the uk now or in the future?',
+        field_type: 'radio',
+        options: ['Yes', 'No'],
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
+});
+
 test('UK profile answers No to based in the US or Canada Yes/No', () => {
     const profile = {
         country: 'United Kingdom',
