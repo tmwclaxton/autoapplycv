@@ -129,6 +129,7 @@ Article format: {$formatName}. {$formatHint}
 Return JSON only with keys: title, excerpt, tags (array of 3-6 lowercase strings), sources (array of objects with title, url, description), sections (array of exactly {$sectionCount} objects with heading and beats).
 Optimise title, excerpt, and H2 headings for the SEO keyword target without stuffing.
 Do not invent AutoCVApply features beyond the research brief. Do not promise interviews or offers.
+For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer 3-6 most relevant. Never invent or guess URLs. If no web research is present, return an empty sources array.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n\n{$seoBlock}\n" : "\n";
@@ -202,6 +203,7 @@ Do NOT repeat the section heading as ## at the start. You may use ### subheading
 UK job seekers audience. Practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
 Use SEO keywords naturally where they fit this section; never keyword-stuff.
 Do not invent product features beyond the research brief.
+When the research brief includes Firecrawl web sources, ground non-product claims in those sources. Do not invent citations or URLs.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n{$seoBlock}\n" : "\n";

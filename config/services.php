@@ -41,6 +41,12 @@ return [
         'redirect_url' => env('WORKOS_REDIRECT_URL'),
     ],
 
+    'firecrawl' => [
+        'api_key' => env('FIRECRAWL_API_KEY'),
+        'base_url' => env('FIRECRAWL_API_URL', 'https://api.firecrawl.dev/v1'),
+        'timeout' => (int) env('FIRECRAWL_TIMEOUT', 120),
+    ],
+
     'nanogpt' => [
         'api_key' => env('NANOGPT_API_KEY'),
         'base_url' => env('NANOGPT_BASE_URL', 'https://nano-gpt.com/api/v1'),

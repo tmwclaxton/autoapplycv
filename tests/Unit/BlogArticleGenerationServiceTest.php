@@ -104,7 +104,66 @@ class BlogArticleGenerationServiceTest extends TestCase
         $this->assertStringContainsString('autofill job applications', $planPrompt);
         $this->assertStringContainsString('SEO keyword target', $planPrompt);
         $this->assertStringContainsString('without stuffing', $planPrompt);
+        $this->assertStringContainsString('only include URLs from the Web research', $planPrompt);
         $this->assertStringContainsString('chrome extension autofill CV', $sectionPrompt);
         $this->assertStringContainsString('never keyword-stuff', $sectionPrompt);
+        $this->assertStringContainsString('Firecrawl web sources', $sectionPrompt);
+    }
+
+    public function test_generate_full_article_prompts_include_firecrawl_research_block(): void
+    {
+        $planMessages = null;
+
+        /** @var NanoGptService&MockInterface $nanoGpt */
+        $nanoGpt = Mockery::mock(NanoGptService::class);
+        $nanoGpt->shouldReceive('chatJson')
+            ->times(4)
+            ->andReturnUsing(function (array $messages) use (&$planMessages): array {
+                if ($planMessages === null) {
+                    $planMessages = $messages;
+
+                    return [
+                        'title' => 'How to autofill job applications with AutoCVApply',
+                        'excerpt' => 'Use a Chrome extension to autofill job applications from one profile.',
+                        'tags' => ['autofill-job-applications'],
+                        'sources' => [
+                            [
+                                'title' => 'Example research',
+                                'url' => 'https://example.com/research',
+                                'description' => 'Snippet',
+                            ],
+                        ],
+                        'sections' => [
+                            ['heading' => 'Why autofill helps', 'beats' => 'Time saved'],
+                            ['heading' => 'Set up a profile', 'beats' => 'Upload CV'],
+                            ['heading' => 'Use the extension', 'beats' => 'Review and submit'],
+                        ],
+                    ];
+                }
+
+                return [
+                    'content' => str_repeat('Practical autofill advice for UK job seekers using AutoCVApply. ', 40),
+                ];
+            });
+
+        $service = new BlogArticleGenerationService($nanoGpt);
+        $research = "Research brief.\n\n## Web research (Firecrawl search results)\n\n1. Example research\n   URL: https://example.com/research\n   Snippet: Snippet";
+
+        $article = $service->generateFullArticle(
+            'How to autofill job applications without retyping your CV',
+            $research,
+            'short',
+            [
+                'key' => 'step-by-step',
+                'name' => 'Step-by-step guide',
+                'hint' => 'Walk through steps.',
+                'title_pattern' => 'How to...',
+            ],
+        );
+
+        $this->assertSame('https://example.com/research', $article['sources'][0]['url'] ?? null);
+        $planPrompt = collect($planMessages)->pluck('content')->implode("\n");
+        $this->assertStringContainsString('https://example.com/research', $planPrompt);
+        $this->assertStringContainsString('Web research (Firecrawl search results)', $planPrompt);
     }
 }

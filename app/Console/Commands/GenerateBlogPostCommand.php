@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
+use App\Services\FirecrawlService;
 use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
@@ -26,6 +27,7 @@ class GenerateBlogPostCommand extends Command
         NanoGptService $nanoGpt,
         BlogArticleGenerationService $blogArticles,
         NanoGptBlogHeroImageService $heroImages,
+        FirecrawlService $firecrawl,
     ): int {
         $this->info('Generating AutoCVApply blog post...');
 
@@ -63,7 +65,8 @@ class GenerateBlogPostCommand extends Command
             return self::SUCCESS;
         }
 
-        $research = $this->buildResearchBrief($topic, $seoTarget);
+        $researchSources = $this->fetchResearchSources($firecrawl, $topic, $seoTarget);
+        $research = $this->buildResearchBrief($topic, $seoTarget, $researchSources);
 
         $this->line('  Generating hero image...');
         $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
@@ -78,7 +81,7 @@ class GenerateBlogPostCommand extends Command
         $post = $blogArticles->generateFullArticle($topic, $research, $lengthKey, $format, function (string $stage, array $context = []): void {
             if ($stage === 'planning_start') {
                 $this->line(sprintf(
-                    '  Planning structure (%d sections, ~%d–%d words each)...',
+                    '  Planning structure (%d sections, ~%d-%d words each)...',
                     $context['section_count'] ?? 0,
                     $context['words_per_section_min'] ?? 0,
                     $context['words_per_section_max'] ?? 0,
@@ -99,7 +102,7 @@ class GenerateBlogPostCommand extends Command
             }
             if ($stage === 'section_done' && isset($context['index'], $context['total'])) {
                 $this->line(sprintf(
-                    '    → %d chars, ~%d words',
+                    '    -> %d chars, ~%d words',
                     $context['content_chars'] ?? 0,
                     $context['content_words_approx'] ?? 0,
                 ));
@@ -113,7 +116,9 @@ class GenerateBlogPostCommand extends Command
             BlogKeywordStrategy::tagsForTarget($seoTarget),
             array_map(fn (string $tag): string => $this->normaliseDashes($tag), $post['tags'] ?? []),
         )));
-        $sources = $this->normaliseDashesInSources($post['sources'] ?? []);
+        $sources = $this->normaliseDashesInSources(
+            FirecrawlService::selectSourcesForArticle($researchSources, $post['sources'] ?? [])
+        );
         $slug = $this->uniqueSlug(Str::slug($title));
 
         Blog::create([
@@ -132,6 +137,7 @@ class GenerateBlogPostCommand extends Command
         $this->info("Published: {$title}");
         $this->line("  Slug: {$slug}");
         $this->line('  Tags: '.implode(', ', $tags));
+        $this->line('  Sources: '.count($sources));
         $this->line('  Image: '.($imagePath ? 'Yes' : 'No'));
         $this->line('  URL: '.route('blog.show', $slug));
 
@@ -150,13 +156,53 @@ class GenerateBlogPostCommand extends Command
 
     /**
      * @param  array{id: string, primary: string, selected_supporting: array<int, string>}  $seoTarget
+     * @return array<int, array{title: string, url: string, description: string}>
      */
-    protected function buildResearchBrief(string $topic, array $seoTarget): string
+    protected function fetchResearchSources(FirecrawlService $firecrawl, string $topic, array $seoTarget): array
+    {
+        $limit = (int) config('blog.generate.firecrawl_search_limit', 8);
+        $query = trim($seoTarget['primary'].' '.$topic);
+        if ($query === '') {
+            $query = $topic;
+        }
+
+        $this->line('  Researching via Firecrawl search...');
+        $this->line('  Query: '.$this->truncateLogLine($query, 100));
+
+        try {
+            $sources = $firecrawl->search($query, $limit);
+        } catch (\Throwable $e) {
+            Log::warning('blog:generate Firecrawl search failed; continuing without web sources.', [
+                'message' => $e->getMessage(),
+            ]);
+            $this->warn('  Firecrawl search failed; continuing without web sources.');
+
+            return [];
+        }
+
+        if ($sources === []) {
+            $this->warn('  No Firecrawl research results; continuing without web sources.');
+
+            return [];
+        }
+
+        $this->line('  Research sources: '.count($sources));
+
+        return $sources;
+    }
+
+    /**
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>}  $seoTarget
+     * @param  array<int, array{title: string, url: string, description: string}>  $researchSources
+     */
+    protected function buildResearchBrief(string $topic, array $seoTarget, array $researchSources = []): string
     {
         $context = AutoCVApplyBlogContext::document();
         $seoBlock = BlogKeywordStrategy::promptBlock($seoTarget);
+        $webResearch = FirecrawlService::formatSourcesForPrompt($researchSources);
+        $webSection = $webResearch !== '' ? "{$webResearch}\n\n" : '';
 
-        return "## Article topic\n{$topic}\n\n{$seoBlock}\n\n## Authoritative AutoCVApply context (ground truth only)\n\n{$context}";
+        return "## Article topic\n{$topic}\n\n{$seoBlock}\n\n{$webSection}## Authoritative AutoCVApply context (ground truth only)\n\n{$context}";
     }
 
     /**
