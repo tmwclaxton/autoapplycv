@@ -584,12 +584,17 @@ test('defence weekly travel comfort stays screening_clarify', async () => {
     const { partitionScreeningTrapFields } = await import(
         '../../extension/src/shared/pending-fields.js'
     );
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
 
+    const label =
+        'if applying for our defence team, you may be travel throughout the uk on a weekly basis, please confirm this is something you are comfortable with';
     const { pendingFields } = partitionScreeningTrapFields(
         [
             {
                 ref: 'f2',
-                label: 'if applying for our defence team, you may be travel throughout the uk on a weekly basis, please confirm this is something you are comfortable with',
+                label,
                 field_type: 'radio',
                 options: ['Yes', 'No'],
             },
@@ -598,6 +603,28 @@ test('defence weekly travel comfort stays screening_clarify', async () => {
     );
 
     assert.equal(pendingFields[0]?.reason, 'screening_clarify');
+
+    // Stale memo Yes must not win before screening traps (live Faculty).
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                ref: 'f2',
+                label,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: { profile: { country: 'United Kingdom' } },
+        questionMemo: { [label]: 'Yes' },
+    });
+    assert.equal(plan.pendingFields[0]?.reason, 'screening_clarify');
+    assert.ok(
+        !plan.applyStages.some((stage) =>
+            (stage.answers || []).some(
+                (item) => item.ref === 'f2' && /^yes$/i.test(String(item.answer)),
+            ),
+        ),
+    );
 });
 
 test('4+ years Yes/No coerces from profile years and country intend maps to country', async () => {

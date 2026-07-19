@@ -21,9 +21,11 @@ import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.j
 import { isPositionApplyingForQuestionLabel } from './auto-apply-screener-answer.js';
 import {
     isEmployerScreeningTrapLabel,
+    isEmployerSpecificTravelComfortLabel,
     isInterviewAccommodationQuestionLabel,
     isOnSiteCommuteQuestionLabel,
     isOptionalSocialNetworkUrlLabel,
+    isSecurityClearanceQuestionLabel,
     isServingNoticeFollowUpQuestionLabel,
     isSkillSpecificYearsExperienceQuestionLabel,
     isSourceOfHireOtherFollowUpLabel,
@@ -395,6 +397,16 @@ export function partitionFieldsByQuestionMemo(
         // Office-days / onsite commute must use live location heuristics, not a
         // stale Yes/No memo from an earlier city or outdated decline path.
         if (isOnSiteCommuteQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Security clearance / defence travel comfort must stay screening_clarify
+        // (live Faculty: stale Yes memo filled weekly UK defence travel).
+        if (
+            isSecurityClearanceQuestionLabel(label) ||
+            isEmployerSpecificTravelComfortLabel(label)
+        ) {
             remainingFields.push(field);
             continue;
         }
