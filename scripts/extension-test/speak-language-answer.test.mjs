@@ -67,7 +67,7 @@ test('Hively other-than-English free text answers No when languages empty', () =
     );
     assert.equal(
         resolveHeuristicScreenerAnswer(field, profile, null, { platformId: 'lever' }),
-        'No',
+        'None',
     );
 });
 
