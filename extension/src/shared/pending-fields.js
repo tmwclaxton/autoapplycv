@@ -1298,7 +1298,11 @@ export function isEmployerScreeningTrapLabel(label) {
     return (
         /favourite fruit|favorite fruit|devon.{0,12}fruit/.test(normalized) ||
         (/what is .{2,40} favourite/.test(normalized) &&
-            /fruit|colour|color|pet|mascot/.test(normalized))
+            /fruit|colour|color|pet|mascot/.test(normalized)) ||
+        // Optional hiring puzzles (Warp security code / shared block, etc.)
+        /\b(?:application|hiring|optional)\s+challenge\b/.test(normalized) ||
+        (/\bchallenge\b/.test(normalized) &&
+            /\b(?:security code|shared block|hiring)\b/.test(normalized))
     );
 }
 
@@ -6350,8 +6354,21 @@ export function buildPendingFieldsFromUnfilledSnapshot(
 }
 
 export function pendingFieldKey(field) {
-    const ref = String(field?.ref || '').trim();
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
+    const domId = String(
+        field?.dom?.id ||
+            field?.dom?.name ||
+            field?.dom?.data_field_path ||
+            '',
+    ).trim();
+
+    // Prefer stable DOM identity so inventory ref remaps do not duplicate the
+    // same pending question (e.g. Warp work-auth free-text as f9 and f10).
+    if (domId) {
+        return `dom:${domId}::${label}`;
+    }
+
+    const ref = String(field?.ref || '').trim();
 
     return `${ref}::${label}`;
 }

@@ -8,6 +8,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const { buildDraftAllApplyPlan, partitionDraftAllBatchAnswers } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/pipeline.js')).href
 );
+const { mergePendingFields } = await import(
+    pathToFileURL(join(ROOT, 'extension/src/shared/pending-fields.js')).href
+);
 
 const profileData = {
     full_name: 'Toby Claxton',
@@ -291,6 +294,18 @@ test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields',
                 label: 'Why Hospitable?',
                 field_type: 'textarea',
             },
+            {
+                id: 3,
+                ref: 'f3',
+                label: 'Application Challenge: Security Code (format: ABC-123-XYZ)',
+                field_type: 'text',
+            },
+            {
+                id: 4,
+                ref: 'f4',
+                label: 'Application Challenge: Link to Warp Shared Block containing the command',
+                field_type: 'text',
+            },
         ],
         profileData,
         questionMemo: {},
@@ -298,9 +313,41 @@ test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields',
 
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].ref, 'f2');
-    assert.equal(plan.pendingFields.length, 1);
-    assert.equal(plan.pendingFields[0].ref, 'f1');
-    assert.equal(plan.pendingFields[0].reason, 'screening_clarify');
+    assert.equal(plan.pendingFields.length, 3);
+    assert.deepEqual(
+        plan.pendingFields.map((field) => field.ref).sort(),
+        ['f1', 'f3', 'f4'],
+    );
+    assert.ok(
+        plan.pendingFields.every(
+            (field) => field.reason === 'screening_clarify',
+        ),
+    );
+});
+
+test('mergePendingFields collapses remapped refs that share the same DOM id', () => {
+    const merged = mergePendingFields(
+        [
+            {
+                ref: 'f9',
+                label: 'do you require work authorization?',
+                reason: 'missing_answer',
+                dom: { id: 'question_9242705004' },
+            },
+        ],
+        [
+            {
+                ref: 'f10',
+                label: 'do you require work authorization?',
+                reason: 'missing_profile_data',
+                dom: { id: 'question_9242705004' },
+            },
+        ],
+    );
+
+    assert.equal(merged.length, 1);
+    assert.equal(merged[0].ref, 'f10');
+    assert.equal(merged[0].reason, 'missing_profile_data');
 });
 
 test('buildDraftAllApplyPlan auto-fills electronic certification signature from profile', () => {
