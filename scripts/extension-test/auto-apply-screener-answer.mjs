@@ -4,7 +4,9 @@ import {
     isPositionApplyingForQuestionLabel,
     isSourceOfHireQuestionLabel,
     partitionScreenerHeuristicFields,
+    resolveComplianceDeclineAnswer,
     resolveHeuristicScreenerAnswer,
+    resolveInstructionalChoiceAnswer,
     resolvePositionApplyingForAnswer,
     resolveSourceOfHireAnswer,
     resolveTestModeFallbackAnswer,
@@ -429,6 +431,27 @@ assert.equal(
         { jobTitle: 'Firstup - Sr. Software Engineer, Frontend (UK)' },
     ),
     'Sr. Software Engineer, Frontend (UK)',
+);
+assert.equal(
+    resolveInstructionalChoiceAnswer({
+        label: 'to confirm you are a human applicant, please select the third option from the list below.',
+        field_type: 'radio',
+        options: [
+            'Option 1: I am a human',
+            'Option 2: Verified applicant',
+            'Option 3: Select this option',
+            'Option 4: Automated fill',
+        ],
+    }),
+    'Option 3: Select this option',
+);
+assert.equal(
+    resolveComplianceDeclineAnswer({
+        label: 'are you applying via an automated script or spoofing?',
+        field_type: 'radio',
+        options: ['Yes', 'No'],
+    }),
+    'No',
 );
 assert.equal(
     resolveSourceOfHireAnswer(

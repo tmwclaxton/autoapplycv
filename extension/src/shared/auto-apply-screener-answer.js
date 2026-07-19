@@ -470,6 +470,97 @@ function normalizeHeuristicAnswerForField(answer, field) {
     return numeric?.[0] || null;
 }
 
+const ORDINAL_OPTION_INDEX = {
+    first: 0,
+    second: 1,
+    third: 2,
+    fourth: 3,
+    fifth: 4,
+    sixth: 5,
+    seventh: 6,
+    eighth: 7,
+    ninth: 8,
+    tenth: 9,
+};
+
+/**
+ * Instructional anti-bot radios: "please select the third option from the list".
+ *
+ * @param {object|null|undefined} field
+ * @returns {string|null}
+ */
+export function resolveInstructionalChoiceAnswer(field) {
+    const label = String(field?.question || field?.label || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const options = filterMeaningfulChoiceOptions(field?.options);
+
+    if (!label || options.length === 0) {
+        return null;
+    }
+
+    const ordinalMatch = label.match(
+        /\bselect the (first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|\d+(?:st|nd|rd|th)) option\b/i,
+    );
+
+    if (!ordinalMatch) {
+        return null;
+    }
+
+    const token = String(ordinalMatch[1] || '').toLowerCase();
+    let index = ORDINAL_OPTION_INDEX[token];
+
+    if (index === undefined) {
+        const numeric = Number.parseInt(token, 10);
+
+        if (Number.isNaN(numeric) || numeric < 1) {
+            return null;
+        }
+
+        index = numeric - 1;
+    }
+
+    return options[index] || null;
+}
+
+/**
+ * Compliance Yes/No that should never affirm for a normal applicant.
+ * automated script / spoofing / bot / non-compete / currently an employee -> No.
+ *
+ * @param {object|null|undefined} field
+ * @returns {string|null}
+ */
+export function resolveComplianceDeclineAnswer(field) {
+    const label = String(field?.question || field?.label || '')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+    const options = filterMeaningfulChoiceOptions(field?.options);
+
+    if (!label || options.length === 0) {
+        return null;
+    }
+
+    const isYesNo = options.some((option) => /^yes\b/i.test(String(option)))
+        && options.some((option) => /^no\b/i.test(String(option)));
+
+    if (!isYesNo) {
+        return null;
+    }
+
+    const shouldDecline =
+        /\b(?:automated script|spoofing|bot|robot)\b/.test(label) ||
+        /\bnon[- ]?compete\b/.test(label) ||
+        /\bcurrently an?\b.+\bemployee\b/.test(label) ||
+        /\bcurrent employee (?:of|at)\b/.test(label);
+
+    if (!shouldDecline) {
+        return null;
+    }
+
+    return options.find((option) => /^no\b/i.test(String(option))) || null;
+}
+
 /**
  * @param {import('./auto-apply-blockers.js').AutoApplyBlockerField|null|undefined} field
  * @param {object|null|undefined} profileData
@@ -500,6 +591,24 @@ export function resolveHeuristicScreenerAnswer(
     // Never dump city/location onto job-site boards (foreign-only options pend).
     if (isJobApplicationLocationChoiceLabel(label)) {
         return null;
+    }
+
+    const instructionalChoice = resolveInstructionalChoiceAnswer(normalizedField);
+
+    if (isMeaningfulAnswer(instructionalChoice)) {
+        return normalizeHeuristicAnswerForField(
+            instructionalChoice,
+            normalizedField,
+        );
+    }
+
+    const complianceDecline = resolveComplianceDeclineAnswer(normalizedField);
+
+    if (isMeaningfulAnswer(complianceDecline)) {
+        return normalizeHeuristicAnswerForField(
+            complianceDecline,
+            normalizedField,
+        );
     }
 
     const priorEmployerRelationshipAnswer =
