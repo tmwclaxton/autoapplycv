@@ -1599,6 +1599,17 @@ export function isSkillScopedYearsExperienceLabel(label) {
         return true;
     }
 
+    // "Years with Salesforce" / "Years using Figma" (tool first, years second).
+    if (
+        /\byears?\s+(?:with|using|in)\b/.test(normalized) &&
+        !/\b(?:total|overall|professional|career)\b/.test(normalized) &&
+        !/\byears?\s+(?:with|using|in)\s+(?:us|the\s+uk|this\s+company|our\s+team)\b/.test(
+            normalized,
+        )
+    ) {
+        return true;
+    }
+
     return false;
 }
 
@@ -4785,6 +4796,15 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
+    // Language fluency / speak-language when profile languages (or UK English
+    // default) already answer - do not sidebar-pause (even when required).
+    if (
+        isResolvableLanguageQuestionLabel(label) &&
+        profileHasResolvableLanguageAnswer(field, profileData)
+    ) {
+        return false;
+    }
+
     // Other required empties after Draft All still need sidebar attention.
     if (field?.required === true) {
         return true;
@@ -4805,6 +4825,76 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
     }
 
     return isProfileGeneralQuestion(field, profileData);
+}
+
+/**
+ * Speak-language Yes/No, fluency multi-select, and proficiency asks.
+ * Broader than isLanguageProficiencyQuestionLabel (misses "Do you speak English?").
+ */
+function isResolvableLanguageQuestionLabel(label) {
+    if (isLanguageProficiencyQuestionLabel(label)) {
+        return true;
+    }
+
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /\b(?:do you )?(?:speak|fluent in|proficient in)\s+[a-z]{2,}/.test(
+            normalized,
+        )
+    ) {
+        return true;
+    }
+
+    if (/\bother than english\b/.test(normalized)) {
+        return true;
+    }
+
+    return (
+        /\b(?:what|which)\s+languages?\b/.test(normalized) &&
+        /\b(?:fluent|speak|proficient)\b/.test(normalized)
+    );
+}
+
+/**
+ * Lightweight language resolvability check (avoids importing speak-language-answer
+ * into this module - circular via readProfileValue).
+ */
+function profileHasResolvableLanguageAnswer(field, profileData) {
+    const normalized = normalizeQuestionLabel(
+        field?.label || field?.question || '',
+    );
+    const languages = readProfileValue(profileData, 'structured_data.languages');
+    const hasLanguages = Array.isArray(languages) && languages.length > 0;
+    const country = normalizeQuestionLabel(
+        String(readProfileValue(profileData, 'country') || ''),
+    );
+    const englishDefaultCountry =
+        /^(united kingdom|uk|great britain|england|scotland|wales|united states|usa|canada|australia|new zealand|ireland)$/.test(
+            country,
+        );
+
+    if (hasLanguages) {
+        return true;
+    }
+
+    if (
+        englishDefaultCountry &&
+        /\benglish\b/.test(normalized) &&
+        /\b(?:speak|fluent|language|languages)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    if (englishDefaultCountry && /\bother than english\b/.test(normalized)) {
+        return true;
+    }
+
+    return false;
 }
 
 export function shouldSaveToApplicationAnswers(field, mapping) {
@@ -5903,6 +5993,15 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return officeCommuteDecline;
     }
 
+    const foreignTimezoneDecline = resolveForeignTimezoneDeclineAnswer(
+        field,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(foreignTimezoneDecline)) {
+        return foreignTimezoneDecline;
+    }
+
     const localCommuteComfort = resolveLocalCommuteComfortAnswer(
         field,
         profileData,
@@ -6199,38 +6298,73 @@ function shouldRejectNonYesNoAnswerOnSponsorshipField(field, answer) {
     return trimmed.length > 0 && !/^(yes|no)\b/i.test(trimmed);
 }
 
+/**
+ * PH timezone / residency screeners for non-PH profiles: auto-No when Yes/No
+ * options exist (shrink sidebar pauses). Free-text stays location_clarify.
+ */
+export function resolveForeignTimezoneDeclineAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+    const isTimezoneTrap =
+        isForeignTimezoneTrainingLabel(label) &&
+        !profileInPhilippines(profileData);
+    const isResidencyTrap =
+        isPhilippinesResidencyQuestionLabel(label) &&
+        !profileInPhilippines(profileData);
+
+    if (!isTimezoneTrap && !isResidencyTrap) {
+        return '';
+    }
+
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const hasLocalizedYes = options.some((option) =>
+        /^(yes|tak|oui|ja|si|sí)\b/i.test(String(option || '').trim()),
+    );
+    const hasLocalizedNo = options.some((option) =>
+        /^(no|nie|non|nein)\b/i.test(String(option || '').trim()),
+    );
+
+    if (hasLocalizedYes && hasLocalizedNo) {
+        return pickLocalizedYesNoOption(field, false);
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return 'No';
+    }
+
+    return '';
+}
+
 export function partitionForeignTimezoneTrainingFields(fields, profileData) {
     const pendingFields = [];
     const remainingFields = [];
 
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
-
-        if (
+        const isTimezoneTrap =
             isForeignTimezoneTrainingLabel(label) &&
-            !profileInPhilippines(profileData)
-        ) {
-            pendingFields.push(
-                createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'location_clarify',
-                ),
-            );
-        } else if (
+            !profileInPhilippines(profileData);
+        const isResidencyTrap =
             isPhilippinesResidencyQuestionLabel(label) &&
-            !profileInPhilippines(profileData)
-        ) {
-            pendingFields.push(
-                createPendingField(
-                    field,
-                    resolvePendingProfileMapping(field, profileData),
-                    'location_clarify',
-                ),
-            );
-        } else {
+            !profileInPhilippines(profileData);
+
+        if (!isTimezoneTrap && !isResidencyTrap) {
             remainingFields.push(field);
+            continue;
         }
+
+        // Yes/No traps: leave for preference/screener (resolveForeignTimezoneDeclineAnswer).
+        if (resolveForeignTimezoneDeclineAnswer(field, profileData)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        pendingFields.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'location_clarify',
+            ),
+        );
     }
 
     return { pendingFields, remainingFields };
@@ -6788,7 +6922,7 @@ function preferPendingField(existing, incoming) {
             return 3;
         }
 
-        if (value === 'missing_profile_data') {
+        if (value === 'missing_profile_data' || value === 'type_coherence') {
             return 2;
         }
 
@@ -6804,6 +6938,25 @@ function preferPendingField(existing, incoming) {
     }
 
     if (reasonRank(incoming.reason) < reasonRank(existing.reason)) {
+        return existing;
+    }
+
+    // Preserve coherence rejection metadata when ranks tie.
+    if (
+        incoming.reason === 'type_coherence' &&
+        (incoming.rejected_answer || incoming.reject_reason) &&
+        !existing.rejected_answer &&
+        !existing.reject_reason
+    ) {
+        return incoming;
+    }
+
+    if (
+        existing.reason === 'type_coherence' &&
+        (existing.rejected_answer || existing.reject_reason) &&
+        !incoming.rejected_answer &&
+        !incoming.reject_reason
+    ) {
         return existing;
     }
 

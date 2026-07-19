@@ -7,6 +7,7 @@ use App\Models\CvProfile;
 /**
  * Server-side post-answer type-coherence gate for Draft All NanoGPT output.
  * Prefer null (pending) over wrong fills such as Yes on city or salary on notice.
+ * Keep in sync with extension/src/shared/draft-all/type-coherence.js.
  */
 class AnswerTypeCoherence
 {
@@ -81,12 +82,18 @@ class AnswerTypeCoherence
             return false;
         }
 
-        if (in_array($fieldType, ['radio', 'select', 'checkbox'], true)) {
-            return false;
-        }
-
         $isBareYesNo = (bool) preg_match('/^(yes|no)$/i', $trimmed);
         $category = self::classifyLabel($label, $fieldType);
+        $isChoice = in_array($fieldType, ['radio', 'select', 'checkbox'], true);
+
+        // Bare Yes/No on multi-option status / source selects (not Yes/No radios).
+        if ($isBareYesNo && $isChoice) {
+            return true;
+        }
+
+        if ($isChoice) {
+            return false;
+        }
 
         if ($isBareYesNo && in_array($category, ['locality', 'phone', 'email', 'date', 'number', 'salary', 'notice'], true)) {
             return true;
@@ -100,6 +107,11 @@ class AnswerTypeCoherence
             return true;
         }
 
+        // Free-text notice/availability must include a unit ("2 weeks"), not a bare integer.
+        if ($category === 'notice' && $fieldType !== 'number' && preg_match('/^\d{1,3}$/', $trimmed) === 1) {
+            return true;
+        }
+
         if ($category === 'email' && self::looksLikePhone($trimmed) && ! self::looksLikeEmail($trimmed)) {
             return true;
         }
@@ -108,12 +120,25 @@ class AnswerTypeCoherence
             return true;
         }
 
+        if (
+            in_array($category, ['phone', 'email'], true)
+            && self::looksLikeUrl($trimmed)
+            && ! self::looksLikeEmail($trimmed)
+        ) {
+            return true;
+        }
+
         if ($category === 'locality' && (
             self::looksLikeEmail($trimmed)
             || self::looksLikePhone($trimmed)
             || self::looksLikeSalaryAmount($trimmed)
+            || self::looksLikeNoticePeriod($trimmed)
             || self::looksLikeUrl($trimmed)
         )) {
+            return true;
+        }
+
+        if ($category === 'number' && self::looksLikeSalaryAmount($trimmed)) {
             return true;
         }
 
@@ -161,7 +186,7 @@ class AnswerTypeCoherence
             return 'email';
         }
 
-        if ($fieldType === 'tel' || preg_match('/\b(?:phone|mobile|telephone)\b/', $label) === 1) {
+        if ($fieldType === 'tel' || preg_match('/\b(?:phone|mobile|telephone|telefon|téléphone)\b/', $label) === 1) {
             return 'phone';
         }
 
@@ -169,18 +194,26 @@ class AnswerTypeCoherence
             return 'date';
         }
 
-        if (preg_match('/\bnotice period\b/', $label) === 1
-            || (preg_match('/\bavailability\b/', $label) === 1 && preg_match('/\b(?:notice|start|available)\b/', $label) === 1)) {
+        // English + Polish notice / availability.
+        if (
+            preg_match('/\bnotice period\b/', $label) === 1
+            || preg_match('/okres wypowiedzenia/', $label) === 1
+            || (
+                preg_match('/\bdost[eę]pno[sś][cć]\b/u', $label) === 1
+                && preg_match('/\b(wypowiedzenia|do[lł][aą]czy[cć]|start|notice)\b/u', $label) === 1
+            )
+            || (preg_match('/\bavailability\b/', $label) === 1 && preg_match('/\b(?:notice|start|available)\b/', $label) === 1)
+        ) {
             return 'notice';
         }
 
-        if (preg_match('/\b(?:expected salary|salary expectation|desired salary|current salary|last salary|compensation|pay rate|base salary|hourly rate|total package|remuneration|ctc)\b/', $label) === 1
-            || (preg_match('/\bsalary\b/', $label) === 1 && ! preg_match('/\bnotice\b/', $label))) {
+        // English + German salary / Gehaltsvorstellungen (Teamtailor number fields).
+        if (
+            preg_match('/\b(?:expected salary|salary expectation|desired salary|current salary|last salary|compensation|pay rate|base salary|hourly rate|total package|remuneration|ctc|oczekiwania finansowe|wynagrodzenie|gehaltsvorstellungen|gehaltsvorstellung|jahreslohn|jahresgehalt|monatsgehalt)\b/', $label) === 1
+            || (preg_match('/\b(?:gehalt|salary)\b/', $label) === 1 && preg_match('/\bnotice\b/', $label) !== 1)
+            || (preg_match('/\bbrutto\b/', $label) === 1 && preg_match('/\b(?:lohn|gehalt|jahres)\b/', $label) === 1)
+        ) {
             return 'salary';
-        }
-
-        if ($fieldType === 'number' || preg_match('/\b(?:how many|years of experience|number of)\b/', $label) === 1) {
-            return 'number';
         }
 
         // Visa / work-auth questions often mention "location" but are not locality fields.
@@ -193,8 +226,12 @@ class AnswerTypeCoherence
         }
 
         if (preg_match('/\b(?:city|town|postcode|postal code|street address|current location)\b/', $label) === 1
-            || (preg_match('/\blocation\b/', $label) === 1 && ! preg_match('/\bcountry\b/', $label))) {
+            || (preg_match('/\blocation\b/', $label) === 1 && preg_match('/\bcountry\b/', $label) !== 1)) {
             return 'locality';
+        }
+
+        if ($fieldType === 'number' || preg_match('/\b(?:how many|years of experience|number of)\b/', $label) === 1) {
+            return 'number';
         }
 
         return 'other';

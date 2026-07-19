@@ -48,6 +48,7 @@ import {
     resolveProfileMappingForLabel,
     resolvePreferenceProfileAnswer,
     resolveOfficeCommuteDeclineAnswer,
+    resolveForeignTimezoneDeclineAnswer,
     resolveIdentityProfileAnswer,
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
@@ -1322,11 +1323,14 @@ const { pendingFields: helloRacheTrainingPending, remainingFields: helloRacheTra
 );
 
 assert(
-    helloRacheTrainingPending.length === 1 && helloRacheTrainingPending[0].reason === 'location_clarify',
-    'PH night-shift training should become location_clarify for UK profile',
+    helloRacheTrainingPending.length === 0 && helloRacheTrainingRemaining.length === 1,
+    'PH night-shift Yes/No should stay for preference auto-No (not sidebar clarify)',
 );
 
-assert(helloRacheTrainingRemaining.length === 0, 'foreign timezone training mismatch should not reach LLM');
+assert(
+    resolveForeignTimezoneDeclineAnswer(helloRacheTrainingField, ukRelocateProfile) === 'No',
+    'UK profile should auto-decline PH night-shift training',
+);
 
 const helloRacheFilipinoField = {
     ref: 'f11',
@@ -1341,11 +1345,14 @@ const { pendingFields: helloRacheFilipinoPending, remainingFields: helloRacheFil
 );
 
 assert(
-    helloRacheFilipinoPending.length === 1 && helloRacheFilipinoPending[0].reason === 'location_clarify',
-    'Filipino residency question should become location_clarify for UK profile',
+    helloRacheFilipinoPending.length === 0 && helloRacheFilipinoRemaining.length === 1,
+    'Filipino residency Yes/No should stay for preference auto-No',
 );
 
-assert(helloRacheFilipinoRemaining.length === 0, 'Philippines residency mismatch should not reach LLM');
+assert(
+    resolveForeignTimezoneDeclineAnswer(helloRacheFilipinoField, ukRelocateProfile) === 'No',
+    'UK profile should auto-decline Filipino residency',
+);
 
 const rocketAmsTimezoneField = {
     ref: 'f8',
@@ -1360,11 +1367,14 @@ const { pendingFields: rocketAmsTimezonePending, remainingFields: rocketAmsTimez
 );
 
 assert(
-    rocketAmsTimezonePending.length === 1 && rocketAmsTimezonePending[0].reason === 'location_clarify',
-    'RocketAMS AEST/PHT comfort question should become location_clarify for UK profile',
+    rocketAmsTimezonePending.length === 0 && rocketAmsTimezoneRemaining.length === 1,
+    'RocketAMS AEST/PHT Yes/No should stay for preference auto-No',
 );
 
-assert(rocketAmsTimezoneRemaining.length === 0, 'PHT timezone comfort should not reach LLM for UK profile');
+assert(
+    resolveForeignTimezoneDeclineAnswer(rocketAmsTimezoneField, ukRelocateProfile) === 'No',
+    'UK profile should auto-decline PHT timezone comfort',
+);
 
 const rocketAmsFilipinoField = {
     ref: 'f7',
@@ -1379,8 +1389,13 @@ const { pendingFields: rocketAmsFilipinoPending } = partitionForeignTimezoneTrai
 );
 
 assert(
-    rocketAmsFilipinoPending.length === 1 && rocketAmsFilipinoPending[0].reason === 'location_clarify',
-    'RocketAMS Filipino residency question should become location_clarify for UK profile',
+    rocketAmsFilipinoPending.length === 0,
+    'RocketAMS Filipino residency Yes/No should not sidebar-clarify',
+);
+
+assert(
+    resolveForeignTimezoneDeclineAnswer(rocketAmsFilipinoField, ukRelocateProfile) === 'No',
+    'UK profile should auto-decline RocketAMS Filipino residency',
 );
 
 const leverDisabilityField = {

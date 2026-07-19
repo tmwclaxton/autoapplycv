@@ -501,3 +501,61 @@ test('German Gehaltsvorstellungen number field accepts yearly salary', () => {
         false,
     );
 });
+
+test('tool-scoped years labels and language prompts shrink when profile clear', async () => {
+    const {
+        isSkillScopedYearsExperienceLabel,
+        shouldPromptUserForMissingDraftAnswer,
+        resolveForeignTimezoneDeclineAnswer,
+    } = await import('../../extension/src/shared/pending-fields.js');
+    const { compactFieldsForDraft } = await import(
+        '../../extension/src/shared/draft-all-optimizations.js'
+    );
+
+    assert.equal(isSkillScopedYearsExperienceLabel('Years with Salesforce'), true);
+    assert.equal(isSkillScopedYearsExperienceLabel('Years with us'), false);
+
+    const uk = {
+        profile: {
+            country: 'United Kingdom',
+            structured_data: { languages: ['English'] },
+        },
+    };
+
+    assert.equal(
+        shouldPromptUserForMissingDraftAnswer(
+            {
+                label: 'Do you speak English?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+                required: true,
+            },
+            uk,
+        ),
+        false,
+    );
+
+    assert.equal(
+        resolveForeignTimezoneDeclineAnswer(
+            {
+                label: 'Our trainings are PH time night shifts. Attend?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                profile: {
+                    country: 'United Kingdom',
+                    city: 'London',
+                    location: 'London, England',
+                },
+            },
+        ),
+        'No',
+    );
+
+    const compacted = compactFieldsForDraft([
+        { ref: 'a', label: 'City', field_type: 'text' },
+        { ref: 'b', label: 'Postcode', field_type: 'text' },
+    ]);
+    assert.match(compacted[0].context || '', /Sibling locality/);
+});

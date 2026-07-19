@@ -426,6 +426,36 @@ test('mergePendingFields collapses same-label pendings when DOM id is missing', 
     );
 });
 
+test('mergePendingFields prefers type_coherence metadata over missing_answer', () => {
+    const merged = mergePendingFields(
+        [
+            {
+                ref: 'f3',
+                label: 'City, county',
+                field_type: 'text',
+                reason: 'missing_answer',
+                dom: { id: 'city' },
+            },
+        ],
+        [
+            {
+                ref: 'f3',
+                label: 'City, county',
+                field_type: 'text',
+                reason: 'type_coherence',
+                reject_reason: 'yes_no_on_locality',
+                rejected_answer: 'Yes',
+                dom: { id: 'city' },
+            },
+        ],
+    );
+
+    assert.equal(merged.length, 1);
+    assert.equal(merged[0].reason, 'type_coherence');
+    assert.equal(merged[0].reject_reason, 'yes_no_on_locality');
+    assert.equal(merged[0].rejected_answer, 'Yes');
+});
+
 test('buildDraftAllApplyPlan auto-fills electronic certification signature from profile', () => {
     const certifyLabel =
         'I certify that all of the information I have provided is correct and complete. Please sign by typing your Full Legal First, Middle Initial, and Last Name.';

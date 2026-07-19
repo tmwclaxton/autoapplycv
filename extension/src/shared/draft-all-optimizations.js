@@ -393,7 +393,35 @@ export function enrichFieldsWithSnapshotDom(fields, snapshot) {
     }));
 }
 
+/**
+ * When a draft batch has city + postcode/street siblings, enrich each locality
+ * field's context so NanoGPT does not invent mismatched locality parts.
+ */
+function siblingLocalityBatchContext(fields) {
+    const localityHints = [];
+
+    for (const field of fields || []) {
+        const label = String(field?.label || field?.question || '').toLowerCase();
+
+        if (
+            /\b(?:city|town|postcode|postal code|zip|street|address)\b/.test(label)
+        ) {
+            localityHints.push(
+                String(field.label || field.question || '').trim(),
+            );
+        }
+    }
+
+    if (localityHints.length < 2) {
+        return '';
+    }
+
+    return `Sibling locality fields in this batch: ${localityHints.join(' | ')}. Keep city/postcode/street consistent with the profile; use null if a part is missing.`;
+}
+
 export function compactFieldsForDraft(fields) {
+    const siblingLocalityHint = siblingLocalityBatchContext(fields);
+
     return (fields || []).map((field, index) => {
         const fieldType = field.field_type || 'text';
         const compact = {
@@ -443,8 +471,26 @@ export function compactFieldsForDraft(fields) {
             }
         }
 
+        const contextParts = [];
+
         if (typeof field.context === 'string' && field.context.trim() !== '') {
-            compact.context = field.context.trim().slice(0, 240);
+            contextParts.push(field.context.trim());
+        }
+
+        if (siblingLocalityHint) {
+            const label = String(field?.label || '').toLowerCase();
+
+            if (
+                /\b(?:city|town|postcode|postal code|zip|street|address)\b/.test(
+                    label,
+                )
+            ) {
+                contextParts.push(siblingLocalityHint);
+            }
+        }
+
+        if (contextParts.length > 0) {
+            compact.context = contextParts.join(' ').slice(0, 240);
         }
 
         return compact;

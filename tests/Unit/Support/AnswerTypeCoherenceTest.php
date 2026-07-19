@@ -161,4 +161,73 @@ class AnswerTypeCoherenceTest extends TestCase
             '2 weeks',
         ));
     }
+
+    public function test_rejects_yes_no_on_multi_option_status_select(): void
+    {
+        $profile = new CvProfile([]);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            [
+                'label' => 'Please specify your current legal work authorization status.',
+                'field_type' => 'select',
+                'options' => [
+                    'I am a Polish national',
+                    'I hold a valid Polish work permit or visa',
+                ],
+            ],
+            'Yes',
+        ));
+    }
+
+    public function test_accepts_german_gehaltsvorstellungen_salary_amount(): void
+    {
+        $profile = new CvProfile([]);
+
+        $this->assertFalse(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Gehaltsvorstellungen (brutto Jahresgehalt)', 'field_type' => 'number'],
+            '55000',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Gehaltsvorstellungen (brutto Jahresgehalt)', 'field_type' => 'number'],
+            '2 weeks',
+        ));
+    }
+
+    public function test_rejects_bare_integer_on_polish_notice_and_notice_on_locality(): void
+    {
+        $profile = new CvProfile(['city' => 'High Wycombe']);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Jaki jest Twój okres wypowiedzenia?', 'field_type' => 'text'],
+            '2',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'City, county', 'field_type' => 'text'],
+            '2 weeks',
+        ));
+    }
+
+    public function test_rejects_url_on_phone_and_salary_on_years_number(): void
+    {
+        $profile = new CvProfile([]);
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'Phone number', 'field_type' => 'tel'],
+            'https://linkedin.com/in/toby',
+        ));
+
+        $this->assertTrue(AnswerTypeCoherence::shouldReject(
+            $profile,
+            ['label' => 'How many years of experience do you have?', 'field_type' => 'number'],
+            '55000',
+        ));
+    }
 }
