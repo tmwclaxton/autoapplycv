@@ -502,8 +502,28 @@ var AutoCVApplyFieldInventory = (() => {
             return elements;
         }
 
+        // Greenhouse embed/job-board Yes/No menus hang open during harvest and can
+        // block BUILD_FIELD_SNAPSHOT past the 45s Draft All timeout (live Ripple).
+        // Fill resolves options at apply time; skip inventory-time menu opens.
+        let greenhouseHost = false;
+
+        try {
+            greenhouseHost = /greenhouse\.io/i.test(window.location.hostname || '');
+        } catch {
+            greenhouseHost = false;
+        }
+
+        if (greenhouseHost) {
+            inventoryLog('info', 'snapshot.options', 'Skipping lazy combobox harvest on Greenhouse host', {
+                elementCount: (elements || []).length,
+            });
+
+            return elements;
+        }
+
         const MAX_LAZY_HARVESTS = 24;
         const harvestDeadlineMs = Date.now() + 12_000;
+        const PER_HARVEST_TIMEOUT_MS = 2_000;
         let harvestCount = 0;
 
         for (const element of elements || []) {
@@ -533,7 +553,18 @@ var AutoCVApplyFieldInventory = (() => {
 
             harvestCount += 1;
 
-            const labels = await AutoCVApplyFormHeuristics.harvestLazyComboboxOptionLabels(anchor);
+            let labels = [];
+
+            try {
+                labels = await Promise.race([
+                    AutoCVApplyFormHeuristics.harvestLazyComboboxOptionLabels(anchor),
+                    new Promise((resolve) => {
+                        setTimeout(() => resolve([]), PER_HARVEST_TIMEOUT_MS);
+                    }),
+                ]);
+            } catch {
+                labels = [];
+            }
 
             if (labels.length >= 2) {
                 element.options = labels;
