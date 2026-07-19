@@ -97,6 +97,28 @@ function optionMatchesSourceAlias(option, alias) {
     ).test(optionText);
 }
 
+function isAtsApplicationHostUrl(pageUrl) {
+    const host = String(pageUrl || '')
+        .toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .split('/')[0];
+
+    if (!host) {
+        return false;
+    }
+
+    return (
+        host.includes('ashbyhq.com') ||
+        host.includes('greenhouse.io') ||
+        host.includes('lever.co') ||
+        host.includes('workable.com') ||
+        host.includes('personio.de') ||
+        host.includes('personio.com') ||
+        host.includes('bamboohr.com') ||
+        host.includes('smartrecruiters.com')
+    );
+}
+
 /**
  * Prefer a dropdown option for the current job board; otherwise free-text the platform name.
  *
@@ -117,7 +139,17 @@ export function resolveSourceOfHireAnswer(field, context = null) {
     const options = filterMeaningfulChoiceOptions(field?.options);
 
     if (options.length === 0) {
-        return platformLabel || null;
+        if (platformLabel) {
+            return platformLabel;
+        }
+
+        // Ashby/Greenhouse/Lever hosts are rarely listed as discovery sources.
+        // Default LinkedIn so Draft All does not NanoGPT-invent "Other" + essay.
+        if (isAtsApplicationHostUrl(context?.pageUrl)) {
+            return 'LinkedIn';
+        }
+
+        return null;
     }
 
     const aliases = [

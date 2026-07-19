@@ -504,6 +504,43 @@ test('buildDraftAllApplyPlan resolves source-of-hire from pageUrl when platformI
     assert.equal(plan.llmFields.length, 0);
 });
 
+test('buildDraftAllApplyPlan skips Other follow-up when source-of-hire is LinkedIn', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f5',
+                label: 'how did you hear about 9fin?',
+                field_type: 'select',
+                options: [],
+                dom: { role: 'combobox' },
+            },
+            {
+                id: 1,
+                ref: 'f6',
+                label: "if 'other', please state below how you came across 9fin.",
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {},
+        pageUrl:
+            'https://jobs.ashbyhq.com/9fin/181a7413-0257-4b3e-8cf5-6c9534d2ae11/application',
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
+    );
+
+    assert.equal(answersByRef.get('f5'), 'LinkedIn');
+    assert.equal(
+        plan.llmFields.some((field) => field.ref === 'f6'),
+        false,
+    );
+    assert.equal(plan.skipsLlm, true);
+});
+
 test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of LinkedIn', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [

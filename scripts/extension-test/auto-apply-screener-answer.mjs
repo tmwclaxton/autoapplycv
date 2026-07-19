@@ -538,6 +538,23 @@ assert.equal(
 );
 
 assert.equal(
+    resolveSourceOfHireAnswer(
+        {
+            label: 'how did you hear about 9fin?',
+            field_type: 'select',
+            options: [],
+            dom: { role: 'combobox' },
+        },
+        {
+            pageUrl:
+                'https://jobs.ashbyhq.com/9fin/181a7413-0257-4b3e-8cf5-6c9534d2ae11/application',
+        },
+    ),
+    'LinkedIn',
+    'source-of-hire on Ashby with empty options defaults to LinkedIn',
+);
+
+assert.equal(
     resolveHeuristicScreenerAnswer(
         {
             label: 'If you were referred via a CGI employee, please provide their name and staff number if you have it or N/A if not applicable.',

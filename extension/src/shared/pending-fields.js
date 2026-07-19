@@ -2226,6 +2226,29 @@ export function isSourceOfHireQuestionLabel(label) {
     );
 }
 
+/**
+ * Follow-up free-text after a source-of-hire "Other" choice.
+ * Skip NanoGPT when the primary source answer is not Other.
+ *
+ * @param {string|null|undefined} label
+ * @returns {boolean}
+ */
+export function isSourceOfHireOtherFollowUpLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (!/\bif\b/.test(normalized) || !/\bother\b/.test(normalized)) {
+        return false;
+    }
+
+    return /\b(hear|came across|find|found|learn|source|refer)\b/.test(
+        normalized,
+    );
+}
+
 export function isOpenEndedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -2967,6 +2990,12 @@ function isJobPostingRelativeWorkAuthQuestion(label) {
 
 function isCountrySpecificWorkAuthQuestion(label, context = '') {
     const haystack = `${label || ''} ${context || ''}`.toLowerCase();
+
+    // "Do you require sponsorship to work in the UK?" is visa_sponsorship, not
+    // country work-auth capacity (UK profiles were incorrectly answering Yes).
+    if (isVisaSponsorshipQuestionLabel(label)) {
+        return false;
+    }
 
     if (
         !/\b(authori[sz](?:ed|ation)|legally allowed|eligible|right to work|sponsorship|visa|work permit)\b/.test(

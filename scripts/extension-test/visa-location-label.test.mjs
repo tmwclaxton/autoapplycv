@@ -228,6 +228,24 @@ test('UK profile answers No to US/Canada permanent work-auth when options unharv
     assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
 });
 
+test('UK sponsorship Yes/No uses visa_sponsorship not country work-auth Yes', () => {
+    const profile = {
+        country: 'United Kingdom',
+        application_settings: {
+            legally_authorized: 'yes',
+            visa_sponsorship: 'no',
+        },
+    };
+    const field = {
+        ref: 'f0',
+        label: 'do you require sponsorship to work in the uk now or in the future?',
+        field_type: 'radio',
+        options: ['Yes', 'No'],
+    };
+
+    assert.equal(resolvePreferenceProfileAnswer(field, profile), 'No');
+});
+
 test('free-text require work authorization stays pending instead of dumping Yes', () => {
     const profile = {
         country: 'United Kingdom',

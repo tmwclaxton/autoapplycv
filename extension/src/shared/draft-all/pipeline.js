@@ -18,6 +18,7 @@ import {
 } from '../draft-all-optimizations.js';
 import {
     buildPendingFieldsFromProfileGaps,
+    isSourceOfHireOtherFollowUpLabel,
     mergePendingFields,
     partitionBatchAnswers,
     partitionCitySpecificRelocateFields,
@@ -324,6 +325,19 @@ export function buildDraftAllApplyPlan({
             type: 'source_of_hire',
             answers: tagAnswersWithSource(sourceOfHireAnswers, 'screener'),
         });
+
+        // When source-of-hire is LinkedIn/Indeed/etc., do not NanoGPT an
+        // "If Other, please explain" essay.
+        const sourceAnswer = String(sourceOfHireAnswers[0]?.answer || '').trim();
+
+        if (sourceAnswer && !/^other$/i.test(sourceAnswer)) {
+            remainingFields = remainingFields.filter(
+                (field) =>
+                    !isSourceOfHireOtherFollowUpLabel(
+                        field?.label || field?.question || '',
+                    ),
+            );
+        }
     }
 
     if (marketingConsentPartition.marketingConsentAnswers.length > 0) {
