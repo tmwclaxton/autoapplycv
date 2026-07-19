@@ -29,6 +29,23 @@ test('referral follow-up instructing N/A resolves to N/A', () => {
     );
 });
 
+test('combined were-you-referred if-so-who free-text resolves to N/A', () => {
+    const field = {
+        ref: 'mindex-referral',
+        label: 'Were you referred to this job by a Mindex employee? If so, who?',
+        field_type: 'text',
+        required: true,
+    };
+
+    assert.equal(resolveReferralFollowUpNaAnswer(field), 'N/A');
+    assert.equal(
+        resolveHeuristicScreenerAnswer(field, {
+            country: 'United Kingdom',
+        }),
+        'N/A',
+    );
+});
+
 test('required non-profile questions stay pending when unfilled', () => {
     const field = {
         ref: 'springboot',

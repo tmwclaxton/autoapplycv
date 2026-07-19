@@ -2329,7 +2329,9 @@ export function isReferralFollowUpNaQuestionLabel(label) {
     const asksReferrer =
         /\bwho referred\b/.test(normalized) ||
         /\breferred you\b/.test(normalized) ||
-        /\breferral(?:\s+name|\s+details)?\b/.test(normalized);
+        /\breferral(?:\s+name|\s+details)?\b/.test(normalized) ||
+        (/\b(?:were you|was you|have you been)\s+referred\b/.test(normalized) &&
+            /\b(?:who|if so)\b/.test(normalized));
 
     if (!asksReferrer) {
         return false;
@@ -2338,7 +2340,10 @@ export function isReferralFollowUpNaQuestionLabel(label) {
     return (
         /\btype\s*["']?n\s*\/\s*a["']?/.test(normalized) ||
         /\bif you answered (?:yes|no)\b/.test(normalized) ||
-        /\bplease type\s*["']?n\s*\/\s*a["']?/.test(normalized)
+        /\bplease type\s*["']?n\s*\/\s*a["']?/.test(normalized) ||
+        // Combined "were you referred? if so, who?" free-text (Mindex Workable).
+        (/\b(?:were you|was you|have you been)\s+referred\b/.test(normalized) &&
+            /\bif so\b/.test(normalized))
     );
 }
 

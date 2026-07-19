@@ -19,7 +19,10 @@ export function fieldAllowsExplicitNotApplicableAnswer(field) {
         /\bn\/a if not applicable\b/.test(label) ||
         /\bplease type\s*["']?n\/a["']?/.test(label) ||
         (/\b(?:who referred|referred you)\b/.test(label) &&
-            /\bn\/a\b/.test(label))
+            /\bn\/a\b/.test(label)) ||
+        // Combined referral asks without an employee name in profile.
+        (/\b(?:were you|was you|have you been)\s+referred\b/.test(label) &&
+            /\bif so\b/.test(label))
     );
 }
 
