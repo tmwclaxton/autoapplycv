@@ -2,7 +2,10 @@
  * Unit tests for cookie consent helpers (Node strip-types import of TS module).
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { describe, it } from 'node:test';
+import { fileURLToPath } from 'node:url';
 import {
     CONSENT_CATEGORIES,
     choicesToGtagConsent,
@@ -12,6 +15,14 @@ import {
     rejectOptionalConsentChoices,
     shouldOpenConsentModal,
 } from '../../resources/js/lib/cookieConsent.ts';
+
+const modalSource = readFileSync(
+    join(
+        dirname(fileURLToPath(import.meta.url)),
+        '../../resources/js/components/CookieConsentModal.vue',
+    ),
+    'utf8',
+);
 
 describe('cookieConsent helpers', () => {
     it('exposes Essential / Analytics / Advertising for the modal', () => {
@@ -34,6 +45,16 @@ describe('cookieConsent helpers', () => {
         assert.equal(choices.functional, true);
         assert.equal(choices.analytics, true);
         assert.equal(choices.advertising, true);
+    });
+
+    it('binds modal checkboxes with reka-ui modelValue (not checked)', () => {
+        assert.match(
+            modalSource,
+            /:model-value="choices\[category\.id\] === true"/,
+        );
+        assert.match(modalSource, /@update:model-value=/);
+        assert.doesNotMatch(modalSource, /:checked=/);
+        assert.doesNotMatch(modalSource, /@update:checked=/);
     });
 
     it('maps accept-all choices to granted Consent Mode keys', () => {

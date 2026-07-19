@@ -12,9 +12,9 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { CONSENT_CATEGORIES } from '@/lib/cookieConsent';
-import { privacy } from '@/routes';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { ConsentCategoryId } from '@/lib/cookieConsent';
+import { privacy } from '@/routes';
 
 const consentStore = useCookieConsentStore();
 const { isModalOpen, choices, hydrated } = storeToRefs(consentStore);
@@ -115,10 +115,10 @@ function onCheckedChange(
                             </span>
                             <Checkbox
                                 class="mt-0.5 size-5 shrink-0 border-2 border-postbox-navy data-[state=checked]:border-postbox-navy data-[state=checked]:bg-postbox-navy data-[state=checked]:text-white"
-                                :checked="choices[category.id]"
+                                :model-value="choices[category.id] === true"
                                 :disabled="category.required"
                                 :aria-label="category.label"
-                                @update:checked="
+                                @update:model-value="
                                     (value) =>
                                         onCheckedChange(category.id, value)
                                 "
