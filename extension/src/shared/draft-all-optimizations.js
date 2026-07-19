@@ -46,6 +46,11 @@ const ATS_URL_PATTERNS = [
     { pattern: /jobs\.smartrecruiters\.com/i, source: 'smartrecruiters' },
     // apply.workable.com/booksy-1/j/... - strip trailing -1 account suffixes later.
     { pattern: /(?:^|\.)workable\.com\/([^/?#]+)/i, source: 'workable' },
+    // fairfood-freiburg.jobs.personio.de/job/...
+    {
+        pattern: /([a-z0-9-]+)\.jobs\.personio\.(?:de|com)\b/i,
+        source: 'personio',
+    },
 ];
 
 const MIN_SINGLE_PAGE_FIELD_COUNT = 5;

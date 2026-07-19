@@ -32,3 +32,15 @@ test('infers company from Workable page title when URL slug is generic', () => {
 
     assert.equal(inferred?.company, 'Acme Robotics');
 });
+
+test('infers Fairfood Freiburg from Personio jobs subdomain', () => {
+    const inferred = tryInferJobContextFromPage({
+        page_url:
+            'https://fairfood-freiburg.jobs.personio.de/job/270216?apply=&language=en',
+        page_title: 'Initiative application (Full time) | Jobs at',
+        page_text: 'x'.repeat(250),
+    });
+
+    assert.equal(inferred?.company, 'Fairfood Freiburg');
+    assert.equal(inferred?.source, 'personio');
+});
