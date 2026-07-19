@@ -3647,6 +3647,18 @@ function isWorkAuthorizationQuestionLabel(label) {
         return false;
     }
 
+    // "Eligible for security clearance" is not work authorization.
+    if (isSecurityClearanceQuestionLabel(label)) {
+        return false;
+    }
+
+    if (
+        isItarEligibilityQuestionLabel(label) ||
+        isUsExportComplianceQuestionLabel(label)
+    ) {
+        return false;
+    }
+
     return true;
 }
 
@@ -5979,6 +5991,16 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     const label = field?.label || field?.question || '';
 
+    // Clearance / ITAR / export traps must not inherit legally_authorized Yes/No.
+    if (
+        isSecurityClearanceQuestionLabel(label) ||
+        isItarEligibilityQuestionLabel(label) ||
+        isUsExportComplianceQuestionLabel(label) ||
+        isUsEmploymentAuthorizationBasisQuestionLabel(label)
+    ) {
+        return '';
+    }
+
     if (isUsLocationConfirmationQuestion(label)) {
         const usLocationAnswer = resolveUsLocationConfirmationAnswer(
             field,
@@ -6416,17 +6438,6 @@ export function partitionScreeningTrapFields(fields, profileData) {
 
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
-
-        if (
-            isSecurityClearanceQuestionLabel(label) &&
-            !profileInUnitedStates(profileData) &&
-            (field?.field_type === 'radio' || field?.field_type === 'select') &&
-            Array.isArray(field?.options) &&
-            field.options.some((option) => /^no\b/i.test(String(option)))
-        ) {
-            remainingFields.push(field);
-            continue;
-        }
 
         if (shouldLeaveJobApplicationLocationPending(field, profileData)) {
             pendingFields.push(

@@ -510,6 +510,79 @@ test('available from is notice not date and rejects bare integers', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
 });
 
+test('security clearance Yes/No does not inherit legally_authorized', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+    const {
+        resolvePreferenceProfileAnswer,
+        resolveProfileMappingForLabel,
+    } = await import('../../extension/src/shared/pending-fields.js');
+
+    const profileData = {
+        profile: {
+            city: 'High Wycombe',
+            country: 'United Kingdom',
+            location: 'High Wycombe, England',
+        },
+        application_settings: {
+            legally_authorized: true,
+            visa_sponsorship: false,
+        },
+    };
+    const clearanceLabel =
+        'this role requires you to be eligible for security clearance, meaning you have lived in the uk for the past 5 years continuously. can you confirm this statement applies to you?';
+    const workAuthLabel =
+        'are you currently eligible to work in your country of residence?';
+
+    assert.equal(
+        resolveProfileMappingForLabel(clearanceLabel, profileData, null),
+        null,
+    );
+    assert.equal(
+        resolvePreferenceProfileAnswer(
+            {
+                label: clearanceLabel,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            profileData,
+        ),
+        '',
+    );
+    assert.equal(
+        resolveProfileMappingForLabel(workAuthLabel, profileData, null)?.path,
+        'application_settings.legally_authorized',
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 1,
+                ref: 'f1',
+                label: clearanceLabel,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData,
+        questionMemo: {},
+    });
+
+    assert.ok(
+        (plan.pendingFields || []).some(
+            (field) =>
+                field.ref === 'f1' && field.reason === 'screening_clarify',
+        ),
+    );
+    assert.equal(
+        plan.applyStages
+            .flatMap((stage) => stage.answers || [])
+            .some((answer) => answer.ref === 'f1'),
+        false,
+    );
+});
+
 test('intend to work location fills from profile city', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'
