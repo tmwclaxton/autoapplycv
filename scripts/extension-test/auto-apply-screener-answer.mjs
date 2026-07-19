@@ -20,6 +20,8 @@ const profileData = {
         legally_authorized: 'yes',
         notice_period: '4 weeks',
         expected_salary_yearly: '85000',
+        affirm_local_commute: 'yes',
+        affirm_local_hybrid: 'yes',
     },
 };
 
@@ -218,8 +220,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '2 weeks',
-    'availability prompt must not use years_of_experience',
+    null,
+    'availability without notice_period must not invent a default',
 );
 
 assert.equal(
@@ -230,8 +232,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '55000',
-    'numeric salary field must not use years_of_experience',
+    null,
+    'numeric salary field must not invent a default salary',
 );
 
 assert.equal(
@@ -258,7 +260,7 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '55000',
+    null,
 );
 
 assert.equal(
@@ -269,8 +271,8 @@ assert.equal(
         },
         yearsLeakProfile,
     ),
-    '55000',
-    'test-mode fallback must not use years_of_experience for salary',
+    null,
+    'test-mode fallback must not invent salary when unset',
 );
 
 assert.equal(
@@ -293,7 +295,8 @@ assert.equal(
         profileData,
         { 'How many years of work experience do you have with SSIS?': '0' },
     ),
-    '0',
+    null,
+    'skill-specific years must not fill via screener memo heuristics',
 );
 
 assert.equal(
@@ -312,7 +315,8 @@ assert.equal(
             ],
         },
     ),
-    'Built event-driven pipelines on Kafka and AWS.',
+    null,
+    'essay screeners must not fill via application_answers heuristics',
 );
 
 assert.equal(
@@ -509,6 +513,57 @@ assert.equal(
     ),
     'No',
     'work permit requirement questions must invert UK authorization',
+);
+
+assert.equal(
+    resolveLocalCommuteComfortAnswer(localCommuteField, {
+        application_settings: {},
+    }),
+    '',
+    'commute comfort without explicit affirm must not invent Yes',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Do you have experience administering Okta?',
+            type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        profileData,
+    ),
+    null,
+    'named-tool Yes/No must defer to NanoGPT',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Rate your MDM / mobile device management skills out of 5',
+            type: 'text',
+        },
+        profileData,
+    ),
+    null,
+    'skill ratings must defer to NanoGPT',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'Tell us about a time you used MDM to resolve a device issue',
+            type: 'textarea',
+        },
+        {
+            ...profileData,
+            phone: '07700900123',
+            application_answers: [
+                { question: 'Phone', answer: '07700900123' },
+            ],
+        },
+    ),
+    null,
+    'MDM essay must not bleed phone via heuristics',
 );
 
 assert.equal(

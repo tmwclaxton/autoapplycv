@@ -118,10 +118,7 @@ class ProfileAnswerGrounding
     public static function enforceGroundedAnswers(CvProfile $profile, array $questions, array $answers): array
     {
         $entities = self::profileEntities($profile);
-
-        if ($entities === []) {
-            return $answers;
-        }
+        $profileHaystack = self::normalizeForMatch(implode(' ', $entities));
 
         $questionsByRef = [];
         $questionsByLabel = [];
@@ -145,16 +142,31 @@ class ProfileAnswerGrounding
                 $question = $questionsByLabel[$answer['label']];
             }
 
-            if ($question === null
+            if ($question !== null && is_string($answer['answer'] ?? null) && trim((string) $answer['answer']) !== '') {
+                $toolVerdict = self::enforceToolCompetenceAnswer($question, trim((string) $answer['answer']), $profileHaystack);
+
+                if ($toolVerdict !== null) {
+                    $enforced[] = [
+                        'label' => $answer['label'],
+                        'answer' => $toolVerdict,
+                        'ref' => $answer['ref'] ?? null,
+                    ];
+
+                    continue;
+                }
+            }
+
+            if ($entities === []
+                || $question === null
                 || ! self::questionNeedsGrounding($question)
-                || ! is_string($answer['answer'])
-                || trim($answer['answer']) === '') {
+                || ! is_string($answer['answer'] ?? null)
+                || trim((string) $answer['answer']) === '') {
                 $enforced[] = $answer;
 
                 continue;
             }
 
-            if (self::answerOverlapsProfile(trim($answer['answer']), $entities)) {
+            if (self::answerOverlapsProfile(trim((string) $answer['answer']), $entities)) {
                 $enforced[] = $answer;
 
                 continue;
@@ -168,6 +180,85 @@ class ProfileAnswerGrounding
         }
 
         return $enforced;
+    }
+
+    /**
+     * Named-tool Yes/No: revise invented Yes to No when the tool is absent from the profile.
+     *
+     * @param  array{label: string, field_type?: string, options?: array<int, string>|null}  $question
+     * @return string|null Null when this gate does not apply; otherwise the revised answer string.
+     */
+    private static function enforceToolCompetenceAnswer(array $question, string $answer, string $profileHaystack): ?string
+    {
+        $label = (string) ($question['label'] ?? '');
+
+        if (! self::isNamedToolCompetenceQuestion($label)) {
+            return null;
+        }
+
+        $tools = self::namedToolsInLabel($label);
+
+        if ($tools === []) {
+            return null;
+        }
+
+        if (! self::answerIsAffirmativeYes($answer)) {
+            return null;
+        }
+
+        foreach ($tools as $tool) {
+            if (str_contains($profileHaystack, self::normalizeForMatch($tool))) {
+                return null;
+            }
+        }
+
+        $options = $question['options'] ?? null;
+
+        if (is_array($options) && $options !== []) {
+            foreach ($options as $option) {
+                if (! is_string($option)) {
+                    continue;
+                }
+
+                if (preg_match('/^\s*no\b/i', $option) === 1) {
+                    return $option;
+                }
+            }
+        }
+
+        return 'No';
+    }
+
+    public static function isNamedToolCompetenceQuestion(string $label): bool
+    {
+        if (self::namedToolsInLabel($label) === []) {
+            return false;
+        }
+
+        return preg_match('/\b(?:experience|experienced|familiar|proficient|knowledge|worked\s+with|hands[-\s]?on|used|using|support|administer|confident)\b/i', $label) === 1
+            || preg_match('/\b(?:do\s+you|have\s+you|are\s+you|can\s+you)\b/i', $label) === 1;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function namedToolsInLabel(string $label): array
+    {
+        $pattern = '/\b(okta|mdm|jamf|intune|helpline|iam|active\s*directory|servicenow|salesforce|workday|jira|confluence|splunk|crowdstrike|sentinelone|kubernetes|terraform|ansible|docker|aws|azure|gcp|google\s*cloud|microsoft\s*365|office\s*365|auth0|keycloak|cyberark)\b/iu';
+
+        if (preg_match_all($pattern, $label, $matches) !== false && $matches[1] !== []) {
+            return array_values(array_unique(array_map(
+                static fn (string $tool): string => mb_strtolower(trim($tool)),
+                $matches[1],
+            )));
+        }
+
+        return [];
+    }
+
+    public static function answerIsAffirmativeYes(string $answer): bool
+    {
+        return preg_match('/^\s*y(es)?\b/i', trim($answer)) === 1;
     }
 
     /**

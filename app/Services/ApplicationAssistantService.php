@@ -93,8 +93,11 @@ class ApplicationAssistantService
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
                         .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, dates, skills, or tools not listed in the profile. '
                         .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
-                        .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
-                        .'For "how many years" experience questions (including skill-specific years on LinkedIn), return only a whole number between 0 and 99 (for example "5"), never a sentence or phrase like "5 years". '
+                        .'For logistics or preference yes/no questions (relocate, commute, hybrid, sponsorship, right to work, start date readiness) return "yes" or "no" using application_settings when present. '
+                        .'For named-tool or platform competence yes/no (Okta, MDM, Jamf, Intune, Helpline, IAM, Active Directory, ServiceNow, Salesforce, AWS, Azure, etc.): answer Yes only when that tool appears in profile.skills or profile.experience technologies/highlights; otherwise return No (or the exact No option). Never invent tool experience. '
+                        .'For skill ratings out of 5 or 10, only give a mid/high score when the tool is evidenced on the CV; otherwise return a low score or null. '
+                        .'For checkbox groups that allow multiple selections, return comma-separated option texts. '
+                        .'For "how many years" experience questions (including skill-specific years on LinkedIn), return only a whole number between 0 and 99 (for example "5"), never a sentence or phrase like "5 years". If the skill or tool is not evidenced on the profile, return 0 or null - never reuse total years_of_experience for a named tool. '
                         .'Keep within max_chars when provided. Plain text only - no markdown.',
                 ], JSON_THROW_ON_ERROR),
             ],
