@@ -38,8 +38,8 @@ test('buildDraftAllApplyPlan applies memo, reference, and identity before LLM fi
             {
                 id: 0,
                 ref: 'f0',
-                label: 'Why do you want this role?',
-                field_type: 'textarea',
+                label: 'Favourite programming language?',
+                field_type: 'text',
             },
             { id: 1, ref: 'f1', label: 'First name', field_type: 'text' },
             {
@@ -53,7 +53,7 @@ test('buildDraftAllApplyPlan applies memo, reference, and identity before LLM fi
         ],
         profileData,
         questionMemo: {
-            'Why do you want this role?': 'I enjoy building reliable systems.',
+            'Favourite programming language?': 'PHP',
         },
     });
 
@@ -1020,7 +1020,10 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
     assert.equal(answersByRef.get('f5'), '40800');
     assert.equal(answersByRef.get('f8'), 'Indeed');
     assert.equal(
-        plan.llmFields.some((field) => field.ref === 'f6'),
+        plan.pendingFields.some(
+            (field) =>
+                field.ref === 'f6' && field.reason === 'screening_clarify',
+        ),
         true,
     );
     assert.equal(
@@ -1035,8 +1038,8 @@ test('buildDraftAllApplyPlan fills CGI Indeed questions-module screeners determi
         plan.llmFields.some((field) => field.ref === 'f9'),
         true,
     );
-    assert.equal(plan.llmFields.length, 3);
-    assert.equal(plan.pendingFields.length, 0);
+    assert.equal(plan.llmFields.length, 2);
+    assert.equal(plan.pendingFields.length, 1);
 });
 
 test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
@@ -1131,7 +1134,7 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
     );
 });
 
-test('cover letter question memo does not auto-apply across jobs', () => {
+test('cover letter and why-company memos do not auto-apply across jobs', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
             { id: 0, ref: 'f0', label: 'Cover letter', field_type: 'textarea' },
@@ -1141,20 +1144,32 @@ test('cover letter question memo does not auto-apply across jobs', () => {
                 label: 'Why do you want this role?',
                 field_type: 'textarea',
             },
+            {
+                id: 2,
+                ref: 'f2',
+                label: 'Additional Information',
+                field_type: 'textarea',
+            },
         ],
         profileData,
         questionMemo: {
             'Cover letter':
                 'Dear Hiring Manager at 4Subsea, I am excited to apply...',
             'Why do you want this role?': 'I enjoy building reliable products.',
+            'Additional Information':
+                'I am SC-eligible and eager to apply at Optro.',
         },
     });
 
     const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
 
     assert.equal(
-        memoStage?.answers?.some((answer) =>
-            /cover letter/i.test(answer.label || ''),
+        Boolean(
+            memoStage?.answers?.some((answer) =>
+                /cover letter|additional information|why do you want/i.test(
+                    answer.label || '',
+                ),
+            ),
         ),
         false,
     );
@@ -1166,7 +1181,13 @@ test('cover letter question memo does not auto-apply across jobs', () => {
         plan.llmFields.some((field) =>
             /why do you want this role/i.test(field.label || ''),
         ),
-        false,
+        true,
+    );
+    assert.equal(
+        plan.llmFields.some((field) =>
+            /additional information/i.test(field.label || ''),
+        ),
+        true,
     );
 });
 

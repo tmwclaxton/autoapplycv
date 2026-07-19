@@ -146,7 +146,31 @@ export function normalizeQuestionLabel(label) {
 export function isJobSpecificMemoField(field) {
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
 
-    return /\bcover letter\b/.test(label);
+    if (!label) {
+        return false;
+    }
+
+    // Cover letters and "additional information" free-text are per-job; reusing a
+    // prior Optro/etc. essay on Figma (or any next board) is wrong.
+    if (
+        /\bcover letter\b/.test(label) ||
+        /\badditional information\b/.test(label) ||
+        /\banything else (?:you.d|you would) like to share\b/.test(label)
+    ) {
+        return true;
+    }
+
+    // Motivation / "why us" essays must be rewritten for the current employer.
+    if (
+        /\bwhy (?:do you want|are you interested|should we)\b/.test(label) ||
+        /\bwhy (?:this|our) (?:company|role|position|job|team)\b/.test(label) ||
+        /\bwhat interests you (?:about|in)\b/.test(label) ||
+        /\btell us why\b/.test(label)
+    ) {
+        return true;
+    }
+
+    return false;
 }
 
 export function applicationAnswersToMemo(applicationAnswers) {
