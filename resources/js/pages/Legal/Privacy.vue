@@ -69,6 +69,11 @@ import { contact } from '@/routes';
                     <strong>Hosting infrastructure</strong> - application and
                     database hosting.
                 </li>
+                <li>
+                    <strong>Google Analytics / ads</strong> - usage analytics
+                    and advertising cookies when you allow them via the cookie
+                    preferences dialog (footer: Cookie preferences).
+                </li>
             </ul>
             <p>
                 These providers process data only as needed to deliver the

@@ -8,6 +8,7 @@ import {
     DISCORD_INVITE_URL,
     GITHUB_REPOSITORY_URL,
 } from '@/lib/site';
+import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import {
     about,
     analytics,
@@ -19,6 +20,8 @@ import {
     terms,
 } from '@/routes';
 import { index as blog } from '@/routes/blog';
+
+const cookieConsent = useCookieConsentStore();
 
 const routeMap = {
     blog,
@@ -51,6 +54,14 @@ const routeMap = {
                 >
                     {{ item.label }}
                 </Link>
+                <span class="text-muted-foreground">·</span>
+                <button
+                    type="button"
+                    class="postbox-link"
+                    @click="cookieConsent.openPreferences()"
+                >
+                    Cookie preferences
+                </button>
                 <span class="text-muted-foreground">·</span>
                 <a
                     :href="CHROME_WEB_STORE_URL"

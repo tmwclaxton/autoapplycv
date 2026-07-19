@@ -24,6 +24,18 @@ class GoogleAnalyticsTagTest extends TestCase
             $content,
         );
         $this->assertStringContainsString(
+            "gtag('consent', 'default'",
+            $content,
+        );
+        $this->assertStringContainsString(
+            "analytics_storage: 'denied'",
+            $content,
+        );
+        $this->assertStringContainsString(
+            "ad_storage: 'denied'",
+            $content,
+        );
+        $this->assertStringContainsString(
             "gtag('config', \"G-XXET6H4VM1\", { send_page_view: false })",
             $content,
         );

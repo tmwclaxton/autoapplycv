@@ -43,13 +43,20 @@
 
         @php($googleAnalyticsId = config('analytics.google_analytics_id'))
         @if (filled($googleAnalyticsId))
-            <!-- Google tag (gtag.js) -->
+            <!-- Google tag (gtag.js) + Consent Mode defaults (updated from CookieConsent Pinia store) -->
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
+                gtag('consent', 'default', {
+                    ad_storage: 'denied',
+                    ad_user_data: 'denied',
+                    ad_personalization: 'denied',
+                    analytics_storage: 'denied',
+                    wait_for_update: 500
+                });
                 gtag('js', new Date());
-                {{-- send_page_view false: Inertia SPA pageviews are sent from resources/js/lib/googleAnalytics.ts on router navigate (including initial load). --}}
+                {{-- send_page_view false: Inertia SPA pageviews are sent from resources/js/lib/googleAnalytics.ts on router navigate (including initial load), only after analytics consent. --}}
                 gtag('config', @json($googleAnalyticsId), { send_page_view: false });
             </script>
         @endif

@@ -19,6 +19,7 @@
         "readme:platforms": "node scripts/generate-readme-platforms-section.mjs --write",
         "secrets:check-fixtures": "node scripts/check-fixture-secrets.mjs",
         "types:check": "vue-tsc --noEmit",
+        "test:cookie-consent": "node --experimental-strip-types --test scripts/frontend/cookie-consent.test.mjs",
         "form-corpus:generate": "node scripts/form-corpus/generate-synthetic.mjs",
         "form-corpus:generate-framework": "node scripts/form-corpus/generate-framework-forms.mjs",
         "form-corpus:generate-interactive": "node scripts/form-corpus/generate-interactive-forms.mjs",
