@@ -25,6 +25,7 @@ import {
     isSourceOfHireQuestionLabel,
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
+    resolvePriorEmployerRelationshipAnswer,
     resolveProfileMappingForLabel,
     readProfileValue,
 } from './pending-fields.js';
@@ -426,6 +427,16 @@ export function resolveHeuristicScreenerAnswer(
     // Never dump city/location onto job-site boards (foreign-only options pend).
     if (isJobApplicationLocationChoiceLabel(label)) {
         return null;
+    }
+
+    const priorEmployerRelationshipAnswer =
+        resolvePriorEmployerRelationshipAnswer(normalizedField);
+
+    if (isMeaningfulAnswer(priorEmployerRelationshipAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            priorEmployerRelationshipAnswer,
+            normalizedField,
+        );
     }
 
     // Prefer the live job board over a stale memo from another platform.

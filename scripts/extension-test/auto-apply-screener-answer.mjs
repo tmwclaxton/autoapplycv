@@ -721,3 +721,27 @@ assert.equal(
     )?.mode,
     'application_answers',
 );
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'do you now or have you ever worked for real or any of our other companies?',
+            field_type: 'textarea',
+        },
+        profileData,
+    ),
+    'No',
+    'prior employer affiliation textareas answer No',
+);
+
+assert.equal(
+    resolveHeuristicScreenerAnswer(
+        {
+            label: 'are you related to a current real employee?',
+            field_type: 'textarea',
+        },
+        profileData,
+    ),
+    'No',
+    'related-to-employee textareas answer No',
+);
