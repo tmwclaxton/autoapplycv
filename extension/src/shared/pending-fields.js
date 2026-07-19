@@ -1176,11 +1176,26 @@ export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
         return '';
     }
 
-    if (!fieldHasYesNoOptions(field)) {
-        return '';
+    // Prefer localized Nie/Non/Nein over English-only Yes/No detection.
+    // 11 bit Warsaw hybrid Tak/Nie was left pending after fieldHasYesNoOptions
+    // was narrowed to bare Yes/No for India work-auth radios.
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const hasLocalizedYes = options.some((option) =>
+        /^(yes|tak|oui|ja|si|sí)\b/i.test(String(option || '').trim()),
+    );
+    const hasLocalizedNo = options.some((option) =>
+        /^(no|nie|non|nein)\b/i.test(String(option || '').trim()),
+    );
+
+    if (hasLocalizedYes && hasLocalizedNo) {
+        return pickLocalizedYesNoOption(field, false);
     }
 
-    return pickLocalizedYesNoOption(field, false);
+    if (fieldHasYesNoOptions(field)) {
+        return 'No';
+    }
+
+    return '';
 }
 
 function profileNearRelocateDestination(label, profileLocation) {
@@ -1517,7 +1532,11 @@ export function isSkillScopedYearsExperienceLabel(label) {
         return false;
     }
 
-    if (/\byears? of (?:work )?experience\s+(?:in|with|using)\b/.test(normalized)) {
+    if (
+        /\byears? of (?:work )?experience\s+(?:in|with|using)\b/.test(
+            normalized,
+        )
+    ) {
         return true;
     }
 
@@ -1659,7 +1678,9 @@ export function resolveServingNoticeFollowUpAnswer(field) {
         return 'No';
     }
 
-    const fieldType = String(field?.field_type || field?.type || '').toLowerCase();
+    const fieldType = String(
+        field?.field_type || field?.type || '',
+    ).toLowerCase();
 
     if (
         fieldType === 'text' ||
@@ -6568,10 +6589,7 @@ export function pendingFieldKey(field) {
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
     const fieldType = String(field?.field_type || field?.type || '').trim();
     const domId = String(
-        field?.dom?.id ||
-            field?.dom?.name ||
-            field?.dom?.data_field_path ||
-            '',
+        field?.dom?.id || field?.dom?.name || field?.dom?.data_field_path || '',
     ).trim();
 
     // Prefer stable DOM identity so inventory ref remaps do not duplicate the
