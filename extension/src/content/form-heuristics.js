@@ -10682,10 +10682,18 @@ var AutoCVApplyFormHeuristics = (() => {
         try {
             const style = view.getComputedStyle(element);
 
+            // offsetParent is null for position:fixed and often for controls inside
+            // height-clipped Greenhouse embed iframes (Ripple #grnhse_iframe). Prefer
+            // client rects so inventoriable text fields are not dropped while file
+            // inputs still win via the labeled-file bypass.
+            const hasLayout =
+                element.offsetParent !== null ||
+                (element.getClientRects?.().length ?? 0) > 0;
+
             return (
                 style.display !== 'none' &&
                 style.visibility !== 'hidden' &&
-                element.offsetParent !== null
+                hasLayout
             );
         } catch {
             return false;
@@ -12583,6 +12591,8 @@ var AutoCVApplyFormHeuristics = (() => {
             isWorkableHiddenAddressSubfield(element);
         const smartRecruitersLocation =
             isSmartRecruitersLocationInput(element);
+        const greenhouseFormControl =
+            isGreenhouseApplicationFormControl(element);
 
         if (isSiteSearchChrome(element) || isJobBoardNavSearchInput(element)) {
             return false;
@@ -12602,7 +12612,8 @@ var AutoCVApplyFormHeuristics = (() => {
             !leverSurveyControl &&
             !chosenSelect &&
             !workableAddressSubfield &&
-            !smartRecruitersLocation
+            !smartRecruitersLocation &&
+            !greenhouseFormControl
         ) {
             return false;
         }
@@ -12878,7 +12889,8 @@ var AutoCVApplyFormHeuristics = (() => {
                 !isLeverDeferredSurveyControl(element) &&
                 !isChosenEnhancedSelect(element) &&
                 !isPersonioApplicationFileInput(element) &&
-                !isLabeledApplicationFileInput(element)
+                !isLabeledApplicationFileInput(element) &&
+                !isGreenhouseApplicationFormControl(element)
             ) {
                 continue;
             }
