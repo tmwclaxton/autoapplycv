@@ -14,13 +14,20 @@ class NanoGptRequestException extends RuntimeException
     public const CODE_UNAVAILABLE = 'nanogpt_unavailable';
 
     public function __construct(
-        string $message,
+        ?string $message,
         public readonly int $statusCode,
         public readonly string $errorCode,
         public readonly ?int $providerStatus = null,
         ?Throwable $previous = null,
     ) {
-        parent::__construct($message, $statusCode, $previous);
+        // ProcessDriver / concurrency rehydration can pass a null message.
+        parent::__construct(
+            ($message !== null && $message !== '')
+                ? $message
+                : 'AI request failed. Please try again shortly.',
+            $statusCode,
+            $previous,
+        );
     }
 
     public static function fromTimeout(ConnectionException $exception, int $timeoutSeconds): self

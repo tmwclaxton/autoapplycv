@@ -24,6 +24,16 @@ return [
 
     'extraction_model_ocr' => env('NANOGPT_CV_OCR_MODEL') ?: 'deepseek/deepseek-v4-flash:throughput',
 
+    /*
+     * Absolute NanoGPT model ids tried after services.nanogpt.fallback_models
+     * when the requested model still fails with provider 503 / all_fallbacks_failed.
+     * Applied centrally by NanoGptService for ATS score, cover letter, draft-all, etc.
+     */
+    'extraction_model_fallbacks' => [
+        'google/gemini-3.1-flash-lite:throughput',
+        'deepseek/deepseek-v4-flash:throughput',
+    ],
+
     'inventory_model' => 'google/gemini-3.1-flash-lite:throughput',
 
     'form_corpus_ai_model' => 'deepseek/deepseek-v4-flash',

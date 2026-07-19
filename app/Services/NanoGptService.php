@@ -376,11 +376,64 @@ class NanoGptService
         int $connectTimeout,
         bool $stream,
     ): Response {
+        $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
+        $models = $this->modelsWithFallbacks($requestedModel);
+        $lastException = null;
+
+        foreach ($models as $modelIndex => $model) {
+            $modelOptions = array_merge($options, ['model' => $model]);
+
+            try {
+                return $this->postChatCompletionsForModel(
+                    messages: $messages,
+                    options: $modelOptions,
+                    timeout: $timeout,
+                    connectTimeout: $connectTimeout,
+                    stream: $stream,
+                );
+            } catch (NanoGptRequestException $exception) {
+                $lastException = $exception;
+
+                $hasNextModel = isset($models[$modelIndex + 1]);
+
+                if (! $hasNextModel || ! $this->shouldTryFallbackModel($exception)) {
+                    throw $exception;
+                }
+
+                Log::warning('NanoGPT retries exhausted, trying fallback model.', [
+                    'requested_model' => $requestedModel,
+                    'failed_model' => $model,
+                    'fallback_model' => $models[$modelIndex + 1],
+                    'error_code' => $exception->errorCode,
+                    'provider_status' => $exception->providerStatus,
+                    'stream' => $stream,
+                ]);
+            }
+        }
+
+        throw $lastException ?? new NanoGptRequestException(
+            message: 'AI request failed. Please try again shortly.',
+            statusCode: 503,
+            errorCode: NanoGptRequestException::CODE_UNAVAILABLE,
+        );
+    }
+
+    /**
+     * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
+     * @param  array<string, mixed>  $options
+     */
+    private function postChatCompletionsForModel(
+        array $messages,
+        array $options,
+        int $timeout,
+        int $connectTimeout,
+        bool $stream,
+    ): Response {
         $attempts = max(1, (int) config('services.nanogpt.retry_attempts', 3));
         /** @var list<int> $delays */
         $delays = array_values(array_map(
             static fn (mixed $delay): int => max(0, (int) $delay),
-            (array) config('services.nanogpt.retry_delay_ms', [300, 900]),
+            (array) config('services.nanogpt.retry_delay_ms', [1000, 3000]),
         ));
 
         $lastResponse = null;
@@ -400,6 +453,7 @@ class NanoGptService
                     'timeout' => $timeout,
                     'attempt' => $attempt,
                     'max_attempts' => $attempts,
+                    'model' => (string) ($options['model'] ?? $this->defaultModel),
                     'stream' => $stream,
                 ]);
 
@@ -445,6 +499,73 @@ class NanoGptService
             statusCode: 503,
             errorCode: NanoGptRequestException::CODE_UNAVAILABLE,
         );
+    }
+
+    private function shouldTryFallbackModel(NanoGptRequestException $exception): bool
+    {
+        return in_array($exception->errorCode, [
+            NanoGptRequestException::CODE_UNAVAILABLE,
+            NanoGptRequestException::CODE_TIMEOUT,
+        ], true);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function modelsWithFallbacks(string $model): array
+    {
+        $models = [$model];
+        [$base, $activeSuffix] = $this->splitModelTier($model);
+
+        foreach ((array) config('services.nanogpt.fallback_models', [':throughput', ':speed']) as $fallback) {
+            $fallback = trim((string) $fallback);
+
+            if ($fallback === '') {
+                continue;
+            }
+
+            if (str_starts_with($fallback, ':')) {
+                if ($activeSuffix === null) {
+                    continue;
+                }
+
+                $candidate = $base.$fallback;
+            } else {
+                $candidate = $fallback;
+            }
+
+            if ($candidate !== '' && ! in_array($candidate, $models, true)) {
+                $models[] = $candidate;
+            }
+        }
+
+        foreach ((array) config('cv.extraction_model_fallbacks', []) as $fallback) {
+            $candidate = trim((string) $fallback);
+
+            if ($candidate !== '' && ! in_array($candidate, $models, true)) {
+                $models[] = $candidate;
+            }
+        }
+
+        return $models;
+    }
+
+    /**
+     * @return array{0: string, 1: string|null}
+     */
+    private function splitModelTier(string $model): array
+    {
+        $suffixes = [':throughput', ':speed', ':ttfs', ':fast'];
+
+        foreach ($suffixes as $suffix) {
+            if (! str_ends_with($model, $suffix)) {
+                continue;
+            }
+
+            return [substr($model, 0, -strlen($suffix)), $suffix];
+        }
+
+        return [$model, null];
     }
 
     /**
@@ -541,19 +662,7 @@ class NanoGptService
     private function modelCandidates(string $model): array
     {
         $suffixes = [':throughput', ':speed', ':ttfs', ':fast'];
-        $base = $model;
-        $activeSuffix = null;
-
-        foreach ($suffixes as $suffix) {
-            if (! str_ends_with($model, $suffix)) {
-                continue;
-            }
-
-            $base = substr($model, 0, -strlen($suffix));
-            $activeSuffix = $suffix;
-
-            break;
-        }
+        [$base, $activeSuffix] = $this->splitModelTier($model);
 
         if ($activeSuffix === null) {
             return [$model];

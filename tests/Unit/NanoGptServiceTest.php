@@ -21,6 +21,8 @@ class NanoGptServiceTest extends TestCase
             'services.nanogpt.connect_timeout' => 8,
             'services.nanogpt.retry_attempts' => 3,
             'services.nanogpt.retry_delay_ms' => [0, 0],
+            'services.nanogpt.fallback_models' => [':throughput', ':speed'],
+            'cv.extraction_model_fallbacks' => [],
         ]);
     }
 
@@ -217,7 +219,114 @@ class NanoGptServiceTest extends TestCase
             $this->assertStringContainsString('temporarily unavailable', $exception->getMessage());
         }
 
+        // Untiered model has no suffix fallbacks, so only same-model retries.
         Http::assertSentCount(3);
+    }
+
+    public function test_chat_with_usage_retries_with_throughput_fallback_after_all_fallbacks_failed(): void
+    {
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => 'Fallback ok']],
+                    ],
+                    'usage' => ['total_tokens' => 9],
+                    'model' => 'google/gemini-3.1-flash-lite:throughput',
+                    'x_nanogpt_pricing' => ['cost' => 0.0021],
+                ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'Score this JD'],
+        ], [
+            'model' => 'google/gemini-3.1-flash-lite:ttfs',
+        ]);
+
+        $this->assertSame('Fallback ok', $result['content'] ?? null);
+        $this->assertSame(0.0021, $result['credits'] ?? null);
+        $this->assertSame('google/gemini-3.1-flash-lite:throughput', $result['model'] ?? null);
+
+        Http::assertSentCount(4);
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:ttfs');
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:throughput');
+    }
+
+    public function test_models_with_fallbacks_prefers_tier_then_absolute_config(): void
+    {
+        config([
+            'services.nanogpt.fallback_models' => [':throughput', ':speed'],
+            'cv.extraction_model_fallbacks' => [
+                'google/gemini-3.1-flash-lite:throughput',
+                'deepseek/deepseek-v4-flash:throughput',
+            ],
+        ]);
+
+        $service = app(NanoGptService::class);
+        $method = new \ReflectionMethod(NanoGptService::class, 'modelsWithFallbacks');
+
+        $this->assertSame([
+            'google/gemini-3.1-flash-lite:ttfs',
+            'google/gemini-3.1-flash-lite:throughput',
+            'google/gemini-3.1-flash-lite:speed',
+            'deepseek/deepseek-v4-flash:throughput',
+        ], $method->invoke($service, 'google/gemini-3.1-flash-lite:ttfs'));
+
+        $this->assertSame([
+            'openai/gpt-4.1-mini',
+            'google/gemini-3.1-flash-lite:throughput',
+            'deepseek/deepseek-v4-flash:throughput',
+        ], $method->invoke($service, 'openai/gpt-4.1-mini'));
+    }
+
+    public function test_chat_with_usage_uses_absolute_extraction_fallback_after_tier_fallbacks_fail(): void
+    {
+        config([
+            'services.nanogpt.fallback_models' => [':throughput'],
+            'services.nanogpt.retry_attempts' => 1,
+            'cv.extraction_model_fallbacks' => [
+                'deepseek/deepseek-v4-flash:throughput',
+            ],
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push(['error' => ['message' => 'all_fallbacks_failed']], 503)
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => 'DeepSeek recovered']],
+                    ],
+                    'usage' => ['total_tokens' => 11],
+                    'model' => 'deepseek/deepseek-v4-flash:throughput',
+                ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'Score this JD'],
+        ], [
+            'model' => 'google/gemini-3.1-flash-lite:ttfs',
+        ]);
+
+        $this->assertSame('DeepSeek recovered', $result['content'] ?? null);
+        Http::assertSentCount(3);
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:ttfs');
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:throughput');
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'deepseek/deepseek-v4-flash:throughput');
+    }
+
+    public function test_nanogpt_request_exception_accepts_null_message(): void
+    {
+        $exception = new NanoGptRequestException(
+            message: null,
+            statusCode: 503,
+            errorCode: NanoGptRequestException::CODE_UNAVAILABLE,
+        );
+
+        $this->assertSame('AI request failed. Please try again shortly.', $exception->getMessage());
     }
 
     public function test_chat_with_usage_throws_timeout_after_connection_failures(): void
