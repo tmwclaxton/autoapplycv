@@ -57,6 +57,19 @@ describe('cookieConsent helpers', () => {
         assert.doesNotMatch(modalSource, /@update:checked=/);
     });
 
+    it('uses a compact bottom-sheet layout on small screens', () => {
+        assert.match(modalSource, /top-auto/);
+        assert.match(modalSource, /bottom-0/);
+        assert.match(modalSource, /max-h-\[min\(85dvh,100%\)\]/);
+        assert.match(modalSource, /rounded-t-xl/);
+        assert.match(modalSource, /sm:top-\[50%\]/);
+        assert.match(modalSource, /sm:max-w-xl/);
+        assert.match(modalSource, /overflow-y-auto/);
+        assert.match(modalSource, /sm:hidden/);
+        assert.match(modalSource, /grid-cols-2/);
+        assert.doesNotMatch(modalSource, /\u2014/);
+    });
+
     it('maps accept-all choices to granted Consent Mode keys', () => {
         const consent = choicesToGtagConsent(defaultConsentChoices());
 

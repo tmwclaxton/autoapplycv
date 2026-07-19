@@ -43,42 +43,57 @@ function onCheckedChange(
 <template>
     <Dialog :open="isModalOpen" @update:open="onOpenChange">
         <DialogContent
-            class="gap-0 overflow-hidden border-2 border-postbox-navy bg-postbox-surface p-0 sm:max-w-xl"
+            class="fixed top-auto right-0 bottom-0 left-0 flex max-h-[min(85dvh,100%)] w-full max-w-full translate-x-0 translate-y-0 flex-col gap-0 overflow-hidden rounded-t-xl rounded-b-none border-2 border-postbox-navy bg-postbox-surface p-0 sm:top-[50%] sm:right-auto sm:bottom-auto sm:left-[50%] sm:max-h-[min(90vh,40rem)] sm:max-w-xl sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg"
             :show-close-button="true"
         >
             <div
-                class="border-b-2 border-postbox-navy bg-postbox-grey px-6 py-5 pr-12"
+                class="shrink-0 border-b-2 border-postbox-navy bg-postbox-grey px-4 py-3 pr-12 sm:px-6 sm:py-5"
             >
-                <DialogHeader class="space-y-2 text-left">
-                    <p class="postbox-label mb-0">Your privacy</p>
+                <DialogHeader class="space-y-1 text-left sm:space-y-2">
+                    <p class="postbox-label mb-0 hidden sm:block">
+                        Your privacy
+                    </p>
                     <DialogTitle
-                        class="text-2xl font-bold tracking-tight text-postbox-navy"
+                        class="text-lg font-bold tracking-tight text-postbox-navy sm:text-2xl"
                     >
                         Cookies and advertising
                     </DialogTitle>
                     <DialogDescription
-                        class="text-sm leading-relaxed text-muted-foreground"
+                        class="text-xs leading-snug text-muted-foreground sm:text-sm sm:leading-relaxed"
                     >
-                        We use Google Analytics and advertising cookies to
-                        improve AutoCVApply and measure ads. Optional categories
-                        start on - turn off any you prefer. See our
-                        <Link :href="privacy()" class="postbox-link">
-                            privacy policy
-                        </Link>
-                        for details.
+                        <span class="sm:hidden">
+                            Analytics and ad cookies help improve AutoCVApply.
+                            Optional categories start on. See our
+                            <Link :href="privacy()" class="postbox-link">
+                                privacy policy
+                            </Link>
+                            .
+                        </span>
+                        <span class="hidden sm:inline">
+                            We use Google Analytics and advertising cookies to
+                            improve AutoCVApply and measure ads. Optional
+                            categories start on - turn off any you prefer. See
+                            our
+                            <Link :href="privacy()" class="postbox-link">
+                                privacy policy
+                            </Link>
+                            for details.
+                        </span>
                     </DialogDescription>
                 </DialogHeader>
             </div>
 
-            <div class="px-6 py-5">
+            <div
+                class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 sm:px-6 sm:py-5"
+            >
                 <ul class="divide-y-2 divide-postbox-navy/10" role="list">
                     <li
                         v-for="category in categories"
                         :key="category.id"
-                        class="py-4 first:pt-0 last:pb-0"
+                        class="py-2.5 first:pt-0 last:pb-0 sm:py-4"
                     >
                         <label
-                            class="flex items-start justify-between gap-4"
+                            class="flex items-start justify-between gap-3 sm:gap-4"
                             :class="
                                 category.required
                                     ? 'cursor-default'
@@ -87,7 +102,7 @@ function onCheckedChange(
                         >
                             <span class="min-w-0 flex-1">
                                 <span
-                                    class="flex flex-wrap items-center gap-x-2 gap-y-1"
+                                    class="flex flex-wrap items-center gap-x-2 gap-y-0.5"
                                 >
                                     <span
                                         class="text-sm font-bold text-postbox-navy"
@@ -108,7 +123,7 @@ function onCheckedChange(
                                     </span>
                                 </span>
                                 <span
-                                    class="mt-1 block text-sm leading-relaxed text-muted-foreground"
+                                    class="mt-0.5 block text-xs leading-snug text-muted-foreground sm:mt-1 sm:text-sm sm:leading-relaxed"
                                 >
                                     {{ category.description }}
                                 </span>
@@ -129,7 +144,7 @@ function onCheckedChange(
             </div>
 
             <DialogFooter
-                class="flex-col gap-3 border-t-2 border-postbox-navy bg-postbox-grey px-6 py-4 sm:flex-col sm:space-x-0"
+                class="shrink-0 flex-col gap-2 border-t-2 border-postbox-navy bg-postbox-grey px-4 py-3 sm:flex-col sm:gap-3 sm:space-x-0 sm:px-6 sm:py-4"
             >
                 <button
                     type="button"
@@ -138,7 +153,7 @@ function onCheckedChange(
                 >
                     Accept all
                 </button>
-                <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+                <div class="grid w-full grid-cols-2 gap-2">
                     <button
                         type="button"
                         class="postbox-btn-outline w-full"
@@ -156,7 +171,7 @@ function onCheckedChange(
                 </div>
                 <button
                     type="button"
-                    class="postbox-btn-ghost w-full text-sm text-muted-foreground hover:text-postbox-navy"
+                    class="postbox-btn-ghost w-full py-1.5 text-xs text-muted-foreground hover:text-postbox-navy sm:py-2 sm:text-sm"
                     @click="consentStore.remindLater()"
                 >
                     Remind me later
