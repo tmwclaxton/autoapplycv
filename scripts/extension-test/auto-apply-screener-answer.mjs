@@ -433,6 +433,18 @@ assert.equal(
     'Sr. Software Engineer, Frontend (UK)',
 );
 assert.equal(
+    isPositionApplyingForQuestionLabel('stelle/bereich'),
+    true,
+    'Personio Stelle/Bereich is a short role field',
+);
+assert.equal(
+    resolvePositionApplyingForAnswer(
+        { label: 'stelle/bereich', field_type: 'text' },
+        { jobTitle: 'Initiative application (Full time)' },
+    ),
+    'Initiative application (Full time)',
+);
+assert.equal(
     resolveInstructionalChoiceAnswer({
         label: 'to confirm you are a human applicant, please select the third option from the list below.',
         field_type: 'radio',

@@ -150,7 +150,9 @@ export function isPositionApplyingForQuestionLabel(label) {
     return (
         /\bposition applying for\b/.test(normalized) ||
         /\brole applying for\b/.test(normalized) ||
-        /^(?:job|role) title$/.test(normalized)
+        /^(?:job|role) title$/.test(normalized) ||
+        // Personio DE open applications: "Stelle/Bereich" wants a short role name.
+        /^(?:stelle|bereich|stelle bereich)$/.test(normalized)
     );
 }
 
