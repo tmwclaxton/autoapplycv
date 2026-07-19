@@ -1280,7 +1280,10 @@ function extractOfficeCitiesFromLabel(normalized) {
     }
 
     // London neighbourhood offices (Granola Old Street, etc.).
-    if (/\bold street\b/.test(normalized) || /\bshoreditch\b/.test(normalized)) {
+    if (
+        /\bold street\b/.test(normalized) ||
+        /\bshoreditch\b/.test(normalized)
+    ) {
         cities.add('london');
     }
 
@@ -1308,6 +1311,29 @@ function fieldHasYesNoOptions(field) {
     // not-authorized boards were returning bare "No" and failing to select the
     // long unauthorized option.
     return hasYes && hasNo;
+}
+
+/**
+ * Prior-application Yes/No screeners ("applied in the last 12 months?").
+ * Default No - sticky replay can restore after resume attach remounts radios.
+ */
+export function isPriorApplicationQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /\b(?:have you|did you)\b.*\bapplied\b/.test(normalized) ||
+        /\bpreviously applied\b/.test(normalized) ||
+        /\balready applied\b/.test(normalized) ||
+        /\bapplied (?:for|to) (?:any|this|a|another)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    return false;
 }
 
 function pickLocalizedYesNoOption(field, wantYes) {
@@ -2405,7 +2431,7 @@ export function resolveEeoDeclineOption(field) {
     }
 
     const preferNot = declineOptions.find((text) =>
-        /prefer not to (?:say|answer|self|disclose)|decline to self-?identify|i do not want to answer|i decline/i.test(
+        /prefer not to (?:say|answer|respond|self|disclose)|decline to self-?identify|i do not want to answer|i decline/i.test(
             text,
         ),
     );
@@ -3281,12 +3307,10 @@ export function isJobApplicationLocationChoiceLabel(label) {
     }
 
     if (
-        /\bprefer to be based\b/.test(normalized)
-        || /\bour office locations?\b/.test(normalized)
-        || (
-            /\boffice locations?\b/.test(normalized)
-            && /\b(?:prefer|based|which|what|select|choose)\b/.test(normalized)
-        )
+        /\bprefer to be based\b/.test(normalized) ||
+        /\bour office locations?\b/.test(normalized) ||
+        (/\boffice locations?\b/.test(normalized) &&
+            /\b(?:prefer|based|which|what|select|choose)\b/.test(normalized))
     ) {
         return true;
     }
@@ -4471,7 +4495,10 @@ export function isListedCountriesLocationQuestion(label) {
         return false;
     }
 
-    if (isUsLocationQuestion(label) || isUsLocationConfirmationQuestion(label)) {
+    if (
+        isUsLocationQuestion(label) ||
+        isUsLocationConfirmationQuestion(label)
+    ) {
         return false;
     }
 
@@ -4509,7 +4536,9 @@ export function resolveListedCountriesLocationAnswer(field, profileData) {
     );
     const profileLocation = profileLocationTokens(profileData);
     const options = Array.isArray(field?.options)
-        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        ? field.options
+              .map((option) => String(option || '').trim())
+              .filter(Boolean)
         : [];
 
     const listed = LISTED_LOCATION_COUNTRY_ALIASES.filter((entry) =>
@@ -4733,9 +4762,7 @@ function resolveGithubProfileUrl(profileData) {
 
     // Top-level github_url (API / assist profile payloads).
     const githubUrl = String(
-        profileData?.github_url ||
-            profileData?.profile?.github_url ||
-            '',
+        profileData?.github_url || profileData?.profile?.github_url || '',
     ).trim();
 
     if (githubUrl && urlHostContains(githubUrl, 'github.com')) {
@@ -4861,7 +4888,8 @@ export function readProfileValue(profileData, path) {
 
     if (path === 'full_name.first' || path === 'full_name.last') {
         const split = splitFullName(readProfileValue(profileData, 'full_name'));
-        const fromFullName = path === 'full_name.first' ? split.first : split.last;
+        const fromFullName =
+            path === 'full_name.first' ? split.first : split.last;
 
         if (fromFullName) {
             return fromFullName;
@@ -5429,7 +5457,10 @@ function profileHasResolvableLanguageAnswer(field, profileData) {
     const normalized = normalizeQuestionLabel(
         field?.label || field?.question || '',
     );
-    const languages = readProfileValue(profileData, 'structured_data.languages');
+    const languages = readProfileValue(
+        profileData,
+        'structured_data.languages',
+    );
     const hasLanguages = Array.isArray(languages) && languages.length > 0;
     const country = normalizeQuestionLabel(
         String(readProfileValue(profileData, 'country') || ''),
@@ -6577,6 +6608,12 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         if (isMeaningfulAnswer(usLocationAnswer)) {
             return usLocationAnswer;
         }
+    }
+
+    // "Have you applied here in the last 12 months?" - default No so Draft All
+    // does not invent Yes, and sticky replay can restore after resume attach.
+    if (isPriorApplicationQuestionLabel(label) && fieldHasYesNoOptions(field)) {
+        return findExactChoiceOptionMatch('No', field.options || []) || 'No';
     }
 
     if (isUsResidenceQuestion(label)) {

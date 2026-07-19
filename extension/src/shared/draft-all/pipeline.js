@@ -414,7 +414,9 @@ export function buildDraftAllApplyPlan({
 
         // When source-of-hire is LinkedIn/Indeed/etc., do not NanoGPT an
         // "If Other, please explain" essay.
-        const sourceAnswer = String(sourceOfHireAnswers[0]?.answer || '').trim();
+        const sourceAnswer = String(
+            sourceOfHireAnswers[0]?.answer || '',
+        ).trim();
 
         if (sourceAnswer && !/^other$/i.test(sourceAnswer)) {
             // Scan all fields, not only remainingFields - memo can already have
@@ -457,20 +459,27 @@ export function buildDraftAllApplyPlan({
         });
     }
 
-    const stickyPreferenceSelectAnswers = (
-        preferencePartition.preferenceAnswers || []
-    ).filter((answer) => {
-        const fieldType = String(answer.field_type || '').toLowerCase();
+    const isStickyChoiceAnswer = (answer) => {
+        const fieldType = String(answer?.field_type || '').toLowerCase();
 
         return (
             fieldType === 'select' ||
             fieldType === 'radio' ||
-            answer.dom?.role === 'combobox'
+            answer?.dom?.role === 'combobox'
         );
-    });
+    };
+
+    // Resume/file attach (Teamtailor et al.) re-renders and clears radios/selects.
+    // Keep preference + screener choice answers sticky with EEO/source-of-hire.
+    const stickyPreferenceSelectAnswers = (
+        preferencePartition.preferenceAnswers || []
+    ).filter(isStickyChoiceAnswer);
+    const stickyScreenerSelectAnswers =
+        otherScreenerAnswers.filter(isStickyChoiceAnswer);
 
     const stickySelectAnswers = [
         ...tagAnswersWithSource(stickyPreferenceSelectAnswers, 'screener'),
+        ...tagAnswersWithSource(stickyScreenerSelectAnswers, 'screener'),
         ...tagAnswersWithSource(eeoPartition.eeoAnswers || [], 'screener'),
         ...tagAnswersWithSource(sourceOfHireAnswers, 'screener'),
     ];

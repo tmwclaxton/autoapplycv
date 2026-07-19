@@ -17,17 +17,41 @@ const {
     scoreFrame,
     shouldRecoverFormFrameAndRetryApply,
 } = await import(
-    pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js'))
+        .href
 );
 
 test('formatContentScriptUserError maps Chrome receiving-end errors to refresh hint', () => {
-    assert.equal(isMissingContentScriptError('Could not establish connection. Receiving end does not exist.'), true);
-    assert.equal(isMissingContentScriptError('Extension context unavailable.'), true);
-    assert.equal(isMissingContentScriptError('Content script ping failed.'), true);
-    assert.equal(isMissingContentScriptError('Tab message timed out after 1500ms (PING_CONTENT_SCRIPT)'), true);
-    assert.equal(isMissingContentScriptError('The message port closed before a response was received.'), true);
     assert.equal(
-        formatContentScriptUserError('Could not establish connection. Receiving end does not exist.'),
+        isMissingContentScriptError(
+            'Could not establish connection. Receiving end does not exist.',
+        ),
+        true,
+    );
+    assert.equal(
+        isMissingContentScriptError('Extension context unavailable.'),
+        true,
+    );
+    assert.equal(
+        isMissingContentScriptError('Content script ping failed.'),
+        true,
+    );
+    assert.equal(
+        isMissingContentScriptError(
+            'Tab message timed out after 1500ms (PING_CONTENT_SCRIPT)',
+        ),
+        true,
+    );
+    assert.equal(
+        isMissingContentScriptError(
+            'The message port closed before a response was received.',
+        ),
+        true,
+    );
+    assert.equal(
+        formatContentScriptUserError(
+            'Could not establish connection. Receiving end does not exist.',
+        ),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
@@ -35,7 +59,9 @@ test('formatContentScriptUserError maps Chrome receiving-end errors to refresh h
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
-        formatContentScriptUserError(new Error('Extension context invalidated.')),
+        formatContentScriptUserError(
+            new Error('Extension context invalidated.'),
+        ),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
@@ -43,11 +69,15 @@ test('formatContentScriptUserError maps Chrome receiving-end errors to refresh h
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
-        formatContentScriptUserError(new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE)),
+        formatContentScriptUserError(
+            new Error(CONTENT_SCRIPT_MISSING_USER_MESSAGE),
+        ),
         CONTENT_SCRIPT_MISSING_USER_MESSAGE,
     );
     assert.equal(
-        formatContentScriptUserError('Already answering questions on this page.'),
+        formatContentScriptUserError(
+            'Already answering questions on this page.',
+        ),
         'Already answering questions on this page.',
     );
 });
@@ -82,7 +112,10 @@ test('shouldRecoverFormFrameAndRetryApply detects dead iframe apply failures', (
 
 test('Draft All does not count failed applies as filled via stageCount', async () => {
     const background = await import('node:fs').then((fs) =>
-        fs.readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8'),
+        fs.readFileSync(
+            join(ROOT, 'extension/src/background/index.js'),
+            'utf8',
+        ),
     );
 
     assert.doesNotMatch(
@@ -93,10 +126,9 @@ test('Draft All does not count failed applies as filled via stageCount', async (
         background,
         /shouldRecoverFormFrameAndRetryApply\(applyResult\)/,
     );
-    assert.match(
-        background,
-        /reapplyStickySelectAnswersAfterDocuments/,
-    );
+    assert.match(background, /reapplyStickySelectAnswersAfterDocuments/);
+    assert.match(background, /fillDocumentsThenReapplyStickyAnswers/);
+    assert.match(background, /draft-all\.identity_replay/);
 });
 
 test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
@@ -110,7 +142,10 @@ test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     assert.equal(smallBatch, 50_000);
 
     const largeBatch = computeApplyDraftBatchTimeoutMs(
-        Array.from({ length: 10 }, () => ({ field_type: 'textarea', answer: 'x'.repeat(200) })),
+        Array.from({ length: 10 }, () => ({
+            field_type: 'textarea',
+            answer: 'x'.repeat(200),
+        })),
     );
 
     assert.equal(largeBatch, 300_000);
@@ -144,8 +179,7 @@ test('scoreFrame prefers form hosts and ignores invalid counts', () => {
             5,
             true,
             'https://job-boards.greenhouse.io/embed/job_app?for=ripple',
-        ) >
-            scoreFrame(5, true, 'https://ripple.com/careers/job/1'),
+        ) > scoreFrame(5, true, 'https://ripple.com/careers/job/1'),
     );
 });
 
@@ -198,7 +232,10 @@ test('ensureTabContentScript injects or asks for refresh after extension reload'
         ),
     );
     const background = await import('node:fs').then((fs) =>
-        fs.readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8'),
+        fs.readFileSync(
+            join(ROOT, 'extension/src/background/index.js'),
+            'utf8',
+        ),
     );
     const content = await import('node:fs').then((fs) =>
         fs.readFileSync(join(ROOT, 'extension/src/content/index.js'), 'utf8'),
@@ -244,7 +281,10 @@ test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () =
 
     assert.equal(
         pickIndeedApplyTabId(hostTabId, [
-            { id: hostTabId, url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd' },
+            {
+                id: hostTabId,
+                url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd',
+            },
             {
                 id: applyTabId,
                 url: 'https://smartapply.indeed.com/beta/indeedapply/form/post-apply',
@@ -260,7 +300,10 @@ test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () =
     // Preload iframe/tab must not steal the apply-tab pick from the SERP host.
     assert.equal(
         pickIndeedApplyTabId(hostTabId, [
-            { id: hostTabId, url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd' },
+            {
+                id: hostTabId,
+                url: 'https://uk.indeed.com/jobs?vjk=abc1234567890abcd',
+            },
             {
                 id: 404,
                 url: 'https://smartapply.indeed.com/beta/indeedapply/preloadresumeapply',

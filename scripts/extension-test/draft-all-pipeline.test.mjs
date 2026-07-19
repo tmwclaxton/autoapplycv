@@ -363,10 +363,11 @@ test('buildDraftAllApplyPlan excludes employer screening traps from LLM fields',
     assert.equal(plan.llmFields.length, 1);
     assert.equal(plan.llmFields[0].ref, 'f2');
     assert.equal(plan.pendingFields.length, 3);
-    assert.deepEqual(
-        plan.pendingFields.map((field) => field.ref).sort(),
-        ['f1', 'f3', 'f4'],
-    );
+    assert.deepEqual(plan.pendingFields.map((field) => field.ref).sort(), [
+        'f1',
+        'f3',
+        'f4',
+    ]);
     assert.ok(
         plan.pendingFields.every(
             (field) => field.reason === 'screening_clarify',
@@ -795,7 +796,8 @@ test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of Link
         questionMemo: {
             'how did you hear about us?': 'Other',
         },
-        pageUrl: 'https://careers.formlabs.com/job/7909577/apply/?gh_jid=7909577',
+        pageUrl:
+            'https://careers.formlabs.com/job/7909577/apply/?gh_jid=7909577',
     });
     const answersByRef = new Map(
         plan.applyStages.flatMap((stage) =>
@@ -811,10 +813,7 @@ test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of Link
         plan.applyStages.some((stage) => stage.type === 'source_of_hire'),
         true,
     );
-    assert.equal(
-        plan.applyStages.at(-1)?.type,
-        'sticky_select',
-    );
+    assert.equal(plan.applyStages.at(-1)?.type, 'sticky_select');
     assert.equal(answersByRef.get('f11'), 'LinkedIn');
     assert.equal(plan.skipsLlm, true);
 });
@@ -845,6 +844,49 @@ test('buildDraftAllApplyPlan inverts work-permit questions from legally_authoriz
     );
 
     assert.equal(preference?.answers?.[0]?.answer, 'No');
+    assert.equal(plan.llmFields.length, 0);
+});
+
+test('buildDraftAllApplyPlan answers prior-application Yes/No as No and keeps it sticky', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label: 'In the last 12 months have you applied for any position at Aignostics?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'gender',
+                field_type: 'radio',
+                options: ['Man', 'Woman', 'Prefer not to respond'],
+            },
+        ],
+        profileData,
+        questionMemo: {},
+    });
+    const answersByRef = new Map(
+        plan.applyStages.flatMap((stage) =>
+            stage.answers.map((answer) => [answer.ref, answer.answer]),
+        ),
+    );
+    const sticky = plan.applyStages.find(
+        (stage) => stage.type === 'sticky_select',
+    );
+
+    assert.equal(answersByRef.get('f0'), 'No');
+    assert.equal(answersByRef.get('f1'), 'Prefer not to respond');
+    assert.equal(
+        sticky?.answers?.some((answer) => answer.ref === 'f0'),
+        true,
+    );
+    assert.equal(
+        sticky?.answers?.some((answer) => answer.ref === 'f1'),
+        true,
+    );
     assert.equal(plan.llmFields.length, 0);
 });
 
@@ -1097,7 +1139,9 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
     });
 
     // Broad software-development years use profile YOE; tool-scoped Go years clear.
-    const screenerStage = plan.applyStages.find((stage) => stage.type === 'screener');
+    const screenerStage = plan.applyStages.find(
+        (stage) => stage.type === 'screener',
+    );
     assert.ok(screenerStage);
     assert.equal(
         screenerStage.answers.some(
@@ -1298,8 +1342,7 @@ test('interview accommodation free-text is cleared and not sent to LLM', () => {
         fields: [
             {
                 ref: 'f0',
-                label:
-                    "We believe it's on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.",
+                label: "We believe it's on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.",
                 field_type: 'textarea',
             },
             {

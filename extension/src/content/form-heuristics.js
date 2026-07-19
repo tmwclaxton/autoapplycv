@@ -517,31 +517,31 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (!match) {
-            match = validOptions.find((option) => {
-                const text = option.textContent.trim().toLowerCase();
-                const val = option.value.toLowerCase();
+            // Score every option and take the best hit. First-match includes()
+            // falsely picks "Queen's University - Canada" for
+            // "Queen's University Belfast" when both share leading tokens.
+            let bestOption = null;
+            let bestScore = 0;
 
-                return (
-                    text.includes(normalizedValue) ||
-                    normalizedValue.includes(text) ||
-                    val.includes(normalizedValue) ||
-                    normalizedValue.includes(val)
-                );
-            });
-        }
-
-        if (!match) {
-            match = validOptions.find((option) => {
+            for (const option of validOptions) {
                 const text = (option.textContent || '')
                     .replace(/\s+/g, ' ')
                     .trim();
                 const val = String(option.value || '');
-
-                return (
-                    optionMatchesAnswer(text, value) ||
-                    optionMatchesAnswer(val, value)
+                const score = Math.max(
+                    scoreComboboxOptionMatch(text, value),
+                    scoreComboboxOptionMatch(val, value),
                 );
-            });
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestOption = option;
+                }
+            }
+
+            if (bestOption && bestScore >= 100) {
+                match = bestOption;
+            }
         }
 
         return match || null;
@@ -7112,6 +7112,35 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     /**
+     * Tokens that are too common to prove a university/place match on their own.
+     * Distinctive leftovers (belfast, cambridge, wycombe) must still appear.
+     */
+    const GENERIC_OPTION_MATCH_TOKENS = new Set([
+        'university',
+        'college',
+        'institute',
+        'school',
+        'campus',
+        'polytechnic',
+        'the',
+        'and',
+        'of',
+        'for',
+        'at',
+        'in',
+        'to',
+        'group',
+        'inc',
+        'ltd',
+        'llc',
+        'plc',
+        'united',
+        'kingdom',
+        'states',
+        'america',
+    ]);
+
+    /**
      * Score how well a combobox option matches an answer. Used when substring
      * includes() fails because geo options insert admin regions mid-phrase
      * ("High Wycombe, England" vs "High Wycombe, Buckinghamshire, England, UK").
@@ -7137,14 +7166,28 @@ var AutoCVApplyFormHeuristics = (() => {
             return 800;
         }
 
-        if (normalizedAnswer.length >= 3 && normalizedAnswer.includes(option)) {
-            return 400;
-        }
-
         const answerTokens = normalizedAnswer
             .split(/\s+/)
             .filter((token) => token.length >= 2);
         const optionTokens = option.split(/\s+/).filter(Boolean);
+        const distinctiveAnswerTokens = answerTokens.filter(
+            (token) =>
+                token.length >= 4 && !GENERIC_OPTION_MATCH_TOKENS.has(token),
+        );
+
+        // Contained options ("Queen's University" inside "Queen's University
+        // Belfast") only count when they still carry every distinctive token,
+        // or the answer has none (short generic answers).
+        if (normalizedAnswer.length >= 3 && normalizedAnswer.includes(option)) {
+            const optionSetForContainment = new Set(optionTokens);
+            const missingDistinctive = distinctiveAnswerTokens.some(
+                (token) => !optionSetForContainment.has(token),
+            );
+
+            if (!missingDistinctive) {
+                return 400;
+            }
+        }
 
         if (answerTokens.length < 2 || optionTokens.length === 0) {
             return 0;
@@ -7166,6 +7209,25 @@ var AutoCVApplyFormHeuristics = (() => {
             !optionSet.has(answerTokens[1])
         ) {
             return 0;
+        }
+
+        // "Queen's University Belfast" must not match "Queen's University - Canada"
+        // just because the first two tokens overlap.
+        if (distinctiveAnswerTokens.length > 0) {
+            const distinctiveCovered = distinctiveAnswerTokens.filter(
+                (token) => optionSet.has(token),
+            ).length;
+
+            if (distinctiveCovered === 0) {
+                return 0;
+            }
+
+            return (
+                100 +
+                covered * 20 +
+                distinctiveCovered * 40 +
+                Math.min(optionTokens.length, 10)
+            );
         }
 
         return 100 + covered * 20 + Math.min(optionTokens.length, 10);
@@ -13993,6 +14055,7 @@ var AutoCVApplyFormHeuristics = (() => {
         setRoleRadioGroupValue,
         optionMatchesAnswer,
         scoreComboboxOptionMatch,
+        findSelectOptionMatch,
         valueMatchesAnswer,
         verifyFieldApplied,
         isSnapshotElementFilled,
