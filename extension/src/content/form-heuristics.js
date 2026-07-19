@@ -4487,6 +4487,51 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    /**
+     * Booksy-style Workable selects sometimes ship only an empty illustrated-input
+     * shell plus an aria-hidden value input (no role=combobox until opened).
+     */
+    function getWorkableSelectRoot(element) {
+        return element?.closest?.('[data-input-type="select"]') || null;
+    }
+
+    function isWorkableOrphanSelectValueInput(element) {
+        if (
+            !element ||
+            !isWorkableApplyHost(element.ownerDocument || document)
+        ) {
+            return false;
+        }
+
+        if (element.tagName?.toLowerCase() !== 'input') {
+            return false;
+        }
+
+        if (
+            element.type === 'radio' ||
+            element.type === 'checkbox' ||
+            element.type === 'file' ||
+            element.type === 'hidden'
+        ) {
+            return false;
+        }
+
+        if (
+            element.getAttribute('aria-hidden') !== 'true' &&
+            element.tabIndex !== -1
+        ) {
+            return false;
+        }
+
+        const selectRoot = getWorkableSelectRoot(element);
+
+        if (!selectRoot) {
+            return false;
+        }
+
+        return selectRoot.querySelector('[role="combobox"]') === null;
+    }
+
     function openWorkableSelectDropdown(element) {
         const root = element?.closest?.('[data-input-type="select"]');
 
@@ -4500,11 +4545,131 @@ var AutoCVApplyFormHeuristics = (() => {
             dispatchPointerClick(illustrated);
         }
 
+        // Orphan selects use the illustrated shell as the only click target.
+        if (!element?.getAttribute?.('role') && illustrated) {
+            dispatchPointerClick(illustrated);
+            nativeClick(illustrated);
+        }
+
         if (root) {
             root.setAttribute('data-open', 'true');
         }
 
-        element.setAttribute('aria-expanded', 'true');
+        element?.setAttribute?.('aria-expanded', 'true');
+    }
+
+    async function setWorkableOrphanSelectValue(element, value) {
+        const root = getWorkableSelectRoot(element);
+
+        if (!root) {
+            return false;
+        }
+
+        const stringValue = String(value ?? '').trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const illustrated = root.querySelector(
+            '[data-role="illustrated-input"]',
+        );
+        const doc = element.ownerDocument || document;
+
+        openWorkableSelectDropdown(illustrated || element);
+        await pauseMs(160);
+
+        // Opening often mounts a real combobox; prefer the existing path.
+        const mountedCombobox = root.querySelector('[role="combobox"]');
+
+        if (mountedCombobox) {
+            const filled = await setAshbyComboboxValue(
+                mountedCombobox,
+                stringValue,
+            );
+
+            if (filled || workableSelectIsCommitted(mountedCombobox, stringValue)) {
+                return true;
+            }
+        }
+
+        let options = Array.from(
+            root.querySelectorAll(
+                '[role="option"], li[data-value], [data-index]',
+            ),
+        );
+
+        if (options.length === 0) {
+            options = Array.from(
+                doc.querySelectorAll(
+                    '[role="listbox"] [role="option"], [role="option"][data-value], [role="option"][data-index]',
+                ),
+            ).filter((option) => isVisible(option) || option.isConnected);
+        }
+
+        if (options.length === 0) {
+            return false;
+        }
+
+        let bestOption = null;
+        let bestScore = 0;
+
+        for (const option of options) {
+            const text = (
+                option.textContent ||
+                option.getAttribute('aria-label') ||
+                ''
+            )
+                .replace(/\s+/g, ' ')
+                .trim();
+            const dataValue = option.getAttribute('data-value') || '';
+            const score = Math.max(
+                scoreComboboxOptionMatch(text, stringValue),
+                scoreComboboxOptionMatch(dataValue, stringValue),
+            );
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestOption = option;
+            }
+        }
+
+        const optionElement = bestScore > 0 ? bestOption : null;
+
+        if (!optionElement) {
+            return false;
+        }
+
+        const optionText = (
+            optionElement.textContent ||
+            optionElement.getAttribute('aria-label') ||
+            stringValue
+        )
+            .replace(/\s+/g, ' ')
+            .trim();
+        const optionValue = resolveWorkableOptionValue(
+            optionElement,
+            optionText,
+        );
+
+        clickWorkableListboxOption(
+            doc,
+            mountedCombobox || element,
+            optionElement,
+            optionText,
+        );
+        await pauseMs(120);
+
+        if (optionValue) {
+            setNativeValue(element, optionValue);
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        root.setAttribute('data-open', 'false');
+        root.setAttribute('data-error', 'false');
+
+        return Boolean(String(element.value || '').trim());
     }
 
     function resolveWorkableHiddenSelectInput(root, combobox) {
@@ -4865,7 +5030,15 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     function shouldSkipComboboxOptionHarvest(element) {
-        if (!element || element.getAttribute?.('role') !== 'combobox') {
+        if (!element) {
+            return true;
+        }
+
+        if (isWorkableOrphanSelectValueInput(element)) {
+            return false;
+        }
+
+        if (element.getAttribute?.('role') !== 'combobox') {
             return true;
         }
 
@@ -5040,6 +5213,45 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (staticLabels.length >= 2) {
             return staticLabels;
+        }
+
+        if (isWorkableOrphanSelectValueInput(element)) {
+            const root = getWorkableSelectRoot(element);
+            const beforeValue = String(element.value || '').trim();
+            const illustrated = root?.querySelector(
+                '[data-role="illustrated-input"]',
+            );
+
+            openWorkableSelectDropdown(illustrated || element);
+            await pauseMs(200);
+
+            const mountedCombobox = root?.querySelector('[role="combobox"]');
+
+            if (mountedCombobox) {
+                return harvestLazyComboboxOptionLabels(mountedCombobox);
+            }
+
+            let optionElements = Array.from(
+                root?.querySelectorAll('[role="option"], li[data-value]') || [],
+            );
+
+            if (optionElements.length < 2) {
+                optionElements = Array.from(
+                    doc.querySelectorAll(
+                        '[role="listbox"] [role="option"], [role="option"][data-value]',
+                    ),
+                );
+            }
+
+            const labels = optionElementsToLabels(optionElements);
+
+            root?.setAttribute('data-open', 'false');
+
+            if (beforeValue && String(element.value || '').trim() !== beforeValue) {
+                setNativeValue(element, beforeValue);
+            }
+
+            return labels.length >= 2 ? labels : staticLabels;
         }
 
         const isGreenhouseHost = isGreenhouseApplyHost(doc);
@@ -10995,6 +11207,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return workableSelectIsCommitted(target, answer);
         }
 
+        if (isWorkableOrphanSelectValueInput(target)) {
+            return Boolean(String(target.value || '').trim());
+        }
+
         if (isSmartRecruitersPhoneInput(target)) {
             const readback = readSmartRecruitersControlValue(target);
 
@@ -12344,6 +12560,12 @@ var AutoCVApplyFormHeuristics = (() => {
             valuePreview: String(value).slice(0, 80),
         });
 
+        if (isWorkableOrphanSelectValueInput(element)) {
+            const filled = await setWorkableOrphanSelectValue(element, value);
+
+            return filled && verifyFieldApplied(element, 'select', value);
+        }
+
         if (
             element.type === 'tel' &&
             /consent to receiving text|do not consent to receiving text/i.test(
@@ -12663,6 +12885,11 @@ var AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
+            // Booksy-style Workable selects with no mounted combobox.
+            if (isWorkableOrphanSelectValueInput(element)) {
+                return true;
+            }
+
             // Include clipped city/postcode/country companions so Draft All can
             // fill them from profile when Places autocomplete does not run.
             if (isWorkableHiddenAddressSubfield(element)) {
@@ -12889,6 +13116,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return 'select';
         }
 
+        if (isWorkableOrphanSelectValueInput(element)) {
+            return 'select';
+        }
+
         if (
             element.getAttribute?.('role') === 'combobox' ||
             isPhoneCountryListboxButton(element)
@@ -12963,7 +13194,14 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        if (!element.closest?.('[data-input-type="select"]')) {
+        const selectRoot = getWorkableSelectRoot(element);
+
+        if (!selectRoot) {
+            return false;
+        }
+
+        // Orphan value inputs are the inventory/fill target when no combobox exists.
+        if (selectRoot.querySelector('[role="combobox"]') === null) {
             return false;
         }
 
@@ -12992,6 +13230,7 @@ var AutoCVApplyFormHeuristics = (() => {
         const chosenSelect = isChosenEnhancedSelect(element);
         const workableAddressSubfield =
             isWorkableHiddenAddressSubfield(element);
+        const workableOrphanSelect = isWorkableOrphanSelectValueInput(element);
         const smartRecruitersLocation = isSmartRecruitersLocationInput(element);
         const greenhouseFormControl =
             isGreenhouseApplicationFormControl(element);
@@ -13014,6 +13253,7 @@ var AutoCVApplyFormHeuristics = (() => {
             !leverSurveyControl &&
             !chosenSelect &&
             !workableAddressSubfield &&
+            !workableOrphanSelect &&
             !smartRecruitersLocation &&
             !greenhouseFormControl
         ) {

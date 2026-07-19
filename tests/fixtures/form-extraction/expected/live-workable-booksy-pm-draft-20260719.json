@@ -1,7 +1,7 @@
 {
   "id": "live-workable-booksy-pm-draft-20260719",
-  "min_fields": 20,
-  "exact_field_count": 20,
+  "min_fields": 22,
+  "exact_field_count": 22,
   "fields": [
     {
       "question": "first name",
@@ -356,6 +356,48 @@
         "type": "radio",
         "id": "BUr1lNbaMb8JIgiY",
         "name": "QA_11301623",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please specify your current legal work authorization status.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "QA_11301624",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please confirm which of the following is your preferred cooperation form.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "QA_11301622",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,

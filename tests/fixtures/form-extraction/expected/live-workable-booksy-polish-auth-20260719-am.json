@@ -1,7 +1,7 @@
 {
   "id": "live-workable-booksy-polish-auth-20260719-am",
-  "min_fields": 21,
-  "exact_field_count": 21,
+  "min_fields": 22,
+  "exact_field_count": 22,
   "fields": [
     {
       "question": "first name",
@@ -356,6 +356,27 @@
         "type": "radio",
         "id": "R0BAy7m1O3mPICv6",
         "name": "QA_11301623",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please specify your current legal work authorization status.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "QA_11301624",
         "data_testid": null,
         "sr_data_test": null,
         "role": null,
