@@ -331,6 +331,25 @@ export function buildDraftAllApplyPlan({
         const sourceAnswer = String(sourceOfHireAnswers[0]?.answer || '').trim();
 
         if (sourceAnswer && !/^other$/i.test(sourceAnswer)) {
+            const otherFollowUps = remainingFields.filter((field) =>
+                isSourceOfHireOtherFollowUpLabel(
+                    field?.label || field?.question || '',
+                ),
+            );
+
+            if (otherFollowUps.length > 0) {
+                applyStages.push({
+                    type: 'clear',
+                    answers: tagAnswersWithSource(
+                        otherFollowUps.map((field) => ({
+                            ...field,
+                            answer: '__CLEAR__',
+                        })),
+                        'screener',
+                    ),
+                });
+            }
+
             remainingFields = remainingFields.filter(
                 (field) =>
                     !isSourceOfHireOtherFollowUpLabel(
