@@ -363,7 +363,9 @@ export function buildDraftAllApplyPlan({
         const sourceAnswer = String(sourceOfHireAnswers[0]?.answer || '').trim();
 
         if (sourceAnswer && !/^other$/i.test(sourceAnswer)) {
-            const otherFollowUps = remainingFields.filter((field) =>
+            // Scan all fields, not only remainingFields - memo can already have
+            // claimed the "If Other…" follow-up with a prior NanoGPT essay.
+            const otherFollowUps = (fields || []).filter((field) =>
                 isSourceOfHireOtherFollowUpLabel(
                     field?.label || field?.question || '',
                 ),

@@ -580,6 +580,44 @@ test('buildDraftAllApplyPlan clears Other follow-up when LinkedIn source-of-hire
     );
 });
 
+test('buildDraftAllApplyPlan clears Other follow-up even when memo has a stale essay', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f5',
+                label: 'how did you hear about 9fin?',
+                field_type: 'select',
+                options: [],
+                dom: { role: 'combobox' },
+            },
+            {
+                id: 1,
+                ref: 'f6',
+                label: "if 'other', please state below how you came across 9fin.",
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {
+            "if 'other', please state below how you came across 9fin.":
+                'I found the role through my own research while looking for companies.',
+        },
+        pageUrl:
+            'https://jobs.ashbyhq.com/9fin/181a7413-0257-4b3e-8cf5-6c9534d2ae11/application',
+    });
+
+    assert.equal(
+        plan.applyStages.some((stage) => stage.type === 'memo'),
+        false,
+    );
+    const clearAnswers = plan.applyStages.find(
+        (stage) => stage.type === 'clear',
+    )?.answers;
+    assert.equal(clearAnswers?.[0]?.ref, 'f6');
+    assert.equal(clearAnswers?.[0]?.answer, '__CLEAR__');
+});
+
 test('buildDraftAllApplyPlan ignores stale source-of-hire memo in favour of LinkedIn', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
