@@ -4748,6 +4748,28 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
         return '';
     }
 
+    // "Sponsorship to work in the UK" for a UK-based profile is No even when
+    // the global visa_sponsorship setting is Yes (that setting is for foreign roles).
+    const profileCountry = normalizeCountryNameForApply(
+        readProfileValue(profileData, 'country'),
+    ).toLowerCase();
+    const haystack = `${label || ''}`.toLowerCase();
+
+    for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
+        if (!haystackMentionsWorkAuthCountry(haystack, aliases)) {
+            continue;
+        }
+
+        if (profileMatchesWorkAuthCountryAliases(profileCountry, aliases)) {
+            return fieldHasYesNoOptions(field) ||
+                field?.field_type === 'radio' ||
+                field?.field_type === 'select' ||
+                field?.dom?.role === 'combobox'
+                ? 'No'
+                : '';
+        }
+    }
+
     const raw = readProfileValue(
         profileData,
         'application_settings.visa_sponsorship',

@@ -191,6 +191,12 @@ export function resolveSourceOfHireAnswer(field, context = null) {
         fieldType === 'radio' ||
         field?.dom?.role === 'combobox';
 
+    // ATS hosts: never defer to NanoGPT "Other" essays when LinkedIn is absent
+    // from the harvested list - type LinkedIn into the combobox instead.
+    if (isAtsApplicationHostUrl(context?.pageUrl)) {
+        return 'LinkedIn';
+    }
+
     if (isChoice || !platformLabel) {
         return null;
     }
