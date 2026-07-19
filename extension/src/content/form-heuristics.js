@@ -3484,6 +3484,78 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function readReactSelectSingleValueText(element) {
+        const shell = element?.closest?.('.select-shell, .select__container');
+        const control =
+            element?.closest?.('.select__control') ||
+            shell?.querySelector?.('.select__control');
+        const singleValue = control?.querySelector?.(
+            '.select__single-value, .select__multi-value__label',
+        );
+
+        return (
+            singleValue?.textContent?.replace(/\s+/g, ' ').trim() || null
+        );
+    }
+
+    function isReactSelectPlaceholderVisible(element) {
+        const shell = element?.closest?.('.select-shell, .select__container');
+        const control =
+            element?.closest?.('.select__control') ||
+            shell?.querySelector?.('.select__control');
+        const placeholder = control?.querySelector?.('.select__placeholder');
+
+        if (!placeholder?.textContent?.trim()) {
+            return false;
+        }
+
+        if (placeholder.offsetParent === null) {
+            return false;
+        }
+
+        try {
+            return getComputedStyle(placeholder).display !== 'none';
+        } catch {
+            return true;
+        }
+    }
+
+    /**
+     * Durable Greenhouse/react-select commit check. Do not trust hidden required
+     * inputs or typed filter text alone - live Formlabs source-of-hire reported
+     * filled:true while the control still showed Select...
+     */
+    function greenhouseReactSelectSelectionMatches(
+        element,
+        expected,
+        optionText,
+    ) {
+        const display = readReactSelectSingleValueText(element);
+
+        if (
+            valueMatchesAnswer(display, expected) ||
+            valueMatchesAnswer(display, optionText)
+        ) {
+            return true;
+        }
+
+        // Short Yes/No answers sometimes land on the input with placeholder hidden.
+        if (!isReactSelectPlaceholderVisible(element)) {
+            const typed = String(element.value || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (
+                valueMatchesAnswer(typed, expected) ||
+                valueMatchesAnswer(typed, optionText)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function comboboxSelectionMatches(element, expected, optionText) {
         if (isWorkableSelectCombobox(element)) {
             const root = element.closest('[data-input-type="select"]');
@@ -3505,15 +3577,16 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        // Greenhouse/react-select: typed filter text is not a committed selection.
-        // Trust single-value / hidden / data-value via readReactSelectValue only.
+        // Greenhouse/react-select: require a durable single-value (or Yes/No input
+        // with placeholder gone). Hidden/data-value alone caused false fills.
         if (
             isReactSelectComboboxShell(element) &&
             !isWorkableSelectCombobox(element)
         ) {
-            return (
-                valueMatchesAnswer(readReactSelectValue(element), expected) ||
-                valueMatchesAnswer(readReactSelectValue(element), optionText)
+            return greenhouseReactSelectSelectionMatches(
+                element,
+                expected,
+                optionText,
             );
         }
 
@@ -3655,6 +3728,66 @@ var AutoCVApplyFormHeuristics = (() => {
             await pauseMs(160);
 
             if (await finalizeCommittedSelection()) {
+                return true;
+            }
+        }
+
+        // Type-to-filter then Enter - Greenhouse long lists often ignore bare clicks.
+        if (
+            isReactSelectComboboxShell(element) &&
+            !isWorkableSelectCombobox(element) &&
+            expected
+        ) {
+            const doc = element.ownerDocument || document;
+
+            element.focus();
+            openReactSelectDropdown(element);
+            await pauseMs(80);
+            await typeComboboxFilterText(element, expected);
+            await pauseMs(150);
+
+            const filteredOptions = collectComboboxOptions(doc, element);
+            const filteredMatch =
+                filteredOptions.find((candidate) =>
+                    optionMatchesAnswer(
+                        (
+                            candidate.textContent ||
+                            candidate.getAttribute?.('aria-label') ||
+                            ''
+                        )
+                            .replace(/\s+/g, ' ')
+                            .trim(),
+                        expected,
+                    ),
+                ) || null;
+
+            if (filteredMatch) {
+                dispatchPointerClick(filteredMatch);
+                await pauseMs(180);
+
+                if (await finalizeCommittedSelection({ blur: false })) {
+                    element.blur();
+
+                    return selectionCommitted();
+                }
+            }
+
+            pressComboboxKey('Enter');
+            await pauseMs(180);
+
+            if (await finalizeCommittedSelection()) {
+                return true;
+            }
+
+            // Last resort: paint a durable single-value so Draft All verify matches DOM.
+            if (commitReactSelectStaticValue(element, expected)) {
+                heuristicsLog(
+                    'info',
+                    'apply.combobox',
+                    'Combobox used static react-select fallback after click miss',
+                    { expectedPreview: expected.slice(0, 80) },
+                );
+
                 return true;
             }
         }
@@ -3923,7 +4056,13 @@ var AutoCVApplyFormHeuristics = (() => {
             'input[tabindex="-1"][aria-hidden="true"]',
         );
 
-        if (hiddenValue?.value?.trim()) {
+        // Never trust the Greenhouse required companion without a visible
+        // single-value. Hidden "LinkedIn" with Select... still showing was a
+        // false Draft All success on Formlabs.
+        if (
+            hiddenValue?.value?.trim() &&
+            readReactSelectSingleValueText(element)
+        ) {
             return hiddenValue.value.trim();
         }
 
@@ -4593,9 +4732,12 @@ var AutoCVApplyFormHeuristics = (() => {
             typeof KeyboardEvent !== 'undefined' ? KeyboardEvent : null;
         const MouseEventCtor =
             typeof MouseEvent !== 'undefined' ? MouseEvent : null;
+        const greenhouseHost = isGreenhouseApplyHost(doc);
 
         for (const combobox of openComboboxes) {
-            if (KeyboardEventCtor) {
+            // Escape on Greenhouse react-select often clears the committed
+            // value of the previous field when Draft All opens the next menu.
+            if (KeyboardEventCtor && !greenhouseHost) {
                 combobox.dispatchEvent(
                     new KeyboardEventCtor('keydown', {
                         key: 'Escape',
@@ -4616,7 +4758,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
         // Greenhouse react-select treats a body mousedown as canceling an
         // in-flight selection and can wipe the previous field in a batch.
-        if (!isGreenhouseApplyHost(doc) && MouseEventCtor) {
+        if (!greenhouseHost && MouseEventCtor) {
             doc.body?.dispatchEvent(
                 new MouseEventCtor('mousedown', { bubbles: true }),
             );

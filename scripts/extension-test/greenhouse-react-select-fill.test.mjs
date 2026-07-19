@@ -158,6 +158,37 @@ test('Greenhouse react-select highlights outline select__container, not the 2px 
     assert.equal(combobox.classList.contains('autocvapply-field-detected'), false);
 });
 
+test('react-select hidden required input alone is not a durable commit', async () => {
+    const html = `
+<div class="field-wrapper">
+  <div class="select">
+    <div class="select__container">
+      <label class="select__label" id="q-label" for="q">How did you hear about us?</label>
+      <div class="select-shell">
+        <div class="select__control">
+          <div class="select__value-container">
+            <div class="select__placeholder">Select...</div>
+            <div class="select__input-container" data-value="">
+              <input id="q" class="select__input" role="combobox" aria-labelledby="q-label"
+                aria-controls="q-listbox" aria-expanded="false" aria-haspopup="true" type="text" value="" />
+            </div>
+          </div>
+        </div>
+        <input tabindex="-1" aria-hidden="true" required value="LinkedIn" />
+      </div>
+    </div>
+  </div>
+</div>`;
+    const dom = new JSDOM(`<!doctype html><html><body>${html}</body></html>`, {
+        url: 'https://job-boards.greenhouse.io/formlabs/jobs/7909577',
+    });
+    const heuristics = loadHeuristics(dom);
+    const combobox = dom.window.document.getElementById('q');
+
+    // Hidden companion value must not count as filled while placeholder remains.
+    assert.equal(heuristics.readFieldControlValue(combobox) || '', '');
+});
+
 test('react-select filter input text is not treated as a committed selection', async () => {
     const html = `
 <div class="field-wrapper">
