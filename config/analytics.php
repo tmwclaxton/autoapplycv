@@ -29,4 +29,16 @@ return [
 
     'synthetic_backfill_days' => 30,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google Analytics (gtag.js)
+    |--------------------------------------------------------------------------
+    |
+    | Measurement ID injected on every Inertia page via the root Blade layout.
+    | Leave empty to disable the tag.
+    |
+    */
+
+    'google_analytics_id' => 'G-XXET6H4VM1',
+
 ];

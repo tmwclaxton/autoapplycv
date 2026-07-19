@@ -40,6 +40,18 @@
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>
+
+        @php($googleAnalyticsId = config('analytics.google_analytics_id'))
+        @if (filled($googleAnalyticsId))
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', @json($googleAnalyticsId));
+            </script>
+        @endif
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />
