@@ -889,6 +889,22 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function getAshbyQuestionDescription(element) {
+        const entry = getAshbyFieldEntry(element);
+
+        if (!entry) {
+            return '';
+        }
+
+        const description = entry.querySelector(
+            '.ashby-application-form-question-description, [class*="question-description"]',
+        );
+
+        return description?.textContent
+            ? normalize(description.textContent)
+            : '';
+    }
+
     function getAshbyQuestionTitle(element) {
         const entry = getAshbyFieldEntry(element);
 
@@ -899,8 +915,31 @@ var AutoCVApplyFormHeuristics = (() => {
         const title = entry.querySelector(
             '.ashby-application-form-question-title',
         );
+        const titleText = title?.textContent
+            ? normalize(title.textContent)
+            : '';
 
-        return title?.textContent ? normalize(title.textContent) : '';
+        if (titleText.length >= 3) {
+            return titleText;
+        }
+
+        // Consent / empty-title fields put the real prompt in the description
+        // (Faculty: blank title + "Do you agree to allow … contact you … 2 years?").
+        // Keep honeypots empty: require consent-ish path or wording, not placeholders.
+        const fieldPath = String(entry.getAttribute('data-field-path') || '');
+        const description = getAshbyQuestionDescription(element);
+
+        if (
+            description.length >= 12 &&
+            (/_systemfield_data_consent/i.test(fieldPath) ||
+                /\b(?:agree|consent|contact (?:me|you)|job opportunities)\b/i.test(
+                    description,
+                ))
+        ) {
+            return description;
+        }
+
+        return '';
     }
 
     function getLeverApplicationQuestion(element) {
@@ -5319,6 +5358,12 @@ var AutoCVApplyFormHeuristics = (() => {
         const stringValue = String(value).trim();
         const typedValue = stringValue.split(',')[0].trim() || stringValue;
 
+        // Prefer a durable single-value paint over typing alone - job-boards
+        // often clear filter text on blur without a Places selection.
+        if (commitReactSelectStaticValue(element, typedValue)) {
+            return true;
+        }
+
         await fillReactTextControl(element, typedValue);
 
         const shell = element.closest('.select-shell, .select__container');
@@ -5339,6 +5384,228 @@ var AutoCVApplyFormHeuristics = (() => {
             valueMatchesAnswer(element.value, typedValue) ||
             valueMatchesAnswer(hiddenValue?.value, typedValue)
         );
+    }
+
+    /**
+     * Greenhouse `candidate-location` Places typeahead. Generic combobox fill
+     * can sit in APPLY_DRAFT_BATCH for the full select timeout (45s) when
+     * geocode stalls; keep a hard budget and city-first queries like Lever.
+     */
+    async function setGreenhouseLocationValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const GREENHOUSE_LOCATION_BUDGET_MS = 12000;
+        const startedAt = Date.now();
+        const budgetExceeded = () =>
+            Date.now() - startedAt >= GREENHOUSE_LOCATION_BUDGET_MS;
+        const doc = element.ownerDocument || document;
+        const city = stringValue.split(',')[0].trim() || stringValue;
+        const isUk = /united kingdom|\buk\b|england|scotland|wales/i.test(
+            stringValue,
+        );
+        const queries = [
+            ...new Set(
+                [
+                    city,
+                    isUk ? `${city}, United Kingdom` : '',
+                    stringValue !== city ? stringValue : '',
+                ].filter(Boolean),
+            ),
+        ];
+
+        await closeOpenComboboxMenus(doc);
+
+        for (const query of queries) {
+            if (budgetExceeded()) {
+                break;
+            }
+
+            element.focus();
+            openReactSelectDropdown(element);
+            await pauseMs(80);
+
+            setNativeValue(element, '');
+            element.dispatchEvent(
+                new InputEvent('input', {
+                    bubbles: true,
+                    cancelable: true,
+                    inputType: 'deleteContentBackward',
+                }),
+            );
+
+            let typed = '';
+
+            for (const char of query) {
+                if (budgetExceeded()) {
+                    break;
+                }
+
+                typed += char;
+                dispatchInsertedCharacter(element, char, typed);
+                await pauseMs(18);
+            }
+
+            if (budgetExceeded()) {
+                break;
+            }
+
+            // Google Places / Greenhouse location debounce before polling options.
+            await pauseMs(450);
+
+            let options = collectComboboxOptions(doc, element);
+
+            if (options.length === 0) {
+                const waitMs = Math.max(
+                    200,
+                    Math.min(
+                        1800,
+                        GREENHOUSE_LOCATION_BUDGET_MS - (Date.now() - startedAt),
+                    ),
+                );
+                options = await waitForComboboxOptions(doc, element, waitMs);
+            }
+
+            if (options.length === 0) {
+                continue;
+            }
+
+            const normalizedAnswer = normalizeOption(stringValue);
+            const normalizedQuery = normalizeOption(query);
+            const normalizedCity = normalizeOption(city);
+            let bestOption = null;
+            let bestOptionText = '';
+            let bestScore = 0;
+
+            for (const option of options) {
+                const optionText = (
+                    option.textContent ||
+                    option.getAttribute('aria-label') ||
+                    ''
+                )
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                const resultCity = normalizeOption(
+                    optionText.split(',')[0] || '',
+                );
+                let score = Math.max(
+                    scoreComboboxOptionMatch(optionText, stringValue),
+                    optionMatchesAnswer(optionText, stringValue) ? 500 : 0,
+                );
+
+                if (normalizedCity && resultCity === normalizedCity) {
+                    score += 24;
+                } else if (normalizedCity && normalizeOption(optionText).includes(normalizedCity)) {
+                    score += 12;
+                }
+
+                // Prefer High Wycombe over bare Wycombe substring hits.
+                if (
+                    normalizedCity.includes(' ') &&
+                    resultCity &&
+                    resultCity !== normalizedCity &&
+                    normalizedCity.includes(resultCity)
+                ) {
+                    score -= 14;
+                }
+
+                if (normalizedQuery && normalizeOption(optionText).includes(normalizedQuery)) {
+                    score += 8;
+                }
+
+                if (normalizedAnswer && normalizeOption(optionText).includes(normalizedAnswer)) {
+                    score += 6;
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestOption = option;
+                    bestOptionText = optionText;
+                }
+            }
+
+            if (!(bestOption && bestScore >= 100)) {
+                continue;
+            }
+
+            // Light commit first - full commitComboboxOptionSelection can burn
+            // the Draft All field timeout on flaky Places menus.
+            dispatchPointerClick(bestOption);
+            await pauseMs(160);
+            dispatchReactSelectOptionMouseDown(bestOption);
+            await pauseMs(160);
+
+            if (
+                greenhouseReactSelectSelectionMatches(
+                    element,
+                    stringValue,
+                    bestOptionText,
+                ) ||
+                greenhouseReactSelectSelectionMatches(
+                    element,
+                    city,
+                    bestOptionText,
+                )
+            ) {
+                clearValidationState(element);
+                heuristicsLog('info', 'apply.greenhouse-location', 'selected', {
+                    query,
+                    optionText: bestOptionText.slice(0, 80),
+                    elapsedMs: Date.now() - startedAt,
+                });
+
+                return true;
+            }
+
+            if (commitReactSelectStaticValue(element, bestOptionText || city)) {
+                await pauseMs(200);
+
+                if (
+                    greenhouseReactSelectSelectionMatches(
+                        element,
+                        stringValue,
+                        bestOptionText,
+                    ) ||
+                    valueMatchesAnswer(
+                        readReactSelectValue(element),
+                        bestOptionText,
+                    ) ||
+                    valueMatchesAnswer(readReactSelectValue(element), city)
+                ) {
+                    clearValidationState(element);
+                    heuristicsLog(
+                        'info',
+                        'apply.greenhouse-location',
+                        'static-commit',
+                        {
+                            query,
+                            optionText: bestOptionText.slice(0, 80),
+                            elapsedMs: Date.now() - startedAt,
+                        },
+                    );
+
+                    return true;
+                }
+            }
+        }
+
+        const committed = await commitGreenhouseLocationValue(element, city);
+        heuristicsLog(
+            committed ? 'info' : 'warn',
+            'apply.greenhouse-location',
+            committed ? 'fallback-static-city' : 'no geocomplete match',
+            {
+                valuePreview: stringValue.slice(0, 80),
+                queriesTried: queries.slice(0, 5),
+                budgetMs: GREENHOUSE_LOCATION_BUDGET_MS,
+                elapsedMs: Date.now() - startedAt,
+            },
+        );
+
+        return committed;
     }
 
     function commitReactSelectStaticValue(element, value) {

@@ -28,7 +28,7 @@ export function isMarketingOrFutureConsentField(field) {
         return false;
     }
 
-    return /\b(sms|text messages?|newsletter|(?:email )?marketing(?: communications?| emails?| messages?| consent| material| opt[- ]?in)|promotional emails?|future job opportunities|contact me about|future recruitment|store (?:my|your) data|would like\b.*\bstore\b.*\b(?:contact|future|data)|(?:\d+|twelve|six|three)\s*months?\b.*\b(?:contact|future|opportunit|store)|keep (?:my|your) (?:data|details|information)|talent (?:pool|community)|future contact|przyszł(?:ych|ym|e)\b.*rekrut)/i.test(
+    return /\b(sms|text messages?|newsletter|(?:email )?marketing(?: communications?| emails?| messages?| consent| material| opt[- ]?in)|promotional emails?|future job opportunities|contact (?:me|you) about|job opportunities for up to|future recruitment|store (?:my|your) data|would like\b.*\bstore\b.*\b(?:contact|future|data)|(?:\d+|twelve|six|three)\s*(?:months?|years?)\b.*\b(?:contact|future|opportunit|store)|keep (?:my|your) (?:data|details|information)|talent (?:pool|community)|future contact|przyszł(?:ych|ym|e)\b.*rekrut)/i.test(
         text,
     );
 }
