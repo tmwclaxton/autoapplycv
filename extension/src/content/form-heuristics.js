@@ -2673,6 +2673,18 @@ var AutoCVApplyFormHeuristics = (() => {
             return normalized;
         }
 
+        // Long multi-option texts ("No, I am not based in the USA, nor...") must
+        // stay intact. Collapsing them to bare "no" made Lever pick the first
+        // "I am not" radio (planning to relocate) instead of nor-open.
+        if (
+            normalized.length > 28 &&
+            /\b(based|relocat|authori|sponsor|united states|usa)\b/.test(
+                normalized,
+            )
+        ) {
+            return normalized;
+        }
+
         if (
             /^(yes|y|true|tak|oui|ja|si|sí)\b/.test(normalized) ||
             normalized.includes(' i am open') ||
@@ -6112,6 +6124,21 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        // Lever application-answer radios often have empty value; the visible
+        // copy lives in a sibling .application-answer / label span.
+        if (!raw || String(raw).trim().length < 2) {
+            const sibling =
+                input.closest('label') ||
+                input.parentElement?.querySelector?.(
+                    '.application-answer, .application-label, span, div',
+                );
+            const siblingText = sibling?.textContent || '';
+
+            if (siblingText && siblingText.trim().length > String(raw || '').trim().length) {
+                raw = siblingText;
+            }
+        }
+
         if (!raw) {
             raw = String(input.value || '');
         }
@@ -6956,39 +6983,63 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        for (const radio of getGroupInputs(element)) {
+        const radios = getGroupInputs(element);
+        let bestRadio = null;
+        let bestScore = -1;
+
+        for (const radio of radios) {
             const optionText = getOptionLabel(radio);
             const optionValue = String(radio.value || '');
+            const labelScore = scoreComboboxOptionMatch(optionText, answer);
+            const valueScore = scoreComboboxOptionMatch(optionValue, answer);
+            const score = Math.max(labelScore, valueScore);
+            const matches =
+                optionMatchesAnswer(optionText, answer) ||
+                optionMatchesAnswer(optionValue, answer) ||
+                score >= 100;
+
+            if (!matches) {
+                if (isMicro1YesNoRadio(radio)) {
+                    const id = String(radio.id || '').toLowerCase();
+                    const suffix = id.includes('_') ? id.split('_').pop() : '';
+
+                    if (suffix && optionMatchesAnswer(suffix, answer)) {
+                        return markInputChecked(radio);
+                    }
+                }
+
+                continue;
+            }
+
+            // Prefer the longest exact-ish option so "nor am I open to relocating"
+            // wins over the earlier "planning to relocate" No radio.
+            const specificity =
+                score * 10 +
+                Math.max(optionText.length, optionValue.length);
+
+            if (specificity > bestScore) {
+                bestScore = specificity;
+                bestRadio = radio;
+            }
+        }
+
+        if (bestRadio) {
+            const optionText = getOptionLabel(bestRadio);
+            const applied = markInputChecked(bestRadio);
 
             if (
-                optionMatchesAnswer(optionText, answer) ||
-                optionMatchesAnswer(optionValue, answer)
+                applied &&
+                String(element.name || bestRadio.name || '') === 'CA_45367' &&
+                /do not live in wa|not live in wa state|^no\b/i.test(
+                    normalize(optionText),
+                )
             ) {
-                const applied = markInputChecked(radio);
-
-                if (
-                    applied &&
-                    String(element.name || radio.name || '') === 'CA_45367' &&
-                    /do not live in wa|not live in wa state|^no\b/i.test(
-                        normalize(optionText),
-                    )
-                ) {
-                    void dismissWorkableWashingtonCountyWhenNotResident(
-                        element.ownerDocument || document,
-                    );
-                }
-
-                return applied;
+                void dismissWorkableWashingtonCountyWhenNotResident(
+                    element.ownerDocument || document,
+                );
             }
 
-            if (isMicro1YesNoRadio(radio)) {
-                const id = String(radio.id || '').toLowerCase();
-                const suffix = id.includes('_') ? id.split('_').pop() : '';
-
-                if (suffix && optionMatchesAnswer(suffix, answer)) {
-                    return markInputChecked(radio);
-                }
-            }
+            return applied;
         }
 
         return false;
