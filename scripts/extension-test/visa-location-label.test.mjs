@@ -121,6 +121,28 @@ test('Polish Warsaw hybrid Tak/Nie declines to Nie for UK profile', () => {
     );
 });
 
+test('Notion-style office anchor days declines No for UK profile', () => {
+    const label =
+        'We work from our offices on Mondays, Tuesdays, and Thursdays (anchor days). Are you able to commit to working from one of our offices on anchor days each week?';
+    assert.equal(isOnSiteCommuteQuestionLabel(label), true);
+    assert.equal(
+        resolveOfficeCommuteDeclineAnswer(
+            {
+                ref: 'f0',
+                label,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                location: 'High Wycombe, England',
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+            },
+        ),
+        'No',
+    );
+});
+
 test('Lever which-location-are-you-applying-for is job site not residence', () => {
     const label = 'which location are you applying for?';
     assert.equal(isJobApplicationLocationChoiceLabel(label), true);

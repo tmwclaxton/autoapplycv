@@ -939,11 +939,46 @@ export function isVisaSponsorshipQuestionLabel(label) {
     );
 }
 
+/**
+ * Employer asks the candidate to attend their office(s) on set days
+ * (Notion "anchor days", hybrid office weeks) without naming a home city.
+ */
+export function isEmployerOfficeAttendanceQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/\banchor days?\b/.test(normalized)) {
+        return true;
+    }
+
+    if (
+        /\b(?:from (?:one of )?our offices?|working from .{0,40}offices?)\b/.test(
+            normalized,
+        ) &&
+        /\b(?:days?|week|hybrid|commit)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    return (
+        /\bcommit\b/.test(normalized) &&
+        /\boffices?\b/.test(normalized) &&
+        /\b(?:days?|week)\b/.test(normalized)
+    );
+}
+
 /** On-site / hybrid commute questions tied to a specific office city. */
 export function isOnSiteCommuteQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (/relocate to\b/.test(normalized)) {
+        return true;
+    }
+
+    if (isEmployerOfficeAttendanceQuestionLabel(label)) {
         return true;
     }
 
@@ -1176,6 +1211,14 @@ function profileNearRelocateDestination(label, profileLocation) {
             /(?:office in|based at our office|live in the area|willing to relocate)/.test(
                 normalized,
             ) &&
+            /london|united kingdom|england|uk\b|britain/.test(profileLocation)
+        ) {
+            return false;
+        }
+
+        // Unnamed "our offices / anchor days" is not a local commute for UK remotes.
+        if (
+            isEmployerOfficeAttendanceQuestionLabel(label) &&
             /london|united kingdom|england|uk\b|britain/.test(profileLocation)
         ) {
             return false;
