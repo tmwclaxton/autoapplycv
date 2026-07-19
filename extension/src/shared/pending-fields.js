@@ -4011,6 +4011,12 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
+    // Profile city can still fail to commit (Lever/Ashby geocomplete). Keep
+    // those unfilled required fields in the sidebar instead of silent gaps.
+    if (isLocationAutocompleteQuestionLabel(label)) {
+        return true;
+    }
+
     if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
         return false;
     }

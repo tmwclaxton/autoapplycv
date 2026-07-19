@@ -954,11 +954,22 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const fieldRoot = element.closest('.application-field');
+        // Lever retrieveLocations.js: search is debounced 500ms on keydown,
+        // selection is mousedown on .dropdown-location, and blur clears the
+        // field when the dropdown is still open without a selection.
+        const LEVER_LOCATION_SEARCH_DEBOUNCE_MS = 550;
+        const fieldRoot =
+            element.closest('.application-field') ||
+            element.closest('.application-question') ||
+            element.parentElement;
         const dropdown = fieldRoot?.querySelector('.dropdown-container');
-        const selectedHidden = fieldRoot?.querySelector(
-            '#selected-location, input[name="selectedLocation"]',
-        );
+        const selectedHidden =
+            fieldRoot?.querySelector(
+                '#selected-location, input[name="selectedLocation"]',
+            ) ||
+            element.ownerDocument?.querySelector?.(
+                '#selected-location, input[name="selectedLocation"]',
+            );
         const city = stringValue.split(',')[0].trim() || stringValue;
         const queries = [
             ...new Set(
@@ -971,91 +982,102 @@ var AutoCVApplyFormHeuristics = (() => {
                     /england|scotland|wales/i.test(stringValue)
                         ? `${city}, United Kingdom`
                         : '',
+                    /united kingdom|\buk\b|england|scotland|wales/i.test(
+                        stringValue,
+                    )
+                        ? 'London, United Kingdom'
+                        : '',
                 ].filter(Boolean),
             ),
         ];
 
-        const readVisibleResults = () =>
-            Array.from(
-                fieldRoot?.querySelectorAll('.dropdown-results > *') || [],
-            ).filter(
-                (node) =>
-                    isVisible(node) &&
-                    normalize(node.textContent || '').length >= 2,
-            );
-
-        const noResultsVisible = () => {
-            const empty = fieldRoot?.querySelector('.dropdown-no-results');
-
-            return Boolean(
-                empty &&
-                    isVisible(empty) &&
-                    /no location found/i.test(empty.textContent || ''),
-            );
-        };
-
-        for (const query of queries) {
-            // Do not use fillReactTextControl here - it blurs and cancels Lever's
-            // async geocomplete before dropdown results can appear.
-            element.focus();
-            dispatchPointerClick(element);
-            fillTextControlInstant(element, query);
+        const clearLeverLocationField = () => {
+            setNativeValue(element, '');
             element.dispatchEvent(
                 new InputEvent('input', {
                     bubbles: true,
                     cancelable: true,
-                    inputType: 'insertText',
-                    data: query,
-                }),
-            );
-            element.dispatchEvent(
-                new KeyboardEvent('keyup', {
-                    key: 'Unidentified',
-                    bubbles: true,
+                    inputType: 'deleteContentBackward',
                 }),
             );
 
-            if (dropdown) {
-                dropdown.style.display = 'block';
+            if (selectedHidden) {
+                setNativeValue(selectedHidden, '');
             }
+        };
+
+        const readVisibleResults = () =>
+            Array.from(
+                fieldRoot?.querySelectorAll(
+                    '.dropdown-location, .dropdown-results > .dropdown-location, .dropdown-results > *',
+                ) || [],
+            ).filter((node) => normalize(node.textContent || '').length >= 2);
+
+        const noResultsVisible = () => {
+            const empty = fieldRoot?.querySelector('.dropdown-no-results');
+            const display = String(
+                empty?.style?.display ||
+                    (empty ? getComputedStyle(empty).display : '') ||
+                    '',
+            ).toLowerCase();
+
+            return Boolean(
+                empty &&
+                    display !== 'none' &&
+                    /no location found/i.test(empty.textContent || ''),
+            );
+        };
+
+        const selectLeverLocationResult = async (choice) => {
+            if (!choice) {
+                return false;
+            }
+
+            // Prefer mousedown (Lever's handler). Do not focus the option first -
+            // nativeClick focuses and can race Lever's blur-clear.
+            dispatchReactSelectOptionMouseDown(choice);
+            choice.dispatchEvent(
+                new MouseEvent('mousedown', {
+                    bubbles: true,
+                    cancelable: true,
+                    button: 0,
+                    buttons: 1,
+                }),
+            );
+            await sleep(50);
+
+            return String(selectedHidden?.value || '').trim().length >= 2;
+        };
+
+        for (const query of queries) {
+            element.focus();
+            dispatchPointerClick(element);
+            clearLeverLocationField();
+            element.focus();
+
+            if (dropdown) {
+                dropdown.style.display = 'flex';
+            }
+
+            let typed = '';
+
+            for (const char of query) {
+                typed += char;
+                dispatchInsertedCharacter(element, char, typed);
+                await sleep(18);
+            }
+
+            // Wait for Lever's 500ms keydown debounce before polling XHR results.
+            await sleep(LEVER_LOCATION_SEARCH_DEBOUNCE_MS);
 
             let results = [];
 
-            for (let attempt = 0; attempt < 10; attempt += 1) {
-                await sleep(attempt === 0 ? 200 : 150);
+            for (let attempt = 0; attempt < 20; attempt += 1) {
+                await sleep(attempt === 0 ? 100 : 150);
                 results = readVisibleResults();
 
                 if (results.length > 0 || noResultsVisible()) {
                     break;
-                }
-            }
-
-            // Instant fill sometimes skips Lever's listener; retry with fast typing.
-            if (results.length === 0 && !noResultsVisible()) {
-                element.focus();
-                setNativeValue(element, '');
-                element.dispatchEvent(
-                    new InputEvent('input', {
-                        bubbles: true,
-                        cancelable: true,
-                        inputType: 'deleteContentBackward',
-                    }),
-                );
-                let typed = '';
-
-                for (const char of query) {
-                    typed += char;
-                    dispatchInsertedCharacter(element, char, typed);
-                    await sleep(12);
-                }
-
-                for (let attempt = 0; attempt < 10; attempt += 1) {
-                    await sleep(150);
-                    results = readVisibleResults();
-
-                    if (results.length > 0 || noResultsVisible()) {
-                        break;
-                    }
                 }
             }
 
@@ -1085,6 +1107,15 @@ var AutoCVApplyFormHeuristics = (() => {
                     score += 6;
                 }
 
+                if (
+                    query.startsWith('London') &&
+                    normalizedCity &&
+                    normalizedCity !== 'london' &&
+                    text.includes('london')
+                ) {
+                    score -= 4;
+                }
+
                 if (score > bestScore) {
                     bestScore = score;
                     best = result;
@@ -1092,33 +1123,62 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             const choice = best || results[0];
-            nativeClick(choice);
-            await sleep(80);
-            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+            const committed = await selectLeverLocationResult(choice);
 
-            const visibleValue = String(element.value || '').trim();
-            const hiddenValue = String(selectedHidden?.value || '').trim();
-
-            if (
-                hiddenValue.length >= 2 ||
-                valueMatchesAnswer(visibleValue, stringValue) ||
-                valueMatchesAnswer(visibleValue, city) ||
-                valueMatchesAnswer(visibleValue, query) ||
-                (visibleValue.length >= 2 && bestScore >= 6)
-            ) {
+            if (committed) {
                 heuristicsLog('info', 'apply.lever-location', 'selected', {
                     query,
-                    visiblePreview: visibleValue.slice(0, 80),
-                    hiddenPreview: hiddenValue.slice(0, 80),
+                    visiblePreview: String(element.value || '').slice(0, 80),
+                    hiddenPreview: String(selectedHidden?.value || '').slice(
+                        0,
+                        80,
+                    ),
                 });
+
+                return true;
+            }
+
+            // ArrowDown + Enter path (Lever keyboard selection).
+            element.focus();
+            element.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'ArrowDown',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            await sleep(40);
+            element.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                    key: 'Enter',
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            );
+            await sleep(80);
+
+            if (String(selectedHidden?.value || '').trim().length >= 2) {
+                heuristicsLog(
+                    'info',
+                    'apply.lever-location',
+                    'selected-via-keyboard',
+                    {
+                        query,
+                        visiblePreview: String(element.value || '').slice(
+                            0,
+                            80,
+                        ),
+                    },
+                );
 
                 return true;
             }
         }
 
+        clearLeverLocationField();
         heuristicsLog('warn', 'apply.lever-location', 'no geocomplete match', {
             valuePreview: stringValue.slice(0, 80),
-            queriesTried: queries.slice(0, 4),
+            queriesTried: queries.slice(0, 5),
         });
 
         return false;

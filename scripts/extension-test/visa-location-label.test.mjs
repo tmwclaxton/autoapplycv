@@ -5,6 +5,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+    buildPendingFieldsFromUnfilledSnapshot,
     isJobApplicationLocationChoiceLabel,
     isLocalityIdentityField,
     isLocationAutocompleteQuestionLabel,
@@ -141,6 +142,31 @@ test('Notion-style office anchor days declines No for UK profile', () => {
         ),
         'No',
     );
+});
+
+test('unfilled Lever current location stays pending even when profile has city', () => {
+    const profile = {
+        location: 'High Wycombe, England',
+        country: 'United Kingdom',
+        city: 'High Wycombe',
+    };
+    const pending = buildPendingFieldsFromUnfilledSnapshot(
+        [
+            {
+                ref: 'f5',
+                question: 'current location',
+                field_type: 'text',
+                required: true,
+                dom: { id: 'location-input', name: 'location' },
+            },
+        ],
+        profile,
+        [],
+    );
+
+    assert.equal(pending.length, 1);
+    assert.equal(pending[0].ref, 'f5');
+    assert.equal(isLocationAutocompleteQuestionLabel('current location'), true);
 });
 
 test('Lever which-location-are-you-applying-for is job site not residence', () => {
