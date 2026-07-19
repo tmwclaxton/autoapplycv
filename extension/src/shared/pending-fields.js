@@ -127,6 +127,12 @@ const SALARY_MAPPINGS = [
             'annual gross',
             'annual compensation',
             'yearly compensation',
+            'jahreslohn',
+            'jahresgehalt',
+            'brutto jahreslohn',
+            'bruttojahreslohn',
+            'pro jahr',
+            'jährlich',
         ],
     },
 ];
@@ -151,6 +157,14 @@ const GENERIC_SALARY_KEYWORDS = [
     'wynagrodzenie',
     'kwota miesięczna',
     'kwota roczna',
+    // German Teamtailor et al.
+    'gehaltsvorstellungen',
+    'gehaltsvorstellung',
+    'jahreslohn',
+    'jahresgehalt',
+    'monatsgehalt',
+    'brutto jahreslohn',
+    'bruttojahreslohn',
 ];
 
 const OPEN_ENDED_QUESTION_PATTERNS = [
@@ -746,7 +760,7 @@ const SALARY_FALLBACK_PATHS = [
 ];
 
 const SALARY_CONTEXT_PATTERN =
-    /\b(?:salary|salaries|wage|wages|compensation|pay|gross|earn|earning|rate|remuneration)\b/i;
+    /\b(?:salary|salaries|wage|wages|compensation|pay|gross|earn|earning|rate|remuneration|gehalt|gehaltsvorstellung|jahreslohn|brutto)\b/i;
 
 const BROAD_SALARY_PERIOD_KEYWORDS = new Set([
     'per week',

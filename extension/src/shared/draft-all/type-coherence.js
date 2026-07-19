@@ -108,7 +108,9 @@ function isPhoneField(field) {
         return true;
     }
 
-    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone)\b/.test(normalized);
+    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone|telefon|téléphone)\b/.test(
+        normalized,
+    );
 }
 
 function isEmailField(field) {
@@ -166,9 +168,12 @@ function isSalaryField(field) {
         return false;
     }
 
-    return /\b(?:expected salary|salary expectation|desired salary|salary requirement|compensation expectation|base salary|desired compensation|pay rate|annual compensation|yearly salary|monthly salary|weekly salary|oczekiwania finansowe|wynagrodzenie)\b/.test(normalized)
-        || (/\bsalary\b/.test(normalized) && !/\bnotice\b/.test(normalized))
-        || (/\bcompensation\b/.test(normalized) && !/\bnotice\b/.test(normalized));
+    return /\b(?:expected salary|salary expectation|desired salary|salary requirement|compensation expectation|base salary|desired compensation|pay rate|annual compensation|yearly salary|monthly salary|weekly salary|oczekiwania finansowe|wynagrodzenie|gehaltsvorstellungen|gehaltsvorstellung|jahreslohn|jahresgehalt|monatsgehalt)\b/.test(
+        normalized,
+    )
+        || (/\b(?:gehalt|salary)\b/.test(normalized) && !/\bnotice\b/.test(normalized))
+        || (/\bcompensation\b/.test(normalized) && !/\bnotice\b/.test(normalized))
+        || (/\bbrutto\b/.test(normalized) && /\b(?:lohn|gehalt|jahres)\b/.test(normalized));
 }
 
 function isNoticeField(field) {

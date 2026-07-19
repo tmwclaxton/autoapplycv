@@ -484,3 +484,20 @@ test('rejects salary amount on years-of-experience number field', () => {
         'salary_on_number',
     );
 });
+
+test('German Gehaltsvorstellungen number field accepts yearly salary', () => {
+    const field = {
+        label: 'Wie hoch sind deine Gehaltsvorstellungen (brutto Jahreslohn)?',
+        field_type: 'number',
+    };
+
+    assert.equal(classifyFieldExpectation(field), 'salary');
+    assert.equal(
+        shouldRejectAnswerForTypeCoherence(field, '40800'),
+        false,
+    );
+    assert.equal(
+        shouldRejectAnswerForTypeCoherence(field, '£40,800'),
+        false,
+    );
+});
