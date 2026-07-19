@@ -3902,9 +3902,11 @@ export function isProfileMappingMismatch(field, mapping) {
     // Greenhouse often inventories Yes/No comboboxes with options still null
     // (live Grafana "eligible to work in your country of residence?") - those
     // binary labels must still map from legally_authorized.
+    // RTW free-text ("What is your RTW in the UK?") is answered with a sentence.
     if (
         mapping &&
         mapping.path === 'application_settings.legally_authorized' &&
+        !isRightToWorkStatusFreeTextLabel(label) &&
         !fieldHasYesNoOptions(field) &&
         !pickWorkAuthStatusOption(field, true) &&
         !pickWorkAuthStatusOption(field, false) &&
@@ -6695,6 +6697,16 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return '';
     }
 
+    // Smarkets "What is your RTW in the UK?" - before mapping mismatch blocks.
+    const rightToWorkStatusEarly = resolveRightToWorkStatusFreeTextAnswer(
+        field,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(rightToWorkStatusEarly)) {
+        return rightToWorkStatusEarly;
+    }
+
     if (isUsLocationConfirmationQuestion(label)) {
         const usLocationAnswer = resolveUsLocationConfirmationAnswer(
             field,
@@ -6916,9 +6928,11 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
     // Bare Yes/No from legally_authorized must not fill status/nationality selects.
     // Greenhouse Yes/No comboboxes often have options still null at inventory
     // time - binary labels still get Yes/No (live Grafana residence eligibility).
+    // Skip for RTW free-text (already handled above / via resolveRightToWork…).
     if (
         mapping.path === 'application_settings.legally_authorized' &&
-        !fieldHasYesNoOptions(field)
+        !fieldHasYesNoOptions(field) &&
+        !isRightToWorkStatusFreeTextLabel(label)
     ) {
         const authorized = raw === true || /^yes\b/i.test(String(raw).trim());
 
