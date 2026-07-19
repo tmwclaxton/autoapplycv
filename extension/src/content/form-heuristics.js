@@ -10985,6 +10985,27 @@ var AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function checkboxGroupHasCheckedOption(root, groupName, anchor = null) {
+        if (!groupName) {
+            return Boolean(anchor?.checked);
+        }
+
+        const doc = anchor?.ownerDocument || root || document;
+        const named = Array.from(
+            doc.querySelectorAll('input[type="checkbox"]'),
+        ).filter((input) => input.name === groupName);
+
+        if (named.some((input) => input.checked)) {
+            return true;
+        }
+
+        if (anchor && isGroupAnswered(anchor)) {
+            return true;
+        }
+
+        return Boolean(anchor?.checked);
+    }
+
     function isSnapshotElementFilled(element, root = document) {
         if (!element) {
             return false;
@@ -10992,9 +11013,13 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const fieldType = element.field_type || 'text';
         let target = null;
+        const inventory =
+            typeof AutoCVApplyFieldInventory !== 'undefined'
+                ? AutoCVApplyFieldInventory
+                : globalThis.AutoCVApplyFieldInventory;
 
-        if (element.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
-            const entry = AutoCVApplyFieldInventory.getRefEntry?.(element.ref);
+        if (element.ref && inventory) {
+            const entry = inventory.getRefEntry?.(element.ref);
 
             if (entry?.target && isTargetConnected(entry.target)) {
                 target = entry.target;
@@ -11010,17 +11035,38 @@ var AutoCVApplyFormHeuristics = (() => {
             );
         }
 
-        if (!target) {
+        // Greenhouse fluency inventories the first option; even when the ref
+        // target cannot be resolved, a checked same-name sibling means filled.
+        if (fieldType === 'checkbox') {
+            const groupName = element.dom?.name || target?.name || '';
+            const checkbox =
+                target?.type === 'checkbox'
+                    ? target
+                    : target?.querySelector?.('input[type="checkbox"]') || null;
+
+            if (checkboxGroupHasCheckedOption(root, groupName, checkbox)) {
+                return true;
+            }
+
+            heuristicsLog(
+                'debug',
+                'snapshot.filled',
+                'Checkbox group treated unfilled',
+                {
+                    ref: element.ref || null,
+                    id: checkbox?.id || element.dom?.id || null,
+                    name: groupName || null,
+                    hasTarget: Boolean(target),
+                    selfChecked: Boolean(checkbox?.checked),
+                    label: element.question || element.label || null,
+                },
+            );
+
             return false;
         }
 
-        if (fieldType === 'checkbox') {
-            const checkbox =
-                target.type === 'checkbox'
-                    ? target
-                    : target.querySelector?.('input[type="checkbox"]');
-
-            return Boolean(checkbox?.checked);
+        if (!target) {
+            return false;
         }
 
         if (fieldType === 'radio') {

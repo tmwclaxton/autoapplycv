@@ -1762,6 +1762,12 @@ async function collectUnfilledRequiredFields(tabId, formFrameId) {
             tabId,
             formFrameId,
         );
+        // Prefer the frame that actually built the snapshot (Greenhouse embed
+        // on Formlabs hosts) so filled checks run against the same document.
+        const filterFrameId =
+            snapshotResponse?.formFrameId ??
+            snapshotResponse?.frameId ??
+            formFrameId;
         const required = (snapshotResponse?.snapshot?.elements || []).filter(
             (element) => element.required,
         );
@@ -1771,7 +1777,7 @@ async function collectUnfilledRequiredFields(tabId, formFrameId) {
                 type: 'FILTER_UNFILLED_REQUIRED_FIELDS',
                 elements: required,
             },
-            formFrameId,
+            filterFrameId,
         );
 
         return (filterResponse?.elements || []).map(
