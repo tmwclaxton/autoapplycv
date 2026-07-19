@@ -6748,11 +6748,35 @@ var AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
-            const fallbackText = stripSvgBrowserNoise(
-                options[0].textContent ||
-                    options[0].getAttribute?.('aria-label') ||
-                    '',
+            const optionTexts = options.map((option) =>
+                stripSvgBrowserNoise(
+                    option.textContent ||
+                        option.getAttribute?.('aria-label') ||
+                        '',
+                ),
             );
+            const optionsLookNationalityOrVisa = optionTexts.some((text) =>
+                /\b(national|nationality|citizen|citizenship|work permit|visa|passport|sponsorship)\b/i.test(
+                    text,
+                ),
+            );
+
+            // Unmatched RTW/status text must not invent "I am a Polish national".
+            if (optionsLookNationalityOrVisa) {
+                heuristicsLog(
+                    'warn',
+                    'apply.combobox',
+                    'Combobox skipped first-option fallback for unmatched nationality/visa status',
+                    {
+                        answerPreview: String(stringValue || '').slice(0, 64),
+                        optionPreview: optionTexts[0]?.slice(0, 64) || '',
+                    },
+                );
+
+                return false;
+            }
+
+            const fallbackText = optionTexts[0] || '';
             heuristicsLog(
                 'warn',
                 'apply.combobox',

@@ -1232,6 +1232,58 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
     );
 });
 
+test('Polish work-auth status memo does not invent nationality from UK RTW', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 17,
+                ref: 'f17',
+                label: 'please specify your current legal work authorization status.',
+                field_type: 'select',
+                options: [
+                    'I am a Polish national',
+                    'I hold a valid Polish work permit or visa',
+                ],
+                dom: { role: 'combobox' },
+            },
+        ],
+        profileData,
+        questionMemo: {
+            'please specify your current legal work authorization status.':
+                'I am a UK citizen and have the right to work in the UK.',
+        },
+    });
+
+    const memoStage = plan.applyStages.find((stage) => stage.type === 'memo');
+    const preferenceStage = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
+    );
+
+    assert.equal(
+        Boolean(
+            memoStage?.answers?.some((answer) => answer.ref === 'f17'),
+        ),
+        false,
+    );
+    assert.equal(
+        Boolean(
+            preferenceStage?.answers?.some(
+                (answer) =>
+                    answer.ref === 'f17' &&
+                    /polish national/i.test(String(answer.answer || '')),
+            ),
+        ),
+        false,
+    );
+    assert.equal(
+        plan.pendingFields.some(
+            (field) =>
+                field.ref === 'f17' && field.reason === 'missing_profile_data',
+        ),
+        true,
+    );
+});
+
 test('cover letter and why-company memos do not auto-apply across jobs', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [

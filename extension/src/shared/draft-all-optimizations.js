@@ -231,6 +231,18 @@ export function isJobSpecificMemoField(field) {
         return true;
     }
 
+    // Employer-country work-auth / nationality status selects (Booksy Poland vs
+    // Smarkets UK RTW free-text must not share a memo).
+    if (
+        /\blegal work authorization status\b/.test(label) ||
+        /\bwork authorization status\b/.test(label) ||
+        /\bcurrent (?:legal )?work authori[sz]ation\b/.test(label) ||
+        /\b(?:polish|uk|british|irish|us|american|eu) national\b/.test(label) ||
+        (/\bnationalit/.test(label) && /\b(status|specify|current)\b/.test(label))
+    ) {
+        return true;
+    }
+
     return false;
 }
 

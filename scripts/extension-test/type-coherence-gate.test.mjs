@@ -92,6 +92,27 @@ test('rejects bare Yes/No on non-Yes/No choice selects', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, 'No'), true);
 });
 
+test('rejects unmatched UK RTW memo on Polish work-auth status select', () => {
+    const field = {
+        label: 'Please specify your current legal work authorization status.',
+        field_type: 'select',
+        options: [
+            'I am a Polish national',
+            'I hold a valid Polish work permit or visa',
+        ],
+    };
+    const result = evaluateAnswerTypeCoherence(
+        field,
+        'I am a UK citizen and have the right to work in the UK.',
+    );
+    assert.equal(result.rejected, true);
+    assert.equal(result.reason, 'unmatched_choice');
+    assert.equal(
+        shouldRejectAnswerForTypeCoherence(field, 'I am a Polish national'),
+        false,
+    );
+});
+
 test('rejects Yes/No on free-text locality phone email date number', () => {
     const cases = [
         [

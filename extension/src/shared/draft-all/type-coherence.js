@@ -264,6 +264,80 @@ function isNoticeField(field) {
         && /\b(notice|start|available)\b/.test(normalized);
 }
 
+/**
+ * True when choice options are unknown/unharvested, or the answer matches a listed
+ * option (exact normalized, containment, or shared distinctive tokens).
+ *
+ * @param {unknown} answer
+ * @param {unknown} options
+ * @returns {boolean}
+ */
+function answerMatchesListedChoiceOption(answer, options) {
+    const listed = (Array.isArray(options) ? options : [])
+        .map((option) =>
+            String(option || '')
+                .toLowerCase()
+                .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+                .replace(/\s+/g, ' ')
+                .trim(),
+        )
+        .filter((option) => option.length >= 2);
+
+    // Empty / unharvested options: do not reject (Greenhouse react-select lag).
+    if (listed.length < 2) {
+        return true;
+    }
+
+    const normalizedAnswer = String(answer || '')
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!normalizedAnswer) {
+        return true;
+    }
+
+    if (listed.some((option) => option === normalizedAnswer)) {
+        return true;
+    }
+
+    // Containment either way ("LinkedIn" vs "LinkedIn / Social media").
+    if (
+        listed.some(
+            (option) =>
+                (option.length >= 4 && normalizedAnswer.includes(option)) ||
+                (normalizedAnswer.length >= 4 && option.includes(normalizedAnswer)),
+        )
+    ) {
+        return true;
+    }
+
+    // Short codes like "B2B" already need exact/containment above; leftover path
+    // is for multi-word answers (UK RTW sentence vs Polish nationality options).
+    const answerTokens = new Set(
+        normalizedAnswer.split(' ').filter((token) => token.length >= 4),
+    );
+
+    if (answerTokens.size === 0) {
+        return false;
+    }
+
+    const stopwords =
+        /^(with|have|hold|from|this|that|your|their|about|into|will|been|were|does|than|then|also|only|just|more|most|such|other|please|select|option|status|legal|work|right)$/;
+
+    return listed.some((option) => {
+        const optionTokens = option
+            .split(' ')
+            .filter((token) => token.length >= 4 && !stopwords.test(token));
+        const overlap = optionTokens.filter((token) => answerTokens.has(token));
+
+        // Distinctive shared token required so "I am a … citizen" does not match
+        // every nationality option via boilerplate alone.
+        return overlap.length > 0;
+    });
+}
+
 function looksLikeEmailAnswer(answer) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(answer || '').trim());
 }
@@ -425,6 +499,21 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         return {
             coherent: false,
             reason: 'yes_no_on_choice',
+            category,
+            rejected: true,
+        };
+    }
+
+    // Choice selects with harvested options: reject answers that match none of them
+    // (live Booksy: stale UK RTW memo + first-option fallback invented "Polish national").
+    if (
+        category === 'choice' &&
+        !isChoiceYesNoField(field) &&
+        !answerMatchesListedChoiceOption(text, field?.options)
+    ) {
+        return {
+            coherent: false,
+            reason: 'unmatched_choice',
             category,
             rejected: true,
         };
