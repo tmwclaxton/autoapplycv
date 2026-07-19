@@ -237,6 +237,8 @@ const PROFILE_FIELD_MAPPINGS = [
             'full name',
             'preferred name',
             'preferred full name',
+            'legal name',
+            'legal full name',
             'applicant name',
             'your name',
             'candidate name',
@@ -344,7 +346,17 @@ const PROFILE_FIELD_MAPPINGS = [
         label: 'GitHub',
         dashboard_tab: 'profile',
         dashboard_anchor: 'field-social-links',
-        keywords: ['github', 'github url', 'github profile', 'github link'],
+        keywords: [
+            'github',
+            'github url',
+            'github profile',
+            'github link',
+            // Ramp Ashby: proud-of open source / AI project links.
+            'open source',
+            'open-source',
+            'side projects',
+            'ai projects',
+        ],
     },
     {
         path: '_profile_link.portfolio',
@@ -4189,6 +4201,17 @@ function resolveGithubProfileUrl(profileData) {
 
     if (fromSocial) {
         return fromSocial;
+    }
+
+    // Top-level github_url (API / assist profile payloads).
+    const githubUrl = String(
+        profileData?.github_url ||
+            profileData?.profile?.github_url ||
+            '',
+    ).trim();
+
+    if (githubUrl && urlHostContains(githubUrl, 'github.com')) {
+        return githubUrl;
     }
 
     const website = String(
