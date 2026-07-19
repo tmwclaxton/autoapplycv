@@ -168,6 +168,18 @@ export function buildDraftAllApplyPlan({
         timezoneTrainingPartition.pendingFields,
     );
 
+    // Pend foreign-only job-site boards before preference/screener can map
+    // "location" keywords onto the applicant's city.
+    const screeningPartition = partitionScreeningTrapFields(
+        remainingFields,
+        profileData,
+    );
+    remainingFields = screeningPartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        screeningPartition.pendingFields,
+    );
+
     const preferencePartition = partitionPreferenceProfileFields(
         remainingFields,
         profileData,
@@ -241,16 +253,6 @@ export function buildDraftAllApplyPlan({
     const marketingConsentPartition =
         partitionMarketingConsentFields(remainingFields);
     remainingFields = marketingConsentPartition.remainingFields;
-
-    const screeningPartition = partitionScreeningTrapFields(
-        remainingFields,
-        profileData,
-    );
-    remainingFields = screeningPartition.remainingFields;
-    pendingFields = mergePendingFields(
-        pendingFields,
-        screeningPartition.pendingFields,
-    );
 
     const applyStages = [];
 

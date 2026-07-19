@@ -17,6 +17,7 @@ import {
 import { requestDraftField } from './draft-all-stream.js';
 import {
     isGenericTotalExperienceQuestionLabel,
+    isJobApplicationLocationChoiceLabel,
     isMeaningfulAnswer,
     isMeaningfulFieldAnswer,
     isSalaryQuestionLabel,
@@ -417,6 +418,11 @@ export function resolveHeuristicScreenerAnswer(
         dom: field.dom ?? null,
     };
     const label = normalizedField.question || normalizedField.label;
+
+    // Never dump city/location onto job-site boards (foreign-only options pend).
+    if (isJobApplicationLocationChoiceLabel(label)) {
+        return null;
+    }
 
     // Prefer the live job board over a stale memo from another platform.
     const sourceOfHireAnswer = resolveSourceOfHireAnswer(

@@ -4,6 +4,7 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
 import {
     buildPendingFieldsFromUnfilledSnapshot,
     isJobApplicationLocationChoiceLabel,
@@ -19,6 +20,7 @@ import {
     resolveIdentityProfileAnswer,
     resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
+    resolveProfileMappingForLabel,
 } from '../../extension/src/shared/pending-fields.js';
 
 const visaLabel = "Do you need visa sponsorship for the role's location?";
@@ -185,6 +187,8 @@ test('foreign-only job application locations stay pending for UK profile', () =>
     };
 
     assert.equal(shouldLeaveJobApplicationLocationPending(field, profile), true);
+    assert.equal(resolveIdentityProfileAnswer(field, profile), '');
+    assert.equal(resolveProfileMappingForLabel(field.label, profile), null);
     const { pendingFields, remainingFields } = partitionScreeningTrapFields(
         [field],
         profile,
@@ -192,6 +196,27 @@ test('foreign-only job application locations stay pending for UK profile', () =>
     assert.equal(pendingFields.length, 1);
     assert.equal(pendingFields[0].reason, 'location_clarify');
     assert.equal(remainingFields.length, 0);
+
+    // Identity/screener used to steal this as city before screening traps ran.
+    const plan = buildDraftAllApplyPlan({
+        fields: [field, { ref: 'f5', label: 'current location', field_type: 'text' }],
+        profileData: profile,
+        questionMemo: {},
+        existingPendingFields: [],
+        pageUrl: 'https://jobs.lever.co/Instrumentl/x/apply',
+    });
+    assert.equal(
+        plan.pendingFields.some((p) => p.reason === 'location_clarify'),
+        true,
+    );
+    assert.equal(
+        plan.applyStages.some(
+            (stage) =>
+                stage.type !== 'pending' &&
+                (stage.answers || []).some((a) => a.ref === 'f0'),
+        ),
+        false,
+    );
 });
 
 test('Lever which-location-are-you-applying-for is job site not residence', () => {

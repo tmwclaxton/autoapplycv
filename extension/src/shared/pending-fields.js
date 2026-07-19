@@ -3430,6 +3430,11 @@ export function resolveProfileMappingForLabel(
         return resolveProfileMappingForDomHints(dom);
     }
 
+    // Job-site boards are not the applicant's city/current location.
+    if (isJobApplicationLocationChoiceLabel(label)) {
+        return null;
+    }
+
     if (isHoursCommitmentQuestionLabel(label)) {
         return null;
     }
@@ -4216,6 +4221,16 @@ export function isPreferenceProfilePath(path) {
 
 export function resolveIdentityProfileAnswer(field, profileData) {
     if (isElectronicSignatureField(field)) {
+        return '';
+    }
+
+    // Job-site boards ("which location are you applying for?") must not receive
+    // the applicant's city from the identity profile mapping.
+    if (
+        isJobApplicationLocationChoiceLabel(
+            field?.label || field?.question || '',
+        )
+    ) {
         return '';
     }
 

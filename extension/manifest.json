@@ -1,82 +1,82 @@
 {
-    "manifest_version": 3,
-    "name": "AutoCVApply",
-    "version": "2.25.243",
-    "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
-    "permissions": [
-        "storage",
-        "tabs",
-        "windows",
-        "sidePanel",
-        "contextMenus",
-        "webNavigation",
-        "scripting"
-    ],
-    "host_permissions": [
-        "<all_urls>"
-    ],
-    "externally_connectable": {
-        "matches": [
-            "https://autocvapply.com/*",
-            "http://localhost/*",
-            "http://127.0.0.1/*"
-        ]
-    },
-    "side_panel": {
-        "default_path": "sidepanel.html"
-    },
-    "action": {
-        "default_title": "AutoCVApply",
-        "default_icon": {
-            "16": "icons/icon16.png",
-            "32": "icons/icon32.png",
-            "48": "icons/icon48.png",
-            "128": "icons/icon128.png"
-        }
-    },
-    "icons": {
-        "16": "icons/icon16.png",
-        "32": "icons/icon32.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
-    },
-    "background": {
-        "service_worker": "background.js",
-        "type": "module"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "exclude_matches": [
-                "https://autocvapply.com/*"
-            ],
-            "js": [
-                "extension-context.js",
-                "debug-log-client.js",
-                "form-content-signature.js",
-                "answer-normalization-content.js",
-                "form-heuristics.js",
-                "field-inventory.js",
-                "form-validation-errors.js",
-                "linkedin-parser.js",
-                "linkedin-page-health.js",
-                "linkedin-easy-apply-fields.js",
-                "auto-apply-timing-content.js",
-                "linkedin-auto-apply.js",
-                "indeed-auto-apply.js",
-                "totaljobs-auto-apply.js",
-                "glassdoor-auto-apply.js",
-                "simplyhired-auto-apply.js",
-                "reed-auto-apply.js",
-                "cv-library-auto-apply.js",
-                "focus-tracker.js",
-                "field-highlighter.js",
-                "content.js"
-            ],
-            "all_frames": true,
-            "run_at": "document_idle"
-        }
+  "manifest_version": 3,
+  "name": "AutoCVApply",
+  "version": "2.25.244",
+  "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "windows",
+    "sidePanel",
+    "contextMenus",
+    "webNavigation",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "https://autocvapply.com/*",
+      "http://localhost/*",
+      "http://127.0.0.1/*"
     ]
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "AutoCVApply",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "exclude_matches": [
+        "https://autocvapply.com/*"
+      ],
+      "js": [
+        "extension-context.js",
+        "debug-log-client.js",
+        "form-content-signature.js",
+        "answer-normalization-content.js",
+        "form-heuristics.js",
+        "field-inventory.js",
+        "form-validation-errors.js",
+        "linkedin-parser.js",
+        "linkedin-page-health.js",
+        "linkedin-easy-apply-fields.js",
+        "auto-apply-timing-content.js",
+        "linkedin-auto-apply.js",
+        "indeed-auto-apply.js",
+        "totaljobs-auto-apply.js",
+        "glassdoor-auto-apply.js",
+        "simplyhired-auto-apply.js",
+        "reed-auto-apply.js",
+        "cv-library-auto-apply.js",
+        "focus-tracker.js",
+        "field-highlighter.js",
+        "content.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
 }
