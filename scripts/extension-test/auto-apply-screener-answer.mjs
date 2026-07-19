@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import {
+    isPositionApplyingForQuestionLabel,
     isSourceOfHireQuestionLabel,
     partitionScreenerHeuristicFields,
     resolveHeuristicScreenerAnswer,
+    resolvePositionApplyingForAnswer,
     resolveSourceOfHireAnswer,
     resolveTestModeFallbackAnswer,
 } from '../../extension/src/shared/auto-apply-screener-answer.js';
@@ -416,6 +418,17 @@ assert.equal(
     ),
     true,
     'Affirm first-learn wording is source-of-hire',
+);
+assert.equal(
+    isPositionApplyingForQuestionLabel('position applying for'),
+    true,
+);
+assert.equal(
+    resolvePositionApplyingForAnswer(
+        { label: 'position applying for', field_type: 'text' },
+        { jobTitle: 'Firstup - Sr. Software Engineer, Frontend (UK)' },
+    ),
+    'Sr. Software Engineer, Frontend (UK)',
 );
 assert.equal(
     resolveSourceOfHireAnswer(

@@ -252,7 +252,6 @@ const PROFILE_FIELD_MAPPINGS = [
         dashboard_anchor: 'field-full-name',
         keywords: [
             'full name',
-            'preferred name',
             'preferred full name',
             'legal name',
             'legal full name',
@@ -269,6 +268,7 @@ const PROFILE_FIELD_MAPPINGS = [
         dashboard_anchor: 'field-full-name',
         keywords: [
             'first name',
+            'preferred name',
             'given name',
             'forename',
             'fornamn',
@@ -2999,8 +2999,10 @@ export function isOptionalSocialNetworkUrlLabel(label) {
     }
 
     return (
-        /^(facebook|twitter|instagram|tiktok|x)\b/.test(normalized) ||
-        /\b(facebook|twitter|instagram|tiktok)\s*(url|profile|link|handle)?$/.test(
+        /^(facebook|twitter|instagram|tiktok|x|stack\s*overflow)\b/.test(
+            normalized,
+        ) ||
+        /\b(facebook|twitter|instagram|tiktok|stack\s*overflow)\s*(url|profile|link|handle)?$/.test(
             normalized,
         )
     );

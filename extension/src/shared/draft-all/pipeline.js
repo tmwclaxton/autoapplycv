@@ -60,6 +60,7 @@ import { tagAnswersWithSource } from './type-coherence.js';
  *   existingPendingFields?: Array<object>,
  *   platformId?: string|null,
  *   pageUrl?: string|null,
+ *   jobTitle?: string|null,
  * }} input
  */
 export function buildDraftAllApplyPlan({
@@ -69,6 +70,7 @@ export function buildDraftAllApplyPlan({
     existingPendingFields = [],
     platformId = null,
     pageUrl = null,
+    jobTitle = null,
 }) {
     const profileGapPending = buildPendingFieldsFromProfileGaps(
         fields,
@@ -78,7 +80,7 @@ export function buildDraftAllApplyPlan({
         existingPendingFields,
         profileGapPending,
     );
-    const platformContext = { platformId, pageUrl };
+    const platformContext = { platformId, pageUrl, jobTitle };
 
     let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(
         fields,

@@ -131,6 +131,73 @@ function isAtsApplicationHostUrl(pageUrl) {
 }
 
 /**
+ * Lever equal-opportunity cards often ask "Position applying for" with the job title.
+ *
+ * @param {string|null|undefined} label
+ * @returns {boolean}
+ */
+export function isPositionApplyingForQuestionLabel(label) {
+    const normalized = String(label || '')
+        .toLowerCase()
+        .replace(/[^\w\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!normalized) {
+        return false;
+    }
+
+    return (
+        /\bposition applying for\b/.test(normalized) ||
+        /\brole applying for\b/.test(normalized) ||
+        /^(?:job|role) title$/.test(normalized)
+    );
+}
+
+/**
+ * @param {object|null|undefined} field
+ * @param {{ jobTitle?: string|null, pageUrl?: string|null }|null|undefined} context
+ * @returns {string|null}
+ */
+export function resolvePositionApplyingForAnswer(field, context = null) {
+    const label = field?.question || field?.label || '';
+
+    if (!isPositionApplyingForQuestionLabel(label)) {
+        return null;
+    }
+
+    const title = String(context?.jobTitle || '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!title) {
+        return null;
+    }
+
+    // "Firstup - Sr. Software Engineer, Frontend (UK)" -> role fragment.
+    const separators = [' | ', ' - ', ' \u2014 ', ' \u2013 ', ' at '];
+
+    for (const separator of separators) {
+        const parts = title
+            .split(separator)
+            .map((part) => part.trim())
+            .filter(Boolean);
+
+        if (parts.length >= 2) {
+            // Prefer the longer non-company side when "Company - Role".
+            const candidate =
+                parts[0].length >= parts[1].length ? parts[0] : parts[1];
+
+            if (candidate.length >= 4) {
+                return candidate;
+            }
+        }
+    }
+
+    return title;
+}
+
+/**
  * Prefer a dropdown option for the current job board; otherwise free-text the platform name.
  *
  * @param {object|null|undefined} field
@@ -469,6 +536,18 @@ export function resolveHeuristicScreenerAnswer(
     // Skill/tool years must not inherit total YOE via keyword mapping.
     if (shouldDeferScreenerQuestionToLlm(label)) {
         return null;
+    }
+
+    const positionApplyingAnswer = resolvePositionApplyingForAnswer(
+        normalizedField,
+        platformContext,
+    );
+
+    if (isMeaningfulAnswer(positionApplyingAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            positionApplyingAnswer,
+            normalizedField,
+        );
     }
 
     // Prefer the live job board over a stale memo from another platform.
