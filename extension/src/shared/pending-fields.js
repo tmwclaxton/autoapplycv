@@ -3777,6 +3777,16 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
+    // Notice/start digits must never dump onto Yes/No start-date gates
+    // (live Booksy "available to start … September 2026?" got notice "2").
+    if (
+        (mapping?.path === 'application_settings.notice_period' ||
+            mapping?.path === 'computed_earliest_start') &&
+        fieldHasYesNoOptions(field)
+    ) {
+        return true;
+    }
+
     return false;
 }
 
@@ -6584,6 +6594,32 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
 
         return '';
+    }
+
+    // "Available to start September 2026?" Yes/No: filter-pass Yes when notice
+    // or earliest-start is set - never dump bare notice digits onto the radio.
+    if (
+        isAvailabilityQuestionLabel(label) &&
+        fieldHasYesNoOptions(field) &&
+        (mapping.path === 'application_settings.notice_period' ||
+            mapping.path === 'computed_earliest_start')
+    ) {
+        const hasStartFact =
+            isMeaningfulAnswer(
+                readProfileValue(
+                    profileData,
+                    'application_settings.notice_period',
+                ),
+            ) ||
+            isMeaningfulAnswer(
+                readProfileValue(profileData, 'computed_earliest_start'),
+            );
+
+        if (!hasStartFact) {
+            return '';
+        }
+
+        return pickLocalizedYesNoOption(field, true) || 'Yes';
     }
 
     if (isProfileMappingMismatch(field, mapping)) {

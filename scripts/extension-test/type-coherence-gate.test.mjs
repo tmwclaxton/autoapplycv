@@ -745,6 +745,43 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
     );
 });
 
+test('available-to-start Yes/No filter-passes Yes and never dumps notice digits', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 15,
+                ref: 'f15',
+                label: 'are you available to start a 12-month, full-time programme in september 2026? (please note the start date is not flexible)',
+                field_type: 'radio',
+                options: ['yes', 'no'],
+            },
+        ],
+        profileData: {
+            profile: { country: 'United Kingdom' },
+            application_settings: { notice_period: '2' },
+        },
+        questionMemo: {},
+    });
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(
+        !answers.some(
+            (item) => item.ref === 'f15' && String(item.answer).trim() === '2',
+        ),
+        'must not apply bare notice digits to start-date Yes/No',
+    );
+    assert.ok(
+        answers.some(
+            (item) =>
+                item.ref === 'f15' && /^yes$/i.test(String(item.answer).trim()),
+        ),
+        'notice setting must filter-pass Yes on fixed start-date Yes/No',
+    );
+});
+
 test('security clearance Yes/No does not inherit legally_authorized', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'
