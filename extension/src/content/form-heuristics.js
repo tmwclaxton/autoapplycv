@@ -9657,6 +9657,33 @@ var AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
+    /**
+     * Native/Lever "Select..." placeholder options are not committed answers.
+     * Without this, read_field_values reported fill_rate:1 while opportunity
+     * location was still on Select...
+     */
+    function isNativeSelectPlaceholderValue(value) {
+        const normalized = String(value || '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .toLowerCase();
+
+        if (!normalized) {
+            return true;
+        }
+
+        return (
+            /^select(\s+(an?\s+)?option)?\.?$/.test(normalized) ||
+            /^select\.\.\.?$/.test(normalized) ||
+            /^choose(\s+(an?\s+)?option)?\.?$/.test(normalized) ||
+            /^choose\.\.\.?$/.test(normalized) ||
+            /^please\s+select\b/.test(normalized) ||
+            normalized === '-' ||
+            normalized === '--' ||
+            normalized === '---'
+        );
+    }
+
     function readSimpleFieldValue(element, fieldType) {
         if (!element) {
             return null;
@@ -9699,12 +9726,15 @@ var AutoCVApplyFormHeuristics = (() => {
             const selected =
                 element.selectedOptions?.[0] ||
                 element.options?.[element.selectedIndex];
+            const text = (selected?.textContent || selected?.value || '')
+                .replace(/\s+/g, ' ')
+                .trim();
 
-            return (
-                (selected?.textContent || selected?.value || '')
-                    .replace(/\s+/g, ' ')
-                    .trim() || null
-            );
+            if (!text || isNativeSelectPlaceholderValue(text)) {
+                return null;
+            }
+
+            return text;
         }
 
         if (
@@ -9831,9 +9861,10 @@ var AutoCVApplyFormHeuristics = (() => {
                 }
             }
         } else if (tag === 'select') {
-            value = String(
-                readSimpleFieldValue(element, 'select') || element.value || '',
-            );
+            // Do not fall back to element.value when readSimpleFieldValue
+            // returns null for Select... placeholders.
+            const read = readSimpleFieldValue(element, 'select');
+            value = read == null ? '' : String(read);
         } else {
             value = String(
                 readSimpleFieldValue(element, type) || element.value || '',
@@ -9917,7 +9948,21 @@ var AutoCVApplyFormHeuristics = (() => {
                 return control.checked;
             }
 
-            return String(control.value || '').trim() !== '';
+            const value = String(control.value || '').trim();
+
+            if (!value) {
+                return false;
+            }
+
+            if (
+                (control.tag === 'select' ||
+                    String(control.type || '').startsWith('select')) &&
+                isNativeSelectPlaceholderValue(value)
+            ) {
+                return false;
+            }
+
+            return true;
         });
 
         return {
