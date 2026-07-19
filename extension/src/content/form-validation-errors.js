@@ -17,6 +17,10 @@ var AutoCVApplyFormValidation = (() => {
         '.form-error-summary',
         '.ashby-application-form-errors',
         '.ashby-application-form-error',
+        '.validation_message',
+        '.validation-message',
+        '[data-test-form-element-error-messages]',
+        '.artdeco-inline-feedback__message',
     ];
 
     function normalizeText(text) {
@@ -360,20 +364,9 @@ var AutoCVApplyFormValidation = (() => {
     function scanFormValidationMessages(root) {
         const messages = [];
 
-        for (const pattern of TEXT_ERROR_PATTERNS) {
-            const bodyText = normalizeText(root.body?.textContent || '');
-
-            if (!bodyText) {
-                break;
-            }
-
-            const match = bodyText.match(pattern);
-
-            if (match) {
-                messages.push(match[0]);
-            }
-        }
-
+        // Only visible error nodes - never scan document.body textContent.
+        // Personio (and similar) embed i18n catalogs with "This field is required"
+        // that are not live validation.
         for (const selector of FORM_ERROR_SELECTORS) {
             for (const node of root.querySelectorAll(selector)) {
                 if (!isVisible(node)) {
@@ -382,7 +375,12 @@ var AutoCVApplyFormValidation = (() => {
 
                 const text = normalizeText(node.textContent || '');
 
-                if (text.length >= 3 && looksLikeValidationError(text)) {
+                // Ignore huge blobs (translation JSON / SSR payloads).
+                if (
+                    text.length >= 3 &&
+                    text.length <= 280 &&
+                    looksLikeValidationError(text)
+                ) {
                     messages.push(text);
                 }
             }
@@ -395,7 +393,11 @@ var AutoCVApplyFormValidation = (() => {
 
             const text = normalizeText(node.textContent || '');
 
-            if (text.length >= 3 && looksLikeValidationError(text)) {
+            if (
+                text.length >= 3 &&
+                text.length <= 280 &&
+                looksLikeValidationError(text)
+            ) {
                 messages.push(text);
             }
         }

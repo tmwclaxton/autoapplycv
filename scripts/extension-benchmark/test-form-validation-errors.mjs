@@ -87,6 +87,24 @@ const cleanState = cleanValidation.scanFormValidationState(cleanDom.window.docum
 
 assert(!cleanState.hasErrors, 'clean form should not report validation errors');
 
+const personioI18nDom = new JSDOM(`<!DOCTYPE html><html><body>
+    <script id="__NEXT_DATA__">{"career-page.application-form.validation.field-required":"This field is required"}</script>
+    <form>
+        <label>Available from*</label>
+        <input name="available_from" type="text" value="2 weeks" />
+        <div class="DynamicForm_fieldFeedback__Q5F6M"></div>
+    </form>
+</body></html>`, { url: 'https://fairfood-freiburg.jobs.personio.de/job/270216' });
+const personioValidation = loadValidationModule(personioI18nDom);
+const personioState = personioValidation.scanFormValidationState(
+    personioI18nDom.window.document,
+);
+
+assert(
+    !personioState.hasErrors,
+    'Personio i18n catalog strings must not count as live validation errors',
+);
+
 const blocked = validation.validateBlockedField(buildGravityFormDom().window.document, {
     label: 'Social Security Number',
     dom: { id: 'input_1_3' },
