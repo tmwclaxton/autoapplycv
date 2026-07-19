@@ -30,6 +30,7 @@ import {
     partitionMissingContactIdentityFields,
     partitionMissingLocalityIdentityFields,
     partitionMissingNameIdentityFields,
+    partitionInterviewAccommodationFields,
     partitionOptionalAbsentSocialUrlFields,
     partitionPreferenceProfileFields,
     partitionPriorEmployerContactFields,
@@ -261,6 +262,11 @@ export function buildDraftAllApplyPlan({
         partitionOptionalAbsentSocialUrlFields(remainingFields);
     remainingFields = optionalSocialPartition.remainingFields;
 
+    // Optional interview accommodation free-text must stay blank (no career essays).
+    const accommodationPartition =
+        partitionInterviewAccommodationFields(remainingFields);
+    remainingFields = accommodationPartition.remainingFields;
+
     const applyStages = [];
 
     if (memoAnswers.length > 0) {
@@ -307,6 +313,7 @@ export function buildDraftAllApplyPlan({
     const clearAnswers = [
         ...(preferencePartition.clearAnswers || []),
         ...(optionalSocialPartition.clearAnswers || []),
+        ...(accommodationPartition.clearAnswers || []),
     ];
 
     if (clearAnswers.length > 0) {

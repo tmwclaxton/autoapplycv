@@ -1103,3 +1103,35 @@ test('speak-language screener uses profile languages and rejects contradicting m
         false,
     );
 });
+
+test('interview accommodation free-text is cleared and not sent to LLM', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                ref: 'f0',
+                label:
+                    "We believe it's on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.",
+                field_type: 'textarea',
+            },
+            {
+                ref: 'f1',
+                label: 'Full name',
+                field_type: 'text',
+            },
+        ],
+        profileData,
+        questionMemo: {
+            "We believe it's on us to provide an inclusive interview experience for all, including people with disabilities. We are happy to provide reasonable accommodations to candidates in need of individualized support during the hiring process. Please specify any requests for such accommodations here.":
+                'I have a long career essay that should not land here.',
+        },
+    });
+
+    const clearStage = plan.applyStages.find((stage) => stage.type === 'clear');
+    assert.ok(clearStage);
+    assert.equal(clearStage.answers[0].ref, 'f0');
+    assert.equal(clearStage.answers[0].answer, '__CLEAR__');
+    assert.equal(
+        (plan.llmFields || []).some((field) => field.ref === 'f0'),
+        false,
+    );
+});

@@ -17,6 +17,7 @@ import {
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
 import {
     isEmployerScreeningTrapLabel,
+    isInterviewAccommodationQuestionLabel,
     isOptionalSocialNetworkUrlLabel,
     isSourceOfHireOtherFollowUpLabel,
     isSourceOfHireQuestionLabel,
@@ -202,7 +203,8 @@ export function resolveSavedApplicationAnswer(
     if (
         !answer ||
         shouldRejectPhoneAnswerOnField(field, answer) ||
-        shouldRejectAnswerForTypeCoherence(field, answer)
+        shouldRejectAnswerForTypeCoherence(field, answer) ||
+        isInterviewAccommodationQuestionLabel(label)
     ) {
         return null;
     }
@@ -295,6 +297,12 @@ export function partitionFieldsByQuestionMemo(
 
         // Stale Facebook/Twitter essay memos must not refill optional URL fields.
         if (isOptionalSocialNetworkUrlLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Interview accommodation free-text must stay blank (no career essays).
+        if (isInterviewAccommodationQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }
