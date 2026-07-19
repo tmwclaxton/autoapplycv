@@ -12,6 +12,7 @@ use App\Http\Requests\GenerateCoverLetterRequest;
 use App\Http\Requests\GenerateTailoredResumeRequest;
 use App\Http\Requests\InventoryApplicationRequest;
 use App\Http\Requests\ScoreAtsRequest;
+use App\Http\Requests\VetDraftAnswersRequest;
 use App\Services\AiTokenService;
 use App\Services\ApplicationAssistantService;
 use App\Services\ApplicationDraftOrchestratorService;
@@ -19,6 +20,7 @@ use App\Services\ApplicationFieldInventoryService;
 use App\Services\ApplicationJobContextService;
 use App\Services\AutofillAnalyticsService;
 use App\Services\CoverLetterDocumentService;
+use App\Services\DraftAnswerVettingService;
 use App\Services\ExtensionNanoGptUsageService;
 use App\Support\AiAssistCosts;
 use Illuminate\Http\JsonResponse;
@@ -35,6 +37,7 @@ class ApplicationAssistantController extends Controller
         private readonly AutofillAnalyticsService $analytics,
         private readonly CoverLetterDocumentService $coverLetters,
         private readonly ExtensionNanoGptUsageService $nanoGptUsage,
+        private readonly DraftAnswerVettingService $answerVetting,
     ) {}
 
     public function answerQuestions(AssistApplicationQuestionsRequest $request): JsonResponse
@@ -356,6 +359,45 @@ class ApplicationAssistantController extends Controller
             'answer' => $answers['answers'][0]['answer'] ?? null,
             'label' => $field['label'],
             'credit_cost' => $cost,
+            'subscription' => $this->usage->summary($user),
+        ]);
+    }
+
+    public function vetAnswers(VetDraftAnswersRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
+        }
+
+        if (! $this->answerVetting->enabled()) {
+            return response()->json([
+                'success' => true,
+                'verdicts' => [],
+                'skipped' => true,
+                'subscription' => $this->usage->summary($user),
+            ]);
+        }
+
+        $validated = $request->validated();
+        $result = $this->answerVetting->vetAnswers(
+            $profile,
+            $validated['job'],
+            $validated['candidates'],
+            $validated['settings'] ?? [],
+        );
+
+        if ($result['usage'] !== null) {
+            $this->nanoGptUsage->record($user, 'assist.vet-answers', $result['usage'], 0);
+        }
+
+        return response()->json([
+            'success' => true,
+            'verdicts' => $result['verdicts'],
+            'usage' => $result['usage'],
+            'credit_cost' => 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }

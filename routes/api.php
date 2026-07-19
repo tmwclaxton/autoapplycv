@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/applications/assist/chat', [ApplicationAssistantController::class, 'chat'])->name('api.applications.assist.chat');
     Route::post('/applications/assist/chat/stream', [ApplicationAssistantController::class, 'chatStream'])->name('api.applications.assist.chat.stream');
     Route::post('/applications/assist/draft-field', [ApplicationAssistantController::class, 'draftField'])->name('api.applications.assist.draft-field');
+    Route::post('/applications/assist/vet-answers', [ApplicationAssistantController::class, 'vetAnswers'])->name('api.applications.assist.vet-answers');
     Route::post('/applications/assist/draft-all', [ApplicationAssistantController::class, 'draftAll'])->name('api.applications.assist.draft-all');
     Route::post('/applications/assist/cover-letter', [ApplicationAssistantController::class, 'coverLetter'])->name('api.applications.assist.cover-letter');
     Route::post('/applications/assist/tailored-resume', [ApplicationAssistantController::class, 'tailoredResume'])->name('api.applications.assist.tailored-resume');
