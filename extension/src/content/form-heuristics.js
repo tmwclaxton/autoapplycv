@@ -3308,14 +3308,23 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (getAshbyFieldEntry(element)) {
             const fieldPath = String(
-                element.getAttribute?.('data-field-path') || element.id || '',
+                element.getAttribute?.('data-field-path') ||
+                    getAshbyFieldEntry(element)?.getAttribute?.(
+                        'data-field-path',
+                    ) ||
+                    element.id ||
+                    '',
             );
             const questionLabel = getAshbyQuestionTitle(element);
 
+            // Keep `_systemfield_location` on char-by-char so Ashby Places fires.
+            // Instant paste leaves the input empty of options (live Mercor).
+            if (isAshbyLocationCombobox(element)) {
+                return stringValue.length <= CHAR_BY_CHAR_MAX_LENGTH;
+            }
+
             if (
-                /^_systemfield_(name|email|phone|location|resume)/i.test(
-                    fieldPath,
-                ) ||
+                /^_systemfield_(name|email|phone|resume)/i.test(fieldPath) ||
                 element.type === 'email' ||
                 element.type === 'tel' ||
                 element.type === 'url'
@@ -5020,6 +5029,42 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    /**
+     * Ashby `_systemfield_location` Places typeahead. Options arrive via network
+     * after typing; generic react-select waits are too short (live Mercor/Synthesia).
+     */
+    function isAshbyLocationCombobox(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        const entry = getAshbyFieldEntry(element);
+
+        if (!entry) {
+            return false;
+        }
+
+        const fieldPath = String(
+            element.getAttribute?.('data-field-path') ||
+                entry.getAttribute?.('data-field-path') ||
+                element.id ||
+                element.getAttribute?.('id') ||
+                '',
+        );
+
+        if (/_systemfield_location/i.test(fieldPath)) {
+            return true;
+        }
+
+        const label = getAshbyQuestionTitle(element) || getFieldLabel(element);
+
+        return (
+            /\bwhere are you (?:currently )?located\b/i.test(label) ||
+            (/\b(?:current )?location\b/i.test(label) &&
+                !/\bcountry\b/i.test(label))
+        );
+    }
+
     function isGreenhousePhoneCountryCombobox(element) {
         if (
             !element ||
@@ -5944,16 +5989,55 @@ var AutoCVApplyFormHeuristics = (() => {
             scoreOpenComboboxOptions(options);
 
         if (!(bestOption && bestScore >= 100) && !isYesNoAnswer && canType) {
-            await typeComboboxFilterText(element, stringValue);
-            await pauseMs(120);
-            options = collectOpenComboboxOptions();
+            const ashbyLocation = isAshbyLocationCombobox(element);
+            const typedQueries = [stringValue];
 
-            if (options.length === 0) {
-                options = await waitForComboboxOptions(doc, element, 250);
+            // Full "City, Region, Country" often returns zero Ashby Places hits;
+            // city-only matches (live Mercor High Wycombe).
+            if (ashbyLocation && stringValue.includes(',')) {
+                const cityOnly = stringValue.split(',')[0].trim();
+
+                if (cityOnly.length >= 2 && cityOnly !== stringValue) {
+                    typedQueries.push(cityOnly);
+                }
             }
 
-            ({ bestOption, bestOptionText, bestScore } =
-                scoreOpenComboboxOptions(options));
+            for (const typedQuery of typedQueries) {
+                if (ashbyLocation) {
+                    const entry = getAshbyFieldEntry(element);
+                    const toggle = entry?.querySelector(
+                        'button[class*="toggleButton"], button[aria-label*="oggle"]',
+                    );
+
+                    dispatchPointerClick(element);
+                    if (toggle) {
+                        dispatchPointerClick(toggle);
+                    }
+
+                    await fillTypeaheadSearchText(element, typedQuery);
+                    await pauseMs(250);
+                } else {
+                    await typeComboboxFilterText(element, typedQuery);
+                    await pauseMs(120);
+                }
+
+                options = collectOpenComboboxOptions();
+
+                if (options.length === 0) {
+                    options = await waitForComboboxOptions(
+                        doc,
+                        element,
+                        ashbyLocation ? 2000 : 250,
+                    );
+                }
+
+                ({ bestOption, bestOptionText, bestScore } =
+                    scoreOpenComboboxOptions(options));
+
+                if (bestOption && bestScore >= 100) {
+                    break;
+                }
+            }
         }
 
         const reactSelectShell = element.closest(
@@ -6116,6 +6200,44 @@ var AutoCVApplyFormHeuristics = (() => {
             );
 
             return committed;
+        }
+
+        // Last Ashby Places retry: city token + longer geocode window.
+        if (isAshbyLocationCombobox(element) && canType) {
+            const cityOnly =
+                stringValue.split(',')[0].trim() || stringValue.trim();
+            const entry = getAshbyFieldEntry(element);
+            const toggle = entry?.querySelector(
+                'button[class*="toggleButton"], button[aria-label*="oggle"]',
+            );
+
+            dispatchPointerClick(element);
+            if (toggle) {
+                dispatchPointerClick(toggle);
+            }
+
+            await fillTypeaheadSearchText(element, cityOnly);
+            await pauseMs(250);
+            options = await waitForComboboxOptions(doc, element, 2500);
+            ({ bestOption, bestOptionText, bestScore } =
+                scoreOpenComboboxOptions(options));
+
+            if (bestOption && bestScore >= 100) {
+                heuristicsLog('info', 'apply.combobox', 'Ashby location option matched on retry', {
+                    optionText: bestOptionText,
+                    score: bestScore,
+                });
+
+                const committed = await commitComboboxOptionSelection(
+                    element,
+                    bestOption,
+                    stringValue,
+                );
+
+                if (committed) {
+                    return true;
+                }
+            }
         }
 
         heuristicsLog(
