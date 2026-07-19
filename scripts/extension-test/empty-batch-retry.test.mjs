@@ -128,3 +128,114 @@ test('retryEmptyDraftBatchAnswers does not inject profile total years into skill
     assert.equal(retried.toApply.length, 0);
     assert.equal(retried.pending.length, 0);
 });
+
+test('empty cover letter after clear falls back to company-named template', async () => {
+    const { collectMissingCompanyEssayRetryRefs } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/empty-batch-retry.js')).href
+    );
+
+    const fieldsByRef = new Map([
+        ['f12', { ref: 'f12', label: 'cover letter', field_type: 'textarea' }],
+    ]);
+    const batchAnswers = [
+        { ref: 'f12', label: 'cover letter', field_type: 'textarea', answer: null },
+    ];
+    const partitionResult = partitionDraftAllBatchAnswers(
+        batchAnswers,
+        fieldsByRef,
+        { ...profileData, job: { company: 'Climax Studios' } },
+    );
+
+    assert.deepEqual(
+        collectEmptyBatchAnswerRetryRefs(batchAnswers, partitionResult),
+        ['f12'],
+    );
+
+    const retried = await retryEmptyDraftBatchAnswers({
+        batchAnswers,
+        partitionResult,
+        fieldsByRef,
+        job: { title: 'Software Engineer', company: 'Climax Studios' },
+        settings: {},
+        profileData: {
+            profile: {
+                full_name: 'Toby Claxton',
+                experience: [
+                    {
+                        title: 'Software Engineer',
+                        company: 'Rapid7',
+                        highlights: ['Migrated 10,000 integrations'],
+                    },
+                ],
+            },
+        },
+        requestDraftField: async () => ({ answer: null }),
+    });
+
+    assert.equal(retried.retriedCount, 1);
+    assert.equal(retried.toApply.length, 1);
+    assert.match(retried.toApply[0].answer, /Climax Studios/);
+    assert.equal(retried.pending.length, 0);
+});
+
+test('cover letter rejected for missing company is recovered via retry', async () => {
+    const { collectMissingCompanyEssayRetryRefs } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/draft-all/empty-batch-retry.js')).href
+    );
+
+    const fieldsByRef = new Map([
+        ['f12', { ref: 'f12', label: 'cover letter', field_type: 'textarea' }],
+    ]);
+    const generic =
+        'I am writing to apply for the Software Engineer role. During my time as a Software Engineer at Rapid7, I worked on distributed systems.';
+    const partitionResult = partitionDraftAllBatchAnswers(
+        [
+            {
+                ref: 'f12',
+                label: 'cover letter',
+                field_type: 'textarea',
+                answer: generic,
+            },
+        ],
+        fieldsByRef,
+        { job: { company: 'Climax Studios' } },
+    );
+
+    assert.equal(partitionResult.toApply.length, 0);
+    assert.equal(partitionResult.pending[0]?.reject_reason, 'missing_target_company');
+    assert.deepEqual(
+        collectMissingCompanyEssayRetryRefs(partitionResult, fieldsByRef),
+        ['f12'],
+    );
+
+    const retried = await retryEmptyDraftBatchAnswers({
+        batchAnswers: [
+            {
+                ref: 'f12',
+                label: 'cover letter',
+                field_type: 'textarea',
+                answer: generic,
+            },
+        ],
+        partitionResult,
+        fieldsByRef,
+        job: { title: 'Software Engineer', company: 'Climax Studios' },
+        settings: {},
+        profileData: { profile: { full_name: 'Toby Claxton' } },
+        requestDraftField: async ({ clarifying_answer: hint }) => {
+            assert.match(String(hint || ''), /Climax Studios/);
+
+            return {
+                answer:
+                    'I am applying to join Climax Studios as a Software Engineer. At Rapid7 I migrated integrations at scale.',
+            };
+        },
+    });
+
+    assert.equal(retried.toApply.length, 1);
+    assert.match(retried.toApply[0].answer, /Climax Studios/);
+    assert.equal(
+        retried.pending.filter((field) => field.ref === 'f12').length,
+        0,
+    );
+});

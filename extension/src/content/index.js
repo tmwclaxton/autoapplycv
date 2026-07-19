@@ -530,6 +530,10 @@ async function countDraftableFieldsInDocument() {
 }
 
 function isResumeFileInput(input) {
+    if (typeof AutoCVApplyFormHeuristics?.isApplicationResumeFileInput === 'function') {
+        return AutoCVApplyFormHeuristics.isApplicationResumeFileInput(input);
+    }
+
     const identity = `${input?.name || ''} ${input?.id || ''}`.toLowerCase();
 
     return /resume|\.cv\b|\bcv\b/.test(identity);
@@ -632,6 +636,18 @@ function findResumeFileInput() {
             return;
         }
 
+        if (
+            typeof AutoCVApplyFormHeuristics.findApplicationResumeFileInput ===
+            'function'
+        ) {
+            fileInput =
+                AutoCVApplyFormHeuristics.findApplicationResumeFileInput(doc);
+
+            if (fileInput) {
+                return;
+            }
+        }
+
         for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry, [aria-labelledby="upload-label-resume"], [id="upload-label-resume"]')) {
             if (!/resume|cv/i.test(entry.textContent || entry.id || '')) {
                 continue;
@@ -639,29 +655,12 @@ function findResumeFileInput() {
 
             const candidate = entry.querySelector('input[type="file"]:not([disabled])');
 
-            if (candidate) {
+            if (candidate && isResumeFileInput(candidate)) {
                 fileInput = candidate;
 
                 return;
             }
         }
-
-        fileInput = doc.querySelector('input[type="file"][data-qa="input-resume"]:not([disabled])')
-            || doc.querySelector('input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])')
-            || doc.querySelector('input[type="file"]#_systemfield_resume:not([disabled])')
-            || doc.querySelector('[data-role="dropzone"] input[type="file"]:not([disabled])')
-            || doc.querySelector('[data-ui="resume"] input[type="file"]:not([disabled])')
-            || doc.querySelector('input[type="file"][name="documents.cv"]:not([disabled])')
-            || doc.querySelector('input[type="file"]#doc-input-cv:not([disabled])')
-            || doc.querySelector('input[type="file"][name="candidate.cv"]:not([disabled])')
-            || doc.querySelector('input[type="file"][id*="candidate.cv" i]:not([disabled])')
-            || doc.querySelector('input[type="file"]#resume-upload-input:not([disabled])')
-            || doc.querySelector('input[type="file"][name="resume"]:not([disabled])')
-            || doc.querySelector('input[type="file"][id*="resume" i]:not([disabled])')
-            || doc.querySelector('input[type="file"][name*="resume" i]:not([disabled])')
-            || doc.querySelector('input[type="file"][id^="input_files_input"]:not([disabled])')
-            || doc.querySelector('#resume, input[type="file"][id="input_files_input"]:not([disabled])')
-            || Array.from(doc.querySelectorAll('input[type="file"]:not([disabled])')).find(isResumeFileInput);
     });
 
     return fileInput;

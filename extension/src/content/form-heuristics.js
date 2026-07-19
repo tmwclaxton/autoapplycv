@@ -11248,6 +11248,114 @@ var AutoCVApplyFormHeuristics = (() => {
         return getQuestionLabel(element).length >= 3;
     }
 
+    function isApplicationResumeFileInput(element) {
+        if (!element || element.type !== 'file' || element.disabled) {
+            return false;
+        }
+
+        const identity = `${element.name || ''} ${element.id || ''}`.toLowerCase();
+        const dataUi = String(
+            element.closest?.('[data-ui]')?.getAttribute?.('data-ui') || '',
+        ).toLowerCase();
+
+        if (
+            /^(avatar|photo|cover|cover_letter|cover-letter)$/i.test(dataUi) ||
+            /\b(avatar|photo|cover)\b/.test(identity)
+        ) {
+            return false;
+        }
+
+        if (dataUi === 'resume' || dataUi === 'cv') {
+            return true;
+        }
+
+        if (/resume|\.cv\b|\bcv\b/.test(identity)) {
+            return true;
+        }
+
+        const label = getQuestionLabel(element).toLowerCase();
+
+        if (/\b(photo|avatar|profile image|cover letter)\b/.test(label)) {
+            return false;
+        }
+
+        return /\b(resume|cv|curriculum vitae)\b/.test(label);
+    }
+
+    /**
+     * Prefer explicit resume scopes. Never grab the first Workable
+     * input_files_input_* / dropzone (often photo/avatar).
+     */
+    function findApplicationResumeFileInput(root = document) {
+        if (!root?.querySelector) {
+            return null;
+        }
+
+        const preferred =
+            root.querySelector(
+                '[data-ui="resume"] input[type="file"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][data-qa="input-resume"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"]#_systemfield_resume:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][name="candidate.cv"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][name="documents.cv"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][name="resume"]:not([disabled])',
+            ) ||
+            root.querySelector(
+                'input[type="file"][id*="resume" i]:not([disabled])',
+            );
+
+        if (preferred && isApplicationResumeFileInput(preferred)) {
+            return preferred;
+        }
+
+        return (
+            Array.from(
+                root.querySelectorAll('input[type="file"]:not([disabled])'),
+            ).find(isApplicationResumeFileInput) || null
+        );
+    }
+
+    function isApplicationFileInputFilled(element) {
+        if (!element || element.type !== 'file') {
+            return false;
+        }
+
+        if ((element.files?.length || 0) > 0 || String(element.value || '')) {
+            return true;
+        }
+
+        const scope =
+            element.closest?.(
+                '[data-ui], [data-input-type], [data-role="dropzone"], .styles--3IYUq, .field-wrapper, .ashby-application-form-field-entry',
+            ) || element.parentElement;
+        const text = String(scope?.textContent || '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        // Workable shows the uploaded filename near the dropzone after attach.
+        if (
+            /\.(pdf|docx?|odt|rtf)\b/i.test(text) &&
+            !/choose file or drag and drop/i.test(text)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     function isVisible(element) {
         if (!element || element.disabled) {
             return false;
@@ -11729,6 +11837,13 @@ var AutoCVApplyFormHeuristics = (() => {
             );
 
             return Boolean(selection);
+        }
+
+        if (
+            fieldType === 'file' ||
+            target.type === 'file'
+        ) {
+            return isApplicationFileInputFilled(target);
         }
 
         const actual = readSimpleFieldValue(target, fieldType);
@@ -14313,6 +14428,9 @@ var AutoCVApplyFormHeuristics = (() => {
         verifyFieldApplied,
         isSnapshotElementFilled,
         filterUnfilledRequiredSnapshotElements,
+        isApplicationResumeFileInput,
+        findApplicationResumeFileInput,
+        isApplicationFileInputFilled,
         commitTotaljobsGenesisFormState,
     };
 })();

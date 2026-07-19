@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Easy apply - Application Packager - Motocol</title>
+</head>
+<body>
+  <main data-test="easy-apply-container">
+    <h1>Application Packager</h1>
+    <section data-test="personal-information">
+      <h2>Personal information</h2>
+      <label for="first-name-input">First name</label>
+      <input id="first-name-input" type="text" required data-test="personal-info-first-name-input" />
+      <label for="last-name-input">Last name</label>
+      <input id="last-name-input" type="text" required data-test="personal-info-last-name-input" />
+      <label for="email-input">Email</label>
+      <input id="email-input" type="email" required data-test="personal-info-email-input" />
+      <label for="confirm-email-input">Email confirmation</label>
+      <input id="confirm-email-input" type="email" required data-test="personal-info-email-confirm-input" />
+      <label for="spl-form-element_10">City</label>
+      <input id="spl-form-element_10" type="text" role="combobox" data-test="personal-info-location" aria-autocomplete="list" />
+      <label for="spl-form-element_5">Phone</label>
+      <input id="spl-form-element_5" type="tel" data-test="personal-info-phone" placeholder="7400 123456" />
+    </section>
+    <section data-test="web">
+      <h2>Your Profiles</h2>
+      <label for="linkedin-input">LinkedIn</label>
+      <input id="linkedin-input" type="text" />
+      <label for="facebook-input">Facebook</label>
+      <input id="facebook-input" type="text" />
+      <label for="twitter-input">X (fka Twitter)</label>
+      <input id="twitter-input" type="text" />
+      <label for="website-input">Website</label>
+      <input id="website-input" type="text" />
+    </section>
+    <section data-test="resume-upload-container">
+      <h2>Resume</h2>
+      <label for="file-input">Apply with resume container</label>
+      <input id="file-input" type="file" />
+    </section>
+    <section data-test="hiring-manager-message-container">
+      <h2>Message to the Hiring Team</h2>
+      <label for="hiring-manager-message-input">Message</label>
+      <textarea id="hiring-manager-message-input" rows="10"></textarea>
+    </section>
+    <section data-test="consent">
+      <label for="noPolicy">
+        <input id="noPolicy" type="checkbox" required name="noPolicy" />
+        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company.
+      </label>
+    </section>
+    <button type="submit">Submit</button>
+  </main>
+</body>
+</html>
