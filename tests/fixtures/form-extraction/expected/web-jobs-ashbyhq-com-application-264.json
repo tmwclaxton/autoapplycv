@@ -1,0 +1,489 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-264",
+  "min_fields": 22,
+  "exact_field_count": 22,
+  "fields": [
+    {
+      "question": "are you currently hands on owning strategy and execution with clients?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "a832a6fc-6c77-4d24-9872-75c20d5351c7",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "f09bb6a5-2c79-4e4f-a1e2-b073b27324cd",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you currently reside in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "361f4c2f-5953-4021-b337-e180433079be",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "a6c94c77-83f0-46b9-98b4-a01139c26baf",
+        "name": "a6c94c77-83f0-46b9-98b4-a01139c26baf",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "a6c94c77-83f0-46b9-98b4-a01139c26baf",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "58033e83-d46a-4983-aeff-7791432eced9",
+        "name": "58033e83-d46a-4983-aeff-7791432eced9",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "58033e83-d46a-4983-aeff-7791432eced9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "d74a5f81-8604-4422-9821-647c777945f8",
+        "name": "d74a5f81-8604-4422-9821-647c777945f8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "d74a5f81-8604-4422-9821-647c777945f8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "a532c409-5eb4-4fd6-9f97-4ce2f0c66f8a",
+        "name": "a532c409-5eb4-4fd6-9f97-4ce2f0c66f8a",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "a532c409-5eb4-4fd6-9f97-4ce2f0c66f8a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have working at a performance marketing agency?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "Less than 2 years",
+        "2-3 years",
+        "3+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c8bf8cda-2a92-44b1-af0c-b01461f473be_02724216-3ad8-41f6-afa9-0cae6e1da245-labeled-radio-0",
+        "name": "c8bf8cda-2a92-44b1-af0c-b01461f473be_02724216-3ad8-41f6-afa9-0cae6e1da245",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list which of the following applies to you and how many years of experience you have: lead generation, b2b, and/or saas experience:",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "68267eb4-75f5-44d6-9f00-2871804e5fb4",
+        "name": "68267eb4-75f5-44d6-9f00-2871804e5fb4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "68267eb4-75f5-44d6-9f00-2871804e5fb4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many client relationships do you personally own and manage?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "1357ce7f-e06e-4711-b0d0-c24d0a96ecf7",
+        "name": "1357ce7f-e06e-4711-b0d0-c24d0a96ecf7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "1357ce7f-e06e-4711-b0d0-c24d0a96ecf7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you the main point of contact for your clients?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c634e742-3551-4756-9777-d5bf652cacb8",
+        "name": "c634e742-3551-4756-9777-d5bf652cacb8",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c634e742-3551-4756-9777-d5bf652cacb8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how much ad spend on average are you managing for each individual account?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "aea04f73-efda-4801-a712-e391b957f769",
+        "name": "aea04f73-efda-4801-a712-e391b957f769",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "aea04f73-efda-4801-a712-e391b957f769",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how much experience and budget have you managed in google ads?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e9d9e02b-05d9-4d5e-949b-56e7a9b8eab4",
+        "name": "e9d9e02b-05d9-4d5e-949b-56e7a9b8eab4",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "e9d9e02b-05d9-4d5e-949b-56e7a9b8eab4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how much experience and budget have you managed in meta ads?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "f7e00523-73cd-4eb7-85b7-272acd66fbfa",
+        "name": "f7e00523-73cd-4eb7-85b7-272acd66fbfa",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "f7e00523-73cd-4eb7-85b7-272acd66fbfa",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how much experience and budget have you managed in linkedin ads?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "2f5a37b7-8a4e-4f69-bd97-c07be834671c",
+        "name": "2f5a37b7-8a4e-4f69-bd97-c07be834671c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "2f5a37b7-8a4e-4f69-bd97-c07be834671c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which platforms are you currently working in?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Google Ads",
+        "LinkedIn Ads",
+        "Meta Ads"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c8bf8cda-2a92-44b1-af0c-b01461f473be_aae3cbec-a973-45df-afd2-567e1cf3df43-labeled-checkbox-0",
+        "name": "Google Ads",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if no, please briefly explain in a few sentences.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "6aca2336-d6b8-4af8-baed-dc4391d56b41",
+        "name": "6aca2336-d6b8-4af8-baed-dc4391d56b41",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "6aca2336-d6b8-4af8-baed-dc4391d56b41",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your minimum annual salary expectation in cad?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ab023486-252b-4921-9a53-403fc470717e",
+        "name": "ab023486-252b-4921-9a53-403fc470717e",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "ab023486-252b-4921-9a53-403fc470717e",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were to receive an offer of employment, how much notice will you need to give your current employer?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "7936e9c5-5fa1-491a-b699-16a0bfeda13c",
+        "name": "7936e9c5-5fa1-491a-b699-16a0bfeda13c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "7936e9c5-5fa1-491a-b699-16a0bfeda13c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

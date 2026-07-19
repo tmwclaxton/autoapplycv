@@ -1,0 +1,231 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-305",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "are you located near new york city?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "86ea6552-7873-4dd6-b5a1-d615b9c3fc2d",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "e275059a-0815-4b51-8e0a-b5be0a061690",
+        "name": "e275059a-0815-4b51-8e0a-b5be0a061690",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "e275059a-0815-4b51-8e0a-b5be0a061690",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location (city)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "d0b14569-4dce-4115-9c4c-b8bcad7015e0",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "012f8615-570c-49ee-bb75-ed066ff8440d",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "012f8615-570c-49ee-bb75-ed066ff8440d",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your pronouns? (ex: she, her, hers)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0d7545e9-14b8-48b6-bb54-e5f5a4fa5824",
+        "name": "0d7545e9-14b8-48b6-bb54-e5f5a4fa5824",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "0d7545e9-14b8-48b6-bb54-e5f5a4fa5824",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ed1a9cb6-45d2-4603-ae5d-d49048e48f3c",
+        "name": "ed1a9cb6-45d2-4603-ae5d-d49048e48f3c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "ed1a9cb6-45d2-4603-ae5d-d49048e48f3c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this job",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Citizen Website",
+        "Linkedin",
+        "Indeed",
+        "Glassdoor",
+        "Builtin NYC",
+        "Angel List",
+        "Craigslist",
+        "Employee Referral"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "f7d52e97-790e-4ccf-8d1f-a07c38f8f609_cbb6347b-a862-4080-b776-cb17b6468bbb-labeled-radio-0",
+        "name": "f7d52e97-790e-4ccf-8d1f-a07c38f8f609_cbb6347b-a862-4080-b776-cb17b6468bbb",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

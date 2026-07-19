@@ -1,0 +1,468 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-260",
+  "min_fields": 21,
+  "exact_field_count": 21,
+  "fields": [
+    {
+      "question": "have you led b2b tech or saas client accounts?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "f87cff1b-6a27-48e4-ad84-3e722b109ef2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you led cross-channel client teams?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "5d975916-0764-4897-834e-bb832587429b",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "09435181-39fd-403c-a9c4-b84d3ca122de",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you currently reside in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "f0f34837-020d-4293-8b5d-ce79611745db",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "13641c97-3312-4be8-9852-7e419ad061b7",
+        "name": "13641c97-3312-4be8-9852-7e419ad061b7",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "13641c97-3312-4be8-9852-7e419ad061b7",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "3231be13-bb63-4a04-b2b7-f20de8f4ebec",
+        "name": "3231be13-bb63-4a04-b2b7-f20de8f4ebec",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "3231be13-bb63-4a04-b2b7-f20de8f4ebec",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b0e0acad-5f5f-419e-933f-6afce1c1a8fe",
+        "name": "b0e0acad-5f5f-419e-933f-6afce1c1a8fe",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "b0e0acad-5f5f-419e-933f-6afce1c1a8fe",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list the types of clients you've led (b2b saas, ecomm, lead gen, etc.).",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "8d2f3ac1-319c-4749-a9b4-f3ca58a3b62f",
+        "name": "8d2f3ac1-319c-4749-a9b4-f3ca58a3b62f",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "8d2f3ac1-319c-4749-a9b4-f3ca58a3b62f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which channels do you have experience leading strategy for? (google, linkedin, meta, seo, content, cro, creative, etc.)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "895c0d40-3847-4455-b0ea-e1f6b1afac19",
+        "name": "895c0d40-3847-4455-b0ea-e1f6b1afac19",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "895c0d40-3847-4455-b0ea-e1f6b1afac19",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the largest book of business you’ve directly owned?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c8465aaf-0f64-4a6c-89ad-64af2f56642c",
+        "name": "c8465aaf-0f64-4a6c-89ad-64af2f56642c",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c8465aaf-0f64-4a6c-89ad-64af2f56642c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how have you driven retention and expansion across your accounts?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "8ac8d7d9-b4f8-427f-8e99-363fe29cb8d6",
+        "name": "8ac8d7d9-b4f8-427f-8e99-363fe29cb8d6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "8ac8d7d9-b4f8-427f-8e99-363fe29cb8d6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe the most senior client stakeholders you’ve worked with and the types of conversations you personally led.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "41d6a5ba-633f-442f-af66-570816ed380d",
+        "name": "41d6a5ba-633f-442f-af66-570816ed380d",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "41d6a5ba-633f-442f-af66-570816ed380d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe your experience owning client forecasting, margins, and commercial performance.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "2dc74067-92b4-4fed-bc33-5122e472a181",
+        "name": "2dc74067-92b4-4fed-bc33-5122e472a181",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "2dc74067-92b4-4fed-bc33-5122e472a181",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how have you used ai tools (e.g., chatgpt, claude, gemini, etc.) in your work or personal projects?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "76e5ecb0-aacf-4854-a911-1e4d66757073",
+        "name": "76e5ecb0-aacf-4854-a911-1e4d66757073",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "76e5ecb0-aacf-4854-a911-1e4d66757073",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have working at a digital marketing agency?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "Less than 1 year",
+        "1 - 2 years",
+        "2 - 3 years",
+        "3+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "06efff88-ccb6-4c0c-bf16-63136cc40230_7cf1a27b-ab61-49a7-8d0c-e3c209bc795b-labeled-radio-0",
+        "name": "06efff88-ccb6-4c0c-bf16-63136cc40230_7cf1a27b-ab61-49a7-8d0c-e3c209bc795b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list what agencies you've worked at and for how long at eachie. directive 1.5 years",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "33a94b43-a886-449c-b5d9-28f0c0910d99",
+        "name": "33a94b43-a886-449c-b5d9-28f0c0910d99",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "33a94b43-a886-449c-b5d9-28f0c0910d99",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your minimum annual salary expectation and ote, in cad?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8bfa306e-6e82-4fa7-8d7c-8d7f6538873b",
+        "name": "8bfa306e-6e82-4fa7-8d7c-8d7f6538873b",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "8bfa306e-6e82-4fa7-8d7c-8d7f6538873b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,324 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-247",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "are you located within metro manila?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "d19d4047-09f5-46aa-81cf-a548c5da0bc2",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to work us hours (8:30pm t0 5:30am manila time)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "c0ed1a3d-7d5b-4cdd-b512-2f1948bda7c5",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to work on-site as and when the business requires?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "5c2d69ae-34e4-4596-ab08-f30758bc4bc4",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "07c13dd5-8c2b-4587-9bc4-fb388b4bf3f6",
+        "name": "07c13dd5-8c2b-4587-9bc4-fb388b4bf3f6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "07c13dd5-8c2b-4587-9bc4-fb388b4bf3f6",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": "6890a0cf-8b4b-4d96-b38d-779ee1823f2c",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resume / cv",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "_systemfield_resume",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "_systemfield_resume",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter (optional)",
+      "field_type": "file",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "file",
+        "id": "a3712411-1467-4bac-9e88-ae19f4952fe5",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "a3712411-1467-4bac-9e88-ae19f4952fe5",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "315042c7-cc9c-416e-9821-1fc21bb3c388",
+        "name": "315042c7-cc9c-416e-9821-1fc21bb3c388",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "315042c7-cc9c-416e-9821-1fc21bb3c388",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations for the role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e6db9ff0-caeb-4da1-8b23-31b00eab15f6",
+        "name": "e6db9ff0-caeb-4da1-8b23-31b00eab15f6",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "e6db9ff0-caeb-4da1-8b23-31b00eab15f6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your notice period?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "29a889eb-1cf1-48c7-98fb-adc7f5292f98",
+        "name": "29a889eb-1cf1-48c7-98fb-adc7f5292f98",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": "29a889eb-1cf1-48c7-98fb-adc7f5292f98",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have managing a technical customer support team in an enterprise saas environment?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 1 year",
+        "1-2 years",
+        "2-3 years",
+        "3+ years",
+        "I don't have any related experience"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b633ca51-d1cf-4cad-8da4-be3dd56dc769_c86fe131-d4fc-455d-98dd-abfa77b7b24a-labeled-radio-0",
+        "name": "b633ca51-d1cf-4cad-8da4-be3dd56dc769_c86fe131-d4fc-455d-98dd-abfa77b7b24a",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have experience working in or supporting customers in any of the following industries? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Compliance / Regulatory Technology (RegTech)",
+        "Insurance Technology (InsurTech)",
+        "Financial Services Technology",
+        "Governance, Risk & Compliance (GRC)",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b633ca51-d1cf-4cad-8da4-be3dd56dc769_84ea7a01-ca4f-4aef-b350-f38063879c69-labeled-checkbox-0",
+        "name": "Compliance / Regulatory Technology (RegTech)",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}
