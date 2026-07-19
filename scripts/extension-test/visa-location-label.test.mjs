@@ -692,6 +692,17 @@ test('industry experience years are total YOE not skill-scoped', () => {
     const label = 'how many years of industry experience do you have?';
     assert.equal(isSkillScopedYearsExperienceLabel(label), false);
     assert.equal(isGenericTotalExperienceQuestionLabel(label), true);
+    assert.equal(
+        resolveProfileMappingForLabel(label)?.path,
+        'application_settings.years_of_experience',
+    );
+    assert.equal(
+        resolvePreferenceProfileAnswer(
+            { ref: 'f13', label, field_type: 'text' },
+            { application_settings: { years_of_experience: '7' } },
+        ),
+        '7',
+    );
 
     const partitioned = partitionSkillSpecificYearsExperienceFields([
         { ref: 'f13', label, field_type: 'text', required: true },

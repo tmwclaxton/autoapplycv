@@ -478,6 +478,8 @@ const PROFILE_FIELD_MAPPINGS = [
             'years of experience',
             'years experience',
             'total experience',
+            'industry experience',
+            'professional experience',
         ],
     },
     {
@@ -4766,6 +4768,14 @@ export function resolveProfileMappingForLabel(
 
     if (isWorkAuthorizationQuestionLabel(label)) {
         return profileMappingByPath('application_settings.legally_authorized');
+    }
+
+    if (
+        isGenericTotalExperienceQuestionLabel(label) ||
+        (isYearsExperienceQuestionLabel(label) &&
+            !isSkillScopedYearsExperienceLabel(label))
+    ) {
+        return profileMappingByPath('application_settings.years_of_experience');
     }
 
     if (isGreenhousePhoneCountryCombobox(dom)) {
