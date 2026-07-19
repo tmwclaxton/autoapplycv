@@ -51,7 +51,7 @@ test('populated languages still drive Yes/No for non-English asks', () => {
     assert.equal(resolveSpeakLanguageFromProfile(field, profile), 'Yes');
 });
 
-test('Hively other-than-English free text answers No when languages empty', () => {
+test('Hively other-than-English free text answers None when languages empty', () => {
     const field = {
         label: 'other than english, do you speak more than one language fluently? which ones?',
         field_type: 'textarea',
