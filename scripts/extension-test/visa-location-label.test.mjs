@@ -484,6 +484,30 @@ test('UK profile declines USA-based confirmation even when willing_to_relocate i
         resolvePreferenceProfileAnswer(field, profile),
         'No, I am not based in the USA, nor am I open to relocating to the USA.',
     );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [field],
+        profileData: profile,
+        questionMemo: {
+            [field.label]:
+                "No, I am not based in the USA, but I'm planning to relocate to the USA.",
+        },
+        existingPendingFields: [],
+        pageUrl: 'https://jobs.lever.co/onceuponafarm/x/apply',
+    });
+    const answered = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.ok(
+        answered.some(
+            (answer) =>
+                answer.ref === 'f12' &&
+                /nor am I open to relocating/i.test(String(answer.answer)),
+        ),
+    );
+    assert.ok(
+        !answered.some((answer) =>
+            /planning to relocate/i.test(String(answer.answer)),
+        ),
+    );
 });
 
 test('SmartRecruiters linked in maps to linkedin_url', () => {

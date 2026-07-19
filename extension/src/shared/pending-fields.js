@@ -4921,7 +4921,7 @@ function identityPhoneApplyRank(answer) {
     return 2;
 }
 
-function isUsLocationConfirmationQuestion(label) {
+export function isUsLocationConfirmationQuestion(label) {
     const normalized = normalizeQuestionLabel(label);
 
     // normalizeQuestionLabel turns "u.s." into "u s".

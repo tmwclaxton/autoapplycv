@@ -21,6 +21,7 @@ import {
     isOptionalSocialNetworkUrlLabel,
     isSourceOfHireOtherFollowUpLabel,
     isSourceOfHireQuestionLabel,
+    isUsLocationConfirmationQuestion,
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
 } from './pending-fields.js';
@@ -303,6 +304,12 @@ export function partitionFieldsByQuestionMemo(
 
         // Interview accommodation free-text must stay blank (no career essays).
         if (isInterviewAccommodationQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // USA-based confirmation must use country heuristics, not stale relocate memo.
+        if (isUsLocationConfirmationQuestion(label)) {
             remainingFields.push(field);
             continue;
         }
