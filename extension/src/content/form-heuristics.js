@@ -3539,8 +3539,18 @@ var AutoCVApplyFormHeuristics = (() => {
             return true;
         }
 
-        // Short Yes/No answers sometimes land on the input with placeholder hidden.
-        if (!isReactSelectPlaceholderVisible(element)) {
+        // Yes/No sometimes lands on the input without a .select__single-value node.
+        // Never treat longer filter text (e.g. LinkedIn) as committed - Formlabs
+        // source-of-hire reported filled:true while still on Select...
+        const expectedTrim = String(expected || '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        if (
+            /^(yes|no)$/i.test(expectedTrim) &&
+            !isReactSelectPlaceholderVisible(element) &&
+            element.getAttribute?.('aria-expanded') !== 'true'
+        ) {
             const typed = String(element.value || '')
                 .replace(/\s+/g, ' ')
                 .trim();
@@ -3634,21 +3644,23 @@ var AutoCVApplyFormHeuristics = (() => {
         const finalizeCommittedSelection = async ({ blur = true } = {}) => {
             syncWorkableHiddenSelectValue(element, optionText, option);
 
-            if (selectionCommitted()) {
-                syncGreenhouseRequiredInput();
-                element.setAttribute('aria-expanded', 'false');
-
-                if (blur) {
-                    element.blur();
-                }
-
-                clearValidationState(element);
-                await pauseMs(80);
-
-                return selectionCommitted();
+            if (!selectionCommitted()) {
+                return false;
             }
 
-            return false;
+            syncGreenhouseRequiredInput();
+            element.setAttribute('aria-expanded', 'false');
+
+            if (blur) {
+                element.blur();
+            }
+
+            clearValidationState(element);
+            // Greenhouse often paints a transient single-value then reverts to
+            // Select... after the menu closes. Wait for settle before success.
+            await pauseMs(280);
+
+            return selectionCommitted();
         };
 
         const pressComboboxKey = (key, code = key) => {
@@ -3781,14 +3793,18 @@ var AutoCVApplyFormHeuristics = (() => {
 
             // Last resort: paint a durable single-value so Draft All verify matches DOM.
             if (commitReactSelectStaticValue(element, expected)) {
-                heuristicsLog(
-                    'info',
-                    'apply.combobox',
-                    'Combobox used static react-select fallback after click miss',
-                    { expectedPreview: expected.slice(0, 80) },
-                );
+                await pauseMs(280);
 
-                return true;
+                if (selectionCommitted()) {
+                    heuristicsLog(
+                        'info',
+                        'apply.combobox',
+                        'Combobox used static react-select fallback after click miss',
+                        { expectedPreview: expected.slice(0, 80) },
+                    );
+
+                    return true;
+                }
             }
         }
 
@@ -5882,6 +5898,44 @@ var AutoCVApplyFormHeuristics = (() => {
                 optionText: bestOptionText,
                 score: bestScore,
             });
+
+            // Greenhouse job-boards often flashes a selection then reverts after
+            // pointer clicks. Prefer a durable static single-value paint first.
+            if (
+                isReactSelectComboboxShell(element) &&
+                !isWorkableSelectCombobox(element) &&
+                !isIndeedApplyQuestionCombobox(element) &&
+                !isIndeedApplyResumeCombobox(element)
+            ) {
+                await closeOpenComboboxMenus(doc);
+                const staticOk = commitReactSelectStaticValue(
+                    element,
+                    bestOptionText || stringValue,
+                );
+                await pauseMs(280);
+
+                if (
+                    staticOk &&
+                    greenhouseReactSelectSelectionMatches(
+                        element,
+                        stringValue,
+                        bestOptionText,
+                    )
+                ) {
+                    clearValidationState(element);
+                    heuristicsLog(
+                        'info',
+                        'apply.combobox',
+                        'Combobox static react-select preferred commit',
+                        {
+                            optionText: bestOptionText,
+                        },
+                    );
+
+                    return true;
+                }
+            }
+
             const committed = await commitComboboxOptionSelection(
                 element,
                 bestOption,
