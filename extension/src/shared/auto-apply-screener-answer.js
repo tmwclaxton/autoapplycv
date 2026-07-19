@@ -35,12 +35,14 @@ import {
 import {
     isSpeakLanguageYesNoQuestion,
     resolveAdditionalLanguagesFreeTextAnswer,
+    resolveLanguageFluencyMultiSelectAnswer,
     resolveSpeakLanguageFromProfile,
 } from './speak-language-answer.js';
 
 export { isSourceOfHireQuestionLabel };
 export {
     resolveAdditionalLanguagesFreeTextAnswer,
+    resolveLanguageFluencyMultiSelectAnswer,
     resolveSpeakLanguageFromProfile,
 } from './speak-language-answer.js';
 
@@ -562,6 +564,18 @@ export function resolveHeuristicScreenerAnswer(
     if (isMeaningfulAnswer(speakLanguageAnswer)) {
         return normalizeHeuristicAnswerForField(
             speakLanguageAnswer,
+            normalizedField,
+        );
+    }
+
+    const fluencyMultiSelectAnswer = resolveLanguageFluencyMultiSelectAnswer(
+        normalizedField,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(fluencyMultiSelectAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            fluencyMultiSelectAnswer,
             normalizedField,
         );
     }

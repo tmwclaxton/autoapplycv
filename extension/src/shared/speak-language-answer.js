@@ -100,6 +100,110 @@ function isEnglishSpeakingProfileCountry(profileData) {
 }
 
 /**
+ * Multi-select "In what languages are you fluent?" checkboxes (Formlabs Greenhouse).
+ */
+export function isLanguageFluencyMultiSelectQuestion(field) {
+    const label = normalizeLanguageToken(field?.label || field?.question || '');
+    const fieldType = String(
+        field?.field_type || field?.type || '',
+    ).toLowerCase();
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    if (!label || options.length < 2) {
+        return false;
+    }
+
+    if (
+        fieldType &&
+        fieldType !== 'checkbox' &&
+        fieldType !== 'multiselect' &&
+        fieldType !== 'multi_select'
+    ) {
+        return false;
+    }
+
+    if (isSpeakLanguageYesNoQuestion(field)) {
+        return false;
+    }
+
+    const asksFluency =
+        /\b(?:languages?\s+are\s+you\s+fluent|fluent(?:ly)?\s+in\s+what\s+languages?|what\s+languages?\s+are\s+you\s+fluent|languages?\s+you\s+(?:are\s+)?fluent)\b/.test(
+            label,
+        ) ||
+        (/\b(?:what|which)\s+languages?\b/.test(label) &&
+            /\b(?:fluent|speak|proficient)\b/.test(label));
+
+    if (!asksFluency) {
+        return false;
+    }
+
+    const languageOptions = options.filter((option) => {
+        const token = normalizeLanguageToken(option);
+
+        return (
+            token &&
+            token !== 'other' &&
+            token.length >= 2 &&
+            !/^(yes|no|prefer|decline|n\/a)$/.test(token)
+        );
+    });
+
+    return languageOptions.length >= 2;
+}
+
+/**
+ * Pick fluency checkbox options that match profile languages. English defaults
+ * on for English-speaking profile countries when languages are unset.
+ */
+export function resolveLanguageFluencyMultiSelectAnswer(field, profileData) {
+    if (!isLanguageFluencyMultiSelectQuestion(field)) {
+        return null;
+    }
+
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const names = profileLanguageNames(profileData);
+    const selected = [];
+
+    for (const option of options) {
+        const token = normalizeLanguageToken(option);
+
+        if (!token || token === 'other') {
+            continue;
+        }
+
+        const matched = names.some(
+            (name) =>
+                name === token ||
+                name.startsWith(`${token} `) ||
+                token.startsWith(name),
+        );
+
+        if (matched) {
+            selected.push(String(option).trim());
+        }
+    }
+
+    if (
+        selected.length === 0 &&
+        isEnglishSpeakingProfileCountry(profileData)
+    ) {
+        const englishOption = options.find((option) =>
+            /^english$/i.test(String(option).trim()),
+        );
+
+        if (englishOption) {
+            selected.push(String(englishOption).trim());
+        }
+    }
+
+    if (selected.length === 0) {
+        return null;
+    }
+
+    return selected.join(', ');
+}
+
+/**
  * Free-text "other than English, which languages do you speak?" style prompts.
  * Distinct from Yes/No "Do you speak French?" screeners.
  */

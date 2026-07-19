@@ -219,6 +219,9 @@ const LANGUAGE_PROFICIENCY_QUESTION_PATTERNS = [
     /\b(?:communicate|speak|write|read|converse)\b.*\b(?:at|in)\b.*\b(?:professional|business|native|fluent)\b/i,
     /\b(?:professional|business|native|fluent)\b.*\b(?:in\s+)?(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b/i,
     /\b(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b.*\b(?:proficien(?:t|cy)|fluent|fluency|language skills?|communicate|speak|write|read)\b/i,
+    // Formlabs: "In what languages are you fluent? (oral and written)"
+    /\blanguages?\s+are\s+you\s+fluent\b/i,
+    /\bwhat\s+languages?\s+are\s+you\s+fluent\b/i,
 ];
 
 const GENERAL_SKILL_FACT_QUESTION_PATTERNS = [
