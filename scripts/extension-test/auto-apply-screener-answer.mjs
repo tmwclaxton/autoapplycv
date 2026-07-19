@@ -488,7 +488,10 @@ assert.equal(
             ],
             dom: { role: 'combobox' },
         },
-        { platformId: 'workable', pageUrl: 'https://apply.workable.com/booksy-1/j/B23F702280/apply' },
+        {
+            platformId: 'workable',
+            pageUrl: 'https://apply.workable.com/booksy-1/j/B23F702280/apply',
+        },
     ),
     'LinkedIn',
     'source-of-hire prefers LinkedIn when the ATS host is not a listed discovery source',

@@ -225,6 +225,8 @@ const PROFILE_FIELD_MAPPINGS = [
         dashboard_anchor: 'field-full-name',
         keywords: [
             'full name',
+            'preferred name',
+            'preferred full name',
             'applicant name',
             'your name',
             'candidate name',
@@ -1129,11 +1131,10 @@ function fieldHasYesNoOptions(field) {
     );
     const hasNo = options.some((option) => /^no$/i.test(String(option).trim()));
 
-    if (hasYes && hasNo) {
-        return true;
-    }
-
-    return field?.field_type === 'radio' && options.length >= 2;
+    // Do not treat every multi-option radio as Yes/No. India citizen/OCI/visa/
+    // not-authorized boards were returning bare "No" and failing to select the
+    // long unauthorized option.
+    return hasYes && hasNo;
 }
 
 function pickLocalizedYesNoOption(field, wantYes) {
@@ -2089,6 +2090,65 @@ export function isPriorEmployerContactField(field) {
     );
 }
 
+/**
+ * "Have you ever worked for X?" / "Are you related to a current employee?"
+ * Free-text or Yes/No - default No when the candidate is an external applicant.
+ */
+export function isPriorEmployerRelationshipQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    // Require a Yes/No-style ask so career essays mentioning "worked for" stay open.
+    if (
+        !/\b(?:do you|have you|are you)\b/.test(normalized) &&
+        !/\b(?:ever worked for|former employee of)\b/.test(normalized)
+    ) {
+        return false;
+    }
+
+    return (
+        /\b(?:ever worked|worked for|previously (?:worked|employed)|former employee)\b/.test(
+            normalized,
+        ) ||
+        /\brelated to\b.*\b(?:employee|staff|team member|coworker)\b/.test(
+            normalized,
+        ) ||
+        /\b(?:know|referred by) anyone\b.*\b(?:work|works|working)\b/.test(
+            normalized,
+        )
+    );
+}
+
+export function resolvePriorEmployerRelationshipAnswer(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isPriorEmployerRelationshipQuestionLabel(label)) {
+        return '';
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return 'No';
+    }
+
+    const fieldType = String(
+        field?.field_type || field?.type || '',
+    ).toLowerCase();
+
+    if (
+        fieldType === 'text' ||
+        fieldType === 'textarea' ||
+        fieldType === '' ||
+        fieldType === 'input'
+    ) {
+        return 'No';
+    }
+
+    return pickLocalizedYesNoOption(field, false) || 'No';
+}
+
 function resolveReferenceFieldKey(field) {
     const label = normalizeQuestionLabel(field?.label || field?.question || '');
 
@@ -2686,9 +2746,12 @@ export function isJobApplicationLocationChoiceLabel(label) {
     }
 
     return (
-        /\b(?:which|what|select)\s+location\b/.test(normalized) &&
-        /\b(?:appl(?:y|ying)|role|job|position|office|team)\b/.test(normalized)
-    ) || /\blocation\s+are\s+you\s+applying\s+for\b/.test(normalized);
+        (/\b(?:which|what|select)\s+location\b/.test(normalized) &&
+            /\b(?:appl(?:y|ying)|role|job|position|office|team)\b/.test(
+                normalized,
+            )) ||
+        /\blocation\s+are\s+you\s+applying\s+for\b/.test(normalized)
+    );
 }
 
 /**
@@ -2698,7 +2761,9 @@ export function isJobApplicationLocationChoiceLabel(label) {
  */
 export function jobApplicationLocationHasCompatibleOption(field, profileData) {
     const options = Array.isArray(field?.options)
-        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        ? field.options
+              .map((option) => String(option || '').trim())
+              .filter(Boolean)
         : [];
 
     if (options.length === 0) {
@@ -2708,9 +2773,8 @@ export function jobApplicationLocationHasCompatibleOption(field, profileData) {
     const country = normalizeCountryNameForApply(
         readProfileValue(profileData, 'country'),
     ).toLowerCase();
-    const profileInUk = /united kingdom|\buk\b|britain|england|scotland|wales/.test(
-        country,
-    );
+    const profileInUk =
+        /united kingdom|\buk\b|britain|england|scotland|wales/.test(country);
     const profileInUs = /united states|\busa\b|u\.s\.?a?\.?/.test(country);
     const profileInCanada = /^canada$/.test(country);
 
@@ -2732,7 +2796,9 @@ export function jobApplicationLocationHasCompatibleOption(field, profileData) {
 
         if (
             profileInUk &&
-            /\b(?:united kingdom|\buk\b|britain|europe|emea|london)\b/.test(text)
+            /\b(?:united kingdom|\buk\b|britain|europe|emea|london)\b/.test(
+                text,
+            )
         ) {
             return true;
         }
@@ -2760,7 +2826,9 @@ export function shouldLeaveJobApplicationLocationPending(field, profileData) {
     }
 
     const options = Array.isArray(field?.options)
-        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        ? field.options
+              .map((option) => String(option || '').trim())
+              .filter(Boolean)
         : [];
 
     if (options.length < 2) {
@@ -3031,7 +3099,10 @@ export function enrichLocationCityPrefix(location, city) {
         return locationText;
     }
 
-    const parts = locationText.split(',').map((part) => part.trim()).filter(Boolean);
+    const parts = locationText
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
     const locationCity = parts[0] || '';
 
     if (!locationCity) {
@@ -5039,9 +5110,12 @@ function resolveUsLocationConfirmationAnswer(field, profileData) {
                 String(option),
             ),
         ) ||
-        options.find((option) =>
-            /not based in the usa/i.test(String(option)) &&
-            !/planning to relocate|open to relocating/i.test(String(option)),
+        options.find(
+            (option) =>
+                /not based in the usa/i.test(String(option)) &&
+                !/planning to relocate|open to relocating/i.test(
+                    String(option),
+                ),
         ) ||
         ''
     );
@@ -5718,7 +5792,9 @@ function shouldLeaveWorkAuthStatusPending(field) {
     }
 
     const options = Array.isArray(field?.options)
-        ? field.options.map((option) => String(option || '').trim()).filter(Boolean)
+        ? field.options
+              .map((option) => String(option || '').trim())
+              .filter(Boolean)
         : [];
 
     return options.length >= 2;
