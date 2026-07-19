@@ -11561,6 +11561,38 @@ var AutoCVApplyFormHeuristics = (() => {
         return view.intlTelInputGlobals?.getInstance?.(element) ?? null;
     }
 
+    function intlTelCountryIsoFromE164(value) {
+        const digits = String(value || '').replace(/\D/g, '');
+
+        if (!digits) {
+            return null;
+        }
+
+        // Longest dial-code first so +353 wins over +3, +44 over +4, etc.
+        const dialToIso = [
+            ['353', 'ie'],
+            ['44', 'gb'],
+            ['49', 'de'],
+            ['61', 'au'],
+            ['64', 'nz'],
+            ['65', 'sg'],
+            ['81', 'jp'],
+            ['91', 'in'],
+            ['33', 'fr'],
+            ['34', 'es'],
+            ['39', 'it'],
+            ['1', 'us'],
+        ];
+
+        for (const [dial, iso] of dialToIso) {
+            if (digits.startsWith(dial)) {
+                return iso;
+            }
+        }
+
+        return null;
+    }
+
     async function setIntlTelInputValue(element, value) {
         const stringValue = String(value).trim();
 
@@ -11568,13 +11600,24 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        const expected = normalizePhoneDigits(stringValue);
+        const countryIso = intlTelCountryIsoFromE164(stringValue);
+
         element.focus();
         dispatchPointerClick(element);
 
-        for (let attempt = 0; attempt < 2; attempt += 1) {
+        for (let attempt = 0; attempt < 3; attempt += 1) {
             const iti = readIntlTelInputInstance(element);
 
             if (iti?.setNumber) {
+                if (countryIso && typeof iti.setCountry === 'function') {
+                    try {
+                        iti.setCountry(countryIso);
+                    } catch {
+                        // Older intl-tel-input builds may reject unknown ISO codes.
+                    }
+                }
+
                 iti.setNumber(stringValue);
                 element.dispatchEvent(
                     new InputEvent('input', {
@@ -11585,47 +11628,62 @@ var AutoCVApplyFormHeuristics = (() => {
                     }),
                 );
                 element.dispatchEvent(new Event('change', { bubbles: true }));
-                element.dispatchEvent(
-                    new FocusEvent('blur', { bubbles: true }),
-                );
 
-                const entered = normalizePhoneDigits(
+                // Teamtailor often clears a premature blur before the plugin
+                // commits the national number - settle, then blur.
+                await sleep(80);
+
+                const enteredBeforeBlur = normalizePhoneDigits(
                     iti.getNumber?.() || element.value,
                 );
-                const expected = normalizePhoneDigits(stringValue);
 
-                if (entered.length >= Math.min(expected.length, 8)) {
-                    heuristicsLog(
-                        'info',
-                        'apply.phone',
-                        'intl-tel-input filled',
-                        {
-                            valuePreview: stringValue.slice(0, 80),
-                            attempt: attempt + 1,
-                        },
+                if (enteredBeforeBlur.length >= Math.min(expected.length, 8)) {
+                    element.dispatchEvent(
+                        new FocusEvent('blur', { bubbles: true }),
+                    );
+                    await sleep(40);
+
+                    const entered = normalizePhoneDigits(
+                        iti.getNumber?.() || element.value,
                     );
 
-                    return true;
+                    if (entered.length >= Math.min(expected.length, 8)) {
+                        heuristicsLog(
+                            'info',
+                            'apply.phone',
+                            'intl-tel-input filled',
+                            {
+                                valuePreview: stringValue.slice(0, 80),
+                                attempt: attempt + 1,
+                                countryIso,
+                            },
+                        );
+
+                        return true;
+                    }
                 }
             }
 
-            if (attempt === 0) {
-                await sleep(40);
-            }
+            await sleep(60 * (attempt + 1));
         }
 
         await fillReactTextControl(element, stringValue);
+        await sleep(80);
+
+        const matched = valueMatchesAnswer(element.value, stringValue);
 
         heuristicsLog(
-            'info',
+            matched ? 'info' : 'warn',
             'apply.phone',
             'intl-tel-input fallback to text fill',
             {
                 valuePreview: stringValue.slice(0, 80),
+                matched,
+                currentPreview: String(element.value || '').slice(0, 80),
             },
         );
 
-        return valueMatchesAnswer(element.value, stringValue);
+        return matched;
     }
 
     async function clearTextFieldValue(element) {
