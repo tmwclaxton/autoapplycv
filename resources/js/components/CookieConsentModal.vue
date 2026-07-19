@@ -42,108 +42,124 @@ function onCheckedChange(
 <template>
     <Dialog :open="isModalOpen" @update:open="onOpenChange">
         <DialogContent
-            class="border-2 border-postbox-navy bg-background sm:max-w-lg"
+            class="gap-0 overflow-hidden border-2 border-postbox-navy bg-postbox-surface p-0 sm:max-w-xl"
             :show-close-button="true"
         >
-            <DialogHeader class="space-y-2 text-left">
-                <DialogTitle class="text-xl font-bold text-postbox-navy">
-                    Cookies and advertising
-                </DialogTitle>
-                <DialogDescription
-                    class="text-sm leading-relaxed text-muted-foreground"
-                >
-                    We use Google Analytics and advertising cookies to improve
-                    AutoCVApply and measure ads. Optional categories start
-                    enabled - uncheck any you prefer to turn off. See our
-                    <Link :href="privacy()" class="postbox-link">
-                        privacy policy
-                    </Link>
-                    for details.
-                </DialogDescription>
-            </DialogHeader>
-
-            <ul class="space-y-3" role="list">
-                <li
-                    v-for="category in categories"
-                    :key="category.id"
-                    class="rounded-md border border-postbox-navy/15 p-3"
-                >
-                    <label
-                        class="flex items-start gap-3"
-                        :class="
-                            category.required
-                                ? 'cursor-default opacity-90'
-                                : 'cursor-pointer'
-                        "
+            <div
+                class="border-b-2 border-postbox-navy bg-postbox-grey px-6 py-5 pr-12"
+            >
+                <DialogHeader class="space-y-2 text-left">
+                    <p class="postbox-label mb-0">Your privacy</p>
+                    <DialogTitle
+                        class="text-2xl font-bold tracking-tight text-postbox-navy"
                     >
-                        <Checkbox
-                            class="mt-0.5 border-postbox-navy data-[state=checked]:border-postbox-navy data-[state=checked]:bg-postbox-navy"
-                            :checked="choices[category.id]"
-                            :disabled="category.required"
-                            :aria-label="category.label"
-                            @update:checked="
-                                (value) => onCheckedChange(category.id, value)
+                        Cookies and advertising
+                    </DialogTitle>
+                    <DialogDescription
+                        class="text-sm leading-relaxed text-muted-foreground"
+                    >
+                        We use Google Analytics and advertising cookies to
+                        improve AutoCVApply and measure ads. Optional categories
+                        start on - turn off any you prefer. See our
+                        <Link :href="privacy()" class="postbox-link">
+                            privacy policy
+                        </Link>
+                        for details.
+                    </DialogDescription>
+                </DialogHeader>
+            </div>
+
+            <div class="px-6 py-5">
+                <ul class="divide-y-2 divide-postbox-navy/10" role="list">
+                    <li
+                        v-for="category in categories"
+                        :key="category.id"
+                        class="py-4 first:pt-0 last:pb-0"
+                    >
+                        <label
+                            class="flex items-start justify-between gap-4"
+                            :class="
+                                category.required
+                                    ? 'cursor-default'
+                                    : 'cursor-pointer'
                             "
-                        />
-                        <span class="min-w-0">
-                            <span
-                                class="block text-sm font-bold text-postbox-navy"
-                            >
-                                {{ category.label }}
+                        >
+                            <span class="min-w-0 flex-1">
                                 <span
-                                    v-if="category.required"
-                                    class="ml-1 text-xs font-medium text-muted-foreground"
+                                    class="flex flex-wrap items-center gap-x-2 gap-y-1"
                                 >
-                                    (always on)
+                                    <span
+                                        class="text-sm font-bold text-postbox-navy"
+                                    >
+                                        {{ category.label }}
+                                    </span>
+                                    <span
+                                        v-if="category.required"
+                                        class="inline-flex border border-postbox-navy/25 bg-postbox-grey px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-postbox-navy uppercase"
+                                    >
+                                        Always on
+                                    </span>
+                                    <span
+                                        v-else-if="choices[category.id]"
+                                        class="inline-flex border border-postbox-red/30 bg-postbox-red/5 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-postbox-red uppercase"
+                                    >
+                                        On
+                                    </span>
+                                </span>
+                                <span
+                                    class="mt-1 block text-sm leading-relaxed text-muted-foreground"
+                                >
+                                    {{ category.description }}
                                 </span>
                             </span>
-                            <span
-                                class="mt-0.5 block text-sm leading-relaxed text-muted-foreground"
-                            >
-                                {{ category.description }}
-                            </span>
-                        </span>
-                    </label>
-                </li>
-            </ul>
+                            <Checkbox
+                                class="mt-0.5 size-5 shrink-0 border-2 border-postbox-navy data-[state=checked]:border-postbox-navy data-[state=checked]:bg-postbox-navy data-[state=checked]:text-white"
+                                :checked="choices[category.id]"
+                                :disabled="category.required"
+                                :aria-label="category.label"
+                                @update:checked="
+                                    (value) =>
+                                        onCheckedChange(category.id, value)
+                                "
+                            />
+                        </label>
+                    </li>
+                </ul>
+            </div>
 
-            <DialogFooter class="flex-col gap-2 sm:flex-col sm:space-x-0">
-                <div
-                    class="flex w-full flex-col gap-2 sm:flex-row sm:justify-end"
+            <DialogFooter
+                class="flex-col gap-3 border-t-2 border-postbox-navy bg-postbox-grey px-6 py-4 sm:flex-col sm:space-x-0"
+            >
+                <button
+                    type="button"
+                    class="postbox-btn w-full"
+                    @click="consentStore.acceptAll()"
                 >
+                    Accept all
+                </button>
+                <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
                     <button
                         type="button"
-                        class="postbox-btn w-full sm:w-auto"
-                        @click="consentStore.acceptAll()"
-                    >
-                        Accept all
-                    </button>
-                    <button
-                        type="button"
-                        class="postbox-btn-outline w-full sm:w-auto"
+                        class="postbox-btn-outline w-full"
                         @click="consentStore.saveChoices()"
                     >
                         Save choices
                     </button>
-                </div>
-                <div
-                    class="flex w-full flex-col gap-2 sm:flex-row sm:justify-end"
-                >
                     <button
                         type="button"
-                        class="postbox-btn-ghost w-full text-sm sm:w-auto"
+                        class="postbox-btn-outline w-full"
                         @click="consentStore.rejectAll()"
                     >
                         Reject optional
                     </button>
-                    <button
-                        type="button"
-                        class="postbox-btn-ghost w-full text-sm sm:w-auto"
-                        @click="consentStore.remindLater()"
-                    >
-                        Remind me later
-                    </button>
                 </div>
+                <button
+                    type="button"
+                    class="postbox-btn-ghost w-full text-sm text-muted-foreground hover:text-postbox-navy"
+                    @click="consentStore.remindLater()"
+                >
+                    Remind me later
+                </button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
