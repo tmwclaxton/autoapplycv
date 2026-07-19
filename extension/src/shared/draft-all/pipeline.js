@@ -11,6 +11,7 @@
 import {
     isSourceOfHireQuestionLabel,
     partitionScreenerHeuristicFields,
+    resolveSourceOfHireAnswer,
 } from '../auto-apply-screener-answer.js';
 import {
     compactFieldsForDraft,
@@ -188,6 +189,37 @@ export function buildDraftAllApplyPlan({
         pendingFields,
         screenerPartition.pendingFields || [],
     );
+
+    // Safety net: never send ATS source-of-hire to NanoGPT (live Ashby 9fin
+    // invented Other essays when the screener stage missed the field).
+    const rescuedSourceAnswers = [];
+    const stillRemaining = [];
+
+    for (const field of remainingFields) {
+        const label = field?.label || field?.question || '';
+
+        if (!isSourceOfHireQuestionLabel(label)) {
+            stillRemaining.push(field);
+            continue;
+        }
+
+        const rescued =
+            resolveSourceOfHireAnswer(field, platformContext) || 'LinkedIn';
+
+        rescuedSourceAnswers.push({
+            ...field,
+            answer: rescued,
+        });
+    }
+
+    remainingFields = stillRemaining;
+
+    if (rescuedSourceAnswers.length > 0) {
+        screenerPartition.screenerAnswers = [
+            ...(screenerPartition.screenerAnswers || []),
+            ...rescuedSourceAnswers,
+        ];
+    }
 
     const agreementPartition =
         partitionAgreementCheckboxFields(remainingFields);

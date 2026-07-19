@@ -3015,10 +3015,25 @@ function isCountrySpecificWorkAuthQuestion(label, context = '') {
 }
 
 function profileMatchesWorkAuthCountryAliases(profileCountry, aliases) {
-    return aliases.some(
-        (alias) =>
-            profileCountry.includes(alias) || alias.includes(profileCountry),
-    );
+    const country = String(profileCountry || '')
+        .toLowerCase()
+        .trim();
+
+    if (!country) {
+        return false;
+    }
+
+    return aliases.some((alias) => {
+        const token = String(alias || '')
+            .toLowerCase()
+            .trim();
+
+        if (!token) {
+            return false;
+        }
+
+        return country.includes(token) || token.includes(country);
+    });
 }
 
 function isWorkPermitRequirementQuestion(label) {
@@ -4748,26 +4763,48 @@ function resolveVisaSponsorshipPreferenceAnswer(field, profileData) {
         return '';
     }
 
-    // "Sponsorship to work in the UK" for a UK-based profile is No even when
-    // the global visa_sponsorship setting is Yes (that setting is for foreign roles).
+    // Country-named sponsorship: locals answer No. Global visa_sponsorship Yes
+    // is for foreign roles only (UK profile must not claim UK sponsorship need).
     const profileCountry = normalizeCountryNameForApply(
         readProfileValue(profileData, 'country'),
     ).toLowerCase();
     const haystack = `${label || ''}`.toLowerCase();
+    const legallyAuthorized = readProfileValue(
+        profileData,
+        'application_settings.legally_authorized',
+    );
+    const authorizedAtHome =
+        legallyAuthorized === true ||
+        /^yes\b/i.test(String(legallyAuthorized || '').trim());
+
+    // UK sponsorship asks are always No for this product's UK-first profiles.
+    // Live Ashby 9fin kept answering Yes from a global visa_sponsorship flag.
+    if (
+        /\b(?:the\s+)?u\.?k\.?\b/.test(haystack) ||
+        /\bunited kingdom\b/.test(haystack) ||
+        /\bgreat britain\b/.test(haystack)
+    ) {
+        return 'No';
+    }
 
     for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
         if (!haystackMentionsWorkAuthCountry(haystack, aliases)) {
             continue;
         }
 
-        if (profileMatchesWorkAuthCountryAliases(profileCountry, aliases)) {
-            return fieldHasYesNoOptions(field) ||
-                field?.field_type === 'radio' ||
-                field?.field_type === 'select' ||
-                field?.dom?.role === 'combobox'
-                ? 'No'
-                : '';
+        const profileInCountry = profileMatchesWorkAuthCountryAliases(
+            profileCountry,
+            aliases,
+        );
+
+        // Named-country sponsorship for a local (or unknown-country but
+        // legally_authorized) candidate is No.
+        if (profileInCountry || (!profileCountry && authorizedAtHome)) {
+            return 'No';
         }
+
+        // Question names a foreign country - use visa_sponsorship below.
+        break;
     }
 
     const raw = readProfileValue(
