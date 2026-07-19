@@ -62,3 +62,19 @@ test('partitionEeoDeclineFields auto-answers veteran and disability declines', (
     assert.equal(eeoAnswers[0].answer, "I don't wish to answer");
     assert.equal(eeoAnswers[1].answer, 'I do not want to answer');
 });
+
+test('partitionEeoDeclineFields declines Hispanic/Latino Yes/No/Decline selects', () => {
+    const { eeoAnswers, remainingFields } = partitionEeoDeclineFields([
+        {
+            ref: 'f14',
+            label: 'are you hispanic/latino?',
+            field_type: 'select',
+            options: ['Yes', 'No', 'Decline To Self Identify'],
+        },
+    ]);
+
+    assert.equal(remainingFields.length, 0);
+    assert.equal(eeoAnswers.length, 1);
+    assert.equal(eeoAnswers[0].ref, 'f14');
+    assert.equal(eeoAnswers[0].answer, 'Decline To Self Identify');
+});
