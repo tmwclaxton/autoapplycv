@@ -6919,9 +6919,68 @@ var AutoCVApplyFormHeuristics = (() => {
         return '';
     }
 
+    function isFirstStageHost(doc = document) {
+        try {
+            return /(?:^|\.)firststage\.co$/i.test(
+                doc.location?.hostname || '',
+            );
+        } catch {
+            return false;
+        }
+    }
+
+    /**
+     * FirstStage AI-chat steps inventoriably expose only a placeholder textarea
+     * ("Type or speak your message..."). Prefer the assistant question or step title.
+     */
+    function getFirstStageApplicationChatLabel(element) {
+        if (!element || !isFirstStageHost(element.ownerDocument || document)) {
+            return '';
+        }
+
+        if (element.tagName?.toLowerCase() !== 'textarea') {
+            return '';
+        }
+
+        const placeholder = String(element.getAttribute?.('placeholder') || '');
+
+        if (
+            !/type or speak/i.test(placeholder) &&
+            !/\bmessage\b/i.test(placeholder)
+        ) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const mainText = String(doc.body?.innerText || '').replace(/\s+/g, ' ');
+        const assistantQuestion = mainText.match(
+            /Assistant\d{1,2}:\d{2}\s+((?:Can you|Could you|Please|Describe|What|How|Tell|Explain)[^?]{10,320}\?)/i,
+        );
+
+        if (assistantQuestion?.[1]) {
+            return assistantQuestion[1].trim();
+        }
+
+        const titleHead = String(doc.title || '')
+            .split(/\s+-\s+Apply\b/i)[0]
+            .trim();
+
+        if (titleHead.length >= 3 && !/^uploading\b/i.test(titleHead)) {
+            return titleHead;
+        }
+
+        return '';
+    }
+
     function getQuestionLabel(element) {
         if (element?.type === 'file' && hasCvOnlyUploadPanelNear(element)) {
             return 'CV / Resume';
+        }
+
+        const firstStageChatLabel = getFirstStageApplicationChatLabel(element);
+
+        if (firstStageChatLabel.length >= 3) {
+            return firstStageChatLabel;
         }
 
         const smsConsentLabel = getSmsConsentQuestionLabel(element);

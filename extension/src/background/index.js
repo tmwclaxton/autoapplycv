@@ -2544,6 +2544,74 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
 }
 
 /**
+ * FirstStage AI-chat steps need Send, then "Save conversation and continue"
+ * after Draft All fills the composer textarea.
+ */
+async function advanceFirstStageChatStepIfNeeded(tabId, pageUrl, formFrameId) {
+    if (!/(?:^|\.)firststage\.co$/i.test(String(pageUrl || ''))) {
+        return formFrameId;
+    }
+
+    if (!/\/applications\//i.test(String(pageUrl || ''))) {
+        return formFrameId;
+    }
+
+    let nextFrameId = formFrameId;
+
+    try {
+        await sendTabMessage(
+            tabId,
+            { type: 'BRIDGE_CLICK_TEXT', text: 'Send' },
+            nextFrameId,
+        );
+    } catch {
+        // Composer may already be empty / answer already submitted.
+    }
+
+    const deadline = Date.now() + 45_000;
+
+    while (Date.now() < deadline) {
+        await new Promise((resolve) => {
+            setTimeout(resolve, 1500);
+        });
+
+        invalidateTabFrameCache(tabId);
+        await ensureTabContentScript(tabId);
+        nextFrameId = await findBestFormFrameId(tabId, { force: true });
+
+        try {
+            const snap = await collectSnapshotFromTab(tabId, nextFrameId);
+            const controls = snap?.snapshot?.controls || [];
+            const saveContinue = controls.find((control) =>
+                /save conversation and continue/i.test(
+                    String(control?.name || ''),
+                ),
+            );
+
+            if (saveContinue) {
+                await sendTabMessage(
+                    tabId,
+                    {
+                        type: 'BRIDGE_CLICK_TEXT',
+                        text: 'Save conversation and continue',
+                    },
+                    nextFrameId,
+                );
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 1200);
+                });
+
+                return nextFrameId;
+            }
+        } catch {
+            // Keep polling while the assistant finishes typing.
+        }
+    }
+
+    return nextFrameId;
+}
+
+/**
  * FirstStage and similar boards gate the form behind a CV-only upload step.
  * Attach the resume, accept privacy consent, advance Continue through CV
  * processing, then re-scan once the wizard has real questions.
@@ -3473,6 +3541,12 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 totalFieldsFilled += Number(stickyReplay.applied || 0);
             }
 
+            formFrameId = await advanceFirstStageChatStepIfNeeded(
+                tabId,
+                tab.url || pageUrl,
+                formFrameId,
+            );
+
             const postValidation = await applyPostDraftValidation(
                 tabId,
                 formFrameId,
@@ -4030,6 +4104,12 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 );
             }
         }
+
+        formFrameId = await advanceFirstStageChatStepIfNeeded(
+            tabId,
+            tab.url || pageUrl,
+            formFrameId,
+        );
 
         const postValidation = await applyPostDraftValidation(
             tabId,

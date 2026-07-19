@@ -96,6 +96,31 @@ test('photo/avatar dropzone is not treated as FirstStage CV upload', () => {
     assert.equal(resume, null);
 });
 
+test('FirstStage AI chat textarea uses assistant question as label', () => {
+    const dom = new JSDOM(
+        `<!doctype html><html><head>
+      <title>Incident Response Plan - Apply for Senior Software Engineer</title>
+    </head><body>
+      <div>Step 12 of 15</div>
+      <div>Assistant14:02 Can you describe how you would respond to a production incident affecting multiple services?</div>
+      <textarea placeholder="Type or speak your message..."></textarea>
+      <button type="button">Send</button>
+    </body></html>`,
+        {
+            url: 'https://wayve.firststage.co/applications/abc/incident-response-plan',
+        },
+    );
+    const heuristics = loadHeuristics(dom);
+    const textarea = dom.window.document.querySelector('textarea');
+    const label = heuristics.getQuestionLabel(textarea);
+
+    assert.match(
+        label,
+        /respond to a production incident/i,
+        `expected assistant question label, got ${label}`,
+    );
+});
+
 test('FirstStage CV upload still matches when JD text precedes the panel', () => {
     const jd = `${'About the role. '.repeat(80)}Essential Python experience.`;
     const dom = new JSDOM(
