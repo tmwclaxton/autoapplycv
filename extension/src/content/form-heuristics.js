@@ -1738,6 +1738,34 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     /**
+     * Greenhouse embed iframes (Ripple #grnhse_iframe) often report offsetParent=null
+     * for name/email/phone inputs while file inputs still pass visibility. Keep the
+     * application controls in inventory the same way as Recruitee deferred forms.
+     */
+    function isGreenhouseApplicationFormControl(element) {
+        if (
+            !element ||
+            !isGreenhouseApplyHost(element.ownerDocument || document)
+        ) {
+            return false;
+        }
+
+        if (element.type === 'hidden') {
+            return false;
+        }
+
+        if (isGreenhouseHiddenSelectInput(element)) {
+            return false;
+        }
+
+        return (
+            element.closest(
+                '#application_form, form#application-form, .application-form, .field, .field-wrapper, #main_fields',
+            ) !== null || element.closest('form') !== null
+        );
+    }
+
+    /**
      * Lever location-conditional EEO surveys live in `.application-form.hidden` until a
      * country is chosen. Keep them in inventory so Draft All / dual-oracle match the DOM.
      */
@@ -12260,6 +12288,10 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             if (isRecruiteeApplicationFormControl(element)) {
+                return true;
+            }
+
+            if (isGreenhouseApplicationFormControl(element)) {
                 return true;
             }
 
