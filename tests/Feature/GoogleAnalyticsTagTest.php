@@ -23,7 +23,10 @@ class GoogleAnalyticsTagTest extends TestCase
             'https://www.googletagmanager.com/gtag/js?id=G-XXET6H4VM1',
             $content,
         );
-        $this->assertStringContainsString("gtag('config', \"G-XXET6H4VM1\")", $content);
+        $this->assertStringContainsString(
+            "gtag('config', \"G-XXET6H4VM1\", { send_page_view: false })",
+            $content,
+        );
     }
 
     public function test_google_analytics_tag_is_omitted_when_measurement_id_is_empty(): void

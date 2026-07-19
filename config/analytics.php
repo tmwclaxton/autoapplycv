@@ -35,6 +35,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Measurement ID injected on every Inertia page via the root Blade layout.
+    | SPA pageviews are sent from resources/js/lib/googleAnalytics.ts.
     | Leave empty to disable the tag.
     |
     */

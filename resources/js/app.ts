@@ -10,6 +10,7 @@ import { initializeTheme } from '@/composables/useAppearance';
 import PostboxAppLayout from '@/layouts/PostboxAppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+import { initializeGoogleAnalytics } from '@/lib/googleAnalytics';
 
 library.add(fas, far, fab);
 
@@ -56,3 +57,6 @@ initializeTheme();
 
 // This will listen for flash toast data from the server...
 initializeFlashToast();
+
+// GA4 pageviews on Inertia navigations (tag is injected in app.blade.php)...
+initializeGoogleAnalytics();

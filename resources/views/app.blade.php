@@ -49,7 +49,8 @@
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', @json($googleAnalyticsId));
+                {{-- send_page_view false: Inertia SPA pageviews are sent from resources/js/lib/googleAnalytics.ts on router navigate (including initial load). --}}
+                gtag('config', @json($googleAnalyticsId), { send_page_view: false });
             </script>
         @endif
     </head>
