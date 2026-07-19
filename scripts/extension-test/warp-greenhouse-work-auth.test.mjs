@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Live Warp Greenhouse regression: UK profile must answer No on US/Canada
- * based-in + permanent auth, pend free-text work-auth, and decline Hispanic EEO.
+ * based-in + permanent auth, Yes on require-work-authorization free-text
+ * (foreign job country), and decline Hispanic EEO.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -47,7 +48,7 @@ function fieldsFromExpected() {
     }));
 }
 
-test('Warp UK profile preferences: based-in No, permanent auth No, free-text pending', () => {
+test('Warp UK profile preferences: based-in No, permanent auth No, free-text Yes', () => {
     const fields = fieldsFromExpected();
     const basedIn = fields.find((field) =>
         /based in the u\.s\. or canada/i.test(field.label),
@@ -75,9 +76,10 @@ test('Warp UK profile preferences: based-in No, permanent auth No, free-text pen
 
     assert.equal(byRef[basedIn.ref], 'No');
     assert.equal(byRef[permanentAuth.ref], 'No');
+    assert.equal(byRef[requireAuth.ref], 'Yes');
     assert.equal(
         pendingFields.some((field) => field.ref === requireAuth.ref),
-        true,
+        false,
     );
     assert.equal(
         remainingFields.some((field) => field.ref === requireAuth.ref),
