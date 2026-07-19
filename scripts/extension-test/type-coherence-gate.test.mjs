@@ -510,6 +510,42 @@ test('available from is notice not date and rejects bare integers', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
 });
 
+test('intend to work location fills from profile city', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f9',
+                label: 'from where do you intend to work?',
+                field_type: 'text',
+                required: true,
+            },
+        ],
+        profileData: {
+            profile: {
+                city: 'High Wycombe',
+                location: 'High Wycombe, England',
+                country: 'United Kingdom',
+            },
+        },
+        questionMemo: {},
+    });
+
+    const answer = plan.applyStages
+        .flatMap((stage) => stage.answers || [])
+        .find((item) => item.ref === 'f9');
+
+    assert.equal(classifyFieldExpectation({
+        label: 'from where do you intend to work?',
+        field_type: 'text',
+    }), 'locality');
+    assert.equal(answer?.answer, 'High Wycombe');
+});
+
 test('German verfügbar ab and Gehaltsvorstellung classify correctly', () => {
     assert.equal(
         classifyFieldExpectation({

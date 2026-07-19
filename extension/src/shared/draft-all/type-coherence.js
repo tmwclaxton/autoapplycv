@@ -91,6 +91,14 @@ function isLocalityField(field) {
         return true;
     }
 
+    // Greenhouse "From where do you intend to work?"
+    if (
+        /\bintend to work\b/.test(normalized)
+        || /\bwhere (?:will|do) you (?:intend to )?work\b/.test(normalized)
+    ) {
+        return true;
+    }
+
     if (/\b(?:state|region|county)\b/.test(normalized) && !/\bcountry\b/.test(normalized)) {
         return true;
     }
