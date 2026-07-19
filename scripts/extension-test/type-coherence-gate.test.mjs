@@ -837,6 +837,45 @@ test('NYC or London office days affirms Yes for England profiles', async () => {
     assert.ok(answers.some((item) => item.ref === 'f5' && item.answer === 'No'));
 });
 
+test('Tracebit London office days affirms Yes and ignores stale No memo', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const label =
+        "i'm able to work 5 days a week in the office in london, uk";
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 0,
+                ref: 'f0',
+                label,
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                city: 'High Wycombe',
+                location: 'High Wycombe, England',
+            },
+        },
+        questionMemo: {
+            [label]: 'No',
+        },
+    });
+
+    const answers = plan.applyStages.flatMap((stage) => stage.answers || []);
+    assert.equal(plan.memoAnswerCount, 0);
+    assert.ok(answers.some((item) => item.ref === 'f0' && item.answer === 'Yes'));
+    assert.ok(
+        !answers.some(
+            (item) => item.ref === 'f0' && String(item.answer).toLowerCase() === 'no',
+        ),
+    );
+});
+
 test('Berlin hybrid Yes/No declines for UK profiles in apply plan', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'
@@ -941,4 +980,68 @@ test('tool-scoped years labels and language prompts shrink when profile clear', 
         { ref: 'b', label: 'Postcode', field_type: 'text' },
     ]);
     assert.match(compacted[0].context || '', /Sibling locality/);
+});
+
+test('education school/degree fills from profile and pendings when missing', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const fields = [
+        { ref: 'u', label: 'university', field_type: 'text', required: true },
+        { ref: 'd', label: 'degree', field_type: 'text', required: true },
+        { ref: 'di', label: 'discipline', field_type: 'text', required: true },
+        {
+            ref: 'trap',
+            label: 'are you returning to full-time school or work in the fall?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+    ];
+
+    const filled = buildDraftAllApplyPlan({
+        fields,
+        profileData: {
+            profile: {
+                education: [
+                    {
+                        degree: 'BSc Computer Science',
+                        institution: "Queen's University Belfast",
+                        field_of_study: 'Computer Science',
+                    },
+                ],
+            },
+        },
+        questionMemo: {},
+    });
+
+    const answers = Object.fromEntries(
+        filled.applyStages
+            .flatMap((stage) => stage.answers || [])
+            .map((item) => [item.ref, item.answer]),
+    );
+    assert.equal(answers.u, "Queen's University Belfast");
+    assert.equal(answers.d, 'BSc Computer Science');
+    assert.equal(answers.di, 'Computer Science');
+    assert.equal(filled.pendingFields.length, 0);
+    assert.deepEqual(
+        filled.llmFields.map((field) => field.ref),
+        ['trap'],
+    );
+
+    const missing = buildDraftAllApplyPlan({
+        fields,
+        profileData: { profile: { education: [] } },
+        questionMemo: {},
+    });
+    assert.equal(missing.pendingFields.length, 3);
+    assert.ok(
+        missing.pendingFields.every(
+            (field) => field.reason === 'missing_profile_data',
+        ),
+    );
+    assert.deepEqual(
+        missing.llmFields.map((field) => field.ref),
+        ['trap'],
+    );
 });

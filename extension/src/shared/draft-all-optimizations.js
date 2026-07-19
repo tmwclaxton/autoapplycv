@@ -18,6 +18,7 @@ import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.j
 import {
     isEmployerScreeningTrapLabel,
     isInterviewAccommodationQuestionLabel,
+    isOnSiteCommuteQuestionLabel,
     isOptionalSocialNetworkUrlLabel,
     isServingNoticeFollowUpQuestionLabel,
     isSkillSpecificYearsExperienceQuestionLabel,
@@ -207,7 +208,8 @@ export function resolveSavedApplicationAnswer(
         !answer ||
         shouldRejectPhoneAnswerOnField(field, answer) ||
         shouldRejectAnswerForTypeCoherence(field, answer) ||
-        isInterviewAccommodationQuestionLabel(label)
+        isInterviewAccommodationQuestionLabel(label) ||
+        isOnSiteCommuteQuestionLabel(label)
     ) {
         return null;
     }
@@ -324,6 +326,13 @@ export function partitionFieldsByQuestionMemo(
 
         // USA-based confirmation must use country heuristics, not stale relocate memo.
         if (isUsLocationConfirmationQuestion(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Office-days / onsite commute must use live location heuristics, not a
+        // stale Yes/No memo from an earlier city or outdated decline path.
+        if (isOnSiteCommuteQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }

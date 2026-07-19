@@ -28,6 +28,7 @@ import {
     partitionEeoDeclineFields,
     partitionIdentityProfileFields,
     partitionMissingContactIdentityFields,
+    partitionMissingEducationIdentityFields,
     partitionMissingLocalityIdentityFields,
     partitionMissingNameIdentityFields,
     partitionInterviewAccommodationFields,
@@ -142,6 +143,19 @@ export function buildDraftAllApplyPlan({
         missingContactPartition.pendingFields,
     );
     const contactRescueAnswers = missingContactPartition.contactAnswers || [];
+
+    // Empty school/degree must pending early - never invent universities via NanoGPT.
+    const missingEducationPartition = partitionMissingEducationIdentityFields(
+        remainingFields,
+        profileData,
+    );
+    remainingFields = missingEducationPartition.remainingFields;
+    pendingFields = mergePendingFields(
+        pendingFields,
+        missingEducationPartition.pendingFields,
+    );
+    const educationRescueAnswers =
+        missingEducationPartition.educationAnswers || [];
 
     const cityRelocatePartition = partitionCitySpecificRelocateFields(
         remainingFields,
@@ -303,6 +317,7 @@ export function buildDraftAllApplyPlan({
         ...nameRescueAnswers,
         ...localityRescueAnswers,
         ...contactRescueAnswers,
+        ...educationRescueAnswers,
     ];
 
     if (identityAnswers.length > 0) {

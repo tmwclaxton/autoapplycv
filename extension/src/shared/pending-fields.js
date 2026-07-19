@@ -268,6 +268,7 @@ const PROFILE_FIELD_MAPPINGS = [
         dashboard_anchor: 'field-full-name',
         keywords: [
             'first name',
+            'preferred first name',
             'preferred name',
             'given name',
             'forename',
@@ -559,6 +560,37 @@ const PROFILE_FIELD_MAPPINGS = [
             'type of role',
         ],
     },
+    {
+        path: 'education.0.institution',
+        label: 'School / University',
+        dashboard_tab: 'experience',
+        dashboard_anchor: 'field-education',
+        keywords: [
+            'university name',
+            'school name',
+            'name of school',
+            'name of university',
+            'college name',
+            'institution name',
+        ],
+        exactLabels: ['school', 'university', 'college', 'institution'],
+    },
+    {
+        path: 'education.0.degree',
+        label: 'Degree',
+        dashboard_tab: 'experience',
+        dashboard_anchor: 'field-education',
+        keywords: ['degree type', 'type of degree'],
+        exactLabels: ['degree'],
+    },
+    {
+        path: 'education.0.field_of_study',
+        label: 'Field of study',
+        dashboard_tab: 'experience',
+        dashboard_anchor: 'field-education',
+        keywords: ['field of study', 'area of study', 'major'],
+        exactLabels: ['discipline', 'major'],
+    },
 ];
 
 const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
@@ -583,6 +615,15 @@ const IDENTITY_PROFILE_PATHS = new Set([
     'postcode',
     'structured_data.address_line_1',
     'structured_data.state_region',
+    'education.0.institution',
+    'education.0.degree',
+    'education.0.field_of_study',
+]);
+
+const EDUCATION_IDENTITY_PATHS = new Set([
+    'education.0.institution',
+    'education.0.degree',
+    'education.0.field_of_study',
 ]);
 
 const PREFERENCE_PROFILE_PATHS = new Set([
@@ -1009,6 +1050,14 @@ export function isEmployerOfficeAttendanceQuestionLabel(label) {
     if (
         /\bfrom our\b.+\boffices?\b/.test(normalized) &&
         /\b(?:days?|week|hybrid|commit)\b/.test(normalized)
+    ) {
+        return true;
+    }
+
+    // Tracebit: "able to work 5 days a week in the office in london"
+    if (
+        /\bin the office\b/.test(normalized) &&
+        /\b(?:\d+\s+days?|five days|5 days|days? a week)\b/.test(normalized)
     ) {
         return true;
     }
@@ -4621,6 +4670,49 @@ function resolvePortfolioProfileUrl(profileData) {
     return '';
 }
 
+function firstEducationEntry(profileData) {
+    const education =
+        profileData?.profile?.education ?? profileData?.education ?? null;
+
+    if (!Array.isArray(education) || education.length === 0) {
+        return null;
+    }
+
+    return education[0] && typeof education[0] === 'object'
+        ? education[0]
+        : null;
+}
+
+function readEducationProfileValue(profileData, path) {
+    const entry = firstEducationEntry(profileData);
+
+    if (!entry) {
+        return '';
+    }
+
+    if (path === 'education.0.institution') {
+        return String(
+            entry.institution || entry.school || entry.university || '',
+        ).trim();
+    }
+
+    if (path === 'education.0.degree') {
+        return String(entry.degree || '').trim();
+    }
+
+    if (path === 'education.0.field_of_study') {
+        return String(
+            entry.field_of_study ||
+                entry.field ||
+                entry.major ||
+                entry.discipline ||
+                '',
+        ).trim();
+    }
+
+    return '';
+}
+
 export function readProfileValue(profileData, path) {
     if (!profileData || !path) {
         return '';
@@ -4638,6 +4730,14 @@ export function readProfileValue(profileData, path) {
         const split = splitFullName(readProfileValue(profileData, 'full_name'));
 
         return path === 'full_name.first' ? split.first : split.last;
+    }
+
+    if (
+        path === 'education.0.institution' ||
+        path === 'education.0.degree' ||
+        path === 'education.0.field_of_study'
+    ) {
+        return readEducationProfileValue(profileData, path);
     }
 
     if (path === 'computed_earliest_start') {
@@ -5846,6 +5946,58 @@ export function partitionMissingContactIdentityFields(fields, profileData) {
     }
 
     return { pendingFields, remainingFields, contactAnswers };
+}
+
+/**
+ * School / degree / discipline fields with an empty profile education entry must
+ * leave-pending early. Do not send them to NanoGPT (it invents universities).
+ */
+export function isEducationIdentityField(field) {
+    const label = field?.label || field?.question || '';
+    const mapping = resolveProfileMappingForLabel(
+        label,
+        null,
+        field?.dom || null,
+    );
+
+    return Boolean(mapping && EDUCATION_IDENTITY_PATHS.has(mapping.path));
+}
+
+export function partitionMissingEducationIdentityFields(fields, profileData) {
+    const pendingFields = [];
+    const remainingFields = [];
+    const educationAnswers = [];
+
+    for (const field of fields || []) {
+        if (!isEducationIdentityField(field)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        const answer = resolveIdentityProfileAnswer(field, profileData);
+
+        if (isMeaningfulAnswer(answer)) {
+            educationAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                options: field.options ?? null,
+                dom: field.dom || null,
+                answer,
+            });
+            continue;
+        }
+
+        pendingFields.push(
+            createPendingField(
+                field,
+                resolvePendingProfileMapping(field, profileData),
+                'missing_profile_data',
+            ),
+        );
+    }
+
+    return { pendingFields, remainingFields, educationAnswers };
 }
 
 function identityPhoneApplyRank(answer) {
