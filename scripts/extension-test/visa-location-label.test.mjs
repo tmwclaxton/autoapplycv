@@ -28,6 +28,8 @@ import {
     resolvePreferenceProfileAnswer,
     resolveProfileMappingForLabel,
     resolveRightToWorkStatusFreeTextAnswer,
+    resolveUnspentConvictionAnswer,
+    isUnspentConvictionQuestionLabel,
 } from '../../extension/src/shared/pending-fields.js';
 
 const visaLabel = "Do you need visa sponsorship for the role's location?";
@@ -686,6 +688,27 @@ test('skill-scoped years always become pending even when not marked required', (
     assert.equal(partitioned.clearAnswers.length, 1);
     assert.equal(partitioned.pendingFields.length, 1);
     assert.equal(partitioned.pendingFields[0].reason, 'missing_profile_data');
+});
+
+test('unspent convictions free-text defaults to No', () => {
+    const label =
+        'do you have any convictions or conditional cautions which are currently unspent under the rehabilitation of offenders act 1974?';
+    assert.equal(isUnspentConvictionQuestionLabel(label), true);
+    assert.equal(
+        resolveUnspentConvictionAnswer({
+            ref: 'f10',
+            label,
+            field_type: 'textarea',
+        }),
+        'No',
+    );
+    assert.equal(
+        resolvePreferenceProfileAnswer(
+            { ref: 'f10', label, field_type: 'textarea' },
+            {},
+        ),
+        'No',
+    );
 });
 
 test('industry experience years are total YOE not skill-scoped', () => {

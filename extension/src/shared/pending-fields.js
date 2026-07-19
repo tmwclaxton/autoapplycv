@@ -1344,6 +1344,66 @@ export function isPriorApplicationQuestionLabel(label) {
     return false;
 }
 
+/**
+ * UK Rehabilitation of Offenders / unspent convictions asks (Capital on Tap).
+ * Default No / None - do not leave required textareas empty after NanoGPT null.
+ */
+export function isUnspentConvictionQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    // Detail follow-ups stay blank unless the applicant said Yes elsewhere.
+    if (
+        /^if yes\b/.test(normalized) &&
+        /\b(conviction|caution|criminal|offence|offense)\b/.test(normalized)
+    ) {
+        return false;
+    }
+
+    return (
+        /\brehabilitation of offenders\b/.test(normalized) ||
+        (/\bunspent\b/.test(normalized) &&
+            /\b(conviction|caution|criminal)\b/.test(normalized)) ||
+        /\b(?:criminal record|criminal conviction|unspent caution)\b/.test(
+            normalized,
+        ) ||
+        (/\bdo you have any\b/.test(normalized) &&
+            /\b(conviction|cautions)\b/.test(normalized))
+    );
+}
+
+/**
+ * @param {{ label?: string, question?: string, field_type?: string, options?: unknown }|null|undefined} field
+ * @returns {string}
+ */
+export function resolveUnspentConvictionAnswer(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isUnspentConvictionQuestionLabel(label)) {
+        return '';
+    }
+
+    if (fieldHasYesNoOptions(field)) {
+        return pickLocalizedYesNoOption(field, false);
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+
+    if (
+        fieldType === 'textarea' ||
+        fieldType === 'text' ||
+        fieldType === '' ||
+        fieldType === 'input'
+    ) {
+        return 'No';
+    }
+
+    return '';
+}
+
 function pickLocalizedYesNoOption(field, wantYes) {
     const options = Array.isArray(field?.options) ? field.options : [];
     const yesPattern = /^(yes|tak|oui|ja|si|sí)\b/i;
@@ -6733,6 +6793,12 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
     // does not invent Yes, and sticky replay can restore after resume attach.
     if (isPriorApplicationQuestionLabel(label) && fieldHasYesNoOptions(field)) {
         return findExactChoiceOptionMatch('No', field.options || []) || 'No';
+    }
+
+    const convictionAnswer = resolveUnspentConvictionAnswer(field);
+
+    if (isMeaningfulAnswer(convictionAnswer)) {
+        return convictionAnswer;
     }
 
     if (isUsResidenceQuestion(label)) {
