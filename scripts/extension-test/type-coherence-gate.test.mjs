@@ -695,6 +695,43 @@ test('4+ years Yes/No coerces from profile years and country intend maps to coun
         ),
         'must not apply raw years digit to Yes/No experience gate',
     );
+
+    // Experience timeline longer than settings YOE must filter-pass Yes.
+    const timelinePlan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                id: 1,
+                ref: 'f1',
+                label: 'do you have 4+ years of experience as a full-time engineer?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+        ],
+        profileData: {
+            profile: {
+                country: 'United Kingdom',
+                experience: [
+                    {
+                        company: 'Rapid7',
+                        title: 'Software Engineer',
+                        start_date: '2020-01',
+                        end_date: 'Present',
+                    },
+                ],
+            },
+            application_settings: { years_of_experience: 2 },
+        },
+        questionMemo: {},
+    });
+    const timelineAnswers = timelinePlan.applyStages.flatMap(
+        (stage) => stage.answers || [],
+    );
+    assert.ok(
+        timelineAnswers.some(
+            (item) => item.ref === 'f1' && item.answer === 'Yes',
+        ),
+        'experience timeline must pass 4+ years Yes/No gate despite YOE=2',
+    );
     assert.ok(
         evaluateAnswerTypeCoherence(
             {

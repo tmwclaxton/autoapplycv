@@ -469,6 +469,126 @@ export function coerceYearsThresholdToYesNo(label, answer, options) {
     return findYesNoOption(options, years >= threshold ? 'yes' : 'no');
 }
 
+function parseFlexibleExperienceDate(value) {
+    const text = String(value || '').trim();
+
+    if (!text || /\b(present|current|now)\b/i.test(text)) {
+        return null;
+    }
+
+    const ym = text.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?$/);
+
+    if (ym) {
+        return Date.UTC(
+            Number(ym[1]),
+            Number(ym[2]) - 1,
+            ym[3] ? Number(ym[3]) : 1,
+        );
+    }
+
+    const yearOnly = text.match(/^(\d{4})$/);
+
+    if (yearOnly) {
+        return Date.UTC(Number(yearOnly[1]), 0, 1);
+    }
+
+    const parsed = Date.parse(text);
+
+    return Number.isNaN(parsed) ? null : parsed;
+}
+
+/**
+ * Career-span years from profile.experience dates (earliest start → now/latest).
+ *
+ * @param {object|null|undefined} profileData
+ * @returns {number|null}
+ */
+export function computeYearsOfExperienceFromProfile(profileData) {
+    const experience =
+        profileData?.profile?.experience || profileData?.experience || [];
+
+    if (!Array.isArray(experience) || experience.length === 0) {
+        return null;
+    }
+
+    let earliest = null;
+    let latest = null;
+    let hasCurrent = false;
+
+    for (const role of experience) {
+        if (!role || typeof role !== 'object') {
+            continue;
+        }
+
+        const start = parseFlexibleExperienceDate(
+            role.start_date || role.startDate,
+        );
+        const endRaw = role.end_date || role.endDate;
+        const isPresent =
+            endRaw == null ||
+            String(endRaw).trim() === '' ||
+            /\b(present|current|now)\b/i.test(String(endRaw));
+        const end = isPresent ? Date.now() : parseFlexibleExperienceDate(endRaw);
+
+        if (start != null && (earliest == null || start < earliest)) {
+            earliest = start;
+        }
+
+        if (end != null && (latest == null || end > latest)) {
+            latest = end;
+        }
+
+        if (isPresent) {
+            hasCurrent = true;
+        }
+    }
+
+    if (earliest == null) {
+        return null;
+    }
+
+    if (hasCurrent || latest == null) {
+        latest = Date.now();
+    }
+
+    const years = Math.floor((latest - earliest) / (365.25 * 24 * 60 * 60 * 1000));
+
+    return Math.max(0, Math.min(99, years));
+}
+
+/**
+ * Prefer the longer of settings YOE and experience-timeline YOE.
+ *
+ * @param {object|null|undefined} profileData
+ * @returns {number|null}
+ */
+export function effectiveYearsOfExperience(profileData) {
+    const settingsYears = Number.parseInt(
+        String(
+            profileData?.application_settings?.years_of_experience ??
+                profileData?.application_settings?.yearsOfExperience ??
+                '',
+        ).trim(),
+        10,
+    );
+    const fromSettings = Number.isNaN(settingsYears) ? null : settingsYears;
+    const fromExperience = computeYearsOfExperienceFromProfile(profileData);
+
+    if (fromSettings == null && fromExperience == null) {
+        return null;
+    }
+
+    if (fromSettings == null) {
+        return fromExperience;
+    }
+
+    if (fromExperience == null) {
+        return fromSettings;
+    }
+
+    return Math.max(fromSettings, fromExperience);
+}
+
 export function normalizeChoiceAnswerForQuestion(label, answer, options = {}) {
     const choiceOptions = options.options;
     const trimmed = String(answer ?? '').trim();

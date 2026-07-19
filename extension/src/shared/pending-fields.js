@@ -1,5 +1,6 @@
 import {
     coerceYearsThresholdToYesNo,
+    effectiveYearsOfExperience,
     extractYearsExperienceThreshold,
     filterMeaningfulChoiceOptions,
     findExactChoiceOptionMatch,
@@ -6556,12 +6557,17 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     // "Do you have 4+ years…?" Yes/No gates: coerce YOE digits before the
     // years+Yes/No mapping mismatch (which blocks raw digit dumps in screener).
-    // Only auto-apply Yes (filter-pass). Leave below-threshold for NanoGPT.
+    // Prefer max(settings YOE, experience-timeline YOE) so a stale low setting
+    // cannot self-reject when work history meets the threshold (filter-pass).
     if (
         mapping.path === 'application_settings.years_of_experience' &&
         fieldHasYesNoOptions(field)
     ) {
-        const rawYears = profileValueForApply(mapping, profileData, field);
+        const effectiveYears = effectiveYearsOfExperience(profileData);
+        const rawYears =
+            effectiveYears != null
+                ? String(effectiveYears)
+                : profileValueForApply(mapping, profileData, field);
 
         if (!isMeaningfulAnswer(rawYears)) {
             return '';
