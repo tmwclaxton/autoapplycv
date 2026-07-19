@@ -502,6 +502,34 @@ test('German Gehaltsvorstellungen number field accepts yearly salary', () => {
     );
 });
 
+test('available from expands bare notice_period digits to weeks', async () => {
+    const { buildDraftAllApplyPlan } = await import(
+        '../../extension/src/shared/draft-all/pipeline.js'
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                ref: 'f1',
+                label: 'available from',
+                field_type: 'text',
+                required: true,
+            },
+        ],
+        profileData: {
+            profile: { country: 'United Kingdom', city: 'High Wycombe' },
+            application_settings: { notice_period: '2' },
+        },
+        questionMemo: {},
+    });
+
+    const answer = plan.applyStages
+        .flatMap((stage) => stage.answers || [])
+        .find((item) => item.ref === 'f1');
+    assert.equal(answer?.answer, '2 weeks');
+    assert.equal(plan.pendingFields.length, 0);
+});
+
 test('available from is notice not date and rejects bare integers', () => {
     const field = { label: 'available from', field_type: 'text' };
 

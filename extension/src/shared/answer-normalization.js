@@ -27,6 +27,16 @@ export function isNoticePeriodStyleQuestion(label) {
         return true;
     }
 
+    // Teamtailor / Greenhouse / Personio availability free-text.
+    if (
+        /^(?:available from|earliest start|earliest availability|verf[uü]gbar ab)\b/.test(
+            text,
+        ) ||
+        /\b(?:available from|earliest start|verf[uü]gbar ab)\b/.test(text)
+    ) {
+        return true;
+    }
+
     if (
         /\bdost[eę]pno[sś][cć]\b/.test(text)
         && /\b(wypowiedzenia|do[lł][aą]czy[cć]|start|notice)\b/.test(text)

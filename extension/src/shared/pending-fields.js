@@ -6940,7 +6940,41 @@ export function partitionPreferenceProfileFields(fields, profileData) {
     const clearAnswers = [];
 
     for (const field of fields || []) {
-        const answer = resolvePreferenceProfileAnswer(field, profileData);
+        let answer = resolvePreferenceProfileAnswer(field, profileData);
+        const label = field?.label || field?.question || '';
+
+        if (isMeaningfulAnswer(answer)) {
+            answer = normalizeFieldAnswerForQuestion(label, answer, {
+                fieldType: field?.field_type,
+                options: field?.options ?? null,
+                domId: field?.dom?.id,
+                profileYears: readProfileValue(
+                    profileData,
+                    'application_settings.years_of_experience',
+                ),
+            });
+        }
+
+        if (
+            isMeaningfulAnswer(answer) &&
+            shouldRejectAnswerForTypeCoherence(field, answer)
+        ) {
+            pendingFields.push(
+                createPendingField(
+                    field,
+                    resolvePendingProfileMapping(field, profileData),
+                    'type_coherence',
+                    {
+                        rejected_answer: String(answer),
+                        reject_reason: evaluateAnswerTypeCoherence(
+                            field,
+                            answer,
+                        ).reason,
+                    },
+                ),
+            );
+            continue;
+        }
 
         if (
             isMeaningfulAnswer(answer) &&
