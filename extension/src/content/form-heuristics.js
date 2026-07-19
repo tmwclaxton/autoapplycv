@@ -11972,6 +11972,12 @@ var AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
+            // SmartRecruiters City autocomplete inputs live in shadow DOM and
+            // often fail the visibility check until focused.
+            if (isSmartRecruitersLocationInput(element)) {
+                return true;
+            }
+
             if (isChosenSearchInput(element)) {
                 return false;
             }
@@ -12285,6 +12291,8 @@ var AutoCVApplyFormHeuristics = (() => {
         const chosenSelect = isChosenEnhancedSelect(element);
         const workableAddressSubfield =
             isWorkableHiddenAddressSubfield(element);
+        const smartRecruitersLocation =
+            isSmartRecruitersLocationInput(element);
 
         if (isSiteSearchChrome(element) || isJobBoardNavSearchInput(element)) {
             return false;
@@ -12303,7 +12311,8 @@ var AutoCVApplyFormHeuristics = (() => {
             !recruiteeFormControl &&
             !leverSurveyControl &&
             !chosenSelect &&
-            !workableAddressSubfield
+            !workableAddressSubfield &&
+            !smartRecruitersLocation
         ) {
             return false;
         }
