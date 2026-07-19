@@ -165,6 +165,11 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
     /\banything else (?:you|we) should know\b/i,
     /\bhow would you\b/i,
     /\bwhat makes you\b/i,
+    // WRITER Ashby: culture-values essay (not a skill-rating free-text).
+    /\b(?:cultural|company|core)\s+values?\b/i,
+    /\bour values\b/i,
+    /\balign(?:s|ment)? with\b.*\bvalues?\b/i,
+    /\bgive an example from your (?:professional )?experience\b/i,
 ];
 
 const SOURCE_OF_HIRE_QUESTION_PATTERNS = [
@@ -192,6 +197,7 @@ const APPLICATION_SPECIFIC_QUESTION_PATTERNS = [
     /\binterest in\b.*\b(?:and )?this (?:role|position|job)\b/i,
     /\bwhy (?:are you|do you|did you) (?:want|interested|applying|apply)\b/i,
     /\bwhy (?:interested|want|join|work (?:here|at|for|with))\b/i,
+    /\bwhy are you interested in joining\b/i,
     /\bwhat (?:motivates|attracts) you (?:to|about)\b/i,
     /\bwhat attracts you to\b/i,
     /\bwhy do you want to (?:work|join|apply)\b/i,
@@ -199,6 +205,10 @@ const APPLICATION_SPECIFIC_QUESTION_PATTERNS = [
     /\bwhat makes you (?:want|interested|a good fit|the right)\b/i,
     /\bhow would you (?:contribute|add value|fit)\b/i,
     /\btell us (?:about )?why\b/i,
+    /\b(?:cultural|company|core)\s+values?\b/i,
+    /\bour values\b/i,
+    /\balign(?:s|ment)? with\b.*\bvalues?\b/i,
+    /\bgive an example from your (?:professional )?experience\b/i,
     /\bberätta\b.*\b(?:varför|intresserad)\b/i,
     /\bvarför\b.*\b(?:intresserad|jobba|rollen|företaget)\b/i,
     /\bkortfattat\b.*\b(?:intresserad|varför)\b/i,
@@ -2575,10 +2585,41 @@ export function isSourceOfHireOtherFollowUpLabel(label) {
     );
 }
 
+/**
+ * Short numeric skill / knowledge ratings (Real SpringBoot 1-10). These are not
+ * motivation essays - "how would you rate" must not count as open-ended.
+ */
+export function isSkillRatingQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        /\bon a scale of\b/.test(normalized) ||
+        /\bscale of\s*1\s*(?:-|to|\u2013)\s*10\b/.test(normalized) ||
+        /\bhow would you rate\b/.test(normalized) ||
+        /\brate your (?:working )?knowledge\b/.test(normalized) ||
+        /\brating (?:of|for|on)\b.*\b(?:1|one)\b.*\b(?:10|ten)\b/.test(
+            normalized,
+        )
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
 export function isOpenEndedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (!normalized) {
+        return false;
+    }
+
+    // "How would you rate… on a scale of 1-10" is a skill fact, not an essay.
+    if (isSkillRatingQuestionLabel(label)) {
         return false;
     }
 
@@ -4693,14 +4734,20 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return true;
     }
 
-    // Required empties after Draft All need sidebar attention even when the
-    // question is application-specific (Real SpringBoot 1-10, etc.).
-    if (field?.required === true) {
+    // Required skill ratings need the sidebar when NanoGPT leaves them blank.
+    if (field?.required === true && isSkillRatingQuestionLabel(label)) {
         return true;
     }
 
+    // Application-specific motivation / culture essays stay with the LLM or
+    // remain empty - never the sidebar (even when required).
     if (shouldSkipUserPromptForFieldLabel(field, profileData)) {
         return false;
+    }
+
+    // Other required empties after Draft All still need sidebar attention.
+    if (field?.required === true) {
+        return true;
     }
 
     if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
