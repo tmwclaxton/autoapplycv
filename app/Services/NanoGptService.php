@@ -433,7 +433,7 @@ class NanoGptService
         /** @var list<int> $delays */
         $delays = array_values(array_map(
             static fn (mixed $delay): int => max(0, (int) $delay),
-            (array) config('services.nanogpt.retry_delay_ms', [1000, 3000]),
+            (array) config('services.nanogpt.retry_delay_ms', [7000, 7000]),
         ));
 
         $lastResponse = null;

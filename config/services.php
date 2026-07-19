@@ -50,7 +50,7 @@ return [
         // Total HTTP attempts per model for idempotent chat completions on timeout/503/429.
         'retry_attempts' => 3,
         // Longer backoff for provider 503 / all_fallbacks_failed storms.
-        'retry_delay_ms' => [1000, 3000],
+        'retry_delay_ms' => [7000, 7000],
         /*
          * After retries are exhausted for the requested model (e.g. HTTP 503
          * all_fallbacks_failed), retry the same payload with these models.
