@@ -15,6 +15,7 @@ const {
     isMissingContentScriptError,
     pickIndeedApplyTabId,
     scoreFrame,
+    shouldRecoverFormFrameAndRetryApply,
 } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/form-frame-messaging.js')).href
 );
@@ -48,6 +49,49 @@ test('formatContentScriptUserError maps Chrome receiving-end errors to refresh h
     assert.equal(
         formatContentScriptUserError('Already answering questions on this page.'),
         'Already answering questions on this page.',
+    );
+});
+
+test('shouldRecoverFormFrameAndRetryApply detects dead iframe apply failures', () => {
+    assert.equal(
+        shouldRecoverFormFrameAndRetryApply({ success: true, applied: 3 }),
+        false,
+    );
+    assert.equal(
+        shouldRecoverFormFrameAndRetryApply({
+            success: false,
+            applied: 0,
+            error: 'Could not establish connection. Receiving end does not exist.',
+        }),
+        true,
+    );
+    assert.equal(
+        shouldRecoverFormFrameAndRetryApply({
+            success: false,
+            applied: 0,
+            error: 'Tab message timed out after 50000ms (APPLY_DRAFT_BATCH)',
+        }),
+        true,
+    );
+    assert.equal(shouldRecoverFormFrameAndRetryApply(null), true);
+    assert.equal(
+        shouldRecoverFormFrameAndRetryApply({ success: false, applied: 0 }),
+        true,
+    );
+});
+
+test('Draft All does not count failed applies as filled via stageCount', async () => {
+    const background = await import('node:fs').then((fs) =>
+        fs.readFileSync(join(ROOT, 'extension/src/background/index.js'), 'utf8'),
+    );
+
+    assert.doesNotMatch(
+        background,
+        /totalFieldsFilled \+= Number\(\s*applyResult\?\.applied \|\| stageCount/,
+    );
+    assert.match(
+        background,
+        /shouldRecoverFormFrameAndRetryApply\(applyResult\)/,
     );
 });
 

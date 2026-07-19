@@ -94,6 +94,7 @@ import {
     invalidateTabFrameCache,
     scanFormValidationOnTab,
     sendTabMessage,
+    shouldRecoverFormFrameAndRetryApply,
     validateBlockedFieldOnTab,
 } from './form-frame-messaging.js';
 import { isLinkedInJobsApplySurfaceUrl } from './linkedin-platform.js';
@@ -2833,7 +2834,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
             return { error: resolved.error };
         }
 
-        const { fields: resolvedFields, job, formFrameId } = resolved;
+        const { fields: resolvedFields, job } = resolved;
+        let formFrameId = resolved.formFrameId;
         let jobPostingLocation =
             resolvedFields.find((field) => field.job_posting_location)
                 ?.job_posting_location ||
@@ -2963,43 +2965,68 @@ async function runDraftAll(tabId, e2eOptions = null) {
             );
             // Greenhouse react-select can clear sibling comboboxes mid-batch.
             // Sticky select answers are applied one-by-one, then a second pass.
-            let applyResult;
+            const applyEnrichedAnswers = async (targetFrameId) => {
+                if (
+                    stage.type === 'sticky_select' &&
+                    enrichedAnswers.length > 1
+                ) {
+                    let applied = 0;
+                    let success = true;
+                    let lastError = null;
 
-            if (
-                stage.type === 'sticky_select' &&
-                enrichedAnswers.length > 1
-            ) {
-                let applied = 0;
-                let success = true;
+                    for (const pass of [0, 1]) {
+                        for (const answer of enrichedAnswers) {
+                            const singleResult = await applyDraftBatchToTab(
+                                tabId,
+                                [answer],
+                                targetFrameId,
+                            );
 
-                for (const pass of [0, 1]) {
-                    for (const answer of enrichedAnswers) {
-                        const singleResult = await applyDraftBatchToTab(
-                            tabId,
-                            [answer],
-                            formFrameId,
-                        );
+                            if (singleResult?.success === false) {
+                                success = false;
+                                lastError = singleResult?.error || lastError;
+                            }
 
-                        if (singleResult?.success === false) {
-                            success = false;
-                        }
-
-                        if (pass === 1) {
-                            applied += Number(singleResult?.applied || 0);
+                            if (pass === 1) {
+                                applied += Number(singleResult?.applied || 0);
+                            }
                         }
                     }
+
+                    return {
+                        success,
+                        applied,
+                        error: lastError,
+                    };
                 }
 
-                applyResult = {
-                    success,
-                    applied,
-                };
-            } else {
-                applyResult = await applyDraftBatchToTab(
+                return applyDraftBatchToTab(
                     tabId,
                     enrichedAnswers,
-                    formFrameId,
+                    targetFrameId,
                 );
+            };
+
+            let applyResult = await applyEnrichedAnswers(formFrameId);
+
+            if (shouldRecoverFormFrameAndRetryApply(applyResult)) {
+                invalidateTabFrameCache(tabId);
+                await ensureTabContentScript(tabId);
+                formFrameId = await findBestFormFrameId(tabId, {
+                    force: true,
+                });
+                logWarn(
+                    'background',
+                    'draft-all.frame-recovery',
+                    `Retrying ${stage.type} after form frame recovery`,
+                    {
+                        formFrameId,
+                        previousError: applyResult?.error || null,
+                        previousApplied: applyResult?.applied ?? null,
+                    },
+                    tabId,
+                );
+                applyResult = await applyEnrichedAnswers(formFrameId);
             }
 
             perf.end(perfPhase);
@@ -3035,13 +3062,15 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     count: stageCount,
                     success: applyResult?.success,
                     applied: applyResult?.applied,
+                    error: applyResult?.error || null,
+                    formFrameId,
                 },
                 tabId,
             );
 
-            totalFieldsFilled += Number(
-                applyResult?.applied || stageCount || 0,
-            );
+            // Never fall back to stageCount - applied:0 must stay 0 so false
+            // "Fill complete" success cannot mask Greenhouse iframe remounts.
+            totalFieldsFilled += Number(applyResult?.applied || 0);
             pushDraftAnswersToSidepanelChat(0, answersToApply, fieldsByRef);
 
             if (stage.type === 'eeo') {

@@ -42,8 +42,28 @@ export function isMissingContentScriptError(message) {
         || /message port closed/i.test(text)
         || /asynchronous response/i.test(text)
         || /Tab message timed out after \d+ms \(PING_CONTENT_SCRIPT\)/i.test(text)
+        || /Tab message timed out after \d+ms \(APPLY_DRAFT_BATCH\)/i.test(text)
         || isDeadContentScriptError(text)
     );
+}
+
+/**
+ * Greenhouse embeds often remount mid-Draft-All; the cached frameId then fails
+ * with receiving-end errors while content may have partially filled fields.
+ */
+export function shouldRecoverFormFrameAndRetryApply(applyResult) {
+    if (applyResult?.success === true) {
+        return false;
+    }
+
+    const errorText = String(applyResult?.error || '');
+
+    if (isMissingContentScriptError(errorText)) {
+        return true;
+    }
+
+    // Empty/undefined responses mean the iframe died before sendResponse.
+    return !applyResult || Number(applyResult?.applied || 0) === 0;
 }
 
 /**
@@ -675,17 +695,32 @@ export async function applyDraftBatchToTab(tabId, answers, frameId) {
     try {
         // sendTabMessage defaults to 20s; pass the scaled budget so Workable
         // combobox/textarea batches are not cut off while still in-flight.
-        return await sendTabMessage(
+        const response = await sendTabMessage(
             tabId,
             { type: 'APPLY_DRAFT_BATCH', answers },
             resolvedFrameId,
             { timeoutMs },
         );
+
+        if (response == null) {
+            return {
+                success: false,
+                applied: 0,
+                error: 'Could not establish connection. Receiving end does not exist.',
+                frameId: resolvedFrameId,
+            };
+        }
+
+        return {
+            ...response,
+            frameId: resolvedFrameId,
+        };
     } catch (error) {
         return {
             success: false,
             applied: 0,
             error: error instanceof Error ? error.message : String(error),
+            frameId: resolvedFrameId,
         };
     }
 }
