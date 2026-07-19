@@ -273,13 +273,19 @@ var AutoCVApplyFieldInventory = (() => {
         }
 
         const container = element.closest(
-            'fieldset, [data-testid^="input-q_"], .ia-Questions-item, .form-group, [class*="question"], .gfield',
+            'fieldset, [data-testid^="input-q_"], .ia-Questions-item, .form-group, [class*="question"], .gfield, .ashby-application-form-field-entry, [data-field-path]',
         );
 
         if (container) {
-            const helper = container.querySelector(
-                '.gsection_description, [aria-describedby], .help-text, .helper-text, [class*="description"], p',
-            );
+            // Prefer explicit helper/description blocks (Ashby culture-values essays
+            // put Connect/Challenge/Own here) over a random nested <p>.
+            const helper =
+                container.querySelector(
+                    '.ashby-application-form-question-description, .gsection_description, .help-text, .helper-text, [class*="question-description"], [class*="_description_"]',
+                ) ||
+                container.querySelector(
+                    '[aria-describedby], [class*="description"], p',
+                );
             const helperText = normalizeContextSnippet(helper?.textContent || '');
 
             if (helperText.length >= 8 && helperText.length < 500) {

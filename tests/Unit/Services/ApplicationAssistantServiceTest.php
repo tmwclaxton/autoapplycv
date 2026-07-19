@@ -421,6 +421,11 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertStringContainsString('city name', $instructions);
         $this->assertStringContainsString('Never paste raw profile fields', $instructions);
         $this->assertStringContainsString('Never invent a candidate name', $instructions);
+        $this->assertStringContainsString('culture-values', $instructions);
+        $this->assertStringContainsString(
+            'not for open-ended motivation or culture-values essays',
+            $instructions,
+        );
     }
 
     public function test_answer_questions_overrides_hallucinated_identity_with_profile_values(): void

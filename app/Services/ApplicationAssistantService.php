@@ -84,6 +84,8 @@ class ApplicationAssistantService
                         .$clarifyingInstructions
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
                         .'For open text questions about motivation, interest, fit, portfolio, GitHub, security, experience, or skills, write 2-4 sentences in first person. '
+                        .'For culture-values, company-values, or "give an example from your professional experience that aligns with…" essays: when profile.experience has roles, you MUST draft 2-4 sentences (do not return null). '
+                        .'Use values named in the question label or its context/helper text (for example Connect, Challenge, Own) and tie them to a real employer, role, and highlight from the profile - paraphrasing real experience to show alignment is required; inventing fake projects is not. '
                         .'Every open-ended answer MUST name at least one real employer AND job title from profile.experience (for example "At Riverbank Systems as Senior Engineer I..."). '
                         .'You MUST cite specific employers, job titles, dates, projects, or highlight bullets from profile.experience, profile.skills, profile.structured_data.projects, or profile.application_answers. '
                         .'Never use vague placeholders like "enterprise software projects", "various startups", or "eager to deepen my expertise" without tying them to a named employer or role from the profile. '
@@ -97,7 +99,8 @@ class ApplicationAssistantService
                         .'For "do you speak {language}" Yes/No questions, answer Yes only when that language appears in profile.structured_data.languages; answer No only when languages are listed and omit that language; if languages is empty or missing, return null (never invent fluency). '
                         .'Never answer free-text city, phone, email, date, number, salary, or notice fields with bare Yes/No. '
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
-                        .'Prefer null whenever you are unsure or the profile lacks a clear fact. Never invent employers, degrees, dates, skills, tools, cities, salaries, or notice periods not listed in the profile. '
+                        .'Prefer null for missing factual fields (city, salary, notice, languages, skill years) when the profile lacks a clear fact - not for open-ended motivation or culture-values essays when profile.experience has roles. '
+                        .'Never invent employers, degrees, dates, skills, tools, cities, salaries, or notice periods not listed in the profile. '
                         .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
                         .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
                         .'For "how many years" experience questions (including skill-specific years on LinkedIn), return only a whole number between 0 and 99 (for example "5"), never a sentence or phrase like "5 years". '
