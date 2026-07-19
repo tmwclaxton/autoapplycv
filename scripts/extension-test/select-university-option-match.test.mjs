@@ -49,17 +49,17 @@ const options = [
 assert.equal(
     H.optionMatchesAnswer(options[0], answer),
     false,
-    'Canada Queen\'s must not match Belfast answer',
+    "Canada Queen's must not match Belfast answer",
 );
 assert.equal(
     H.optionMatchesAnswer(options[1], answer),
     false,
-    'generic Queen\'s must not match when Belfast is distinctive',
+    "generic Queen's must not match when Belfast is distinctive",
 );
 assert.equal(
     H.optionMatchesAnswer(options[2], answer),
     true,
-    'Belfast Queen\'s must match Belfast answer',
+    "Belfast Queen's must match Belfast answer",
 );
 
 assert.ok(
@@ -102,7 +102,7 @@ for (const label of [options[0], options[1], options[3]]) {
 assert.equal(
     H.findSelectOptionMatch(Array.from(noBelfast.options), answer),
     null,
-    'must leave university empty rather than pick the wrong Queen\'s',
+    "must leave university empty rather than pick the wrong Queen's",
 );
 
 console.log('select university option match tests passed');
