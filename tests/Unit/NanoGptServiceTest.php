@@ -397,8 +397,13 @@ class NanoGptServiceTest extends TestCase
         Http::assertSent(fn ($request) => ! array_key_exists('response_format', $request->data()));
     }
 
-    public function test_chat_json_does_not_retry_when_json_decode_fails_but_response_succeeded(): void
+    public function test_chat_json_returns_null_when_json_decode_fails_without_fallbacks(): void
     {
+        config([
+            'services.nanogpt.fallback_models' => [],
+            'cv.extraction_model_fallbacks' => [],
+        ]);
+
         Http::fake([
             'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
                 'choices' => [
@@ -410,9 +415,52 @@ class NanoGptServiceTest extends TestCase
 
         $result = app(NanoGptService::class)->chatJson([
             ['role' => 'user', 'content' => 'Parse CV'],
+        ], [
+            'model' => 'openai/gpt-4.1-mini',
         ]);
 
         $this->assertNull($result);
         Http::assertSentCount(1);
+    }
+
+    public function test_chat_json_retries_fallback_model_when_json_is_truncated(): void
+    {
+        config([
+            'services.nanogpt.fallback_models' => [':throughput'],
+            'services.nanogpt.retry_attempts' => 1,
+            'cv.extraction_model_fallbacks' => [],
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => '{"full_name": "Toby Claxton", "summary": "Builder at heart with']],
+                    ],
+                    'usage' => ['total_tokens' => 40],
+                    'model' => 'google/gemini-3.1-flash-lite:ttfs',
+                ], 200)
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => '{"full_name":"Toby Claxton","summary":"Complete summary"}']],
+                    ],
+                    'usage' => ['total_tokens' => 55],
+                    'model' => 'google/gemini-3.1-flash-lite:throughput',
+                ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatJson([
+            ['role' => 'user', 'content' => 'Parse CV'],
+        ], [
+            'model' => 'google/gemini-3.1-flash-lite:ttfs',
+            'max_tokens' => 16384,
+        ]);
+
+        $this->assertSame('Toby Claxton', $result['full_name'] ?? null);
+        $this->assertSame('Complete summary', $result['summary'] ?? null);
+        Http::assertSentCount(2);
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:ttfs'
+            && ($request->data()['max_tokens'] ?? null) === 16384);
+        Http::assertSent(fn ($request) => $request->data()['model'] === 'google/gemini-3.1-flash-lite:throughput');
     }
 }

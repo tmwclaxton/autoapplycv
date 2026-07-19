@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Exceptions\NanoGptRequestException;
 use App\Models\User;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
@@ -129,6 +131,32 @@ class CvUploadTest extends TestCase
             ->assertOk()
             ->assertJsonPath('profile.parsing_complete', false)
             ->assertJsonPath('profile.raw_cv_text', 'Text from scanned CV image');
+    }
+
+    #[Test]
+    public function test_cv_upload_soft_fails_with_warning_when_nanogpt_times_out(): void
+    {
+        $this->mockParserText('Raw CV text that still needs AI structuring');
+
+        $this->mock(CvExtractionService::class, function ($mock): void {
+            $mock->shouldReceive('extractWithUsage')
+                ->once()
+                ->andThrow(NanoGptRequestException::fromTimeout(
+                    new ConnectionException('cURL error 28'),
+                    90,
+                ));
+        });
+
+        $user = User::factory()->create();
+        $file = UploadedFile::fake()->createWithContent('timeout-cv.pdf', '%PDF sample');
+
+        $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $file])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('profile.raw_cv_text', 'Raw CV text that still needs AI structuring')
+            ->assertJsonPath('profile.parsing_complete', false)
+            ->assertJsonPath('warning', 'AI request timed out after 90s. Please try again shortly. Your CV file and raw text were saved - try uploading again in a moment or edit the profile manually.');
     }
 
     #[Test]

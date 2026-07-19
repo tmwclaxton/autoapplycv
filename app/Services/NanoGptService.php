@@ -225,27 +225,78 @@ class NanoGptService
      */
     public function chatJson(array $messages, array $options = []): ?array
     {
-        $withJsonFormat = $this->chatWithUsage($messages, array_merge($options, [
-            'response_format' => ['type' => 'json_object'],
-        ]));
-        $decoded = $this->decodeChatJsonResponse($withJsonFormat);
+        $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
+        $models = ! empty($options['disable_model_fallbacks'])
+            ? [$requestedModel]
+            : $this->modelsWithFallbacks($requestedModel);
 
-        if ($decoded !== null) {
-            return $decoded;
-        }
+        $sawSuccessfulContent = false;
 
-        if ($withJsonFormat !== null) {
-            Log::warning('NanoGPT returned content that could not be decoded as JSON.', [
-                'model' => (string) ($options['model'] ?? $this->defaultModel),
-                'preview' => mb_substr((string) ($withJsonFormat['content'] ?? ''), 0, 500),
+        foreach ($models as $modelIndex => $model) {
+            $modelOptions = array_merge($options, [
+                'model' => $model,
+                'disable_model_fallbacks' => true,
+                'response_format' => ['type' => 'json_object'],
             ]);
 
-            return null;
+            try {
+                $result = $this->chatWithUsage($messages, $modelOptions);
+            } catch (NanoGptRequestException $exception) {
+                $hasNextModel = isset($models[$modelIndex + 1]);
+
+                if (! $hasNextModel || ! $this->shouldTryFallbackModel($exception)) {
+                    throw $exception;
+                }
+
+                Log::warning('NanoGPT JSON request failed, trying fallback model.', [
+                    'requested_model' => $requestedModel,
+                    'failed_model' => $model,
+                    'fallback_model' => $models[$modelIndex + 1],
+                    'error_code' => $exception->errorCode,
+                    'provider_status' => $exception->providerStatus,
+                ]);
+
+                continue;
+            }
+
+            $decoded = $this->decodeChatJsonResponse($result);
+
+            if ($decoded !== null) {
+                return $decoded;
+            }
+
+            if ($result === null) {
+                continue;
+            }
+
+            $sawSuccessfulContent = true;
+
+            Log::warning('NanoGPT returned content that could not be decoded as JSON.', [
+                'model' => $model,
+                'preview' => mb_substr((string) ($result['content'] ?? ''), 0, 500),
+            ]);
+
+            if (! isset($models[$modelIndex + 1])) {
+                break;
+            }
+
+            Log::warning('NanoGPT JSON decode failed, trying fallback model.', [
+                'requested_model' => $requestedModel,
+                'failed_model' => $model,
+                'fallback_model' => $models[$modelIndex + 1],
+            ]);
         }
 
-        return $this->decodeChatJsonResponse(
-            $this->chatWithUsage($messages, $options)
-        );
+        if (! $sawSuccessfulContent) {
+            return $this->decodeChatJsonResponse(
+                $this->chatWithUsage($messages, array_merge($options, [
+                    'model' => $models[array_key_last($models)] ?? $requestedModel,
+                    'disable_model_fallbacks' => true,
+                ]))
+            );
+        }
+
+        return null;
     }
 
     /**
@@ -377,11 +428,16 @@ class NanoGptService
         bool $stream,
     ): Response {
         $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
-        $models = $this->modelsWithFallbacks($requestedModel);
+        $models = ! empty($options['disable_model_fallbacks'])
+            ? [$requestedModel]
+            : $this->modelsWithFallbacks($requestedModel);
         $lastException = null;
 
         foreach ($models as $modelIndex => $model) {
-            $modelOptions = array_merge($options, ['model' => $model]);
+            $modelOptions = array_merge($options, [
+                'model' => $model,
+                'disable_model_fallbacks' => true,
+            ]);
 
             try {
                 return $this->postChatCompletionsForModel(
@@ -429,7 +485,7 @@ class NanoGptService
         int $connectTimeout,
         bool $stream,
     ): Response {
-        $attempts = max(1, (int) config('services.nanogpt.retry_attempts', 3));
+        $attempts = max(1, (int) ($options['retry_attempts'] ?? config('services.nanogpt.retry_attempts', 3)));
         /** @var list<int> $delays */
         $delays = array_values(array_map(
             static fn (mixed $delay): int => max(0, (int) $delay),
@@ -592,6 +648,10 @@ class NanoGptService
 
         if (array_key_exists('response_format', $options) && $options['response_format'] !== null) {
             $payload['response_format'] = $options['response_format'];
+        }
+
+        if (isset($options['max_tokens']) && (int) $options['max_tokens'] > 0) {
+            $payload['max_tokens'] = (int) $options['max_tokens'];
         }
 
         $request = Http::withToken($this->apiKey)

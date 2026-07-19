@@ -63,7 +63,10 @@ class CvExtractionService
         ], [
             'model' => $model,
             'temperature' => 0.1,
-            'timeout' => (int) config('cv.extraction_timeout', 180),
+            'timeout' => (int) config('cv.extraction_timeout', 90),
+            'max_tokens' => (int) config('cv.extraction_max_tokens', 16384),
+            // Fail over to the next model sooner; do not burn the upload budget on one slow tier.
+            'retry_attempts' => 2,
         ]);
 
         if ($result === null) {

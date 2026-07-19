@@ -52,13 +52,17 @@ return [
 
     'job_context_model' => 'google/gemini-3.1-flash-lite:ttfs',
 
-    'extraction_timeout' => 45,
+    // Full structured CV JSON is much larger than assist replies - keep above assist timeout.
+    'extraction_timeout' => 90,
+
+    // Prevent mid-object truncation that soft-fails as "AI parsing timed out or failed".
+    'extraction_max_tokens' => 16384,
 
     'extraction_cache_ttl' => 86400,
 
-    'vision_timeout' => 45,
+    'vision_timeout' => 90,
 
-    'upload_time_limit' => 180,
+    'upload_time_limit' => 300,
 
     'ocr_enabled' => filter_var(env('CV_OCR_ENABLED', true), FILTER_VALIDATE_BOOL),
 
