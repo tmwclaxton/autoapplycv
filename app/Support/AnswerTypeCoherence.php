@@ -198,7 +198,7 @@ class AnswerTypeCoherence
         if (
             preg_match('/\bnotice period\b/', $label) === 1
             || preg_match('/okres wypowiedzenia/', $label) === 1
-            || preg_match('/\b(?:available from|earliest start|earliest availability)\b/', $label) === 1
+            || preg_match('/\b(?:available from|earliest start|earliest availability|verf[uü]gbar ab)\b/u', $label) === 1
             || (
                 preg_match('/\bdost[eę]pno[sś][cć]\b/u', $label) === 1
                 && preg_match('/\b(wypowiedzenia|do[lł][aą]czy[cć]|start|notice)\b/u', $label) === 1

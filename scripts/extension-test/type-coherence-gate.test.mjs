@@ -510,6 +510,30 @@ test('available from is notice not date and rejects bare integers', () => {
     assert.equal(shouldRejectAnswerForTypeCoherence(field, '2 weeks'), false);
 });
 
+test('German verfügbar ab and Gehaltsvorstellung classify correctly', () => {
+    assert.equal(
+        classifyFieldExpectation({
+            label: 'verfügbar ab',
+            field_type: 'text',
+        }),
+        'notice',
+    );
+    assert.equal(
+        classifyFieldExpectation({
+            label: 'gehaltsvorstellung',
+            field_type: 'text',
+        }),
+        'salary',
+    );
+    assert.equal(
+        shouldRejectAnswerForTypeCoherence(
+            { label: 'verfügbar ab', field_type: 'text' },
+            '2',
+        ),
+        true,
+    );
+});
+
 test('Berlin hybrid Yes/No declines for UK profiles in apply plan', async () => {
     const { buildDraftAllApplyPlan } = await import(
         '../../extension/src/shared/draft-all/pipeline.js'

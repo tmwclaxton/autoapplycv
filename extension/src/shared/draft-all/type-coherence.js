@@ -189,10 +189,12 @@ function isNoticeField(field) {
         return true;
     }
 
-    // Teamtailor / Lever "Available from" / "Earliest start" - notice-style, not DOB.
+    // Teamtailor / Lever / Personio "Available from" / "Verfügbar ab" - notice-style, not DOB.
     if (
-        /^(?:available from|earliest start|earliest availability)$/.test(normalized)
-        || /\b(?:available from|earliest start)\b/.test(normalized)
+        /^(?:available from|earliest start|earliest availability|verf[uü]gbar ab)$/.test(
+            normalized,
+        )
+        || /\b(?:available from|earliest start|verf[uü]gbar ab)\b/.test(normalized)
     ) {
         return true;
     }

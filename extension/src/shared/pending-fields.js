@@ -52,7 +52,7 @@ function isPhoneRelatedField(field) {
         return true;
     }
 
-    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone)\b/i.test(
+    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|cell(?:\s*phone)?|telephone|telefon|téléphone)\b/i.test(
         normalized,
     );
 }
@@ -1789,6 +1789,8 @@ export function isAvailabilityQuestionLabel(label) {
         'available to start',
         'available from',
         'earliest availability',
+        'verfügbar ab',
+        'verfugbar ab',
         'dostępność',
         'okres wypowiedzenia',
         'kiedy możesz dołączyć',
