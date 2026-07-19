@@ -4892,6 +4892,14 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (hidden && optionValue) {
+            if (
+                !hidden.getAttribute('name') &&
+                hidden.dataset?.autocvapplyName
+            ) {
+                hidden.setAttribute('name', hidden.dataset.autocvapplyName);
+                delete hidden.dataset.autocvapplyName;
+            }
+
             setNativeValue(hidden, optionValue);
             hidden.dispatchEvent(new Event('input', { bubbles: true }));
             hidden.dispatchEvent(new Event('change', { bubbles: true }));
@@ -12835,12 +12843,36 @@ var AutoCVApplyFormHeuristics = (() => {
             await pauseMs(60);
         }
 
-        const finalVisible = String(
+        let finalVisible = String(
             (combobox &&
                 (readReactSelectValue(combobox) || combobox.value || '')) ||
                 '',
         ).trim();
-        const finalHidden = String(hidden?.value || '').trim();
+        let finalHidden = String(hidden?.value || '').trim();
+
+        // Workable React often restores the numeric option id after we blank the
+        // visible label. Strip the submit name so a wrong nationality/visa id
+        // cannot post while the field stays sidebar-pending.
+        if (hidden && finalHidden && !finalVisible) {
+            if (!hidden.dataset.autocvapplyName) {
+                hidden.dataset.autocvapplyName = hidden.getAttribute('name') || '';
+            }
+
+            setNativeValue(hidden, '');
+            hidden.removeAttribute('value');
+            hidden.removeAttribute('name');
+            hidden.dispatchEvent(new Event('change', { bubbles: true }));
+            finalHidden = String(hidden.value || '').trim();
+            heuristicsLog(
+                'warn',
+                'apply.combobox',
+                'Workable combobox clear stripped hidden submit name',
+                {
+                    restoredName: hidden.dataset.autocvapplyName || '',
+                    hiddenPreview: finalHidden.slice(0, 40),
+                },
+            );
+        }
 
         heuristicsLog(
             finalVisible || finalHidden ? 'warn' : 'info',
@@ -12856,7 +12888,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
         // Prefer clearing the submitted hidden id so a wrong nationality cannot
         // pass required validation. Visible label may lag React remounts.
-        return !finalHidden;
+        return !finalHidden && !finalVisible;
     }
 
     async function clearComboboxFieldValue(element) {
