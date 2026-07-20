@@ -126,7 +126,7 @@ export function trackPurchaseConversion(
 
     markPurchaseTracked(conversion.transaction_id);
 
-    window.gtag('event', 'purchase', {
+    const purchaseParams = {
         transaction_id: conversion.transaction_id,
         value: conversion.value,
         currency: conversion.currency,
@@ -138,7 +138,13 @@ export function trackPurchaseConversion(
                 quantity: 1,
             },
         ],
-    });
+    };
+
+    // Standard GA4 ecommerce purchase (older Ads import).
+    window.gtag('event', 'purchase', purchaseParams);
+
+    // Google Ads "PURCHASE" / Web Purchase action expects this event name.
+    window.gtag('event', 'conversion_event_purchase', purchaseParams);
 
     return true;
 }
@@ -233,6 +239,7 @@ export function trackTestConversions(
 
     if (purchases > 0) {
         sent.push(`purchase x${purchases}`);
+        sent.push(`conversion_event_purchase x${purchases}`);
     }
 
     if (signUps > 0) {
