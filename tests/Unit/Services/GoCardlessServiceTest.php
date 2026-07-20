@@ -207,7 +207,7 @@ class GoCardlessServiceTest extends TestCase
         $this->assertSame('active', $user->subscription_status);
     }
 
-    public function test_change_paid_plan_downgrade_skips_payment_and_updates_amount(): void
+    public function test_change_paid_plan_downgrade_schedules_tier_and_updates_amount(): void
     {
         $user = User::factory()->create([
             'subscription_tier' => 'pro',
@@ -235,7 +235,44 @@ class GoCardlessServiceTest extends TestCase
 
         $this->serviceWithClient($client)->changePaidPlan($user, SubscriptionTier::Starter);
 
-        $this->assertSame('starter', $user->fresh()->subscription_tier);
+        $user->refresh();
+
+        $this->assertSame('pro', $user->subscription_tier);
+        $this->assertSame('starter', $user->scheduled_subscription_tier);
+    }
+
+    public function test_cancel_subscription_keeps_paid_tier_until_period_end(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'pro',
+            'subscription_status' => 'active',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+        ]);
+
+        $payments = Mockery::mock();
+        $payments->shouldReceive('list')
+            ->once()
+            ->andReturn((object) ['records' => []]);
+
+        $subscriptions = Mockery::mock();
+        $subscriptions->shouldReceive('cancel')
+            ->once()
+            ->with('SB123')
+            ->andReturn((object) ['id' => 'SB123']);
+
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('payments')->andReturn($payments);
+        $client->shouldReceive('subscriptions')->andReturn($subscriptions);
+
+        $this->serviceWithClient($client)->cancelSubscription($user);
+
+        $user->refresh();
+
+        $this->assertSame('pro', $user->subscription_tier);
+        $this->assertSame('free', $user->scheduled_subscription_tier);
+        $this->assertNull($user->gocardless_mandate_id);
+        $this->assertNull($user->gocardless_subscription_id);
     }
 
     public function test_create_upgrade_checkout_flow_requests_instant_bank_pay_for_existing_customer(): void

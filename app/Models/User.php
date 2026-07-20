@@ -35,6 +35,15 @@ class User extends Authenticatable
         return SubscriptionTier::resolve($this->subscription_tier);
     }
 
+    public function scheduledSubscriptionTier(): ?SubscriptionTier
+    {
+        if ($this->scheduled_subscription_tier === null) {
+            return null;
+        }
+
+        return SubscriptionTier::resolve($this->scheduled_subscription_tier);
+    }
+
     public function subscriptionStatus(): SubscriptionStatus
     {
         return SubscriptionStatus::tryFrom($this->subscription_status)

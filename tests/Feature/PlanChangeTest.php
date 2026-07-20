@@ -55,6 +55,7 @@ class PlanChangeTest extends TestCase
             'subscription_status' => 'active',
             'gocardless_mandate_id' => 'MD123',
             'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_period_start' => '2026-07-01',
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
@@ -70,7 +71,7 @@ class PlanChangeTest extends TestCase
             ->assertRedirect(route('billing.index'))
             ->assertSessionHas(
                 'success',
-                'Moved to Starter. Your Direct Debit renewals are now £7.00/mo.',
+                'Your plan switches to Starter on 1 Aug 2026. You keep your current benefits until then. Renewals are now £7.00/mo.',
             );
     }
 
@@ -81,6 +82,7 @@ class PlanChangeTest extends TestCase
             'subscription_status' => 'active',
             'gocardless_mandate_id' => 'MD123',
             'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_period_start' => '2026-07-01',
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
@@ -92,7 +94,7 @@ class PlanChangeTest extends TestCase
             ->assertRedirect(route('billing.index'))
             ->assertSessionHas(
                 'success',
-                'You are on the Free plan. Your Direct Debit has been cancelled.',
+                'Your Direct Debit has been cancelled. You keep Starter benefits until 1 Aug 2026, then move to Free.',
             );
     }
 

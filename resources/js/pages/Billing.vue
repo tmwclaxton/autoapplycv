@@ -19,6 +19,8 @@ interface SubscriptionSummary {
     effective_tier_label: string;
     pending_tier: string | null;
     pending_tier_label: string | null;
+    scheduled_tier?: string | null;
+    scheduled_tier_label?: string | null;
     status: string;
     status_label: string;
     plan_description: string;
@@ -33,6 +35,7 @@ interface SubscriptionSummary {
     checkout_in_progress: boolean;
     setup_incomplete: boolean;
     can_resume_checkout: boolean;
+    can_cancel_paid_plan?: boolean;
     period_resets_at: string;
 }
 
@@ -155,10 +158,15 @@ function paymentStatusClass(status: string): string {
 }
 
 async function cancelSubscription(): Promise<void> {
+    const resetsAt = formatDate(props.subscription.period_resets_at);
     const confirmed = await confirm({
         title: 'Cancel your paid plan?',
         description:
-            'You will move back to Free and your Direct Debit mandate will be cancelled.',
+            'Your Direct Debit will be cancelled now. You keep ' +
+            props.subscription.tier_label +
+            ' benefits until ' +
+            resetsAt +
+            ', then move to Free.',
         confirmLabel: 'Cancel plan',
         variant: 'destructive',
     });
@@ -236,6 +244,14 @@ async function selectBillingPlan(plan: PricingPlan): Promise<void> {
                     Your {{ subscription.effective_tier_label }} plan stays
                     active until bank payment setup completes.
                 </p>
+                <p
+                    v-else-if="subscription.scheduled_tier_label"
+                    class="mt-2 text-sm text-muted-foreground"
+                >
+                    Switching to {{ subscription.scheduled_tier_label }} on
+                    {{ formatDate(subscription.period_resets_at) }}. You keep
+                    {{ subscription.tier_label }} benefits until then.
+                </p>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {{ subscription.plan_description }}
                 </p>
@@ -308,10 +324,7 @@ async function selectBillingPlan(plan: PricingPlan): Promise<void> {
             </Link>
 
             <button
-                v-if="
-                    subscription.tier !== 'free' &&
-                    subscription.status === 'active'
-                "
+                v-if="subscription.can_cancel_paid_plan"
                 type="button"
                 class="postbox-btn-outline w-full sm:w-auto"
                 @click="cancelSubscription"
@@ -403,6 +416,8 @@ async function selectBillingPlan(plan: PricingPlan): Promise<void> {
         :plans="plans"
         :current-tier="subscription.effective_tier"
         :pending-tier="subscription.pending_tier"
+        :scheduled-tier="subscription.scheduled_tier ?? null"
+        :period-resets-at="subscription.period_resets_at"
         :subscription-status="subscription.status"
         :can-resume-checkout="subscription.can_resume_checkout"
         mode="billing"

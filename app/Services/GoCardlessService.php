@@ -352,8 +352,13 @@ class GoCardlessService
             $this->cancelRemoteSubscription($user->gocardless_subscription_id);
         }
 
+        $keepPaidBenefits = $user->subscriptionTier()->isPaid();
+
         $user->forceFill([
-            'subscription_tier' => SubscriptionTier::Free->value,
+            'subscription_tier' => $keepPaidBenefits
+                ? $user->subscription_tier
+                : SubscriptionTier::Free->value,
+            'scheduled_subscription_tier' => SubscriptionTier::Free->value,
             'subscription_status' => SubscriptionStatus::Active->value,
             'gocardless_subscription_id' => null,
             'gocardless_mandate_id' => null,
@@ -365,8 +370,9 @@ class GoCardlessService
     /**
      * Change between paid tiers using an existing mandate.
      *
-     * Recurring subscription amount is updated to the new tier price.
-     * Upgrade top-ups are collected separately via Instant Bank Pay before this runs.
+     * Upgrades apply immediately after Instant Bank Pay fulfilment.
+     * Downgrades update the Direct Debit amount now but keep the current
+     * tier benefits until the monthly credit period resets.
      */
     public function changePaidPlan(User $user, SubscriptionTier $newTier): void
     {
@@ -394,9 +400,24 @@ class GoCardlessService
             ],
         ]);
 
+        $currentTier = $user->subscriptionTier();
+        $isDowngrade = $newTier->pricePence() < $currentTier->pricePence();
+
+        if ($isDowngrade) {
+            $user->forceFill([
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'scheduled_subscription_tier' => $newTier->value,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return;
+        }
+
         $user->forceFill([
             'subscription_tier' => $newTier->value,
             'subscription_status' => SubscriptionStatus::Active->value,
+            'scheduled_subscription_tier' => null,
             'pending_subscription_tier' => null,
             'gocardless_billing_request_id' => null,
         ])->save();
@@ -496,10 +517,24 @@ class GoCardlessService
             return;
         }
 
+        if ($user->subscriptionTier()->isPaid()) {
+            $user->forceFill([
+                'scheduled_subscription_tier' => $user->scheduled_subscription_tier
+                    ?? SubscriptionTier::Free->value,
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'gocardless_subscription_id' => null,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return;
+        }
+
         $user->forceFill([
             'subscription_tier' => SubscriptionTier::Free->value,
             'subscription_status' => SubscriptionStatus::Active->value,
             'gocardless_subscription_id' => null,
+            'scheduled_subscription_tier' => null,
         ])->save();
     }
 

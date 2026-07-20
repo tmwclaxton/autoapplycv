@@ -11,6 +11,7 @@ use App\Services\PlanChangeCalculator;
 use GoCardlessPro\Core\Exception\ApiException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -80,17 +81,35 @@ class BillingController extends Controller
 
         if (! $tier->isPaid()) {
             if ($user->gocardless_subscription_id !== null || $user->gocardless_mandate_id !== null) {
+                $currentTier = $user->subscriptionTier();
+                $resetsAt = $this->periodResetLabel($user);
                 $this->goCardless->cancelSubscription($user);
 
-                return redirect()->route('billing.index')->with('success', 'You are on the Free plan. Your Direct Debit has been cancelled.');
+                return redirect()
+                    ->route('billing.index')
+                    ->with(
+                        'success',
+                        'Your Direct Debit has been cancelled. You keep '.$currentTier->label().' benefits until '.$resetsAt.', then move to Free.',
+                    );
             }
 
             if ($user->subscriptionTier() === $tier && $user->subscriptionStatus()->value === 'active') {
                 return redirect()->route('billing.index')->with('success', 'You are already on the Free plan.');
             }
 
+            if ($user->subscriptionTier()->isPaid()
+                && $user->scheduled_subscription_tier === SubscriptionTier::Free->value) {
+                return redirect()
+                    ->route('billing.index')
+                    ->with(
+                        'success',
+                        'You already move to Free on '.$this->periodResetLabel($user).'. You keep '.$user->subscriptionTier()->label().' benefits until then.',
+                    );
+            }
+
             $user->forceFill([
                 'subscription_tier' => SubscriptionTier::Free->value,
+                'scheduled_subscription_tier' => null,
                 'subscription_status' => SubscriptionStatus::Active->value,
             ])->save();
 
@@ -100,6 +119,19 @@ class BillingController extends Controller
         if ($user->subscriptionTier() === $tier
             && $user->subscriptionStatus() === SubscriptionStatus::Active
             && $user->gocardless_billing_request_id === null) {
+            if ($user->scheduled_subscription_tier !== null) {
+                $user->forceFill([
+                    'scheduled_subscription_tier' => null,
+                ])->save();
+
+                return redirect()
+                    ->route('billing.index')
+                    ->with(
+                        'success',
+                        'Scheduled plan change cancelled. You remain on '.$tier->label().'.',
+                    );
+            }
+
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
         }
 
@@ -220,7 +252,20 @@ class BillingController extends Controller
 
     public function cancel(Request $request): RedirectResponse
     {
-        $this->goCardless->cancelSubscription($request->user());
+        $user = $request->user();
+        $currentTier = $user->subscriptionTier();
+        $resetsAt = $this->periodResetLabel($user);
+
+        $this->goCardless->cancelSubscription($user);
+
+        if ($currentTier->isPaid()) {
+            return redirect()
+                ->route('billing.index')
+                ->with(
+                    'success',
+                    'Your Direct Debit has been cancelled. You keep '.$currentTier->label().' benefits until '.$resetsAt.', then move to Free.',
+                );
+        }
 
         return redirect()
             ->route('billing.index')
@@ -332,16 +377,29 @@ class BillingController extends Controller
         }
 
         if ($wasDowngrade) {
+            $resetsAt = $this->periodResetLabel($user);
+
             return redirect()
                 ->route('billing.index')
                 ->with(
                     'success',
-                    'Moved to '.$tier->label().'. Your Direct Debit renewals are now '.$tier->formattedPrice().'.',
+                    'Your plan switches to '.$tier->label().' on '.$resetsAt.'. You keep your current benefits until then. Renewals are now '.$tier->formattedPrice().'.',
                 );
         }
 
         return redirect()
             ->route('billing.index')
             ->with('success', 'Your plan is now '.$tier->label().'.');
+    }
+
+    private function periodResetLabel(User $user): string
+    {
+        $periodStart = $user->ai_tokens_period_start;
+
+        $resetsAt = $periodStart !== null
+            ? Carbon::parse($periodStart)->addMonth()->startOfMonth()
+            : now()->addMonth()->startOfMonth();
+
+        return $resetsAt->format('j M Y');
     }
 }

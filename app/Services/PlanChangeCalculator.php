@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\SubscriptionTier;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class PlanChangeCalculator
 {
@@ -77,6 +78,7 @@ class PlanChangeCalculator
     public function checkoutConfirmations(User $user): array
     {
         $confirmations = [];
+        $resetsAt = $this->periodResetLabel($user);
 
         foreach (SubscriptionTier::ordered() as $tier) {
             if (! $tier->isAvailable()) {
@@ -88,6 +90,16 @@ class PlanChangeCalculator
                 && $user->subscriptionStatus()->value === 'active'
                 && $user->gocardless_billing_request_id === null
             ) {
+                if ($user->scheduled_subscription_tier !== null) {
+                    $confirmations[$tier->value] = [
+                        'action' => 'keep',
+                        'title' => 'Keep '.$tier->label().'?',
+                        'description' => 'Cancel the scheduled move to '.SubscriptionTier::resolve($user->scheduled_subscription_tier)->label().' and stay on '.$tier->label().'.',
+                        'confirm_label' => 'Keep '.$tier->label(),
+                        'amount_due_pence' => 0,
+                    ];
+                }
+
                 continue;
             }
 
@@ -98,7 +110,7 @@ class PlanChangeCalculator
                     $confirmations[$tier->value] = [
                         'action' => 'cancel',
                         'title' => 'Downgrade to Free?',
-                        'description' => 'Your Direct Debit will be cancelled and you will move to the Free plan.',
+                        'description' => 'Your Direct Debit will be cancelled now. You keep '.$user->subscriptionTier()->label().' benefits until '.$resetsAt.', then move to Free.',
                         'confirm_label' => 'Downgrade to Free',
                         'amount_due_pence' => 0,
                     ];
@@ -133,7 +145,7 @@ class PlanChangeCalculator
                 $confirmations[$tier->value] = [
                     'action' => 'downgrade',
                     'title' => 'Downgrade to '.$tier->label().'?',
-                    'description' => 'Your Direct Debit renewals will change to '.$tier->formattedPrice().'. No charge today.',
+                    'description' => 'You keep '.$user->subscriptionTier()->label().' benefits until '.$resetsAt.'. Renewals change to '.$tier->formattedPrice().' now. No charge today.',
                     'confirm_label' => 'Downgrade to '.$tier->label(),
                     'amount_due_pence' => 0,
                 ];
@@ -155,6 +167,17 @@ class PlanChangeCalculator
         }
 
         return $confirmations;
+    }
+
+    private function periodResetLabel(User $user): string
+    {
+        $periodStart = $user->ai_tokens_period_start;
+
+        $resetsAt = $periodStart !== null
+            ? Carbon::parse($periodStart)->addMonth()->startOfMonth()
+            : now()->addMonth()->startOfMonth();
+
+        return $resetsAt->format('j M Y');
     }
 
     private function formatPounds(int $amountPence): string

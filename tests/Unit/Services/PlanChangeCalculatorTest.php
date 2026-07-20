@@ -118,6 +118,24 @@ class PlanChangeCalculatorTest extends TestCase
         $this->assertArrayNotHasKey('starter', $confirmations);
     }
 
+    public function test_checkout_confirmations_describe_scheduled_downgrade(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'pro',
+            'subscription_status' => 'active',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_period_start' => '2026-07-01',
+        ]);
+
+        $confirmations = $this->calculator()->checkoutConfirmations($user);
+
+        $this->assertSame('downgrade', $confirmations['starter']['action']);
+        $this->assertStringContainsString('1 Aug 2026', $confirmations['starter']['description']);
+        $this->assertStringContainsString('keep Pro benefits', $confirmations['starter']['description']);
+        $this->assertStringContainsString('1 Aug 2026', $confirmations['free']['description']);
+    }
+
     private function calculator(): PlanChangeCalculator
     {
         return new PlanChangeCalculator(app(AiTokenService::class));

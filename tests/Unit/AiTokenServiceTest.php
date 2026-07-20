@@ -67,6 +67,28 @@ class AiTokenServiceTest extends TestCase
         $this->assertTrue($user->fresh()->ai_tokens_period_start->isSameMonth(Carbon::parse('2026-06-01')));
     }
 
+    public function test_scheduled_downgrade_applies_when_credit_period_resets(): void
+    {
+        Carbon::setTestNow('2026-07-15 12:00:00');
+
+        $user = User::factory()->create([
+            'subscription_tier' => 'pro',
+            'scheduled_subscription_tier' => 'starter',
+            'ai_tokens_used' => 100,
+            'ai_tokens_period_start' => '2026-07-01 00:00:00',
+        ]);
+
+        Carbon::setTestNow('2026-08-01 12:00:00');
+
+        $this->service->ensureCurrentPeriod($user->fresh());
+
+        $user->refresh();
+
+        $this->assertSame('starter', $user->subscription_tier);
+        $this->assertNull($user->scheduled_subscription_tier);
+        $this->assertSame(0, $user->ai_tokens_used);
+    }
+
     public function test_monthly_limit_blocks_additional_credit_usage(): void
     {
         $user = User::factory()->create([

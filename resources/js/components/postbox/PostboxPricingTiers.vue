@@ -23,6 +23,8 @@ const props = withDefaults(
         plans: PricingPlan[];
         currentTier?: string | null;
         pendingTier?: string | null;
+        scheduledTier?: string | null;
+        periodResetsAt?: string | null;
         subscriptionStatus?: string | null;
         canResumeCheckout?: boolean;
         mode?: 'marketing' | 'billing';
@@ -31,6 +33,8 @@ const props = withDefaults(
     {
         currentTier: null,
         pendingTier: null,
+        scheduledTier: null,
+        periodResetsAt: null,
         subscriptionStatus: null,
         canResumeCheckout: false,
         mode: 'marketing',
@@ -54,6 +58,18 @@ const availablePlans = computed(() =>
 
 function formatCredits(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function formatResetDate(value: string | null | undefined): string {
+    if (!value) {
+        return 'next month';
+    }
+
+    return new Date(value).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
 }
 
 function selectPlan(plan: PricingPlan) {
@@ -84,6 +100,14 @@ function planButtonLabel(plan: PricingPlan): string {
 
         if (
             props.currentTier === plan.key &&
+            props.scheduledTier !== null &&
+            props.scheduledTier !== undefined
+        ) {
+            return 'Keep ' + plan.name;
+        }
+
+        if (
+            props.currentTier === plan.key &&
             props.subscriptionStatus === 'active'
         ) {
             return 'Current plan';
@@ -91,6 +115,10 @@ function planButtonLabel(plan: PricingPlan): string {
 
         if (props.currentTier === plan.key) {
             return 'Current plan';
+        }
+
+        if (props.scheduledTier === plan.key) {
+            return 'Starts ' + formatResetDate(props.periodResetsAt);
         }
 
         if (!plan.is_paid) {
@@ -126,6 +154,18 @@ function isPlanButtonDisabled(plan: PricingPlan): boolean {
         return false;
     }
 
+    if (
+        props.currentTier === plan.key &&
+        props.scheduledTier !== null &&
+        props.scheduledTier !== undefined
+    ) {
+        return false;
+    }
+
+    if (props.scheduledTier === plan.key) {
+        return true;
+    }
+
     return props.currentTier === plan.key;
 }
 </script>
@@ -147,6 +187,12 @@ function isPlanButtonDisabled(plan: PricingPlan): boolean {
                     class="postbox-stamp px-2 py-1 text-[10px]"
                 >
                     Current
+                </span>
+                <span
+                    v-else-if="scheduledTier === plan.key"
+                    class="rounded-full bg-postbox-navy/10 px-2 py-1 text-[10px] font-semibold text-postbox-navy"
+                >
+                    From {{ formatResetDate(periodResetsAt) }}
                 </span>
                 <span
                     v-else-if="

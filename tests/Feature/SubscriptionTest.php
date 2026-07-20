@@ -114,6 +114,7 @@ class SubscriptionTest extends TestCase
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
             'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_period_start' => '2026-07-01',
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
@@ -125,7 +126,7 @@ class SubscriptionTest extends TestCase
             ->assertRedirect(route('billing.index'))
             ->assertSessionHas(
                 'success',
-                'You are on the Free plan. Your Direct Debit has been cancelled.',
+                'Your Direct Debit has been cancelled. You keep Starter benefits until 1 Aug 2026, then move to Free.',
             );
     }
 
@@ -224,7 +225,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
+                'Your plan is active.',
             );
     }
 
@@ -370,7 +371,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
+                'Your plan is active.',
             );
     }
 
