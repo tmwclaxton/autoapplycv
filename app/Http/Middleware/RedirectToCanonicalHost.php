@@ -24,7 +24,15 @@ class RedirectToCanonicalHost
             return $next($request);
         }
 
-        if (strcasecmp($request->getHost(), $canonicalHost) === 0) {
+        $requestHost = $request->getHost();
+
+        if (strcasecmp($requestHost, $canonicalHost) === 0) {
+            return $next($request);
+        }
+
+        // Only rewrite the www host. Other hosts (localhost, previews, etc.) must pass
+        // through so local/CI requests are not forced onto APP_URL.
+        if (strcasecmp($requestHost, 'www.'.$canonicalHost) !== 0) {
             return $next($request);
         }
 

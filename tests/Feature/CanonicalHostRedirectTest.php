@@ -34,4 +34,13 @@ class CanonicalHostRedirectTest extends TestCase
         $response->assertRedirect();
         $this->assertStringContainsString('workos.com', (string) $response->headers->get('Location'));
     }
+
+    public function test_non_www_alternate_host_is_not_forced_to_app_url(): void
+    {
+        config(['app.url' => 'https://autocvapply.com']);
+
+        $response = $this->get('https://localhost/');
+
+        $this->assertNotSame(301, $response->getStatusCode());
+    }
 }

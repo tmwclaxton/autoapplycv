@@ -4,12 +4,10 @@ import { computed, onMounted, watch } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { creditNotice } from '@/lib/creditNotice';
-import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
-import {
-    trackPurchaseConversion,
-    type PurchaseConversion,
-} from '@/lib/googleAnalytics';
+import { trackPurchaseConversion } from '@/lib/googleAnalytics';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
+import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import type { PurchaseConversion } from '@/lib/googleAnalytics';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
 
