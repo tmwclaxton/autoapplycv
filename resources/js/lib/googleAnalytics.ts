@@ -196,28 +196,48 @@ export function trackSignUpConversion(
  *
  * @returns Labels of events that were sent
  */
-export function trackTestConversions(choices: ConsentChoices): string[] {
-    const stamp = Date.now().toString();
+export function trackTestConversions(
+    choices: ConsentChoices,
+    count = 5,
+): string[] {
+    const batches = Math.max(1, Math.min(20, count));
     const sent: string[] = [];
+    let purchases = 0;
+    let signUps = 0;
 
-    if (
-        trackPurchaseConversion(
-            {
-                transaction_id: `test_purchase_${stamp}`,
-                value: 7,
-                currency: 'GBP',
-                item_id: 'starter',
-                item_name: 'AutoCVApply Starter (test)',
-            },
-            choices,
-        )
-    ) {
-        sent.push('purchase');
+    for (let index = 0; index < batches; index++) {
+        const stamp = `${Date.now()}_${index}_${Math.random().toString(36).slice(2, 8)}`;
+
+        if (
+            trackPurchaseConversion(
+                {
+                    transaction_id: `test_purchase_${stamp}`,
+                    value: index % 2 === 0 ? 7 : 17,
+                    currency: 'GBP',
+                    item_id: index % 2 === 0 ? 'starter' : 'pro',
+                    item_name:
+                        index % 2 === 0
+                            ? 'AutoCVApply Starter (test)'
+                            : 'AutoCVApply Pro (test)',
+                },
+                choices,
+            )
+        ) {
+            purchases += 1;
+        }
+
+        if (trackSignUpConversion(`test_sign_up_${stamp}`, choices, 'test')) {
+            signUps += 1;
+        }
     }
 
-    if (trackSignUpConversion(`test_sign_up_${stamp}`, choices, 'test')) {
-        sent.push('sign_up');
-        sent.push('ads_conversion_Sign_up_1');
+    if (purchases > 0) {
+        sent.push(`purchase x${purchases}`);
+    }
+
+    if (signUps > 0) {
+        sent.push(`sign_up x${signUps}`);
+        sent.push(`ads_conversion_Sign_up_1 x${signUps}`);
     }
 
     return sent;
