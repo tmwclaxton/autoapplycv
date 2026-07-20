@@ -29,13 +29,17 @@ class BillingController extends Controller
     public function index(Request $request): Response|RedirectResponse
     {
         if ($request->query('checkout') === 'abandoned') {
-            $cleared = $this->goCardless->clearAbandonedCheckout($request->user());
+            $user = $request->user();
+            $hadPaidPlan = $user->gocardless_subscription_id !== null;
+            $cleared = $this->goCardless->clearAbandonedCheckout($user);
             $redirect = redirect()->route('billing.index');
 
             if ($cleared) {
                 $redirect->with(
                     'success',
-                    'Checkout cancelled. You remain on the Free plan.',
+                    $hadPaidPlan
+                        ? 'Checkout cancelled. Your current plan is unchanged.'
+                        : 'Checkout cancelled. You remain on the Free plan.',
                 );
             }
 
@@ -46,10 +50,7 @@ class BillingController extends Controller
         $reconciled = $this->goCardless->reconcilePendingCheckout($user);
 
         if ($reconciled === 'activated') {
-            session()->flash(
-                'success',
-                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
-            );
+            session()->flash('success', 'Your plan is active.');
         }
 
         $user = $user->fresh();
@@ -102,19 +103,49 @@ class BillingController extends Controller
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
         }
 
-        // Existing Direct Debit customers always change plans in place - never start a
-        // fresh Instant Bank Pay "first month" checkout (that leaves them stuck pending).
+        // Existing Direct Debit customers: upgrades with an amount due go through Instant
+        // Bank Pay. Downgrades (and zero-cost upgrades) update the subscription in place.
         if ($this->canChangePaidPlanInPlace($user, $tier)) {
             if ($user->gocardless_billing_request_id !== null
                 || $user->subscriptionStatus() === SubscriptionStatus::Pending) {
+                $pendingTier = SubscriptionTier::resolve(
+                    $user->pending_subscription_tier ?? $user->subscription_tier,
+                );
+
+                if ($pendingTier === $tier
+                    && $user->gocardless_billing_request_id !== null
+                    && $this->planChange->isUpgrade($user, $tier)
+                    && $this->planChange->upgradeAmountDuePence($user, $tier) > 0) {
+                    return $this->redirectToCheckoutUrl(
+                        fn () => $this->goCardless->resumeCheckoutFlow($user),
+                        $user,
+                        $tier,
+                        'resume',
+                    );
+                }
+
                 $user->forceFill([
                     'subscription_status' => SubscriptionStatus::Active->value,
                     'pending_subscription_tier' => null,
                     'gocardless_billing_request_id' => null,
                 ])->save();
+                $user = $user->fresh();
             }
 
-            return $this->changePaidPlanInPlace($user->fresh(), $tier);
+            if ($this->planChange->isUpgrade($user, $tier)) {
+                $amountDuePence = $this->planChange->upgradeAmountDuePence($user, $tier);
+
+                if ($amountDuePence > 0) {
+                    return $this->redirectToCheckoutUrl(
+                        fn () => $this->goCardless->createUpgradeCheckoutFlow($user, $tier, $amountDuePence),
+                        $user,
+                        $tier,
+                        'upgrade',
+                    );
+                }
+            }
+
+            return $this->changePaidPlanInPlace($user, $tier);
         }
 
         if ($user->gocardless_billing_request_id !== null) {
@@ -123,42 +154,12 @@ class BillingController extends Controller
             );
 
             if ($pendingTier === $tier) {
-                try {
-                    $checkoutUrl = $this->goCardless->resumeCheckoutFlow($user);
-                } catch (InvalidArgumentException $exception) {
-                    Log::error('Billing checkout resume misconfigured', [
-                        'user_id' => $user->id,
-                        'tier' => $tier->value,
-                        'message' => $exception->getMessage(),
-                    ]);
-
-                    return redirect()
-                        ->route('billing.index')
-                        ->with('error', 'Billing is not configured yet. Please contact support.');
-                } catch (ApiException $exception) {
-                    Log::error('GoCardless checkout resume failed', [
-                        'user_id' => $user->id,
-                        'tier' => $tier->value,
-                        'message' => $exception->getMessage(),
-                        'errors' => $exception->getErrors(),
-                    ]);
-
-                    return redirect()
-                        ->route('billing.index')
-                        ->with('error', 'We could not resume bank payment setup. Please try again in a moment.');
-                } catch (Throwable $exception) {
-                    Log::error('Billing checkout resume failed', [
-                        'user_id' => $user->id,
-                        'tier' => $tier->value,
-                        'message' => $exception->getMessage(),
-                    ]);
-
-                    return redirect()
-                        ->route('billing.index')
-                        ->with('error', 'Something went wrong resuming checkout. Please try again.');
-                }
-
-                return Inertia::location($checkoutUrl);
+                return $this->redirectToCheckoutUrl(
+                    fn () => $this->goCardless->resumeCheckoutFlow($user),
+                    $user,
+                    $tier,
+                    'resume',
+                );
             }
         }
 
@@ -177,52 +178,33 @@ class BillingController extends Controller
                 ->with('error', 'We could not update your plan because billing details are incomplete. Please contact support.');
         }
 
-        try {
-            $checkoutUrl = $this->goCardless->createCheckoutFlow($user, $tier);
-        } catch (InvalidArgumentException $exception) {
-            Log::error('Billing checkout misconfigured', [
-                'user_id' => $user->id,
-                'tier' => $tier->value,
-                'message' => $exception->getMessage(),
-            ]);
-
-            return redirect()
-                ->route('billing.index')
-                ->with('error', 'Billing is not configured yet. Please contact support.');
-        } catch (ApiException $exception) {
-            Log::error('GoCardless checkout failed', [
-                'user_id' => $user->id,
-                'tier' => $tier->value,
-                'message' => $exception->getMessage(),
-                'errors' => $exception->getErrors(),
-            ]);
-
-            return redirect()
-                ->route('billing.index')
-                ->with('error', 'We could not start bank payment checkout. Please try again in a moment.');
-        } catch (Throwable $exception) {
-            Log::error('Billing checkout failed', [
-                'user_id' => $user->id,
-                'tier' => $tier->value,
-                'message' => $exception->getMessage(),
-            ]);
-
-            return redirect()
-                ->route('billing.index')
-                ->with('error', 'Something went wrong starting checkout. Please try again.');
-        }
-
-        return Inertia::location($checkoutUrl);
+        return $this->redirectToCheckoutUrl(
+            fn () => $this->goCardless->createCheckoutFlow($user, $tier),
+            $user,
+            $tier,
+            'subscribe',
+        );
     }
 
     public function complete(Request $request): RedirectResponse
     {
         $user = $request->user();
+        $wasPaidUpgrade = $user->gocardless_subscription_id !== null
+            && $user->gocardless_billing_request_id !== null
+            && $user->pending_subscription_tier !== null
+            && $user->subscriptionTier()->isPaid();
 
         if ($this->goCardless->syncPendingCheckout($user)) {
+            $tier = $user->fresh()->subscriptionTier();
+
             return redirect()
                 ->route('billing.index')
-                ->with('success', 'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.');
+                ->with(
+                    'success',
+                    $wasPaidUpgrade
+                        ? 'Upgraded to '.$tier->label().'. Renewals will be '.$tier->formattedPrice().'.'
+                        : 'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
+                );
         }
 
         if ($user->gocardless_billing_request_id !== null) {
@@ -253,16 +235,60 @@ class BillingController extends Controller
             && $user->gocardless_subscription_id !== null;
     }
 
+    private function redirectToCheckoutUrl(
+        callable $createUrl,
+        User $user,
+        SubscriptionTier $tier,
+        string $context,
+    ): HttpFoundationResponse {
+        try {
+            $checkoutUrl = $createUrl();
+        } catch (InvalidArgumentException $exception) {
+            Log::error('Billing checkout misconfigured', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'context' => $context,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Billing is not configured yet. Please contact support.');
+        } catch (ApiException $exception) {
+            Log::error('GoCardless checkout failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'context' => $context,
+                'message' => $exception->getMessage(),
+                'errors' => $exception->getErrors(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'We could not start bank payment checkout. Please try again in a moment.');
+        } catch (Throwable $exception) {
+            Log::error('Billing checkout failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'context' => $context,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Something went wrong starting checkout. Please try again.');
+        }
+
+        return Inertia::location($checkoutUrl);
+    }
+
     private function changePaidPlanInPlace(User $user, SubscriptionTier $tier): RedirectResponse
     {
         $wasUpgrade = $this->planChange->isUpgrade($user, $tier);
         $wasDowngrade = $this->planChange->isDowngradeToPaid($user, $tier);
-        $amountDuePence = $wasUpgrade
-            ? $this->planChange->upgradeAmountDuePence($user, $tier)
-            : 0;
 
         try {
-            $this->goCardless->changePaidPlan($user, $tier, $amountDuePence);
+            $this->goCardless->changePaidPlan($user, $tier);
         } catch (InvalidArgumentException $exception) {
             Log::error('Paid plan change misconfigured', [
                 'user_id' => $user->id,
@@ -277,7 +303,6 @@ class BillingController extends Controller
             Log::error('GoCardless paid plan change failed', [
                 'user_id' => $user->id,
                 'tier' => $tier->value,
-                'amount_due_pence' => $amountDuePence,
                 'message' => $exception->getMessage(),
                 'errors' => $exception->getErrors(),
             ]);
@@ -295,17 +320,6 @@ class BillingController extends Controller
             return redirect()
                 ->route('billing.index')
                 ->with('error', 'Something went wrong updating your plan. Please try again.');
-        }
-
-        if ($wasUpgrade && $amountDuePence > 0) {
-            $amount = '£'.number_format($amountDuePence / 100, 2);
-
-            return redirect()
-                ->route('billing.index')
-                ->with(
-                    'success',
-                    'Upgraded to '.$tier->label().'. A Direct Debit of '.$amount.' will be collected for this period; renewals will be '.$tier->formattedPrice().'.',
-                );
         }
 
         if ($wasUpgrade) {

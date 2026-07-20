@@ -19,7 +19,7 @@ class PlanChangeTest extends TestCase
         $this->withoutMiddleware(ValidateSessionWithWorkOS::class);
     }
 
-    public function test_upgrade_from_starter_to_pro_charges_usage_adjusted_amount_and_updates_subscription(): void
+    public function test_upgrade_from_starter_to_pro_starts_instant_bank_pay_checkout(): void
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
@@ -31,22 +31,21 @@ class PlanChangeTest extends TestCase
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('changePaidPlan')
+            $mock->shouldReceive('createUpgradeCheckoutFlow')
                 ->once()
                 ->withArgs(function (User $user, $tier, int $amountDuePence): bool {
                     return $user->gocardless_subscription_id === 'SB123'
                         && $tier->value === 'pro'
                         && $amountDuePence === 1000;
-                });
+                })
+                ->andReturn('https://pay.gocardless.com/flow/upgrade');
+            $mock->shouldReceive('changePaidPlan')->never();
+            $mock->shouldReceive('createCheckoutFlow')->never();
         });
 
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'pro'])
-            ->assertRedirect(route('billing.index'))
-            ->assertSessionHas(
-                'success',
-                'Upgraded to Pro. A Direct Debit of £10.00 will be collected for this period; renewals will be £17.00/mo.',
-            );
+            ->assertRedirect('https://pay.gocardless.com/flow/upgrade');
     }
 
     public function test_downgrade_from_pro_to_starter_updates_subscription_without_charge(): void
@@ -61,8 +60,8 @@ class PlanChangeTest extends TestCase
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('changePaidPlan')
                 ->once()
-                ->withArgs(function (User $user, $tier, int $amountDuePence): bool {
-                    return $tier->value === 'starter' && $amountDuePence === 0;
+                ->withArgs(function (User $user, $tier): bool {
+                    return $tier->value === 'starter';
                 });
         });
 
@@ -97,45 +96,37 @@ class PlanChangeTest extends TestCase
             );
     }
 
-    public function test_stuck_pending_paid_user_upgrades_in_place_instead_of_instant_bank_pay(): void
+    public function test_pending_upgrade_checkout_resumes_instead_of_creating_new_flow(): void
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
-            'subscription_status' => 'pending',
+            'subscription_status' => 'active',
             'pending_subscription_tier' => 'pro',
             'gocardless_mandate_id' => 'MD123',
             'gocardless_subscription_id' => 'SB123',
-            'gocardless_billing_request_id' => 'BRQ_STUCK',
+            'gocardless_billing_request_id' => 'BRQ_UPGRADE',
             'ai_tokens_used' => 163,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('changePaidPlan')
+            $mock->shouldReceive('resumeCheckoutFlow')
                 ->once()
-                ->withArgs(function (User $user, $tier, int $amountDuePence): bool {
-                    return $user->gocardless_billing_request_id === null
-                        && $user->subscription_status === 'active'
-                        && $tier->value === 'pro'
-                        && $amountDuePence === 1046;
-                });
+                ->andReturn('https://pay.gocardless.com/flow/resume');
+            $mock->shouldReceive('createUpgradeCheckoutFlow')->never();
+            $mock->shouldReceive('changePaidPlan')->never();
             $mock->shouldReceive('createCheckoutFlow')->never();
-            $mock->shouldReceive('resumeCheckoutFlow')->never();
         });
 
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'pro'])
-            ->assertRedirect(route('billing.index'))
-            ->assertSessionHas(
-                'success',
-                'Upgraded to Pro. A Direct Debit of £10.46 will be collected for this period; renewals will be £17.00/mo.',
-            );
+            ->assertRedirect('https://pay.gocardless.com/flow/resume');
 
         $user->refresh();
 
-        $this->assertNull($user->gocardless_billing_request_id);
-        $this->assertNull($user->pending_subscription_tier);
-        $this->assertSame('active', $user->subscription_status);
+        $this->assertSame('BRQ_UPGRADE', $user->gocardless_billing_request_id);
+        $this->assertSame('pro', $user->pending_subscription_tier);
+        $this->assertSame('starter', $user->subscription_tier);
     }
 
     public function test_paid_user_without_mandate_does_not_start_instant_bank_pay_checkout(): void
@@ -149,6 +140,7 @@ class PlanChangeTest extends TestCase
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('createCheckoutFlow')->never();
+            $mock->shouldReceive('createUpgradeCheckoutFlow')->never();
             $mock->shouldReceive('changePaidPlan')->never();
         });
 

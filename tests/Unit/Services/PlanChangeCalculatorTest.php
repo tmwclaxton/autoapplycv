@@ -112,6 +112,8 @@ class PlanChangeCalculatorTest extends TestCase
         $this->assertSame('upgrade', $confirmations['pro']['action']);
         $this->assertSame(1000, $confirmations['pro']['amount_due_pence']);
         $this->assertStringContainsString('£10.00', $confirmations['pro']['description']);
+        $this->assertStringContainsString('bank transfer', $confirmations['pro']['description']);
+        $this->assertSame('Continue to pay £10.00', $confirmations['pro']['confirm_label']);
         $this->assertSame('cancel', $confirmations['free']['action']);
         $this->assertArrayNotHasKey('starter', $confirmations);
     }

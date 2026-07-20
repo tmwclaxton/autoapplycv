@@ -118,10 +118,10 @@ class PlanChangeCalculator
                     'action' => 'upgrade',
                     'title' => 'Upgrade to '.$tier->label().'?',
                     'description' => $amountDuePence > 0
-                        ? 'A Direct Debit of '.$amount.' will be collected for this period. Renewals will be '.$tier->formattedPrice().'.'
+                        ? 'You will pay '.$amount.' now by bank transfer. Your plan upgrades once payment confirms. Renewals will be '.$tier->formattedPrice().'.'
                         : 'No extra charge today. Renewals will be '.$tier->formattedPrice().'.',
                     'confirm_label' => $amountDuePence > 0
-                        ? 'Pay '.$amount.' and upgrade'
+                        ? 'Continue to pay '.$amount
                         : 'Upgrade',
                     'amount_due_pence' => $amountDuePence,
                 ];

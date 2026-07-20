@@ -170,7 +170,7 @@ class GoCardlessServiceTest extends TestCase
         $this->assertSame('Confirmed', $history['payments'][0]['status_label']);
     }
 
-    public function test_change_paid_plan_charges_upgrade_and_updates_subscription_amount(): void
+    public function test_change_paid_plan_updates_subscription_amount_without_direct_debit_payment(): void
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
@@ -180,16 +180,9 @@ class GoCardlessServiceTest extends TestCase
         ]);
 
         $payments = Mockery::mock();
-        $payments->shouldReceive('create')
+        $payments->shouldReceive('list')
             ->once()
-            ->with(Mockery::on(function (array $payload): bool {
-                $params = $payload['params'] ?? [];
-
-                return ($params['amount'] ?? null) === 1000
-                    && ($params['links']['mandate'] ?? null) === 'MD123'
-                    && ($params['metadata']['type'] ?? null) === 'plan_upgrade';
-            }))
-            ->andReturn((object) ['id' => 'PM_UPGRADE']);
+            ->andReturn((object) ['records' => []]);
 
         $subscriptions = Mockery::mock();
         $subscriptions->shouldReceive('update')
@@ -206,7 +199,7 @@ class GoCardlessServiceTest extends TestCase
         $client->shouldReceive('payments')->andReturn($payments);
         $client->shouldReceive('subscriptions')->andReturn($subscriptions);
 
-        $this->serviceWithClient($client)->changePaidPlan($user, SubscriptionTier::Pro, 1000);
+        $this->serviceWithClient($client)->changePaidPlan($user, SubscriptionTier::Pro);
 
         $user->refresh();
 
@@ -223,6 +216,11 @@ class GoCardlessServiceTest extends TestCase
             'gocardless_subscription_id' => 'SB123',
         ]);
 
+        $payments = Mockery::mock();
+        $payments->shouldReceive('list')
+            ->once()
+            ->andReturn((object) ['records' => []]);
+
         $subscriptions = Mockery::mock();
         $subscriptions->shouldReceive('update')
             ->once()
@@ -233,11 +231,174 @@ class GoCardlessServiceTest extends TestCase
 
         $client = Mockery::mock(Client::class);
         $client->shouldReceive('subscriptions')->andReturn($subscriptions);
-        $client->shouldReceive('payments')->never();
+        $client->shouldReceive('payments')->andReturn($payments);
 
-        $this->serviceWithClient($client)->changePaidPlan($user, SubscriptionTier::Starter, 0);
+        $this->serviceWithClient($client)->changePaidPlan($user, SubscriptionTier::Starter);
 
         $this->assertSame('starter', $user->fresh()->subscription_tier);
+    }
+
+    public function test_create_upgrade_checkout_flow_requests_instant_bank_pay_for_existing_customer(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+        ]);
+
+        $mandates = Mockery::mock();
+        $mandates->shouldReceive('get')
+            ->once()
+            ->with('MD123')
+            ->andReturn((object) [
+                'links' => (object) [
+                    'customer' => 'CU123',
+                ],
+            ]);
+
+        $billingRequests = Mockery::mock();
+        $billingRequests->shouldReceive('create')
+            ->once()
+            ->with(Mockery::on(function (array $payload): bool {
+                $params = $payload['params'] ?? [];
+
+                return ($params['payment_request']['scheme'] ?? null) === 'faster_payments'
+                    && ($params['payment_request']['amount'] ?? null) === 1000
+                    && ($params['payment_request']['description'] ?? null) === 'AutoCVApply upgrade to Pro'
+                    && ($params['metadata']['type'] ?? null) === 'plan_upgrade'
+                    && ($params['links']['customer'] ?? null) === 'CU123'
+                    && ! array_key_exists('mandate_request', $params);
+            }))
+            ->andReturn((object) ['id' => 'BRQ_UPGRADE']);
+
+        $billingRequestFlows = Mockery::mock();
+        $billingRequestFlows->shouldReceive('create')
+            ->once()
+            ->with(Mockery::on(function (array $payload): bool {
+                $params = $payload['params'] ?? [];
+
+                return ($params['links']['billing_request'] ?? null) === 'BRQ_UPGRADE'
+                    && ($params['lock_customer_details'] ?? null) === true;
+            }))
+            ->andReturn((object) ['authorisation_url' => 'https://pay.gocardless.com/flow/upgrade']);
+
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('mandates')->andReturn($mandates);
+        $client->shouldReceive('billingRequests')->andReturn($billingRequests);
+        $client->shouldReceive('billingRequestFlows')->andReturn($billingRequestFlows);
+
+        $url = $this->serviceWithClient($client)->createUpgradeCheckoutFlow(
+            $user,
+            SubscriptionTier::Pro,
+            1000,
+        );
+
+        $this->assertSame('https://pay.gocardless.com/flow/upgrade', $url);
+
+        $user->refresh();
+
+        $this->assertSame('pro', $user->pending_subscription_tier);
+        $this->assertSame('BRQ_UPGRADE', $user->gocardless_billing_request_id);
+        $this->assertSame('starter', $user->subscription_tier);
+        $this->assertSame('active', $user->subscription_status);
+    }
+
+    public function test_activate_upgrade_billing_request_updates_existing_subscription(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+            'pending_subscription_tier' => 'pro',
+            'gocardless_mandate_id' => 'MD123',
+            'gocardless_subscription_id' => 'SB123',
+            'gocardless_billing_request_id' => 'BRQ_UPGRADE',
+        ]);
+
+        $billingRequests = Mockery::mock();
+        $billingRequests->shouldReceive('get')
+            ->once()
+            ->with('BRQ_UPGRADE')
+            ->andReturn((object) [
+                'metadata' => [
+                    'type' => 'plan_upgrade',
+                    'tier' => 'pro',
+                ],
+                'links' => (object) [
+                    'payment_request_payment' => 'PM_UPGRADE',
+                ],
+            ]);
+
+        $payments = Mockery::mock();
+        $payments->shouldReceive('list')
+            ->once()
+            ->andReturn((object) ['records' => []]);
+
+        $subscriptions = Mockery::mock();
+        $subscriptions->shouldReceive('update')
+            ->once()
+            ->with('SB123', Mockery::on(function (array $payload): bool {
+                return ($payload['params']['amount'] ?? null) === 1700;
+            }))
+            ->andReturn((object) ['id' => 'SB123']);
+        $subscriptions->shouldReceive('create')->never();
+
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('billingRequests')->andReturn($billingRequests);
+        $client->shouldReceive('payments')->andReturn($payments);
+        $client->shouldReceive('subscriptions')->andReturn($subscriptions);
+
+        $this->serviceWithClient($client)->activateSubscriptionFromBillingRequest($user, 'BRQ_UPGRADE');
+
+        $user->refresh();
+
+        $this->assertSame('pro', $user->subscription_tier);
+        $this->assertSame('active', $user->subscription_status);
+        $this->assertSame('MD123', $user->gocardless_mandate_id);
+        $this->assertSame('SB123', $user->gocardless_subscription_id);
+        $this->assertNull($user->pending_subscription_tier);
+        $this->assertNull($user->gocardless_billing_request_id);
+    }
+
+    public function test_cancel_pending_plan_upgrade_payments(): void
+    {
+        $user = User::factory()->create([
+            'gocardless_mandate_id' => 'MD123',
+        ]);
+
+        $payments = Mockery::mock();
+        $payments->shouldReceive('list')
+            ->once()
+            ->andReturn((object) [
+                'records' => [
+                    (object) [
+                        'id' => 'PM_UPGRADE',
+                        'status' => 'pending_submission',
+                        'metadata' => ['type' => 'plan_upgrade'],
+                    ],
+                    (object) [
+                        'id' => 'PM_OTHER',
+                        'status' => 'pending_submission',
+                        'metadata' => ['type' => 'other'],
+                    ],
+                    (object) [
+                        'id' => 'PM_SUBMITTED',
+                        'status' => 'submitted',
+                        'metadata' => ['type' => 'plan_upgrade'],
+                    ],
+                ],
+            ]);
+        $payments->shouldReceive('cancel')
+            ->once()
+            ->with('PM_UPGRADE')
+            ->andReturn((object) ['id' => 'PM_UPGRADE']);
+
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('payments')->andReturn($payments);
+
+        $cancelled = $this->serviceWithClient($client)->cancelPendingPlanUpgradePayments($user);
+
+        $this->assertSame(['PM_UPGRADE'], $cancelled);
     }
 
     private function serviceWithClient(Client $client): GoCardlessService
