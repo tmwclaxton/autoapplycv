@@ -41,6 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
                 'purchase_conversion' => fn () => $request->session()->get('purchase_conversion'),
+                'sign_up_conversion' => fn () => $request->session()->get('sign_up_conversion'),
             ],
         ];
     }

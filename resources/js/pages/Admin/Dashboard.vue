@@ -19,6 +19,8 @@ import {
 } from 'lucide-vue-next';
 import { computed, onMounted, ref, watch } from 'vue';
 import DailyMetricChart from '@/components/analytics/DailyMetricChart.vue';
+import { trackTestConversions } from '@/lib/googleAnalytics';
+import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 
 setLayoutProps({
@@ -308,9 +310,27 @@ const activeTab = ref<
 >('overview');
 
 const page = usePage();
+const consentStore = useCookieConsentStore();
+const gaTestResult = ref('');
 const creditAwardSuccess = computed(
     () => page.props.flash?.credit_award_success as string | undefined,
 );
+
+function fireTestGaConversions(): void {
+    if (!consentStore.hasDecided) {
+        gaTestResult.value =
+            'Accept cookies first (Analytics or Advertising), then try again.';
+
+        return;
+    }
+
+    const sent = trackTestConversions(consentStore.choices);
+
+    gaTestResult.value =
+        sent.length > 0
+            ? `Sent: ${sent.join(', ')}. Check GA4 Realtime / Ads in a few minutes.`
+            : 'Nothing sent. Enable Analytics or Advertising cookies, disable ad blockers, and retry.';
+}
 
 const lookupEmail = ref('');
 const lookupUser = ref<CreditUserSummary | null>(null);
@@ -584,6 +604,18 @@ function autoApplySessionStatusClass(status: string): string {
                 Monitor extension captures, Auto Apply runs, NanoGPT usage,
                 signups, plans, and platform health.
             </p>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+                <button
+                    type="button"
+                    class="postbox-btn-outline text-sm"
+                    @click="fireTestGaConversions"
+                >
+                    Fire test GA conversions
+                </button>
+                <p v-if="gaTestResult" class="text-sm text-muted-foreground">
+                    {{ gaTestResult }}
+                </p>
+            </div>
         </div>
 
         <div class="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">

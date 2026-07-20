@@ -143,6 +143,86 @@ export function trackPurchaseConversion(
     return true;
 }
 
+function signUpStorageKey(transactionId: string): string {
+    return `autocvapply_ga_sign_up_${transactionId}`;
+}
+
+/**
+ * Fire GA4 / Google Ads sign-up conversion (new account).
+ * Also emits ads_conversion_Sign_up_1 for the Ads primary action of that name.
+ */
+export function trackSignUpConversion(
+    transactionId: string,
+    choices: ConsentChoices,
+    method = 'WorkOS',
+): boolean {
+    if (
+        !isAdvertisingConsentGranted(choices) &&
+        !isAnalyticsConsentGranted(choices)
+    ) {
+        return false;
+    }
+
+    if (typeof window.gtag !== 'function' || !transactionId) {
+        return false;
+    }
+
+    try {
+        if (sessionStorage.getItem(signUpStorageKey(transactionId)) === '1') {
+            return false;
+        }
+
+        sessionStorage.setItem(signUpStorageKey(transactionId), '1');
+    } catch {
+        // sessionStorage may be unavailable
+    }
+
+    window.gtag('event', 'sign_up', {
+        method,
+        transaction_id: transactionId,
+    });
+
+    // Google Ads primary action imported as this GA4 event name.
+    window.gtag('event', 'ads_conversion_Sign_up_1', {
+        method,
+        transaction_id: transactionId,
+    });
+
+    return true;
+}
+
+/**
+ * Fire one-off test conversions for verifying Ads / GA4 (admin tooling).
+ *
+ * @returns Labels of events that were sent
+ */
+export function trackTestConversions(choices: ConsentChoices): string[] {
+    const stamp = Date.now().toString();
+    const sent: string[] = [];
+
+    if (
+        trackPurchaseConversion(
+            {
+                transaction_id: `test_purchase_${stamp}`,
+                value: 7,
+                currency: 'GBP',
+                item_id: 'starter',
+                item_name: 'AutoCVApply Starter (test)',
+            },
+            choices,
+        )
+    ) {
+        sent.push('purchase');
+    }
+
+    if (trackSignUpConversion(`test_sign_up_${stamp}`, choices, 'test')) {
+        sent.push('sign_up');
+        sent.push('ads_conversion_Sign_up_1');
+    }
+
+    return sent;
+}
+
 /**
  * GA4 pageviews for Inertia SPA navigations (and the initial paint).
  * Blade loads gtag with send_page_view: false so this is the only page_view source.
