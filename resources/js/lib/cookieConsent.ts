@@ -107,6 +107,10 @@ export function isAnalyticsConsentGranted(choices: ConsentChoices): boolean {
     return choices.analytics === true;
 }
 
+export function isAdvertisingConsentGranted(choices: ConsentChoices): boolean {
+    return choices.advertising === true;
+}
+
 export function parseStoredConsent(raw: string | null): StoredConsent | null {
     if (!raw) {
         return null;

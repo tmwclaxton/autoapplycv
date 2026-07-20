@@ -106,6 +106,12 @@ class GoCardlessService
             'subscription_status' => SubscriptionStatus::Pending->value,
         ])->save();
 
+        $this->rememberPendingPurchaseConversion(
+            $billingRequest->id,
+            $tier,
+            $tier->pricePence(),
+        );
+
         return $flow->authorisation_url;
     }
 
@@ -174,6 +180,12 @@ class GoCardlessService
             'gocardless_billing_request_id' => $billingRequest->id,
             'subscription_status' => SubscriptionStatus::Active->value,
         ])->save();
+
+        $this->rememberPendingPurchaseConversion(
+            $billingRequest->id,
+            $tier,
+            $amountDuePence,
+        );
 
         return $flow->authorisation_url;
     }
@@ -274,6 +286,8 @@ class GoCardlessService
 
     public function clearAbandonedCheckout(User $user): bool
     {
+        session()->forget('pending_purchase_conversion');
+
         if ($user->gocardless_billing_request_id === null) {
             return false;
         }
@@ -599,6 +613,56 @@ class GoCardlessService
         $customerId = $mandate->links->customer ?? null;
 
         return is_string($customerId) && $customerId !== '' ? $customerId : null;
+    }
+
+    /**
+     * Remember the Instant Bank Pay amount so we can fire a purchase conversion
+     * only after the billing request is fulfilled.
+     */
+    private function rememberPendingPurchaseConversion(
+        string $transactionId,
+        SubscriptionTier $tier,
+        int $amountPence,
+    ): void {
+        if ($amountPence < 1) {
+            session()->forget('pending_purchase_conversion');
+
+            return;
+        }
+
+        session([
+            'pending_purchase_conversion' => [
+                'transaction_id' => $transactionId,
+                'value' => round($amountPence / 100, 2),
+                'currency' => 'GBP',
+                'item_id' => $tier->value,
+                'item_name' => 'AutoCVApply '.$tier->label(),
+            ],
+        ]);
+    }
+
+    /**
+     * Move a remembered purchase conversion into flash for the next Inertia page.
+     *
+     * @return array{
+     *     transaction_id: string,
+     *     value: float,
+     *     currency: string,
+     *     item_id: string,
+     *     item_name: string,
+     * }|null
+     */
+    public function flashPendingPurchaseConversion(): ?array
+    {
+        $payload = session()->pull('pending_purchase_conversion');
+
+        if (! is_array($payload) || empty($payload['transaction_id'])) {
+            return null;
+        }
+
+        session()->flash('purchase_conversion', $payload);
+
+        return $payload;
     }
 
     public function reconcileStuckPendingSubscription(User $user): bool

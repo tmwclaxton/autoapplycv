@@ -53,6 +53,28 @@ class GoCardlessServiceTest extends TestCase
         $this->assertSame('starter', $user->pending_subscription_tier);
         $this->assertSame('BRQ123', $user->gocardless_billing_request_id);
         $this->assertSame('pending', $user->subscription_status);
+        $this->assertSame('BRQ123', session('pending_purchase_conversion.transaction_id'));
+        $this->assertSame(7.0, session('pending_purchase_conversion.value'));
+        $this->assertSame('starter', session('pending_purchase_conversion.item_id'));
+    }
+
+    public function test_flash_pending_purchase_conversion_moves_payload_to_flash(): void
+    {
+        session([
+            'pending_purchase_conversion' => [
+                'transaction_id' => 'BRQ123',
+                'value' => 7.0,
+                'currency' => 'GBP',
+                'item_id' => 'starter',
+                'item_name' => 'AutoCVApply Starter',
+            ],
+        ]);
+
+        $payload = (new GoCardlessService)->flashPendingPurchaseConversion();
+
+        $this->assertSame('BRQ123', $payload['transaction_id'] ?? null);
+        $this->assertNull(session('pending_purchase_conversion'));
+        $this->assertSame('BRQ123', session('purchase_conversion.transaction_id'));
     }
 
     public function test_activate_creates_anniversary_subscription_without_day_of_month(): void
@@ -339,6 +361,8 @@ class GoCardlessServiceTest extends TestCase
         $this->assertSame('BRQ_UPGRADE', $user->gocardless_billing_request_id);
         $this->assertSame('starter', $user->subscription_tier);
         $this->assertSame('active', $user->subscription_status);
+        $this->assertSame('BRQ_UPGRADE', session('pending_purchase_conversion.transaction_id'));
+        $this->assertSame(10.0, session('pending_purchase_conversion.value'));
     }
 
     public function test_activate_upgrade_billing_request_updates_existing_subscription(): void

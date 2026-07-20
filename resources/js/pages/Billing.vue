@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { creditNotice } from '@/lib/creditNotice';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import {
+    trackPurchaseConversion,
+    type PurchaseConversion,
+} from '@/lib/googleAnalytics';
+import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
 
@@ -70,11 +75,43 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
+const consentStore = useCookieConsentStore();
 const flashSuccess = computed(
     () => page.props.flash?.success as string | undefined,
 );
 const flashError = computed(
     () => page.props.flash?.error as string | undefined,
+);
+const purchaseConversion = computed(
+    () =>
+        page.props.flash?.purchase_conversion as PurchaseConversion | undefined,
+);
+
+function firePurchaseConversionIfNeeded(): void {
+    const conversion = purchaseConversion.value;
+
+    if (!conversion || !consentStore.hasDecided) {
+        return;
+    }
+
+    trackPurchaseConversion(conversion, consentStore.choices);
+}
+
+onMounted(() => {
+    firePurchaseConversionIfNeeded();
+});
+
+watch(
+    () =>
+        [
+            purchaseConversion.value,
+            consentStore.hasDecided,
+            consentStore.choices.analytics,
+            consentStore.choices.advertising,
+        ] as const,
+    () => {
+        firePurchaseConversionIfNeeded();
+    },
 );
 
 const usageAllowance = computed(

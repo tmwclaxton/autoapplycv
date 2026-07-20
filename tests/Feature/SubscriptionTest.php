@@ -101,12 +101,54 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('syncPendingCheckout')
                 ->once()
                 ->andReturn(true);
+            $mock->shouldReceive('flashPendingPurchaseConversion')
+                ->once()
+                ->andReturn([
+                    'transaction_id' => 'BRQ123',
+                    'value' => 7.0,
+                    'currency' => 'GBP',
+                    'item_id' => 'starter',
+                    'item_name' => 'AutoCVApply Starter',
+                ]);
         });
 
         $this->actingAs($user)
             ->get(route('billing.complete'))
             ->assertRedirect(route('billing.index'))
             ->assertSessionHas('success');
+    }
+
+    public function test_billing_page_shares_purchase_conversion_flash_for_google_ads(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+        ]);
+
+        $conversion = [
+            'transaction_id' => 'BRQ_PURCHASE',
+            'value' => 7.0,
+            'currency' => 'GBP',
+            'item_id' => 'starter',
+            'item_name' => 'AutoCVApply Starter',
+        ];
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('reconcilePendingCheckout')->once()->andReturn(null);
+            $mock->shouldReceive('billingHistory')->once()->andReturn([
+                'next_payment_date' => null,
+                'next_payment_amount' => null,
+                'payments' => [],
+            ]);
+        });
+
+        $this->actingAs($user)
+            ->withSession(['purchase_conversion' => $conversion])
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertOk()
+            ->assertJsonPath('props.flash.purchase_conversion.transaction_id', 'BRQ_PURCHASE')
+            ->assertJsonPath('props.flash.purchase_conversion.value', 7);
     }
 
     public function test_legacy_paid_user_can_move_back_to_free_and_cancel_gocardless(): void
@@ -210,6 +252,7 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('activated');
+            $mock->shouldReceive('flashPendingPurchaseConversion')->once()->andReturn(null);
             $mock->shouldReceive('billingHistory')
                 ->once()
                 ->andReturn([
@@ -356,6 +399,7 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('activated');
+            $mock->shouldReceive('flashPendingPurchaseConversion')->once()->andReturn(null);
             $mock->shouldReceive('billingHistory')
                 ->once()
                 ->andReturn([

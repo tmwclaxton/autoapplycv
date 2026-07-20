@@ -51,6 +51,7 @@ class BillingController extends Controller
         $reconciled = $this->goCardless->reconcilePendingCheckout($user);
 
         if ($reconciled === 'activated') {
+            $this->goCardless->flashPendingPurchaseConversion();
             session()->flash('success', 'Your plan is active.');
         }
 
@@ -227,6 +228,7 @@ class BillingController extends Controller
             && $user->subscriptionTier()->isPaid();
 
         if ($this->goCardless->syncPendingCheckout($user)) {
+            $this->goCardless->flashPendingPurchaseConversion();
             $tier = $user->fresh()->subscriptionTier();
 
             return redirect()
