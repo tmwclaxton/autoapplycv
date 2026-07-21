@@ -13,9 +13,9 @@ import {
     INSTAGRAM_URL,
     X_URL,
 } from '@/lib/site';
-import { home, privacy, terms } from '@/routes';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { LucideIcon } from 'lucide-vue-next';
+import { home, privacy, terms } from '@/routes';
 
 const cookieConsent = useCookieConsentStore();
 
