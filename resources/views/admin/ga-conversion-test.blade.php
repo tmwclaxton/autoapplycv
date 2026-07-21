@@ -25,7 +25,8 @@
             });
             gtag('js', new Date());
             {{-- Use production page_location so GA4/Ads can match gclid clicks better than localhost/tunnel hosts. --}}
-            window.__gaTestPageLocation = @json($gclid !== '' ? 'https://www.autocvapply.com/?gclid='.$gclid : 'https://www.autocvapply.com/');
+            {{-- Canonical host is apex (www 301s to autocvapply.com). --}}
+            window.__gaTestPageLocation = @json($gclid !== '' ? 'https://autocvapply.com/?gclid='.$gclid : 'https://autocvapply.com/');
             gtag('config', @json($googleAnalyticsId), {
                 send_page_view: true,
                 page_location: window.__gaTestPageLocation,
@@ -90,7 +91,7 @@
                 };
 
                 const common = {
-                    page_location: window.__gaTestPageLocation || 'https://www.autocvapply.com/',
+                    page_location: window.__gaTestPageLocation || 'https://autocvapply.com/',
                     page_title: 'AutoCVApply'
                 };
                 gtag('event', 'purchase', Object.assign({}, purchaseParams, common));
