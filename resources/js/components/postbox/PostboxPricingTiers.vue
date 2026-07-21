@@ -23,6 +23,8 @@ const props = withDefaults(
         plans: PricingPlan[];
         currentTier?: string | null;
         pendingTier?: string | null;
+        scheduledTier?: string | null;
+        periodResetsAt?: string | null;
         subscriptionStatus?: string | null;
         canResumeCheckout?: boolean;
         mode?: 'marketing' | 'billing';
@@ -31,12 +33,18 @@ const props = withDefaults(
     {
         currentTier: null,
         pendingTier: null,
+        scheduledTier: null,
+        periodResetsAt: null,
         subscriptionStatus: null,
         canResumeCheckout: false,
         mode: 'marketing',
         isAuthenticated: false,
     },
 );
+
+const emit = defineEmits<{
+    selectPlan: [plan: PricingPlan];
+}>();
 
 const page = usePage();
 const isBilling = computed(() => props.mode === 'billing');
@@ -52,8 +60,32 @@ function formatCredits(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
+function formatResetDate(value: string | null | undefined): string {
+    if (!value) {
+        return 'next month';
+    }
+
+    return new Date(value).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
 function selectPlan(plan: PricingPlan) {
+    if (isBilling.value) {
+        emit('selectPlan', plan);
+
+        return;
+    }
+
     router.post(billing.checkout.url(), { tier: plan.key });
+}
+
+function currentPlanPricePence(): number {
+    const current = props.plans.find((plan) => plan.key === props.currentTier);
+
+    return current?.price_pence ?? 0;
 }
 
 function planButtonLabel(plan: PricingPlan): string {
@@ -68,6 +100,14 @@ function planButtonLabel(plan: PricingPlan): string {
 
         if (
             props.currentTier === plan.key &&
+            props.scheduledTier !== null &&
+            props.scheduledTier !== undefined
+        ) {
+            return 'Keep ' + plan.name;
+        }
+
+        if (
+            props.currentTier === plan.key &&
             props.subscriptionStatus === 'active'
         ) {
             return 'Current plan';
@@ -77,7 +117,23 @@ function planButtonLabel(plan: PricingPlan): string {
             return 'Current plan';
         }
 
-        return plan.is_paid ? 'Upgrade via bank payment' : 'Switch to Free';
+        if (props.scheduledTier === plan.key) {
+            return 'Starts ' + formatResetDate(props.periodResetsAt);
+        }
+
+        if (!plan.is_paid) {
+            return 'Downgrade to Free';
+        }
+
+        if (plan.price_pence < currentPlanPricePence()) {
+            return 'Downgrade to ' + plan.name;
+        }
+
+        if (plan.price_pence > currentPlanPricePence()) {
+            return 'Upgrade to ' + plan.name;
+        }
+
+        return 'Switch to ' + plan.name;
     }
 
     if (plan.is_paid) {
@@ -96,6 +152,18 @@ function isPlanButtonDisabled(plan: PricingPlan): boolean {
         props.pendingTier === plan.key
     ) {
         return false;
+    }
+
+    if (
+        props.currentTier === plan.key &&
+        props.scheduledTier !== null &&
+        props.scheduledTier !== undefined
+    ) {
+        return false;
+    }
+
+    if (props.scheduledTier === plan.key) {
+        return true;
     }
 
     return props.currentTier === plan.key;
@@ -119,6 +187,12 @@ function isPlanButtonDisabled(plan: PricingPlan): boolean {
                     class="postbox-stamp px-2 py-1 text-[10px]"
                 >
                     Current
+                </span>
+                <span
+                    v-else-if="scheduledTier === plan.key"
+                    class="rounded-full bg-postbox-navy/10 px-2 py-1 text-[10px] font-semibold text-postbox-navy"
+                >
+                    From {{ formatResetDate(periodResetsAt) }}
                 </span>
                 <span
                     v-else-if="

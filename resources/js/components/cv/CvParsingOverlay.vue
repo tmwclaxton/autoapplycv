@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { Loader2 } from 'lucide-vue-next';
+import { toRef } from 'vue';
+import CvParsingProgress from '@/components/cv/CvParsingProgress.vue';
+import { useCvParsingProgress } from '@/composables/useCvParsingProgress';
 
-withDefaults(
-    defineProps<{
-        show: boolean;
-        title?: string;
-        description?: string;
-    }>(),
-    {
-        title: 'Reading your CV…',
-        description:
-            'Usually under a minute - large CVs can take a bit longer.',
-    },
+const props = defineProps<{
+    show: boolean;
+}>();
+
+const { stages, currentIndex, currentLabel, hint } = useCvParsingProgress(
+    toRef(props, 'show'),
 );
 </script>
 
@@ -25,15 +22,12 @@ withDefaults(
         <div
             class="postbox-panel flex max-w-sm flex-col items-center gap-4 p-8 text-center shadow-xl"
         >
-            <Loader2 class="size-10 animate-spin text-postbox-red" />
-            <div class="space-y-2">
-                <h2 class="text-lg font-bold text-postbox-navy">
-                    {{ title }}
-                </h2>
-                <p class="text-sm leading-relaxed text-muted-foreground">
-                    {{ description }}
-                </p>
-            </div>
+            <CvParsingProgress
+                :stages="stages"
+                :current-index="currentIndex"
+                :current-label="currentLabel"
+                :hint="hint"
+            />
         </div>
     </div>
 </template>

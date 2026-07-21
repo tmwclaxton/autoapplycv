@@ -13,7 +13,14 @@ Route::middleware(['guest'])->group(function () {
     ]))->name('register');
 
     Route::get('authenticate', function (AuthKitAuthenticationRequest $request) {
-        $request->authenticate();
+        $user = $request->authenticate();
+
+        if ($user->wasRecentlyCreated) {
+            session()->flash('sign_up_conversion', [
+                'transaction_id' => 'signup_'.$user->id.'_'.now()->timestamp,
+                'method' => 'WorkOS',
+            ]);
+        }
 
         return redirect()->intended(route('dashboard'));
     })->name('authenticate');

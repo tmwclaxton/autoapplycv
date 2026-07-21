@@ -106,7 +106,7 @@ class AssistChatScenarioMatrixTest extends TestCase
         array $expected,
         array $forbidden = [],
     ): void {
-        $this->mockLocationResolverWhenNeeded($assistant, $expected);
+        $this->mockNanoGptForScenario($assistant, $expected);
 
         $user = User::factory()->create();
         $profile = CvProfile::factory()->for($user)->create();
@@ -124,21 +124,25 @@ class AssistChatScenarioMatrixTest extends TestCase
     }
 
     /**
+     * Never hit the live NanoGPT API in CI - location resolve calls chatJson when extraction is empty.
+     *
      * @param  array<int, array{field: string, value: string}>  $expected
      */
-    private function mockLocationResolverWhenNeeded(string $assistant, array $expected): void
+    private function mockNanoGptForScenario(string $assistant, array $expected): void
     {
         $needsLocationMock = collect($expected)->contains('field', 'location')
             && str_contains($assistant, F::TOWN_PRIMARY);
 
-        if (! $needsLocationMock) {
-            return;
-        }
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use ($needsLocationMock): void {
+            if ($needsLocationMock) {
+                $mock->shouldReceive('chatJson')->andReturn(
+                    F::locationFieldsPayload(F::primaryLocationMock()),
+                );
 
-        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('chatJson')->andReturn(
-                F::locationFieldsPayload(F::primaryLocationMock()),
-            );
+                return;
+            }
+
+            $mock->shouldReceive('chatJson')->andReturn(['entries' => []]);
         });
 
         $this->resolver = app(AssistChatActionResolver::class);

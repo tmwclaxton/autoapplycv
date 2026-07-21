@@ -192,7 +192,13 @@ export function normalizeNoticePeriodAnswer(label, answer, options = {}) {
     const profileYears = String(options.profileYears ?? '').trim();
 
     if (profileYears !== '' && text === profileYears && /^\d+$/.test(text)) {
-        return String(options.fallbackNoticePeriod || '2 weeks').trim();
+        const fallback = options.fallbackNoticePeriod;
+
+        if (fallback != null && String(fallback).trim() !== '') {
+            return String(fallback).trim();
+        }
+
+        return `${text} weeks`;
     }
 
     if (/^\d{1,2}$/.test(text)) {

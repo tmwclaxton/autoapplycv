@@ -43,7 +43,9 @@ class CvExtractionProfileMerge
     {
         $attributes = [
             'raw_cv_text' => $rawText,
-            'parsing_complete' => $parseSucceeded,
+            // Upload/parse fills the profile draft. Onboarding "Save & continue"
+            // (or an already-complete profile re-upload) owns parsing_complete.
+            'parsing_complete' => (bool) ($existing?->parsing_complete),
         ];
 
         if (! $parseSucceeded || $extracted === null) {

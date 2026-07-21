@@ -5,11 +5,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
-import { createApp, h } from 'vue';
+import { createApp, Fragment, h } from 'vue';
+import CookieConsentModal from '@/components/CookieConsentModal.vue';
 import { initializeTheme } from '@/composables/useAppearance';
 import PostboxAppLayout from '@/layouts/PostboxAppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+import { initializeGoogleAnalytics } from '@/lib/googleAnalytics';
+import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 
 library.add(fas, far, fab);
 
@@ -43,9 +46,18 @@ createInertiaApp({
         color: '#c8102e',
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const pinia = createPinia();
+
+        // Hydrate consent before GA pageview listener can fire on navigate.
+        useCookieConsentStore(pinia).hydrate();
+        initializeGoogleAnalytics();
+
+        createApp({
+            render: () =>
+                h(Fragment, null, [h(App, props), h(CookieConsentModal)]),
+        })
             .use(plugin)
-            .use(createPinia())
+            .use(pinia)
             .component('font-awesome-icon', FontAwesomeIcon)
             .mount(el);
     },

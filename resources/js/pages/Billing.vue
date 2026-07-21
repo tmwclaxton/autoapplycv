@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { creditNotice } from '@/lib/creditNotice';
+import { trackPurchaseConversion } from '@/lib/googleAnalytics';
+import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import type { PurchaseConversion } from '@/lib/googleAnalytics';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
 
@@ -19,6 +22,8 @@ interface SubscriptionSummary {
     effective_tier_label: string;
     pending_tier: string | null;
     pending_tier_label: string | null;
+    scheduled_tier?: string | null;
+    scheduled_tier_label?: string | null;
     status: string;
     status_label: string;
     plan_description: string;
@@ -33,6 +38,7 @@ interface SubscriptionSummary {
     checkout_in_progress: boolean;
     setup_incomplete: boolean;
     can_resume_checkout: boolean;
+    can_cancel_paid_plan?: boolean;
     period_resets_at: string;
 }
 
@@ -51,18 +57,59 @@ interface BillingHistory {
     payments: BillingPayment[];
 }
 
+interface PlanChangeConfirmation {
+    action: string;
+    title: string;
+    description: string;
+    confirm_label: string;
+    amount_due_pence: number;
+}
+
 const props = defineProps<{
     subscription: SubscriptionSummary;
     billing: BillingHistory;
     plans: PricingPlan[];
+    plan_change_confirmations: Record<string, PlanChangeConfirmation>;
 }>();
 
 const page = usePage();
+const consentStore = useCookieConsentStore();
 const flashSuccess = computed(
     () => page.props.flash?.success as string | undefined,
 );
 const flashError = computed(
     () => page.props.flash?.error as string | undefined,
+);
+const purchaseConversion = computed(
+    () =>
+        page.props.flash?.purchase_conversion as PurchaseConversion | undefined,
+);
+
+function firePurchaseConversionIfNeeded(): void {
+    const conversion = purchaseConversion.value;
+
+    if (!conversion || !consentStore.hasDecided) {
+        return;
+    }
+
+    trackPurchaseConversion(conversion, consentStore.choices);
+}
+
+onMounted(() => {
+    firePurchaseConversionIfNeeded();
+});
+
+watch(
+    () =>
+        [
+            purchaseConversion.value,
+            consentStore.hasDecided,
+            consentStore.choices.analytics,
+            consentStore.choices.advertising,
+        ] as const,
+    () => {
+        firePurchaseConversionIfNeeded();
+    },
 );
 
 const usageAllowance = computed(
@@ -146,10 +193,15 @@ function paymentStatusClass(status: string): string {
 }
 
 async function cancelSubscription(): Promise<void> {
+    const resetsAt = formatDate(props.subscription.period_resets_at);
     const confirmed = await confirm({
         title: 'Cancel your paid plan?',
         description:
-            'You will move back to Free and your Direct Debit mandate will be cancelled.',
+            'Your Direct Debit will be cancelled now. You keep ' +
+            props.subscription.tier_label +
+            ' benefits until ' +
+            resetsAt +
+            ', then move to Free.',
         confirmLabel: 'Cancel plan',
         variant: 'destructive',
     });
@@ -159,6 +211,25 @@ async function cancelSubscription(): Promise<void> {
     }
 
     router.post('/billing/cancel');
+}
+
+async function selectBillingPlan(plan: PricingPlan): Promise<void> {
+    const quote = props.plan_change_confirmations[plan.key];
+
+    if (quote) {
+        const confirmed = await confirm({
+            title: quote.title,
+            description: quote.description,
+            confirmLabel: quote.confirm_label,
+            variant: quote.action === 'cancel' ? 'destructive' : 'default',
+        });
+
+        if (!confirmed) {
+            return;
+        }
+    }
+
+    router.post(billingRoutes.checkout.url(), { tier: plan.key });
 }
 </script>
 
@@ -207,6 +278,14 @@ async function cancelSubscription(): Promise<void> {
                 >
                     Your {{ subscription.effective_tier_label }} plan stays
                     active until bank payment setup completes.
+                </p>
+                <p
+                    v-else-if="subscription.scheduled_tier_label"
+                    class="mt-2 text-sm text-muted-foreground"
+                >
+                    Switching to {{ subscription.scheduled_tier_label }} on
+                    {{ formatDate(subscription.period_resets_at) }}. You keep
+                    {{ subscription.tier_label }} benefits until then.
                 </p>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {{ subscription.plan_description }}
@@ -280,10 +359,7 @@ async function cancelSubscription(): Promise<void> {
             </Link>
 
             <button
-                v-if="
-                    subscription.tier !== 'free' &&
-                    subscription.status === 'active'
-                "
+                v-if="subscription.can_cancel_paid_plan"
                 type="button"
                 class="postbox-btn-outline w-full sm:w-auto"
                 @click="cancelSubscription"
@@ -375,9 +451,12 @@ async function cancelSubscription(): Promise<void> {
         :plans="plans"
         :current-tier="subscription.effective_tier"
         :pending-tier="subscription.pending_tier"
+        :scheduled-tier="subscription.scheduled_tier ?? null"
+        :period-resets-at="subscription.period_resets_at"
         :subscription-status="subscription.status"
         :can-resume-checkout="subscription.can_resume_checkout"
         mode="billing"
         :is-authenticated="true"
+        @select-plan="selectBillingPlan"
     />
 </template>

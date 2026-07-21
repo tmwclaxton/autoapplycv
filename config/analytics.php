@@ -29,4 +29,21 @@ return [
 
     'synthetic_backfill_days' => 30,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google Analytics (gtag.js)
+    |--------------------------------------------------------------------------
+    |
+    | Measurement ID injected on every Inertia page via the root Blade layout.
+    | SPA pageviews are sent from resources/js/lib/googleAnalytics.ts.
+    | Leave empty to disable the tag.
+    |
+    | Consent UI categories and localStorage key live in
+    | resources/js/lib/cookieConsent.ts (Pinia store + modal). Blade sets
+    | Consent Mode defaults to denied; the store updates gtag on Accept/Save.
+    |
+    */
+
+    'google_analytics_id' => 'G-XXET6H4VM1',
+
 ];

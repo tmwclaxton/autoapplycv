@@ -309,7 +309,7 @@ class ApplicationFieldInventoryTest extends TestCase
                     ],
                 ],
             ])
-            ->assertStatus(502)
+            ->assertStatus(503)
             ->assertJsonPath('success', false);
     }
 }

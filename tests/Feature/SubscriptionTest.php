@@ -35,7 +35,9 @@ class SubscriptionTest extends TestCase
             ])
             ->assertJsonPath('props.subscription.tier', 'free')
             ->assertJsonPath('props.subscription.monthly_credits', 250)
-            ->assertJsonPath('props.billing.payments', []);
+            ->assertJsonPath('props.billing.payments', [])
+            ->assertJsonPath('props.plan_change_confirmations.starter.action', 'subscribe')
+            ->assertJsonPath('props.plan_change_confirmations.starter.amount_due_pence', 700);
     }
 
     public function test_paid_checkout_redirects_to_gocardless_for_starter(): void
@@ -99,6 +101,15 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('syncPendingCheckout')
                 ->once()
                 ->andReturn(true);
+            $mock->shouldReceive('flashPendingPurchaseConversion')
+                ->once()
+                ->andReturn([
+                    'transaction_id' => 'BRQ123',
+                    'value' => 7.0,
+                    'currency' => 'GBP',
+                    'item_id' => 'starter',
+                    'item_name' => 'AutoCVApply Starter',
+                ]);
         });
 
         $this->actingAs($user)
@@ -107,11 +118,45 @@ class SubscriptionTest extends TestCase
             ->assertSessionHas('success');
     }
 
+    public function test_billing_page_shares_purchase_conversion_flash_for_google_ads(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+        ]);
+
+        $conversion = [
+            'transaction_id' => 'BRQ_PURCHASE',
+            'value' => 7.0,
+            'currency' => 'GBP',
+            'item_id' => 'starter',
+            'item_name' => 'AutoCVApply Starter',
+        ];
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('reconcilePendingCheckout')->once()->andReturn(null);
+            $mock->shouldReceive('billingHistory')->once()->andReturn([
+                'next_payment_date' => null,
+                'next_payment_amount' => null,
+                'payments' => [],
+            ]);
+        });
+
+        $this->actingAs($user)
+            ->withSession(['purchase_conversion' => $conversion])
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertOk()
+            ->assertJsonPath('props.flash.purchase_conversion.transaction_id', 'BRQ_PURCHASE')
+            ->assertJsonPath('props.flash.purchase_conversion.value', 7);
+    }
+
     public function test_legacy_paid_user_can_move_back_to_free_and_cancel_gocardless(): void
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
             'gocardless_subscription_id' => 'SB123',
+            'ai_tokens_period_start' => '2026-07-01',
         ]);
 
         $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
@@ -120,7 +165,11 @@ class SubscriptionTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'free'])
-            ->assertRedirect(route('billing.index'));
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas(
+                'success',
+                'Your Direct Debit has been cancelled. You keep Starter benefits until 1 Aug 2026, then move to Free.',
+            );
     }
 
     public function test_dashboard_includes_subscription_summary(): void
@@ -203,6 +252,7 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('activated');
+            $mock->shouldReceive('flashPendingPurchaseConversion')->once()->andReturn(null);
             $mock->shouldReceive('billingHistory')
                 ->once()
                 ->andReturn([
@@ -218,7 +268,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
+                'Your plan is active.',
             );
     }
 
@@ -349,6 +399,7 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('activated');
+            $mock->shouldReceive('flashPendingPurchaseConversion')->once()->andReturn(null);
             $mock->shouldReceive('billingHistory')
                 ->once()
                 ->andReturn([
@@ -364,7 +415,7 @@ class SubscriptionTest extends TestCase
             ->assertStatus(200)
             ->assertSessionHas(
                 'success',
-                'Your plan is active. The first month is charged now; renewals are collected monthly by Direct Debit.',
+                'Your plan is active.',
             );
     }
 

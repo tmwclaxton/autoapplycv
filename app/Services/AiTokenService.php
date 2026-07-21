@@ -16,13 +16,22 @@ class AiTokenService
     public function ensureCurrentPeriod(User $user): User
     {
         $periodStart = $user->ai_tokens_period_start;
+        $rollingFromPriorPeriod = $periodStart !== null
+            && ! Carbon::parse($periodStart)->isCurrentMonth();
 
-        if ($periodStart === null || ! Carbon::parse($periodStart)->isCurrentMonth()) {
-            $user->forceFill([
+        if ($periodStart === null || $rollingFromPriorPeriod) {
+            $updates = [
                 'ai_tokens_used' => 0,
                 'fields_autofilled' => 0,
                 'ai_tokens_period_start' => now()->startOfMonth(),
-            ])->save();
+            ];
+
+            if ($rollingFromPriorPeriod && $user->scheduled_subscription_tier !== null) {
+                $updates['subscription_tier'] = $user->scheduled_subscription_tier;
+                $updates['scheduled_subscription_tier'] = null;
+            }
+
+            $user->forceFill($updates)->save();
         }
 
         return $user->refresh();
@@ -184,13 +193,14 @@ class AiTokenService
      */
     public function summary(User $user): array
     {
-        $this->ensureCurrentPeriod($user);
+        $user = $this->ensureCurrentPeriod($user);
 
         $tier = $user->subscriptionTier();
         $status = $user->subscriptionStatus();
         $pendingTier = $user->pending_subscription_tier !== null
             ? SubscriptionTier::resolve($user->pending_subscription_tier)
             : null;
+        $scheduledTier = $user->scheduledSubscriptionTier();
 
         if ($pendingTier === null && $status === SubscriptionStatus::Pending && $tier !== SubscriptionTier::Free) {
             $pendingTier = $tier;
@@ -213,6 +223,7 @@ class AiTokenService
         $periodStart = $user->ai_tokens_period_start
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
+        $periodResetsAt = $periodStart->copy()->addMonth()->startOfMonth()->toDateString();
         $allowance = max(0, $allowanceTier->monthlyCredits());
         $bonusCredits = $this->bonusCredits($user);
         $totalAllowance = $allowance + $bonusCredits;
@@ -225,6 +236,8 @@ class AiTokenService
             'effective_tier_label' => $effectiveTier->label(),
             'pending_tier' => $pendingTier?->value,
             'pending_tier_label' => $pendingTier?->label(),
+            'scheduled_tier' => $scheduledTier?->value,
+            'scheduled_tier_label' => $scheduledTier?->label(),
             'status' => $status->value,
             'status_label' => $checkoutInProgress
                 ? SubscriptionStatus::Active->label()
@@ -241,7 +254,10 @@ class AiTokenService
             'checkout_in_progress' => $checkoutInProgress,
             'setup_incomplete' => $setupIncomplete,
             'can_resume_checkout' => $canResumeCheckout,
-            'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
+            'can_cancel_paid_plan' => $user->gocardless_subscription_id !== null
+                && $tier->isPaid()
+                && $status === SubscriptionStatus::Active,
+            'period_resets_at' => $periodResetsAt,
         ];
     }
 }

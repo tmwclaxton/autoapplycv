@@ -37,6 +37,12 @@ class HandleInertiaRequests extends Middleware
                 ? app(AiTokenService::class)->summary($user)
                 : null,
             'extensionId' => $request->session()->get('extension_auth_extension_id'),
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'purchase_conversion' => fn () => $request->session()->get('purchase_conversion'),
+                'sign_up_conversion' => fn () => $request->session()->get('sign_up_conversion'),
+            ],
         ];
     }
 }

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
+import { Head, Link, setLayoutProps } from '@inertiajs/vue3';
 import { Check, Loader2, Upload } from 'lucide-vue-next';
 import { computed, nextTick, ref } from 'vue';
+import CvParsingProgress from '@/components/cv/CvParsingProgress.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
+import PostboxMark from '@/components/postbox/PostboxMark.vue';
+import { useCvParsingProgress } from '@/composables/useCvParsingProgress';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile } from '@/types/cvProfile';
@@ -29,11 +32,16 @@ setLayoutProps({
     maxWidth: '4xl',
 });
 
-const step = ref<'upload' | 'review' | 'download'>(
-    props.cvProfile?.parsing_complete || props.hasUploadedCv
-        ? 'download'
-        : 'upload',
-);
+function initialStep(): 'upload' | 'review' | 'download' {
+    // Incomplete profiles with an upload land on Review so extracted fields are visible.
+    if (props.hasUploadedCv || props.cvProfile?.raw_cv_text) {
+        return 'review';
+    }
+
+    return 'upload';
+}
+
+const step = ref<'upload' | 'review' | 'download'>(initialStep());
 
 const isDragging = ref(false);
 const isUploading = ref(false);
@@ -42,6 +50,14 @@ const selectedFile = ref<File | null>(null);
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const documents = ref<ProfileDocument[]>([...props.documents]);
 const isSaving = ref(false);
+const saveError = ref<string | null>(null);
+
+const {
+    stages: parsingStages,
+    currentIndex: parsingStageIndex,
+    currentLabel: parsingCurrentLabel,
+    hint: parsingHint,
+} = useCvParsingProgress(isUploading);
 
 const steps = [
     { key: 'upload', label: 'Upload' },
@@ -52,6 +68,16 @@ const steps = [
 const currentStepIndex = computed(() =>
     steps.findIndex((s) => s.key === step.value),
 );
+
+function csrfToken(): string {
+    return (
+        (
+            document.querySelector(
+                'meta[name="csrf-token"]',
+            ) as HTMLMetaElement | null
+        )?.content ?? ''
+    );
+}
 
 function stepClass(index: number): string {
     if (index < currentStepIndex.value) {
@@ -99,6 +125,7 @@ function handleFile(file: File) {
 async function uploadCv(file: File) {
     isUploading.value = true;
     uploadError.value = null;
+    saveError.value = null;
 
     const formData = new FormData();
     formData.append('cv', file);
@@ -107,12 +134,7 @@ async function uploadCv(file: File) {
         const response = await fetch(cvUpload().url, {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN':
-                    (
-                        document.querySelector(
-                            'meta[name="csrf-token"]',
-                        ) as HTMLMetaElement
-                    )?.content ?? '',
+                'X-CSRF-TOKEN': csrfToken(),
                 Accept: 'application/json',
             },
             body: formData,
@@ -139,7 +161,7 @@ async function uploadCv(file: File) {
             uploadError.value = data.warning;
         }
 
-        step.value = 'download';
+        step.value = 'review';
 
         await nextTick();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -151,37 +173,66 @@ async function uploadCv(file: File) {
 }
 
 async function saveProfile() {
+    if (isSaving.value) {
+        return;
+    }
+
     isSaving.value = true;
-    router.patch(
-        cvProfileUpdate().url,
-        {
-            full_name: profile.value.full_name,
-            headline: profile.value.headline,
-            email: profile.value.email,
-            phone: profile.value.phone,
-            location: profile.value.location,
-            city: profile.value.city,
-            postcode: profile.value.postcode,
-            country: profile.value.country,
-            linkedin_url: profile.value.linkedin_url,
-            website_url: profile.value.website_url,
-            summary: profile.value.summary,
-            skills: profile.value.skills,
-            experience: profile.value.experience,
-            education: profile.value.education,
-            structured_data: profile.value.structured_data,
-            formatted_cv_text: profile.value.formatted_cv_text,
-            extra_context: profile.value.extra_context,
-        },
-        {
-            onSuccess: () => {
-                step.value = 'download';
+    saveError.value = null;
+
+    try {
+        const response = await fetch(cvProfileUpdate().url, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             },
-            onFinish: () => {
-                isSaving.value = false;
-            },
-        },
-    );
+            body: JSON.stringify({
+                full_name: profile.value.full_name,
+                headline: profile.value.headline,
+                email: profile.value.email,
+                phone: profile.value.phone,
+                location: profile.value.location,
+                city: profile.value.city,
+                postcode: profile.value.postcode,
+                country: profile.value.country,
+                linkedin_url: profile.value.linkedin_url,
+                website_url: profile.value.website_url,
+                summary: profile.value.summary,
+                skills: profile.value.skills,
+                experience: profile.value.experience,
+                education: profile.value.education,
+                structured_data: profile.value.structured_data,
+                formatted_cv_text: profile.value.formatted_cv_text,
+                extra_context: profile.value.extra_context,
+            }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            saveError.value =
+                typeof data.message === 'string'
+                    ? data.message
+                    : 'Could not save profile. Please try again.';
+
+            return;
+        }
+
+        if (data.profile) {
+            profile.value = normalizeCvProfile(data.profile);
+        }
+
+        step.value = 'download';
+
+        await nextTick();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+        saveError.value = 'Could not save profile. Please try again.';
+    } finally {
+        isSaving.value = false;
+    }
 }
 </script>
 
@@ -243,12 +294,18 @@ async function saveProfile() {
                 @change="onFileInput"
             />
 
-            <div v-if="isUploading" class="flex flex-col items-center gap-4">
-                <Loader2 class="size-10 animate-spin text-postbox-red" />
-                <p class="font-bold text-postbox-navy">Reading your CV…</p>
-                <p class="text-sm text-muted-foreground">
-                    Usually under a minute - large CVs can take a bit longer.
-                </p>
+            <div
+                v-if="isUploading"
+                class="flex flex-col items-center"
+                aria-live="polite"
+                aria-busy="true"
+            >
+                <CvParsingProgress
+                    :stages="parsingStages"
+                    :current-index="parsingStageIndex"
+                    :current-label="parsingCurrentLabel"
+                    :hint="parsingHint"
+                />
             </div>
             <div v-else class="flex flex-col items-center gap-4">
                 <div
@@ -296,7 +353,12 @@ async function saveProfile() {
             </button>
         </div>
 
+        <p v-if="uploadError" class="mt-4 text-sm font-medium text-destructive">
+            {{ uploadError }}
+        </p>
+
         <CvProfileForm
+            :key="`review-${profile.full_name ?? 'draft'}-${profile.raw_cv_text?.length ?? 0}`"
             v-model="profile"
             v-model:documents="documents"
             :document-categories="documentCategories"
@@ -310,8 +372,14 @@ async function saveProfile() {
             aria-label="Review actions"
         >
             <div
-                class="mx-auto flex w-full max-w-4xl justify-end px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-5"
+                class="mx-auto flex w-full max-w-4xl flex-col items-stretch gap-2 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:justify-end sm:gap-4 sm:px-6 sm:py-5"
             >
+                <p
+                    v-if="saveError"
+                    class="text-sm font-medium text-destructive sm:mr-auto"
+                >
+                    {{ saveError }}
+                </p>
                 <button
                     type="button"
                     class="postbox-btn w-full sm:w-auto"
@@ -327,9 +395,9 @@ async function saveProfile() {
 
     <div v-else-if="step === 'download'">
         <div class="postbox-panel mx-auto max-w-2xl p-8 text-center">
-            <span class="postbox-stamp mx-auto mb-6 flex size-16 text-sm">
-                OK
-            </span>
+            <div class="mx-auto mb-6 flex justify-center">
+                <PostboxMark size="lg" />
+            </div>
             <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
                 Install the extension
             </h1>
@@ -345,9 +413,9 @@ async function saveProfile() {
             <div class="mt-8 flex flex-col items-center gap-3 text-center">
                 <Link
                     :href="dashboard({ query: { tab: 'extension' } })"
-                    class="postbox-link text-sm"
+                    class="postbox-btn inline-flex items-center gap-2"
                 >
-                    Go to dashboard →
+                    Go to dashboard
                 </Link>
                 <button
                     type="button"

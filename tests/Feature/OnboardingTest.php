@@ -34,6 +34,52 @@ class OnboardingTest extends TestCase
             ->assertJson(['component' => 'Onboarding']);
     }
 
+    public function test_onboarding_upload_step_is_shown_when_profile_is_incomplete(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => false,
+            'full_name' => null,
+        ]);
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('onboarding'))
+            ->assertStatus(200)
+            ->assertJsonPath('component', 'Onboarding')
+            ->assertJsonPath('props.hasUploadedCv', false)
+            ->assertJsonPath('props.cvProfile.parsing_complete', false);
+    }
+
+    public function test_onboarding_serves_extracted_profile_for_review_when_upload_exists(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => false,
+            'full_name' => 'Alex Developer',
+            'email' => 'alex@example.com',
+            'raw_cv_text' => 'Alex Developer raw CV text',
+            'skills' => ['PHP', 'Laravel'],
+        ]);
+        $user->cvUploads()->create([
+            'original_filename' => 'alex.pdf',
+            'stored_path' => 'cv-uploads/1/alex.pdf',
+            'mime_type' => 'application/pdf',
+            'file_size' => 1024,
+        ]);
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('onboarding'))
+            ->assertStatus(200)
+            ->assertJsonPath('component', 'Onboarding')
+            ->assertJsonPath('props.hasUploadedCv', true)
+            ->assertJsonPath('props.cvProfile.parsing_complete', false)
+            ->assertJsonPath('props.cvProfile.full_name', 'Alex Developer')
+            ->assertJsonPath('props.cvProfile.email', 'alex@example.com')
+            ->assertJsonPath('props.cvProfile.skills.0', 'PHP');
+    }
+
     public function test_authenticated_user_with_complete_profile_redirects_to_dashboard_from_onboarding(): void
     {
         $user = User::factory()->create();

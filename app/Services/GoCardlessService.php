@@ -106,6 +106,87 @@ class GoCardlessService
             'subscription_status' => SubscriptionStatus::Pending->value,
         ])->save();
 
+        $this->rememberPendingPurchaseConversion(
+            $billingRequest->id,
+            $tier,
+            $tier->pricePence(),
+        );
+
+        return $flow->authorisation_url;
+    }
+
+    /**
+     * Charge a paid-plan upgrade top-up via Instant Bank Pay, then activate on fulfilment.
+     *
+     * Keeps the current paid tier active until payment confirms. Does not create a
+     * Direct Debit one-off or a new mandate.
+     */
+    public function createUpgradeCheckoutFlow(User $user, SubscriptionTier $tier, int $amountDuePence): string
+    {
+        if (! $tier->isPaid()) {
+            throw new InvalidArgumentException('Cannot create an upgrade checkout for a free tier.');
+        }
+
+        if ($amountDuePence < 1) {
+            throw new InvalidArgumentException('Upgrade Instant Bank Pay requires a positive amount.');
+        }
+
+        $mandateId = $user->gocardless_mandate_id;
+        $subscriptionId = $user->gocardless_subscription_id;
+
+        if ($mandateId === null || $subscriptionId === null) {
+            throw new InvalidArgumentException('No active Direct Debit mandate for upgrade checkout.');
+        }
+
+        $customerId = $this->customerIdFromMandate($mandateId);
+
+        $billingRequestParams = [
+            'payment_request' => [
+                'description' => 'AutoCVApply upgrade to '.$tier->label(),
+                'amount' => $amountDuePence,
+                'currency' => 'GBP',
+                'scheme' => 'faster_payments',
+            ],
+            'metadata' => [
+                'user_id' => (string) $user->id,
+                'tier' => $tier->value,
+                'type' => 'plan_upgrade',
+            ],
+        ];
+
+        if ($customerId !== null) {
+            $billingRequestParams['links'] = [
+                'customer' => $customerId,
+            ];
+        }
+
+        $billingRequest = $this->client()->billingRequests()->create([
+            'params' => $billingRequestParams,
+        ]);
+
+        $flow = $this->client()->billingRequestFlows()->create([
+            'params' => [
+                'redirect_uri' => route('billing.complete'),
+                'exit_uri' => route('billing.index', ['checkout' => 'abandoned']),
+                'lock_customer_details' => $customerId !== null,
+                'links' => [
+                    'billing_request' => $billingRequest->id,
+                ],
+            ],
+        ]);
+
+        $user->forceFill([
+            'pending_subscription_tier' => $tier->value,
+            'gocardless_billing_request_id' => $billingRequest->id,
+            'subscription_status' => SubscriptionStatus::Active->value,
+        ])->save();
+
+        $this->rememberPendingPurchaseConversion(
+            $billingRequest->id,
+            $tier,
+            $amountDuePence,
+        );
+
         return $flow->authorisation_url;
     }
 
@@ -142,6 +223,13 @@ class GoCardlessService
         }
 
         $billingRequest = $this->client()->billingRequests()->get($billingRequestId);
+
+        if ($this->isPaidPlanUpgradeBillingRequest($user, $billingRequest)) {
+            $this->activatePaidPlanUpgradeFromBillingRequest($user, $tier, $billingRequestId);
+
+            return;
+        }
+
         $links = $billingRequest->links;
         $mandateId = $links->mandate ?? $links->mandate_request_mandate ?? null;
         $subscriptionId = $links->subscription ?? $links->subscription_request_subscription ?? null;
@@ -198,6 +286,8 @@ class GoCardlessService
 
     public function clearAbandonedCheckout(User $user): bool
     {
+        session()->forget('pending_purchase_conversion');
+
         if ($user->gocardless_billing_request_id === null) {
             return false;
         }
@@ -270,18 +360,127 @@ class GoCardlessService
 
     public function cancelSubscription(User $user): void
     {
+        $this->cancelPendingPlanUpgradePayments($user);
+
         if ($user->gocardless_subscription_id !== null) {
             $this->cancelRemoteSubscription($user->gocardless_subscription_id);
         }
 
+        $keepPaidBenefits = $user->subscriptionTier()->isPaid();
+
         $user->forceFill([
-            'subscription_tier' => SubscriptionTier::Free->value,
+            'subscription_tier' => $keepPaidBenefits
+                ? $user->subscription_tier
+                : SubscriptionTier::Free->value,
+            'scheduled_subscription_tier' => SubscriptionTier::Free->value,
             'subscription_status' => SubscriptionStatus::Active->value,
             'gocardless_subscription_id' => null,
             'gocardless_mandate_id' => null,
             'pending_subscription_tier' => null,
             'gocardless_billing_request_id' => null,
         ])->save();
+    }
+
+    /**
+     * Change between paid tiers using an existing mandate.
+     *
+     * Upgrades apply immediately after Instant Bank Pay fulfilment.
+     * Downgrades update the Direct Debit amount now but keep the current
+     * tier benefits until the monthly credit period resets.
+     */
+    public function changePaidPlan(User $user, SubscriptionTier $newTier): void
+    {
+        if (! $newTier->isPaid()) {
+            throw new InvalidArgumentException('Cannot change to a free tier with changePaidPlan.');
+        }
+
+        $mandateId = $user->gocardless_mandate_id;
+        $subscriptionId = $user->gocardless_subscription_id;
+
+        if ($mandateId === null || $subscriptionId === null) {
+            throw new InvalidArgumentException('No active Direct Debit mandate to change plan.');
+        }
+
+        $this->cancelPendingPlanUpgradePayments($user);
+
+        $this->client()->subscriptions()->update($subscriptionId, [
+            'params' => [
+                'amount' => $newTier->pricePence(),
+                'name' => 'AutoCVApply '.$newTier->label(),
+                'metadata' => [
+                    'user_id' => (string) $user->id,
+                    'tier' => $newTier->value,
+                ],
+            ],
+        ]);
+
+        $currentTier = $user->subscriptionTier();
+        $isDowngrade = $newTier->pricePence() < $currentTier->pricePence();
+
+        if ($isDowngrade) {
+            $user->forceFill([
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'scheduled_subscription_tier' => $newTier->value,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return;
+        }
+
+        $user->forceFill([
+            'subscription_tier' => $newTier->value,
+            'subscription_status' => SubscriptionStatus::Active->value,
+            'scheduled_subscription_tier' => null,
+            'pending_subscription_tier' => null,
+            'gocardless_billing_request_id' => null,
+        ])->save();
+    }
+
+    /**
+     * Cancel Direct Debit one-off upgrade payments that have not been submitted yet.
+     *
+     * @return list<string> Cancelled payment IDs
+     */
+    public function cancelPendingPlanUpgradePayments(User $user): array
+    {
+        $mandateId = $user->gocardless_mandate_id;
+
+        if ($mandateId === null) {
+            return [];
+        }
+
+        $payments = $this->client()->payments()->list([
+            'params' => [
+                'mandate' => $mandateId,
+                'limit' => 50,
+            ],
+        ]);
+
+        $cancelled = [];
+
+        foreach ($payments->records as $payment) {
+            $metadata = (array) ($payment->metadata ?? []);
+            $type = $metadata['type'] ?? null;
+            $status = (string) ($payment->status ?? '');
+
+            if ($type !== 'plan_upgrade' || $status !== 'pending_submission') {
+                continue;
+            }
+
+            try {
+                $this->client()->payments()->cancel($payment->id);
+                $cancelled[] = (string) $payment->id;
+            } catch (\Throwable $exception) {
+                Log::warning('Failed to cancel pending plan upgrade payment', [
+                    'user_id' => $user->id,
+                    'payment_id' => $payment->id,
+                    'message' => $exception->getMessage(),
+                ]);
+            }
+        }
+
+        return $cancelled;
     }
 
     public function handleEvent(Event $event): void
@@ -332,10 +531,24 @@ class GoCardlessService
             return;
         }
 
+        if ($user->subscriptionTier()->isPaid()) {
+            $user->forceFill([
+                'scheduled_subscription_tier' => $user->scheduled_subscription_tier
+                    ?? SubscriptionTier::Free->value,
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'gocardless_subscription_id' => null,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return;
+        }
+
         $user->forceFill([
             'subscription_tier' => SubscriptionTier::Free->value,
             'subscription_status' => SubscriptionStatus::Active->value,
             'gocardless_subscription_id' => null,
+            'scheduled_subscription_tier' => null,
         ])->save();
     }
 
@@ -349,6 +562,107 @@ class GoCardlessService
                 'message' => $exception->getMessage(),
             ]);
         }
+    }
+
+    private function isPaidPlanUpgradeBillingRequest(User $user, object $billingRequest): bool
+    {
+        if ($user->gocardless_subscription_id === null || ! $user->subscriptionTier()->isPaid()) {
+            return false;
+        }
+
+        $metadata = (array) ($billingRequest->metadata ?? []);
+
+        if (($metadata['type'] ?? null) === 'plan_upgrade') {
+            return true;
+        }
+
+        $links = $billingRequest->links ?? null;
+        $mandateFromRequest = $links->mandate ?? $links->mandate_request_mandate ?? null;
+        $subscriptionFromRequest = $links->subscription ?? $links->subscription_request_subscription ?? null;
+
+        return $mandateFromRequest === null && $subscriptionFromRequest === null;
+    }
+
+    private function activatePaidPlanUpgradeFromBillingRequest(
+        User $user,
+        SubscriptionTier $tier,
+        string $billingRequestId,
+    ): void {
+        $this->changePaidPlan($user, $tier);
+
+        Log::info('Activated paid plan upgrade after Instant Bank Pay', [
+            'user_id' => $user->id,
+            'tier' => $tier->value,
+            'billing_request_id' => $billingRequestId,
+        ]);
+    }
+
+    private function customerIdFromMandate(string $mandateId): ?string
+    {
+        try {
+            $mandate = $this->client()->mandates()->get($mandateId);
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to fetch GoCardless mandate for upgrade checkout', [
+                'mandate_id' => $mandateId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
+
+        $customerId = $mandate->links->customer ?? null;
+
+        return is_string($customerId) && $customerId !== '' ? $customerId : null;
+    }
+
+    /**
+     * Remember the Instant Bank Pay amount so we can fire a purchase conversion
+     * only after the billing request is fulfilled.
+     */
+    private function rememberPendingPurchaseConversion(
+        string $transactionId,
+        SubscriptionTier $tier,
+        int $amountPence,
+    ): void {
+        if ($amountPence < 1) {
+            session()->forget('pending_purchase_conversion');
+
+            return;
+        }
+
+        session([
+            'pending_purchase_conversion' => [
+                'transaction_id' => $transactionId,
+                'value' => round($amountPence / 100, 2),
+                'currency' => 'GBP',
+                'item_id' => $tier->value,
+                'item_name' => 'AutoCVApply '.$tier->label(),
+            ],
+        ]);
+    }
+
+    /**
+     * Move a remembered purchase conversion into flash for the next Inertia page.
+     *
+     * @return array{
+     *     transaction_id: string,
+     *     value: float,
+     *     currency: string,
+     *     item_id: string,
+     *     item_name: string,
+     * }|null
+     */
+    public function flashPendingPurchaseConversion(): ?array
+    {
+        $payload = session()->pull('pending_purchase_conversion');
+
+        if (! is_array($payload) || empty($payload['transaction_id'])) {
+            return null;
+        }
+
+        session()->flash('purchase_conversion', $payload);
+
+        return $payload;
     }
 
     public function reconcileStuckPendingSubscription(User $user): bool

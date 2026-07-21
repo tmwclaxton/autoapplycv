@@ -1232,6 +1232,55 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
     );
 });
 
+
+test('buildDraftAllApplyPlan defers named-tool and skill-rating screeners to NanoGPT', () => {
+    const plan = buildDraftAllApplyPlan({
+        fields: [
+            {
+                ref: 'f0',
+                label: 'Do you have hands-on experience with Okta?',
+                field_type: 'radio',
+                options: ['Yes', 'No'],
+            },
+            {
+                ref: 'f1',
+                label: 'Rate your MDM skills out of 5',
+                field_type: 'text',
+            },
+            {
+                ref: 'f2',
+                label: 'Tell us about a time you used Helpline tooling',
+                field_type: 'textarea',
+            },
+            {
+                ref: 'f3',
+                label: 'What is your notice period?',
+                field_type: 'text',
+            },
+        ],
+        profileData: {
+            ...profileData,
+            application_settings: {
+                ...profileData.application_settings,
+                notice_period: '2 weeks',
+            },
+        },
+        questionMemo: {},
+    });
+
+    const appliedRefs = new Set(
+        plan.applyStages.flatMap((stage) => stage.answers.map((answer) => answer.ref)),
+    );
+
+    assert.equal(appliedRefs.has('f0'), false);
+    assert.equal(appliedRefs.has('f1'), false);
+    assert.equal(appliedRefs.has('f2'), false);
+    assert.equal(appliedRefs.has('f3'), true);
+    assert.equal(plan.llmFields.some((field) => field.ref === 'f0'), true);
+    assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), true);
+    assert.equal(plan.llmFields.some((field) => field.ref === 'f2'), true);
+});
+
 test('Polish work-auth status memo does not invent nationality from UK RTW', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
