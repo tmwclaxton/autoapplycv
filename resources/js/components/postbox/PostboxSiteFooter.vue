@@ -1,74 +1,33 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Link } from '@inertiajs/vue3';
-import {
-    BarChart3,
-    BookOpen,
-    Chrome,
-    Cookie,
-    Github,
-    Info,
-    Mail,
-    Newspaper,
-    Scale,
-    Shield,
-    Tag,
-} from 'lucide-vue-next';
+import { Chrome, Cookie, Github, Scale, Shield } from 'lucide-vue-next';
 import DiscordIcon from '@/components/DiscordIcon.vue';
 import PostboxMark from '@/components/postbox/PostboxMark.vue';
 import {
     CHROME_WEB_STORE_URL,
-    FIREFOX_ADDONS_URL,
-    FOOTER_LINKS,
     DISCORD_INVITE_URL,
+    FIREFOX_ADDONS_URL,
+    FOOTER_LEGAL_LINKS,
     GITHUB_REPOSITORY_URL,
     INSTAGRAM_URL,
     X_URL,
 } from '@/lib/site';
+import { home, privacy, terms } from '@/routes';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { LucideIcon } from 'lucide-vue-next';
-import {
-    about,
-    analytics,
-    contact,
-    home,
-    howTo,
-    pricing,
-    privacy,
-    terms,
-} from '@/routes';
-import { index as blog } from '@/routes/blog';
 
 const cookieConsent = useCookieConsentStore();
 
-const routeMap = {
-    blog,
-    'how-to': howTo,
-    pricing,
-    analytics,
-    about,
-    contact,
+const legalRouteMap = {
     terms,
     privacy,
 } as const;
 
-const linkIcons: Record<keyof typeof routeMap, LucideIcon> = {
-    blog: Newspaper,
-    'how-to': BookOpen,
-    pricing: Tag,
-    analytics: BarChart3,
-    about: Info,
-    contact: Mail,
+const legalIcons: Record<keyof typeof legalRouteMap, LucideIcon> = {
     terms: Scale,
     privacy: Shield,
 };
-
-const legalRoutes = new Set(['terms', 'privacy']);
-
-const productLinks = FOOTER_LINKS.filter(
-    (item) => !legalRoutes.has(item.route),
-);
-const legalLinks = FOOTER_LINKS.filter((item) => legalRoutes.has(item.route));
 
 const linkClass =
     'postbox-link inline-flex items-center gap-1.5 no-underline hover:underline';
@@ -100,66 +59,8 @@ const linkClass =
                     </p>
                 </div>
 
-                <nav aria-labelledby="footer-product-heading">
-                    <p id="footer-product-heading" class="postbox-label mb-3">
-                        Product
-                    </p>
-                    <ul class="flex flex-col gap-2 text-sm" role="list">
-                        <li v-for="item in productLinks" :key="item.route">
-                            <Link
-                                :href="routeMap[item.route]().url"
-                                :class="linkClass"
-                            >
-                                <component
-                                    :is="linkIcons[item.route]"
-                                    class="size-4 shrink-0"
-                                    aria-hidden="true"
-                                />
-                                {{ item.label }}
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-
-                <nav aria-labelledby="footer-legal-heading">
-                    <p id="footer-legal-heading" class="postbox-label mb-3">
-                        Legal
-                    </p>
-                    <ul class="flex flex-col gap-2 text-sm" role="list">
-                        <li v-for="item in legalLinks" :key="item.route">
-                            <Link
-                                :href="routeMap[item.route]().url"
-                                :class="linkClass"
-                            >
-                                <component
-                                    :is="linkIcons[item.route]"
-                                    class="size-4 shrink-0"
-                                    aria-hidden="true"
-                                />
-                                {{ item.label }}
-                            </Link>
-                        </li>
-                        <li>
-                            <button
-                                type="button"
-                                :class="[linkClass, 'text-left']"
-                                @click="cookieConsent.openPreferences()"
-                            >
-                                <Cookie
-                                    class="size-4 shrink-0"
-                                    aria-hidden="true"
-                                />
-                                Cookie preferences
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-
-                <nav
-                    class="col-span-2 sm:col-span-1"
-                    aria-labelledby="footer-connect-heading"
-                >
-                    <p id="footer-connect-heading" class="postbox-label mb-3">
+                <nav aria-labelledby="footer-extension-heading">
+                    <p id="footer-extension-heading" class="postbox-label mb-3">
                         Get the extension
                     </p>
                     <ul class="flex flex-col gap-2 text-sm" role="list">
@@ -192,6 +93,14 @@ const linkClass =
                                 Firefox Add-ons
                             </a>
                         </li>
+                    </ul>
+                </nav>
+
+                <nav aria-labelledby="footer-community-heading">
+                    <p id="footer-community-heading" class="postbox-label mb-3">
+                        Community
+                    </p>
+                    <ul class="flex flex-col gap-2 text-sm" role="list">
                         <li>
                             <a
                                 :href="DISCORD_INVITE_URL"
@@ -233,8 +142,45 @@ const linkClass =
                                     class="size-4 shrink-0"
                                     aria-hidden="true"
                                 />
-                                X
+                                X.com
                             </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-labelledby="footer-legal-heading">
+                    <p id="footer-legal-heading" class="postbox-label mb-3">
+                        Legal
+                    </p>
+                    <ul class="flex flex-col gap-2 text-sm" role="list">
+                        <li
+                            v-for="item in FOOTER_LEGAL_LINKS"
+                            :key="item.route"
+                        >
+                            <Link
+                                :href="legalRouteMap[item.route]().url"
+                                :class="linkClass"
+                            >
+                                <component
+                                    :is="legalIcons[item.route]"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
+                                {{ item.label }}
+                            </Link>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                :class="[linkClass, 'text-left']"
+                                @click="cookieConsent.openPreferences()"
+                            >
+                                <Cookie
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
+                                Cookie preferences
+                            </button>
                         </li>
                     </ul>
                 </nav>

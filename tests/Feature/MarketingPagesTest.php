@@ -63,7 +63,7 @@ class MarketingPagesTest extends TestCase
         $contact = (string) file_get_contents(resource_path('js/pages/Contact.vue'));
 
         $this->assertStringContainsString("INSTAGRAM_URL = '{$instagramUrl}'", $site);
-        $this->assertStringContainsString('INSTAGRAM_URL', $nav);
+        $this->assertStringNotContainsString('INSTAGRAM_URL', $nav);
         $this->assertStringContainsString('INSTAGRAM_URL', $footer);
         $this->assertStringContainsString('INSTAGRAM_URL', $contact);
     }
@@ -82,9 +82,26 @@ class MarketingPagesTest extends TestCase
         $contact = (string) file_get_contents(resource_path('js/pages/Contact.vue'));
 
         $this->assertStringContainsString("X_URL = '{$xUrl}'", $site);
-        $this->assertStringContainsString('X_URL', $nav);
+        $this->assertStringNotContainsString('X_URL', $nav);
         $this->assertStringContainsString('X_URL', $footer);
+        $this->assertStringContainsString('X.com', $footer);
         $this->assertStringContainsString('X_URL', $contact);
+        $this->assertStringContainsString('X.com', $contact);
+    }
+
+    public function test_marketing_footer_avoids_duplicating_header_product_links(): void
+    {
+        $footer = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxSiteFooter.vue'),
+        );
+        $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
+
+        $this->assertStringContainsString('FOOTER_LEGAL_LINKS', $site);
+        $this->assertStringNotContainsString('export const FOOTER_LINKS', $site);
+        $this->assertStringContainsString('footer-extension-heading', $footer);
+        $this->assertStringContainsString('footer-community-heading', $footer);
+        $this->assertStringContainsString('footer-legal-heading', $footer);
+        $this->assertStringNotContainsString('footer-product-heading', $footer);
     }
 
     public function test_welcome_page_includes_cover_letter_section(): void
