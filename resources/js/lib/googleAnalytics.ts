@@ -198,18 +198,50 @@ export function trackSignUpConversion(
 }
 
 /**
+ * Bind a Google Ads click id so GA4 can attribute later conversion events.
+ * Prefer landing with ?gclid=; this also sets the linker cookie for same-tab tests.
+ */
+export function bindGclidForTesting(gclid: string): boolean {
+    const trimmed = gclid.trim();
+
+    if (!trimmed || typeof window.gtag !== 'function') {
+        return false;
+    }
+
+    window.gtag('set', { gclid: trimmed });
+
+    try {
+        const maxAge = 90 * 24 * 60 * 60;
+        const stamp = Math.floor(Date.now() / 1000);
+        document.cookie = `_gcl_aw=1.${stamp}.${encodeURIComponent(trimmed)};path=/;max-age=${maxAge};SameSite=Lax`;
+    } catch {
+        // cookie write may fail in restricted contexts
+    }
+
+    return true;
+}
+
+/**
  * Fire one-off test conversions for verifying Ads / GA4 (admin tooling).
+ * Pass a real gclid from Ads click_view so events can attribute to the campaign.
  *
  * @returns Labels of events that were sent
  */
 export function trackTestConversions(
     choices: ConsentChoices,
     count = 5,
+    gclid: string | null = null,
 ): string[] {
     const batches = Math.max(1, Math.min(20, count));
     const sent: string[] = [];
     let purchases = 0;
     let signUps = 0;
+
+    if (gclid?.trim()) {
+        if (bindGclidForTesting(gclid)) {
+            sent.push(`gclid bound`);
+        }
+    }
 
     for (let index = 0; index < batches; index++) {
         const stamp = `${Date.now()}_${index}_${Math.random().toString(36).slice(2, 8)}`;

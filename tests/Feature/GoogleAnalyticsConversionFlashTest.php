@@ -37,4 +37,16 @@ class GoogleAnalyticsConversionFlashTest extends TestCase
             ->assertOk()
             ->assertJsonPath('props.flash.sign_up_conversion.transaction_id', 'signup_12_1');
     }
+
+    public function test_admin_dashboard_vue_exposes_gclid_attributed_conversion_test(): void
+    {
+        $dashboard = file_get_contents(resource_path('js/pages/Admin/Dashboard.vue'));
+        $analytics = file_get_contents(resource_path('js/lib/googleAnalytics.ts'));
+
+        $this->assertNotFalse($dashboard);
+        $this->assertNotFalse($analytics);
+        $this->assertStringContainsString('gaTestGclid', (string) $dashboard);
+        $this->assertStringContainsString('bindGclidForTesting', (string) $analytics);
+        $this->assertStringContainsString('gclid bound', (string) $analytics);
+    }
 }
