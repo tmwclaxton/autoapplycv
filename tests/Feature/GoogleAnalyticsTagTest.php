@@ -39,11 +39,25 @@ class GoogleAnalyticsTagTest extends TestCase
             "gtag('config', \"G-XXET6H4VM1\", { send_page_view: false })",
             $content,
         );
+        $this->assertStringContainsString(
+            "gtag('config', \"AW-18219075665\")",
+            $content,
+        );
+        $this->assertStringContainsString(
+            '__autocvapplyGoogleAdsConversions',
+            $content,
+        );
+        // Blade @json escapes slashes (AW-...\/label).
+        $this->assertStringContainsString('xFpFCIDTldQcENGQxO9D', $content);
+        $this->assertStringContainsString('_yFvCIPTldQcENGQxO9D', $content);
     }
 
     public function test_google_analytics_tag_is_omitted_when_measurement_id_is_empty(): void
     {
-        config(['analytics.google_analytics_id' => '']);
+        config([
+            'analytics.google_analytics_id' => '',
+            'analytics.google_ads_id' => 'AW-18219075665',
+        ]);
 
         $response = $this->get(route('home'));
 
@@ -53,5 +67,24 @@ class GoogleAnalyticsTagTest extends TestCase
 
         $this->assertStringNotContainsString('googletagmanager.com/gtag/js', $content);
         $this->assertStringNotContainsString('gtag(', $content);
+        $this->assertStringNotContainsString('AW-18219075665', $content);
+    }
+
+    public function test_google_ads_config_is_omitted_when_ads_id_is_empty(): void
+    {
+        config([
+            'analytics.google_analytics_id' => 'G-XXET6H4VM1',
+            'analytics.google_ads_id' => '',
+        ]);
+
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+
+        $content = (string) $response->getContent();
+
+        $this->assertStringContainsString('G-XXET6H4VM1', $content);
+        $this->assertStringNotContainsString('AW-18219075665', $content);
+        $this->assertStringNotContainsString('__autocvapplyGoogleAdsConversions', $content);
     }
 }

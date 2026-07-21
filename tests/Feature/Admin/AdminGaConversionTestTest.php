@@ -23,6 +23,11 @@ class AdminGaConversionTestTest extends TestCase
         config([
             'admin.allowed_emails' => ['admin@example.com'],
             'analytics.google_analytics_id' => 'G-XXET6H4VM1',
+            'analytics.google_ads_id' => 'AW-18219075665',
+            'analytics.google_ads_conversions' => [
+                'sign_up' => 'AW-18219075665/xFpFCIDTldQcENGQxO9D',
+                'purchase' => 'AW-18219075665/_yFvCIPTldQcENGQxO9D',
+            ],
         ]);
 
         $admin = User::factory()->create([
@@ -36,9 +41,13 @@ class AdminGaConversionTestTest extends TestCase
             ]))
             ->assertOk()
             ->assertSee('G-XXET6H4VM1', false)
+            ->assertSee('AW-18219075665', false)
+            ->assertSee('xFpFCIDTldQcENGQxO9D', false)
+            ->assertSee('_yFvCIPTldQcENGQxO9D', false)
             ->assertSee('test-gclid-123', false)
             ->assertSee('ads_conversion_Sign_up_1', false)
-            ->assertSee('purchase', false);
+            ->assertSee('purchase', false)
+            ->assertSee('send_to: adsConversions.purchase', false);
     }
 
     public function test_non_admin_cannot_open_ga_conversion_test_page(): void

@@ -31,12 +31,17 @@
                 page_location: window.__gaTestPageLocation,
                 page_title: 'AutoCVApply'
             });
+            @if (filled($googleAdsId))
+            gtag('config', @json($googleAdsId));
+            window.__autocvapplyGoogleAdsConversions = @json($googleAdsConversions);
+            @endif
         </script>
     @endif
 </head>
 <body>
     <h1>GA / Ads conversion test</h1>
     <p>Measurement ID: <code id="measurement-id">{{ $googleAnalyticsId ?: '(missing)' }}</code></p>
+    <p>Google Ads ID: <code id="ads-id">{{ $googleAdsId ?: '(missing)' }}</code></p>
     <p>gclid: <code id="gclid">{{ $gclid !== '' ? $gclid : '(none - campaign attribution unlikely)' }}</code></p>
     <p>Status: <strong id="status">waiting</strong></p>
     <pre id="log"></pre>
@@ -44,6 +49,7 @@
     <script>
         (function () {
             const measurementId = @json($googleAnalyticsId);
+            const adsConversions = @json($googleAdsConversions) || {};
             const gclid = @json($gclid);
             const count = @json($count);
             const autoFire = @json($autoFire);
@@ -91,6 +97,23 @@
                 gtag('event', 'conversion_event_purchase', Object.assign({}, purchaseParams, common));
                 gtag('event', 'sign_up', Object.assign({ method: 'test', transaction_id: 'test_sign_up_' + stamp }, common));
                 gtag('event', 'ads_conversion_Sign_up_1', Object.assign({ method: 'test', transaction_id: 'test_sign_up_' + stamp }, common));
+
+                if (adsConversions.purchase) {
+                    gtag('event', 'conversion', Object.assign({
+                        send_to: adsConversions.purchase,
+                        transaction_id: purchaseParams.transaction_id,
+                        value: purchaseParams.value,
+                        currency: purchaseParams.currency
+                    }, common));
+                }
+
+                if (adsConversions.sign_up) {
+                    gtag('event', 'conversion', Object.assign({
+                        send_to: adsConversions.sign_up,
+                        transaction_id: 'test_sign_up_' + stamp
+                    }, common));
+                }
+
                 log('fired batch ' + (index + 1) + ' transaction=' + purchaseParams.transaction_id);
             }
 

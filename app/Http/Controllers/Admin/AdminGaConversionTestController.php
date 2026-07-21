@@ -19,6 +19,8 @@ class AdminGaConversionTestController extends Controller
 
         return view('admin.ga-conversion-test', [
             'googleAnalyticsId' => (string) config('analytics.google_analytics_id'),
+            'googleAdsId' => (string) config('analytics.google_ads_id'),
+            'googleAdsConversions' => config('analytics.google_ads_conversions', []),
             'gclid' => $gclid,
             'count' => $count,
             'autoFire' => $request->boolean('auto', true),

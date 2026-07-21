@@ -42,6 +42,8 @@
         </x-inertia::head>
 
         @php($googleAnalyticsId = config('analytics.google_analytics_id'))
+        @php($googleAdsId = config('analytics.google_ads_id'))
+        @php($googleAdsConversions = config('analytics.google_ads_conversions', []))
         @if (filled($googleAnalyticsId))
             <!-- Google tag (gtag.js) + Consent Mode defaults (updated from CookieConsent Pinia store) -->
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
@@ -58,6 +60,10 @@
                 gtag('js', new Date());
                 {{-- send_page_view false: Inertia SPA pageviews are sent from resources/js/lib/googleAnalytics.ts on router navigate (including initial load), only after analytics consent. --}}
                 gtag('config', @json($googleAnalyticsId), { send_page_view: false });
+                @if (filled($googleAdsId))
+                gtag('config', @json($googleAdsId));
+                window.__autocvapplyGoogleAdsConversions = @json($googleAdsConversions);
+                @endif
             </script>
         @endif
     </head>

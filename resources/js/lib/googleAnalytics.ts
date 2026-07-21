@@ -10,6 +10,10 @@ declare global {
     interface Window {
         gtag?: (...args: unknown[]) => void;
         dataLayer?: unknown[];
+        __autocvapplyGoogleAdsConversions?: {
+            sign_up?: string;
+            purchase?: string;
+        };
     }
 }
 
@@ -35,6 +39,43 @@ function measurementId(): string | null {
     } catch {
         return null;
     }
+}
+
+function adsConversionSendTo(kind: 'sign_up' | 'purchase'): string | null {
+    const sendTo = window.__autocvapplyGoogleAdsConversions?.[kind]?.trim();
+
+    return sendTo || null;
+}
+
+/**
+ * Fire a native Google Ads website conversion (AW- send_to).
+ * Requires advertising consent so ad_storage / ad_user_data are granted.
+ */
+function trackAdsConversion(
+    kind: 'sign_up' | 'purchase',
+    choices: ConsentChoices,
+    params: Record<string, unknown> = {},
+): boolean {
+    if (!isAdvertisingConsentGranted(choices)) {
+        return false;
+    }
+
+    if (typeof window.gtag !== 'function') {
+        return false;
+    }
+
+    const sendTo = adsConversionSendTo(kind);
+
+    if (!sendTo) {
+        return false;
+    }
+
+    window.gtag('event', 'conversion', {
+        send_to: sendTo,
+        ...params,
+    });
+
+    return true;
 }
 
 function trackPageView(pagePath: string): void {
@@ -140,11 +181,18 @@ export function trackPurchaseConversion(
         ],
     };
 
-    // Standard GA4 ecommerce purchase (older Ads import).
+    // Standard GA4 ecommerce purchase (and legacy GA4-imported Ads action).
     window.gtag('event', 'purchase', purchaseParams);
 
-    // Google Ads "PURCHASE" / Web Purchase action expects this event name.
+    // Legacy GA4 custom purchase event name still used in some reports.
     window.gtag('event', 'conversion_event_purchase', purchaseParams);
+
+    // Native Google Ads website conversion (records in Ads without GA4 import lag).
+    trackAdsConversion('purchase', choices, {
+        transaction_id: conversion.transaction_id,
+        value: conversion.value,
+        currency: conversion.currency,
+    });
 
     return true;
 }
@@ -188,9 +236,14 @@ export function trackSignUpConversion(
         transaction_id: transactionId,
     });
 
-    // Google Ads primary action imported as this GA4 event name.
+    // Legacy GA4-imported Ads custom event (still useful in GA4).
     window.gtag('event', 'ads_conversion_Sign_up_1', {
         method,
+        transaction_id: transactionId,
+    });
+
+    // Native Google Ads website conversion (records in Ads without GA4 import lag).
+    trackAdsConversion('sign_up', choices, {
         transaction_id: transactionId,
     });
 
@@ -272,11 +325,19 @@ export function trackTestConversions(
     if (purchases > 0) {
         sent.push(`purchase x${purchases}`);
         sent.push(`conversion_event_purchase x${purchases}`);
+
+        if (adsConversionSendTo('purchase')) {
+            sent.push(`AW purchase x${purchases}`);
+        }
     }
 
     if (signUps > 0) {
         sent.push(`sign_up x${signUps}`);
         sent.push(`ads_conversion_Sign_up_1 x${signUps}`);
+
+        if (adsConversionSendTo('sign_up')) {
+            sent.push(`AW sign_up x${signUps}`);
+        }
     }
 
     return sent;

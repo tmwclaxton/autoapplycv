@@ -48,5 +48,7 @@ class GoogleAnalyticsConversionFlashTest extends TestCase
         $this->assertStringContainsString('gaTestGclid', (string) $dashboard);
         $this->assertStringContainsString('bindGclidForTesting', (string) $analytics);
         $this->assertStringContainsString('gclid bound', (string) $analytics);
+        $this->assertStringContainsString('trackAdsConversion', (string) $analytics);
+        $this->assertStringContainsString('send_to: sendTo', (string) $analytics);
     }
 }
