@@ -133,10 +133,10 @@ import { howTo } from '@/routes';
                     />
                 </div>
                 <div>
-                    <p class="postbox-label">X</p>
+                    <p class="postbox-label">X.com</p>
                     <p class="font-bold text-postbox-navy">@AutoCVApply</p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        Product updates and tips on X.
+                        Product updates and tips on X.com.
                     </p>
                 </div>
             </a>

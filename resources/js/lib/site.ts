@@ -286,13 +286,8 @@ export const MARKETING_NAV_LINKS = [
     { label: 'Contact', route: 'contact' },
 ] as const;
 
-export const FOOTER_LINKS = [
-    { label: 'Blog', route: 'blog' },
-    { label: 'How to', route: 'how-to' },
-    { label: 'Pricing', route: 'pricing' },
-    { label: 'Analytics', route: 'analytics' },
-    { label: 'About', route: 'about' },
-    { label: 'Contact', route: 'contact' },
+/** Footer-only legal links. Product pages live in the marketing header. */
+export const FOOTER_LEGAL_LINKS = [
     { label: 'Terms', route: 'terms' },
     { label: 'Privacy', route: 'privacy' },
 ] as const;
