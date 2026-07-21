@@ -49,6 +49,25 @@ class MarketingPagesTest extends TestCase
         );
     }
 
+    public function test_marketing_pages_include_instagram_profile_link(): void
+    {
+        $instagramUrl = 'https://www.instagram.com/autocvapply/';
+
+        $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
+        $nav = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxMarketingNav.vue'),
+        );
+        $footer = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxSiteFooter.vue'),
+        );
+        $contact = (string) file_get_contents(resource_path('js/pages/Contact.vue'));
+
+        $this->assertStringContainsString("INSTAGRAM_URL = '{$instagramUrl}'", $site);
+        $this->assertStringContainsString('INSTAGRAM_URL', $nav);
+        $this->assertStringContainsString('INSTAGRAM_URL', $footer);
+        $this->assertStringContainsString('INSTAGRAM_URL', $contact);
+    }
+
     public function test_welcome_page_includes_cover_letter_section(): void
     {
         $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));
