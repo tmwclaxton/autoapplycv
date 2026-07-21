@@ -22,6 +22,7 @@ import {
     FOOTER_LINKS,
     DISCORD_INVITE_URL,
     GITHUB_REPOSITORY_URL,
+    INSTAGRAM_URL,
 } from '@/lib/site';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { LucideIcon } from 'lucide-vue-next';
@@ -202,6 +203,21 @@ const linkClass =
                                     aria-hidden="true"
                                 />
                                 Discord
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                :href="INSTAGRAM_URL"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                :class="linkClass"
+                            >
+                                <FontAwesomeIcon
+                                    :icon="['fab', 'instagram']"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
+                                Instagram
                             </a>
                         </li>
                     </ul>

@@ -3,6 +3,8 @@ export const GITHUB_REPOSITORY_URL =
 
 export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
+export const INSTAGRAM_URL = 'https://www.instagram.com/autocvapply/';
+
 export const CHROME_WEB_STORE_URL =
     'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih';
 
