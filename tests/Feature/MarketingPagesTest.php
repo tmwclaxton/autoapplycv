@@ -68,6 +68,25 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('INSTAGRAM_URL', $contact);
     }
 
+    public function test_marketing_pages_include_x_profile_link(): void
+    {
+        $xUrl = 'https://x.com/AutoCVApply';
+
+        $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
+        $nav = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxMarketingNav.vue'),
+        );
+        $footer = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxSiteFooter.vue'),
+        );
+        $contact = (string) file_get_contents(resource_path('js/pages/Contact.vue'));
+
+        $this->assertStringContainsString("X_URL = '{$xUrl}'", $site);
+        $this->assertStringContainsString('X_URL', $nav);
+        $this->assertStringContainsString('X_URL', $footer);
+        $this->assertStringContainsString('X_URL', $contact);
+    }
+
     public function test_welcome_page_includes_cover_letter_section(): void
     {
         $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));

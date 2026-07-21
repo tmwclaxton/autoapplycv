@@ -18,6 +18,7 @@ import {
     GITHUB_REPOSITORY_URL,
     INSTAGRAM_URL,
     MARKETING_NAV_LINKS,
+    X_URL,
 } from '@/lib/site';
 import {
     about,
@@ -130,6 +131,19 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                             />
                             Instagram
                         </a>
+                        <a
+                            :href="X_URL"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="postbox-btn-ghost inline-flex items-center justify-start gap-2 border-2 text-sm"
+                        >
+                            <FontAwesomeIcon
+                                :icon="['fab', 'x-twitter']"
+                                class="size-5"
+                                aria-hidden="true"
+                            />
+                            X
+                        </a>
                         <Link
                             v-if="isAuthenticated"
                             :href="dashboard()"
@@ -202,6 +216,20 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             >
                 <FontAwesomeIcon
                     :icon="['fab', 'instagram']"
+                    class="size-5"
+                    aria-hidden="true"
+                />
+            </a>
+
+            <a
+                :href="X_URL"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="AutoCVApply on X"
+                class="postbox-btn-ghost shrink-0 items-center border-2 !p-2"
+            >
+                <FontAwesomeIcon
+                    :icon="['fab', 'x-twitter']"
                     class="size-5"
                     aria-hidden="true"
                 />

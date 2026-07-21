@@ -11,6 +11,7 @@ import {
     DISCORD_INVITE_URL,
     GITHUB_REPOSITORY_URL,
     INSTAGRAM_URL,
+    X_URL,
 } from '@/lib/site';
 import { howTo } from '@/routes';
 </script>
@@ -29,7 +30,7 @@ import { howTo } from '@/routes';
             description="No sales team. No chat widget. Just a couple of sensible ways to reach us."
         />
 
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <a
                 :href="`mailto:${CONTACT_EMAIL}`"
                 class="postbox-panel flex gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
@@ -112,6 +113,30 @@ import { howTo } from '@/routes';
                     <p class="font-bold text-postbox-navy">@autocvapply</p>
                     <p class="mt-1 text-sm text-muted-foreground">
                         Product updates and tips on Instagram.
+                    </p>
+                </div>
+            </a>
+
+            <a
+                :href="X_URL"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="postbox-panel flex gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
+            >
+                <div
+                    class="flex size-12 shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
+                    <FontAwesomeIcon
+                        :icon="['fab', 'x-twitter']"
+                        class="size-5 text-postbox-navy"
+                        aria-hidden="true"
+                    />
+                </div>
+                <div>
+                    <p class="postbox-label">X</p>
+                    <p class="font-bold text-postbox-navy">@AutoCVApply</p>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Product updates and tips on X.
                     </p>
                 </div>
             </a>

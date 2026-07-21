@@ -5,6 +5,8 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
 export const INSTAGRAM_URL = 'https://www.instagram.com/autocvapply/';
 
+export const X_URL = 'https://x.com/AutoCVApply';
+
 export const CHROME_WEB_STORE_URL =
     'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih';
 
