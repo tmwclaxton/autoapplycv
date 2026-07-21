@@ -14,6 +14,7 @@ function loadHeuristics(dom) {
     const sandbox = {
         window: context,
         document: context.document,
+        Element: context.Element,
         HTMLElement: context.HTMLElement,
         HTMLInputElement: context.HTMLInputElement,
         HTMLTextAreaElement: context.HTMLTextAreaElement,
@@ -25,6 +26,7 @@ function loadHeuristics(dom) {
         MouseEvent: context.MouseEvent,
         PointerEvent: context.MouseEvent,
         MutationObserver: context.MutationObserver,
+        ShadowRoot: context.ShadowRoot || class ShadowRoot {},
         setTimeout,
         clearTimeout,
         console,
@@ -32,6 +34,11 @@ function loadHeuristics(dom) {
     };
 
     context.globalThis = context;
+
+    if (typeof context.ShadowRoot === 'undefined') {
+        context.ShadowRoot = sandbox.ShadowRoot;
+    }
+
     vm.createContext(sandbox);
     vm.runInContext(script, sandbox);
 

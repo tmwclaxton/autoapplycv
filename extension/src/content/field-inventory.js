@@ -15,6 +15,10 @@ var AutoCVApplyFieldInventory = (() => {
         }
     }
 
+    function nodeIsShadowRoot(root) {
+        return typeof ShadowRoot !== 'undefined' && root instanceof ShadowRoot;
+    }
+
     const refRegistry = new Map();
     const controlRegistry = new Map();
 
@@ -69,7 +73,7 @@ var AutoCVApplyFieldInventory = (() => {
 
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }

@@ -21,6 +21,10 @@ var AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function nodeIsShadowRoot(root) {
+        return typeof ShadowRoot !== 'undefined' && root instanceof ShadowRoot;
+    }
+
     /**
      * Strip screen-reader / visual "required" markers that ATS themes glue onto
      * labels (e.g. Teamtailor: Vorname*<span class="sr-only">Erforderlich</span>
@@ -2327,6 +2331,31 @@ var AutoCVApplyFormHeuristics = (() => {
             (element.classList.contains('input-row__hidden-control') ||
                 element.classList.contains('apply-flow-input-radio-control') ||
                 element.closest('.input-row--radiogroup') !== null)
+        );
+    }
+
+    function isOracleApplyFlowCombobox(element) {
+        return (
+            element?.getAttribute?.('role') === 'combobox' &&
+            element.classList?.contains('cx-select-input')
+        );
+    }
+
+    function setOracleApplyFlowComboboxValue(element, value) {
+        const stringValue = String(value || '').trim();
+
+        if (!element || !stringValue) {
+            return false;
+        }
+
+        setNativeValue(element, stringValue);
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        clearValidationState(element);
+
+        return (
+            valueMatchesAnswer(element.value, stringValue) ||
+            valueMatchesAnswer(readSimpleFieldValue(element), stringValue)
         );
     }
 
@@ -5571,6 +5600,19 @@ var AutoCVApplyFormHeuristics = (() => {
             return filled;
         }
 
+        if (commitReactSelectStaticValue(element, stringValue)) {
+            heuristicsLog(
+                'info',
+                'apply.combobox',
+                'Greenhouse phone country static react-select committed',
+                {
+                    valuePreview: stringValue.slice(0, 80),
+                },
+            );
+
+            return true;
+        }
+
         heuristicsLog(
             'warn',
             'apply.combobox',
@@ -6602,6 +6644,7 @@ var AutoCVApplyFormHeuristics = (() => {
                     );
 
                     dispatchPointerClick(element);
+
                     if (toggle) {
                         dispatchPointerClick(toggle);
                     }
@@ -6809,6 +6852,7 @@ var AutoCVApplyFormHeuristics = (() => {
             );
 
             dispatchPointerClick(element);
+
             if (toggle) {
                 dispatchPointerClick(toggle);
             }
@@ -7272,7 +7316,14 @@ var AutoCVApplyFormHeuristics = (() => {
         return null;
     }
 
-    const GENERIC_CHOICE_GROUP_MARKERS = new Set(['multiple-choice']);
+    // Lever reuses data-qa="checkboxes" on every Yes/No UL; prefer input.name.
+    const GENERIC_CHOICE_GROUP_MARKERS = new Set([
+        'multiple-choice',
+        'checkboxes',
+        'checkbox',
+        'radios',
+        'radio',
+    ]);
 
     function resolveChoiceGroupMarker(marker, element) {
         if (!marker || GENERIC_CHOICE_GROUP_MARKERS.has(marker)) {
@@ -10364,7 +10415,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }
@@ -10454,7 +10505,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }
@@ -10502,7 +10553,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }
@@ -10797,7 +10848,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }
@@ -13029,6 +13080,12 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (role === 'combobox') {
+            if (isOracleApplyFlowCombobox(element)) {
+                const filled = setOracleApplyFlowComboboxValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
             if (isLinkedInGeoLocationCombobox(element)) {
                 const filled = await setLinkedInGeoLocationValue(
                     element,
@@ -13291,7 +13348,7 @@ var AutoCVApplyFormHeuristics = (() => {
         while (current) {
             const root = current.getRootNode?.();
 
-            if (root instanceof ShadowRoot && root.host) {
+            if (nodeIsShadowRoot(root) && root.host) {
                 current = root.host;
                 continue;
             }
@@ -14537,7 +14594,12 @@ var AutoCVApplyFormHeuristics = (() => {
         } else if (target?.getAttribute?.('role') === 'listbox') {
             applied = setRoleListboxValue(target, resolvedAnswer);
         } else if (target?.getAttribute?.('role') === 'combobox') {
-            if (isGreenhousePhoneCountryCombobox(target)) {
+            if (isOracleApplyFlowCombobox(target)) {
+                applied = setOracleApplyFlowComboboxValue(
+                    target,
+                    resolvedAnswer,
+                );
+            } else if (isGreenhousePhoneCountryCombobox(target)) {
                 applied = await setGreenhousePhoneCountryValue(
                     target,
                     resolvedAnswer,

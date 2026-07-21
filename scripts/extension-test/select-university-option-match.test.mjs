@@ -6,8 +6,8 @@
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { JSDOM } from 'jsdom';
 import vm from 'node:vm';
+import { JSDOM } from 'jsdom';
 import { FORM_HEURISTICS_PATH } from '../form-corpus/lib/paths.mjs';
 
 const heuristicsScript = readFileSync(FORM_HEURISTICS_PATH, 'utf8').replace(

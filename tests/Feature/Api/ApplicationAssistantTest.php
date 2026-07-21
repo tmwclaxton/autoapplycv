@@ -202,7 +202,7 @@ class ApplicationAssistantTest extends TestCase
         $userPrompt = (string) ($capturedMessages[1]['content'] ?? '');
 
         $this->assertStringContainsString('never repeat those as a letterhead', $systemPrompt);
-        $this->assertStringContainsString('Name the employer and role early', $systemPrompt);
+        $this->assertStringContainsString('MUST name the target employer (job.company)', $systemPrompt);
         $this->assertStringContainsString('Exactly three short body paragraphs', $userPrompt);
         $this->assertStringContainsString('Why this role', $userPrompt);
         $this->assertStringContainsString('Relevant experience', $userPrompt);

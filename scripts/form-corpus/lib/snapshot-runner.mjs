@@ -12,6 +12,12 @@ function stripStylesheets(html) {
         .replace(/<link\b[^>]*\bas=["']?style["']?[^>]*>/gi, '');
 }
 
+const SHADOW_ROOT_PATCH = `
+if (typeof ShadowRoot === 'undefined') {
+    globalThis.ShadowRoot = class ShadowRoot {};
+}
+`;
+
 const VISIBILITY_PATCH = `
 (function () {
     function patchElement(el) {
@@ -65,6 +71,7 @@ function extensionScripts() {
 function loadExtensionScripts(window, context) {
     const { heuristics, inventory } = extensionScripts();
 
+    vm.runInContext(SHADOW_ROOT_PATCH, context);
     vm.runInContext(VISIBILITY_PATCH, context);
     vm.runInContext(heuristics, context);
     vm.runInContext(inventory, context);
@@ -98,6 +105,7 @@ export function buildFormDomContext(options) {
 
     loadExtensionScripts(window, context);
     applyInteractionSteps(window, interactionSteps);
+    vm.runInContext(SHADOW_ROOT_PATCH, context);
     vm.runInContext(VISIBILITY_PATCH, context);
 
     const snapshot = window.AutoCVApplyFieldInventory.buildSnapshot(

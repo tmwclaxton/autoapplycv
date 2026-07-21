@@ -40,12 +40,12 @@ import {
     partitionScreeningTrapFields,
     partitionSkillSpecificYearsExperienceFields,
 } from '../pending-fields.js';
+import { isMeaningfulAnswer } from './answer-utils.js';
 import {
     partitionAgreementCheckboxFields,
     partitionElectronicSignatureFields,
     partitionMarketingConsentFields,
 } from './consent-fields.js';
-import { isMeaningfulAnswer } from './answer-utils.js';
 import { tagAnswersWithSource } from './type-coherence.js';
 
 function isNumericPercentageAverageQuestion(label) {

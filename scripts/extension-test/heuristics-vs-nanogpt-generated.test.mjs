@@ -8,7 +8,7 @@
  * Smoke (small concurrent sample):
  *   npm run test:heuristics-vs-nanogpt:generate:smoke
  *
- * ROUTING_CORPUS_MIN overrides the minimum case count (default 500).
+ * ROUTING_CORPUS_MIN overrides the minimum case count (default 1000).
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -100,7 +100,7 @@ function actualRoute(caseRow) {
 
 const corpus = loadCorpus();
 const cases = Array.isArray(corpus.cases) ? corpus.cases : [];
-const minCases = Math.max(1, Number.parseInt(process.env.ROUTING_CORPUS_MIN || '500', 10) || 500);
+const minCases = Math.max(1, Number.parseInt(process.env.ROUTING_CORPUS_MIN || '1000', 10) || 1000);
 
 test('NanoGPT routing corpus has the expected JSON shape', () => {
     assert.equal(typeof corpus.model, 'string');

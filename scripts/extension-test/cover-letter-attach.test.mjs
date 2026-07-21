@@ -106,6 +106,7 @@ test('resolveCoverLetterAttachPayload falls back to draft template + styled PDF'
         generate: true,
         assistCoverLetter: async ({ job }) => {
             assistJob = job;
+
             throw new Error('assist unavailable');
         },
         getProfile: async () => profile,

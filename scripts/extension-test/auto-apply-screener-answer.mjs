@@ -26,6 +26,8 @@ const profileData = {
         legally_authorized: 'yes',
         notice_period: '4 weeks',
         expected_salary_yearly: '85000',
+        affirm_local_commute: 'yes',
+        affirm_local_hybrid: 'yes',
     },
 };
 

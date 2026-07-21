@@ -775,7 +775,7 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "education.0.institution",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
@@ -791,7 +791,7 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "education.0.degree",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
@@ -807,7 +807,7 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "education.0.field_of_study",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
@@ -973,7 +973,7 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "_profile_link.portfolio",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
@@ -1024,11 +1024,11 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "_profile_link.github",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
-        "vet_with_nanogpt": true,
+        "vet_with_nanogpt": false,
         "nanogpt_expect_appropriate": false
       }
     },
@@ -1041,11 +1041,11 @@
         "dom": null
       },
       "expect": {
-        "profile_path": null,
+        "profile_path": "website_url",
         "should_prompt": false,
         "is_salary": false,
         "is_hours_commitment": false,
-        "vet_with_nanogpt": true,
+        "vet_with_nanogpt": false,
         "nanogpt_expect_appropriate": false
       }
     },
@@ -1353,7 +1353,7 @@
     },
     {
       "id": "fixture-web-jobs-micro1-ai-59336643-step2-2-q3-are-you-able-to-commit-10-15-hours-pe",
-      "label": "q3.are you able to commit 10\u201315 hours+ per week to this role?",
+      "label": "q3.are you able to commit 10–15 hours+ per week to this role?",
       "field": {
         "field_type": "radio",
         "options": [
@@ -1409,7 +1409,7 @@
     },
     {
       "id": "fixture-web-jobs-micro1-ai-59336643-step2-4-q5-compensation-is-output-based-experts-",
-      "label": "q5.compensation is output-based; experts are paid per task that meets the project specifications. the time required to complete work may vary depending on the expert\u2019s experience and workflow. minimum submission requirements apply. experts must submit a minimum of tasks per week. is this acceptable to you?",
+      "label": "q5.compensation is output-based; experts are paid per task that meets the project specifications. the time required to complete work may vary depending on the expert’s experience and workflow. minimum submission requirements apply. experts must submit a minimum of tasks per week. is this acceptable to you?",
       "field": {
         "field_type": "radio",
         "options": [
@@ -2274,7 +2274,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-9-current-address-city-state-zip-code-curr",
-      "label": "current address (city \u2013 state \u2013 zip code) current address (city \u2013 state \u2013 zip code) current address (city \u2013 state \u2013 zip code) current address (city \u2013 state \u2013 zip code)",
+      "label": "current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2354,7 +2354,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-13-do-you-have-any-friends-or-relatives-emp",
-      "label": "do you have any friends or relatives employed by braeburn? do you have any friends or relatives employed by braeburn? current address (city \u2013 state \u2013 zip code)",
+      "label": "do you have any friends or relatives employed by braeburn? do you have any friends or relatives employed by braeburn? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2374,7 +2374,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-14-current-address-city-state-zip-code-",
-      "label": "current address (city \u2013 state \u2013 zip code)",
+      "label": "current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2474,7 +2474,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-19-years-of-pharma-experience-years-of-phar",
-      "label": "years of pharma experience years of pharma experience current address (city \u2013 state \u2013 zip code)",
+      "label": "years of pharma experience years of pharma experience current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2582,7 +2582,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-24-are-you-at-least-18-years-old-are-you-at",
-      "label": "are you at least 18 years old? are you at least 18 years old? current address (city \u2013 state \u2013 zip code)",
+      "label": "are you at least 18 years old? are you at least 18 years old? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2602,7 +2602,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-25-are-you-an-american-citizen-lawful-perma",
-      "label": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city \u2013 state \u2013 zip code)",
+      "label": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2622,7 +2622,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-26-are-you-presently-authorized-to-work-for",
-      "label": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city \u2013 state \u2013 zip code)",
+      "label": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2642,7 +2642,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-27-will-you-now-or-in-the-future-require-br",
-      "label": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city \u2013 state \u2013 zip code)",
+      "label": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2662,7 +2662,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-28-are-you-related-to-any-officer-or-member",
-      "label": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city \u2013 state \u2013 zip code)",
+      "label": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2682,7 +2682,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-29-are-you-able-to-perform-the-essential-fu",
-      "label": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city \u2013 state \u2013 zip code)",
+      "label": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2762,7 +2762,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-33-have-you-been-excluded-debarred-suspende",
-      "label": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city \u2013 state \u2013 zip code)",
+      "label": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -2882,7 +2882,7 @@
     },
     {
       "id": "fixture-web-boards-greenhouse-io-8614025002-39-i-understand-that-completion-of-this-app",
-      "label": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company\u2019s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company\u2019s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city \u2013 state \u2013 zip code)",
+      "label": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city – state – zip code)",
       "field": {
         "field_type": "text",
         "options": null,
@@ -3411,7 +3411,7 @@
     },
     {
       "id": "fixture-web-vekst-teamtailor-com-new-3-2-vilken-eller-vilka-avdelningar-r-du-intr",
-      "label": "vilken eller vilka avdelningar \u00e4r du intresserad av att sammankopplas med?required v\u00e4lj den eller de avdelningar du skulle kunna t\u00e4nka dig att arbeta inom, inte de omr\u00e5den du har erfarenhet av.",
+      "label": "vilken eller vilka avdelningar är du intresserad av att sammankopplas med?required välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av.",
       "field": {
         "field_type": "checkbox",
         "options": [
@@ -3437,7 +3437,7 @@
     },
     {
       "id": "fixture-web-vekst-teamtailor-com-new-3-3-ber-tta-lite-kort-om-varf-r-du-fastnade-",
-      "label": "ber\u00e4tta lite kort om varf\u00f6r du fastnade f\u00f6r vekst och blev intresserad av att jobba hos oss? ber\u00e4tta lite kort om varf\u00f6r du fastnade f\u00f6r vekst och blev intresserad av att jobba hos oss? ber\u00e4tta lite kort om varf\u00f6r du fastnade f\u00f6r vekst och blev intresserad av att jobba hos oss?",
+      "label": "berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss?",
       "field": {
         "field_type": "textarea",
         "options": null,
@@ -3457,7 +3457,7 @@
     },
     {
       "id": "fixture-web-vekst-teamtailor-com-new-3-4-ber-tta-kortfattat-om-vad-du-syssels-tte",
-      "label": "ber\u00e4tta kortfattat om vad du syssels\u00e4tter dig med just nu.required ber\u00e4tta kortfattat om vad du syssels\u00e4tter dig med just nu.required ber\u00e4tta kortfattat om vad du syssels\u00e4tter dig med just nu.required",
+      "label": "berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required",
       "field": {
         "field_type": "textarea",
         "options": null,
@@ -3477,7 +3477,7 @@
     },
     {
       "id": "fixture-web-vekst-teamtailor-com-new-3-5-ber-tta-kortfattat-om-din-erfarenhet-som",
-      "label": "ber\u00e4tta kortfattat om din erfarenhet som du tror \u00e4r relevant f\u00f6r det/de omr\u00e5den du \u00e4r intresserad av att arbeta med hos oss. required ber\u00e4tta kortfattat om din erfarenhet som du tror \u00e4r relevant f\u00f6r det/de omr\u00e5den du \u00e4r intresserad av att arbeta med hos oss. required ber\u00e4tta kortfattat om din erfarenhet som du tror \u00e4r relevant f\u00f6r det/de omr\u00e5den du \u00e4r intresserad av att arbeta med hos oss. required",
+      "label": "berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required",
       "field": {
         "field_type": "textarea",
         "options": null,
@@ -3497,7 +3497,7 @@
     },
     {
       "id": "fixture-web-vekst-teamtailor-com-new-3-6-vilken-stad-utg-r-du-ifr-n-required-vilk",
-      "label": "vilken stad utg\u00e5r du ifr\u00e5n?required vilken stad utg\u00e5r du ifr\u00e5n?required vilken stad utg\u00e5r du ifr\u00e5n?required",
+      "label": "vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required",
       "field": {
         "field_type": "text",
         "options": null,

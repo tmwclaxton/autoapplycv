@@ -3,8 +3,8 @@
  * Lever opportunityLocationId leaves option text "Select..." when empty.
  * read_field_values must not count that as filled.
  */
-import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';

@@ -9,7 +9,7 @@ const status = JSON.parse(readFileSync(
 ));
 
 assert.equal(status.campaign, 'auto-apply-live-quality');
-assert.equal(status.campaign_status, 'resumed');
+assert.equal(status.campaign_status, 'paused');
 assert.ok(Array.isArray(status.scenarios_tested));
 assert.ok(status.platform_summary.indeed);
 

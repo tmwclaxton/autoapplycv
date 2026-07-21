@@ -47,6 +47,11 @@ const sandbox = {
 };
 
 context.globalThis = context;
+
+if (typeof context.ShadowRoot === 'undefined') {
+    context.ShadowRoot = class ShadowRoot {};
+}
+
 vm.createContext(sandbox);
 vm.runInContext(heuristicsScript, sandbox);
 

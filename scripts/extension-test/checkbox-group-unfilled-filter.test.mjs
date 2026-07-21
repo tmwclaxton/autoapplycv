@@ -3,8 +3,8 @@
  * Greenhouse fluency multi-select inventories the first option (Mandarin).
  * When English is checked, FILTER_UNFILLED_REQUIRED must treat the group as filled.
  */
-import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';

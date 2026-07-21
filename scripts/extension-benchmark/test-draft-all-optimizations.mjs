@@ -47,7 +47,7 @@ assert(
 );
 
 const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo([
-    { id: 0, ref: 'f0', label: 'Why do you want this role?', field_type: 'textarea' },
+    { id: 0, ref: 'f0', label: 'Phone Number', field_type: 'tel' },
     { id: 1, ref: 'f1', label: 'Cover letter', field_type: 'textarea' },
 ], memo);
 

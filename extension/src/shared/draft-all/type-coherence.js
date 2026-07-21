@@ -176,7 +176,11 @@ function isEmailField(field) {
         return true;
     }
 
-    return /^(?:e.?mail(?:\s*address)?|email address)$/.test(normalized)
+    // Greenhouse and similar ATS sometimes repeat the label ("email email email").
+    const collapsed = normalized.replace(/\b(e.?mail(?:\s*address)?)\b(?:\s+\1)+\b/g, '$1');
+
+    return /^(?:e.?mail(?:\s*address)?|email address|email)$/.test(collapsed)
+        || /^(?:e.?mail(?:\s*address)?|email address|email)$/.test(normalized)
         || /\bemail address\b/.test(normalized);
 }
 

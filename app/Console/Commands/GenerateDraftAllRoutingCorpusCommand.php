@@ -13,7 +13,8 @@ class GenerateDraftAllRoutingCorpusCommand extends Command
                             {--batch=25 : Cases requested per NanoGPT call}
                             {--concurrency=8 : Parallel NanoGPT batch calls per wave}
                             {--seed= : Optional RNG seed for reproducible variety angles}
-                            {--output= : Output JSON path relative to project root}';
+                            {--output= : Output JSON path relative to project root}
+                            {--avoid-labels-from= : Existing corpus JSON whose labels should not be repeated}';
 
     protected $description = 'Generate adversarial Draft All heuristic-vs-NanoGPT routing tests via concurrent NanoGPT prompts';
 
@@ -32,10 +33,15 @@ class GenerateDraftAllRoutingCorpusCommand extends Command
         $seed = is_numeric($seedOption) ? (int) $seedOption : null;
         $output = (string) ($this->option('output') ?: DraftAllRoutingCorpusGenerator::FIXTURE_PATH);
         $outputPath = base_path($output);
+        $avoidLabels = $this->loadAvoidLabels((string) ($this->option('avoid-labels-from') ?: ''));
 
         $this->info("Generating {$count} routing cases via NanoGPT ({$generator->model()}), batch={$batch}, concurrency={$concurrency}");
 
-        $corpus = $generator->generate($count, $batch, $seed, $concurrency);
+        if ($avoidLabels !== []) {
+            $this->line('Avoiding '.count($avoidLabels).' existing labels from --avoid-labels-from');
+        }
+
+        $corpus = $generator->generate($count, $batch, $seed, $concurrency, $avoidLabels);
 
         File::ensureDirectoryExists(dirname($outputPath));
         file_put_contents(
@@ -57,5 +63,40 @@ class GenerateDraftAllRoutingCorpusCommand extends Command
         }
 
         return $corpus['count'] > 0 ? self::SUCCESS : self::FAILURE;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function loadAvoidLabels(string $relativePath): array
+    {
+        if ($relativePath === '') {
+            return [];
+        }
+
+        $path = base_path($relativePath);
+
+        if (! File::exists($path)) {
+            return [];
+        }
+
+        /** @var array<string, mixed> $payload */
+        $payload = json_decode((string) File::get($path), true) ?: [];
+        $cases = is_array($payload['cases'] ?? null) ? $payload['cases'] : [];
+        $labels = [];
+
+        foreach ($cases as $case) {
+            if (! is_array($case)) {
+                continue;
+            }
+
+            $label = trim((string) ($case['label'] ?? ''));
+
+            if ($label !== '') {
+                $labels[] = $label;
+            }
+        }
+
+        return $labels;
     }
 }

@@ -142,6 +142,12 @@ export function mockAnswerForField(field, index) {
             return field.options?.[0] ?? 'Yes';
         default: {
             const question = String(field.question || '').toLowerCase();
+            const domId = field.dom?.id || '';
+
+            // Greenhouse phone dial combobox is id=country + role=combobox but field_type=text.
+            if (domId === 'country' && field.dom?.role === 'combobox') {
+                return 'United Kingdom (+44)';
+            }
 
             // Lever/Ashby geocomplete location text fields need a real city string.
             if (

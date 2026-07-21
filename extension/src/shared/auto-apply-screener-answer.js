@@ -19,6 +19,9 @@ import { requestDraftField } from './draft-all-stream.js';
 import {
     isGenericTotalExperienceQuestionLabel,
     isJobApplicationLocationChoiceLabel,
+    isNamedToolCompetenceQuestionLabel,
+    isOpenScreenerEssayQuestionLabel,
+    isSkillRatingQuestionLabel,
     resolveJobApplicationLocationAnswer,
     isMeaningfulAnswer,
     isMeaningfulFieldAnswer,
@@ -408,7 +411,7 @@ function resolveGenericTotalExperienceFromSettings(settings = {}) {
 /**
  * Open-ended employer screeners should reach NanoGPT via llmFields, not regex guesses.
  */
-function shouldDeferScreenerQuestionToLlm(label) {
+export function shouldDeferScreenerQuestionToLlm(label) {
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
         return true;
     }
@@ -416,6 +419,18 @@ function shouldDeferScreenerQuestionToLlm(label) {
     // Below-threshold preference leaves these blank so NanoGPT can filter-pass
     // from work history instead of dumping profile YOE digits onto Yes/No.
     if (extractYearsExperienceThreshold(label) !== null) {
+        return true;
+    }
+
+    if (isNamedToolCompetenceQuestionLabel(label)) {
+        return true;
+    }
+
+    if (isSkillRatingQuestionLabel(label)) {
+        return true;
+    }
+
+    if (isOpenScreenerEssayQuestionLabel(label)) {
         return true;
     }
 
@@ -665,6 +680,19 @@ export function resolveHeuristicScreenerAnswer(
         );
     }
 
+    const savedAnswer = resolveSavedApplicationAnswer(
+        normalizedField,
+        profileData,
+        questionMemo,
+    );
+
+    if (
+        isMeaningfulAnswer(savedAnswer) &&
+        shouldUseProfileSalaryAnswer(savedAnswer, label)
+    ) {
+        return normalizeHeuristicAnswerForField(savedAnswer, normalizedField);
+    }
+
     // Skill/tool years must not inherit total YOE via keyword mapping.
     if (shouldDeferScreenerQuestionToLlm(label)) {
         return null;
@@ -744,19 +772,6 @@ export function resolveHeuristicScreenerAnswer(
                 normalizedField,
             );
         }
-    }
-
-    const savedAnswer = resolveSavedApplicationAnswer(
-        normalizedField,
-        profileData,
-        questionMemo,
-    );
-
-    if (
-        isMeaningfulAnswer(savedAnswer) &&
-        shouldUseProfileSalaryAnswer(savedAnswer, salaryLabel)
-    ) {
-        return normalizeHeuristicAnswerForField(savedAnswer, normalizedField);
     }
 
     const fieldType = String(
@@ -1152,3 +1167,9 @@ export async function tryAnswerScreenerField(tabId, field, context) {
         return { applied: false, source: null };
     }
 }
+
+export {
+    isNamedToolCompetenceQuestionLabel,
+    isOpenScreenerEssayQuestionLabel,
+    isSkillRatingQuestionLabel,
+} from './pending-fields.js';

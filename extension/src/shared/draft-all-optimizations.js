@@ -12,13 +12,13 @@ import {
     extractYearsExperienceThreshold,
     normalizeFieldAnswerForQuestion,
 } from './answer-normalization.js';
+import { isPositionApplyingForQuestionLabel } from './auto-apply-screener-answer.js';
 import { isMeaningfulAnswer } from './draft-all/answer-utils.js';
 import {
     isMarketingOrFutureConsentField,
     isAgreementCheckboxField,
 } from './draft-all/consent-fields.js';
 import { shouldRejectAnswerForTypeCoherence } from './draft-all/type-coherence.js';
-import { isPositionApplyingForQuestionLabel } from './auto-apply-screener-answer.js';
 import {
     isEmployerScreeningTrapLabel,
     isEmployerSpecificTravelComfortLabel,

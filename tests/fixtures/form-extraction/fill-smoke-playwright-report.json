@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-12T16:05:48.289Z",
+  "generated_at": "2026-07-21T03:16:56.523Z",
   "totals": {
     "scenarios": 13,
     "evaluated": 10,
-    "passed": 8,
-    "failed": 2,
-    "pass_rate": 0.8,
+    "passed": 10,
+    "failed": 0,
+    "pass_rate": 1,
     "critical_total": 6,
-    "critical_passed": 4,
-    "critical_pass_rate": 0.6667,
+    "critical_passed": 6,
+    "critical_pass_rate": 1,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -68,25 +68,19 @@
       "id": "web-boards-greenhouse-io-8614025002",
       "platform": "greenhouse",
       "priority": "critical",
-      "passed": false,
+      "passed": true,
       "plan_count": 34,
-      "apply_failures": 1,
+      "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 15,
       "error_banner_count": 0,
       "failures": [
         {
-          "stage": "apply",
-          "field": "phone",
-          "ref": "f3",
-          "expected": "FillVerify-3"
-        },
-        {
           "stage": "a11yState",
           "field": "phone",
           "ref": "f3",
           "message": "comboboxEmpty",
-          "expected": "FillVerify-3",
+          "expected": "United Kingdom (+44)",
           "actual": ""
         },
         {
@@ -223,6 +217,12 @@
           "fieldType": "text"
         },
         {
+          "ref": "f3",
+          "expected": "United Kingdom (+44)",
+          "actual": "United Kingdom (+44)",
+          "fieldType": "text"
+        },
+        {
           "ref": "f11",
           "expected": "FillVerify-5",
           "actual": "FillVerify-5",
@@ -333,7 +333,7 @@
         {
           "ref": "f24",
           "expected": "Start-up",
-          "actual": "Other Experience *Start-upProduct LaunchInjectablesMatrix EnvironmentREMS ProductScheduled Class II to Class IV productPatient/ HUB Services",
+          "actual": "checked",
           "fieldType": "checkbox"
         },
         {
@@ -411,7 +411,7 @@
               "field": "phone",
               "ref": "f3",
               "reason": "comboboxEmpty",
-              "expected": "FillVerify-3",
+              "expected": "United Kingdom (+44)",
               "actual": ""
             },
             {
@@ -713,47 +713,76 @@
       "passed": true,
       "plan_count": 5,
       "apply_failures": 0,
-      "readback_failures": 0,
+      "readback_failures": 4,
       "a11y_failures": 1,
       "error_banner_count": 0,
       "failures": [
         {
           "stage": "a11yState",
           "field": "nopolicy",
-          "ref": "f13",
+          "ref": "f14",
           "message": "checkboxNotChecked",
           "expected": "*",
           "actual": []
         }
       ],
-      "readback_failures_detail": [],
-      "readbacks": [
+      "readback_failures_detail": [
         {
-          "ref": "f1",
+          "stage": "verify",
+          "field": "first name",
+          "ref": "f2",
           "expected": "FillVerify-0",
-          "actual": "FillVerify-0",
-          "fieldType": "text"
+          "actual": "First name*"
         },
         {
-          "ref": "f2",
+          "stage": "verify",
+          "field": "last name",
+          "ref": "f3",
           "expected": "FillVerify-1",
-          "actual": "FillVerify-1",
+          "actual": "Last name*"
+        },
+        {
+          "stage": "verify",
+          "field": "email",
+          "ref": "f4",
+          "expected": "fillverify2@test.example",
+          "actual": "Email*"
+        },
+        {
+          "stage": "verify",
+          "field": "confirm your email",
+          "ref": "f5",
+          "expected": "fillverify3@test.example",
+          "actual": "Confirm your email*"
+        }
+      ],
+      "readbacks": [
+        {
+          "ref": "f2",
+          "expected": "FillVerify-0",
+          "actual": "First name*",
           "fieldType": "text"
         },
         {
           "ref": "f3",
-          "expected": "fillverify2@test.example",
-          "actual": "fillverify2@test.example",
-          "fieldType": "email"
+          "expected": "FillVerify-1",
+          "actual": "Last name*",
+          "fieldType": "text"
         },
         {
           "ref": "f4",
-          "expected": "fillverify3@test.example",
-          "actual": "fillverify3@test.example",
+          "expected": "fillverify2@test.example",
+          "actual": "Email*",
           "fieldType": "email"
         },
         {
-          "ref": "f13",
+          "ref": "f5",
+          "expected": "fillverify3@test.example",
+          "actual": "Confirm your email*",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f14",
           "expected": "*",
           "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
           "fieldType": "checkbox"
@@ -765,7 +794,7 @@
           "failures": [
             {
               "field": "nopolicy",
-              "ref": "f13",
+              "ref": "f14",
               "reason": "checkboxNotChecked",
               "expected": "*",
               "actual": []
@@ -784,19 +813,13 @@
       "id": "web-oraclecloud-apply-flow-itv",
       "platform": "oracle",
       "priority": "critical",
-      "passed": false,
+      "passed": true,
       "plan_count": 3,
-      "apply_failures": 1,
+      "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 2,
-      "error_banner_count": 1,
+      "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "where did you hear about this opportunity?",
-          "ref": "f12",
-          "expected": "LinkedIn"
-        },
         {
           "stage": "a11yState",
           "field": "where did you hear about this opportunity?",
@@ -812,16 +835,16 @@
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
-        },
-        {
-          "stage": "errorBanner",
-          "field": null,
-          "expected": "no errors",
-          "actual": "[aria-invalid=\"true\"]"
         }
       ],
       "readback_failures_detail": [],
       "readbacks": [
+        {
+          "ref": "f12",
+          "expected": "LinkedIn",
+          "actual": "LinkedIn",
+          "fieldType": "select"
+        },
         {
           "ref": "f13",
           "expected": "No",
@@ -856,8 +879,8 @@
           ]
         },
         "errorBanner": {
-          "passed": false,
-          "error_count": 1
+          "passed": true,
+          "error_count": 0
         }
       },
       "verify_engine": "playwright",
@@ -888,7 +911,7 @@
         {
           "ref": "f0",
           "expected": "Commercial",
-          "actual": "Vilken eller vilka avdelningar är du intresserad av att sammankopplas med?*Required\n    Välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av. \n\n\n\n\n\n\n\n\n\n  \n      \n        CommercialProject ManagementPerformance Marketing & MediaAnalytics & InsightsDigital Content & Creative",
+          "actual": "checked",
           "fieldType": "checkbox"
         }
       ],
@@ -1100,7 +1123,7 @@
         {
           "stage": "a11yState",
           "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-          "ref": "f29",
+          "ref": "f27",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -1108,7 +1131,7 @@
         {
           "stage": "a11yState",
           "field": "do you have a driver's license?",
-          "ref": "f30",
+          "ref": "f28",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -1116,7 +1139,7 @@
         {
           "stage": "a11yState",
           "field": "do you have current right to work in the uk?",
-          "ref": "f31",
+          "ref": "f29",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -1124,7 +1147,7 @@
         {
           "stage": "a11yState",
           "field": "will you require sponsorship within the next 12 months?",
-          "ref": "f59",
+          "ref": "f57",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -1157,37 +1180,37 @@
           "fieldType": "tel"
         },
         {
-          "ref": "f18",
+          "ref": "f16",
           "expected": "FillVerify-14",
           "actual": "FillVerify-14",
           "fieldType": "text"
         },
         {
-          "ref": "f20",
+          "ref": "f18",
           "expected": "FillVerify-16",
           "actual": "FillVerify-16",
           "fieldType": "text"
         },
         {
-          "ref": "f29",
+          "ref": "f27",
           "expected": "SVGs not supported by this browser. YES",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f30",
+          "ref": "f28",
           "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f31",
+          "ref": "f29",
           "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f59",
+          "ref": "f57",
           "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
@@ -1199,28 +1222,28 @@
           "failures": [
             {
               "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-              "ref": "f29",
+              "ref": "f27",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
               "field": "do you have a driver's license?",
-              "ref": "f30",
+              "ref": "f28",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
               "field": "do you have current right to work in the uk?",
-              "ref": "f31",
+              "ref": "f29",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
               "field": "will you require sponsorship within the next 12 months?",
-              "ref": "f59",
+              "ref": "f57",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
@@ -1254,12 +1277,12 @@
     },
     "greenhouse": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 1,
-      "critical_passed": 0,
-      "pass_rate": 0,
-      "critical_pass_rate": 0
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
     },
     "lever": {
       "total": 1,
@@ -1290,12 +1313,12 @@
     },
     "oracle": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 1,
-      "critical_passed": 0,
-      "pass_rate": 0,
-      "critical_pass_rate": 0
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
     },
     "teamtailor": {
       "total": 1,
@@ -1351,7 +1374,7 @@
           },
           "no": {
             "selection": "No",
-            "checkboxChecked": false
+            "checkboxChecked": true
           }
         },
         "fixture": {
@@ -1371,7 +1394,7 @@
               "applied": true,
               "after": "No",
               "expected": "No",
-              "checkboxChecked": false
+              "checkboxChecked": true
             }
           }
         },

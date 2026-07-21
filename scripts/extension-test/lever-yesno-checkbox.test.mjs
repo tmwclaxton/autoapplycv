@@ -36,7 +36,7 @@ test('Lever Yes/No checkbox groups keep only the latest answer', async () => {
 
     assert(anchor, 'Finom customer care checkbox group should exist');
 
-    const appliedYes = window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+    const appliedYes = await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
         window.document,
         CUSTOMER_CARE_LABEL,
         'Yes',
@@ -47,7 +47,7 @@ test('Lever Yes/No checkbox groups keep only the latest answer', async () => {
     assert.equal(state.yes, true);
     assert.equal(state.no, false);
 
-    const appliedNo = window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+    const appliedNo = await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
         window.document,
         CUSTOMER_CARE_LABEL,
         'No',

@@ -196,6 +196,10 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
     /\bour values\b/i,
     /\balign(?:s|ment)? with\b.*\bvalues?\b/i,
     /\bgive an example from your (?:professional )?experience\b/i,
+    /\b(?:share|give|provide) an example\b/i,
+    /\bwalk us through\b/i,
+    /\bexplain how you\b/i,
+    /\bwhat is your experience with\b/i,
 ];
 
 const SOURCE_OF_HIRE_QUESTION_PATTERNS = [
@@ -2992,10 +2996,6 @@ export function isSourceOfHireOtherFollowUpLabel(label) {
     return false;
 }
 
-/**
- * Short numeric skill / knowledge ratings (Real SpringBoot 1-10). These are not
- * motivation essays - "how would you rate" must not count as open-ended.
- */
 export function isSkillRatingQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -3008,14 +3008,61 @@ export function isSkillRatingQuestionLabel(label) {
         /\bscale of\s*1\s*(?:-|to|\u2013)\s*10\b/.test(normalized) ||
         /\bhow would you rate\b/.test(normalized) ||
         /\brate your (?:working )?knowledge\b/.test(normalized) ||
+        /\brate your\b.*\b(?:skills?|proficiency|knowledge)\b/.test(
+            normalized,
+        ) ||
+        /\brate yourself\b.*\b(?:skills?|proficiency|knowledge)\b/.test(
+            normalized,
+        ) ||
+        /\bhow (?:proficient|skilled) are you\b/.test(normalized) ||
+        /\bskill rating\b/.test(normalized) ||
         /\brating (?:of|for|on)\b.*\b(?:1|one)\b.*\b(?:10|ten)\b/.test(
             normalized,
-        )
+        ) ||
+        (/\bout of\s*(?:5|10|five|ten)\b/.test(normalized) &&
+            /\b(?:skills?|proficiency|knowledge|rate (?:your|yourself))\b/.test(
+                normalized,
+            ))
     ) {
         return true;
     }
 
     return false;
+}
+
+const NAMED_TOOL_COMPETENCE_PATTERN =
+    /\b(okta|mdm|jamf|intune|helpline|iam|active\s*directory|servicenow|salesforce|workday|jira|confluence|splunk|crowdstrike|sentinelone|kubernetes|terraform|ansible|docker|aws|azure|gcp|google\s*cloud|microsoft\s*365|office\s*365|auth0|keycloak|cyberark|sharepoint|exchange|zoom|slack|snowflake|databricks|kafka|redis|mongodb|postgresql|mysql|elasticsearch|tableau|looker|hubspot|1password|duo)\b/i;
+
+export function namedToolsInQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+    const matches = normalized.match(
+        new RegExp(NAMED_TOOL_COMPETENCE_PATTERN.source, 'gi'),
+    );
+
+    if (!matches) {
+        return [];
+    }
+
+    return [...new Set(matches.map((match) => match.toLowerCase()))];
+}
+
+export function isNamedToolCompetenceQuestionLabel(label) {
+    if (namedToolsInQuestionLabel(label).length === 0) {
+        return false;
+    }
+
+    const normalized = normalizeQuestionLabel(label);
+
+    return (
+        /\b(?:experience|experienced|familiar|proficient|knowledge|worked with|hands[-\s]?on|used|using|support|administer|confident)\b/.test(
+            normalized,
+        ) ||
+        /\b(?:do you|have you|are you|can you)\b/.test(normalized)
+    );
+}
+
+export function isOpenScreenerEssayQuestionLabel(label) {
+    return isOpenEndedQuestionLabel(label);
 }
 
 export function isOpenEndedQuestionLabel(label) {
@@ -3908,11 +3955,27 @@ export function resolveConciseLocationValue(
         return city;
     }
 
+    const postcode = String(
+        readProfileValue(profileData, 'postcode') || '',
+    ).trim();
+
     // Prefer a multi-part profile.location over composing "City, Country".
     // Enrich truncated location cities (location="Wycombe, England" +
     // city="High Wycombe") so Ashby/Lever typeahead can match.
     if (location && /,/.test(location)) {
-        return enrichLocationCityPrefix(location, city);
+        const locationCity = String(location.split(',')[0] || '').trim();
+        const cityKey = city.toLowerCase();
+        const locationKey = locationCity.toLowerCase();
+        const overlapping =
+            !cityKey ||
+            !locationKey ||
+            cityKey === locationKey ||
+            cityKey.includes(locationKey) ||
+            locationKey.includes(cityKey);
+
+        if (overlapping || !postcode) {
+            return enrichLocationCityPrefix(location, city);
+        }
     }
 
     const parts = [];
@@ -4070,7 +4133,9 @@ function haystackMentionsWorkAuthCountry(haystack, aliases) {
             // Require a country cue - bare "us" matches pronouns in "tell us" /
             // "helps us explore" (live Octopus Energy RTW label).
             if (
-                /\b(?:the |in |for |to |within |from )us\b/.test(haystack) ||
+                /\b(?:the |in |for |to |within |from |with |and )us\b/.test(
+                    haystack,
+                ) ||
                 /\busa\b/.test(haystack) ||
                 /\bu\.s\.a?\b/.test(haystack)
             ) {
@@ -4336,7 +4401,7 @@ function isWorkAuthYesNoStyleQuestion(label) {
         return false;
     }
 
-    return /\b(permanent authorization|authori[sz]ed to work|eligible to work|right to work|legally (?:eligible|authori[sz]ed)|work authori[sz]ation)\b/.test(
+    return /\b(permanent authorization|authori[sz]ed to work|eligible to work|right to work|legally (?:allowed|eligible|authori[sz]ed)|work authori[sz]ation)\b/.test(
         normalized,
     );
 }
@@ -4539,17 +4604,16 @@ export function resolveRequireWorkAuthorizationFreeTextAnswer(
         readProfileValue(profileData, 'country'),
     ).toLowerCase();
 
-    for (const aliases of NAMED_WORK_AUTH_COUNTRIES) {
-        if (!haystackMentionsWorkAuthCountry(haystack, aliases)) {
-            continue;
-        }
+    const mentionedCountries = NAMED_WORK_AUTH_COUNTRIES.filter((aliases) =>
+        haystackMentionsWorkAuthCountry(haystack, aliases),
+    );
 
-        const profileInCountry = profileMatchesWorkAuthCountryAliases(
-            profileCountry,
-            aliases,
+    if (mentionedCountries.length > 0) {
+        const profileMatchesAny = mentionedCountries.some((aliases) =>
+            profileMatchesWorkAuthCountryAliases(profileCountry, aliases),
         );
 
-        return profileInCountry ? 'No' : 'Yes';
+        return profileMatchesAny ? 'No' : 'Yes';
     }
 
     // US/Canada remote boards often omit country words in the free-text label
@@ -4855,12 +4919,12 @@ export function resolveProfileMappingForLabel(
         return resolveSalaryMapping(label, profileData);
     }
 
-    if (isNoticePeriodQuestionLabel(label)) {
-        return profileMappingByPath('application_settings.notice_period');
-    }
-
     if (isAvailabilityQuestionLabel(label)) {
         return availabilityProfileMapping(profileData);
+    }
+
+    if (isNoticePeriodQuestionLabel(label)) {
+        return profileMappingByPath('application_settings.notice_period');
     }
 
     if (isVisaSponsorshipQuestionLabel(label)) {
@@ -6705,7 +6769,8 @@ function shouldAffirmLocalCommuteComfort(profileData) {
         return false;
     }
 
-    return true;
+    // Require an explicit Yes - do not invent commute comfort from unset prefs.
+    return raw === true || /^yes\b/i.test(String(raw || '').trim());
 }
 
 function resolveAffirmLocalCommuteMapping(label) {
@@ -6763,7 +6828,8 @@ function shouldAffirmLocalHybridWork(profileData) {
         return false;
     }
 
-    return true;
+    // Require an explicit Yes - do not invent hybrid comfort from unset prefs.
+    return raw === true || /^yes\b/i.test(String(raw || '').trim());
 }
 
 function resolveAffirmLocalHybridMapping(label) {

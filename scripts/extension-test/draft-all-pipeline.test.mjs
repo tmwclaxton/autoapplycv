@@ -1190,13 +1190,13 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
         questionMemo: {},
     });
 
-    // Broad software-development years use profile YOE; tool-scoped Go years clear.
-    const screenerStage = plan.applyStages.find(
-        (stage) => stage.type === 'screener',
+    // Broad software-development years use profile YOE via preference stage; tool-scoped Go years clear.
+    const preferenceStage = plan.applyStages.find(
+        (stage) => stage.type === 'preference',
     );
-    assert.ok(screenerStage);
+    assert.ok(preferenceStage);
     assert.equal(
-        screenerStage.answers.some(
+        preferenceStage.answers.some(
             (answer) => answer.ref === 'f1' && String(answer.answer) === '5',
         ),
         true,
@@ -1274,7 +1274,14 @@ test('buildDraftAllApplyPlan defers named-tool and skill-rating screeners to Nan
 
     assert.equal(appliedRefs.has('f0'), false);
     assert.equal(appliedRefs.has('f1'), false);
-    assert.equal(appliedRefs.has('f2'), false);
+    assert.equal(
+        plan.applyStages.some(
+            (stage) =>
+                stage.type === 'clear' &&
+                stage.answers.some((answer) => answer.ref === 'f2'),
+        ),
+        true,
+    );
     assert.equal(appliedRefs.has('f3'), true);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f0'), true);
     assert.equal(plan.llmFields.some((field) => field.ref === 'f1'), true);

@@ -173,16 +173,30 @@ function buildHandCraftedScenarios() {
     });
 
     const educationLabels = [
-        'School',
-        'Degree',
-        'Discipline',
-        'University attended',
-        'Graduation year',
-        'Education history',
+        ['School', 'education.0.institution'],
+        ['Degree', 'education.0.degree'],
+        ['Discipline', 'education.0.field_of_study'],
+        ['University attended', null],
+        ['Graduation year', null],
+        ['Education history', null],
     ];
 
-    educationLabels.forEach((label, index) => {
-        items.push(scenario(`education-${index + 1}`, label, noMapExpect()));
+    educationLabels.forEach(([label, profilePath], index) => {
+        items.push(
+            scenario(
+                `education-${index + 1}`,
+                label,
+                profilePath
+                    ? {
+                          profile_path: profilePath,
+                          should_prompt: true,
+                          is_salary: false,
+                          is_hours_commitment: false,
+                          vet_with_nanogpt: false,
+                      }
+                    : noMapExpect(),
+            ),
+        );
     });
 
     const openEndedLabels = [
@@ -203,11 +217,11 @@ function buildHandCraftedScenarios() {
     });
 
     const miscLabels = [
-        ['portfolio-1', 'Portfolio URL', null, false],
+        ['portfolio-1', 'Portfolio URL', '_profile_link.portfolio', false],
         ['department-1', 'Which department are you interested in?', null, false],
         ['referral-1', 'How did you hear about us?', null, false],
-        ['github-1', 'GitHub profile link', null, false],
-        ['website-1', 'Personal website', null, false],
+        ['github-1', 'GitHub profile link', '_profile_link.github', false],
+        ['website-1', 'Personal website', 'website_url', false],
     ];
 
     for (const [id, label, path, shouldPrompt] of miscLabels) {

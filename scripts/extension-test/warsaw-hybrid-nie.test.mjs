@@ -4,11 +4,11 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
 import {
     resolveOfficeCommuteDeclineAnswer,
     resolvePreferenceProfileAnswer,
 } from '../../extension/src/shared/pending-fields.js';
-import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
 
 const LABEL =
     'to stanowisko wymaga pracy u nas w biurze w warszawie w modelu hybrydowym - 3 dni w biurze, 2 dni zdalnie. czy jest to dla ciebie w porządku?';

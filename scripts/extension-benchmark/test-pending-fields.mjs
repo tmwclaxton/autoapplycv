@@ -1007,7 +1007,10 @@ const leverVisaField = {
 };
 const visaAnswer = resolvePreferenceProfileAnswer(leverVisaField, ukProfile);
 
-assert(visaAnswer === 'No', 'profile visa_sponsorship false should answer No on US sponsorship question');
+assert(
+    visaAnswer === 'Yes',
+    'UK profile on US-named sponsorship should answer Yes (foreign role needs sponsorship)',
+);
 
 const greenhouseUsResidenceField = {
     ref: 'f9',
@@ -1028,8 +1031,8 @@ const greenhouseVisaField = {
 const greenhouseVisaAnswer = resolvePreferenceProfileAnswer(greenhouseVisaField, ukProfile);
 
 assert(
-    greenhouseVisaAnswer === 'No',
-    'Greenhouse combobox visa question should answer No without options array',
+    greenhouseVisaAnswer === 'Yes',
+    'UK profile on US Greenhouse sponsorship should answer Yes without options array',
 );
 
 const givedirectlyWorkAuthField = {
@@ -1372,7 +1375,12 @@ assert(
 );
 
 assert(
-    resolveForeignTimezoneDeclineAnswer(rocketAmsTimezoneField, ukRelocateProfile) === 'No',
+    /^no$/i.test(
+        resolveForeignTimezoneDeclineAnswer(
+            rocketAmsTimezoneField,
+            ukRelocateProfile,
+        ),
+    ),
     'UK profile should auto-decline PHT timezone comfort',
 );
 
@@ -1394,7 +1402,12 @@ assert(
 );
 
 assert(
-    resolveForeignTimezoneDeclineAnswer(rocketAmsFilipinoField, ukRelocateProfile) === 'No',
+    /^no$/i.test(
+        resolveForeignTimezoneDeclineAnswer(
+            rocketAmsFilipinoField,
+            ukRelocateProfile,
+        ),
+    ),
     'UK profile should auto-decline RocketAMS Filipino residency',
 );
 
@@ -1458,8 +1471,9 @@ const leverVisaLlmBatch = partitionBatchAnswers(
 );
 
 assert(
-    leverVisaLlmBatch.toApply.length === 1 && leverVisaLlmBatch.toApply[0].answer === 'No',
-    'LLM visa Yes must be overridden by profile preference No',
+    leverVisaLlmBatch.toApply.length === 1 &&
+        leverVisaLlmBatch.toApply[0].answer === 'Yes',
+    'LLM visa answer must follow country-named sponsorship preference for UK on US',
 );
 
 const coalfireMarketingField = {
@@ -1501,9 +1515,20 @@ assert(
     'marketing consent must skip question memo partition',
 );
 
+const coalfireMarketingPartition = partitionMarketingConsentFields([
+    coalfireMarketingField,
+    { ref: 'f1', label: 'full name', field_type: 'text' },
+]);
+
 assert(
-    partitionMarketingConsentFields([coalfireMarketingField, { ref: 'f1', label: 'full name', field_type: 'text' }]).remainingFields.length === 1,
-    'marketing consent must be excluded from LLM field list',
+    coalfireMarketingPartition.marketingConsentAnswers.length === 0,
+    'single affirmative marketing checkbox stays unchecked (no decline option)',
+);
+assert(
+    coalfireMarketingPartition.remainingFields.some(
+        (field) => field.ref === 'f1',
+    ),
+    'non-marketing fields remain after marketing partition',
 );
 
 const cenoscoRetentionField = {
@@ -1645,9 +1670,9 @@ const freeformOnsitePartition = partitionOnSiteCommuteFields(
 );
 
 assert(
-    freeformOnsitePartition.pendingFields.length === 1
-        && freeformOnsitePartition.pendingFields[0].reason === 'location_clarify',
-    'UK profile onsite US requirement must defer to location_clarify when willing_to_relocate is yes',
+    freeformOnsitePartition.pendingFields.length === 0
+        && freeformOnsitePartition.remainingFields.length === 1,
+    'Freeform onsite without a named foreign city stays in pipeline (not location_clarify)',
 );
 
 const faradayOnsiteLabel = 'are you able to work 100% onsite in el segundo, ca?';
@@ -1980,15 +2005,19 @@ assert(
 );
 
 assert(
-    isProfileGeneralQuestion({ label: vekstDigitalMarketingYearsLabel, field_type: 'text' }),
-    'digital marketing years question should be profile-general',
+    isSkillSpecificYearsExperienceQuestionLabel(vekstDigitalMarketingYearsLabel),
+    'digital marketing years question should be skill-specific (not total YOE)',
 );
 assert(
-    shouldPromptUserForMissingDraftAnswer(
+    !isProfileGeneralQuestion({ label: vekstDigitalMarketingYearsLabel, field_type: 'text' }),
+    'digital marketing years must not map as profile-general total experience',
+);
+assert(
+    !shouldPromptUserForMissingDraftAnswer(
         { ref: 'vekst-years', label: vekstDigitalMarketingYearsLabel, field_type: 'text' },
         profileData,
     ),
-    'digital marketing years should prompt sidebar when LLM returns null',
+    'digital marketing years should go to NanoGPT, not sidebar, when LLM returns null',
 );
 assert(
     shouldSaveToApplicationAnswers(

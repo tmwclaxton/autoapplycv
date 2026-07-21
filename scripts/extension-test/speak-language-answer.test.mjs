@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 import {
     resolveAdditionalLanguagesFreeTextAnswer,
     resolveSpeakLanguageFromProfile,
 } from '../../extension/src/shared/speak-language-answer.js';
-import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 
 test('UK profile answers Yes to speak English when languages list is empty', () => {
     const field = {

@@ -3,8 +3,8 @@
  * Lever USA-based radios share "No, I am not based..." prefixes.
  * Bare No collapse must not pick planning-to-relocate over nor-open.
  */
-import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';

@@ -8,7 +8,6 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
 import { evaluateAnswerTypeCoherence } from '../../extension/src/shared/draft-all/type-coherence.js';
 import {
@@ -19,6 +18,7 @@ import {
     resolvePreferenceProfileAnswer,
     shouldRejectPhoneAnswerOnField,
 } from '../../extension/src/shared/pending-fields.js';
+import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const HTML = join(

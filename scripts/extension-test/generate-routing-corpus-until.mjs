@@ -12,26 +12,30 @@ const FIXTURE = join(ROOT, 'tests/fixtures/draft-all/heuristics-routing-nanogpt.
 
 function parseArgs(argv) {
     const args = {
-        target: 500,
+        target: 1000,
         chunk: 150,
         batch: 25,
         concurrency: 8,
-        maxRounds: 6,
+        maxRounds: 10,
     };
 
     for (let i = 0; i < argv.length; i++) {
         const arg = argv[i];
+        const eq = arg.indexOf('=');
+        const key = eq === -1 ? arg : arg.slice(0, eq);
+        const inline = eq === -1 ? null : arg.slice(eq + 1);
+        const next = () => (inline != null ? inline : argv[++i]);
 
-        if (arg === '--target') {
-            args.target = Number.parseInt(argv[++i], 10);
-        } else if (arg === '--chunk') {
-            args.chunk = Number.parseInt(argv[++i], 10);
-        } else if (arg === '--batch') {
-            args.batch = Number.parseInt(argv[++i], 10);
-        } else if (arg === '--concurrency') {
-            args.concurrency = Number.parseInt(argv[++i], 10);
-        } else if (arg === '--max-rounds') {
-            args.maxRounds = Number.parseInt(argv[++i], 10);
+        if (key === '--target') {
+            args.target = Number.parseInt(next(), 10);
+        } else if (key === '--chunk') {
+            args.chunk = Number.parseInt(next(), 10);
+        } else if (key === '--batch') {
+            args.batch = Number.parseInt(next(), 10);
+        } else if (key === '--concurrency') {
+            args.concurrency = Number.parseInt(next(), 10);
+        } else if (key === '--max-rounds') {
+            args.maxRounds = Number.parseInt(next(), 10);
         }
     }
 
@@ -100,14 +104,20 @@ while (keptCount() < args.target && round < args.maxRounds) {
 
     console.log(`\n[round ${round}] kept=${keptCount()} target=${args.target} generating=${need}`);
 
-    run('php', [
+    const artisanArgs = [
         'artisan',
         'draft-all:generate-routing-corpus',
         `--count=${need}`,
         `--batch=${args.batch}`,
         `--concurrency=${args.concurrency}`,
         `--output=tests/fixtures/draft-all/heuristics-routing-nanogpt.chunk.json`,
-    ]);
+    ];
+
+    if (existsSync(FIXTURE) && keptCount() > 0) {
+        artisanArgs.push('--avoid-labels-from=tests/fixtures/draft-all/heuristics-routing-nanogpt.json');
+    }
+
+    run('php', artisanArgs);
 
     if (existsSync(FIXTURE) && keptCount() > 0 && existsSync(tempPath)) {
         // Preserve previous stamped/unstamped cases, then re-stamp everything.

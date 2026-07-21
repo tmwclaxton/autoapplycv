@@ -4,8 +4,8 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';
-import { FORM_HEURISTICS_PATH } from '../form-corpus/lib/paths.mjs';
 import { isMarketingOrFutureConsentField } from '../../extension/src/shared/draft-all/consent-fields.js';
+import { FORM_HEURISTICS_PATH } from '../form-corpus/lib/paths.mjs';
 
 function loadHeuristics(dom) {
     const script = readFileSync(FORM_HEURISTICS_PATH, 'utf8').replace(

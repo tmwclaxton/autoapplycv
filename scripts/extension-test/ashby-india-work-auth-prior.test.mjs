@@ -5,12 +5,12 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 import {
     resolveIdentityProfileAnswer,
     resolvePreferenceProfileAnswer,
     resolvePriorEmployerRelationshipAnswer,
 } from '../../extension/src/shared/pending-fields.js';
-import { resolveHeuristicScreenerAnswer } from '../../extension/src/shared/auto-apply-screener-answer.js';
 
 const UK_PROFILE = {
     country: 'United Kingdom',
@@ -42,7 +42,7 @@ test('UK profile picks India unauthorized radio, not bare No', () => {
     assert.notEqual(answer.toLowerCase(), 'no');
 });
 
-test('preferred name maps to profile full name', () => {
+test('preferred name maps to profile first name', () => {
     const field = {
         ref: 'preferred',
         label: 'Preferred Name',
@@ -51,7 +51,7 @@ test('preferred name maps to profile full name', () => {
 
     assert.equal(
         resolveIdentityProfileAnswer(field, UK_PROFILE),
-        'Toby Claxton',
+        'Toby',
     );
 });
 
