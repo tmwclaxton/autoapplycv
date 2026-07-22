@@ -28,6 +28,23 @@ class RetitleBlogPostsCommandTest extends TestCase
         $this->assertSame($expected['title'], $blog->title);
         $this->assertSame($expected['excerpt'], $blog->excerpt);
         $this->assertSame($expected['slug'], $blog->slug);
+        $this->assertStringNotContainsString('Beginner', $blog->title);
+        $this->assertStringNotContainsString('save time', strtolower($blog->title));
+    }
+
+    public function test_canonical_titles_use_distinct_openings(): void
+    {
+        $titles = array_column(BlogTitleDiversify::canonicalByTopic(), 'title');
+        $openings = array_map(
+            fn (string $title): string => implode(' ', array_slice(preg_split('/\s+/', strtolower($title)) ?: [], 0, 3)),
+            $titles,
+        );
+
+        $this->assertSame(count($openings), count(array_unique($openings)));
+        foreach ($titles as $title) {
+            $this->assertStringNotContainsString("Beginner's Guide", $title);
+            $this->assertDoesNotMatchRegularExpression('/\bsave time\b/i', $title);
+        }
     }
 
     public function test_retitle_dry_run_does_not_write(): void
