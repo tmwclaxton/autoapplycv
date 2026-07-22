@@ -13,6 +13,7 @@ const base = process.env.GA_PROBE_BASE_URL || 'http://localhost:8000';
 const url = new URL('/_local/ga-conversion-test', base);
 url.searchParams.set('auto', '1');
 url.searchParams.set('count', '3');
+
 if (gclid) {
     url.searchParams.set('gclid', gclid);
 }
@@ -24,6 +25,7 @@ const page = await browser.newPage();
 
 page.on('request', (request) => {
     const reqUrl = request.url();
+
     if (
         reqUrl.includes('google-analytics.com/g/collect') ||
         reqUrl.includes('analytics.google.com/g/collect') ||

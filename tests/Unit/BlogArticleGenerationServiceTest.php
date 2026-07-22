@@ -103,11 +103,12 @@ class BlogArticleGenerationServiceTest extends TestCase
 
         $this->assertStringContainsString('autofill job applications', $planPrompt);
         $this->assertStringContainsString('SEO keyword target', $planPrompt);
-        $this->assertStringContainsString('without stuffing', $planPrompt);
-        $this->assertStringContainsString('only include URLs from the Web research', $planPrompt);
+        $this->assertStringContainsString('product-led SEO', $planPrompt);
+        $this->assertStringContainsString('only include urls from the web research', strtolower($planPrompt));
         $this->assertStringContainsString('chrome extension autofill CV', $sectionPrompt);
         $this->assertStringContainsString('never keyword-stuff', $sectionPrompt);
         $this->assertStringContainsString('Firecrawl web sources', $sectionPrompt);
+        $this->assertStringContainsString('AutoFill, Draft All, Auto Apply', $sectionPrompt);
     }
 
     public function test_generate_full_article_prompts_include_firecrawl_research_block(): void

@@ -131,11 +131,17 @@ class BlogArticleGenerationService
         $targetMax = (int) config('blog.sources.target_max', 5);
 
         $system = <<<PROMPT
-You plan blog articles for AutoCVApply (autocvapply.com), a tool that helps UK job seekers autofill application forms.
+You plan product-led SEO blog articles for AutoCVApply (autocvapply.com).
+AutoCVApply is a Chrome/Firefox extension + web app: upload a CV once, AutoFill ATS forms, Draft All screening answers, and Auto Apply on supported job boards.
 Article format: {$formatName}. {$formatHint}
 Return JSON only with keys: title, excerpt, tags (array of 3-6 lowercase strings), sources (array of objects with title, url, description), sections (array of exactly {$sectionCount} objects with heading and beats).
-Optimise title, excerpt, and H2 headings for the SEO keyword target without stuffing.
+Title and excerpt must target the primary SEO keyword and follow the required title style in the SEO block.
+Never use "Beginner's Guide", "save time and reduce/cut errors", or end with "with AutoCVApply".
+Mention AutoCVApply at most once in the title. Vary the opening words from other posts.
+At least one H2 must name a real product surface (AutoFill, Draft All, or Auto Apply) or a real board/ATS from the brief.
+Section beats must include the cluster must-cover product beats from the SEO block.
 Do not invent AutoCVApply features beyond the research brief. Do not promise interviews or offers.
+Product links only to https://autocvapply.com/... or {$officialStore} - never localhost.
 For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer {$targetMin}-{$targetMax} diverse, high-quality sources (autocvapply.com, official AutoCVApply Chrome Web Store, LinkedIn/Indeed/job-board docs, reputable career guides). Never invent or guess URLs. If no web research is present, return an empty sources array.
 Never cite competitor autofill or Easy Apply Chrome extensions as Sources or as if they were AutoCVApply. The only Chrome Web Store listing for this product is {$officialStore}.
 PROMPT;
@@ -205,12 +211,14 @@ PROMPT;
         $lastException = null;
 
         $system = <<<PROMPT
-You write one section of a blog article for AutoCVApply ({$formatName}).
+You write one section of a product-led SEO blog article for AutoCVApply ({$formatName}).
 Write ONLY this section's Markdown body in JSON field "content".
 Do NOT repeat the section heading as ## at the start. You may use ### subheadings with different wording.
-UK job seekers audience. Practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
+UK job seekers audience. Specific, practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
+Prefer concrete workflow detail (profile upload, AutoFill, Draft All, Auto Apply sidebar, named boards/ATS) over vague benefit fluff.
 Use SEO keywords naturally where they fit this section; never keyword-stuff.
 Do not invent product features beyond the research brief.
+When mentioning product URLs, use only https://autocvapply.com paths or the official Chrome Web Store listing - never localhost.
 When the research brief includes Firecrawl web sources, ground non-product claims in those sources. Do not invent citations or URLs.
 Never describe competitor autofill / Easy Apply Chrome extensions as AutoCVApply. Only refer to AutoCVApply and its official Chrome Web Store listing when mentioning an extension install.
 PROMPT;

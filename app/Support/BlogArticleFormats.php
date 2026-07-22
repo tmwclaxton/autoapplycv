@@ -13,34 +13,119 @@ class BlogArticleFormats
             [
                 'key' => 'step-by-step',
                 'name' => 'Step-by-step guide',
-                'hint' => 'Walk the reader through a clear numbered sequence of steps. Process-focused and practical.',
-                'title_pattern' => 'Titles often use "How to...", "A Step-by-Step Guide to...", or "X Steps to...".',
+                'hint' => 'Walk the reader through a clear numbered sequence of steps. Process-focused and practical. Do not title it "Beginner\'s Guide".',
+                'title_pattern' => 'Titles name the workflow or platform first, e.g. "LinkedIn Easy Apply from the Auto Apply sidebar".',
             ],
             [
                 'key' => 'listicle',
                 'name' => 'Numbered tips listicle',
                 'hint' => 'Structure the article as numbered tips. Each section is one tip with a bold subheading and example.',
-                'title_pattern' => 'Titles use "N Ways to...", "N Tips for...", or similar.',
+                'title_pattern' => 'Titles use a specific number + object ("4 Easy Apply boards...") - never "N Ways to Save Time".',
             ],
             [
                 'key' => 'myth-buster',
                 'name' => 'Myth-buster',
                 'hint' => 'Identify common misconceptions. Each section states a myth, then dismantles it with better advice.',
-                'title_pattern' => 'Titles use "X Myths About Y" or "The Truth About X".',
+                'title_pattern' => 'Titles name the myth topic concretely ("Autofill myths: you still click Submit").',
             ],
             [
                 'key' => 'beginners-guide',
-                'name' => "Beginner's guide",
-                'hint' => 'Assume the reader knows nothing. Define terms and build from basics to actionable steps.',
-                'title_pattern' => 'Titles use "Getting Started with..." or "X for First-Timers".',
+                'name' => 'First-run walkthrough',
+                'hint' => 'Assume the reader is new. Define terms and build from basics to actionable steps. Never use the words "Beginner\'s Guide" in the title.',
+                'title_pattern' => 'Titles use "First run:", "Getting your profile ready:", or a plain workflow title - never "Beginner\'s Guide to...".',
             ],
             [
                 'key' => 'qa',
                 'name' => 'Q&A explainer',
                 'hint' => 'Each section answers a real question job seekers ask. Honest and conversational tone.',
-                'title_pattern' => 'Titles use "X Questions About Y, Answered".',
+                'title_pattern' => 'Titles are often a question, or "X questions about Y".',
             ],
         ];
+    }
+
+    /**
+     * Prefer formats that recent titles have not already overused.
+     *
+     * @param  array<int, string>  $recentTitles
+     * @return array{key: string, name: string, hint: string, title_pattern: string}
+     */
+    public static function pickAvoidingRecent(array $recentTitles = []): array
+    {
+        $formats = self::all();
+        $used = [];
+
+        foreach ($recentTitles as $title) {
+            if (! is_string($title)) {
+                continue;
+            }
+            $key = self::detectFormatKeyFromTitle($title);
+            if ($key !== null) {
+                $used[$key] = true;
+            }
+        }
+
+        // Beginner-guide openings have flooded the index - deprioritise hard.
+        if (($used['beginners-guide'] ?? false) === true || self::recentTitlesLookBeginnerHeavy($recentTitles)) {
+            $used['beginners-guide'] = true;
+        }
+
+        $fresh = array_values(array_filter(
+            $formats,
+            fn (array $format): bool => ! isset($used[$format['key']]),
+        ));
+        $pool = $fresh !== [] ? $fresh : array_values(array_filter(
+            $formats,
+            fn (array $format): bool => $format['key'] !== 'beginners-guide',
+        ));
+        if ($pool === []) {
+            $pool = $formats;
+        }
+
+        return $pool[array_rand($pool)];
+    }
+
+    /**
+     * @param  array<int, string>  $recentTitles
+     */
+    public static function recentTitlesLookBeginnerHeavy(array $recentTitles): bool
+    {
+        $beginner = 0;
+        $total = 0;
+        foreach ($recentTitles as $title) {
+            if (! is_string($title) || trim($title) === '') {
+                continue;
+            }
+            $total++;
+            $normalised = BlogKeywordStrategy::normaliseText($title);
+            if (str_starts_with($normalised, 'beginner') || str_contains($normalised, 'beginner s guide') || str_contains($normalised, 'beginners guide')) {
+                $beginner++;
+            }
+        }
+
+        return $total > 0 && ($beginner / $total) >= 0.34;
+    }
+
+    public static function detectFormatKeyFromTitle(string $title): ?string
+    {
+        $haystack = BlogKeywordStrategy::normaliseText($title);
+
+        if (str_starts_with($haystack, 'beginner') || str_contains($haystack, 'beginner s guide') || str_contains($haystack, 'first run') || str_contains($haystack, 'getting your profile')) {
+            return 'beginners-guide';
+        }
+        if (str_contains($haystack, 'myth')) {
+            return 'myth-buster';
+        }
+        if (preg_match('/^\d+\s/', $haystack) === 1 || str_contains($haystack, ' ways to ') || str_contains($haystack, ' tips for ')) {
+            return 'listicle';
+        }
+        if (str_contains($title, '?') || str_contains($haystack, 'questions about') || str_contains($haystack, 'answered')) {
+            return 'qa';
+        }
+        if (str_starts_with($haystack, 'how to ') || str_contains($haystack, 'step by step') || str_contains($haystack, 'sidebar')) {
+            return 'step-by-step';
+        }
+
+        return null;
     }
 
     /**
@@ -116,28 +201,22 @@ class BlogArticleFormats
     public static function topicAngles(): array
     {
         return [
-            'Why job seekers waste hours retyping the same CV details on every application',
-            'Upload once, apply everywhere: how a single profile powers dozens of applications',
-            'What counts as an autofill on AutoCVApply and how monthly allowances work',
-            'Applying on Workday-heavy employers without burning out on repetitive forms',
-            'How AutoCVApply helps graduates running a high-volume application campaign',
-            'Career changers: keeping employment history consistent across many employer portals',
-            'Reducing typos and mismatched dates when you apply to multiple roles in one week',
-            'Free vs Starter vs Pro: choosing an AutoCVApply plan for your job search intensity',
-            'Why CV upload and profile editing are free but extension autofill is metered',
-            'Using the Chrome extension safely: API tokens and what stays on your device',
-            'Major ATS and career sites: where AutoCVApply autofill works today',
-            'Application fatigue is real: practical ways to lower friction without cutting corners',
-            'How AI CV parsing gets your profile started so you can focus on tailoring answers',
-            'After redundancy: structuring a faster, calmer application routine with AutoCVApply',
-            'Contractors between gigs: speeding up repetitive screening forms without sounding generic',
-            'Editing your parsed profile before autofill: quality control for serious applicants',
-            '250 free autofills per month: what that means in real applications for new users',
-            'When intensive job hunting makes the Pro plan worth £17 a month',
-            'The hidden cost of copy-paste: time, errors, and missed deadlines',
-            'AutoCVApply is not auto-submit: why you stay in control of every application',
-            'Building a weekly application rhythm with a saved profile and browser extension',
-            'Accessibility and consistency: less manual typing on long employer application forms',
+            'Upload once, apply everywhere: how one profile powers AutoFill across many ATS forms',
+            'LinkedIn Easy Apply from the Auto Apply sidebar: search, fill, review, submit',
+            'Indeed Apply plus Totaljobs, Glassdoor, and Reed: one Auto Apply workflow for UK boards',
+            'Workday and Greenhouse multi-step forms: AutoFill structured fields, Draft All the screeners',
+            'Draft All for "Why this role?" answers grounded in your saved CV profile',
+            'CV upload and profile editing are free - polish the profile before spending credits',
+            'Auto Apply is user-started: what the sidebar run does (and does not) automate',
+            'Free vs Starter vs Pro credits when you are running high-volume board applications',
+            'ATS/fit scoring as a gate before you spend credits on weak-fit roles',
+            'Cover letters during Auto Apply: generate, review, then attach',
+            'Ashby and Lever career sites: autofill + Draft All, you still click Submit',
+            'How screening-question fatigue shows up on Easy Apply modals - and what Draft All changes',
+            'Building a weekly board Auto Apply routine you monitor instead of babysitting every field',
+            'Why a messy parsed profile ruins every later AutoFill and Draft All run',
+            'Human-like typing on Auto Apply runs: practical anti-bot behaviour, not black-hat claims',
+            'When to use AutoFill alone vs Draft All vs full job-board Auto Apply',
         ];
     }
 }

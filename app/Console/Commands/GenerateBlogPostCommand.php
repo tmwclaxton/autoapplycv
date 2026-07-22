@@ -19,6 +19,10 @@ class GenerateBlogPostCommand extends Command
 {
     protected $signature = 'blog:generate
                             {--length=medium : Article length: short, medium, long, or random}
+                            {--cluster= : Force an SEO cluster id from config/blog.php}
+                            {--update= : Regenerate an existing blog by id or slug}
+                            {--keep-slug : When updating, keep the existing slug}
+                            {--keep-image : When updating, keep the existing hero image}
                             {--dry-run : Output topic and format without generating or saving}';
 
     protected $description = 'Generate a weekly AI blog post about AutoCVApply for job seekers';
@@ -39,23 +43,40 @@ class GenerateBlogPostCommand extends Command
             return self::FAILURE;
         }
 
+        $existing = null;
+        $updateOption = trim((string) $this->option('update'));
+        if ($updateOption !== '') {
+            $existing = $this->findBlogForUpdate($updateOption);
+            if ($existing === null) {
+                $this->error('No blog found for --update='.$updateOption);
+
+                return self::FAILURE;
+            }
+            $this->line('  Updating existing blog #'.$existing->id.' ('.$existing->slug.')');
+        }
+
         Log::info('blog:generate started', [
             'length_key' => $lengthKey,
             'word_guidance' => BlogArticleFormats::articleBodyWordGuidance($lengthKey),
+            'cluster' => $this->option('cluster'),
+            'update' => $updateOption !== '' ? $updateOption : null,
         ]);
 
-        $format = $this->randomArticleFormat();
-        $recent = $this->recentBlogSignals();
-        $seoTarget = BlogKeywordStrategy::selectTarget($recent['titles'], $recent['tags']);
+        $recent = $this->recentBlogSignals($existing?->id);
+        $format = BlogArticleFormats::pickAvoidingRecent($recent['titles']);
+        $titleStyle = BlogKeywordStrategy::selectTitleStyle($recent['titles']);
+        $seoTarget = $this->resolveSeoTarget($recent['titles'], $recent['tags']);
+        $seoTarget['title_style'] = $titleStyle;
 
         $this->line('  SEO cluster: '.$seoTarget['id']);
         $this->line('  Primary keyword: '.$seoTarget['primary']);
         $this->line('  Supporting: '.implode(', ', $seoTarget['selected_supporting']));
+        $this->line('  Title style: '.$titleStyle['id']);
+        $this->line('  Format: '.$format['name']);
 
         $topic = $this->generateTopic($nanoGpt, $format['name'], $recent['titles'], $seoTarget);
 
         $this->line("  Topic: {$topic}");
-        $this->line('  Format: '.$format['name']);
         $this->line('  Length: '.$lengthKey.' ('.BlogArticleFormats::articleBodyWordGuidance($lengthKey).')');
 
         if ($this->option('dry-run')) {
@@ -68,13 +89,20 @@ class GenerateBlogPostCommand extends Command
         $researchSources = $this->fetchResearchSources($firecrawl, $topic, $seoTarget);
         $research = $this->buildResearchBrief($topic, $seoTarget, $researchSources);
 
-        $this->line('  Generating hero image...');
-        $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
-        $imagePath = $heroImages->generateAndStore($imagePrompt);
-        if ($imagePath) {
-            $this->line('  Hero image: '.$imagePath);
+        $imagePath = $existing?->getRawOriginal('image_url');
+        $keepImage = (bool) $this->option('keep-image') && $existing !== null;
+        if (! $keepImage) {
+            $this->line('  Generating hero image...');
+            $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
+            $generatedPath = $heroImages->generateAndStore($imagePrompt);
+            if ($generatedPath) {
+                $imagePath = $generatedPath;
+                $this->line('  Hero image: '.$imagePath);
+            } else {
+                $this->warn('  No hero image generated'.($existing ? '; keeping previous image if any' : ''));
+            }
         } else {
-            $this->warn('  No hero image generated');
+            $this->line('  Keeping existing hero image.');
         }
 
         $this->line('  Writing article...');
@@ -110,18 +138,31 @@ class GenerateBlogPostCommand extends Command
         }, $seoTarget);
 
         $title = $this->normaliseDashes($post['title']);
-        $body = $this->normaliseDashes($post['body']);
-        $excerpt = $this->normaliseDashes($post['excerpt']);
+        if (
+            BlogKeywordStrategy::titleLooksGeneric($title)
+            || BlogKeywordStrategy::titleTooSimilarToRecent($title, $recent['titles'])
+        ) {
+            $this->warn('  Planned title looked generic or too similar; rewriting for variety.');
+            $title = $this->rewriteGenericTitle($nanoGpt, $title, $topic, $seoTarget, $recent['titles']);
+        }
+
+        $body = $this->rewriteLocalhostUrls($this->normaliseDashes($post['body']));
+        $excerpt = $this->rewriteLocalhostUrls($this->normaliseDashes($post['excerpt']));
         $tags = array_values(array_unique(array_merge(
             BlogKeywordStrategy::tagsForTarget($seoTarget),
             array_map(fn (string $tag): string => $this->normaliseDashes($tag), $post['tags'] ?? []),
+            [$seoTarget['id']],
         )));
         $sources = $this->normaliseDashesInSources(
             FirecrawlService::selectSourcesForArticle($researchSources, $post['sources'] ?? [])
         );
-        $slug = $this->uniqueSlug(Str::slug($title));
 
-        Blog::create([
+        $keepSlug = (bool) $this->option('keep-slug') && $existing !== null;
+        $slug = $keepSlug
+            ? $existing->slug
+            : $this->uniqueSlug(Str::slug($title), $existing?->id);
+
+        $payload = [
             'title' => $title,
             'slug' => $slug,
             'excerpt' => $excerpt,
@@ -130,28 +171,59 @@ class GenerateBlogPostCommand extends Command
             'tags' => $tags,
             'sources' => $sources,
             'status' => BlogStatus::Published,
-            'published_at' => now(),
-        ]);
+            'published_at' => $existing?->published_at ?? now(),
+        ];
 
-        $this->newLine();
-        $this->info("Published: {$title}");
-        $this->line("  Slug: {$slug}");
-        $this->line('  Tags: '.implode(', ', $tags));
-        $this->line('  Sources: '.count($sources));
-        $this->line('  Image: '.($imagePath ? 'Yes' : 'No'));
-        $this->line('  URL: '.route('blog.show', $slug));
+        if ($existing !== null) {
+            $existing->update($payload);
+            $blog = $existing->fresh();
+            $this->newLine();
+            $this->info("Updated: {$blog->title}");
+        } else {
+            $blog = Blog::create($payload);
+            $this->newLine();
+            $this->info("Published: {$blog->title}");
+        }
+
+        $this->line("  Slug: {$blog->slug}");
+        $this->line('  Tags: '.implode(', ', $blog->tags ?? []));
+        $this->line('  Sources: '.count($blog->sources ?? []));
+        $this->line('  Image: '.($blog->getRawOriginal('image_url') ? 'Yes' : 'No'));
+        $this->line('  URL: '.route('blog.show', $blog->slug));
 
         return self::SUCCESS;
     }
 
     /**
-     * @return array{key: string, name: string, hint: string, title_pattern: string}
+     * @param  array<int, string>  $recentTitles
+     * @param  array<int, string>  $recentTags
+     * @return array{
+     *     id: string,
+     *     weight: int,
+     *     primary: string,
+     *     supporting: array<int, string>,
+     *     angle_hints: array<int, string>,
+     *     must_cover: array<int, string>,
+     *     selected_supporting: array<int, string>
+     * }
      */
-    protected function randomArticleFormat(): array
+    protected function resolveSeoTarget(array $recentTitles, array $recentTags): array
     {
-        $formats = BlogArticleFormats::all();
+        $clusterOption = trim((string) $this->option('cluster'));
+        if ($clusterOption !== '') {
+            return BlogKeywordStrategy::targetForCluster($clusterOption);
+        }
 
-        return $formats[array_rand($formats)];
+        return BlogKeywordStrategy::selectTarget($recentTitles, $recentTags);
+    }
+
+    protected function findBlogForUpdate(string $idOrSlug): ?Blog
+    {
+        if (ctype_digit($idOrSlug)) {
+            return Blog::query()->find((int) $idOrSlug);
+        }
+
+        return Blog::query()->where('slug', $idOrSlug)->first();
     }
 
     /**
@@ -269,7 +341,7 @@ class GenerateBlogPostCommand extends Command
 
     /**
      * @param  array<int, string>  $recentTitles
-     * @param  array{id: string, primary: string, selected_supporting: array<int, string>, angle_hints?: array<int, string>}  $seoTarget
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>, angle_hints?: array<int, string>, must_cover?: array<int, string>}  $seoTarget
      */
     protected function generateTopic(NanoGptService $nanoGpt, string $formatName, array $recentTitles, array $seoTarget): string
     {
@@ -284,9 +356,11 @@ class GenerateBlogPostCommand extends Command
             $avoidSection = "\n\nRecently published titles - do NOT overlap in angle or wording:\n{$list}";
         }
 
-        $system = 'You are a content strategist for AutoCVApply (autocvapply.com). '
-            .'Suggest one specific blog topic for UK job seekers that targets the SEO keyword cluster below. '
-            .'Emphasise benefits, time saved, reduced errors, and honest product facts. '
+        $system = 'You are the SEO content strategist for AutoCVApply (autocvapply.com). '
+            .'Suggest one specific, product-led blog topic for UK job seekers that targets the SEO keyword cluster below. '
+            .'The topic must name a real AutoCVApply workflow (AutoFill, Draft All, and/or Auto Apply) and a real board or ATS when the cluster requires it. '
+            .'Do NOT use vague slogans like "save time and reduce errors" or "Beginner\'s Guide". '
+            .'Follow the required title style so this post will not look like the others on the blog index. '
             ."Format: {$formatName}. "
             .'The topic sentence must naturally include or clearly target the primary keyword (no stuffing). '
             ."Return only the topic as one short sentence.{$avoidSection}";
@@ -295,6 +369,7 @@ class GenerateBlogPostCommand extends Command
 
         $maxAttempts = 3;
         $lastException = null;
+        $lastTopic = null;
 
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
             try {
@@ -305,6 +380,16 @@ class GenerateBlogPostCommand extends Command
 
                 if ($topic === '') {
                     throw new \RuntimeException('Topic generation returned empty text.');
+                }
+
+                if (
+                    BlogKeywordStrategy::titleLooksGeneric($topic)
+                    || BlogKeywordStrategy::titleTooSimilarToRecent($topic, $recentTitles)
+                ) {
+                    $lastTopic = $topic;
+                    $this->warn("  Topic attempt {$attempt} looked too generic or similar; retrying...");
+
+                    continue;
                 }
 
                 return $topic;
@@ -318,18 +403,80 @@ class GenerateBlogPostCommand extends Command
             }
         }
 
+        if (is_string($lastTopic) && $lastTopic !== '') {
+            $this->warn('  Falling back to last topic draft despite generic wording.');
+
+            return $lastTopic;
+        }
+
         throw $lastException ?? new \RuntimeException('Topic generation failed.');
+    }
+
+    /**
+     * @param  array{id: string, primary: string, selected_supporting: array<int, string>, title_style?: array<string, mixed>}  $seoTarget
+     * @param  array<int, string>  $recentTitles
+     */
+    protected function rewriteGenericTitle(
+        NanoGptService $nanoGpt,
+        string $title,
+        string $topic,
+        array $seoTarget,
+        array $recentTitles = [],
+    ): string {
+        $style = is_array($seoTarget['title_style'] ?? null) ? $seoTarget['title_style'] : null;
+        $styleHint = is_array($style)
+            ? trim(($style['label'] ?? '').': '.($style['hint'] ?? '').' Example: '.($style['example'] ?? ''))
+            : 'Feature or board first; avoid Beginner\'s Guide and save-time slogans.';
+        $recentList = $recentTitles === []
+            ? '(none)'
+            : implode("\n", array_map(fn (string $t): string => "- {$t}", $recentTitles));
+
+        try {
+            $rewritten = trim((string) $nanoGpt->chat([
+                [
+                    'role' => 'system',
+                    'content' => 'Rewrite the blog title for AutoCVApply SEO. '
+                        .'Keep it under 90 characters. Include the primary keyword naturally. '
+                        .'Name a product workflow or board/ATS when possible. '
+                        .'Return only the title. '
+                        .'Never use "Beginner\'s Guide", "save time", "cut errors", or "reduce errors". '
+                        .'Mention AutoCVApply at most once; do not end with "with AutoCVApply". '
+                        .'The opening words must differ from the recent titles list.',
+                ],
+                [
+                    'role' => 'user',
+                    'content' => "Primary keyword: {$seoTarget['primary']}\nTitle style: {$styleHint}\nTopic: {$topic}\nCurrent title: {$title}\n\nRecent titles to differentiate from:\n{$recentList}",
+                ],
+            ], ['temperature' => 0.5]));
+
+            if (
+                $rewritten !== ''
+                && ! BlogKeywordStrategy::titleLooksGeneric($rewritten)
+                && ! BlogKeywordStrategy::titleTooSimilarToRecent($rewritten, $recentTitles)
+            ) {
+                return $this->normaliseDashes($rewritten);
+            }
+        } catch (\Throwable $e) {
+            Log::warning('blog:generate title rewrite failed', ['message' => $e->getMessage()]);
+        }
+
+        return $this->normaliseDashes($title);
     }
 
     /**
      * @return array{titles: array<int, string>, tags: array<int, string>}
      */
-    protected function recentBlogSignals(int $limit = 20): array
+    protected function recentBlogSignals(?int $excludeId = null, int $limit = 20): array
     {
-        $blogs = Blog::query()
+        $query = Blog::query()
             ->latest('published_at')
-            ->limit($limit)
-            ->get(['title', 'tags']);
+            ->limit($limit);
+
+        if ($excludeId !== null) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        $blogs = $query->get(['title', 'tags']);
 
         $titles = $blogs->pluck('title')->filter()->values()->all();
         $tags = $blogs
@@ -346,17 +493,35 @@ class GenerateBlogPostCommand extends Command
         ];
     }
 
-    protected function uniqueSlug(string $base): string
+    protected function uniqueSlug(string $base, ?int $ignoreId = null): string
     {
         $slug = $base;
         $attempt = 0;
 
-        while (Blog::where('slug', $slug)->exists()) {
+        while (
+            Blog::query()
+                ->where('slug', $slug)
+                ->when($ignoreId !== null, fn ($query) => $query->where('id', '!=', $ignoreId))
+                ->exists()
+        ) {
             $attempt++;
             $slug = $base.'-'.$attempt;
         }
 
         return $slug;
+    }
+
+    protected function rewriteLocalhostUrls(string $text): string
+    {
+        $public = rtrim((string) config('blog.public_site_url', 'https://autocvapply.com'), '/');
+
+        $rewritten = preg_replace(
+            '#https?://(?:localhost|127\.0\.0\.1)(?::\d+)?#i',
+            $public,
+            $text,
+        );
+
+        return is_string($rewritten) ? $rewritten : $text;
     }
 
     protected function normaliseDashes(string $text): string

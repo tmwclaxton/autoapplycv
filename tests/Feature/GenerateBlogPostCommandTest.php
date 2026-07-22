@@ -22,10 +22,15 @@ class GenerateBlogPostCommandTest extends TestCase
     {
         $doc = AutoCVApplyBlogContext::document();
 
-        $this->assertStringContainsString('autocvapply.com', $doc);
+        $this->assertStringContainsString('https://autocvapply.com', $doc);
         $this->assertStringContainsString('250', $doc);
         $this->assertStringContainsString('Starter', $doc);
         $this->assertStringContainsString('Workday', $doc);
+        $this->assertStringContainsString('Draft All', $doc);
+        $this->assertStringContainsString('Auto Apply', $doc);
+        $this->assertStringContainsString('LinkedIn Easy Apply', $doc);
+        $this->assertStringNotContainsString('http://localhost', $doc);
+        $this->assertStringNotContainsString('https://localhost', $doc);
     }
 
     public function test_dry_run_does_not_create_blog(): void
@@ -216,5 +221,96 @@ class GenerateBlogPostCommandTest extends TestCase
         $this->assertNotEmpty(config('blog.seo.clusters'));
         $this->assertNotEmpty(config('blog.seo.primary_keywords'));
         $this->assertContains('AutoCVApply', config('blog.seo.brand_terms'));
+        $this->assertNotEmpty(config('blog.seo.banned_title_phrases'));
+        $this->assertNotEmpty(config('blog.seo.title_styles'));
+        $this->assertSame('https://autocvapply.com', config('blog.public_site_url'));
+
+        foreach (config('blog.seo.clusters') as $cluster) {
+            $this->assertNotEmpty($cluster['must_cover'] ?? [], $cluster['id'].' needs must_cover beats');
+        }
+    }
+
+    public function test_dry_run_accepts_forced_cluster(): void
+    {
+        $captured = [];
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$captured): void {
+            $mock->shouldReceive('chat')
+                ->once()
+                ->andReturnUsing(function (array $messages) use (&$captured): string {
+                    $captured = $messages;
+
+                    return 'How to run LinkedIn Easy Apply chrome extension Auto Apply from the AutoCVApply sidebar.';
+                });
+        });
+
+        $this->artisan('blog:generate', [
+            '--dry-run' => true,
+            '--cluster' => 'linkedin-easy-apply',
+        ])->assertExitCode(0);
+
+        $promptText = collect($captured)->pluck('content')->implode("\n");
+        $this->assertStringContainsString('linkedin-easy-apply', $promptText);
+        $this->assertStringContainsString('LinkedIn Easy Apply chrome extension', $promptText);
+        $this->assertStringContainsString('Must-cover product beats', $promptText);
+    }
+
+    public function test_update_regenerates_existing_blog_in_place(): void
+    {
+        $publishedAt = now()->subDays(3)->startOfSecond();
+
+        $existing = Blog::factory()->create([
+            'title' => 'Old generic title',
+            'slug' => 'old-generic-title',
+            'excerpt' => 'Old excerpt',
+            'body' => '## Old\n\nBody',
+            'tags' => ['old'],
+            'sources' => [],
+            'image_url' => 'blogs/heroes/old.png',
+            'published_at' => $publishedAt,
+        ]);
+
+        $article = [
+            'title' => 'Draft All job applications with AutoCVApply profile grounding',
+            'excerpt' => 'Use Draft All to answer screening questions from your saved CV profile.',
+            'body' => "## What Draft All does\n\n".str_repeat('Draft All helps UK job seekers answer screening questions. ', 40),
+            'tags' => ['draft-all'],
+            'sources' => [],
+        ];
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chat')->once()->andReturn(
+                'How Draft All job applications uses your AutoCVApply profile for screening answers.'
+            );
+        });
+
+        $this->mock(FirecrawlService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('search')->atLeast()->once()->andReturn([]);
+        });
+
+        $this->mock(NanoGptBlogHeroImageService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('buildPrompt')->never();
+            $mock->shouldReceive('generateAndStore')->never();
+        });
+
+        $this->mock(BlogArticleGenerationService::class, function (MockInterface $mock) use ($article): void {
+            $mock->shouldReceive('generateFullArticle')->once()->andReturn($article);
+        });
+
+        $this->artisan('blog:generate', [
+            '--length' => 'short',
+            '--cluster' => 'draft-all-screening',
+            '--update' => (string) $existing->id,
+            '--keep-slug' => true,
+            '--keep-image' => true,
+        ])->assertExitCode(0);
+
+        $this->assertDatabaseCount('blogs', 1);
+        $existing->refresh();
+        $this->assertSame('old-generic-title', $existing->slug);
+        $this->assertSame('blogs/heroes/old.png', $existing->getRawOriginal('image_url'));
+        $this->assertSame('Draft All job applications with AutoCVApply profile grounding', $existing->title);
+        $this->assertContains('draft-all-screening', $existing->tags);
+        $this->assertTrue($existing->published_at->equalTo($publishedAt));
     }
 }
