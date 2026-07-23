@@ -3206,7 +3206,7 @@ async function tryAutoSolveIndeedCaptcha(tabId, job = {}) {
  * @returns {boolean}
  */
 function sessionAllowsAutoSubmit(session) {
-    return session?.autoSubmitEnabled === true;
+    return session?.pauseBeforeSubmit === false;
 }
 
 /**
@@ -3262,7 +3262,7 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
 }
 
 /**
- * Pause until Resume when auto-submit is off. No timeout - durable until Resume or Stop.
+ * Pause until Resume when pause-before-submit is on. No timeout - durable until Resume or Stop.
  *
  * @param {import('./auto-apply-session.js').AutoApplySession} session
  * @param {number} tabId
@@ -9229,7 +9229,7 @@ export async function startAutoApply({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
-    autoSubmitEnabled = false,
+    pauseBeforeSubmit = true,
     timingLevel = null,
     force = false,
     hostTabId = null,
@@ -9281,7 +9281,7 @@ export async function startAutoApply({
             filters: resolvedFilters,
             fitCheckEnabled,
             minFitScore,
-            autoSubmitEnabled,
+            pauseBeforeSubmit,
             timingLevel,
         });
 
