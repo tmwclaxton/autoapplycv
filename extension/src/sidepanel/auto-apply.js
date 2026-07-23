@@ -27,6 +27,7 @@ import {
     describeTimingLevel,
     normalizeTimingLevel,
 } from './auto-apply-timing.js';
+import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 
 const SETTINGS_STORAGE_KEY = 'autoApplySettings';
 
@@ -227,7 +228,8 @@ function applySettingsToForm(settings) {
     }
 
     if (typeof settings.roleDescription === 'string') {
-        roleInput.value = settings.roleDescription;
+        // Drop education / headline leftovers persisted from older builds.
+        roleInput.value = sanitizeAutoApplyRoleDescription(settings.roleDescription);
     }
 
     if (typeof settings.maxApplications === 'number' && settings.maxApplications > 0) {
@@ -303,7 +305,8 @@ function syncFitGateControls() {
 }
 
 /**
- * Prefill Auto Apply search fields from the signed-in profile.
+ * Prefill Auto Apply location from the signed-in profile.
+ * Role stays user-entered only - never copy profile headline / education.
  *
  * @param {object|null|undefined} profileData
  */
@@ -319,10 +322,11 @@ export function syncSearchDefaultsFromProfile(profileData) {
         }
     }
 
-    const headline = String(profileData?.profile?.headline || '').trim();
+    // Clear bad role values already shown (headline / Russell Group / "/").
+    const cleanedRole = sanitizeAutoApplyRoleDescription(roleInput.value, profileData);
 
-    if (!roleInput.value.trim() && headline) {
-        roleInput.value = headline;
+    if (cleanedRole !== roleInput.value.trim()) {
+        roleInput.value = cleanedRole;
     }
 
     schedulePersistSettings();
@@ -811,7 +815,12 @@ export function initAutoApplyPanel({ showMessage }) {
 
     startBtn.addEventListener('click', async () => {
         const platform = readSelectedPlatform();
-        const roleDescription = roleInput.value.trim();
+        const roleDescription = sanitizeAutoApplyRoleDescription(roleInput.value);
+
+        if (roleDescription !== roleInput.value.trim()) {
+            roleInput.value = roleDescription;
+        }
+
         const maxApplications = Number.parseInt(maxApplicationsInput.value, 10) || 3;
         const filters = readSearchFilters(platform);
         const fitCheckEnabled = fitEnabledInput.checked;
