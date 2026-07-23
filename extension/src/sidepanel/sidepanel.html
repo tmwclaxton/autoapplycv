@@ -261,33 +261,12 @@
                                         </div>
                                     </div>
                                     <p class="postbox-hint auto-apply-inline-hint">UK LinkedIn brackets. Salary in your role text is also used for fit scoring.</p>
+                                </div>
+                            </details>
 
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-fit-enabled">
-                                            <input id="auto-apply-fit-enabled" type="checkbox" checked />
-                                            <span>Skip below fit score</span>
-                                        </label>
-                                        <div class="auto-apply-fit-score">
-                                            <label class="postbox-label" for="auto-apply-min-fit-score">Min</label>
-                                            <input
-                                                id="auto-apply-min-fit-score"
-                                                class="postbox-input postbox-input-compact"
-                                                type="number"
-                                                min="0"
-                                                max="100"
-                                                value="10"
-                                            />
-                                        </div>
-                                        <p class="postbox-hint auto-apply-inline-hint">5 credits per scored job</p>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-before-submit">
-                                            <input id="auto-apply-pause-before-submit" type="checkbox" checked />
-                                            <span>Pauses before Submit</span>
-                                        </label>
-                                    </div>
-
+                            <details id="auto-apply-settings-details" class="auto-apply-details">
+                                <summary class="auto-apply-details-summary">Auto Apply settings</summary>
+                                <div class="auto-apply-details-body">
                                     <div class="auto-apply-timing-bar">
                                         <div class="auto-apply-timing-header">
                                             <span class="postbox-label">Timing</span>
@@ -308,6 +287,32 @@
                                             <span class="auto-apply-timing-end-label">Careful timing</span>
                                         </div>
                                         <p class="postbox-hint auto-apply-inline-hint">Faster timing is less human-like. Slower timing is more human-like but does not prevent platform detection.</p>
+                                    </div>
+
+                                    <div class="auto-apply-fit-bar">
+                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-before-submit">
+                                            <input id="auto-apply-pause-before-submit" type="checkbox" checked />
+                                            <span>Pauses before Submit</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="auto-apply-fit-bar">
+                                        <label class="auto-apply-fit-toggle" for="auto-apply-fit-enabled">
+                                            <input id="auto-apply-fit-enabled" type="checkbox" checked />
+                                            <span>Skip below fit score</span>
+                                        </label>
+                                        <div class="auto-apply-fit-score">
+                                            <label class="postbox-label" for="auto-apply-min-fit-score">Min</label>
+                                            <input
+                                                id="auto-apply-min-fit-score"
+                                                class="postbox-input postbox-input-compact"
+                                                type="number"
+                                                min="0"
+                                                max="100"
+                                                value="10"
+                                            />
+                                        </div>
+                                        <p class="postbox-hint auto-apply-inline-hint">5 credits per scored job</p>
                                     </div>
                                 </div>
                             </details>

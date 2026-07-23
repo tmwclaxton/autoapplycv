@@ -40,6 +40,34 @@ test('sidepanel control uses pause-before-submit label checked by default', () =
     assert.doesNotMatch(html, /auto-apply-auto-submit-enabled/);
 });
 
+test('sidepanel Auto Apply settings shelf holds timing, pause, and min fit score', () => {
+    const html = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel.html'), 'utf8');
+
+    assert.match(html, /id="auto-apply-filters-details"[^>]*class="auto-apply-details"/);
+    assert.match(html, /<summary class="auto-apply-details-summary">Search filters<\/summary>/);
+    assert.match(html, /id="auto-apply-settings-details"[^>]*class="auto-apply-details"/);
+    assert.match(html, /<summary class="auto-apply-details-summary">Auto Apply settings<\/summary>/);
+
+    const settingsStart = html.indexOf('id="auto-apply-settings-details"');
+    const settingsEnd = html.indexOf('</details>', settingsStart);
+    assert.ok(settingsStart >= 0 && settingsEnd > settingsStart);
+    const settingsBlock = html.slice(settingsStart, settingsEnd);
+
+    assert.match(settingsBlock, /id="auto-apply-timing-level"/);
+    assert.match(settingsBlock, /id="auto-apply-pause-before-submit"/);
+    assert.match(settingsBlock, /id="auto-apply-fit-enabled"/);
+    assert.match(settingsBlock, /id="auto-apply-min-fit-score"/);
+
+    const filtersStart = html.indexOf('id="auto-apply-filters-details"');
+    const filtersEnd = html.indexOf('</details>', filtersStart);
+    assert.ok(filtersStart >= 0 && filtersEnd > filtersStart);
+    const filtersBlock = html.slice(filtersStart, filtersEnd);
+
+    assert.doesNotMatch(filtersBlock, /id="auto-apply-timing-level"/);
+    assert.doesNotMatch(filtersBlock, /id="auto-apply-pause-before-submit"/);
+    assert.doesNotMatch(filtersBlock, /id="auto-apply-min-fit-score"/);
+});
+
 test('applyStateNeedsSubmitPause covers Totaljobs submit-only steps', async () => {
     const { applyStateNeedsSubmitPause } = await import(
         pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js')).href
