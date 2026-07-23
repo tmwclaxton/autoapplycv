@@ -2631,7 +2631,16 @@ async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
             if (isAutoApplyStopError(error)) {
                 const latest = await loadAutoApplySession();
 
-                return latest || session;
+                if (!latest || latest.stopRequested) {
+                    return latest || session;
+                }
+
+                // Epoch bumped before stopRequested was persisted - keep waiting.
+                if (latest.status === 'paused_for_input') {
+                    continue;
+                }
+
+                return latest;
             }
 
             throw error;
@@ -8835,20 +8844,25 @@ async function processGlassdoorJob(
                 `[review] ${job.title}: attempting submit.`,
             );
 
-            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
-                session,
-                tabId,
-                job,
-                {
-                    kind: 'submit',
-                    stepFingerprint: applyState.stepFingerprint || 'glassdoor-review',
-                },
-            );
+            const shouldPauseBeforeSubmit = applyStateNeedsSubmitPause(applyState)
+                || Boolean(applyState.isReviewStep);
 
-            session = submitReview.session || session;
+            if (shouldPauseBeforeSubmit) {
+                const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                    session,
+                    tabId,
+                    job,
+                    {
+                        kind: 'submit',
+                        stepFingerprint: applyState.stepFingerprint || 'glassdoor-review',
+                    },
+                );
 
-            if (submitReview.stopped) {
-                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                session = submitReview.session || session;
+
+                if (submitReview.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
             }
 
             let advanceResponse = null;
@@ -10341,33 +10355,40 @@ export async function stopAutoApply() {
         return null;
     }
 
-    // Wake cooperative sleeps/waits immediately (before storage write).
-    bumpAutoApplyStopEpoch();
-
     await stopAutoApplyPauseKeepalive();
 
     if (isTerminalAutoApplyStatus(session.status)) {
         await resetAutoApplySession();
+        bumpAutoApplyStopEpoch();
 
         return null;
     }
 
     if (!['running', 'paused_for_input'].includes(session.status)) {
+        bumpAutoApplyStopEpoch();
+
         return session;
     }
 
     if (session.stopRequested) {
         await forceResetAutoApply();
+        bumpAutoApplyStopEpoch();
 
         return null;
     }
 
+    // Persist stopRequested before waking waiters. Bumping the stop epoch first
+    // raced waitForAutoApplyResume: sleep aborted while status was still
+    // paused_for_input without stopRequested, which looked like Resume and
+    // submitted Glassdoor/Indeed review steps.
     const updated = await updateSession({
         stopRequested: true,
         pauseContext: null,
         status:
             session.status === 'paused_for_input' ? 'running' : session.status,
     });
+
+    bumpAutoApplyStopEpoch();
 
     if (updated) {
         broadcastAutoApplyStatus(updated);
