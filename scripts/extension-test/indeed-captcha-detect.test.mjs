@@ -24,12 +24,16 @@ function load(html, url) {
         };
     };
     dom.window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {};
-    // Make elements appear visible to getComputedStyle checks.
-    const styleProto = dom.window.CSSStyleDeclaration?.prototype;
+    // Prepare scrolls then sleeps; keep unit tests non-blocking.
+    dom.window.setTimeout = (fn) => {
+        queueMicrotask(() => {
+            if (typeof fn === 'function') {
+                fn();
+            }
+        });
 
-    if (styleProto) {
-        // no-op; JSDOM defaults display to empty which is fine for our checks
-    }
+        return 0;
+    };
 
     const sandbox = {
         window: dom.window,
@@ -46,7 +50,7 @@ function load(html, url) {
     sandbox.globalThis = sandbox;
     vm.runInNewContext(readFileSync(scriptPath, 'utf8'), sandbox);
 
-    return sandbox.AutoCVApplyIndeedAutoApply;
+    return { api: sandbox.AutoCVApplyIndeedAutoApply, document: dom.window.document, sandbox };
 }
 
 const demo = load(
@@ -57,18 +61,19 @@ const demo = load(
     'https://www.google.com/recaptcha/api2/demo',
 );
 
-assert.equal(demo.readIndeedCaptchaPresent(), true, 'demo checkbox should be detected');
-const prepared = await demo.prepareCaptchaForSolve();
+assert.equal(demo.api.readIndeedCaptchaPresent(), true, 'demo checkbox should be detected');
+const prepared = await demo.api.prepareCaptchaForSolve();
 assert.equal(prepared.present, true);
 assert.equal(prepared.solvable, true);
+assert.equal(prepared.captchaType, 'recaptcha_v2');
 assert.match(prepared.sitekey, /^6Le/);
 
 const clean = load(
     `<!doctype html><html><body><h1>No captcha here</h1><input type="text"></body></html>`,
     'https://example.com/',
 );
-assert.equal(clean.readIndeedCaptchaPresent(), false, 'plain page must not false-positive');
-const cleanPrep = await clean.prepareCaptchaForSolve();
+assert.equal(clean.api.readIndeedCaptchaPresent(), false, 'plain page must not false-positive');
+const cleanPrep = await clean.api.prepareCaptchaForSolve();
 assert.equal(cleanPrep.present, false);
 assert.equal(cleanPrep.solvable, false);
 
@@ -78,34 +83,78 @@ const badgeOnly = load(
     </body></html>`,
     'https://example.com/form',
 );
-assert.equal(badgeOnly.readIndeedCaptchaPresent(), false, 'invisible badge alone must not count');
+assert.equal(badgeOnly.api.readIndeedCaptchaPresent(), false, 'invisible badge alone must not count');
 
 const hcaptcha = load(
     `<!doctype html><html><body>
-      <div class="h-captcha" data-sitekey="a5f74b19-9e45-40e0-b45d-47ff91b7a6c2"></div>
+      <div class="h-captcha" data-sitekey="a5f74b19-9e45-40e0-b45d-47ff91b7a6c2" data-callback="onHcaptcha"></div>
       <iframe title="hCaptcha challenge" src="https://newassets.hcaptcha.com/captcha/v1/x/static/hcaptcha.html#frame=challenge"></iframe>
     </body></html>`,
     'https://accounts.hcaptcha.com/demo',
 );
-assert.equal(hcaptcha.readIndeedCaptchaPresent(), true, 'hCaptcha should be detected as present');
-const hPrep = await hcaptcha.prepareCaptchaForSolve();
+assert.equal(hcaptcha.api.readIndeedCaptchaPresent(), true, 'hCaptcha should be detected as present');
+const hPrep = await hcaptcha.api.prepareCaptchaForSolve();
 assert.equal(hPrep.present, true);
-assert.equal(hPrep.solvable, false, 'hCaptcha must not claim recaptcha_v2 solvable');
+assert.equal(hPrep.solvable, true, 'hCaptcha with sitekey should be solvable');
 assert.equal(hPrep.captchaType, 'hcaptcha');
-assert.equal(hPrep.sitekey, null);
+assert.equal(hPrep.sitekey, 'a5f74b19-9e45-40e0-b45d-47ff91b7a6c2');
+
+let hCallbackValue = null;
+hcaptcha.sandbox.onHcaptcha = (token) => {
+    hCallbackValue = token;
+};
+const hInject = hcaptcha.api.injectCaptchaToken('h-token-123', 'hcaptcha');
+assert.equal(hInject.success, true);
+assert.equal(hInject.captchaType, 'hcaptcha');
+assert.equal(
+    hcaptcha.document.querySelector('textarea[name="h-captcha-response"]')?.value,
+    'h-token-123',
+);
+assert.equal(
+    hcaptcha.document.querySelector('textarea[name="g-recaptcha-response"]')?.value,
+    'h-token-123',
+);
+assert.equal(hCallbackValue, 'h-token-123');
 
 const turnstile = load(
     `<!doctype html><html><body>
-      <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+      <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onTurnstile"></div>
       <iframe title="Widget containing a Cloudflare security challenge" src="https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/x/0x4AAAAAAADnPIDROrmt1Wwj/light/fbE/new/normal?lang=auto"></iframe>
     </body></html>`,
     'https://demo.turnstile.workers.dev/',
 );
-assert.equal(turnstile.readIndeedCaptchaPresent(), true, 'Turnstile should be detected as present');
-const turnstilePrep = await turnstile.prepareCaptchaForSolve();
+assert.equal(turnstile.api.readIndeedCaptchaPresent(), true, 'Turnstile should be detected as present');
+const turnstilePrep = await turnstile.api.prepareCaptchaForSolve();
 assert.equal(turnstilePrep.present, true);
-assert.equal(turnstilePrep.solvable, false, 'Turnstile must not claim recaptcha_v2 solvable');
+assert.equal(turnstilePrep.solvable, true, 'Turnstile widget with sitekey should be solvable');
 assert.equal(turnstilePrep.captchaType, 'turnstile');
-assert.equal(turnstilePrep.sitekey, null);
+assert.equal(turnstilePrep.sitekey, '1x00000000000000000000AA');
+
+let turnstileCallbackValue = null;
+turnstile.sandbox.onTurnstile = (token) => {
+    turnstileCallbackValue = token;
+};
+const tInject = turnstile.api.injectCaptchaToken('cf-token-456', 'turnstile');
+assert.equal(tInject.success, true);
+assert.equal(tInject.captchaType, 'turnstile');
+assert.equal(
+    turnstile.document.querySelector('input[name="cf-turnstile-response"]')?.value,
+    'cf-token-456',
+);
+assert.equal(turnstileCallbackValue, 'cf-token-456');
+
+const checkpoint = load(
+    `<!doctype html><html><head><title>Just a moment...</title></head><body>
+      <div id="challenge-running"></div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAADnPIDROrmt1Wwj"></div>
+    </body></html>`,
+    'https://example.com/apply',
+);
+const checkpointPrep = await checkpoint.api.prepareCaptchaForSolve();
+assert.equal(checkpointPrep.present, true);
+assert.equal(checkpointPrep.solvable, false, 'CF security checkpoint must stay manual');
+assert.equal(checkpointPrep.captchaType, 'security_checkpoint');
+assert.equal(checkpointPrep.securityCheckpoint, true);
+assert.equal(checkpointPrep.sitekey, null);
 
 console.log('indeed-captcha-detect.test.mjs: ok');

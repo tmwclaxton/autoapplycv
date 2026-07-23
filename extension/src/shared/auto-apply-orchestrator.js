@@ -3168,7 +3168,17 @@ async function tryAutoSolveIndeedCaptcha(tabId, job = {}) {
             attempted: false,
             error: prepare.securityCheckpoint
                 ? 'Interactive security checkpoint (not auto-solvable)'
-                : 'No reCAPTCHA sitekey found',
+                : 'No captcha sitekey found',
+        };
+    }
+
+    const captchaType = String(prepare.captchaType || 'recaptcha_v2').trim();
+
+    if (!['recaptcha_v2', 'hcaptcha', 'turnstile'].includes(captchaType)) {
+        return {
+            solved: false,
+            attempted: false,
+            error: `Captcha type is not auto-solvable: ${captchaType || 'unknown'}`,
         };
     }
 
@@ -3184,7 +3194,7 @@ async function tryAutoSolveIndeedCaptcha(tabId, job = {}) {
         }
 
         solveResponse = await captchaSolver({
-            type: 'recaptcha_v2',
+            type: captchaType,
             sitekey: prepare.sitekey,
             pageUrl: prepare.pageUrl || '',
         });
@@ -3207,6 +3217,7 @@ async function tryAutoSolveIndeedCaptcha(tabId, job = {}) {
     const inject = await sendIndeedApplyFlowMessage(tabId, {
         type: 'INDEED_CAPTCHA_INJECT_TOKEN',
         token: solveResponse.token,
+        captchaType,
     }).catch((error) => ({
         success: false,
         error: error instanceof Error ? error.message : String(error),

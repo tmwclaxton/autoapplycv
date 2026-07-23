@@ -18,6 +18,7 @@ import {
     normalizeAutoApplyPlatform,
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
+import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
     resolveProfileSearchLocation,
@@ -27,7 +28,6 @@ import {
     describeTimingLevel,
     normalizeTimingLevel,
 } from './auto-apply-timing.js';
-import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 
 const SETTINGS_STORAGE_KEY = 'autoApplySettings';
 

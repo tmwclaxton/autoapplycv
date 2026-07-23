@@ -2027,7 +2027,12 @@ contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(AutoCVApplyIndeedAutoApply.injectRecaptchaV2Token(message.token));
+            sendResponse(
+                AutoCVApplyIndeedAutoApply.injectCaptchaToken(
+                    message.token,
+                    message.captchaType || 'recaptcha_v2',
+                ),
+            );
 
             return;
         }

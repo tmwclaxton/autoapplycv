@@ -3,23 +3,45 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use RuntimeException;
 
 class CaptchaSolverService
 {
+    public const TYPE_RECAPTCHA_V2 = 'recaptcha_v2';
+
+    public const TYPE_HCAPTCHA = 'hcaptcha';
+
+    public const TYPE_TURNSTILE = 'turnstile';
+
     /**
-     * Solve a reCAPTCHA v2 challenge. Tries AntiCaptcha first, then 2Captcha.
+     * @var array<string, string>
+     */
+    private const TASK_TYPES = [
+        self::TYPE_RECAPTCHA_V2 => 'RecaptchaV2TaskProxyless',
+        self::TYPE_HCAPTCHA => 'HCaptchaTaskProxyless',
+        self::TYPE_TURNSTILE => 'TurnstileTaskProxyless',
+    ];
+
+    /**
+     * Solve a widget captcha. Tries AntiCaptcha first, then 2Captcha.
      *
+     * @param  self::TYPE_*  $type
      * @return array{token: string, provider: string}
      */
-    public function solveRecaptchaV2(string $sitekey, string $pageUrl): array
+    public function solve(string $type, string $sitekey, string $pageUrl): array
     {
+        if (! isset(self::TASK_TYPES[$type])) {
+            throw new InvalidArgumentException("Unsupported captcha type: {$type}");
+        }
+
+        $taskType = self::TASK_TYPES[$type];
         $errors = [];
 
         if ($this->anticaptchaKey() !== '') {
             try {
                 return [
-                    'token' => $this->solveWithAntiCaptcha($sitekey, $pageUrl),
+                    'token' => $this->solveWithAntiCaptcha($taskType, $sitekey, $pageUrl),
                     'provider' => 'anticaptcha',
                 ];
             } catch (RuntimeException $exception) {
@@ -30,7 +52,7 @@ class CaptchaSolverService
         if ($this->twocaptchaKey() !== '') {
             try {
                 return [
-                    'token' => $this->solveWithTwoCaptcha($sitekey, $pageUrl),
+                    'token' => $this->solveWithTwoCaptcha($taskType, $sitekey, $pageUrl),
                     'provider' => 'twocaptcha',
                 ];
             } catch (RuntimeException $exception) {
@@ -55,25 +77,27 @@ class CaptchaSolverService
         return trim((string) config('services.twocaptcha.key', ''));
     }
 
-    private function solveWithAntiCaptcha(string $sitekey, string $pageUrl): string
+    private function solveWithAntiCaptcha(string $taskType, string $sitekey, string $pageUrl): string
     {
         return $this->solveWithJsonApi(
             providerLabel: 'AntiCaptcha',
             baseUrl: rtrim((string) config('services.anticaptcha.base_url'), '/'),
             clientKey: $this->anticaptchaKey(),
             timeout: max(30, (int) config('services.anticaptcha.timeout', 120)),
+            taskType: $taskType,
             sitekey: $sitekey,
             pageUrl: $pageUrl,
         );
     }
 
-    private function solveWithTwoCaptcha(string $sitekey, string $pageUrl): string
+    private function solveWithTwoCaptcha(string $taskType, string $sitekey, string $pageUrl): string
     {
         return $this->solveWithJsonApi(
             providerLabel: '2Captcha',
             baseUrl: rtrim((string) config('services.twocaptcha.base_url'), '/'),
             clientKey: $this->twocaptchaKey(),
             timeout: max(30, (int) config('services.twocaptcha.timeout', 120)),
+            taskType: $taskType,
             sitekey: $sitekey,
             pageUrl: $pageUrl,
         );
@@ -84,6 +108,7 @@ class CaptchaSolverService
         string $baseUrl,
         string $clientKey,
         int $timeout,
+        string $taskType,
         string $sitekey,
         string $pageUrl,
     ): string {
@@ -92,7 +117,7 @@ class CaptchaSolverService
             ->post("{$baseUrl}/createTask", [
                 'clientKey' => $clientKey,
                 'task' => [
-                    'type' => 'RecaptchaV2TaskProxyless',
+                    'type' => $taskType,
                     'websiteURL' => $pageUrl,
                     'websiteKey' => $sitekey,
                 ],
@@ -147,7 +172,7 @@ class CaptchaSolverService
             }
 
             if ($status === 'ready') {
-                $token = (string) ($resultJson['solution']['gRecaptchaResponse'] ?? '');
+                $token = $this->extractSolutionToken($resultJson['solution'] ?? null);
 
                 if ($token === '') {
                     throw new RuntimeException("{$providerLabel} returned an empty token.");
@@ -160,6 +185,23 @@ class CaptchaSolverService
         }
 
         throw new RuntimeException("{$providerLabel} timed out waiting for a solution.");
+    }
+
+    private function extractSolutionToken(mixed $solution): string
+    {
+        if (! is_array($solution)) {
+            return '';
+        }
+
+        foreach (['gRecaptchaResponse', 'token', 'response'] as $key) {
+            $value = trim((string) ($solution[$key] ?? ''));
+
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return '';
     }
 
     private function waitBetweenPolls(): void

@@ -1476,6 +1476,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return wrapper;
         }
 
+        const hostWidget = document.querySelector(
+            '.h-captcha[data-sitekey], .cf-turnstile[data-sitekey], [data-sitekey].cf-turnstile, .g-recaptcha[data-sitekey]',
+        );
+
+        if (hostWidget instanceof HTMLElement) {
+            return hostWidget;
+        }
+
         const widget = findVisibleRecaptchaCheckboxWidget();
 
         if (widget instanceof HTMLElement) {
@@ -1483,7 +1491,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         }
 
         for (const iframe of document.querySelectorAll(
-            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA" i], iframe[title*="recaptcha challenge" i]',
+            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA" i], iframe[title*="recaptcha challenge" i], iframe[src*="hcaptcha.com"], iframe[src*="challenges.cloudflare.com"]',
         )) {
             if (iframe instanceof HTMLElement && !isRecaptchaBadgeNode(iframe)) {
                 return iframe;
@@ -1558,6 +1566,55 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return String(html || '').match(/sitekey["']?\s*[:=]\s*["']([^"']+)["']/i);
     }
 
+    function readHcaptchaSitekey() {
+        const fromData = document.querySelector('.h-captcha[data-sitekey]');
+        const dataKey = String(fromData?.getAttribute('data-sitekey') || '').trim();
+
+        if (dataKey) {
+            return dataKey;
+        }
+
+        for (const iframe of document.querySelectorAll('iframe[src*="hcaptcha.com"]')) {
+            const src = String(iframe.getAttribute('src') || '');
+            const match = src.match(/[?&#]sitekey=([^&#]+)/i);
+
+            if (match?.[1]) {
+                try {
+                    return decodeURIComponent(match[1]).trim() || null;
+                } catch {
+                    return String(match[1]).trim() || null;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    function readTurnstileSitekey() {
+        const fromData = document.querySelector(
+            '.cf-turnstile[data-sitekey], [data-sitekey].cf-turnstile',
+        );
+        const dataKey = String(fromData?.getAttribute('data-sitekey') || '').trim();
+
+        if (dataKey) {
+            return dataKey;
+        }
+
+        for (const iframe of document.querySelectorAll(
+            'iframe[src*="challenges.cloudflare.com"]',
+        )) {
+            const src = String(iframe.getAttribute('src') || '');
+            // Widget URLs embed the sitekey as a path segment: /turnstile/.../<sitekey>/...
+            const match = src.match(/\/turnstile\/[^/]+\/[^/]+\/[^/]+\/([^/?#]+)/i);
+
+            if (match?.[1] && /^0x[A-Za-z0-9_-]+$/.test(match[1])) {
+                return match[1];
+            }
+        }
+
+        return null;
+    }
+
     async function prepareCaptchaForSolve() {
         const present = readIndeedCaptchaPresent() || readIndeedSecurityCheckpoint();
 
@@ -1573,25 +1630,113 @@ var AutoCVApplyIndeedAutoApply = (() => {
         }
 
         const scrollResult = await scrollCaptchaIntoView();
-        const sitekey = readRecaptchaV2Sitekey();
         const securityCheckpoint = readIndeedSecurityCheckpoint();
+
+        // Interactive Cloudflare "Just a moment" checkpoints stay manual.
+        if (securityCheckpoint) {
+            return {
+                present: true,
+                sitekey: null,
+                pageUrl: location.href,
+                scrolled: Boolean(scrollResult.scrolled),
+                solvable: false,
+                securityCheckpoint: true,
+                captchaType: 'security_checkpoint',
+            };
+        }
+
         const hcaptcha = readHcaptchaPresent();
+        const hSitekey = readHcaptchaSitekey();
+
+        if (hcaptcha || hSitekey) {
+            return {
+                present: true,
+                sitekey: hSitekey,
+                pageUrl: location.href,
+                scrolled: Boolean(scrollResult.scrolled),
+                solvable: Boolean(hSitekey),
+                securityCheckpoint: false,
+                captchaType: 'hcaptcha',
+            };
+        }
+
         const turnstile = readTurnstilePresent();
-        const solvable = Boolean(sitekey) && !securityCheckpoint && !hcaptcha && !turnstile;
+        const tSitekey = readTurnstileSitekey();
+
+        if (turnstile || tSitekey) {
+            return {
+                present: true,
+                sitekey: tSitekey,
+                pageUrl: location.href,
+                scrolled: Boolean(scrollResult.scrolled),
+                solvable: Boolean(tSitekey),
+                securityCheckpoint: false,
+                captchaType: 'turnstile',
+            };
+        }
+
+        const sitekey = readRecaptchaV2Sitekey();
 
         return {
             present: true,
-            sitekey: solvable ? sitekey : null,
+            sitekey: sitekey || null,
             pageUrl: location.href,
             scrolled: Boolean(scrollResult.scrolled),
-            solvable,
-            securityCheckpoint,
-            captchaType: hcaptcha
-                ? 'hcaptcha'
-                : (turnstile
-                    ? 'turnstile'
-                    : (sitekey ? 'recaptcha_v2' : (securityCheckpoint ? 'security_checkpoint' : 'unknown'))),
+            solvable: Boolean(sitekey),
+            securityCheckpoint: false,
+            captchaType: sitekey ? 'recaptcha_v2' : 'unknown',
         };
+    }
+
+    function setHiddenCaptchaField(selectors, name, value) {
+        const responseFields = document.querySelectorAll(selectors);
+
+        if (responseFields.length === 0) {
+            const created = document.createElement(
+                name === 'cf-turnstile-response' ? 'input' : 'textarea',
+            );
+            created.name = name;
+            created.id = name;
+
+            if (created instanceof HTMLInputElement) {
+                created.type = 'hidden';
+            } else {
+                created.style.display = 'none';
+            }
+
+            created.value = value;
+            document.body.appendChild(created);
+
+            return;
+        }
+
+        for (const field of responseFields) {
+            if (field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement) {
+                field.value = value;
+                field.dispatchEvent(new Event('input', { bubbles: true }));
+                field.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    }
+
+    function invokeDataCallback(selector, value) {
+        for (const node of document.querySelectorAll(selector)) {
+            const callbackName = String(node.getAttribute('data-callback') || '').trim();
+
+            if (!callbackName || !(callbackName in globalThis)) {
+                continue;
+            }
+
+            try {
+                const callback = globalThis[callbackName];
+
+                if (typeof callback === 'function') {
+                    callback(value);
+                }
+            } catch {
+                // Callback invocation is best-effort.
+            }
+        }
     }
 
     function injectRecaptchaV2Token(token) {
@@ -1601,26 +1746,11 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return { success: false, error: 'Empty captcha token.' };
         }
 
-        const responseFields = document.querySelectorAll(
+        setHiddenCaptchaField(
             'textarea[name="g-recaptcha-response"], #g-recaptcha-response, textarea#g-recaptcha-response',
+            'g-recaptcha-response',
+            value,
         );
-
-        if (responseFields.length === 0) {
-            const created = document.createElement('textarea');
-            created.name = 'g-recaptcha-response';
-            created.id = 'g-recaptcha-response';
-            created.style.display = 'none';
-            created.value = value;
-            document.body.appendChild(created);
-        } else {
-            for (const field of responseFields) {
-                if (field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement) {
-                    field.value = value;
-                    field.dispatchEvent(new Event('input', { bubbles: true }));
-                    field.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            }
-        }
 
         try {
             const clients = globalThis.___grecaptcha_cfg?.clients;
@@ -1638,10 +1768,78 @@ var AutoCVApplyIndeedAutoApply = (() => {
             // Callback discovery is best-effort.
         }
 
+        invokeDataCallback('.g-recaptcha[data-callback]', value);
+
         return {
             success: true,
+            captchaType: 'recaptcha_v2',
             captchaPresent: readIndeedCaptchaPresent(),
         };
+    }
+
+    function injectHcaptchaToken(token) {
+        const value = String(token || '').trim();
+
+        if (!value) {
+            return { success: false, error: 'Empty captcha token.' };
+        }
+
+        setHiddenCaptchaField(
+            'textarea[name="h-captcha-response"], #h-captcha-response, textarea#h-captcha-response',
+            'h-captcha-response',
+            value,
+        );
+        // Many hosts also mirror the token into the reCAPTCHA-compatible field.
+        setHiddenCaptchaField(
+            'textarea[name="g-recaptcha-response"], #g-recaptcha-response, textarea#g-recaptcha-response',
+            'g-recaptcha-response',
+            value,
+        );
+        invokeDataCallback('.h-captcha[data-callback]', value);
+
+        return {
+            success: true,
+            captchaType: 'hcaptcha',
+            captchaPresent: readIndeedCaptchaPresent(),
+        };
+    }
+
+    function injectTurnstileToken(token) {
+        const value = String(token || '').trim();
+
+        if (!value) {
+            return { success: false, error: 'Empty captcha token.' };
+        }
+
+        setHiddenCaptchaField(
+            'input[name="cf-turnstile-response"], textarea[name="cf-turnstile-response"], #cf-turnstile-response',
+            'cf-turnstile-response',
+            value,
+        );
+        invokeDataCallback(
+            '.cf-turnstile[data-callback], [data-sitekey].cf-turnstile[data-callback]',
+            value,
+        );
+
+        return {
+            success: true,
+            captchaType: 'turnstile',
+            captchaPresent: readIndeedCaptchaPresent(),
+        };
+    }
+
+    function injectCaptchaToken(token, captchaType = 'recaptcha_v2') {
+        const type = String(captchaType || 'recaptcha_v2').trim();
+
+        if (type === 'hcaptcha') {
+            return injectHcaptchaToken(token);
+        }
+
+        if (type === 'turnstile') {
+            return injectTurnstileToken(token);
+        }
+
+        return injectRecaptchaV2Token(token);
     }
 
     function findRecaptchaCallback(node, depth = 0) {
@@ -2726,9 +2924,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
         openIndeedContactInfoStep,
         readIndeedStoredApplicantIdentity,
         prepareCaptchaForSolve,
+        injectCaptchaToken,
         injectRecaptchaV2Token,
+        injectHcaptchaToken,
+        injectTurnstileToken,
         scrollCaptchaIntoView,
         readRecaptchaV2Sitekey,
+        readHcaptchaSitekey,
+        readTurnstileSitekey,
         readIndeedCaptchaPresent,
         isIndeedApplyFlowPage,
         isIndeedSearchPage,
