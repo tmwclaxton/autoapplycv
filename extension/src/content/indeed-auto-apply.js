@@ -1312,6 +1312,87 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return /review your application|please review/i.test(heading);
     }
 
+    function isRecaptchaBadgeNode(node) {
+        if (!(node instanceof HTMLElement)) {
+            return false;
+        }
+
+        if (node.classList?.contains('grecaptcha-badge')
+            || node.closest?.('.grecaptcha-badge')) {
+            return true;
+        }
+
+        const src = String(node.getAttribute?.('src') || node.src || '').toLowerCase();
+
+        return /\/badge|size=invisible/i.test(src);
+    }
+
+    function isGoogleRecaptchaSitekey(sitekey) {
+        // Google reCAPTCHA sitekeys are typically 40-char tokens starting with 6L.
+        return /^6L[0-9A-Za-z_-]{20,}$/.test(String(sitekey || '').trim());
+    }
+
+    function findVisibleRecaptchaCheckboxWidget() {
+        for (const node of document.querySelectorAll(
+            '.g-recaptcha[data-sitekey], [data-sitekey].g-recaptcha',
+        )) {
+            if (!(node instanceof HTMLElement) || isRecaptchaBadgeNode(node)) {
+                continue;
+            }
+
+            const sitekey = String(node.getAttribute('data-sitekey') || '').trim();
+
+            if (!isGoogleRecaptchaSitekey(sitekey)) {
+                continue;
+            }
+
+            if (isElementMostlyVisible(node) || isElementVisible(node)) {
+                return node;
+            }
+        }
+
+        for (const iframe of document.querySelectorAll('iframe[src*="google.com/recaptcha"], iframe[src*="recaptcha/api2"]')) {
+            if (!(iframe instanceof HTMLElement) || isRecaptchaBadgeNode(iframe)) {
+                continue;
+            }
+
+            const src = String(iframe.getAttribute('src') || '').toLowerCase();
+            const title = String(iframe.getAttribute('title') || '').toLowerCase();
+
+            // Checkbox anchor widgets are large; enterprise badges are tiny.
+            if (src.includes('/anchor') || title.includes('recaptcha')) {
+                const rect = iframe.getBoundingClientRect();
+
+                if (rect.width >= 120 && rect.height >= 40 && isElementMostlyVisible(iframe)) {
+                    return iframe;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    function readHcaptchaPresent() {
+        for (const node of document.querySelectorAll(
+            '.h-captcha[data-sitekey], iframe[src*="hcaptcha.com"]',
+        )) {
+            if (!(node instanceof HTMLElement)) {
+                continue;
+            }
+
+            if (isElementMostlyVisible(node) || isElementVisible(node)) {
+                return true;
+            }
+
+            // Challenge frames may be off-screen until opened; still count host widgets.
+            if (node.matches?.('.h-captcha[data-sitekey]')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function readIndeedCaptchaPresent() {
         // Explicit Indeed apply captcha hosts. Prefer existence over "mostly
         // visible" - the challenge iframe often has zero layout until expanded,
@@ -1335,10 +1416,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return true;
         }
 
+        if (readHcaptchaPresent()) {
+            return true;
+        }
+
         for (const iframe of document.querySelectorAll(
-            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"], iframe[title*="recaptcha challenge" i]',
+            'iframe[src*="google.com/recaptcha"], iframe[src*="recaptcha/api2"], iframe[title*="reCAPTCHA"], iframe[title*="recaptcha challenge" i]',
         )) {
-            if (!(iframe instanceof HTMLElement)) {
+            if (!(iframe instanceof HTMLElement) || isRecaptchaBadgeNode(iframe)) {
                 continue;
             }
 
@@ -1358,7 +1443,8 @@ var AutoCVApplyIndeedAutoApply = (() => {
             }
         }
 
-        return false;
+        // Visible Google checkbox widget (Indeed sometimes mounts before challenge opens).
+        return Boolean(findVisibleRecaptchaCheckboxWidget());
     }
 
     function findCaptchaScrollTarget() {
@@ -1370,10 +1456,16 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return wrapper;
         }
 
+        const widget = findVisibleRecaptchaCheckboxWidget();
+
+        if (widget instanceof HTMLElement) {
+            return widget;
+        }
+
         for (const iframe of document.querySelectorAll(
             'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA" i], iframe[title*="recaptcha challenge" i]',
         )) {
-            if (iframe instanceof HTMLElement) {
+            if (iframe instanceof HTMLElement && !isRecaptchaBadgeNode(iframe)) {
                 return iframe;
             }
         }
@@ -1405,32 +1497,41 @@ var AutoCVApplyIndeedAutoApply = (() => {
 
     function readRecaptchaV2Sitekey() {
         const fromData = document.querySelector(
-            '[data-sitekey], .g-recaptcha[data-sitekey], .grecaptcha-badge[data-sitekey]',
+            '.g-recaptcha[data-sitekey], [data-sitekey].g-recaptcha, .grecaptcha-badge[data-sitekey]',
         );
         const dataKey = String(fromData?.getAttribute('data-sitekey') || '').trim();
 
-        if (dataKey) {
+        if (isGoogleRecaptchaSitekey(dataKey)) {
             return dataKey;
         }
 
-        for (const iframe of document.querySelectorAll('iframe[src*="recaptcha"]')) {
+        for (const iframe of document.querySelectorAll(
+            'iframe[src*="google.com/recaptcha"], iframe[src*="recaptcha/api2"]',
+        )) {
             const src = String(iframe.getAttribute('src') || '');
             const match = src.match(/[?&]k=([^&]+)/i);
 
             if (match?.[1]) {
                 try {
-                    return decodeURIComponent(match[1]);
+                    const decoded = decodeURIComponent(match[1]);
+
+                    if (isGoogleRecaptchaSitekey(decoded)) {
+                        return decoded;
+                    }
                 } catch {
-                    return match[1];
+                    if (isGoogleRecaptchaSitekey(match[1])) {
+                        return match[1];
+                    }
                 }
             }
         }
 
         const html = String(document.documentElement?.innerHTML || '');
-        const htmlMatch = html.match(/data-sitekey=["']([^"']+)["']/i)
+        const htmlMatch = html.match(/data-sitekey=["'](6L[^"']+)["']/i)
             || htmlMatchSitekeyFromScript(html);
+        const fromHtml = htmlMatch?.[1] ? String(htmlMatch[1]).trim() : null;
 
-        return htmlMatch?.[1] ? String(htmlMatch[1]).trim() : null;
+        return isGoogleRecaptchaSitekey(fromHtml) ? fromHtml : null;
     }
 
     function htmlMatchSitekeyFromScript(html) {
@@ -1447,19 +1548,26 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 pageUrl: location.href,
                 scrolled: false,
                 solvable: false,
+                captchaType: null,
             };
         }
 
         const scrollResult = await scrollCaptchaIntoView();
         const sitekey = readRecaptchaV2Sitekey();
+        const securityCheckpoint = readIndeedSecurityCheckpoint();
+        const hcaptcha = readHcaptchaPresent();
+        const solvable = Boolean(sitekey) && !securityCheckpoint && !hcaptcha;
 
         return {
             present: true,
-            sitekey,
+            sitekey: solvable ? sitekey : null,
             pageUrl: location.href,
             scrolled: Boolean(scrollResult.scrolled),
-            solvable: Boolean(sitekey) && !readIndeedSecurityCheckpoint(),
-            securityCheckpoint: readIndeedSecurityCheckpoint(),
+            solvable,
+            securityCheckpoint,
+            captchaType: hcaptcha
+                ? 'hcaptcha'
+                : (sitekey ? 'recaptcha_v2' : (securityCheckpoint ? 'security_checkpoint' : 'unknown')),
         };
     }
 
@@ -1581,7 +1689,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return true;
         }
 
-        return readIndeedCaptchaPresent();
+        // Do not treat a normal reCAPTCHA checkbox/challenge as a Cloudflare-style
+        // checkpoint - that made every captcha look non-solvable.
+        return false;
     }
 
     function readContinueButton() {
@@ -2596,6 +2706,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         injectRecaptchaV2Token,
         scrollCaptchaIntoView,
         readRecaptchaV2Sitekey,
+        readIndeedCaptchaPresent,
         isIndeedApplyFlowPage,
         isIndeedSearchPage,
         isIndeedViewJobPage,
