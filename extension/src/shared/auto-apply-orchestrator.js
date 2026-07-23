@@ -1427,8 +1427,8 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                     };
                 }
 
-                const resumeIndeedTab = async () => {
-                    await waitForIndeedContentScript(tabId);
+                const resumeIndeedTab = async (waitMs = 20_000) => {
+                    await waitForIndeedContentScript(tabId, waitMs);
                     await sleep(
                         randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700),
                     );
@@ -1440,17 +1440,21 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                 };
 
                 try {
-                    await resumeIndeedTab();
-                } catch {
-                    if (!onSmartApply) {
+                    // Prefer a quick ping, then reload. Waiting the full content-script
+                    // timeout before reload made post-extension-reload recovery feel stuck.
+                    if (onSmartApply) {
+                        await resumeIndeedTab(8_000);
+                    } else {
                         try {
+                            await resumeIndeedTab(2_500);
+                        } catch {
                             await chrome.tabs.reload(tabId);
                             await waitForTabLoadComplete(tabId);
-                            await resumeIndeedTab();
-                        } catch {
-                            // Fall through to retry send on next loop iteration.
+                            await resumeIndeedTab(20_000);
                         }
                     }
+                } catch {
+                    // Fall through to retry send on next loop iteration.
                 }
 
                 continue;

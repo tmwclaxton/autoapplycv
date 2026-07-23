@@ -125,26 +125,26 @@ export function createSimplyHiredOrchestrator(deps) {
                     await logSession('warn', `[simplyhired_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
 
                     try {
-                        await waitForSimplyHiredContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                        await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
-                    } catch {
-                        try {
-                            const currentUrl = await readTabUrl(tabId);
+                        const currentUrl = await readTabUrl(tabId);
+                        const onJobPage = /\/job\//i.test(currentUrl);
 
+                        try {
+                            await waitForSimplyHiredContentScript(tabId, 2_500);
+                        } catch {
                             // Reloading an open /job page during apply discovery can bounce
                             // back to search and false-skip as "no Quick Apply".
-                            if (!/\/job\//i.test(currentUrl)) {
+                            if (!onJobPage) {
                                 await chrome.tabs.reload(tabId);
                                 await waitForTabLoadComplete(tabId);
                             }
 
                             await waitForSimplyHiredContentScript(tabId);
-                            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                            await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
-                        } catch {
-                            // Fall through to retry send on next loop iteration.
                         }
+
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
+                        await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    } catch {
+                        // Fall through to retry send on next loop iteration.
                     }
 
                     continue;
