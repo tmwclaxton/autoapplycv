@@ -126,6 +126,21 @@ void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
 void reconcileOrphanedAutoApplySession();
 
+if (chrome?.alarms?.onAlarm) {
+    chrome.alarms.onAlarm.addListener((alarm) => {
+        if (alarm?.name !== 'auto-apply-pause-keepalive') {
+            return;
+        }
+
+        // Wake the service worker and keep paused sessions from being treated as orphaned runs.
+        void loadAutoApplySession().then((session) => {
+            if (session?.status === 'paused_for_input' && !isAutoApplyRunning()) {
+                // Session remains paused until Resume rehydrates the run loop.
+            }
+        });
+    });
+}
+
 let cachedProfile = null;
 let cacheTimestamp = 0;
 let cachedCvDocument = null;

@@ -74,6 +74,7 @@ export function initAutoApplyManualResumePanel({
                 throw new Error(response.error);
             }
 
+            resumeInFlight = false;
             showMessage('Resuming Auto Apply…', 'success');
             renderManualResumePanel();
         } catch (error) {

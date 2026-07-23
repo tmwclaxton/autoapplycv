@@ -506,6 +506,11 @@ async function evaluateJobFit(tabId, job, session) {
 /** @type {Promise<void>|null} */
 let activeRunPromise = null;
 
+/** @type {Function|null} */
+let configuredRunDraftAll = null;
+
+const PAUSE_KEEPALIVE_ALARM = 'auto-apply-pause-keepalive';
+
 /** Serializes Auto Apply start/stop so UI and bridge cannot overlap runs. */
 let autoApplyStartChain = Promise.resolve();
 
@@ -2722,6 +2727,32 @@ async function openAssistSidePanelForCaptcha(tabId) {
     }
 }
 
+async function startAutoApplyPauseKeepalive() {
+    if (!chrome?.alarms?.create) {
+        return;
+    }
+
+    try {
+        await chrome.alarms.create(PAUSE_KEEPALIVE_ALARM, {
+            periodInMinutes: 1,
+        });
+    } catch {
+        // Alarms permission or API unavailable.
+    }
+}
+
+async function stopAutoApplyPauseKeepalive() {
+    if (!chrome?.alarms?.clear) {
+        return;
+    }
+
+    try {
+        await chrome.alarms.clear(PAUSE_KEEPALIVE_ALARM);
+    } catch {
+        // ignore
+    }
+}
+
 /**
  * Cloudflare / bot interstitials often block content scripts, so also read the tab title.
  *
@@ -2815,6 +2846,7 @@ async function pauseForCaptchaReview(
         ),
     );
 
+    await startAutoApplyPauseKeepalive();
     await openAssistSidePanelForCaptcha(tabId);
 
     chrome.runtime
@@ -2861,6 +2893,7 @@ async function pauseForLoginRequired(session, tabId, job, platformLabel = 'Reed'
         ),
     );
 
+    await startAutoApplyPauseKeepalive();
     await openAssistSidePanelForCaptcha(tabId);
 
     chrome.runtime
@@ -2952,6 +2985,8 @@ async function pauseForIdentityConfirm(
             reason: 'identity_confirm',
         })
         .catch(() => {});
+
+    await startAutoApplyPauseKeepalive();
 }
 
 async function waitForIdentityConfirmResume(_session) {
@@ -2978,17 +3013,11 @@ async function waitForIndeedCaptchaResume(
     options = {},
 ) {
     await pauseForCaptchaReview(session, tabId, job, modalState, options);
-    // Give the user time to hear the ping and solve the challenge.
-    const captchaResume = await waitForAutoApplyResumeWithTimeout(180_000);
+    // Wait until Resume or Stop - no timeout so a late Resume still continues.
+    const captchaResume = await waitForAutoApplyResume();
 
     if (captchaResume.stopRequested) {
         return { stopped: true, session: captchaResume };
-    }
-
-    if (captchaResume.status === 'paused_for_input') {
-        await resumeAutoApplyFromPauseSilently();
-
-        return { timedOut: true, session: captchaResume };
     }
 
     return { resumed: true, session: captchaResume };
@@ -3042,6 +3071,7 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
         ),
     );
 
+    await startAutoApplyPauseKeepalive();
     await openAssistSidePanelForCaptcha(tabId);
 
     chrome.runtime
@@ -4634,7 +4664,7 @@ async function appendUniqueIndeedJobsWithCaptchaPause(tabId, session) {
     while (appendResult.captcha) {
         await logSession(
             'warn',
-            '[captcha] Indeed security check on search page - solve in browser, then resume in Assist (3 min timeout).',
+            '[captcha] Indeed security check on search page - solve in browser, then resume in Assist.',
         );
 
         const captchaOutcome = await waitForIndeedCaptchaResume(
@@ -5180,7 +5210,7 @@ async function processIndeedJobInner(
     if (!openResult.success && openResult.captcha) {
         await logSession(
             'warn',
-            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist (2 min timeout).`,
+            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist.`,
         );
 
         const captchaOutcome = await waitForIndeedCaptchaResume(
@@ -5277,7 +5307,7 @@ async function processIndeedJobInner(
     if (health?.captcha) {
         await logSession(
             'warn',
-            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist (2 min timeout).`,
+            `[captcha] ${job.title}: Indeed security check on job page - solve in browser, then resume in Assist.`,
         );
 
         const captchaOutcome = await waitForIndeedCaptchaResume(
@@ -5391,7 +5421,7 @@ async function processIndeedJobInner(
     if (applyResponse?.captcha) {
         await logSession(
             'warn',
-            `[captcha] ${job.title}: Indeed security check before apply - solve in browser, then resume in Assist (2 min timeout).`,
+            `[captcha] ${job.title}: Indeed security check before apply - solve in browser, then resume in Assist.`,
         );
 
         const captchaOutcome = await waitForIndeedCaptchaResume(
@@ -5690,7 +5720,7 @@ async function processIndeedJobInner(
                 ) {
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+                        `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
                     );
                     const captchaOutcome = await waitForIndeedCaptchaResume(
                         session,
@@ -5785,7 +5815,7 @@ async function processIndeedJobInner(
         if (advanceBlockedByCaptcha) {
             await logSession(
                 'warn',
-                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (3 min timeout).`,
+                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist.`,
             );
             const captchaOutcome = await waitForIndeedCaptchaResume(
                 session,
@@ -5841,7 +5871,7 @@ async function processIndeedJobInner(
                 if (confirmResult.captcha) {
                     await logSession(
                         'warn',
-                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - solve in browser, then resume in Assist (3 min timeout).`,
+                        `[captcha] ${job.title}: CAPTCHA appeared after Submit - solve in browser, then resume in Assist.`,
                     );
                     const captchaOutcome = await waitForIndeedCaptchaResume(
                         session,
@@ -8975,6 +9005,8 @@ export async function startAutoApply({
             );
         }
 
+        configuredRunDraftAll = typeof runDraftAll === 'function' ? runDraftAll : null;
+
         const resolvedFilters = resolveAutoApplySearchFilters({
             filters,
             profileData,
@@ -9170,7 +9202,9 @@ async function runIndeedAutoApplyLoop(
     initialSession,
     runDraftAll,
     profileData = null,
+    options = {},
 ) {
+    const resumeExisting = options.resumeExisting === true;
     const previousWriteOwner = sessionWriteOwnerRunId;
     sessionWriteOwnerRunId = initialSession.runId;
     const { ownsLatest, shouldStop: shouldStopOwned } = bindAutoApplyRunOwnership(
@@ -9187,47 +9221,58 @@ async function runIndeedAutoApplyLoop(
     resetWatchdog();
 
     let session = initialSession;
-    let tabId = await ensureIndeedTab(session);
+    let tabId = session.tabId && resumeExisting
+        ? session.tabId
+        : await ensureIndeedTab(session);
 
     if (await shouldStopOwned(session)) {
         return;
     }
 
-    session = (await updateSession({ tabId })) || session;
-    markWatchdogProgress(session);
-    await logSession('info', 'Collecting Indeed job listings…');
-
-    {
-        const collectOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
-            tabId,
-            session,
+    if (resumeExisting && session.queue?.length) {
+        await logSession(
+            'info',
+            'Resuming Indeed Auto Apply from the paused job.',
         );
-        session = collectOutcome.session || session;
+        session = (await updateSession({ tabId, status: 'running' })) || session;
         markWatchdogProgress(session);
+    } else {
+        session = (await updateSession({ tabId })) || session;
+        markWatchdogProgress(session);
+        await logSession('info', 'Collecting Indeed job listings…');
 
-        if (collectOutcome.stopped) {
-            await finalizeStoppedSession();
+        {
+            const collectOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
+                tabId,
+                session,
+            );
+            session = collectOutcome.session || session;
+            markWatchdogProgress(session);
 
-            return;
+            if (collectOutcome.stopped) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
+            if (collectOutcome.captchaTimedOut && !session.queue.length) {
+                throw new Error(
+                    'Indeed security check blocked job collection. Solve the CAPTCHA in the Auto Apply window, then start again.',
+                );
+            }
         }
 
-        if (collectOutcome.captchaTimedOut && !session.queue.length) {
+        if (!session.queue.length) {
             throw new Error(
-                'Indeed security check blocked job collection. Solve the CAPTCHA in the Auto Apply window, then start again.',
+                'No Indeed Apply job listings found on the search page.',
             );
         }
-    }
 
-    if (!session.queue.length) {
-        throw new Error(
-            'No Indeed Apply job listings found on the search page.',
+        await logSession(
+            'info',
+            `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`,
         );
     }
-
-    await logSession(
-        'info',
-        `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`,
-    );
 
     while (
         (await loadAutoApplySession())?.stats.applied < session.maxApplications
@@ -9472,13 +9517,17 @@ async function runAutoApplyLoop(
     initialSession,
     runDraftAll,
     profileData = null,
+    options = {},
 ) {
+    const resumeExisting = options.resumeExisting === true;
     sessionWriteOwnerRunId = initialSession.runId;
     configureAutoApplyTiming(initialSession.timingLevel);
     await persistActiveAutoApplyTiming(initialSession.timingLevel);
 
     if (initialSession.platform === INDEED_PLATFORM_ID) {
-        return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData);
+        return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData, {
+            resumeExisting,
+        });
     }
 
     if (initialSession.platform === TOTALJOBS_PLATFORM_ID) {
@@ -9529,25 +9578,36 @@ async function runAutoApplyLoop(
     resetWatchdog();
 
     let session = initialSession;
-    let tabId = await ensureLinkedInTab(session);
+    let tabId = session.tabId && resumeExisting
+        ? session.tabId
+        : await ensureLinkedInTab(session);
 
-    session = (await updateSession({ tabId })) || session;
-    markWatchdogProgress(session);
-    await logSession('info', 'Collecting LinkedIn job listings…');
+    if (resumeExisting && session.queue?.length) {
+        await logSession(
+            'info',
+            'Resuming LinkedIn Auto Apply from the paused job.',
+        );
+        session = (await updateSession({ tabId, status: 'running' })) || session;
+        markWatchdogProgress(session);
+    } else {
+        session = (await updateSession({ tabId })) || session;
+        markWatchdogProgress(session);
+        await logSession('info', 'Collecting LinkedIn job listings…');
 
-    await assertLinkedInTabHealthy(tabId, 'Job search page');
+        await assertLinkedInTabHealthy(tabId, 'Job search page');
 
-    session = await appendUniqueJobs(tabId, session);
-    markWatchdogProgress(session);
+        session = await appendUniqueJobs(tabId, session);
+        markWatchdogProgress(session);
 
-    if (!session.queue.length) {
-        throw new Error('No LinkedIn job listings found on the search page.');
+        if (!session.queue.length) {
+            throw new Error('No LinkedIn job listings found on the search page.');
+        }
+
+        await logSession(
+            'info',
+            `Found ${session.queue.length} jobs (Easy Apply filter enabled).`,
+        );
     }
-
-    await logSession(
-        'info',
-        `Found ${session.queue.length} jobs (Easy Apply filter enabled).`,
-    );
 
     while (
         (await loadAutoApplySession())?.stats.applied < session.maxApplications
@@ -9812,6 +9872,10 @@ function resolveAutoApplyResumeLogMessage(pauseContext) {
         return 'Resuming Auto Apply after contact confirmation.';
     }
 
+    if (pauseContext?.pauseReason === 'review_before_submit') {
+        return 'Resuming Auto Apply after review.';
+    }
+
     return 'Resuming Auto Apply after your answer.';
 }
 
@@ -9819,24 +9883,88 @@ export async function resumeAutoApplyFromPause() {
     const session = await loadAutoApplySession();
 
     if (!session || session.status !== 'paused_for_input') {
+        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_RESUMED' }).catch(() => {});
+
         return session;
     }
 
     const resumeLogMessage = resolveAutoApplyResumeLogMessage(session.pauseContext);
+    const needsRehydrate = !isAutoApplyRunning();
 
     const resumed = await updateSession((current) =>
         resumeAutoApplyFromInput(
             appendAutoApplyLog(
                 current,
                 'info',
-                resumeLogMessage,
+                needsRehydrate
+                    ? `${resumeLogMessage} (restarting run after extension pause).`
+                    : resumeLogMessage,
             ),
         ),
     );
 
+    await stopAutoApplyPauseKeepalive();
     chrome.runtime.sendMessage({ type: 'AUTO_APPLY_RESUMED' }).catch(() => {});
 
+    if (needsRehydrate && resumed && configuredRunDraftAll) {
+        void startRehydratedAutoApplyRun(resumed, configuredRunDraftAll);
+    }
+
     return resumed;
+}
+
+/**
+ * Restart the Auto Apply loop from the stored session when the service worker
+ * dropped the in-memory wait loop during a long pause.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {Function} runDraftAll
+ */
+async function startRehydratedAutoApplyRun(session, runDraftAll) {
+    if (activeRunPromise || !session) {
+        return;
+    }
+
+    const profileData = await getProfileForAutoApply();
+    const runPromise = (async () =>
+        runAutoApplyLoop(session, runDraftAll, profileData, {
+            resumeExisting: true,
+        }))()
+        .catch(async (error) => {
+            const failedSession = await updateSession((current) => {
+                if (current.stopRequested) {
+                    return buildStoppedSessionState(current);
+                }
+
+                const withLog = appendAutoApplyLog(
+                    current,
+                    'error',
+                    error.message || 'Auto Apply failed after resume.',
+                );
+
+                return {
+                    ...withLog,
+                    status: 'error',
+                    finishedAt: new Date().toISOString(),
+                    lastError: isExtensionMessagingError(error.message)
+                        ? null
+                        : error.message || 'Auto Apply failed after resume.',
+                };
+            });
+
+            if (failedSession) {
+                await finalizeAutoApplyAnalyticsSession(failedSession);
+            }
+        })
+        .finally(() => {
+            if (activeRunPromise === runPromise) {
+                activeRunPromise = null;
+            }
+
+            void resetAutoApplyTiming();
+        });
+
+    activeRunPromise = runPromise;
 }
 
 export async function stopAutoApply() {
@@ -9845,6 +9973,8 @@ export async function stopAutoApply() {
     if (!session) {
         return null;
     }
+
+    await stopAutoApplyPauseKeepalive();
 
     if (isTerminalAutoApplyStatus(session.status)) {
         await resetAutoApplySession();
@@ -9884,6 +10014,13 @@ export async function reconcileOrphanedAutoApplySession() {
     const session = await loadAutoApplySession();
 
     if (!session || !isActiveAutoApplyStatus(session.status)) {
+        return session;
+    }
+
+    // Keep paused sessions alive across service-worker restarts so Resume can rehydrate.
+    if (session.status === 'paused_for_input') {
+        await startAutoApplyPauseKeepalive();
+
         return session;
     }
 
