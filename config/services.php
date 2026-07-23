@@ -85,4 +85,16 @@ return [
         'webhook_secret' => env('POSTAL_WEBHOOK_SECRET'),
     ],
 
+    'anticaptcha' => [
+        'key' => env('ANTICAPTCHA_KEY'),
+        'base_url' => 'https://api.anti-captcha.com',
+        'timeout' => 120,
+    ],
+
+    'twocaptcha' => [
+        'key' => env('TWOCAPTCHA_KEY'),
+        'base_url' => 'https://api.2captcha.com',
+        'timeout' => 120,
+    ],
+
 ];

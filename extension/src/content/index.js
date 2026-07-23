@@ -2008,6 +2008,30 @@ contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'INDEED_CAPTCHA_PREPARE') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ present: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.prepareCaptchaForSolve());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_CAPTCHA_INJECT_TOKEN') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyIndeedAutoApply.injectRecaptchaV2Token(message.token));
+
+            return;
+        }
+
         if (message.type === 'INDEED_OPEN_CONTACT_INFO') {
             if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });

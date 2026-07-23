@@ -6,6 +6,7 @@ import {
 } from './auto-apply-blockers.js';
 import {
     configureAutoApplyAtsSubscriptionHandler,
+    configureAutoApplyCaptchaSolver,
     configureAutoApplyProfileLoader,
     clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
@@ -124,6 +125,9 @@ import { validateCvUpload, validateDocumentUpload } from './upload-validation.js
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
+configureAutoApplyCaptchaSolver(async ({ type, sitekey, pageUrl }) =>
+    requestCaptchaSolve({ type, sitekey, pageUrl }),
+);
 void reconcileOrphanedAutoApplySession();
 
 if (chrome?.alarms?.onAlarm) {
@@ -929,6 +933,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 running: isAutoApplyRunning(),
             }))
             .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'SOLVE_CAPTCHA') {
+        void (async () => {
+            try {
+                const result = await requestCaptchaSolve({
+                    type: message.captchaType || 'recaptcha_v2',
+                    sitekey: message.sitekey,
+                    pageUrl: message.pageUrl,
+                });
+
+                sendResponse({
+                    success: true,
+                    token: result.token,
+                    provider: result.provider,
+                });
+            } catch (err) {
+                sendResponse({ error: err.message || 'Captcha solve failed.' });
+            }
+        })();
 
         return true;
     }
@@ -3458,6 +3484,37 @@ function buildPatchBody(path, value) {
     cursor[parts[parts.length - 1]] = value;
 
     return body;
+}
+
+async function requestCaptchaSolve({ type, sitekey, pageUrl }) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    if (!apiToken || !apiBase) {
+        throw new Error('Connect the extension before solving captchas.');
+    }
+
+    const response = await fetch(`${apiBase}/api/extension/captcha/solve`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: type || 'recaptcha_v2',
+            sitekey,
+            page_url: pageUrl,
+        }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || !data?.success || !data?.token) {
+        throw new Error(data?.error || `Captcha solve failed (${response.status}).`);
+    }
+
+    return data;
 }
 
 async function recordCreditUsage(count) {

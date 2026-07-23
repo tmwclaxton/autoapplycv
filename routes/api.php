@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApplicationAssistantController;
 use App\Http\Controllers\Api\CreditUsageController;
 use App\Http\Controllers\Api\ExtensionAutoApplyController;
+use App\Http\Controllers\Api\ExtensionCaptchaController;
 use App\Http\Controllers\Api\ExtensionCoverLetterDocumentController;
 use App\Http\Controllers\Api\ExtensionCvUploadController;
 use App\Http\Controllers\Api\ExtensionPageCaptureController;
@@ -25,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/extension/auto-apply/sessions', [ExtensionAutoApplyController::class, 'storeSession'])->name('api.extension.auto-apply.sessions.store');
     Route::patch('/extension/auto-apply/sessions/{extensionAutoApplySession}', [ExtensionAutoApplyController::class, 'updateSession'])->name('api.extension.auto-apply.sessions.update');
     Route::post('/extension/auto-apply/events', [ExtensionAutoApplyController::class, 'storeEvent'])->name('api.extension.auto-apply.events.store');
+    Route::post('/extension/captcha/solve', [ExtensionCaptchaController::class, 'solve'])->name('api.extension.captcha.solve');
     Route::post('/applications/assist/questions', [ApplicationAssistantController::class, 'answerQuestions'])->name('api.applications.assist.questions');
     Route::post('/applications/assist/inventory', [ApplicationAssistantController::class, 'inventory'])->name('api.applications.assist.inventory');
     Route::post('/applications/assist/job-context', [ApplicationAssistantController::class, 'jobContext'])->name('api.applications.assist.job-context');

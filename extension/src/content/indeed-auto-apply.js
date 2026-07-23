@@ -1361,6 +1361,198 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return false;
     }
 
+    function findCaptchaScrollTarget() {
+        const wrapper = document.querySelector(
+            '#captcha-wrapper, [data-testid="captcha"]',
+        );
+
+        if (wrapper instanceof HTMLElement) {
+            return wrapper;
+        }
+
+        for (const iframe of document.querySelectorAll(
+            'iframe[src*="recaptcha"], iframe[title*="reCAPTCHA" i], iframe[title*="recaptcha challenge" i]',
+        )) {
+            if (iframe instanceof HTMLElement) {
+                return iframe;
+            }
+        }
+
+        return null;
+    }
+
+    async function scrollCaptchaIntoView() {
+        const target = findCaptchaScrollTarget();
+
+        if (!(target instanceof HTMLElement)) {
+            return { scrolled: false };
+        }
+
+        try {
+            target.scrollIntoView({
+                block: 'center',
+                inline: 'nearest',
+                behavior: 'smooth',
+            });
+        } catch {
+            target.scrollIntoView();
+        }
+
+        await sleep(350);
+
+        return { scrolled: true };
+    }
+
+    function readRecaptchaV2Sitekey() {
+        const fromData = document.querySelector(
+            '[data-sitekey], .g-recaptcha[data-sitekey], .grecaptcha-badge[data-sitekey]',
+        );
+        const dataKey = String(fromData?.getAttribute('data-sitekey') || '').trim();
+
+        if (dataKey) {
+            return dataKey;
+        }
+
+        for (const iframe of document.querySelectorAll('iframe[src*="recaptcha"]')) {
+            const src = String(iframe.getAttribute('src') || '');
+            const match = src.match(/[?&]k=([^&]+)/i);
+
+            if (match?.[1]) {
+                try {
+                    return decodeURIComponent(match[1]);
+                } catch {
+                    return match[1];
+                }
+            }
+        }
+
+        const html = String(document.documentElement?.innerHTML || '');
+        const htmlMatch = html.match(/data-sitekey=["']([^"']+)["']/i)
+            || htmlMatchSitekeyFromScript(html);
+
+        return htmlMatch?.[1] ? String(htmlMatch[1]).trim() : null;
+    }
+
+    function htmlMatchSitekeyFromScript(html) {
+        return String(html || '').match(/sitekey["']?\s*[:=]\s*["']([^"']+)["']/i);
+    }
+
+    async function prepareCaptchaForSolve() {
+        const present = readIndeedCaptchaPresent() || readIndeedSecurityCheckpoint();
+
+        if (!present) {
+            return {
+                present: false,
+                sitekey: null,
+                pageUrl: location.href,
+                scrolled: false,
+                solvable: false,
+            };
+        }
+
+        const scrollResult = await scrollCaptchaIntoView();
+        const sitekey = readRecaptchaV2Sitekey();
+
+        return {
+            present: true,
+            sitekey,
+            pageUrl: location.href,
+            scrolled: Boolean(scrollResult.scrolled),
+            solvable: Boolean(sitekey) && !readIndeedSecurityCheckpoint(),
+            securityCheckpoint: readIndeedSecurityCheckpoint(),
+        };
+    }
+
+    function injectRecaptchaV2Token(token) {
+        const value = String(token || '').trim();
+
+        if (!value) {
+            return { success: false, error: 'Empty captcha token.' };
+        }
+
+        const responseFields = document.querySelectorAll(
+            'textarea[name="g-recaptcha-response"], #g-recaptcha-response, textarea#g-recaptcha-response',
+        );
+
+        if (responseFields.length === 0) {
+            const created = document.createElement('textarea');
+            created.name = 'g-recaptcha-response';
+            created.id = 'g-recaptcha-response';
+            created.style.display = 'none';
+            created.value = value;
+            document.body.appendChild(created);
+        } else {
+            for (const field of responseFields) {
+                if (field instanceof HTMLTextAreaElement || field instanceof HTMLInputElement) {
+                    field.value = value;
+                    field.dispatchEvent(new Event('input', { bubbles: true }));
+                    field.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        }
+
+        try {
+            const clients = globalThis.___grecaptcha_cfg?.clients;
+
+            if (clients && typeof clients === 'object') {
+                for (const client of Object.values(clients)) {
+                    const callback = findRecaptchaCallback(client);
+
+                    if (typeof callback === 'function') {
+                        callback(value);
+                    }
+                }
+            }
+        } catch {
+            // Callback discovery is best-effort.
+        }
+
+        return {
+            success: true,
+            captchaPresent: readIndeedCaptchaPresent(),
+        };
+    }
+
+    function findRecaptchaCallback(node, depth = 0) {
+        if (!node || depth > 6) {
+            return null;
+        }
+
+        if (typeof node === 'function') {
+            return null;
+        }
+
+        if (typeof node === 'object') {
+            if (typeof node.callback === 'function') {
+                return node.callback;
+            }
+
+            for (const value of Object.values(node)) {
+                if (typeof value === 'function' && value.length <= 1) {
+                    const name = String(value.name || '');
+
+                    if (/callback|resolve|then/i.test(name) || name === '') {
+                        const nested = findRecaptchaCallback(value, depth + 1);
+
+                        if (nested) {
+                            return nested;
+                        }
+                    }
+                }
+
+                if (value && typeof value === 'object') {
+                    const nested = findRecaptchaCallback(value, depth + 1);
+
+                    if (nested) {
+                        return nested;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     function readIndeedSecurityCheckpoint() {
         const title = normalize(document.title);
         const bodyText = normalize(document.body?.textContent);
@@ -2400,6 +2592,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
         scanPageHealth,
         openIndeedContactInfoStep,
         readIndeedStoredApplicantIdentity,
+        prepareCaptchaForSolve,
+        injectRecaptchaV2Token,
+        scrollCaptchaIntoView,
+        readRecaptchaV2Sitekey,
         isIndeedApplyFlowPage,
         isIndeedSearchPage,
         isIndeedViewJobPage,

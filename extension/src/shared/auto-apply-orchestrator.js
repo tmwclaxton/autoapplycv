@@ -3012,6 +3012,24 @@ async function waitForIndeedCaptchaResume(
     modalState,
     options = {},
 ) {
+    const autoSolved = await tryAutoSolveIndeedCaptcha(tabId, job);
+
+    if (autoSolved.solved) {
+        await logSession(
+            'success',
+            `[captcha] ${job?.title || 'Indeed'}: auto-solved via ${autoSolved.provider || 'solver'}.`,
+        );
+
+        return { resumed: true, session: await loadAutoApplySession() };
+    }
+
+    if (autoSolved.attempted) {
+        await logSession(
+            'warn',
+            `[captcha] ${job?.title || 'Indeed'}: auto-solve failed (${autoSolved.error || 'unknown'}) - waiting for manual solve.`,
+        );
+    }
+
     await pauseForCaptchaReview(session, tabId, job, modalState, options);
     // Wait until Resume or Stop - no timeout so a late Resume still continues.
     const captchaResume = await waitForAutoApplyResume();
@@ -3021,6 +3039,124 @@ async function waitForIndeedCaptchaResume(
     }
 
     return { resumed: true, session: captchaResume };
+}
+
+/**
+ * Scroll captcha into view and attempt server-side reCAPTCHA solve when sitekey is present.
+ *
+ * @param {number} tabId
+ * @param {{ title?: string }} [job]
+ * @returns {Promise<{ solved: boolean, attempted: boolean, provider?: string, error?: string }>}
+ */
+async function tryAutoSolveIndeedCaptcha(tabId, job = {}) {
+    if (!tabId) {
+        return { solved: false, attempted: false };
+    }
+
+    let prepare = null;
+
+    try {
+        prepare = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_CAPTCHA_PREPARE',
+        });
+    } catch (error) {
+        return {
+            solved: false,
+            attempted: false,
+            error: error instanceof Error ? error.message : String(error),
+        };
+    }
+
+    if (!prepare?.present) {
+        return { solved: false, attempted: false };
+    }
+
+    if (prepare.scrolled) {
+        await logSession(
+            'info',
+            `[captcha] ${job?.title || 'Indeed'}: scrolled captcha into view.`,
+        );
+    }
+
+    if (!prepare.solvable || !prepare.sitekey) {
+        return {
+            solved: false,
+            attempted: false,
+            error: prepare.securityCheckpoint
+                ? 'Interactive security checkpoint (not auto-solvable)'
+                : 'No reCAPTCHA sitekey found',
+        };
+    }
+
+    let solveResponse = null;
+
+    try {
+        if (!captchaSolver) {
+            return {
+                solved: false,
+                attempted: false,
+                error: 'Captcha solver is not configured',
+            };
+        }
+
+        solveResponse = await captchaSolver({
+            type: 'recaptcha_v2',
+            sitekey: prepare.sitekey,
+            pageUrl: prepare.pageUrl || '',
+        });
+    } catch (error) {
+        return {
+            solved: false,
+            attempted: true,
+            error: error instanceof Error ? error.message : String(error),
+        };
+    }
+
+    if (!solveResponse?.token) {
+        return {
+            solved: false,
+            attempted: true,
+            error: 'Solver returned no token',
+        };
+    }
+
+    const inject = await sendIndeedApplyFlowMessage(tabId, {
+        type: 'INDEED_CAPTCHA_INJECT_TOKEN',
+        token: solveResponse.token,
+    }).catch((error) => ({
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+    }));
+
+    if (!inject?.success) {
+        return {
+            solved: false,
+            attempted: true,
+            provider: solveResponse.provider,
+            error: inject?.error || 'Failed to inject captcha token',
+        };
+    }
+
+    await sleep(800);
+
+    const state = await sendIndeedApplyFlowMessage(tabId, {
+        type: 'INDEED_APPLY_STATE',
+    }).catch(() => null);
+
+    if (state?.captchaPresent || state?.submitDisabled) {
+        return {
+            solved: false,
+            attempted: true,
+            provider: solveResponse.provider,
+            error: 'Captcha still present after token inject',
+        };
+    }
+
+    return {
+        solved: true,
+        attempted: true,
+        provider: solveResponse.provider,
+    };
 }
 
 /**
@@ -9842,9 +9978,15 @@ async function runAutoApplyLoop(
 
 /** @type {(() => Promise<object|null>)|null} */
 let profileLoader = null;
+/** @type {((input: { type?: string, sitekey: string, pageUrl: string }) => Promise<{ token: string, provider?: string }>)|null} */
+let captchaSolver = null;
 
 export function configureAutoApplyProfileLoader(loader) {
     profileLoader = typeof loader === 'function' ? loader : null;
+}
+
+export function configureAutoApplyCaptchaSolver(solver) {
+    captchaSolver = typeof solver === 'function' ? solver : null;
 }
 
 async function getProfileForAutoApply() {
