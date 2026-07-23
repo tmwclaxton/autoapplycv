@@ -2995,6 +2995,89 @@ async function waitForIndeedCaptchaResume(
 }
 
 /**
+ * @param {import('./auto-apply-session.js').AutoApplySession|null|undefined} session
+ * @returns {boolean}
+ */
+function sessionAllowsAutoSubmit(session) {
+    return session?.autoSubmitEnabled === true;
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {{ jobId?: string, title?: string, company?: string }} job
+ * @param {{ kind?: 'submit'|'resume_step', stepFingerprint?: string|null, resumeAt?: string }} [options]
+ */
+async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
+    const kind = options.kind === 'resume_step' ? 'resume_step' : 'submit';
+    const prompt = kind === 'resume_step'
+        ? 'Confirm the selected resume looks correct, then resume Auto Apply to continue.'
+        : 'Review the application, then resume Auto Apply to submit.';
+    const pauseContext = {
+        job: {
+            jobId: job?.jobId || null,
+            title: job?.title || 'Application',
+            company: job?.company || '',
+        },
+        stepFingerprint: options.stepFingerprint || (kind === 'resume_step' ? 'resume-review' : 'review-before-submit'),
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: options.resumeAt || 'fill_and_advance',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        pauseReason: 'review_before_submit',
+    };
+
+    const logMessage = kind === 'resume_step'
+        ? `[paused] ${job?.title || 'Application'}: confirm resume selection, then Resume in Assist.`
+        : `[paused] ${job?.title || 'Application'}: review before submit - Resume in Assist to submit.`;
+
+    await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(current, 'warn', logMessage),
+            pauseContext,
+        ),
+    );
+
+    await openAssistSidePanelForCaptcha(tabId);
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'review_before_submit',
+        })
+        .catch(() => {});
+}
+
+/**
+ * Pause until Resume when auto-submit is off. No timeout - durable until Resume or Stop.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {{ jobId?: string, title?: string, company?: string }} job
+ * @param {{ kind?: 'submit'|'resume_step', stepFingerprint?: string|null, resumeAt?: string }} [options]
+ * @returns {Promise<{ skipped?: boolean, stopped?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+async function waitForReviewBeforeSubmitIfNeeded(session, tabId, job, options = {}) {
+    if (sessionAllowsAutoSubmit(session)) {
+        return { skipped: true, session };
+    }
+
+    await pauseForReviewBeforeSubmit(session, tabId, job, options);
+    const resumed = await waitForAutoApplyResume();
+
+    if (resumed.stopRequested) {
+        return { stopped: true, session: resumed };
+    }
+
+    return { resumed: true, session: resumed };
+}
+
+/**
  * Re-pause Auto Apply after a blocked-field answer fails LinkedIn validation.
  */
 export async function rePauseAutoApplyForValidationRetry({
@@ -3889,6 +3972,42 @@ async function processLinkedInJob(
                     'warn',
                     `[resume] ${job.title}: ${resumeResult?.errors?.[0] || 'Could not select a resume on LinkedIn.'}`,
                 );
+            }
+
+            const resumeReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'resume_step',
+                    stepFingerprint: modalState?.stepFingerprint || 'linkedin-resume',
+                    resumeAt: 'fill_and_advance',
+                },
+            );
+
+            session = resumeReview.session || session;
+
+            if (resumeReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+        }
+
+        if (isReviewStep) {
+            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'submit',
+                    stepFingerprint: modalState?.stepFingerprint || 'linkedin-review',
+                    resumeAt: 'fill_and_advance',
+                },
+            );
+
+            session = submitReview.session || session;
+
+            if (submitReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
         }
 
@@ -5636,6 +5755,24 @@ async function processIndeedJobInner(
             }
         }
 
+        if (applyState.isReviewStep) {
+            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'submit',
+                    stepFingerprint: applyState.stepFingerprint || 'indeed-review',
+                },
+            );
+
+            session = submitReview.session || session;
+
+            if (submitReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+        }
+
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
             type: 'INDEED_FILL_AND_ADVANCE',
         });
@@ -6419,6 +6556,24 @@ async function processTotalJobsJob(
 
         if (pauseOutcome.stopped) {
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        if (applyState.isReviewStep) {
+            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'submit',
+                    stepFingerprint: applyState.stepFingerprint || 'totaljobs-review',
+                },
+            );
+
+            session = submitReview.session || session;
+
+            if (submitReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
         }
 
         const advanceResponse = await sendTotalJobsMessage(
@@ -7371,6 +7526,27 @@ async function processReedJob(
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
+        if (
+            applyState.isReviewStep
+            || (applyState.canSubmit && !applyState.canContinue)
+        ) {
+            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'submit',
+                    stepFingerprint: applyState.stepFingerprint || 'reed-review',
+                },
+            );
+
+            session = submitReview.session || session;
+
+            if (submitReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+        }
+
         let advanceResponse;
 
         try {
@@ -8295,6 +8471,22 @@ async function processGlassdoorJob(
                 `[review] ${job.title}: attempting submit.`,
             );
 
+            const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                session,
+                tabId,
+                job,
+                {
+                    kind: 'submit',
+                    stepFingerprint: applyState.stepFingerprint || 'glassdoor-review',
+                },
+            );
+
+            session = submitReview.session || session;
+
+            if (submitReview.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
             let advanceResponse = null;
 
             try {
@@ -8745,6 +8937,7 @@ export async function startAutoApply({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
+    autoSubmitEnabled = false,
     timingLevel = null,
     force = false,
     hostTabId = null,
@@ -8794,6 +8987,7 @@ export async function startAutoApply({
             filters: resolvedFilters,
             fitCheckEnabled,
             minFitScore,
+            autoSubmitEnabled,
             timingLevel,
         });
 
@@ -9926,6 +10120,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
     waitForApplicationSubmitConfirmation,
+    waitForReviewBeforeSubmitIfNeeded,
 });
 
 const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
@@ -9972,4 +10167,5 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     waitForApplicationSubmitConfirmation,
     pauseForCaptchaReview,
     waitForIndeedCaptchaResume,
+    waitForReviewBeforeSubmitIfNeeded,
 });

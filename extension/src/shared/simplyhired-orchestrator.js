@@ -65,6 +65,7 @@ export function createSimplyHiredOrchestrator(deps) {
         waitForApplicationSubmitConfirmation,
         pauseForCaptchaReview,
         waitForIndeedCaptchaResume,
+        waitForReviewBeforeSubmitIfNeeded,
     } = deps;
 
     const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
@@ -1100,6 +1101,25 @@ export function createSimplyHiredOrchestrator(deps) {
                 }
 
                 await logSession('info', `[review] ${job.title}: attempting submit.`);
+
+                if (typeof waitForReviewBeforeSubmitIfNeeded === 'function') {
+                    const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                        session,
+                        tabId,
+                        job,
+                        {
+                            kind: 'submit',
+                            stepFingerprint: applyState.stepFingerprint || 'simplyhired-review',
+                        },
+                    );
+
+                    session = submitReview.session || session;
+
+                    if (submitReview.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
+                }
+
                 const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
 
                 if (advanceResponse?.action === 'submit') {

@@ -38,7 +38,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {boolean} [captcha]
  * @property {boolean} [identityConfirm]
  * @property {boolean} [loginRequired]
- * @property {'captcha'|'login'|'identity_confirm'|null} [pauseReason]
+ * @property {'captcha'|'login'|'identity_confirm'|'review_before_submit'|null} [pauseReason]
  */
 
 /**
@@ -54,6 +54,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {AutoApplySearchFilters|null} filters
  * @property {boolean} fitCheckEnabled
  * @property {number} minFitScore
+ * @property {boolean} autoSubmitEnabled
  * @property {number} timingLevel
  * @property {{ found: number, applied: number, skipped: number, errors: number, draftAllRuns: number, stepsAdvanced: number, fitSkipped: number }} stats
  * @property {AutoApplyJobEntry[]} queue
@@ -85,6 +86,7 @@ function createAutoApplyRunId() {
  *   filters?: AutoApplySearchFilters|null,
  *   fitCheckEnabled?: boolean,
  *   minFitScore?: number,
+ *   autoSubmitEnabled?: boolean,
  *   timingLevel?: number,
  * }} input
  * @returns {AutoApplySession}
@@ -96,6 +98,7 @@ export function createInitialSession({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
+    autoSubmitEnabled = false,
     timingLevel = DEFAULT_AUTO_APPLY_TIMING_LEVEL,
 }) {
     return {
@@ -109,6 +112,7 @@ export function createInitialSession({
         filters: filters || null,
         fitCheckEnabled: fitCheckEnabled !== false,
         minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 10)),
+        autoSubmitEnabled: autoSubmitEnabled === true,
         timingLevel: normalizeTimingLevel(timingLevel),
         stats: {
             found: 0,
@@ -221,6 +225,7 @@ export async function loadAutoApplySession() {
         ...session,
         fitCheckEnabled: session.fitCheckEnabled !== false,
         minFitScore: Math.max(0, Math.min(100, Number(session.minFitScore) || 10)),
+        autoSubmitEnabled: session.autoSubmitEnabled === true,
         filters: session.filters ?? null,
         stats: {
             ...(session.stats || {}),

@@ -42,6 +42,7 @@ const datePostedSelect = document.getElementById('auto-apply-date-posted');
 const minSalarySelect = document.getElementById('auto-apply-min-salary');
 const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
 const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
+const autoSubmitEnabledInput = document.getElementById('auto-apply-auto-submit-enabled');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
 const timingLevelInput = document.getElementById('auto-apply-timing-level');
 const timingValueEl = document.getElementById('auto-apply-timing-value');
@@ -207,6 +208,7 @@ function readSettingsFromForm() {
         market: marketSelect?.value || 'auto',
         fitCheckEnabled: fitEnabledInput.checked,
         minFitScore: readMinFitScore(),
+        autoSubmitEnabled: Boolean(autoSubmitEnabledInput?.checked),
         timingLevel: readTimingLevel(),
     };
 }
@@ -262,6 +264,10 @@ function applySettingsToForm(settings) {
 
     if (typeof settings.minFitScore === 'number') {
         minFitScoreInput.value = String(Math.max(0, Math.min(100, settings.minFitScore)));
+    }
+
+    if (typeof settings.autoSubmitEnabled === 'boolean' && autoSubmitEnabledInput) {
+        autoSubmitEnabledInput.checked = settings.autoSubmitEnabled;
     }
 
     if (timingLevelInput) {
@@ -731,6 +737,7 @@ function bindSettingsPersistence() {
         minSalarySelect,
         fitEnabledInput,
         minFitScoreInput,
+        autoSubmitEnabledInput,
         maxApplicationsInput,
         timingLevelInput,
     ].filter(Boolean);
@@ -809,6 +816,7 @@ export function initAutoApplyPanel({ showMessage }) {
         const filters = readSearchFilters(platform);
         const fitCheckEnabled = fitEnabledInput.checked;
         const minFitScore = readMinFitScore();
+        const autoSubmitEnabled = Boolean(autoSubmitEnabledInput?.checked);
         const timingLevel = readTimingLevel();
 
         if (!platform) {
@@ -840,6 +848,7 @@ export function initAutoApplyPanel({ showMessage }) {
                 filters,
                 fitCheckEnabled,
                 minFitScore,
+                autoSubmitEnabled,
                 timingLevel,
                 hostTabId: hostTab?.id ?? null,
                 hostWindowId: hostTab?.windowId ?? null,

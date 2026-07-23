@@ -50,6 +50,7 @@ export function createCvLibraryOrchestrator(deps) {
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
+        waitForReviewBeforeSubmitIfNeeded,
     } = deps;
 
     async function sendCvLibraryMessage(tabId, type, payload = {}, options = {}) {
@@ -723,6 +724,24 @@ export function createCvLibraryOrchestrator(deps) {
 
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (applyState.isReviewStep && typeof waitForReviewBeforeSubmitIfNeeded === 'function') {
+                const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                    session,
+                    tabId,
+                    job,
+                    {
+                        kind: 'submit',
+                        stepFingerprint: applyState.stepFingerprint || 'cv-library-review',
+                    },
+                );
+
+                session = submitReview.session || session;
+
+                if (submitReview.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
             }
 
             let advanceResponse;
