@@ -72,8 +72,8 @@ import {
             </ul>
             <p>
                 Full interactive security checkpoints (for example a long
-                Cloudflare &ldquo;Just a moment&rdquo; page) are not auto-solved.
-                The run pauses so you can complete them, then
+                Cloudflare &ldquo;Just a moment&rdquo; page) are not
+                auto-solved. The run pauses so you can complete them, then
                 <strong>Resume</strong> continues from where you left off.
             </p>
 

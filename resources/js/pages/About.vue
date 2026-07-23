@@ -42,15 +42,14 @@ import {
                 <strong>Reed Easy Apply</strong>, the extension can run
                 end-to-end Auto Apply from the sidebar: search for roles, open
                 each posting, fill every step, and submit applications on your
-                behalf. By default
-                <strong>Pauses before Submit</strong> keeps a human checkpoint
-                at review (and LinkedIn resume confirm); turn it off for
-                hands-off submit. Auto Apply can also auto-solve common captcha
-                widgets (reCAPTCHA v2, hCaptcha, Turnstile) and pauses for
-                harder interactive checkpoints. On ATS and employer career
-                sites, autofill and Draft All still fill the fields - you review
-                and click Submit yourself. More job board Auto Apply platforms
-                are on the way.
+                behalf. By default <strong>Pauses before Submit</strong> keeps a
+                human checkpoint at review (and LinkedIn resume confirm); turn
+                it off for hands-off submit. Auto Apply can also auto-solve
+                common captcha widgets (reCAPTCHA v2, hCaptcha, Turnstile) and
+                pauses for harder interactive checkpoints. On ATS and employer
+                career sites, autofill and Draft All still fill the fields - you
+                review and click Submit yourself. More job board Auto Apply
+                platforms are on the way.
             </p>
 
             <h2>How we keep fills working</h2>
