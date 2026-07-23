@@ -44,6 +44,38 @@ import {
                 step with Draft All, and submits when the flow allows. You can
                 pause, resume, or stop from the sidebar at any time.
             </p>
+            <h3>Check before you submit</h3>
+            <p>
+                Under <strong>Auto Apply settings</strong>,
+                <strong>Pauses before Submit</strong> is on by default. When it
+                is on, Auto Apply stops at the review / submit step (and at
+                LinkedIn resume confirmation) so you can check the application
+                before anything is sent. Press <strong>Resume</strong> to
+                continue, or turn the toggle off if you want the run to submit
+                without that human checkpoint.
+            </p>
+            <h3>Captchas during Auto Apply</h3>
+            <p>
+                When an apply flow shows a captcha, Auto Apply tries to detect
+                and solve common widgets automatically:
+            </p>
+            <ul>
+                <li>
+                    <strong>Google reCAPTCHA v2</strong> - checkbox / challenge
+                    with a sitekey
+                </li>
+                <li><strong>hCaptcha</strong> - widget with a sitekey</li>
+                <li>
+                    <strong>Cloudflare Turnstile</strong> - widget with a
+                    sitekey
+                </li>
+            </ul>
+            <p>
+                Full interactive security checkpoints (for example a long
+                Cloudflare &ldquo;Just a moment&rdquo; page) are not auto-solved.
+                The run pauses so you can complete them, then
+                <strong>Resume</strong> continues from where you left off.
+            </p>
 
             <h2>Install the extension</h2>
             <ol>

@@ -61,6 +61,8 @@
 
 - [How it works](#how-it-works)
 - [Job board Auto Apply](#job-board-auto-apply)
+- [Check before you submit](#check-before-you-submit)
+- [Captcha support](#captcha-support)
 - [Features](#features)
 - [Cover letters](#cover-letters)
 - [Supported platforms](#supported-platforms)
@@ -115,9 +117,10 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Pray comboboxes and wizards don't break mid-form | **6,229-scenario test corpus** - Greenhouse, Ashby, Workday, UK job boards, and more |
 | Obvious bot-like paste fills that trip ATS checks | **Anti-bot detection** - character-by-character typing, natural pauses, human-like navigation on job board Auto Apply |
 | Click through Easy Apply one job at a time | **Job board Auto Apply** - LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed from the extension sidebar |
-| Submit applications blindly | **You stay in control on ATS forms** - we fill fields; you review and submit |
+| Submit applications blindly | **Pauses before Submit** (on by default) on job boards; on ATS forms you always review and submit yourself |
+| Stuck on reCAPTCHA / hCaptcha / Turnstile | **Captcha auto-solve** for common widgets; pause + Resume for hard checkpoints |
 
-> **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) runs end-to-end: search filtered jobs, open each posting, fill every step, and submit. More boards are on the way.
+> **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) runs end-to-end: search filtered jobs, open each posting, fill every step, and submit (with optional pause-before-submit). More boards are on the way.
 
 ## Who it's for
 
@@ -188,9 +191,33 @@ Full end-to-end applications on **LinkedIn Easy Apply**, **Indeed Apply**, **Tot
 | **Search** | Extension runs job search with Easy Apply filters from the sidebar **Auto Apply** tab |
 | **Open** | Each matching job opens in a tab; listings without one-click apply are skipped |
 | **Fill** | Contact info, screening questions, resume steps, and multi-step wizards are filled from your profile |
-| **Submit** | Continue, review, and submit buttons advance and complete the application |
+| **Review / submit** | Continue and review buttons advance the flow; final submit respects **Pauses before Submit** (see below) |
 
 On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All still work as before - **you review and click Submit yourself**. More full Auto Apply job boards are on the way.
+
+## Check before you submit
+
+Auto Apply settings include a human-in-the-loop toggle:
+
+| Control | Default | Behaviour |
+|---------|---------|-----------|
+| **Pauses before Submit** | **On** | Run stops at the review / submit step (and LinkedIn resume confirmation) so you can check the application, then press **Resume** |
+| **Pauses before Submit** off | - | Auto Apply continues through submit without that checkpoint |
+
+Stop still aborts the run immediately from the sidebar at any time.
+
+## Captcha support
+
+During Auto Apply, the extension detects captchas on apply flows and, when possible, solves them via the AutoCVApply API (AntiCaptcha / 2Captcha keys on the server):
+
+| Type | Auto-solve | Notes |
+|------|------------|-------|
+| **Google reCAPTCHA v2** | Yes | Sitekey + page URL; token injected into the page |
+| **hCaptcha** | Yes | Widget with sitekey |
+| **Cloudflare Turnstile** | Yes | Widget with sitekey |
+| **Interactive security checkpoints** | No | e.g. long Cloudflare challenges - run **pauses**; complete manually, then **Resume** |
+
+Detection works without solver keys; auto-solve needs `ANTICAPTCHA_KEY` and/or `TWOCAPTCHA_KEY` configured on the API host the extension talks to.
 
 ## Features
 
@@ -206,6 +233,8 @@ On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All s
 | **Auto Apply** | Totaljobs Quick Apply E2E | Genesis Quick Apply search, fill, and submit from the sidebar |
 | **Auto Apply** | Glassdoor Easy Apply E2E | Host-page search plus Indeed Apply iframe steps where required |
 | **Auto Apply** | Reed Easy Apply E2E | Reed search, job detail, modal review, and submit |
+| **Auto Apply** | Pauses before Submit | Human-in-the-loop toggle (default on) - pause at review / LinkedIn resume confirm |
+| **Auto Apply** | Captcha solve | reCAPTCHA v2, hCaptcha, Turnstile auto-solve; pause for interactive checkpoints |
 | **Application Assistant** | Field inventory | AI maps the page's questions to fillable refs before drafting |
 | **Application Assistant** | Job context | Extracts title, company, and description from the posting |
 | **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
@@ -319,7 +348,7 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 - **No data selling** - we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** - CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
 - **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 6,229-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
-- **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) completes submissions end-to-end from the sidebar; more boards are on the way.
+- **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) can complete submissions from the sidebar; **Pauses before Submit** (default on) keeps a human checkpoint at review unless you turn it off. Captcha widgets may be auto-solved; interactive checkpoints pause for Resume.
 
 ## Testing overview
 

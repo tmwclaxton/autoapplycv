@@ -42,9 +42,15 @@ import {
                 <strong>Reed Easy Apply</strong>, the extension can run
                 end-to-end Auto Apply from the sidebar: search for roles, open
                 each posting, fill every step, and submit applications on your
-                behalf. On ATS and employer career sites, autofill and Draft All
-                still fill the fields - you review and click Submit yourself.
-                More job board Auto Apply platforms are on the way.
+                behalf. By default
+                <strong>Pauses before Submit</strong> keeps a human checkpoint
+                at review (and LinkedIn resume confirm); turn it off for
+                hands-off submit. Auto Apply can also auto-solve common captcha
+                widgets (reCAPTCHA v2, hCaptcha, Turnstile) and pauses for
+                harder interactive checkpoints. On ATS and employer career
+                sites, autofill and Draft All still fill the fields - you review
+                and click Submit yourself. More job board Auto Apply platforms
+                are on the way.
             </p>
 
             <h2>How we keep fills working</h2>
@@ -75,10 +81,12 @@ import {
             <p>
                 We do not sell your data, scrape your inbox, or apply to jobs
                 without you starting the run. Auto Apply on supported job boards
-                is something you launch from the extension; on ATS and career
-                sites you stay at the keyboard for the final submit. The
-                extension reads your profile and fills fields in the browser -
-                that is the pitch.
+                is something you launch from the extension;
+                <strong>Pauses before Submit</strong> (on by default) keeps you
+                in the loop before final submit unless you turn it off. On ATS
+                and career sites you always stay at the keyboard for the final
+                submit. The extension reads your profile and fills fields in the
+                browser - that is the pitch.
             </p>
 
             <h2>Source code</h2>
