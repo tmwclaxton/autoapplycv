@@ -8617,6 +8617,25 @@ async function processGlassdoorJob(
 
     let applyResponse;
 
+    const openApplyReview = await waitForReviewBeforeSubmitIfNeeded(
+        session,
+        tabId,
+        job,
+        {
+            kind: 'submit',
+            stepFingerprint: 'glassdoor-before-open-apply',
+            resumeAt: 'open_apply',
+            prompt: 'Glassdoor may one-click submit through Indeed. Resume in Assist to open Apply.',
+            logMessage: `[paused] ${job.title}: Glassdoor may one-click submit - Resume in Assist to open Apply.`,
+        },
+    );
+
+    session = openApplyReview.session || session;
+
+    if (openApplyReview.stopped) {
+        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+    }
+
     try {
         applyResponse = await sendGlassdoorMessage(
             tabId,
