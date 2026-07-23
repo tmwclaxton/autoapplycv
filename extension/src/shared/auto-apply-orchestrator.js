@@ -363,6 +363,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             apply_submit_failed: 'application could not be submitted',
             already_applied: 'already applied',
             login_required: 'sign-in required on job board',
+            board_server_error: 'job board returned a server error',
             captcha_required: 'CAPTCHA / security check',
         }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
@@ -6553,7 +6554,45 @@ async function processTotalJobsJob(
         'TOTALJOBS_SCAN_PAGE_HEALTH',
     );
 
-    if (health && health.ok === false) {
+    if (health?.primary?.code === 'login_required'
+        || health?.blocking?.[0]?.code === 'login_required') {
+        const loginWait = await waitForLoginRequiredResume(
+            session,
+            tabId,
+            job,
+            'Totaljobs',
+        );
+
+        if (loginWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (loginWait.timedOut) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'login_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'login_required', tabId };
+        }
+
+        session = loginWait.session || session;
+    } else if (health?.primary?.code === 'server_error'
+        || health?.blocking?.[0]?.code === 'server_error') {
+        await logSession(
+            'warn',
+            `[skip] ${job.title}: Totaljobs server error - skipping job.`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'board_server_error' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'board_server_error',
+            detail: health.primary?.message || 'Totaljobs server error',
+            tabId,
+        };
+    } else if (health && health.ok === false) {
         throw new Error(
             health.primary?.message ||
                 health.blocking?.[0]?.message ||
@@ -7417,6 +7456,25 @@ async function processReedJob(
 
             return { outcome: 'skipped', reason: 'login_required', tabId };
         }
+
+        session = loginWait.session || session;
+    } else if (health?.primary?.code === 'server_error'
+        || health?.blocking?.[0]?.code === 'server_error') {
+        await logSession(
+            'warn',
+            `[skip] ${job.title}: Reed server error - skipping job.`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'board_server_error' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'board_server_error',
+            detail: health.primary?.message || 'Reed server error',
+            tabId,
+        };
+    }
 
         return { outcome: 'retry', reason: 'login_resumed', tabId };
     }

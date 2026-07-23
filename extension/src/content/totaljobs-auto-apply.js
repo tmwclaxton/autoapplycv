@@ -733,7 +733,22 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
     async function scanPageHealth() {
         await acceptCookieConsent();
 
-        if (document.querySelector('a[href*="login"], a[href*="register"]') && /sign in to apply/i.test(document.body?.textContent || '')) {
+        const title = String(document.title || '');
+        const bodyText = String(document.body?.textContent || '').slice(0, 4000);
+
+        if (
+            /500|internal server error|service unavailable|temporarily unavailable/i.test(title)
+            || /something went wrong|internal server error|http error 500|error 500/i.test(bodyText)
+        ) {
+            return {
+                ok: false,
+                issues: [{ code: 'server_error', message: 'Totaljobs returned a server error page.' }],
+                blocking: [{ code: 'server_error', message: 'Totaljobs returned a server error page.' }],
+                primary: { code: 'server_error', message: 'Totaljobs returned a server error page.' },
+            };
+        }
+
+        if (document.querySelector('a[href*="login"], a[href*="register"]') && /sign in to apply/i.test(bodyText)) {
             return {
                 ok: false,
                 issues: [{ code: 'login_required', message: 'Totaljobs sign-in required to apply.' }],

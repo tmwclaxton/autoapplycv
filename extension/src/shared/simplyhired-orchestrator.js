@@ -200,17 +200,34 @@ export function createSimplyHiredOrchestrator(deps) {
 
         watchdogState.recoveryCount += 1;
 
+        const currentUrl = await readTabUrl(tabId);
+        const onJobPage = /\/job\//i.test(currentUrl);
+        const indeedHandoff = isSimplyHiredIndeedHandoffUrl(currentUrl);
+
+        if (indeedHandoff) {
+            await logSession(
+                'info',
+                `[stuck_recovery] ${reason} - Indeed handoff detected; skipping SimplyHired reload.`,
+            );
+            markWatchdogProgress(session);
+
+            return tabId;
+        }
+
         await logSession(
             'warn',
-            `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
+            `[stuck_recovery] ${reason} - recovery ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`
+                + (onJobPage ? ' (job page: return to search without reload)' : ''),
         );
 
-        try {
-            await chrome.tabs.reload(tabId);
-            await waitForTabLoadComplete(tabId);
-            await waitForSimplyHiredContentScript(tabId);
-        } catch {
-            // Fall through to search navigation.
+        if (!onJobPage) {
+            try {
+                await chrome.tabs.reload(tabId);
+                await waitForTabLoadComplete(tabId);
+                await waitForSimplyHiredContentScript(tabId);
+            } catch {
+                // Fall through to search navigation.
+            }
         }
 
         tabId = await returnToSimplyHiredSearch(tabId, session);
