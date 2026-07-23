@@ -9,7 +9,6 @@ use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogArticleFormats;
-use App\Support\BlogKeywordStrategy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -43,7 +42,7 @@ class GenerateBlogPostCommandTest extends TestCase
                 ->andReturnUsing(function (array $messages) use (&$captured): string {
                     $captured = $messages;
 
-                    return 'How to autofill job applications without retyping your CV.';
+                    return 'What is AutoCVApply and how do AutoFill, Draft All, and Auto Apply work together?';
                 });
         });
 
@@ -54,11 +53,8 @@ class GenerateBlogPostCommandTest extends TestCase
 
         $promptText = collect($captured)->pluck('content')->implode("\n");
         $this->assertStringContainsString('SEO keyword target', $promptText);
-        $this->assertTrue(
-            collect(BlogKeywordStrategy::clusters())
-                ->contains(fn (array $cluster): bool => str_contains($promptText, $cluster['primary'])),
-            'Topic generation prompt should include a configured primary keyword.',
-        );
+        $this->assertStringContainsString('what is AutoCVApply', $promptText);
+        $this->assertStringContainsString('what-is-autocvapply', $promptText);
         $this->assertStringContainsString('Topics / angles to avoid', $promptText);
     }
 

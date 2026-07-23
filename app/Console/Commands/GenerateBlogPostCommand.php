@@ -214,7 +214,26 @@ class GenerateBlogPostCommand extends Command
             return BlogKeywordStrategy::targetForCluster($clusterOption);
         }
 
+        // Prefer a pillar "What is AutoCVApply?" post when the catalog lacks one.
+        if (! $this->catalogHasProductIntro($recentTitles, $recentTags)) {
+            $this->line('  Catalog missing product intro - forcing what-is-autocvapply cluster.');
+
+            return BlogKeywordStrategy::targetForCluster('what-is-autocvapply');
+        }
+
         return BlogKeywordStrategy::selectTarget($recentTitles, $recentTags);
+    }
+
+    /**
+     * @param  array<int, string>  $recentTitles
+     * @param  array<int, string>  $recentTags
+     */
+    protected function catalogHasProductIntro(array $recentTitles, array $recentTags): bool
+    {
+        $haystack = BlogKeywordStrategy::normaliseHaystack($recentTitles, $recentTags);
+
+        return str_contains($haystack, 'what is autocvapply')
+            || str_contains($haystack, 'what-is-autocvapply');
     }
 
     protected function findBlogForUpdate(string $idOrSlug): ?Blog

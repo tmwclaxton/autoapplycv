@@ -3,22 +3,21 @@
 namespace App\Console\Commands;
 
 use App\Models\Blog;
-use App\Support\BlogKeywordStrategy;
 use App\Support\BlogTitleDiversify;
 use Illuminate\Console\Command;
 
 class RetitleBlogPostsCommand extends Command
 {
     protected $signature = 'blog:retitle
-                            {--dry-run : Show planned title changes without writing}
-                            {--force : Also rewrite titles that already look diversified}';
+                            {--dry-run : Show planned changes without writing}';
 
-    protected $description = 'Rewrite formulaic blog titles/excerpts/slugs using the curated diversify map';
+    protected $description = 'Rewrite curated blog catalog posts (title, excerpt, slug, body, tags)';
 
     public function handle(): int
     {
         $map = BlogTitleDiversify::byOldSlug();
         $changed = 0;
+        $seen = [];
 
         foreach ($map as $oldSlug => $next) {
             $blog = Blog::query()->where('slug', $oldSlug)->first();
@@ -26,11 +25,14 @@ class RetitleBlogPostsCommand extends Command
                 continue;
             }
 
-            if (! $this->option('force') && ! BlogKeywordStrategy::titleLooksGeneric($blog->title)) {
-                // Still allow rewrite when the old slug is in the map (explicit catalog fix).
+            // One canonical rewrite per post even if multiple aliases match over time.
+            if (isset($seen[$blog->id])) {
+                continue;
             }
+            $seen[$blog->id] = true;
 
             $slug = $this->uniqueSlug($next['slug'], $blog->id);
+            $pinNewest = (bool) ($next['pin_newest'] ?? false);
 
             $this->line(sprintf(
                 '#%d %s',
@@ -40,6 +42,9 @@ class RetitleBlogPostsCommand extends Command
             $this->line('  from: '.$blog->title);
             $this->line('    to: '.$next['title']);
             $this->line('  slug: '.$blog->slug.' -> '.$slug);
+            if ($pinNewest) {
+                $this->line('  pin: newest on the blog index');
+            }
 
             if ($this->option('dry-run')) {
                 $changed++;
@@ -47,16 +52,24 @@ class RetitleBlogPostsCommand extends Command
                 continue;
             }
 
-            $blog->update([
+            $payload = [
                 'title' => $next['title'],
                 'excerpt' => $next['excerpt'],
                 'slug' => $slug,
-            ]);
+                'body' => $next['body'],
+                'tags' => $next['tags'],
+            ];
+
+            if ($pinNewest) {
+                $payload['published_at'] = now();
+            }
+
+            $blog->update($payload);
             $changed++;
         }
 
         if ($changed === 0) {
-            $this->warn('No matching blog slugs found to retitle.');
+            $this->warn('No matching blog slugs found to rewrite.');
 
             return self::SUCCESS;
         }

@@ -103,6 +103,7 @@ return [
         ],
 
         'primary_keywords' => [
+            'what is AutoCVApply',
             'autofill job applications',
             'auto apply jobs chrome extension',
             'LinkedIn Easy Apply chrome extension',
@@ -222,6 +223,28 @@ return [
         ],
 
         'clusters' => [
+
+            [
+                'id' => 'what-is-autocvapply',
+                'weight' => 2,
+                'primary' => 'what is AutoCVApply',
+                'supporting' => [
+                    'AutoCVApply Chrome extension',
+                    'upload once apply everywhere',
+                    'job application autofill extension',
+                    'Draft All Auto Apply explained',
+                ],
+                'angle_hints' => [
+                    'Pillar explainer: what the product is, the three tools, free vs credits, what it is not',
+                    'Link to pricing and how-to; keep control model honest',
+                ],
+                'must_cover' => [
+                    'Define AutoCVApply as extension + web app for job seekers',
+                    'Explain AutoFill, Draft All, and Auto Apply as three distinct tools',
+                    'List supported Auto Apply boards and note ATS user-submit',
+                    'Cover free profile upload vs monthly credits and Free/Starter/Pro',
+                ],
+            ],
 
             [
                 'id' => 'autofill-job-applications',
