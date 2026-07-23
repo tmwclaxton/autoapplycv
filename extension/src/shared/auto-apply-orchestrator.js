@@ -7458,7 +7458,11 @@ async function processReedJob(
         }
 
         session = loginWait.session || session;
-    } else if (health?.primary?.code === 'server_error'
+
+        return { outcome: 'retry', reason: 'login_resumed', tabId };
+    }
+
+    if (health?.primary?.code === 'server_error'
         || health?.blocking?.[0]?.code === 'server_error') {
         await logSession(
             'warn',
@@ -7474,9 +7478,6 @@ async function processReedJob(
             detail: health.primary?.message || 'Reed server error',
             tabId,
         };
-    }
-
-        return { outcome: 'retry', reason: 'login_resumed', tabId };
     }
 
     if (health && health.ok === false) {
