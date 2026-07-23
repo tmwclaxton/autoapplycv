@@ -26,9 +26,11 @@ function load(html, url) {
     dom.window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {};
     // Make elements appear visible to getComputedStyle checks.
     const styleProto = dom.window.CSSStyleDeclaration?.prototype;
+
     if (styleProto) {
         // no-op; JSDOM defaults display to empty which is fine for our checks
     }
+
     const sandbox = {
         window: dom.window,
         document: dom.window.document,
