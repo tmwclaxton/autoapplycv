@@ -866,6 +866,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'AUTO_APPLY_STOP') {
+        cancelDraftAll('auto_apply_stop');
         stopAutoApply()
             .then((session) => sendResponse({
                 success: true,
@@ -878,6 +879,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'AUTO_APPLY_FORCE_STOP') {
+        cancelDraftAll('auto_apply_force_stop');
         forceResetAutoApply()
             .then(() => sendResponse({
                 success: true,
@@ -4032,6 +4034,7 @@ initExtensionBridge({
             session: await getAutoApplyStatus(),
         }),
         auto_apply_stop: async () => {
+            cancelDraftAll('auto_apply_stop');
             const session = await stopAutoApply();
 
             return {
@@ -4057,6 +4060,7 @@ initExtensionBridge({
             return { success: true, result };
         },
         auto_apply_reset: async () => {
+            cancelDraftAll('auto_apply_reset');
             await forceResetAutoApply();
 
             return { success: true };

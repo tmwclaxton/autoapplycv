@@ -46,6 +46,7 @@ export function createCvLibraryOrchestrator(deps) {
         shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
@@ -709,6 +710,11 @@ export function createCvLibraryOrchestrator(deps) {
                     session,
                     CV_LIBRARY_PLATFORM_ID,
                 );
+
+            if (draftResult?.stopped) {
+                return { outcome: 'stopped', reason: 'user_stop', tabId };
+            }
+
             const postDraftState = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_APPLY_STATE');
             const pauseOutcome = await ensureStepFilledOrPaused(
                 tabId,
@@ -931,6 +937,7 @@ export function createCvLibraryOrchestrator(deps) {
             shouldStop,
             finalizeStoppedSession,
             interruptibleSleep,
+            isAutoApplyStopError,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,

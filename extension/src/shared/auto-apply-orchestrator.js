@@ -56,6 +56,15 @@ import {
 } from './auto-apply-session.js';
 import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import {
+    bumpAutoApplyStopEpoch,
+    createAutoApplyStopError,
+    getAutoApplyStopEpoch,
+    hasAutoApplyStopEpochChanged,
+    interruptibleAutoApplySleep,
+    isAutoApplyStopError,
+    rawSleep,
+} from './auto-apply-stop-signal.js';
+import {
     clearActiveAutoApplyTiming,
     persistActiveAutoApplyTiming,
     resolveDelayMultiplier,
@@ -547,22 +556,21 @@ let watchdogState = {
 };
 
 function sleep(ms) {
-    return new Promise((resolve) => globalThis.setTimeout(resolve, ms));
+    return interruptibleAutoApplySleep(ms);
 }
 
 async function interruptibleSleep(ms) {
-    const deadline = Date.now() + Math.max(0, ms);
+    try {
+        await interruptibleAutoApplySleep(ms);
 
-    while (Date.now() < deadline) {
-        if (await shouldStop()) {
+        return true;
+    } catch (error) {
+        if (isAutoApplyStopError(error) || (await shouldStop())) {
             return false;
         }
 
-        const remaining = deadline - Date.now();
-        await sleep(Math.min(400, remaining));
+        throw error;
     }
-
-    return true;
 }
 
 function randomDelay(baseMs, spreadMs = null) {
@@ -2191,19 +2199,42 @@ async function waitForTabLoadComplete(tabId, timeoutMs = 90_000) {
         return;
     }
 
-    await new Promise((resolve) => {
-        const timeout = globalThis.setTimeout(() => {
+    const epochAtStart = getAutoApplyStopEpoch();
+
+    await new Promise((resolve, reject) => {
+        let settled = false;
+
+        const cleanup = () => {
+            if (settled) {
+                return;
+            }
+
+            settled = true;
+            globalThis.clearTimeout(timeout);
+            globalThis.clearInterval(stopPoll);
             chrome.tabs.onUpdated.removeListener(listener);
+        };
+
+        const timeout = globalThis.setTimeout(() => {
+            cleanup();
             resolve();
         }, timeoutMs);
+
+        const stopPoll = globalThis.setInterval(() => {
+            if (!hasAutoApplyStopEpochChanged(epochAtStart)) {
+                return;
+            }
+
+            cleanup();
+            reject(createAutoApplyStopError('Stopped while waiting for tab load.'));
+        }, 250);
 
         const listener = (updatedTabId, changeInfo) => {
             if (updatedTabId !== tabId || changeInfo.status !== 'complete') {
                 return;
             }
 
-            globalThis.clearTimeout(timeout);
-            chrome.tabs.onUpdated.removeListener(listener);
+            cleanup();
             resolve();
         };
 
@@ -2561,7 +2592,17 @@ async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
             return session;
         }
 
-        await sleep(500);
+        try {
+            await sleep(500);
+        } catch (error) {
+            if (isAutoApplyStopError(error)) {
+                const latest = await loadAutoApplySession();
+
+                return latest || session;
+            }
+
+            throw error;
+        }
     }
 }
 
@@ -4198,6 +4239,10 @@ async function processLinkedInJob(
                       runDraftAll,
                       session,
                   );
+
+        if (draftResult?.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
 
         const postDraftModalState = await readLinkedInModalState(tabId, {
             retries: 3,
@@ -5902,6 +5947,11 @@ async function processIndeedJobInner(
                 runDraftAll,
                 session,
             );
+
+            if (draftResult?.stopped) {
+                return { outcome: 'stopped', reason: 'user_stop', tabId };
+            }
+
             const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
                 type: 'INDEED_APPLY_STATE',
             });
@@ -6743,6 +6793,11 @@ async function processTotalJobsJob(
             runDraftAll,
             session,
         );
+
+        if (draftResult?.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
         const postDraftState = await sendTotalJobsMessage(
             tabId,
             'TOTALJOBS_APPLY_STATE',
@@ -7705,9 +7760,13 @@ async function processReedJob(
             );
         }
 
-        await interruptibleSleep(
+        const sleptBeforeDraft = await interruptibleSleep(
             randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400),
         );
+
+        if (!sleptBeforeDraft) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
 
         // Application summary (About you + CV + Submit) has no inventoriable
         // fields - skip Draft All and advance straight to Submit.
@@ -8878,6 +8937,11 @@ async function processGlassdoorJob(
                 runDraftAll,
                 session,
             );
+
+            if (draftResult?.stopped) {
+                return { outcome: 'stopped', reason: 'user_stop', tabId };
+            }
+
             const postDraftState = await sendIndeedApplyFlowMessage(tabId, {
                 type: 'INDEED_APPLY_STATE',
             });
@@ -9087,6 +9151,7 @@ function buildGlassdoorRunnerContext() {
         shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -9114,6 +9179,7 @@ function buildReedRunnerContext() {
         shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -9141,6 +9207,7 @@ function buildTotalJobsRunnerContext() {
         shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -9614,6 +9681,15 @@ async function runIndeedAutoApplyLoop(
 
             markWatchdogProgress(session);
         } catch (error) {
+            if (
+                isAutoApplyStopError(error) ||
+                (await shouldStop(session))
+            ) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             await recordAnalyticsEvent(
                 session,
                 'error',
@@ -9926,6 +10002,15 @@ async function runAutoApplyLoop(
 
             markWatchdogProgress(session);
         } catch (error) {
+            if (
+                isAutoApplyStopError(error) ||
+                (await shouldStop(session))
+            ) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             await stabilizeLinkedInTab(tabId).catch(() => {});
 
             await recordAnalyticsEvent(
@@ -10175,6 +10260,9 @@ export async function stopAutoApply() {
         return null;
     }
 
+    // Wake cooperative sleeps/waits immediately (before storage write).
+    bumpAutoApplyStopEpoch();
+
     await stopAutoApplyPauseKeepalive();
 
     if (isTerminalAutoApplyStatus(session.status)) {
@@ -10341,6 +10429,7 @@ export async function forceResetAutoApply() {
     // Invalidate in-flight writers immediately so a superseded platform cannot
     // keep mutating the next session while we wait for the old loop to exit.
     sessionWriteOwnerRunId = undefined;
+    bumpAutoApplyStopEpoch();
 
     const session = await loadAutoApplySession();
 
@@ -10367,7 +10456,7 @@ export async function forceResetAutoApply() {
     if (pendingRun) {
         await Promise.race([
             pendingRun.catch(() => {}),
-            sleep(FORCE_RESET_WAIT_MS),
+            rawSleep(FORCE_RESET_WAIT_MS),
         ]);
 
         // Detach a stuck zombie loop so a new platform run can start cleanly.
@@ -10454,6 +10543,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     shouldStop,
     finalizeStoppedSession,
     interruptibleSleep,
+    isAutoApplyStopError,
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
@@ -10499,6 +10589,7 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     shouldStop,
     finalizeStoppedSession,
     interruptibleSleep,
+    isAutoApplyStopError,
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,

@@ -59,6 +59,7 @@ export function createSimplyHiredOrchestrator(deps) {
         finalizeAutoApplyAnalyticsSession,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
@@ -1230,6 +1231,11 @@ export function createSimplyHiredOrchestrator(deps) {
                     session,
                     SIMPLYHIRED_PLATFORM_ID,
                 );
+
+                if (draftResult?.stopped) {
+                    return { outcome: 'stopped', reason: 'user_stop', tabId };
+                }
+
                 const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
                 const pauseOutcome = await ensureStepFilledOrPaused(
                     tabId,
@@ -1387,6 +1393,7 @@ export function createSimplyHiredOrchestrator(deps) {
             shouldStop,
             finalizeStoppedSession,
             interruptibleSleep,
+            isAutoApplyStopError,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,
