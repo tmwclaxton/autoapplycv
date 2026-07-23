@@ -112,15 +112,22 @@ class CaptchaSolverService
         string $sitekey,
         string $pageUrl,
     ): string {
+        $task = [
+            'type' => $taskType,
+            'websiteURL' => $pageUrl,
+            'websiteKey' => $sitekey,
+        ];
+
+        // AntiCaptcha hCaptcha / Turnstile workers expect a browser UA for session emulation.
+        if (in_array($taskType, ['HCaptchaTaskProxyless', 'TurnstileTaskProxyless'], true)) {
+            $task['userAgent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
+        }
+
         $create = Http::timeout(30)
             ->acceptJson()
             ->post("{$baseUrl}/createTask", [
                 'clientKey' => $clientKey,
-                'task' => [
-                    'type' => $taskType,
-                    'websiteURL' => $pageUrl,
-                    'websiteKey' => $sitekey,
-                ],
+                'task' => $task,
             ]);
 
         if (! $create->successful()) {

@@ -128,16 +128,25 @@ class ExtensionCaptchaSolveTest extends TestCase
                 'provider' => 'anticaptcha',
             ]);
 
-        Http::assertSent(function (Request $request) use ($expectedTaskType) {
+        Http::assertSent(function (Request $request) use ($expectedTaskType, $type) {
             if (! str_ends_with($request->url(), '/createTask')) {
                 return false;
             }
 
             $payload = $request->data();
+            $task = $payload['task'] ?? [];
 
-            return ($payload['task']['type'] ?? null) === $expectedTaskType
-                && ($payload['task']['websiteKey'] ?? null) === 'test-sitekey'
-                && ($payload['task']['websiteURL'] ?? null) === 'https://www.indeed.com/viewjob';
+            if (($task['type'] ?? null) !== $expectedTaskType
+                || ($task['websiteKey'] ?? null) !== 'test-sitekey'
+                || ($task['websiteURL'] ?? null) !== 'https://www.indeed.com/viewjob') {
+                return false;
+            }
+
+            if (in_array($type, ['hcaptcha', 'turnstile'], true)) {
+                return is_string($task['userAgent'] ?? null) && $task['userAgent'] !== '';
+            }
+
+            return ! array_key_exists('userAgent', $task);
         });
     }
 
