@@ -39,3 +39,27 @@ test('sidepanel control uses pause-before-submit label checked by default', () =
     assert.doesNotMatch(html, /Off pauses before Submit/);
     assert.doesNotMatch(html, /auto-apply-auto-submit-enabled/);
 });
+
+test('applyStateNeedsSubmitPause covers Totaljobs submit-only steps', async () => {
+    const { applyStateNeedsSubmitPause } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js')).href
+    );
+
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: true,
+        canContinue: false,
+        hasSubmitButton: true,
+    }), true);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: true,
+        canSubmit: true,
+        canContinue: false,
+    }), true);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: false,
+        canContinue: true,
+        hasSubmitButton: false,
+    }), false);
+});

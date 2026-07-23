@@ -3291,6 +3291,18 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
 }
 
 /**
+ * @param {{ isReviewStep?: boolean, canSubmit?: boolean, canContinue?: boolean, hasSubmitButton?: boolean }|null|undefined} state
+ * @returns {boolean}
+ */
+export function applyStateNeedsSubmitPause(state) {
+    return Boolean(
+        state?.isReviewStep
+        || (state?.canSubmit && !state?.canContinue)
+        || (state?.hasSubmitButton && !state?.canContinue),
+    );
+}
+
+/**
  * Pause until Resume when pause-before-submit is on. No timeout - durable until Resume or Stop.
  *
  * @param {import('./auto-apply-session.js').AutoApplySession} session
@@ -6847,14 +6859,22 @@ async function processTotalJobsJob(
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        if (applyState.isReviewStep) {
+        // Re-read after draft - Totaljobs often exposes Submit only once the form is ready,
+        // so a pre-draft applyState can miss isReviewStep / canSubmit and auto-submit.
+        const submitGateState = await sendTotalJobsMessage(
+            tabId,
+            'TOTALJOBS_APPLY_STATE',
+        ).catch(() => postDraftState || applyState);
+        const shouldPauseBeforeSubmit = applyStateNeedsSubmitPause(submitGateState);
+
+        if (shouldPauseBeforeSubmit) {
             const submitReview = await waitForReviewBeforeSubmitIfNeeded(
                 session,
                 tabId,
                 job,
                 {
                     kind: 'submit',
-                    stepFingerprint: applyState.stepFingerprint || 'totaljobs-review',
+                    stepFingerprint: submitGateState?.stepFingerprint || 'totaljobs-review',
                 },
             );
 
@@ -6870,7 +6890,7 @@ async function processTotalJobsJob(
             'TOTALJOBS_FILL_AND_ADVANCE',
         );
 
-        if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
+        if (advanceResponse?.action === 'submit' || submitGateState?.isReviewStep || shouldPauseBeforeSubmit) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
@@ -7840,8 +7860,7 @@ async function processReedJob(
         }
 
         if (
-            applyState.isReviewStep
-            || (applyState.canSubmit && !applyState.canContinue)
+            applyStateNeedsSubmitPause(applyState)
         ) {
             const submitReview = await waitForReviewBeforeSubmitIfNeeded(
                 session,
