@@ -20,10 +20,22 @@ const tobyProfile = {
     },
 };
 
+const seattleProfile = {
+    profile: {
+        full_name: 'David',
+        city: 'Seattle',
+        country: 'United States',
+        structured_data: {
+            state_region: 'WA',
+        },
+    },
+};
+
 assert.equal(resolveProfileSearchLocation(tobyProfile), 'London, United Kingdom');
 assert.equal(shouldUseProfileSearchLocation('', tobyProfile), true);
-assert.equal(shouldUseProfileSearchLocation('San Jose, CA', tobyProfile), true);
+assert.equal(shouldUseProfileSearchLocation('San Jose, CA', tobyProfile), false);
 assert.equal(shouldUseProfileSearchLocation('Manchester', tobyProfile), false);
+assert.equal(shouldUseProfileSearchLocation('Cambridge', seattleProfile), false);
 
 assert.deepEqual(
     resolveAutoApplySearchFilters({
@@ -31,9 +43,17 @@ assert.deepEqual(
         profileData: tobyProfile,
     }),
     {
-        location: 'London, United Kingdom',
-        market: 'auto',
+        location: 'San Jose, CA',
+        market: 'us',
     },
+);
+
+assert.deepEqual(
+    resolveAutoApplySearchFilters({
+        filters: { location: 'Cambridge' },
+        profileData: seattleProfile,
+    }),
+    { location: 'Cambridge' },
 );
 
 assert.deepEqual(
@@ -50,6 +70,17 @@ assert.deepEqual(
         profileData: tobyProfile,
     }),
     { location: 'London, United Kingdom' },
+);
+
+assert.deepEqual(
+    resolveAutoApplySearchFilters({
+        filters: { market: 'uk' },
+        profileData: seattleProfile,
+    }),
+    {
+        location: 'Seattle, WA, United States',
+        market: 'uk',
+    },
 );
 
 assert.deepEqual(
