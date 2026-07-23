@@ -14,9 +14,12 @@ const {
 
 assert.equal(isCaptchaAutoApplyPause({ captcha: true }), true);
 assert.equal(isCaptchaAutoApplyPause({}, 'captcha'), true);
-assert.equal(isCaptchaAutoApplyPause({ loginRequired: true }), true);
-assert.equal(isCaptchaAutoApplyPause({}, 'login'), true);
+assert.equal(isCaptchaAutoApplyPause({ pauseReason: 'captcha' }), true);
+assert.equal(isCaptchaAutoApplyPause({ loginRequired: true }), false);
+assert.equal(isCaptchaAutoApplyPause({}, 'login'), false);
+assert.equal(isCaptchaAutoApplyPause({ pauseReason: 'login' }), false);
 assert.equal(isCaptchaAutoApplyPause({ identityConfirm: true }), false);
+assert.equal(isCaptchaAutoApplyPause({ pauseReason: 'review_before_submit' }), false);
 
 const key = buildCaptchaAlertKey({
     captcha: true,
@@ -27,6 +30,7 @@ const key = buildCaptchaAlertKey({
 
 assert.equal(key, 'job-1|review-module|42|captcha');
 assert.equal(buildCaptchaAlertKey({ identityConfirm: true }), null);
+assert.equal(buildCaptchaAlertKey({ loginRequired: true, pauseReason: 'login' }), null);
 assert.equal(shouldPlayCaptchaAlert(key, null), true);
 assert.equal(shouldPlayCaptchaAlert(key, key), false);
 assert.equal(shouldPlayCaptchaAlert(null, null), false);

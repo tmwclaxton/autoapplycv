@@ -4,17 +4,18 @@
  */
 
 /**
+ * Loud CAPTCHA ping only - not login, identity confirm, or review-before-submit.
+ *
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
  * @param {string|null|undefined} [reason]
  * @returns {boolean}
  */
 export function isCaptchaAutoApplyPause(pauseContext, reason = null) {
-    return pauseContext?.pauseReason === 'captcha'
-        || pauseContext?.pauseReason === 'login'
-        || Boolean(pauseContext?.captcha)
-        || Boolean(pauseContext?.loginRequired)
-        || reason === 'captcha'
-        || reason === 'login';
+    if (reason === 'captcha' || pauseContext?.pauseReason === 'captcha' || Boolean(pauseContext?.captcha)) {
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -32,9 +33,7 @@ export function buildCaptchaAlertKey(pauseContext) {
         pauseContext.job?.jobId || '',
         pauseContext.stepFingerprint || '',
         pauseContext.tabId || '',
-        pauseContext.pauseReason === 'login' || pauseContext.loginRequired
-            ? 'login'
-            : 'captcha',
+        'captcha',
     ].join('|');
 }
 
