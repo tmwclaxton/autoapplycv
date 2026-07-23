@@ -1393,6 +1393,26 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return false;
     }
 
+    function readTurnstilePresent() {
+        for (const node of document.querySelectorAll(
+            '.cf-turnstile[data-sitekey], [data-sitekey].cf-turnstile, iframe[src*="challenges.cloudflare.com"]',
+        )) {
+            if (!(node instanceof HTMLElement)) {
+                continue;
+            }
+
+            if (isElementMostlyVisible(node) || isElementVisible(node)) {
+                return true;
+            }
+
+            if (node.matches?.('.cf-turnstile[data-sitekey], [data-sitekey].cf-turnstile')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function readIndeedCaptchaPresent() {
         // Explicit Indeed apply captcha hosts. Prefer existence over "mostly
         // visible" - the challenge iframe often has zero layout until expanded,
@@ -1416,7 +1436,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return true;
         }
 
-        if (readHcaptchaPresent()) {
+        if (readHcaptchaPresent() || readTurnstilePresent()) {
             return true;
         }
 
@@ -1556,7 +1576,8 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const sitekey = readRecaptchaV2Sitekey();
         const securityCheckpoint = readIndeedSecurityCheckpoint();
         const hcaptcha = readHcaptchaPresent();
-        const solvable = Boolean(sitekey) && !securityCheckpoint && !hcaptcha;
+        const turnstile = readTurnstilePresent();
+        const solvable = Boolean(sitekey) && !securityCheckpoint && !hcaptcha && !turnstile;
 
         return {
             present: true,
@@ -1567,7 +1588,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
             securityCheckpoint,
             captchaType: hcaptcha
                 ? 'hcaptcha'
-                : (sitekey ? 'recaptcha_v2' : (securityCheckpoint ? 'security_checkpoint' : 'unknown')),
+                : (turnstile
+                    ? 'turnstile'
+                    : (sitekey ? 'recaptcha_v2' : (securityCheckpoint ? 'security_checkpoint' : 'unknown'))),
         };
     }
 

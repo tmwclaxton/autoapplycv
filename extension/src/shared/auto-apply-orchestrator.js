@@ -10630,6 +10630,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     appendAutoApplyLog,
     waitForApplicationSubmitConfirmation,
     waitForReviewBeforeSubmitIfNeeded,
+    applyStateNeedsSubmitPause,
 });
 
 const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({

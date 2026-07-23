@@ -63,3 +63,23 @@ test('applyStateNeedsSubmitPause covers Totaljobs submit-only steps', async () =
         hasSubmitButton: false,
     }), false);
 });
+
+test('applyStateNeedsSubmitPause covers CV-Library submit-only steps', async () => {
+    const { applyStateNeedsSubmitPause } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js')).href
+    );
+
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: true,
+        canContinue: false,
+        hasSubmitButton: true,
+        stepLabel: 'Complete your application',
+    }), true);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: true,
+        canSubmit: true,
+        canContinue: false,
+        hasSubmitButton: true,
+    }), true);
+});

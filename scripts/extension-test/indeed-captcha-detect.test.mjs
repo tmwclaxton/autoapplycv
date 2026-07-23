@@ -92,4 +92,18 @@ assert.equal(hPrep.solvable, false, 'hCaptcha must not claim recaptcha_v2 solvab
 assert.equal(hPrep.captchaType, 'hcaptcha');
 assert.equal(hPrep.sitekey, null);
 
+const turnstile = load(
+    `<!doctype html><html><body>
+      <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA"></div>
+      <iframe title="Widget containing a Cloudflare security challenge" src="https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/x/0x4AAAAAAADnPIDROrmt1Wwj/light/fbE/new/normal?lang=auto"></iframe>
+    </body></html>`,
+    'https://demo.turnstile.workers.dev/',
+);
+assert.equal(turnstile.readIndeedCaptchaPresent(), true, 'Turnstile should be detected as present');
+const turnstilePrep = await turnstile.prepareCaptchaForSolve();
+assert.equal(turnstilePrep.present, true);
+assert.equal(turnstilePrep.solvable, false, 'Turnstile must not claim recaptcha_v2 solvable');
+assert.equal(turnstilePrep.captchaType, 'turnstile');
+assert.equal(turnstilePrep.sitekey, null);
+
 console.log('indeed-captcha-detect.test.mjs: ok');
