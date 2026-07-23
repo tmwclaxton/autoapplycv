@@ -164,7 +164,10 @@ export function buildDraftAllApplyPlan({
  * @param {Array<{ ref?: string, label?: string, answer?: string|null }>} answers
  * @param {Map<string, object>} fieldsByRef
  * @param {object|null} profileData
+ * @param {{ trustSavedAnswers?: boolean }} [options]
+ *        When true (question-memo / user Save & fill), do not re-open location or
+ *        screening clarify pauses for answers the user already confirmed.
  */
-export function partitionDraftAllBatchAnswers(answers, fieldsByRef, profileData) {
-    return partitionBatchAnswers(answers, fieldsByRef, profileData);
+export function partitionDraftAllBatchAnswers(answers, fieldsByRef, profileData, options = {}) {
+    return partitionBatchAnswers(answers, fieldsByRef, profileData, options);
 }

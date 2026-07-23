@@ -3846,9 +3846,10 @@ export function partitionPreferenceProfileFields(fields, profileData) {
     return { preferenceAnswers, remainingFields };
 }
 
-export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
+export function partitionBatchAnswers(answers, fieldsByRef, profileData, options = {}) {
     const toApply = [];
     const pending = [];
+    const trustSavedAnswers = options.trustSavedAnswers === true;
 
     for (const answer of answers || []) {
         const field = fieldsByRef.get(answer.ref) || {
@@ -3947,7 +3948,11 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             }
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldClarifyScreeningTrap(field, resolvedAnswer, profileData)) {
+        if (
+            !trustSavedAnswers
+            && isMeaningfulAnswer(resolvedAnswer)
+            && shouldClarifyScreeningTrap(field, resolvedAnswer, profileData)
+        ) {
             pending.push(createPendingField(
                 field,
                 resolvePendingProfileMapping(field, profileData),
@@ -3956,7 +3961,11 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             continue;
         }
 
-        if (isMeaningfulAnswer(resolvedAnswer) && shouldClarifyLocationCommute(field, resolvedAnswer, profileData)) {
+        if (
+            !trustSavedAnswers
+            && isMeaningfulAnswer(resolvedAnswer)
+            && shouldClarifyLocationCommute(field, resolvedAnswer, profileData)
+        ) {
             const officeCommuteDecline = resolveOfficeCommuteDeclineAnswer(field, profileData);
 
             if (isMeaningfulAnswer(officeCommuteDecline)) {

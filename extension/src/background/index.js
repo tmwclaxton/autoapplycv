@@ -2446,6 +2446,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     })),
                     fieldsByRef,
                     profileData,
+                    { trustSavedAnswers: true },
                 );
                 answersToApply = partitioned.toApply;
                 pendingFields = mergePendingFields(pendingFields, partitioned.pending);
