@@ -3246,9 +3246,11 @@ function sessionAllowsAutoSubmit(session) {
  */
 async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
     const kind = options.kind === 'resume_step' ? 'resume_step' : 'submit';
-    const prompt = kind === 'resume_step'
-        ? 'Confirm the selected resume looks correct, then resume Auto Apply to continue.'
-        : 'Review the application, then resume Auto Apply to submit.';
+    const prompt = typeof options.prompt === 'string' && options.prompt.trim()
+        ? options.prompt.trim()
+        : (kind === 'resume_step'
+            ? 'Confirm the selected resume looks correct, then resume Auto Apply to continue.'
+            : 'Review the application, then resume Auto Apply to submit.');
     const pauseContext = {
         job: {
             jobId: job?.jobId || null,
@@ -3267,9 +3269,11 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
         pauseReason: 'review_before_submit',
     };
 
-    const logMessage = kind === 'resume_step'
-        ? `[paused] ${job?.title || 'Application'}: confirm resume selection, then Resume in Assist.`
-        : `[paused] ${job?.title || 'Application'}: review before submit - Resume in Assist to submit.`;
+    const logMessage = typeof options.logMessage === 'string' && options.logMessage.trim()
+        ? options.logMessage.trim()
+        : (kind === 'resume_step'
+            ? `[paused] ${job?.title || 'Application'}: confirm resume selection, then Resume in Assist.`
+            : `[paused] ${job?.title || 'Application'}: review before submit - Resume in Assist to submit.`);
 
     await updateSession((current) =>
         pauseAutoApplyForInput(
@@ -6695,6 +6699,27 @@ async function processTotalJobsJob(
         light: true,
     }).catch(() => {});
 
+    // Totaljobs often one-click submits when Apply is clicked (saved profile).
+    // Pause before opening Apply so pause-before-submit cannot be bypassed.
+    const openApplyReview = await waitForReviewBeforeSubmitIfNeeded(
+        session,
+        tabId,
+        job,
+        {
+            kind: 'submit',
+            stepFingerprint: 'totaljobs-before-open-apply',
+            resumeAt: 'open_apply',
+            prompt: 'Totaljobs may submit as soon as Apply is clicked. Resume in Assist to open Apply.',
+            logMessage: `[paused] ${job.title}: Totaljobs may one-click submit - Resume in Assist to open Apply.`,
+        },
+    );
+
+    session = openApplyReview.session || session;
+
+    if (openApplyReview.stopped) {
+        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+    }
+
     const applyResponse = await sendTotalJobsMessage(
         tabId,
         'TOTALJOBS_OPEN_APPLY',
@@ -6754,7 +6779,10 @@ async function processTotalJobsJob(
     if (postOpenVerify?.submitted) {
         await logSession(
             'success',
-            `[submitted] ${job.title} at ${job.company}.`,
+            `[submitted] ${job.title} at ${job.company}`
+                + (sessionAllowsAutoSubmit(session)
+                    ? '.'
+                    : ' (Totaljobs one-click after review pause).'),
         );
         await recordAnalyticsEvent(session, 'submitted', job);
 
