@@ -6017,7 +6017,7 @@ async function processIndeedJobInner(
             }
         }
 
-        if (applyState.isReviewStep) {
+        if (applyStateNeedsSubmitPause(applyState)) {
             const submitReview = await waitForReviewBeforeSubmitIfNeeded(
                 session,
                 tabId,
