@@ -499,14 +499,26 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
             return '';
         }
 
-        return normalize(
-            card.getAttribute('aria-label')
-            || card.querySelector(
-                '.jobs-document-upload-redesign-card__file-name, .jobs-document-upload-redesign-card__title, h3, span',
+        const fileName = normalize(
+            card.querySelector(
+                '.jobs-document-upload-redesign-card__file-name, .jobs-document-upload-redesign-card__title, h3',
             )?.textContent
-            || card.textContent
             || '',
         );
+
+        if (fileName) {
+            return fileName;
+        }
+
+        const ariaLabel = normalize(card.getAttribute('aria-label') || '');
+
+        // LinkedIn uses generic toggle labels ("Selected", "Select this resume") that
+        // must not win over the visible file name for ranking.
+        if (ariaLabel && !/^(selected|select this resume|deselect)$/i.test(ariaLabel)) {
+            return ariaLabel;
+        }
+
+        return normalize(card.textContent || '');
     }
 
     function scoreResumeCard(card, preferredNames = []) {
@@ -546,9 +558,48 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         return score;
     }
 
+    function listResumeCards(modal) {
+        return [...modal.querySelectorAll('.jobs-document-upload-redesign-card__container')];
+    }
+
     function listUnselectedResumeCards(modal) {
-        return [...modal.querySelectorAll('.jobs-document-upload-redesign-card__container')]
+        return listResumeCards(modal)
             .filter((card) => !card.classList.contains('jobs-document-upload-redesign-card__container--selected'));
+    }
+
+    /**
+     * LinkedIn collapses older resumes behind "Show N more resumes". Expand so ranking
+     * can see AutoCVApply / preferred-name cards that are not in the initial two.
+     *
+     * @param {Element} modal
+     * @returns {Promise<boolean>} true when at least one expand click ran
+     */
+    async function expandCollapsedResumeCards(modal) {
+        if (!modal) {
+            return false;
+        }
+
+        let expanded = false;
+
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+            const button = [...modal.querySelectorAll('button')].find((node) => {
+                const label = normalize(
+                    node.getAttribute('aria-label') || node.textContent || '',
+                );
+
+                return /show\s+\d+\s+more\s+resumes?/i.test(label);
+            });
+
+            if (!(button instanceof HTMLElement) || button.disabled) {
+                break;
+            }
+
+            button.click();
+            expanded = true;
+            await sleep(250);
+        }
+
+        return expanded;
     }
 
     function findResumeCardToSelect(modal, options = {}) {
@@ -685,6 +736,8 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
                 // Ranking still works with AutoCVApply / PDF heuristics.
             }
         }
+
+        await expandCollapsedResumeCards(modal);
 
         const card = findResumeCardToSelect(modal, { preferredResumeNames });
 
@@ -828,10 +881,12 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         fillLocationTypeahead,
         fillPhoneCountrySelect,
         fillMobilePhoneInput,
+        expandCollapsedResumeCards,
         findLinkedInResumeFileInput,
         findLocationTypeaheadInput,
         findResumeCardToSelect,
         hasSelectedResume,
+        listResumeCards,
         readResumeCardLabel,
         scoreResumeCard,
         isContactInfoStep,

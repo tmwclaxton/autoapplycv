@@ -15,16 +15,28 @@ const scriptPath = path.join(
 const html = `<!doctype html><html><body>
 <div id="modal">
   <h3>Resume</h3>
-  <div class="jobs-document-upload-redesign-card__container" aria-label="LinkedIn Profile">
+  <div class="jobs-document-upload-redesign-card__container jobs-document-upload-redesign-card__container--selected" aria-label="Selected">
     <span class="jobs-document-upload-redesign-card__file-name">LinkedIn Profile.pdf</span>
   </div>
-  <div class="jobs-document-upload-redesign-card__container" aria-label="AutoCVApply CV">
+  <div id="hidden-resume" class="jobs-document-upload-redesign-card__container" aria-label="Select this resume" hidden>
     <span class="jobs-document-upload-redesign-card__file-name">Toby_Claxton_AutoCVApply.pdf</span>
   </div>
+  <button type="button" id="show-more" aria-label="Show 1 more resumes">Show 1 more resumes</button>
 </div>
 </body></html>`;
 
-const dom = new JSDOM(html, { url: 'https://www.linkedin.com/jobs/view/1/' });
+const dom = new JSDOM(html, {
+    url: 'https://www.linkedin.com/jobs/view/1/',
+    runScripts: 'outside-only',
+});
+dom.window.document.getElementById('show-more').addEventListener('click', () => {
+    const hidden = dom.window.document.getElementById('hidden-resume');
+    hidden.hidden = false;
+    const btn = dom.window.document.getElementById('show-more');
+    btn.setAttribute('aria-label', 'See fewer resumes');
+    btn.textContent = 'See fewer';
+});
+
 const script = readFileSync(scriptPath, 'utf8');
 const sandbox = {
     window: dom.window,
@@ -49,23 +61,30 @@ const modal = dom.window.document.getElementById('modal');
 assert.ok(helpers, 'helpers loaded');
 assert.equal(helpers.isResumeStep(modal), true);
 
+const linkedInCard = modal.querySelector('.jobs-document-upload-redesign-card__container--selected');
+const autoCvCard = modal.querySelector('#hidden-resume');
+
+const linkedInOnly = helpers.scoreResumeCard(
+    linkedInCard,
+    ['Toby_Claxton_AutoCVApply.pdf'],
+);
+const autoCv = helpers.scoreResumeCard(
+    autoCvCard,
+    ['Toby_Claxton_AutoCVApply.pdf'],
+);
+assert.ok(autoCv > linkedInOnly, 'AutoCVApply card should score higher');
+
+await helpers.expandCollapsedResumeCards(modal);
+assert.equal(autoCvCard.hidden, false, 'expand should reveal collapsed resumes');
+
 const preferred = helpers.findResumeCardToSelect(modal, {
     preferredResumeNames: ['Toby_Claxton_AutoCVApply.pdf'],
 });
+assert.ok(preferred, 'should select a better card when preferred CV is visible');
 assert.match(
     helpers.readResumeCardLabel(preferred),
     /AutoCVApply/i,
     'should prefer AutoCVApply CV over LinkedIn Profile',
 );
-
-const linkedInOnly = helpers.scoreResumeCard(
-    modal.querySelector('[aria-label="LinkedIn Profile"]'),
-    ['Toby_Claxton_AutoCVApply.pdf'],
-);
-const autoCv = helpers.scoreResumeCard(
-    modal.querySelector('[aria-label="AutoCVApply CV"]'),
-    ['Toby_Claxton_AutoCVApply.pdf'],
-);
-assert.ok(autoCv > linkedInOnly, 'AutoCVApply card should score higher');
 
 console.log('linkedin-resume-card.test.mjs: ok');
