@@ -757,7 +757,7 @@ server.tool(
 
 server.tool(
     'auto_apply_stop',
-    'Request Auto Apply to stop after the current job.',
+    'Request Auto Apply to stop immediately (aborts in-flight sleeps, waits, and Draft All).',
     {},
     async () => {
         const result = await runCommand('auto_apply_stop', {}, 30000);
