@@ -48,3 +48,38 @@ test('interruptibleAutoApplySleep completes when Stop is not pressed', async () 
     assert.ok(elapsed >= 100, `expected full sleep, took ${elapsed}ms`);
     assert.equal(isAutoApplyStopError(null), false);
 });
+
+test('raceAgainstAutoApplyStop aborts a long pending promise after Stop', async () => {
+    const {
+        bumpAutoApplyStopEpoch,
+        isAutoApplyStopError,
+        raceAgainstAutoApplyStop,
+    } = await import(`${stopSignalPath}?race=${Date.now()}`);
+
+    const startedAt = Date.now();
+    let rejected = null;
+    let longTimer = null;
+
+    const pending = new Promise((resolve) => {
+        longTimer = setTimeout(resolve, 10_000);
+    });
+
+    const raced = raceAgainstAutoApplyStop(pending, { pollMs: 40 }).catch(
+        (error) => {
+            rejected = error;
+        },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    bumpAutoApplyStopEpoch();
+    await raced;
+
+    if (longTimer) {
+        clearTimeout(longTimer);
+    }
+
+    const elapsed = Date.now() - startedAt;
+
+    assert.ok(isAutoApplyStopError(rejected), 'expected AutoApplyStopError');
+    assert.ok(elapsed < 1500, `stop should abort quickly, took ${elapsed}ms`);
+});

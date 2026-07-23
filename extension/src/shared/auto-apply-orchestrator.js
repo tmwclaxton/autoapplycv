@@ -62,6 +62,7 @@ import {
     hasAutoApplyStopEpochChanged,
     interruptibleAutoApplySleep,
     isAutoApplyStopError,
+    raceAgainstAutoApplyStop,
     rawSleep,
 } from './auto-apply-stop-signal.js';
 import {
@@ -88,11 +89,39 @@ import { DRAFT_ALL_STEP_TIMEOUT_MS, resolveDraftAllStepTimeoutMs } from './draft
 import {
     invalidateTabFrameCache,
     resolveIndeedApplyTabId,
-    sendIndeedApplyFlowMessage,
-    sendTabMessage,
+    sendIndeedApplyFlowMessage as sendIndeedApplyFlowMessageRaw,
+    sendTabMessage as sendTabMessageRaw,
     findBestFormFrameId,
     scanFormValidationOnTab,
 } from './form-frame-messaging.js';
+
+/**
+ * Tab messaging used by Auto Apply - abort promptly when Stop is pressed so we
+ * do not wait out content-script delays (job detail, fill-and-advance, etc.).
+ *
+ * @param {number} tabId
+ * @param {object} message
+ * @param {number} [frameId]
+ * @param {{ timeoutMs?: number }} [options]
+ */
+function sendTabMessage(tabId, message, frameId = 0, options = {}) {
+    return raceAgainstAutoApplyStop(
+        sendTabMessageRaw(tabId, message, frameId, options),
+        { message: 'Stopped while messaging a job-board tab.' },
+    );
+}
+
+/**
+ * @param {number} tabId
+ * @param {object} message
+ * @param {{ timeoutMs?: number }} [options]
+ */
+function sendIndeedApplyFlowMessage(tabId, message, options = {}) {
+    return raceAgainstAutoApplyStop(
+        sendIndeedApplyFlowMessageRaw(tabId, message, options),
+        { message: 'Stopped while messaging an Indeed apply frame.' },
+    );
+}
 import { runGlassdoorAutoApplyLoop } from './glassdoor-auto-apply-runner.js';
 import {
     buildGlassdoorJobOpenUrl,
@@ -9453,8 +9482,9 @@ async function finalizeStoppedSession() {
     );
 
     if (session) {
-        await finalizeAutoApplyAnalyticsSession(session);
+        // Broadcast stopped immediately - do not wait on analytics HTTP.
         broadcastAutoApplyStatus(session);
+        void finalizeAutoApplyAnalyticsSession(session).catch(() => {});
     }
 
     return session;

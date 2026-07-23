@@ -100,3 +100,58 @@ export async function interruptibleAutoApplySleep(ms, options = {}) {
         throw createAutoApplyStopError();
     }
 }
+
+/**
+ * Race a long await (tab messages, etc.) so Stop wakes within ~pollMs.
+ *
+ * @template T
+ * @param {Promise<T>} promise
+ * @param {{ pollMs?: number, message?: string }} [options]
+ * @returns {Promise<T>}
+ */
+export function raceAgainstAutoApplyStop(promise, options = {}) {
+    const pollMs = Math.max(50, Number(options.pollMs) || 250);
+    const message =
+        typeof options.message === 'string' && options.message.trim()
+            ? options.message.trim()
+            : 'Stopped while waiting on a tab operation.';
+    const epochAtStart = autoApplyStopEpoch;
+
+    if (hasAutoApplyStopEpochChanged(epochAtStart)) {
+        return Promise.reject(createAutoApplyStopError(message));
+    }
+
+    return new Promise((resolve, reject) => {
+        let settled = false;
+        const stopPoll = globalThis.setInterval(() => {
+            if (!hasAutoApplyStopEpochChanged(epochAtStart) || settled) {
+                return;
+            }
+
+            settled = true;
+            globalThis.clearInterval(stopPoll);
+            reject(createAutoApplyStopError(message));
+        }, pollMs);
+
+        Promise.resolve(promise).then(
+            (value) => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                globalThis.clearInterval(stopPoll);
+                resolve(value);
+            },
+            (error) => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                globalThis.clearInterval(stopPoll);
+                reject(error);
+            },
+        );
+    });
+}
