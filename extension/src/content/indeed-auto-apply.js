@@ -2501,6 +2501,23 @@ var AutoCVApplyIndeedAutoApply = (() => {
         await acceptCookieConsent();
         await selectResumeCardIfNeeded();
 
+        // Review-before-submit pauses often leave the tab on post-apply when the
+        // user (or a prior click) already submitted. Treat that as success instead
+        // of "No Continue or Submit button found".
+        const alreadySubmitted = verifySubmitted();
+
+        if (alreadySubmitted.submitted) {
+            return {
+                success: true,
+                action: 'submit',
+                submitted: true,
+                transitioned: true,
+                stepFingerprint: readStepFingerprint(),
+                validationErrors: [],
+                confirmation: alreadySubmitted.confirmation,
+            };
+        }
+
         const previousFingerprint = readStepFingerprint();
         const onReviewStep = isIndeedReviewStep();
 
@@ -2635,6 +2652,20 @@ var AutoCVApplyIndeedAutoApply = (() => {
             for (let attempt = 0; attempt < 12; attempt += 1) {
                 await humanPause(400, 700);
 
+                const lateSubmitted = verifySubmitted();
+
+                if (lateSubmitted.submitted) {
+                    return {
+                        success: true,
+                        action: 'submit',
+                        submitted: true,
+                        transitioned: true,
+                        stepFingerprint: readStepFingerprint(),
+                        validationErrors: [],
+                        confirmation: lateSubmitted.confirmation,
+                    };
+                }
+
                 const retryButton = readContinueButton();
 
                 if (retryButton) {
@@ -2696,6 +2727,20 @@ var AutoCVApplyIndeedAutoApply = (() => {
                             'Indeed Apply did not advance after Continue.',
                     };
                 }
+            }
+
+            const finalSubmitted = verifySubmitted();
+
+            if (finalSubmitted.submitted) {
+                return {
+                    success: true,
+                    action: 'submit',
+                    submitted: true,
+                    transitioned: true,
+                    stepFingerprint: readStepFingerprint(),
+                    validationErrors: [],
+                    confirmation: finalSubmitted.confirmation,
+                };
             }
 
             return {

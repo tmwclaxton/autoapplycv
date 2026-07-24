@@ -1138,6 +1138,20 @@ export function createSimplyHiredOrchestrator(deps) {
                     }
                 }
 
+                // User may submit manually during review pause; confirm before advancing.
+                const postReviewState = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_APPLY_STATE',
+                }).catch(() => null);
+
+                if (postReviewState?.submitted) {
+                    submitted = true;
+                    await logSession(
+                        'success',
+                        `[submit] ${job.title}: already submitted after review pause.`,
+                    );
+                    break;
+                }
+
                 const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
 
                 if (advanceResponse?.action === 'submit') {

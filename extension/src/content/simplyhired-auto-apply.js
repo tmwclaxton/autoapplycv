@@ -221,13 +221,36 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
         await acceptCookieConsent();
 
         const deadline = Date.now() + 25_000;
+        let stableRounds = 0;
+        let lastCardCount = -1;
 
         while (Date.now() < deadline) {
             const cards = document.querySelectorAll('[data-testid="searchSerpJob"]');
             const quickApplyCount = readJobCardsFromDocument({ quickApplyOnly: true }).length;
+            const cardCount = cards.length;
 
-            if (cards.length >= 3 && quickApplyCount > 0) {
-                return { success: true, cardCount: cards.length, quickApplyCount };
+            // Sparse SERPs (e.g. niche + tight location) often have 1-2 cards.
+            // Do not wait the full deadline for an arbitrary >= 3 threshold.
+            if (cardCount > 0 && quickApplyCount > 0) {
+                if (cardCount === lastCardCount) {
+                    stableRounds += 1;
+                } else {
+                    stableRounds = 0;
+                    lastCardCount = cardCount;
+                }
+
+                if (cardCount >= 3 || stableRounds >= 2) {
+                    return { success: true, cardCount, quickApplyCount };
+                }
+            } else if (cardCount > 0 && quickApplyCount === 0 && cardCount === lastCardCount) {
+                stableRounds += 1;
+
+                if (stableRounds >= 3) {
+                    return { success: true, cardCount, quickApplyCount };
+                }
+            } else {
+                stableRounds = 0;
+                lastCardCount = cardCount;
             }
 
             window.scrollBy({ top: 700, behavior: 'smooth' });

@@ -6057,6 +6057,20 @@ async function processIndeedJobInner(
             if (submitReview.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
+
+            // User may submit manually during review pause; confirm before advancing.
+            const postReviewState = await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_APPLY_STATE',
+            }).catch(() => null);
+
+            if (postReviewState?.submitted) {
+                submitted = true;
+                await logSession(
+                    'success',
+                    `[submit] ${job.title}: already submitted after review pause.`,
+                );
+                break;
+            }
         }
 
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
