@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Requests\AuthKitAuthenticationRequest;
 use Laravel\WorkOS\Http\Requests\AuthKitLoginRequest;
@@ -16,6 +17,8 @@ Route::middleware(['guest'])->group(function () {
         $user = $request->authenticate();
 
         if ($user->wasRecentlyCreated) {
+            event(new Registered($user));
+
             session()->flash('sign_up_conversion', [
                 'transaction_id' => 'signup_'.$user->id.'_'.now()->timestamp,
                 'method' => 'WorkOS',

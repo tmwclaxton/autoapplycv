@@ -19,6 +19,20 @@ return [
 
     'updates_channel_id' => '1523103313531240568',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Incoming webhook (new-user notifications)
+    |--------------------------------------------------------------------------
+    |
+    | When unset, new-user Discord posts are skipped. Never include PII in
+    | webhook payloads - message text is aggregate-safe only.
+    |
+    */
+
+    'webhook_url' => env('DISCORD_WEBHOOK_URL'),
+
+    'new_user_message' => 'New user joined AutoCVApply',
+
     'portal' => [
         'terms_url' => 'https://autocvapply.com/terms',
         'privacy_url' => 'https://autocvapply.com/privacy',
