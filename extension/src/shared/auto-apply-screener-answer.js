@@ -144,6 +144,16 @@ function isSalaryScreenerQuestion(label) {
 function isNoticePeriodOrAvailabilityQuestion(label) {
     const question = String(label || '').toLowerCase();
 
+    // Urgent yes/no start screeners are answered by resolvePreferenceProfileAnswer
+    // (always Yes) - do not route them through notice-period settings.
+    if (/\bcan you start\b/.test(question)
+        || /\bable to start\b/.test(question)
+        || /\bready to start\b/.test(question)) {
+        if (!/\bwhen can you start\b/.test(question)) {
+            return false;
+        }
+    }
+
     return /\bnotice period\b/.test(question)
         || /\bavailability\b/.test(question)
         || /\bwhen can you start\b/.test(question)

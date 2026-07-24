@@ -212,7 +212,20 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.legally_authorized', label: 'Legally authorized to work', dashboard_tab: 'preferences', dashboard_anchor: 'field-legally-authorized', keywords: ['legally authorized', 'right to work', 'eligible to work', 'work permit', 'authorized to work', 'authorised to work'] },
     { path: 'application_settings.affirm_local_commute', label: 'Commute to job location', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-commute', keywords: ['comfortable commuting', 'commuting to this job', 'commute to this job', 'willing to commute'] },
     { path: 'application_settings.affirm_local_hybrid', label: 'Hybrid work setting', dashboard_tab: 'preferences', dashboard_anchor: 'field-affirm-local-hybrid', keywords: ['comfortable working in a hybrid', 'hybrid setting', 'work in a hybrid'] },
-    { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
+    {
+        path: 'application_settings.willing_to_relocate',
+        label: 'Willing to relocate',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-willing-to-relocate',
+        keywords: [
+            'willing to relocate',
+            'open to relocation',
+            'open to relocating',
+            'available for relocation',
+            'relocation',
+            'relocate',
+        ],
+    },
     { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
     { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
     { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
@@ -940,6 +953,9 @@ export function isAvailabilityQuestionLabel(label) {
         'start date',
         'earliest start',
         'when can you start',
+        'can you start',
+        'able to start',
+        'ready to start',
         'available to start',
         'available from',
         'earliest availability',
@@ -947,6 +963,145 @@ export function isAvailabilityQuestionLabel(label) {
         'okres wypowiedzenia',
         'kiedy możesz dołączyć',
     ].some((keyword) => normalized.includes(keyword));
+}
+
+/** General relocate willingness (not a city-specific onsite commute gate). */
+export function isWillingToRelocateQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized || isOnSiteCommuteQuestionLabel(label)) {
+        return false;
+    }
+
+    return /\brelocati(?:on|ng)\b/.test(normalized)
+        || /\brelocate\b/.test(normalized)
+        || /\bwilling to relocate\b/.test(normalized)
+        || /\bopen to relocati(?:on|ng)\b/.test(normalized)
+        || /\bavailable for relocation\b/.test(normalized);
+}
+
+/**
+ * Employer yes/no start screeners that expect an affirmative answer.
+ * Open questions like "When can you start?" are excluded - those still use notice period.
+ */
+export function isUrgentStartAffirmationQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    // Open availability prompts still need notice period / earliest start.
+    if (/\bwhen can you start\b/.test(normalized)
+        || /\bearliest (?:start|availability)\b/.test(normalized)
+        || /\bwhat is your (?:start date|availability|notice period)\b/.test(normalized)
+        || /\bnotice period\b/.test(normalized)) {
+        return false;
+    }
+
+    if (/\bcan you start\b/.test(normalized)
+        || /\bable to start\b/.test(normalized)
+        || /\bready to start\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:start|begin|commence)\b/.test(normalized)
+        && /\b(?:asap|immediately|urgent(?:ly)?|right away)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\bavailable to start\b/.test(normalized)
+        && (
+            /\b(?:asap|immediately|urgent(?:ly)?|right away)\b/.test(normalized)
+            || Boolean(extractStartDatePhraseFromLabel(label))
+        )) {
+        return true;
+    }
+
+    return false;
+}
+
+function extractStartDatePhraseFromLabel(label) {
+    const match = String(label || '').match(
+        /\b(\d{1,2}(?:st|nd|rd|th)?\s+(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?:\s+\d{2,4})?)\b/i,
+    );
+
+    if (!match) {
+        return '';
+    }
+
+    return match[1]
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(
+            /\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i,
+            (month) => month.charAt(0).toUpperCase() + month.slice(1).toLowerCase(),
+        );
+}
+
+function resolveUrgentStartAffirmationAnswer(field) {
+    const label = field?.label || field?.question || '';
+
+    if (!isUrgentStartAffirmationQuestion(label)) {
+        return '';
+    }
+
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    if (options.length > 0) {
+        const yesOption = options.find((option) => /^yes\b/i.test(String(option).trim()));
+
+        if (yesOption) {
+            return String(yesOption).trim();
+        }
+    }
+
+    const fieldType = String(field?.field_type || '').toLowerCase();
+    const dateInQuestion = extractStartDatePhraseFromLabel(label);
+    const normalized = normalizeQuestionLabel(label);
+
+    if (fieldType === 'textarea' || fieldType === 'text') {
+        if (dateInQuestion) {
+            return `Yes, I can start on ${dateInQuestion}.`;
+        }
+
+        if (/\b(?:asap|immediately|urgent(?:ly)?|right away)\b/.test(normalized)) {
+            return 'Yes, I can start immediately.';
+        }
+
+        return 'Yes, I can start on that date.';
+    }
+
+    return 'Yes';
+}
+
+function formatFreeTextPreferenceAnswer(field, mapping, answer) {
+    const fieldType = String(field?.field_type || '').toLowerCase();
+    const trimmed = String(answer ?? '').trim();
+
+    if (!trimmed || !mapping?.path) {
+        return trimmed;
+    }
+
+    if (Array.isArray(field?.options) && field.options.length > 0) {
+        return trimmed;
+    }
+
+    if (fieldType !== 'textarea' && fieldType !== 'text') {
+        return trimmed;
+    }
+
+    if (mapping.path === 'application_settings.willing_to_relocate') {
+        if (isAffirmativeRelocateAnswer(trimmed)) {
+            return 'Yes, I am available for relocation.';
+        }
+
+        if (/^(no|false|0)\b/i.test(trimmed)) {
+            return 'No, I am not available to relocate.';
+        }
+    }
+
+    return trimmed;
 }
 
 export function shouldUseContextualProfileSave(path) {
@@ -1632,6 +1787,10 @@ export function isProfileGeneralQuestion(field, profileData = null) {
     }
 
     if (isAvailabilityQuestionLabel(label)) {
+        return true;
+    }
+
+    if (isWillingToRelocateQuestionLabel(label)) {
         return true;
     }
 
@@ -2844,6 +3003,11 @@ function shouldPromptAvailabilityField(field, profileData) {
         return null;
     }
 
+    // Urgent yes/no start screeners always auto-answer Yes - never pause for notice period.
+    if (isUrgentStartAffirmationQuestion(label)) {
+        return false;
+    }
+
     if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
         return false;
     }
@@ -2915,6 +3079,10 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         return false;
     }
 
+    if (isUrgentStartAffirmationQuestion(label)) {
+        return false;
+    }
+
     if (isHoursCommitmentQuestionLabel(label)) {
         return false;
     }
@@ -2957,6 +3125,12 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
 }
 
 export function shouldSaveToApplicationAnswers(field, mapping) {
+    const label = field?.label || field?.question || '';
+
+    if (isUrgentStartAffirmationQuestion(label)) {
+        return false;
+    }
+
     if (isApplicationSpecificQuestion(field)) {
         return false;
     }
@@ -3570,6 +3744,12 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     const label = field?.label || field?.question || '';
 
+    const urgentStartAnswer = resolveUrgentStartAffirmationAnswer(field);
+
+    if (isMeaningfulAnswer(urgentStartAnswer)) {
+        return urgentStartAnswer;
+    }
+
     if (isUsLocationConfirmationQuestion(label)) {
         const usLocationAnswer = resolveUsLocationConfirmationAnswer(field, profileData);
 
@@ -3660,7 +3840,7 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         }
     }
 
-    return normalizeFieldAnswerForQuestion(
+    const fieldNormalized = normalizeFieldAnswerForQuestion(
         label,
         normalized,
         {
@@ -3668,6 +3848,8 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
             options: field.options,
         },
     );
+
+    return formatFreeTextPreferenceAnswer(field, mapping, fieldNormalized);
 }
 
 export function partitionCitySpecificRelocateFields(fields, profileData) {

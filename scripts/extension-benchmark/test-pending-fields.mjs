@@ -23,6 +23,8 @@ import {
     formatPhoneForForm,
     formatPhoneForMaskedTelInput,
     isAvailabilityQuestionLabel,
+    isUrgentStartAffirmationQuestion,
+    isWillingToRelocateQuestionLabel,
     isCityLocationQuestionLabel,
     isOnSiteCommuteQuestionLabel,
     isSecurityClearanceQuestionLabel,
@@ -2036,6 +2038,117 @@ const vekstInterestPending = buildPendingFieldsFromUnfilledSnapshot(
 assert(
     !vekstInterestPending.some((field) => field.ref === 'vekst-interest'),
     'buildPendingFieldsFromUnfilledSnapshot should skip Vekst motivation textarea',
+);
+
+const indeedUkRelocationLabel = 'Are you available for relocation across UK for projects?';
+const indeedStartDateLabel = 'We must fill this position urgently. Can you start on 11th August?';
+const indeedScreenerProfile = {
+    country: 'United Kingdom',
+    city: 'London',
+    location: 'London, UK',
+    application_settings: {
+        willing_to_relocate: 'yes',
+        notice_period: '2 weeks',
+        visa_sponsorship: 'no',
+        legally_authorized: 'yes',
+    },
+    computed_earliest_start: '19 July 2026',
+};
+
+assert(
+    isWillingToRelocateQuestionLabel(indeedUkRelocationLabel),
+    'UK-wide relocation textarea should classify as willing-to-relocate',
+);
+assert(
+    !isOnSiteCommuteQuestionLabel(indeedUkRelocationLabel),
+    'UK-wide relocation should not be treated as city-specific onsite commute',
+);
+assert(
+    resolveProfileMappingForLabel(indeedUkRelocationLabel)?.path
+        === 'application_settings.willing_to_relocate',
+    'relocation keyword variant must map to willing_to_relocate',
+);
+assert(
+    isAvailabilityQuestionLabel(indeedStartDateLabel),
+    'Can you start on DATE should classify as availability',
+);
+assert(
+    isUrgentStartAffirmationQuestion(indeedStartDateLabel),
+    'urgent Can you start on DATE must auto-affirm',
+);
+assert(
+    isUrgentStartAffirmationQuestion('Can you start ASAP?'),
+    'ASAP start screeners must auto-affirm',
+);
+assert(
+    isUrgentStartAffirmationQuestion('Are you available to start immediately?'),
+    'immediate start screeners must auto-affirm',
+);
+assert(
+    !isUrgentStartAffirmationQuestion('When can you start?'),
+    'open When can you start must not auto-affirm',
+);
+
+const indeedRelocateAnswer = resolvePreferenceProfileAnswer(
+    { ref: 'f0', label: indeedUkRelocationLabel, field_type: 'textarea' },
+    indeedScreenerProfile,
+);
+assert(
+    /yes.*relocati/i.test(indeedRelocateAnswer),
+    `UK relocation textarea should fill from willing_to_relocate, got: ${indeedRelocateAnswer}`,
+);
+
+const indeedStartAnswer = resolvePreferenceProfileAnswer(
+    { ref: 'f2', label: indeedStartDateLabel, field_type: 'textarea' },
+    indeedScreenerProfile,
+);
+assert(
+    /yes.*11th august/i.test(indeedStartAnswer),
+    `Start-date confirmation textarea should answer Yes with the asked date, got: ${indeedStartAnswer}`,
+);
+
+const emptyAvailabilityProfile = {
+    country: 'United Kingdom',
+    application_settings: { willing_to_relocate: 'yes' },
+};
+const urgentStartWithoutNotice = resolvePreferenceProfileAnswer(
+    { ref: 'f2', label: indeedStartDateLabel, field_type: 'textarea' },
+    emptyAvailabilityProfile,
+);
+assert(
+    /yes.*11th august/i.test(urgentStartWithoutNotice),
+    `urgent start screener must Yes without notice period, got: ${urgentStartWithoutNotice}`,
+);
+assert(
+    !shouldPromptUserForMissingDraftAnswer(
+        { ref: 'f2', label: indeedStartDateLabel, field_type: 'textarea' },
+        emptyAvailabilityProfile,
+    ),
+    'urgent start screener must never clarify for missing notice period',
+);
+assert(
+    !shouldPromptUserForField(
+        { ref: 'f2', label: indeedStartDateLabel, field_type: 'textarea' },
+        emptyAvailabilityProfile,
+    ),
+    'urgent start screener must not create profile-gap pending',
+);
+
+const { preferenceAnswers: indeedPreferenceAnswers, remainingFields: indeedRemaining } = partitionPreferenceProfileFields(
+    [
+        { ref: 'f0', label: indeedUkRelocationLabel, field_type: 'textarea' },
+        { ref: 'f2', label: indeedStartDateLabel, field_type: 'textarea' },
+    ],
+    emptyAvailabilityProfile,
+);
+assert(
+    indeedPreferenceAnswers.some((answer) => answer.ref === 'f0')
+        && indeedPreferenceAnswers.some((answer) => answer.ref === 'f2'),
+    'Indeed screener relocate + start date must be preference-filled before LLM',
+);
+assert(
+    indeedRemaining.length === 0,
+    'Indeed screener relocate + start date should not remain for LLM after preference partition',
 );
 
 console.log('test-pending-fields: all assertions passed');
