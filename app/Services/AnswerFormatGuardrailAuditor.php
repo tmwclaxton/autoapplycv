@@ -732,7 +732,17 @@ class AnswerFormatGuardrailAuditor
                 throw new Exception($message);
             }
 
-            $decoded[$taskKey] = unserialize($payload['result']);
+            try {
+                $decoded[$taskKey] = unserialize($payload['result']);
+            } catch (Throwable) {
+                if ($onTaskFailure !== null) {
+                    $decoded[$taskKey] = $onTaskFailure($taskKey);
+
+                    continue;
+                }
+
+                throw new Exception('Failed to unserialize concurrent audit result for task ['.$taskKey.'].');
+            }
         }
 
         return $decoded;
