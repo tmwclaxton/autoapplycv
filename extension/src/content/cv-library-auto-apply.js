@@ -518,7 +518,38 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             || document;
     }
 
+    function readProgressStepLabel() {
+        const scoped = document.querySelector(
+            '[aria-label="progress"] p, [class*="Apply_steps"] p, [data-qa="application-step-progress"]',
+        );
+        const scopedLabel = normalize(scoped?.textContent);
+
+        if (/^step\s+\d+\s+of\s+\d+/i.test(scopedLabel)) {
+            return scopedLabel;
+        }
+
+        for (const node of document.querySelectorAll('p, [role="status"]')) {
+            if (node.closest('header, nav, footer, #onetrust-consent-sdk, #onetrust-pc-sdk')) {
+                continue;
+            }
+
+            const label = normalize(node.textContent);
+
+            if (/^step\s+\d+\s+of\s+\d+/i.test(label) && label.length < 120) {
+                return label;
+            }
+        }
+
+        return null;
+    }
+
     function readStepLabel() {
+        const progressLabel = readProgressStepLabel();
+
+        if (progressLabel) {
+            return progressLabel;
+        }
+
         const applyTitle = document.querySelector('[data-qa="application-step-title"], [data-qa="application-form-title"]');
 
         if (applyTitle) {
@@ -547,8 +578,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     function readStepFingerprint() {
         const label = readStepLabel() || 'unknown';
         const slug = window.location.pathname.split('/').filter(Boolean).slice(-3).join('/');
+        const action = findSubmitButton()
+            ? 'submit'
+            : (findContinueButton() ? 'continue' : 'none');
 
-        return `${slug}|${label}`;
+        return `${slug}|${label}|${action}`;
     }
 
     function readValidationErrors() {
@@ -569,13 +603,21 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         return errors.slice(0, 8);
     }
 
+    function isIgnorableChrome(element) {
+        return Boolean(
+            element?.closest?.(
+                'header, nav, footer, #onetrust-consent-sdk, #onetrust-pc-sdk, #ot-pc-content, .ot-pc-footer',
+            ),
+        );
+    }
+
     function findContinueButton() {
         const scope = readApplyRoot();
 
-        for (const testId of ['continue-button', 'next-button', 'save-and-continue-button', 'submit-button']) {
+        for (const testId of ['next-btn', 'continue-button', 'next-button', 'save-and-continue-button']) {
             const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
 
-            if (byTestId instanceof HTMLElement && !byTestId.disabled) {
+            if (byTestId instanceof HTMLElement && !byTestId.disabled && !isIgnorableChrome(byTestId)) {
                 return byTestId;
             }
         }
@@ -585,13 +627,13 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 continue;
             }
 
-            if (button.closest('header, nav')) {
+            if (isIgnorableChrome(button)) {
                 continue;
             }
 
             const label = normalize(button.getAttribute('aria-label') || button.textContent);
 
-            if (/^(continue|next|save and continue)$/i.test(label) || /\bnext\b/i.test(label)) {
+            if (/^(continue|next|save and continue)$/i.test(label)) {
                 return button;
             }
         }
@@ -605,7 +647,12 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         for (const testId of ['submit-button-apply', 'submit-application-button', 'submit-button', 'send-application-button']) {
             const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
 
-            if (byTestId instanceof HTMLElement && !byTestId.disabled && isElementVisible(byTestId)) {
+            if (
+                byTestId instanceof HTMLElement
+                && !byTestId.disabled
+                && isElementVisible(byTestId)
+                && !isIgnorableChrome(byTestId)
+            ) {
                 return byTestId;
             }
         }
@@ -619,7 +666,7 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 continue;
             }
 
-            if (button.closest('header, nav')) {
+            if (isIgnorableChrome(button)) {
                 continue;
             }
 
@@ -629,8 +676,7 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 || button.textContent,
             );
 
-            if (/^(submit|submit application|send application|re-apply for this job)$/i.test(label)
-                || (/\bsubmit\b/i.test(label) && !/^apply now$/i.test(label))) {
+            if (/^(submit|submit application|send application|re-apply for this job)$/i.test(label)) {
                 return button;
             }
         }
@@ -789,7 +835,24 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
 
         if (continueButton) {
             await clickElement(continueButton);
-            await humanPause(650, 1100);
+
+            // Wait for the next step to render. Do not click Submit here - the
+            // orchestrator must draft/fill questions before advancing again.
+            const stepDeadline = Date.now() + 10_000;
+            let nextFingerprint = previousFingerprint;
+
+            while (Date.now() < stepDeadline) {
+                await humanPause(250, 450);
+                nextFingerprint = readStepFingerprint();
+
+                if (nextFingerprint !== previousFingerprint) {
+                    break;
+                }
+
+                if (verifySubmitted().submitted) {
+                    break;
+                }
+            }
 
             const verifyAfterContinue = verifySubmitted();
 
@@ -806,26 +869,6 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 };
             }
 
-            const lateSubmit = findSubmitButton();
-
-            if (lateSubmit) {
-                await clickElement(lateSubmit);
-                await humanPause(500, 900);
-                const verify = verifySubmitted();
-
-                return {
-                    success: true,
-                    action: 'submit',
-                    submitted: verify.submitted,
-                    pendingConfirmation: !verify.submitted,
-                    transitioned: true,
-                    stepFingerprint: readStepFingerprint(),
-                    validationErrors: verify.submitted ? [] : readValidationErrors(),
-                    confirmation: verify.confirmation,
-                };
-            }
-
-            const nextFingerprint = readStepFingerprint();
             const transitioned = nextFingerprint !== previousFingerprint;
 
             return {

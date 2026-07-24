@@ -117,7 +117,9 @@ var AutoCVApplyFormHeuristics = (() => {
      * Job-board keyword/location search chrome on results pages - not application questions.
      */
     function isJobBoardNavSearchInput(element) {
-        if (!element || element.tagName?.toLowerCase() !== 'input') {
+        const tag = element?.tagName?.toLowerCase();
+
+        if (!element || (tag !== 'input' && tag !== 'select')) {
             return false;
         }
 
@@ -175,8 +177,21 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        if (/(^|\.)cv-library\.co\.uk$/i.test(hostname) && /\/jobs\b/i.test(pathname)) {
-            if (element.closest?.('#keywords, .search-form, [data-qa="search-keywords"], header form')) {
+        if (/(^|\.)cv-library\.co\.uk$/i.test(hostname)) {
+            const name = String(element.name || '').toLowerCase();
+            const id = String(element.id || '').toLowerCase();
+
+            // Header job search chrome appears on apply pages too (/job/apply/...),
+            // not only results (/jobs...). Never treat it as an application field.
+            if (
+                name === 'keyword'
+                || name === 'location'
+                || name === 'distance'
+                || id === 'keywords'
+                || element.closest?.(
+                    '#keywords, .search-form, [data-qa="search-keywords"], header form, [class*="SearchBar"], [class*="NavSearch"]',
+                )
+            ) {
                 return true;
             }
         }
