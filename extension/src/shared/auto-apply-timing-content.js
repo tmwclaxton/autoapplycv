@@ -3,14 +3,14 @@
  */
 var AutoCVApplyTiming = (() => {
     const ACTIVE_KEY = 'autoApplyActiveTimingLevel';
-    const DEFAULT_LEVEL = 5;
-    const MIN_DELAY_MS = 40;
+    const DEFAULT_LEVEL = 1;
+    const MIN_DELAY_MS = 20;
     const MULTIPLIERS = {
-        1: 0.25,
-        2: 0.4,
-        3: 0.55,
-        4: 0.78,
-        5: 1,
+        1: 1,
+        2: 0.72,
+        3: 0.45,
+        4: 0.22,
+        5: 0.1,
     };
 
     /** @type {number|null} */

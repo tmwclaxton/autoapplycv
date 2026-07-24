@@ -1,30 +1,33 @@
-export const DEFAULT_AUTO_APPLY_TIMING_LEVEL = 5;
+export const DEFAULT_AUTO_APPLY_TIMING_LEVEL = 1;
 export const MIN_AUTO_APPLY_TIMING_LEVEL = 1;
 export const MAX_AUTO_APPLY_TIMING_LEVEL = 5;
 export const ACTIVE_AUTO_APPLY_TIMING_STORAGE_KEY = 'autoApplyActiveTimingLevel';
 
+/** Level 1 = slow/careful (left), level 5 = fast (right). */
 const TIMING_LEVEL_MULTIPLIERS = {
-    1: 0.25,
-    2: 0.4,
-    3: 0.55,
-    4: 0.78,
-    5: 1,
+    1: 1,
+    2: 0.72,
+    3: 0.45,
+    4: 0.22,
+    5: 0.1,
 };
 
 const TIMING_LEVEL_LABELS = {
-    1: 'Speed',
-    2: 'Fast',
+    1: 'Careful timing',
+    2: 'Careful',
     3: 'Balanced',
-    4: 'Careful',
-    5: 'Careful timing',
+    4: 'Fast',
+    5: 'Speed',
 };
 
-const MIN_SCALED_DELAY_MS = 40;
+const MIN_SCALED_DELAY_MS = 20;
+const FASTEST_MULTIPLIER = TIMING_LEVEL_MULTIPLIERS[MAX_AUTO_APPLY_TIMING_LEVEL];
+const SLOWEST_MULTIPLIER = TIMING_LEVEL_MULTIPLIERS[MIN_AUTO_APPLY_TIMING_LEVEL];
 const SUBMIT_CONFIRMATION_TIMEOUT_MIN_MS = 45_000;
 const SUBMIT_CONFIRMATION_TIMEOUT_MAX_MS = 90_000;
-const SUBMIT_CONFIRMATION_POLL_BASE_MIN_MS = 800;
+const SUBMIT_CONFIRMATION_POLL_BASE_MIN_MS = 500;
 const SUBMIT_CONFIRMATION_POLL_BASE_MAX_MS = 2000;
-const SUBMIT_CONFIRMATION_POLL_SPREAD_MIN_MS = 400;
+const SUBMIT_CONFIRMATION_POLL_SPREAD_MIN_MS = 250;
 const SUBMIT_CONFIRMATION_POLL_SPREAD_MAX_MS = 1200;
 
 /**
@@ -57,7 +60,7 @@ export function resolveDelayMultiplier(level) {
  * @returns {string}
  */
 export function describeTimingLevel(level) {
-    return TIMING_LEVEL_LABELS[normalizeTimingLevel(level)] || TIMING_LEVEL_LABELS[5];
+    return TIMING_LEVEL_LABELS[normalizeTimingLevel(level)] || TIMING_LEVEL_LABELS[1];
 }
 
 /**
@@ -88,11 +91,27 @@ export function scaleDelayRange(minMs, maxMs, multiplier) {
 }
 
 /**
+ * Map multiplier onto 0 (fastest) .. 1 (slowest) for timeout interpolation.
+ *
+ * @param {number} multiplier
+ * @returns {number}
+ */
+function normalizeMultiplierProgress(multiplier) {
+    const span = SLOWEST_MULTIPLIER - FASTEST_MULTIPLIER;
+
+    if (span <= 0) {
+        return 1;
+    }
+
+    return Math.max(0, Math.min(1, (multiplier - FASTEST_MULTIPLIER) / span));
+}
+
+/**
  * @param {number} multiplier
  * @returns {number}
  */
 export function resolveSubmitConfirmationTimeoutMs(multiplier) {
-    const normalized = Math.max(0, Math.min(1, (multiplier - 0.25) / 0.75));
+    const normalized = normalizeMultiplierProgress(multiplier);
 
     return Math.round(
         SUBMIT_CONFIRMATION_TIMEOUT_MIN_MS
@@ -106,7 +125,7 @@ export function resolveSubmitConfirmationTimeoutMs(multiplier) {
  * @returns {{ base: number, spread: number }}
  */
 export function resolveSubmitConfirmationPollMs(multiplier) {
-    const normalized = Math.max(0, Math.min(1, (multiplier - 0.25) / 0.75));
+    const normalized = normalizeMultiplierProgress(multiplier);
 
     return {
         base: Math.round(
