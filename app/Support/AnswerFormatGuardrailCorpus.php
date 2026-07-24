@@ -212,6 +212,29 @@ class AnswerFormatGuardrailCorpus
             $question['max_chars'] = $scenario['max_chars'];
         }
 
+        foreach (['answer_shape', 'brevity'] as $key) {
+            if (isset($scenario[$key]) && is_string($scenario[$key]) && $scenario[$key] !== '') {
+                $question[$key] = $scenario[$key];
+            }
+        }
+
+        foreach (['max_words', 'min_words'] as $bound) {
+            if (isset($scenario[$bound]) && is_int($scenario[$bound])) {
+                $question[$bound] = $scenario[$bound];
+            }
+        }
+
+        if (isset($scenario['must_mention']) && is_array($scenario['must_mention']) && $scenario['must_mention'] !== []) {
+            $question['must_mention'] = array_values(array_filter(
+                $scenario['must_mention'],
+                static fn (mixed $needle): bool => is_string($needle) && $needle !== '',
+            ));
+        }
+
+        if (isset($scenario['format_repair_hint']) && is_string($scenario['format_repair_hint']) && $scenario['format_repair_hint'] !== '') {
+            $question['format_repair_hint'] = $scenario['format_repair_hint'];
+        }
+
         return $question;
     }
 }

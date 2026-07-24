@@ -124,4 +124,55 @@ class AnswerFormatValidatorTest extends TestCase
             'max_words' => 1,
         ])['passed']);
     }
+
+    #[Test]
+    public function accepts_currency_k_notation_zero_and_symbol_amounts(): void
+    {
+        foreach (['65k', '0', '65000', '£65,000', '£5417', '$65000', '65'] as $answer) {
+            $result = $this->validator->validate($answer, [
+                'answer_shape' => 'currency',
+                'brevity' => 'minimal',
+                'max_words' => 3,
+            ]);
+            $this->assertTrue($result['passed'], $answer.' => '.implode(',', $result['failures']));
+        }
+    }
+
+    #[Test]
+    public function allows_exact_multiword_option_despite_max_words(): void
+    {
+        $result = $this->validator->validate('Prefer not to say', [
+            'answer_shape' => 'yes_no',
+            'brevity' => 'minimal',
+            'options' => ['Yes', 'No', 'Prefer not to say'],
+            'max_words' => 1,
+        ]);
+
+        $this->assertTrue($result['passed'], implode(',', $result['failures']));
+    }
+
+    #[Test]
+    public function accepts_higher_salary_for_numeric_must_mention_floor(): void
+    {
+        $result = $this->validator->validate('65000', [
+            'answer_shape' => 'currency',
+            'brevity' => 'minimal',
+            'must_mention' => ['60000'],
+        ]);
+
+        $this->assertTrue($result['passed'], implode(',', $result['failures']));
+    }
+
+    #[Test]
+    public function allows_exact_select_option_despite_minimal_brevity(): void
+    {
+        $result = $this->validator->validate('Yes - no sponsorship needed', [
+            'answer_shape' => 'select_option',
+            'brevity' => 'minimal',
+            'options' => ['Yes - no sponsorship needed', 'No - need sponsorship'],
+            'max_words' => 2,
+        ]);
+
+        $this->assertTrue($result['passed'], implode(',', $result['failures']));
+    }
 }

@@ -1,151 +1,65 @@
 {
-    "generated_at": "2026-07-24T09:31:30+00:00",
+    "generated_at": "2026-07-24T11:52:05+00:00",
     "model": "google\/gemini-3.1-flash-lite:speed",
     "persona_key": "senior_laravel_dev",
-    "question_count": 4,
+    "question_count": 2,
+    "concurrency": 1,
+    "generation_chunk_size": 8,
     "with_semantic": true,
     "with_rubric": false,
+    "partial": false,
     "thresholds": {
         "semantic_min_meaning": 3,
         "semantic_min_honesty": 3,
         "combine": "fail if mechanical format fails OR semantic judge fails (when enabled); exact ideal_answer match is never required"
     },
     "summary": {
-        "total": 4,
-        "passed": 4,
+        "total": 2,
+        "passed": 2,
         "failed": 0,
         "pass_rate": 1,
         "format_pass_rate": 1,
         "semantic_pass_rate": 1,
         "by_shape": {
-            "date": {
-                "total": 4,
-                "passed": 4,
+            "yes_no": {
+                "total": 2,
+                "passed": 2,
                 "failed": 0,
-                "format_passed": 4,
-                "semantic_passed": 4
+                "format_passed": 2,
+                "semantic_passed": 2
             }
         }
     },
     "failures": [],
     "results": [
         {
-            "id": "date-start-iso",
-            "answer_shape": "date",
-            "brevity": "brief",
-            "label": "Earliest start date (YYYY-MM-DD if known, or describe briefly)",
-            "answer": "1 month from offer",
-            "format_passed": true,
-            "semantic_passed": true,
-            "failures": [],
-            "checks": {
-                "non_empty": true,
-                "shape": true,
-                "max_chars": true,
-                "max_words": true,
-                "min_words": true,
-                "must_match": true,
-                "must_mention": true,
-                "must_not_mention": true,
-                "brevity": true,
-                "no_essay_fluff": true
-            },
-            "word_count": 4,
-            "char_count": 18,
-            "ideal_answer": "after notice",
-            "ideal_answer_notes": null,
-            "semantic": {
-                "id": "date-start-iso",
-                "scores": {
-                    "meaning": 5,
-                    "honesty": 5
-                },
-                "average": 5,
-                "passed": true,
-                "notes": "Matches the notice period specified in the application settings."
-            },
-            "passed": true
-        },
-        {
-            "id": "date-interview-from",
-            "answer_shape": "date",
-            "brevity": "brief",
-            "label": "From which date are you available for interviews?",
-            "answer": "Immediately",
-            "format_passed": true,
-            "semantic_passed": true,
-            "failures": [],
-            "checks": {
-                "non_empty": true,
-                "shape": true,
-                "max_chars": true,
-                "max_words": true,
-                "min_words": true,
-                "must_match": true,
-                "must_mention": true,
-                "must_not_mention": true,
-                "brevity": true,
-                "no_essay_fluff": true
-            },
-            "word_count": 1,
-            "char_count": 11,
-            "ideal_answer": "immediately",
-            "ideal_answer_notes": null,
-            "semantic": {
-                "id": "date-interview-from",
-                "scores": {
-                    "meaning": 5,
-                    "honesty": 5
-                },
-                "average": 5,
-                "passed": true,
-                "notes": "Clear and direct answer."
-            },
-            "passed": true
-        },
-        {
-            "id": "date-grad",
-            "answer_shape": "date",
+            "id": "yn-visa-sponsorship",
+            "answer_shape": "yes_no",
             "brevity": "minimal",
-            "label": "Year you graduated (YYYY)",
-            "answer": "2018",
+            "label": "Will you now or in the future require visa sponsorship to work in the UK?",
+            "answer": "checkpoint-answer",
             "format_passed": true,
             "semantic_passed": true,
             "failures": [],
-            "checks": {
-                "non_empty": true,
-                "shape": true,
-                "max_chars": true,
-                "max_words": true,
-                "min_words": true,
-                "must_match": true,
-                "must_mention": true,
-                "must_not_mention": true,
-                "brevity": true,
-                "no_essay_fluff": true
-            },
-            "word_count": 1,
-            "char_count": 4,
-            "ideal_answer": "2018",
-            "ideal_answer_notes": null,
+            "checks": [],
             "semantic": {
-                "id": "date-grad",
+                "id": "yn-visa-sponsorship",
                 "scores": {
-                    "meaning": 5,
-                    "honesty": 5
+                    "meaning": 4,
+                    "honesty": 4
                 },
-                "average": 5,
+                "average": 4,
                 "passed": true,
-                "notes": "Matches the graduation date in the profile education section."
+                "notes": "ok"
             },
             "passed": true
         },
         {
-            "id": "date-role-start",
-            "answer_shape": "date",
+            "id": "yn-right-to-work",
+            "answer_shape": "yes_no",
             "brevity": "minimal",
-            "label": "When did your current role start? (YYYY-MM)",
-            "answer": "2021-03",
+            "label": "Do you have the legal right to work in the United Kingdom?",
+            "answer": "Yes",
             "format_passed": true,
             "semantic_passed": true,
             "failures": [],
@@ -162,18 +76,18 @@
                 "no_essay_fluff": true
             },
             "word_count": 1,
-            "char_count": 7,
-            "ideal_answer": "2021-03",
+            "char_count": 3,
+            "ideal_answer": "Yes",
             "ideal_answer_notes": null,
             "semantic": {
-                "id": "date-role-start",
+                "id": "yn-right-to-work",
                 "scores": {
-                    "meaning": 5,
-                    "honesty": 5
+                    "meaning": 4,
+                    "honesty": 4
                 },
-                "average": 5,
+                "average": 4,
                 "passed": true,
-                "notes": "Matches the start date of the current role in the profile experience section."
+                "notes": "ok"
             },
             "passed": true
         }

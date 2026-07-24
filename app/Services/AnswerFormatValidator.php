@@ -62,7 +62,8 @@ class AnswerFormatValidator
             'yes_no' => $this->matchesYesNo($answer, $options),
             'digit' => (bool) preg_match('/^\d+$/', $answer),
             'short_number' => (bool) preg_match('/^\d{1,7}(?:\.\d{1,2})?$/', $answer),
-            'one_liner' => ! str_contains($answer, "\n") && $this->wordCount($answer) <= 20,
+            'one_liner' => ! str_contains($answer, "\n")
+                && $this->wordCount($answer) <= (is_int($scenario['max_words'] ?? null) ? max(1, $scenario['max_words']) : 20),
             'short_paragraph' => $this->wordCount($answer) <= 120 && substr_count($answer, "\n") <= 4,
             'long_paragraph' => $this->wordCount($answer) >= 40 && $this->wordCount($answer) <= 350,
             'url' => $this->looksLikeUrl($answer),
@@ -162,8 +163,10 @@ class AnswerFormatValidator
 
     private function looksLikeCurrency(string $answer): bool
     {
-        return (bool) preg_match('/^£?\s*\$?\s*\d{2,3}(?:,\d{3})*(?:\.\d{2})?\s*(?:k|K)?$/', $answer)
-            || (bool) preg_match('/^\d{4,6}$/', $answer);
+        // Accept 0, plain digits, optional currency symbol, commas/decimals, and k-notation.
+        // Use /u so a leading pound sign does not break matching in UTF-8 source.
+        return (bool) preg_match('/^(?:£|\$|€)?\s*\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?\s*[kK]?$/u', $answer)
+            || (bool) preg_match('/^(?:£|\$|€)?\s*\d{1,7}(?:\.\d{1,2})?\s*[kK]?$/u', $answer);
     }
 
     private function looksLikeNoticePeriod(string $answer): bool
@@ -197,6 +200,12 @@ class AnswerFormatValidator
     private function passesMaxWords(string $answer, int $wordCount, array $scenario, array &$failures): bool
     {
         if ($answer === '' || ! isset($scenario['max_words']) || ! is_int($scenario['max_words'])) {
+            return true;
+        }
+
+        $options = is_array($scenario['options'] ?? null) ? $scenario['options'] : [];
+        // Exact option text may exceed max_words (e.g. "Prefer not to say").
+        if ($options !== [] && $this->matchesOption($answer, $options)) {
             return true;
         }
 
@@ -276,6 +285,20 @@ class AnswerFormatValidator
                 continue;
             }
 
+            // Salary floors: accepting 65000 also satisfies a must_mention of 60000.
+            if (
+                $needleDigits !== ''
+                && $answerDigits !== ''
+                && strlen($needleDigits) >= 4
+                && strlen($answerDigits) >= 4
+                && ctype_digit($needleDigits)
+                && ctype_digit($answerDigits)
+                && (int) $answerDigits >= (int) $needleDigits
+                && (int) $answerDigits <= (int) $needleDigits * 2
+            ) {
+                continue;
+            }
+
             $failures[] = 'must_mention:'.$needle;
 
             return false;
@@ -323,6 +346,11 @@ class AnswerFormatValidator
 
         $brevity = (string) ($scenario['brevity'] ?? 'brief');
         $shape = (string) ($scenario['answer_shape'] ?? '');
+
+        $options = is_array($scenario['options'] ?? null) ? $scenario['options'] : [];
+        if ($options !== [] && $this->matchesOption($answer, $options)) {
+            return true;
+        }
 
         $ok = match ($brevity) {
             'minimal' => $wordCount <= (in_array($shape, ['yes_no', 'digit', 'short_number', 'percent', 'currency', 'select_option'], true) ? 4 : 8),

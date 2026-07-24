@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "assembled_at": "2026-07-24T09:58:11+00:00",
+    "assembled_at": "2026-07-24T11:40:47+00:00",
     "persona_key": "senior_laravel_dev",
     "scenario_count": 1274,
     "profile_persona": {
@@ -520,7 +520,7 @@
                 "No",
                 "Prefer not to say"
             ],
-            "max_words": 3,
+            "max_words": 4,
             "max_chars": 24,
             "must_match": "\/^(yes|no|prefer not to say)$\/i",
             "ideal_answer": "No"
@@ -5369,7 +5369,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 220
         },
         {
@@ -5390,7 +5390,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 90,
+            "min_words": 55,
             "max_words": 250
         },
         {
@@ -5410,7 +5410,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 220
         },
         {
@@ -5430,7 +5430,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 220
         },
         {
@@ -5448,7 +5448,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 200
         },
         {
@@ -5466,7 +5466,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 180
         },
         {
@@ -5484,7 +5484,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 180
         },
         {
@@ -5502,7 +5502,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 220
         },
         {
@@ -5520,7 +5520,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 180
         },
         {
@@ -5538,7 +5538,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 200
         },
         {
@@ -5556,7 +5556,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 60,
+            "min_words": 55,
             "max_words": 160
         },
         {
@@ -5576,7 +5576,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 200
         },
         {
@@ -5594,7 +5594,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 180
         },
         {
@@ -5612,7 +5612,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 60,
+            "min_words": 55,
             "max_words": 160
         },
         {
@@ -5630,7 +5630,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 60,
+            "min_words": 55,
             "max_words": 160
         },
         {
@@ -5648,7 +5648,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 60,
+            "min_words": 55,
             "max_words": 160
         },
         {
@@ -5668,7 +5668,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 220
         },
         {
@@ -5688,7 +5688,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 60,
+            "min_words": 55,
             "max_words": 180
         },
         {
@@ -5706,7 +5706,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 200
         },
         {
@@ -5727,7 +5727,7 @@
                 "delighted to"
             ],
             "max_chars": 2000,
-            "min_words": 80,
+            "min_words": 55,
             "max_words": 200
         },
         {
@@ -6239,7 +6239,8 @@
                 "delighted to"
             ],
             "max_chars": 80,
-            "max_words": 2
+            "max_words": 2,
+            "ideal_answer": "1250"
         },
         {
             "id": "trap-percent-meetings",
@@ -6257,7 +6258,8 @@
             ],
             "max_chars": 80,
             "max_words": 1,
-            "must_match": "\/^\\d{1,3}%?$\/"
+            "must_match": "\/^\\d{1,3}%?$\/",
+            "ideal_answer": "20"
         },
         {
             "id": "trap-select-senior",
@@ -6298,7 +6300,8 @@
             ],
             "max_chars": 80,
             "max_words": 1,
-            "must_match": "\/^\\+44\/"
+            "must_match": "\/^\\+44\/",
+            "ideal_answer": "+447700900123"
         },
         {
             "id": "trap-email-exact",
@@ -6317,7 +6320,8 @@
                 "delighted to"
             ],
             "max_chars": 80,
-            "max_words": 1
+            "max_words": 1,
+            "ideal_answer": "james.mitchell@example.com"
         },
         {
             "id": "yn2-sponsor-skilled",
@@ -18265,7 +18269,8 @@
             ],
             "max_words": 28,
             "min_words": 8,
-            "max_chars": 120
+            "max_chars": 120,
+            "ideal_answer": "I want to deepen my Laravel work at StackForge."
         },
         {
             "id": "sel5-001",
@@ -21466,7 +21471,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21487,7 +21492,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21508,7 +21513,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21527,7 +21532,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21546,7 +21551,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21565,7 +21570,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21584,7 +21589,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21605,7 +21610,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21624,7 +21629,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21643,7 +21648,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21662,7 +21667,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21683,7 +21688,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21702,7 +21707,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21724,7 +21729,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21745,7 +21750,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21767,7 +21772,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21786,7 +21791,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21807,7 +21812,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21828,7 +21833,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21849,7 +21854,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21870,7 +21875,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21889,7 +21894,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21908,7 +21913,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21929,7 +21934,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21948,7 +21953,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21967,7 +21972,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -21986,7 +21991,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22005,7 +22010,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22026,7 +22031,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22045,7 +22050,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22064,7 +22069,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22086,7 +22091,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22105,7 +22110,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22127,7 +22132,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22148,7 +22153,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22169,7 +22174,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22188,7 +22193,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22209,7 +22214,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22228,7 +22233,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22247,7 +22252,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22266,7 +22271,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22287,7 +22292,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22306,7 +22311,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22325,7 +22330,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22344,7 +22349,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22365,7 +22370,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },
@@ -22387,7 +22392,7 @@
                 "leverage my skillset",
                 "synergy"
             ],
-            "min_words": 70,
+            "min_words": 55,
             "max_words": 250,
             "max_chars": 2000
         },

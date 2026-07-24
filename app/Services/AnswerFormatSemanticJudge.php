@@ -98,6 +98,11 @@ Rules:
 - If ideal_answer is present, treat it as a reference meaning, not a required verbatim string.
 - If answer is null/empty, score meaning 1 and honesty 3.
 - Fail (low meaning) when a yes/no is the opposite of what the profile implies, or when substance answers are generic fluff with no grounding.
+- Sensitive demographic / disability / veteran / ethnicity questions: "Prefer not to say" (or equivalent option) is acceptable meaning (>=3) even when ideal_answer is Yes/No.
+- Currency answers of 0 are acceptable when the question says to enter 0 if none / not applicable / not contracting.
+- Do not fail honesty solely because a short format-constrained answer omits employers that the shape cannot fit (yes_no, digit, currency, url, email, phone, one_liner).
+- Short answers like None, N/A, Prefer not to say, Present, or a bare skill/employer name score meaning >=3 when they fit the question.
+- application_settings.visa_sponsorship / legally_authorized reflect the candidate's primary work market (usually UK). Do NOT treat visa_sponsorship=no as proof they can work in the US/Canada/elsewhere without sponsorship. For other-country sponsorship questions, prefer ideal_answer/notes and the candidate location/citizenship facts.
 PROMPT;
 
         $response = $this->nanoGpt->chatJson([

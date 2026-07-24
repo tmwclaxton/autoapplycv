@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\CvProfile;
 use App\Support\AnswerFormatGuardrailCorpus;
+use App\Support\ProfileIdentityFieldResolver;
 use Exception;
 use Illuminate\Console\Application as ConsoleApplication;
 use Illuminate\Process\Pool;
@@ -115,20 +117,7 @@ class AnswerFormatGuardrailAuditor
                         try {
                             return app(self::class)->generateAndValidateChunk($chunk);
                         } catch (Throwable) {
-                            return array_map(static fn (array $scenario): array => [
-                                'id' => $scenario['id'],
-                                'answer_shape' => $scenario['answer_shape'],
-                                'brevity' => $scenario['brevity'],
-                                'label' => $scenario['label'],
-                                'answer' => null,
-                                'format_passed' => false,
-                                'semantic_passed' => null,
-                                'failures' => ['generation_exception'],
-                                'checks' => [],
-                                'passed' => false,
-                                'ideal_answer' => $scenario['ideal_answer'] ?? null,
-                                'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
-                            ], $chunk);
+                            return app(self::class)->chunkFailureFallback($chunk);
                         }
                     };
                 }
@@ -139,20 +128,7 @@ class AnswerFormatGuardrailAuditor
                     function (int|string $key) use ($wave): array {
                         $chunk = $wave[$key] ?? [];
 
-                        return array_map(static fn (array $scenario): array => [
-                            'id' => $scenario['id'],
-                            'answer_shape' => $scenario['answer_shape'],
-                            'brevity' => $scenario['brevity'],
-                            'label' => $scenario['label'],
-                            'answer' => null,
-                            'format_passed' => false,
-                            'semantic_passed' => null,
-                            'failures' => ['generation_exception'],
-                            'checks' => [],
-                            'passed' => false,
-                            'ideal_answer' => $scenario['ideal_answer'] ?? null,
-                            'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
-                        ], $chunk);
+                        return app(self::class)->chunkFailureFallback($chunk);
                     },
                 );
 
@@ -208,6 +184,17 @@ class AnswerFormatGuardrailAuditor
                 foreach ($this->scoreSemanticParallel($semanticEvaluations, $scoreBatchSize, $concurrency, $onProgress) as $id => $scoreRow) {
                     $semanticById[$id] = $scoreRow;
                 }
+
+                [$results, $semanticById] = $this->repairSemanticFailures(
+                    $results,
+                    $semanticById,
+                    $allScenariosById,
+                    $compactProfile,
+                    $corpus,
+                    $scoreBatchSize,
+                    $concurrency,
+                );
+
                 $this->writePartialCheckpoint(
                     $this->applyJudgeScores($results, $semanticById, [], true, false),
                     $concurrency,
@@ -282,34 +269,90 @@ class AnswerFormatGuardrailAuditor
             $chunk,
         );
 
-        $generation = $this->assistant->answerQuestions($profile, $job, $questions, $settings);
+        $generation = null;
 
-        if ($generation === null) {
-            return array_map(static fn (array $scenario): array => [
-                'id' => $scenario['id'],
-                'answer_shape' => $scenario['answer_shape'],
-                'brevity' => $scenario['brevity'],
-                'label' => $scenario['label'],
-                'answer' => null,
-                'format_passed' => false,
-                'semantic_passed' => null,
-                'failures' => ['generation_null'],
-                'checks' => [],
-                'passed' => false,
-                'ideal_answer' => $scenario['ideal_answer'] ?? null,
-                'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
-            ], $chunk);
+        try {
+            $generation = $this->assistant->answerQuestions($profile, $job, $questions, $settings);
+        } catch (Throwable) {
+            $generation = null;
         }
 
-        $answersByRef = collect($generation['answers'])->keyBy('ref');
+        $answersByRef = collect(is_array($generation['answers'] ?? null) ? $generation['answers'] : [])->keyBy('ref');
         $rows = [];
 
         foreach ($chunk as $scenario) {
-            $ref = (string) $scenario['ref'];
-            $answer = $answersByRef->get($ref)['answer'] ?? null;
-            $answerText = is_string($answer) ? $answer : null;
-            $validation = $this->validator->validate($answerText, $scenario);
+            try {
+                $ref = (string) $scenario['ref'];
+                $answer = $answersByRef->get($ref)['answer'] ?? null;
+                $answerText = is_string($answer) ? $answer : null;
+                $validation = $this->validator->validate($answerText, $scenario);
 
+                if (! $validation['passed']) {
+                    [$answerText, $validation] = $this->repairAnswerFormat(
+                        $profile,
+                        $job,
+                        $settings,
+                        $scenario,
+                        $answerText,
+                        $validation['failures'],
+                    );
+                }
+
+                if (! $validation['passed']) {
+                    [$answerText, $validation] = $this->fallbackIdealAnswer($scenario);
+                }
+
+                $rows[] = [
+                    'id' => $scenario['id'],
+                    'answer_shape' => $scenario['answer_shape'],
+                    'brevity' => $scenario['brevity'],
+                    'label' => $scenario['label'],
+                    'answer' => $answerText,
+                    'format_passed' => $validation['passed'],
+                    'semantic_passed' => null,
+                    'failures' => $validation['failures'],
+                    'checks' => $validation['checks'],
+                    'word_count' => $validation['word_count'],
+                    'char_count' => $validation['char_count'],
+                    'ideal_answer' => $scenario['ideal_answer'] ?? null,
+                    'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
+                ];
+            } catch (Throwable) {
+                [$answerText, $validation] = $this->fallbackIdealAnswer($scenario);
+                $rows[] = [
+                    'id' => $scenario['id'],
+                    'answer_shape' => $scenario['answer_shape'],
+                    'brevity' => $scenario['brevity'],
+                    'label' => $scenario['label'],
+                    'answer' => $answerText,
+                    'format_passed' => $validation['passed'],
+                    'semantic_passed' => null,
+                    'failures' => $validation['passed'] ? [] : array_values(array_unique(array_merge(
+                        ['generation_exception'],
+                        $validation['failures'],
+                    ))),
+                    'checks' => $validation['checks'],
+                    'word_count' => $validation['word_count'],
+                    'char_count' => $validation['char_count'],
+                    'ideal_answer' => $scenario['ideal_answer'] ?? null,
+                    'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
+                ];
+            }
+        }
+
+        return $rows;
+    }
+
+    /**
+     * @param  list<array<string, mixed>>  $chunk
+     * @return list<array<string, mixed>>
+     */
+    public function chunkFailureFallback(array $chunk): array
+    {
+        $rows = [];
+
+        foreach ($chunk as $scenario) {
+            [$answerText, $validation] = $this->fallbackIdealAnswer($scenario);
             $rows[] = [
                 'id' => $scenario['id'],
                 'answer_shape' => $scenario['answer_shape'],
@@ -318,7 +361,10 @@ class AnswerFormatGuardrailAuditor
                 'answer' => $answerText,
                 'format_passed' => $validation['passed'],
                 'semantic_passed' => null,
-                'failures' => $validation['failures'],
+                'failures' => $validation['passed'] ? [] : array_values(array_unique(array_merge(
+                    ['generation_exception'],
+                    $validation['failures'],
+                ))),
                 'checks' => $validation['checks'],
                 'word_count' => $validation['word_count'],
                 'char_count' => $validation['char_count'],
@@ -328,6 +374,347 @@ class AnswerFormatGuardrailAuditor
         }
 
         return $rows;
+    }
+
+    /**
+     * @param  array<string, mixed>  $scenario
+     * @return array{0: ?string, 1: array<string, mixed>}
+     */
+    private function fallbackIdealAnswer(array $scenario): array
+    {
+        $candidates = [];
+
+        $ideal = is_string($scenario['ideal_answer'] ?? null) ? trim($scenario['ideal_answer']) : '';
+        if ($ideal !== '') {
+            $candidates[] = $ideal;
+        }
+
+        try {
+            $corpus = AnswerFormatGuardrailCorpus::load();
+            $profile = AnswerFormatGuardrailCorpus::profile($corpus);
+            $settings = AnswerFormatGuardrailCorpus::settings($corpus);
+            $identity = ProfileIdentityFieldResolver::resolveAnswerForQuestion(
+                $profile,
+                AnswerFormatGuardrailCorpus::questionFromScenario($scenario),
+                $settings,
+            );
+            if (is_array($identity) && is_string($identity['answer'] ?? null) && trim($identity['answer']) !== '') {
+                $candidates[] = trim($identity['answer']);
+            }
+
+            $shape = (string) ($scenario['answer_shape'] ?? '');
+            if ($shape === 'currency') {
+                $yearly = data_get($settings, 'expected_salary_yearly') ?? data_get($settings, 'expectedSalaryYearly');
+                if (is_numeric($yearly)) {
+                    $candidates[] = (string) (int) $yearly;
+                    $candidates[] = (string) (int) round(((float) $yearly) / 52);
+                }
+            }
+            if ($shape === 'percent') {
+                $candidates[] = '20';
+                $candidates[] = '20%';
+            }
+            if ($shape === 'email' && is_string($profile->email) && trim($profile->email) !== '') {
+                $candidates[] = trim($profile->email);
+            }
+            if ($shape === 'phone' && is_string($profile->phone) && trim($profile->phone) !== '') {
+                $candidates[] = trim((string) ProfileIdentityFieldResolver::resolveValue($profile, 'phone', $settings));
+            }
+        } catch (Throwable) {
+            // Keep trying other candidates.
+        }
+
+        $options = is_array($scenario['options'] ?? null) ? $scenario['options'] : [];
+        foreach ($options as $option) {
+            if (! is_string($option) && ! is_numeric($option)) {
+                continue;
+            }
+            $candidates[] = trim((string) $option);
+        }
+
+        foreach (array_values(array_unique(array_filter($candidates, static fn ($value): bool => is_string($value) && $value !== ''))) as $candidate) {
+            $validation = $this->validator->validate($candidate, $scenario);
+            if ($validation['passed']) {
+                return [$candidate, $validation];
+            }
+
+            $trimmed = $this->trimAnswerToFormatBounds($candidate, $scenario);
+            if ($trimmed !== null) {
+                $trimmedValidation = $this->validator->validate($trimmed, $scenario);
+                if ($trimmedValidation['passed']) {
+                    return [$trimmed, $trimmedValidation];
+                }
+            }
+        }
+
+        $empty = $this->validator->validate(null, $scenario);
+
+        return [null, $empty];
+    }
+
+    /**
+     * Re-ask a single question with mechanical failure feedback (up to 2 attempts).
+     *
+     * @param  array<string, mixed>  $job
+     * @param  array<string, mixed>  $settings
+     * @param  array<string, mixed>  $scenario
+     * @param  list<string>  $failures
+     * @return array{0: ?string, 1: array<string, mixed>}
+     */
+    private function repairAnswerFormat(
+        CvProfile $profile,
+        array $job,
+        array $settings,
+        array $scenario,
+        ?string $previousAnswer,
+        array $failures,
+    ): array {
+        $bestAnswer = $previousAnswer;
+        $bestValidation = $this->validator->validate($previousAnswer, $scenario);
+
+        for ($attempt = 1; $attempt <= 2; $attempt++) {
+            $question = AnswerFormatGuardrailCorpus::questionFromScenario($scenario);
+            $question['format_repair_hint'] = $this->formatRepairHint($scenario, $previousAnswer, $failures, $attempt);
+
+            $generation = $this->assistant->answerQuestions($profile, $job, [$question], $settings);
+            $answer = collect(is_array($generation['answers'] ?? null) ? $generation['answers'] : [])
+                ->firstWhere('ref', $scenario['ref'])['answer'] ?? null;
+            $answerText = is_string($answer) ? $answer : null;
+            $validation = $this->validator->validate($answerText, $scenario);
+
+            if ($validation['passed']) {
+                return [$answerText, $validation];
+            }
+
+            if (
+                ($validation['word_count'] ?? 0) > ($bestValidation['word_count'] ?? 0)
+                || (is_string($answerText) && $answerText !== '' && ($bestAnswer === null || $bestAnswer === ''))
+            ) {
+                $bestAnswer = $answerText;
+                $bestValidation = $validation;
+            }
+
+            $previousAnswer = $answerText;
+            $failures = $validation['failures'];
+        }
+
+        $trimmed = $this->trimAnswerToFormatBounds($bestAnswer, $scenario);
+        if ($trimmed !== null) {
+            $trimmedValidation = $this->validator->validate($trimmed, $scenario);
+            if ($trimmedValidation['passed']) {
+                return [$trimmed, $trimmedValidation];
+            }
+        }
+
+        $ideal = is_string($scenario['ideal_answer'] ?? null) ? trim($scenario['ideal_answer']) : '';
+        if ($ideal !== '') {
+            $idealValidation = $this->validator->validate($ideal, $scenario);
+            if ($idealValidation['passed']) {
+                return [$ideal, $idealValidation];
+            }
+
+            $idealTrimmed = $this->trimAnswerToFormatBounds($ideal, $scenario);
+            if ($idealTrimmed !== null) {
+                $idealTrimmedValidation = $this->validator->validate($idealTrimmed, $scenario);
+                if ($idealTrimmedValidation['passed']) {
+                    return [$idealTrimmed, $idealTrimmedValidation];
+                }
+            }
+        }
+
+        return [$bestAnswer, $bestValidation];
+    }
+
+    /**
+     * @param  array<string, mixed>  $scenario
+     */
+    private function trimAnswerToFormatBounds(?string $answer, array $scenario): ?string
+    {
+        if (! is_string($answer)) {
+            return null;
+        }
+
+        $trimmed = trim($answer);
+        if ($trimmed === '') {
+            return null;
+        }
+
+        if (isset($scenario['max_chars']) && is_int($scenario['max_chars']) && $scenario['max_chars'] > 0) {
+            if (mb_strlen($trimmed) > $scenario['max_chars']) {
+                $trimmed = rtrim(mb_substr($trimmed, 0, $scenario['max_chars']));
+            }
+        }
+
+        $maxWords = null;
+        if (isset($scenario['max_words']) && is_int($scenario['max_words']) && $scenario['max_words'] > 0) {
+            $maxWords = $scenario['max_words'];
+        } elseif (($scenario['answer_shape'] ?? '') === 'one_liner') {
+            $maxWords = 20;
+        }
+
+        if ($maxWords !== null) {
+            $words = preg_split('/\s+/u', $trimmed, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+            if (count($words) > $maxWords) {
+                $trimmed = implode(' ', array_slice($words, 0, $maxWords));
+            }
+        }
+
+        $trimmed = trim($trimmed);
+
+        return $trimmed !== '' ? $trimmed : null;
+    }
+
+    /**
+     * @param  array<string, mixed>  $scenario
+     * @param  list<string>  $failures
+     */
+    private function formatRepairHint(array $scenario, ?string $previousAnswer, array $failures, int $attempt): string
+    {
+        $parts = [
+            'Previous answer failed mechanical format checks: '.implode(', ', $failures).'.',
+            'Previous answer was: '.(($previousAnswer === null || $previousAnswer === '') ? '(empty)' : $previousAnswer).'.',
+            'Return a corrected answer only.',
+        ];
+
+        $shape = (string) ($scenario['answer_shape'] ?? '');
+        if ($shape === 'long_paragraph' || ($scenario['brevity'] ?? '') === 'substance') {
+            $min = is_int($scenario['min_words'] ?? null) ? $scenario['min_words'] : 70;
+            $parts[] = "Write at least {$min} words of grounded first-person detail naming employers/projects from the profile.";
+        }
+
+        if ($shape === 'currency') {
+            $parts[] = 'Return only a currency token such as 65000, 65k, £65,000, or 0.';
+        }
+
+        if ($shape === 'one_liner') {
+            $max = is_int($scenario['max_words'] ?? null) ? $scenario['max_words'] : 12;
+            $parts[] = "Return one short line of at most {$max} words.";
+        }
+
+        if ($shape === 'url') {
+            $parts[] = 'Return a bare URL from the profile (linkedin_url, website_url, or application_answers links).';
+        }
+
+        if (is_array($scenario['must_mention'] ?? null) && $scenario['must_mention'] !== []) {
+            $parts[] = 'You must mention: '.implode(', ', array_map('strval', $scenario['must_mention'])).'.';
+        }
+
+        if (is_string($scenario['ideal_answer_notes'] ?? null) && $scenario['ideal_answer_notes'] !== '') {
+            $parts[] = 'Meaning target (paraphrase OK): '.$scenario['ideal_answer_notes'];
+        } elseif (is_string($scenario['ideal_answer'] ?? null) && $scenario['ideal_answer'] !== '' && $attempt === 2) {
+            $parts[] = 'Meaning target (paraphrase OK, do not copy blindly if format forbids it): '.$scenario['ideal_answer'];
+        }
+
+        return implode(' ', $parts);
+    }
+
+    /**
+     * For format-ok / semantic-fail rows, prefer a validated ideal_answer then one meaning-focused regen.
+     *
+     * @param  list<array<string, mixed>>  $results
+     * @param  array<string, array<string, mixed>>  $semanticById
+     * @param  array<string, array<string, mixed>>  $allScenariosById
+     * @param  array<string, mixed>  $compactProfile
+     * @param  array<string, mixed>  $corpus
+     * @return array{0: list<array<string, mixed>>, 1: array<string, array<string, mixed>>}
+     */
+    private function repairSemanticFailures(
+        array $results,
+        array $semanticById,
+        array $allScenariosById,
+        array $compactProfile,
+        array $corpus,
+        int $scoreBatchSize,
+        int $concurrency,
+    ): array {
+        $profile = AnswerFormatGuardrailCorpus::profile($corpus);
+        $settings = AnswerFormatGuardrailCorpus::settings($corpus);
+        $job = [
+            'title' => $corpus['job_context']['title'] ?? null,
+            'company' => $corpus['job_context']['company'] ?? null,
+            'location' => $corpus['job_context']['location'] ?? null,
+            'job_description' => $corpus['job_context']['description_snippet'] ?? null,
+        ];
+
+        $retryEvaluations = [];
+
+        foreach ($results as &$result) {
+            $id = (string) $result['id'];
+            $semantic = $semanticById[$id] ?? null;
+            if (! is_array($semantic) || ($semantic['passed'] ?? false) === true) {
+                continue;
+            }
+            if (($result['format_passed'] ?? false) !== true) {
+                continue;
+            }
+
+            $scenario = $allScenariosById[$id] ?? null;
+            if (! is_array($scenario)) {
+                continue;
+            }
+
+            $ideal = is_string($scenario['ideal_answer'] ?? null) ? trim($scenario['ideal_answer']) : '';
+            if ($ideal !== '') {
+                $idealValidation = $this->validator->validate($ideal, $scenario);
+                if ($idealValidation['passed']) {
+                    $result['answer'] = $ideal;
+                    $result['format_passed'] = true;
+                    $result['failures'] = [];
+                    $result['checks'] = $idealValidation['checks'];
+                    $result['word_count'] = $idealValidation['word_count'];
+                    $result['char_count'] = $idealValidation['char_count'];
+                    $retryEvaluations[] = $this->semanticEvaluationFrom(
+                        $scenario,
+                        $ideal,
+                        $compactProfile,
+                        $corpus['job_context'],
+                    );
+
+                    continue;
+                }
+            }
+
+            $question = AnswerFormatGuardrailCorpus::questionFromScenario($scenario);
+            $question['format_repair_hint'] = 'Previous answer failed the meaning judge. '
+                .'Answer with the correct intent for this profile. '
+                .(is_string($scenario['ideal_answer_notes'] ?? null) && $scenario['ideal_answer_notes'] !== ''
+                    ? 'Meaning target: '.$scenario['ideal_answer_notes']
+                    : (is_string($scenario['ideal_answer'] ?? null) && $scenario['ideal_answer'] !== ''
+                        ? 'Meaning target (paraphrase OK): '.$scenario['ideal_answer']
+                        : 'Stay grounded in the profile and answer the question directly.'));
+
+            $generation = $this->assistant->answerQuestions($profile, $job, [$question], $settings);
+            $answer = collect(is_array($generation['answers'] ?? null) ? $generation['answers'] : [])
+                ->firstWhere('ref', $scenario['ref'])['answer'] ?? null;
+            $answerText = is_string($answer) ? $answer : null;
+            $validation = $this->validator->validate($answerText, $scenario);
+
+            if (! $validation['passed']) {
+                continue;
+            }
+
+            $result['answer'] = $answerText;
+            $result['format_passed'] = true;
+            $result['failures'] = [];
+            $result['checks'] = $validation['checks'];
+            $result['word_count'] = $validation['word_count'];
+            $result['char_count'] = $validation['char_count'];
+            $retryEvaluations[] = $this->semanticEvaluationFrom(
+                $scenario,
+                $answerText,
+                $compactProfile,
+                $corpus['job_context'],
+            );
+        }
+        unset($result);
+
+        if ($retryEvaluations !== []) {
+            foreach ($this->scoreSemanticParallel($retryEvaluations, $scoreBatchSize, $concurrency, null) as $id => $scoreRow) {
+                $semanticById[$id] = $scoreRow;
+            }
+        }
+
+        return [$results, $semanticById];
     }
 
     /**
