@@ -134,7 +134,27 @@ class AnswerFormatGuardrailAuditor
                 }
 
                 /** @var array<int, list<array<string, mixed>>> $waveResults */
-                $waveResults = $this->runConcurrentTasks($tasks);
+                $waveResults = $this->runConcurrentTasks(
+                    $tasks,
+                    function (int|string $key) use ($wave): array {
+                        $chunk = $wave[$key] ?? [];
+
+                        return array_map(static fn (array $scenario): array => [
+                            'id' => $scenario['id'],
+                            'answer_shape' => $scenario['answer_shape'],
+                            'brevity' => $scenario['brevity'],
+                            'label' => $scenario['label'],
+                            'answer' => null,
+                            'format_passed' => false,
+                            'semantic_passed' => null,
+                            'failures' => ['generation_exception'],
+                            'checks' => [],
+                            'passed' => false,
+                            'ideal_answer' => $scenario['ideal_answer'] ?? null,
+                            'ideal_answer_notes' => $scenario['ideal_answer_notes'] ?? null,
+                        ], $chunk);
+                    },
+                );
 
                 ksort($waveResults);
 
@@ -240,7 +260,7 @@ class AnswerFormatGuardrailAuditor
 
     /**
      * Generate answers for a scenario chunk and run mechanical format validation.
-     * Invoked in child processes via Concurrency::run - resolve services from the container.
+     * Invoked in child processes via the process pool - resolve services from the container.
      *
      * @param  list<array<string, mixed>>  $chunk
      * @return list<array<string, mixed>>
@@ -384,7 +404,27 @@ class AnswerFormatGuardrailAuditor
             }
 
             /** @var array<int, array<string, array<string, mixed>>> $waveResults */
-            $waveResults = $this->runConcurrentTasks($tasks);
+            $waveResults = $this->runConcurrentTasks(
+                $tasks,
+                function (int|string $key) use ($wave): array {
+                    $batch = $wave[$key] ?? [];
+                    $failed = [];
+                    foreach ($batch as $evaluation) {
+                        $failed[$evaluation['id']] = [
+                            'id' => $evaluation['id'],
+                            'scores' => [
+                                'meaning' => 1,
+                                'honesty' => 1,
+                            ],
+                            'average' => 1.0,
+                            'passed' => false,
+                            'notes' => 'Semantic judge process failed.',
+                        ];
+                    }
+
+                    return $failed;
+                },
+            );
 
             foreach ($waveResults as $batchById) {
                 foreach ($batchById as $id => $scoreRow) {
@@ -431,7 +471,10 @@ class AnswerFormatGuardrailAuditor
             }
 
             /** @var array<int, array<string, array<string, mixed>>> $waveResults */
-            $waveResults = $this->runConcurrentTasks($tasks);
+            $waveResults = $this->runConcurrentTasks(
+                $tasks,
+                static fn (int|string $key): array => [],
+            );
 
             foreach ($waveResults as $batchById) {
                 foreach ($batchById as $id => $scoreRow) {
@@ -597,6 +640,102 @@ class AnswerFormatGuardrailAuditor
             'failures' => array_slice($failures, 0, 50),
             'results' => $results,
         ];
+    }
+
+    /**
+     * Run closures concurrently with a NanoGPT-friendly process timeout.
+     * Laravel's Concurrency process driver defaults to 60s, which is too low for chat completions.
+     * Failed child processes use $onTaskFailure when provided so one timeout does not abort the wave.
+     *
+     * @param  array<int|string, callable(): mixed>  $tasks
+     * @param  (callable(int|string): mixed)|null  $onTaskFailure
+     * @return array<int|string, mixed>
+     */
+    private function runConcurrentTasks(array $tasks, ?callable $onTaskFailure = null): array
+    {
+        if ($tasks === []) {
+            return [];
+        }
+
+        if (count($tasks) === 1 || config('concurrency.default') === 'sync') {
+            $results = [];
+            foreach ($tasks as $key => $task) {
+                $results[$key] = $task();
+            }
+
+            return $results;
+        }
+
+        $command = ConsoleApplication::formatCommandString('invoke-serialized-closure');
+        $timeout = self::PROCESS_TIMEOUT_SECONDS;
+
+        $processResults = Process::pool(function (Pool $pool) use ($tasks, $command, $timeout): void {
+            foreach ($tasks as $key => $task) {
+                $pool->as((string) $key)
+                    ->timeout($timeout)
+                    ->path(base_path())
+                    ->env([
+                        'LARAVEL_INVOKABLE_CLOSURE' => base64_encode(
+                            serialize(new SerializableClosure($task))
+                        ),
+                    ])
+                    ->command($command);
+            }
+        })->start()->wait();
+
+        $decoded = [];
+
+        // ProcessPoolResults is not iterable via bare foreach; collect() is required (same as ProcessDriver).
+        foreach ($processResults->collect() as $key => $result) {
+            $taskKey = is_numeric($key) ? (int) $key : $key;
+
+            if ($result->failed()) {
+                if ($onTaskFailure !== null) {
+                    $decoded[$taskKey] = $onTaskFailure($taskKey);
+
+                    continue;
+                }
+
+                throw new Exception(
+                    'Concurrent audit process failed with exit code ['.$result->exitCode()
+                    .']. Message: '.$result->errorOutput()
+                );
+            }
+
+            $output = $result->output();
+
+            if (($pos = strpos($output, "\x1f\x8b")) !== false) {
+                $output = substr($output, 0, $pos);
+            }
+
+            $payload = json_decode($output, true);
+
+            if (! is_array($payload) || ! ($payload['successful'] ?? false)) {
+                if ($onTaskFailure !== null) {
+                    $decoded[$taskKey] = $onTaskFailure($taskKey);
+
+                    continue;
+                }
+
+                $exceptionClass = is_array($payload) ? ($payload['exception'] ?? Exception::class) : Exception::class;
+                $message = is_array($payload) ? (string) ($payload['message'] ?? 'Concurrent task failed') : 'Concurrent task failed';
+                $parameters = is_array($payload) ? ($payload['parameters'] ?? []) : [];
+
+                if (is_string($exceptionClass) && class_exists($exceptionClass)) {
+                    throw new $exceptionClass(
+                        ...(! empty(array_filter((array) $parameters))
+                            ? (array) $parameters
+                            : [$message])
+                    );
+                }
+
+                throw new Exception($message);
+            }
+
+            $decoded[$taskKey] = unserialize($payload['result']);
+        }
+
+        return $decoded;
     }
 
     /**

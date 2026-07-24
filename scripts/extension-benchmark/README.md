@@ -158,7 +158,7 @@ npm run test:answer-format-guardrails
 
 Live NanoGPT generation + format + semantic judge (local/Sail only, not CI).
 
-The audit parallelizes NanoGPT calls with Laravel `Concurrency::run` (same pattern as Draft All routing corpus generation). Default `--concurrency=20` runs up to 20 API calls per wave (generation chunks of 8 scenarios; judge batches of `--batch`, default 6). Progress is checkpointed to `tests/fixtures/answer-format-guardrails/audit-checkpoint.json` (and mirrored into `latest-report.json`) so a killed run can resume without redoing finished scenarios.
+The audit parallelizes NanoGPT calls via a Process pool (300s per child; Laravel's default Concurrency driver times out at 60s). Default `--concurrency=20` runs up to 20 API calls per wave (generation chunks of 8 scenarios; judge batches of `--batch`, default 6). Progress is checkpointed to `tests/fixtures/answer-format-guardrails/audit-checkpoint.json` (and mirrored into `latest-report.json`) so a killed run can resume without redoing finished scenarios.
 
 ```bash
 # Smoke (~40 scenarios, 20 concurrent NanoGPT calls)
