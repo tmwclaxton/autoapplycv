@@ -9,19 +9,15 @@ import {
 } from '../../extension/src/shared/glassdoor-platform.js';
 
 describe('glassdoor-platform', () => {
-    it('buildGlassdoorJobSearchUrl includes role and location on UK host', () => {
+    it('buildGlassdoorJobSearchUrl opens a clean UK jobs landing page (no query-param search)', () => {
         const url = buildGlassdoorJobSearchUrl('software engineer', {
             filters: { location: 'London' },
         });
 
-        assert.match(url, /www\.glassdoor\.co\.uk/);
-        assert.match(url, /sc\.keyword0=software\+engineer/);
-        assert.match(url, /locKeyword=London/);
-        assert.match(url, /locT=C/);
-        assert.match(url, /applicationType=1/);
+        assert.equal(url, 'https://www.glassdoor.co.uk/Job/index.htm');
     });
 
-    it('buildGlassdoorJobSearchUrl uses .com for US locations and skips locT for country-only', () => {
+    it('buildGlassdoorJobSearchUrl uses .com for US locations', () => {
         const usUrl = buildGlassdoorJobSearchUrl('Scientist', {
             filters: { location: 'San Jose CA USA' },
         });
@@ -29,10 +25,8 @@ describe('glassdoor-platform', () => {
             filters: { location: 'United States' },
         });
 
-        assert.match(usUrl, /www\.glassdoor\.com/);
-        assert.match(usUrl, /locT=C/);
-        assert.match(countryUrl, /www\.glassdoor\.com/);
-        assert.equal(new URL(countryUrl).searchParams.get('locT'), null);
+        assert.equal(usUrl, 'https://www.glassdoor.com/Job/index.htm');
+        assert.equal(countryUrl, 'https://www.glassdoor.com/Job/index.htm');
     });
 
     it('buildGlassdoorJobSearchUrl honors explicit US market with empty location', () => {
@@ -40,7 +34,7 @@ describe('glassdoor-platform', () => {
             filters: { market: 'us' },
         });
 
-        assert.match(url, /www\.glassdoor\.com/);
+        assert.equal(url, 'https://www.glassdoor.com/Job/index.htm');
     });
 
     it('readGlassdoorJobIdFromHref parses jl and jobListingId query params', () => {
@@ -90,9 +84,25 @@ describe('glassdoor-platform', () => {
             urlsMatchGlassdoorSearch(
                 'https://www.glassdoor.co.uk/Job/united-kingdom-software-engineer-jobs-SRCH_IL.0,14_IN2_KO15,33.htm',
                 expected,
-                { location: 'United Kingdom' },
+                { location: 'United Kingdom', keyword: 'software engineer' },
             ),
             true,
+        );
+    });
+
+    it('urlsMatchGlassdoorSearch rejects query-param landings that Glassdoor ignores', () => {
+        const expected = buildGlassdoorJobSearchUrl('Scientist', {
+            filters: { location: 'San Jose CA USA' },
+        });
+        const current =
+            'https://www.glassdoor.com/Job/index.htm?sc.keyword0=Scientist&locKeyword=San+Jose+CA+USA';
+
+        assert.equal(
+            urlsMatchGlassdoorSearch(current, expected, {
+                location: 'San Jose CA USA',
+                keyword: 'Scientist',
+            }),
+            false,
         );
     });
 
@@ -101,21 +111,31 @@ describe('glassdoor-platform', () => {
             filters: { location: 'San Jose CA USA' },
         });
         const current =
-            'https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=Scientist&locKeyword=San+Jose+CA+USA';
+            'https://www.glassdoor.co.uk/Job/san-jose-scientist-jobs-SRCH_IL.0,8_IC1147434_KO9,18.htm';
 
         assert.equal(
             urlsMatchGlassdoorSearch(current, expected, {
                 location: 'San Jose CA USA',
+                keyword: 'Scientist',
             }),
             false,
         );
     });
 
-    it('urlsMatchGlassdoorSearch matches role and location across regional redirects', () => {
-        const expected = buildGlassdoorJobSearchUrl('data engineer', { filters: { location: 'Manchester' } });
-        const current = 'https://www.glassdoor.co.uk/Job/index.htm?sc.keyword0=data+engineer&locKeyword=Manchester';
+    it('urlsMatchGlassdoorSearch matches SEO results after form submit', () => {
+        const expected = buildGlassdoorJobSearchUrl('data engineer', {
+            filters: { location: 'Manchester' },
+        });
+        const current =
+            'https://www.glassdoor.co.uk/Job/manchester-data-engineer-jobs-SRCH_IL.0,10_IC123_KO11,24.htm';
 
-        assert.equal(urlsMatchGlassdoorSearch(current, expected, { location: 'Manchester' }), true);
+        assert.equal(
+            urlsMatchGlassdoorSearch(current, expected, {
+                location: 'Manchester',
+                keyword: 'data engineer',
+            }),
+            true,
+        );
         assert.match(expected, /www\.glassdoor\.co\.uk/);
     });
 });

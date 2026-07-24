@@ -212,9 +212,18 @@ const EASY_APPLY_MAX_STEPS = 10;
 const REED_EASY_APPLY_MAX_STEPS = 25;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
 function buildSessionSearchOptions(session) {
+    const baseFilters = session.filters || null;
+    const filters =
+        session.platform === GLASSDOOR_PLATFORM_ID
+            ? {
+                  ...(baseFilters || {}),
+                  keyword: session.roleDescription || null,
+              }
+            : baseFilters;
+
     return {
         easyApplyOnly: true,
-        filters: session.filters || null,
+        filters,
     };
 }
 
@@ -1882,7 +1891,11 @@ async function returnToGlassdoorSearch(tabId, session) {
 
         if (
             isGlassdoorJobsSearchUrl(currentUrl) &&
-            urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)
+            urlsMatchGlassdoorSearch(
+                currentUrl,
+                searchUrl,
+                buildSessionSearchOptions(session).filters,
+            )
         ) {
             const prepared = await sendGlassdoorMessage(
                 tabId,
@@ -8138,7 +8151,7 @@ async function ensureGlassdoorTab(session) {
                     !urlsMatchGlassdoorSearch(
                         currentUrl,
                         searchUrl,
-                        session.filters,
+                        buildSessionSearchOptions(session).filters,
                     );
 
                 if (!needsNavigation) {

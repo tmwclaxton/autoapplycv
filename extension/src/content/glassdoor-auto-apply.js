@@ -289,47 +289,208 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
         return true;
     }
 
-    async function fillAndSubmitJobSearch(keyword, location) {
-        const keywordInput =
-            document.querySelector('[data-test="keyword-search-input"]') ||
-            document.querySelector('#searchBar-jobTitle') ||
-            document.querySelector('#sc\\.keyword');
-        const locationInput =
-            document.querySelector('[data-test="location-search-input"]') ||
-            document.querySelector('#sc\\.location');
-        const searchButton = document.querySelector(
-            '[data-test="search-button"]',
-        );
+    function firstVisibleInput(selectors) {
+        for (const selector of selectors) {
+            const node = document.querySelector(selector);
 
-        if (
-            !(keywordInput instanceof HTMLInputElement) ||
-            !(searchButton instanceof HTMLElement)
-        ) {
+            if (node instanceof HTMLInputElement && isElementVisible(node)) {
+                return node;
+            }
+        }
+
+        for (const selector of selectors) {
+            const node = document.querySelector(selector);
+
+            if (node instanceof HTMLInputElement) {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    function readSearchKeywordInput() {
+        // Prefer the current Glassdoor SearchBar comboboxes over the older sc.keyword bar.
+        return firstVisibleInput([
+            '#searchBar-jobTitle',
+            'input[id*="searchBar-jobTitle"]',
+            'input[placeholder*="perfect job" i]',
+            'input[placeholder*="Find your perfect job" i]',
+            '[data-test="keyword-search-input"]',
+            '#sc\\.keyword',
+            'input[placeholder*="Job title" i]',
+            'input[aria-label*="Job title" i]',
+            'input[aria-label*="Keyword" i]',
+            'input[aria-label="Search"]',
+        ]);
+    }
+
+    function readSearchLocationInput() {
+        return firstVisibleInput([
+            '#searchBar-location',
+            'input[id*="searchBar-location"]',
+            'input[placeholder*="City, county" i]',
+            'input[placeholder*="region or remote" i]',
+            '[data-test="location-search-input"]',
+            '#sc\\.location',
+            'input[placeholder*="Location" i]',
+            'input[aria-label*="Location" i]',
+        ]);
+    }
+
+    function readSearchSubmitControl() {
+        const candidates = [
+            ...document.querySelectorAll(
+                'button, [role="button"], input[type="submit"]',
+            ),
+        ];
+
+        for (const node of candidates) {
+            if (!(node instanceof HTMLElement) || !isElementVisible(node)) {
+                continue;
+            }
+
+            const text = normalize(node.textContent);
+            const label = normalize(node.getAttribute('aria-label') || '');
+
+            if (
+                text === 'next' ||
+                text === 'search' ||
+                text === 'find jobs' ||
+                /^(search|find jobs|next)$/i.test(label)
+            ) {
+                return node;
+            }
+        }
+
+        return (
+            document.querySelector('[data-test="search-button"]') ||
+            document.querySelector('button[aria-label*="Search" i]') ||
+            document.querySelector('button[type="submit"]')
+        );
+    }
+
+    function pressEnterOnInput(input) {
+        if (!(input instanceof HTMLElement)) {
+            return;
+        }
+
+        const opts = {
+            key: 'Enter',
+            code: 'Enter',
+            keyCode: 13,
+            which: 13,
+            bubbles: true,
+            cancelable: true,
+        };
+
+        input.dispatchEvent(new KeyboardEvent('keydown', opts));
+        input.dispatchEvent(new KeyboardEvent('keypress', opts));
+        input.dispatchEvent(new KeyboardEvent('keyup', opts));
+    }
+
+    async function selectLocationSuggestion(locationInput, location) {
+        if (!(locationInput instanceof HTMLInputElement) || !location) {
+            return false;
+        }
+
+        const needle = normalize(location);
+        const deadline = Date.now() + 2500;
+
+        while (Date.now() < deadline) {
+            const options = [
+                ...document.querySelectorAll(
+                    '[role="option"], [data-test*="location"] li, ul[role="listbox"] li, .autocomplete-suggestion, [class*="Suggestion"]',
+                ),
+            ].filter((node) => node instanceof HTMLElement && isElementVisible(node));
+
+            for (const option of options) {
+                const text = normalize(option.textContent);
+
+                if (!text) {
+                    continue;
+                }
+
+                if (
+                    text.includes(needle) ||
+                    needle.includes(text) ||
+                    text.split(',').some((part) => needle.includes(part.trim()))
+                ) {
+                    await clickElement(option, { quick: true });
+                    await humanPause(200, 400);
+
+                    return true;
+                }
+            }
+
+            await humanPause(150, 250);
+        }
+
+        return false;
+    }
+
+    async function fillAndSubmitJobSearch(keyword, location) {
+        const keywordInput = readSearchKeywordInput();
+        const locationInput = readSearchLocationInput();
+        const searchButton = readSearchSubmitControl();
+
+        if (!(keywordInput instanceof HTMLInputElement)) {
             return { success: false, error: 'Glassdoor search form not found.' };
         }
 
         if (keyword) {
             keywordInput.focus();
+            keywordInput.click();
+            setNativeInputValue(keywordInput, '');
+            await humanPause(80, 140);
             setNativeInputValue(keywordInput, keyword);
-            await humanPause(200, 400);
+            keywordInput.dispatchEvent(
+                new InputEvent('input', { bubbles: true, data: keyword, inputType: 'insertText' }),
+            );
+            await humanPause(250, 450);
+            // Commit keyword autocomplete if Glassdoor shows one.
+            pressEnterOnInput(keywordInput);
+            await humanPause(200, 350);
         }
 
         if (location && locationInput instanceof HTMLInputElement) {
             locationInput.focus();
+            locationInput.click();
+            setNativeInputValue(locationInput, '');
+            await humanPause(80, 140);
             setNativeInputValue(locationInput, location);
-            await humanPause(200, 400);
+            locationInput.dispatchEvent(
+                new InputEvent('input', {
+                    bubbles: true,
+                    data: location,
+                    inputType: 'insertText',
+                }),
+            );
+            await humanPause(300, 500);
+            const picked = await selectLocationSuggestion(locationInput, location);
+
+            if (!picked) {
+                pressEnterOnInput(locationInput);
+                await humanPause(200, 350);
+            }
         }
 
-        await clickElement(searchButton, { quick: true });
-        await humanPause(1200, 2000);
+        if (searchButton instanceof HTMLElement && isElementVisible(searchButton)) {
+            await clickElement(searchButton, { quick: true });
+        } else {
+            const submitTarget =
+                locationInput instanceof HTMLInputElement
+                    ? locationInput
+                    : keywordInput;
+            pressEnterOnInput(submitTarget);
+        }
+
+        await humanPause(1600, 2400);
 
         return { success: true };
     }
 
     function evaluateSearchMatch(expectedKeyword, expectedLocation) {
-        const params = new URLSearchParams(window.location.search);
-        const currentKeyword = String(params.get('sc.keyword0') || '').trim();
-        const currentLocation = String(params.get('locKeyword') || '').trim();
         const path = String(window.location.pathname || '');
         const slug = (text) =>
             String(text || '')
@@ -346,39 +507,24 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
         const locationSlug = slug(expectedLocation);
         const pathSlug = slug(path);
         const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(path);
-        const queryKeywordMatched =
-            Boolean(keywordSlug) && slug(currentKeyword) === keywordSlug;
-        const queryLocationMatched =
-            !locationSlug || slug(currentLocation) === locationSlug;
 
-        // Query params already match even if Glassdoor keeps the Recommended title.
-        if (queryKeywordMatched && queryLocationMatched) {
-            return true;
-        }
-
+        // Query-param landings and Recommended feeds are not real searches.
         if (
-            /Recommended Jobs For You/i.test(document.title || '') &&
+            /Recommended Jobs For You/i.test(document.title || '') ||
             !seoSearch
         ) {
             return false;
         }
 
-        if (expectedKeyword) {
-            const keywordMatched =
-                queryKeywordMatched ||
-                (seoSearch && pathSlug.includes(keywordSlug));
-
-            if (!keywordMatched) {
-                return false;
-            }
+        if (expectedKeyword && !pathSlug.includes(keywordSlug)) {
+            return false;
         }
 
-        if (expectedLocation) {
-            const locationMatched =
-                queryLocationMatched ||
-                (seoSearch && pathSlug.includes(locationSlug));
+        if (expectedLocation && !pathSlug.includes(locationSlug)) {
+            // SEO slugs often use city-only (wycombe) while filters say "Wycombe, England".
+            const citySlug = slug(String(expectedLocation).split(',')[0] || '');
 
-            if (!locationMatched) {
+            if (!citySlug || !pathSlug.includes(citySlug)) {
                 return false;
             }
         }
@@ -398,22 +544,18 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
             expectedLocation,
         );
 
-        const cardCount = (
-            readJobSearchRoot() || document
-        ).querySelectorAll('[data-test="jobListing"]').length;
-
-        if (cardCount >= 3 && searchMatched) {
+        if (searchMatched) {
             return { success: true, skipped: true, searchMatched: true };
         }
 
-        if (!searchMatched && (expectedKeyword || expectedLocation)) {
+        if (expectedKeyword || expectedLocation) {
             const submitted = await fillAndSubmitJobSearch(
                 expectedKeyword,
                 expectedLocation,
             );
 
             if (submitted.success) {
-                const deadline = Date.now() + 12_000;
+                const deadline = Date.now() + 15_000;
 
                 while (Date.now() < deadline) {
                     searchMatched = evaluateSearchMatch(
@@ -436,9 +578,10 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
             return {
                 success: false,
                 searchMatched: false,
-                error: /countryRedirect=true/i.test(window.location.href)
-                    ? 'Glassdoor redirected this search to a regional recommended feed. Sign in with a US Glassdoor profile or clear the country redirect before Auto Apply.'
-                    : 'Glassdoor search results do not match the expected role or location.',
+                error: submitted.error
+                    || (/countryRedirect=true/i.test(window.location.href)
+                        ? 'Glassdoor redirected this search to a regional recommended feed. Sign in with a US Glassdoor profile or clear the country redirect before Auto Apply.'
+                        : 'Glassdoor search results do not match the expected role or location. The on-page search form did not produce a matching results URL.'),
             };
         }
 
