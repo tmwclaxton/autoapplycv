@@ -490,20 +490,32 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
         return null;
     }
 
-    function findSubmitButton() {
+    function isSubmitControlEnabled(button) {
+        if (!(button instanceof HTMLElement)) {
+            return false;
+        }
+
+        return !button.disabled && button.getAttribute('aria-disabled') !== 'true';
+    }
+
+    function findSubmitButton({ includeDisabled = false } = {}) {
         const scopes = [readApplyRoot(), document];
 
         for (const scope of scopes) {
             for (const testId of ['submit-button', 'submit-application-button', 'send-application-button']) {
                 const byTestId = scope.querySelector(`[data-testid="${testId}"]`);
 
-                if (byTestId instanceof HTMLElement && !byTestId.disabled) {
+                if (byTestId instanceof HTMLElement && (includeDisabled || isSubmitControlEnabled(byTestId))) {
                     return byTestId;
                 }
             }
 
             for (const button of scope.querySelectorAll('button, [role="button"]')) {
-                if (!(button instanceof HTMLElement) || button.disabled) {
+                if (!(button instanceof HTMLElement)) {
+                    continue;
+                }
+
+                if (!includeDisabled && !isSubmitControlEnabled(button)) {
                     continue;
                 }
 
@@ -517,6 +529,22 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
         }
 
         return null;
+    }
+
+    function isSmartApplyContactOrScreeningStep() {
+        const label = readStepLabel() || '';
+
+        if (/let'?s complete your application/i.test(label)) {
+            return true;
+        }
+
+        return Boolean(document.querySelector(
+            '[data-testid="input-firstName-text"], [name="firstName"], '
+            + '[data-testid="section--StandardDataInput--contactInfo"], '
+            + '[data-testid="section--ScreeningQuestions--screeningQuestions"], '
+            + '[data-genesis-element="SEGMENTED_CONTROL_CONTAINER"], '
+            + '[data-testid^="sqIndex"]',
+        ));
     }
 
     async function syncGenesisFormValidation() {
@@ -594,21 +622,28 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
             };
         }
 
-        const submitButton = findSubmitButton();
+        const submitButton = findSubmitButton({ includeDisabled: true });
+        const submitEnabled = isSubmitControlEnabled(submitButton);
         const continueButton = findContinueButton();
         const validationErrors = readValidationErrors();
         const label = readStepLabel();
-        const isReviewStep = /review|check your application|summary/i.test(label || '')
-            || (Boolean(submitButton) && !continueButton);
+        const reviewByLabel = /review|check your application|summary/i.test(label || '');
+        // Smart Apply contact/screening pages expose Send application without Continue.
+        // That is not a review step - Draft All must still answer screeners first.
+        const isReviewStep = reviewByLabel
+            || (Boolean(submitButton) && !continueButton && !isSmartApplyContactOrScreeningStep());
 
         return {
             open: true,
             submitted: false,
             canContinue: Boolean(continueButton) && !isReviewStep,
-            canSubmit: Boolean(submitButton) || isReviewStep,
+            canSubmit: submitEnabled,
             hasSubmitButton: Boolean(submitButton),
+            submitDisabled: Boolean(submitButton) && !submitEnabled,
             stepLabel: label,
-            actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
+            actionLabel: submitButton
+                ? normalize(submitButton.getAttribute('aria-label') || submitButton.textContent)
+                : (continueButton ? normalize(continueButton.textContent) : null),
             stepFingerprint: readStepFingerprint(),
             validationErrors,
             isReviewStep,

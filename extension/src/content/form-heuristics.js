@@ -5258,32 +5258,100 @@ var AutoCVApplyFormHeuristics = (() => {
         return normalize(group.getAttribute('aria-label') || '');
     }
 
+    function getTotaljobsGenesisSegmentedControlLabel(container) {
+        const doc = container?.ownerDocument || document;
+        const stripRequiredMarker = (text) => normalize(text).replace(/\s*\*+\s*$/, '');
+
+        const direct = getAccessibleLabel(doc, container) || getRadiogroupLabel(container);
+
+        if (direct.length >= 3) {
+            return stripRequiredMarker(direct);
+        }
+
+        let scope = container;
+
+        while (scope && scope !== doc.body) {
+            const accessible = getAccessibleLabel(doc, scope);
+
+            if (accessible.length >= 3) {
+                return stripRequiredMarker(accessible);
+            }
+
+            // Genesis places the question <label> before the role=group wrapper, not inside it.
+            let prev = scope.previousElementSibling;
+
+            while (prev) {
+                const labelEl = prev.matches?.('label')
+                    ? prev
+                    : prev.querySelector?.('label');
+                const text = labelEl ? stripRequiredMarker(labelEl.textContent || '') : '';
+
+                if (text.length >= 3) {
+                    return text;
+                }
+
+                prev = prev.previousElementSibling;
+            }
+
+            const parent = scope.parentElement;
+
+            if (parent) {
+                const labelEl = Array.from(parent.querySelectorAll('label')).find((label) => (
+                    !container.contains(label)
+                    && stripRequiredMarker(label.textContent || '').length >= 3
+                ));
+
+                if (labelEl) {
+                    return stripRequiredMarker(labelEl.textContent || '');
+                }
+            }
+
+            scope = scope.parentElement;
+        }
+
+        return '';
+    }
+
     function collectRoleRadioGroups(root) {
         const groups = [];
         const seen = new Set();
+        const seenRadios = new WeakSet();
+        const containers = [
+            ...root.querySelectorAll('[data-genesis-element="SEGMENTED_CONTROL_CONTAINER"]'),
+            ...root.querySelectorAll('[role="radiogroup"]'),
+            ...root.querySelectorAll('[role="group"]'),
+        ];
 
-        for (const group of root.querySelectorAll('[role="radiogroup"]')) {
+        for (const group of containers) {
             if (!isVisible(group)) {
                 continue;
             }
 
-            const radios = Array.from(group.querySelectorAll('[role="radio"]')).filter(isVisible);
+            const radios = Array.from(group.querySelectorAll('[role="radio"]')).filter((radio) => (
+                isVisible(radio) && !seenRadios.has(radio)
+            ));
 
             if (radios.length < 2) {
                 continue;
             }
 
+            const isGenesisSegmented = group.getAttribute('data-genesis-element') === 'SEGMENTED_CONTROL_CONTAINER'
+                || radios.some((radio) => /^sqIndex\d+-button-\d+$/i.test(radio.getAttribute('data-testid') || ''));
+            const label = isGenesisSegmented
+                ? getTotaljobsGenesisSegmentedControlLabel(group)
+                : getRadiogroupLabel(group);
             const key = group.id
                 || group.getAttribute('data-testid')
                 || group.getAttribute('name')
-                || `${getRadiogroupLabel(group)}:${radios.length}`;
+                || `${label}:${radios.length}`;
 
-            if (seen.has(key)) {
+            if (label.length < 3 || seen.has(key)) {
                 continue;
             }
 
             seen.add(key);
-            groups.push({ group, radios, label: getRadiogroupLabel(group) });
+            radios.forEach((radio) => seenRadios.add(radio));
+            groups.push({ group, radios, label });
         }
 
         return groups;
@@ -7747,8 +7815,65 @@ var AutoCVApplyFormHeuristics = (() => {
         return /^input-(firstName|lastName|email)-/i.test(testId);
     }
 
-    async function setTotaljobsGenesisFormInputValue(element, value) {
+    function isTotaljobsGenesisNameInput(element) {
+        if (!element) {
+            return false;
+        }
+
+        const testId = element.getAttribute?.('data-testid') || '';
+        const name = element.getAttribute?.('name') || element.name || '';
+
+        return /^input-(firstName|lastName)-/i.test(testId)
+            || /^(firstName|lastName)$/i.test(name);
+    }
+
+    function readTotaljobsGenesisEmailValue(doc = document) {
+        const emailInput = doc.querySelector('[data-testid="input-email-text"], input[name="email"]');
+
+        return String(emailInput?.value || '').trim();
+    }
+
+    function sanitizeTotaljobsGenesisFormInputValue(element, value) {
         const stringValue = String(value ?? '').trim();
+
+        if (!stringValue) {
+            return '';
+        }
+
+        if (!isTotaljobsGenesisNameInput(element) || !stringValue.includes('@')) {
+            return stringValue;
+        }
+
+        const doc = element.ownerDocument || document;
+        const emailValue = readTotaljobsGenesisEmailValue(doc);
+        let repaired = stringValue;
+
+        if (emailValue.includes('@') && stringValue.endsWith(emailValue)) {
+            repaired = stringValue.slice(0, stringValue.length - emailValue.length).trim();
+        } else if (emailValue.includes('@') && stringValue.includes(emailValue)) {
+            repaired = stringValue.split(emailValue).join('').trim();
+        } else if (stringValue === emailValue || /^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(stringValue)) {
+            repaired = '';
+        } else {
+            repaired = stringValue.replace(/\s*[^\s]*@[^\s]*/g, '').trim();
+        }
+
+        heuristicsLog('warn', 'apply.totaljobs', 'Rejected email-shaped value for Totaljobs name field', {
+            testId: element.getAttribute?.('data-testid') || null,
+            name: element.getAttribute?.('name') || element.name || null,
+            valuePreview: stringValue.slice(0, 80),
+            repairedPreview: repaired.slice(0, 80) || null,
+        });
+
+        return repaired;
+    }
+
+    async function setTotaljobsGenesisFormInputValue(element, value) {
+        if (!element || element.disabled || element.readOnly) {
+            return false;
+        }
+
+        const stringValue = sanitizeTotaljobsGenesisFormInputValue(element, value);
 
         if (!stringValue) {
             return false;
@@ -7756,6 +7881,15 @@ var AutoCVApplyFormHeuristics = (() => {
 
         element.focus();
         dispatchPointerClick(element);
+
+        // Always clear first. Genesis/React often ignores select()+insertText and appends
+        // into the previously focused name field (e.g. email into lastName).
+        setNativeValue(element, '');
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'deleteContentBackward',
+        }));
 
         let filled = false;
 
@@ -7771,7 +7905,7 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        if (!filled) {
+        if (!filled || !valueMatchesAnswer(element.value, stringValue)) {
             setNativeValue(element, '');
             element.dispatchEvent(new Event('input', { bubbles: true }));
             setNativeValue(element, stringValue);
@@ -7803,14 +7937,24 @@ var AutoCVApplyFormHeuristics = (() => {
         const inputs = root.querySelectorAll('[data-genesis-element="FORM_INPUT"]');
 
         for (const input of inputs) {
-            if (!(input instanceof HTMLInputElement)) {
+            if (!(input instanceof HTMLInputElement) || input.disabled || input.readOnly) {
                 continue;
             }
 
-            const value = String(input.value || '').trim();
+            let value = String(input.value || '').trim();
 
             if (!value) {
                 continue;
+            }
+
+            if (isTotaljobsGenesisNameInput(input) && value.includes('@')) {
+                value = sanitizeTotaljobsGenesisFormInputValue(input, value);
+
+                if (!value) {
+                    setNativeValue(input, '');
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    continue;
+                }
             }
 
             if (isTotaljobsGenesisPhoneInput(input)) {
