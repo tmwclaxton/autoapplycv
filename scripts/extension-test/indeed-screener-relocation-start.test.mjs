@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import {
     isAvailabilityQuestionLabel,
     isOnSiteCommuteQuestionLabel,
@@ -13,6 +12,7 @@ import {
     shouldPromptUserForField,
     shouldPromptUserForMissingDraftAnswer,
 } from '../../extension/src/shared/pending-fields.js';
+import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 
 const htmlPath = 'tests/fixtures/form-extraction/html/web-indeed-apply-screener-relocation-start-001.html';
 const html = readFileSync(htmlPath, 'utf8');
