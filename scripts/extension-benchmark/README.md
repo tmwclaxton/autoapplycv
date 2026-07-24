@@ -156,18 +156,33 @@ npm run test:answer-format-guardrails:build
 npm run test:answer-format-guardrails
 ```
 
-Live NanoGPT generation + format + semantic judge (local/Sail only, not CI):
+Live NanoGPT generation + format + semantic judge (local/Sail only, not CI).
+
+The audit parallelizes NanoGPT calls with Laravel `Concurrency::run` (same pattern as Draft All routing corpus generation). Default `--concurrency=20` runs up to 20 API calls per wave (generation chunks of 8 scenarios; judge batches of `--batch`, default 6). Progress is checkpointed to `tests/fixtures/answer-format-guardrails/audit-checkpoint.json` (and mirrored into `latest-report.json`) so a killed run can resume without redoing finished scenarios.
 
 ```bash
+# Smoke (~40 scenarios, 20 concurrent NanoGPT calls)
+NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --limit=40 --concurrency=20
+
+# Stratified / filtered samples
 NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --per-shape=6
 NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --limit=50
 NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --shape=yes_no --limit=40
 NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --skip-semantic --per-shape=5
 NANOGPT_LIVE_TESTS=1 php artisan answer-format-guardrails:audit --with-rubric --per-shape=2
+
+# Full corpus (~1274). Prefer Sail if your host PHP lacks the API key wiring:
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan answer-format-guardrails:audit --concurrency=20 --fail
+
+# Resume after interrupt (skips scenarios already present with format_passed)
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan answer-format-guardrails:audit --concurrency=20 --resume --fail
+
 NANOGPT_LIVE_TESTS=1 ANSWER_FORMAT_GUARDRAIL_LIMIT=8 php artisan test --compact --filter=AnswerFormatGuardrailNanoGptTest
 ```
 
-Report: `tests/fixtures/answer-format-guardrails/latest-report.json` (combined / format / semantic pass rates, by-shape breakdown, sample failures, documented thresholds).
+Report: `tests/fixtures/answer-format-guardrails/latest-report.json` (combined / format / semantic pass rates, by-shape breakdown, sample failures, documented thresholds). Partial runs also write `audit-checkpoint.json`.
+
+Note: form-corpus fill-verify / Playwright tiers are a separate slow path (`npm run form-corpus:fill-verify:*`) and are not parallelized by this command.
 
 ## Form fixture E2E + scoring (150 forms)
 

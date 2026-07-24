@@ -6,7 +6,6 @@ use App\Services\AnswerFormatGuardrailAuditor;
 use App\Services\AnswerFormatSemanticJudge;
 use App\Support\AnswerFormatGuardrailCorpus;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class AnswerFormatGuardrailAuditCommand extends Command
 {
@@ -16,7 +15,9 @@ class AnswerFormatGuardrailAuditCommand extends Command
                             {--per-shape= : Stratified sample: N scenarios per answer_shape}
                             {--skip-semantic : Skip NanoGPT semantic judge (mechanical format only)}
                             {--with-rubric : Also run full AnswerQualityScorer rubric}
-                            {--batch=6 : Judge batch size}
+                            {--batch=6 : Judge batch size (scenarios per semantic/rubric NanoGPT call)}
+                            {--concurrency=20 : Max concurrent NanoGPT calls per wave (generation chunks of 8)}
+                            {--resume : Continue from audit-checkpoint.json / latest-report.json results}
                             {--fail : Exit non-zero when any combined check fails}';
 
     protected $description = 'Generate answers with NanoGPT; validate mechanical format + semantic meaning guardrails';
@@ -38,6 +39,8 @@ class AnswerFormatGuardrailAuditCommand extends Command
         $withSemantic = ! (bool) $this->option('skip-semantic');
         $withRubric = (bool) $this->option('with-rubric');
         $batch = max(1, (int) ($this->option('batch') ?: 6));
+        $concurrency = max(1, min(40, (int) ($this->option('concurrency') ?: AnswerFormatGuardrailAuditor::DEFAULT_CONCURRENCY)));
+        $resume = (bool) $this->option('resume');
 
         $this->info('Running answer format guardrail audit'
             .($perShape ? " (per-shape {$perShape})" : '')
@@ -45,6 +48,8 @@ class AnswerFormatGuardrailAuditCommand extends Command
             .($shape ? " (shape {$shape})" : '')
             .($withSemantic ? ' + semantic judge' : ' format-only')
             .($withRubric ? ' + rubric' : '')
+            ." concurrency={$concurrency}"
+            .($resume ? ' resume' : '')
             .'...');
         $this->line('Model: '.config('cv.extraction_model'));
         $this->line(sprintf(
@@ -52,16 +57,36 @@ class AnswerFormatGuardrailAuditCommand extends Command
             AnswerFormatSemanticJudge::MIN_MEANING,
             AnswerFormatSemanticJudge::MIN_HONESTY,
         ));
+        $this->line(sprintf(
+            'Parallelism: up to %d NanoGPT calls/wave (generation chunk=%d, judge batch=%d)',
+            $concurrency,
+            AnswerFormatGuardrailAuditor::GENERATION_CHUNK_SIZE,
+            $batch,
+        ));
+        if ($resume) {
+            $this->line('Resume: skipping scenarios already present in checkpoint/report with format_passed.');
+        }
 
-        $report = $auditor->run($limit, $withSemantic, $withRubric, $batch, $shape, $perShape);
+        $report = $auditor->run(
+            limit: $limit,
+            withSemantic: $withSemantic,
+            withRubric: $withRubric,
+            scoreBatchSize: $batch,
+            shapeFilter: $shape,
+            perShape: $perShape,
+            concurrency: $concurrency,
+            resume: $resume,
+            onProgress: function (string $phase, int $done, int $total): void {
+                $this->line(sprintf('  [%s] %d/%d waves', $phase, $done, $total));
+            },
+        );
+
         $reportPath = base_path(AnswerFormatGuardrailCorpus::REPORT_PATH);
-        File::ensureDirectoryExists(dirname($reportPath));
-        file_put_contents($reportPath, json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)."\n");
-
         $summary = $report['summary'];
         $this->newLine();
         $this->table(['Metric', 'Value'], [
             ['Questions', (string) ($summary['total'] ?? 0)],
+            ['Concurrency', (string) ($report['concurrency'] ?? $concurrency)],
             ['Combined passed', (string) ($summary['passed'] ?? 0)],
             ['Combined failed', (string) ($summary['failed'] ?? 0)],
             ['Combined pass rate', (string) ((($summary['pass_rate'] ?? 0) * 100)).'%'],

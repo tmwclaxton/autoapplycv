@@ -32,6 +32,7 @@ class AnswerFormatGuardrailNanoGptTest extends TestCase
             withRubric: false,
             scoreBatchSize: 4,
             perShape: 1,
+            concurrency: 4,
         );
         $summary = $report['summary'];
 

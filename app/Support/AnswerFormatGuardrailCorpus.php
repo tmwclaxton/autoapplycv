@@ -11,6 +11,8 @@ class AnswerFormatGuardrailCorpus
 
     public const REPORT_PATH = 'tests/fixtures/answer-format-guardrails/latest-report.json';
 
+    public const CHECKPOINT_PATH = 'tests/fixtures/answer-format-guardrails/audit-checkpoint.json';
+
     public const PERSONA_KEY = 'senior_laravel_dev';
 
     public const MIN_SCENARIOS = 1000;
