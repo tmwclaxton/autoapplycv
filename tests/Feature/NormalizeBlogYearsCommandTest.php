@@ -29,22 +29,45 @@ class NormalizeBlogYearsCommandTest extends TestCase
         $this->assertTrue(BlogYearNormalizer::titleNeedsNormalization('Guide for 2023', 2026));
     }
 
-    public function test_command_updates_titles_not_slug_excerpt_or_body(): void
+    public function test_content_normalizer_rewrites_marketing_years_not_history(): void
+    {
+        $this->assertSame(
+            "Guide for 2026\n\nWe founded the company in 2019 and shipped in 2023.",
+            BlogYearNormalizer::normalizeContent(
+                "Guide for 2024\n\nWe founded the company in 2019 and shipped in 2023.",
+                2026,
+            ),
+        );
+        $this->assertSame(
+            'Tips for 2026 and late 2026 hiring.',
+            BlogYearNormalizer::normalizeContent('Tips for 2024 and late 2025 hiring.', 2026),
+        );
+        $this->assertSame(
+            'Already mentions 2026 only.',
+            BlogYearNormalizer::normalizeContent('Already mentions 2026 only.', 2026),
+        );
+        $this->assertFalse(BlogYearNormalizer::contentNeedsNormalization('Founded in 2019', 2026));
+        $this->assertTrue(BlogYearNormalizer::contentNeedsNormalization('Written in 2025', 2026));
+    }
+
+    public function test_command_updates_title_body_and_excerpt_not_slug(): void
     {
         $blog = Blog::factory()->create([
             'title' => 'Workday Autofill Guide (2025)',
             'slug' => 'workday-autofill-guide-2025',
-            'excerpt' => 'Written in 2025 for job seekers.',
-            'body' => "## Intro\n\nWe launched features in 2024 and 2025.",
+            'excerpt' => 'Written in 2025 for job seekers. Founded 2019.',
+            'body' => "## Intro\n\nWe launched features in 2024 and 2025. Legacy note: 2019 founding.",
         ]);
 
         $unchanged = Blog::factory()->create([
             'title' => 'Already fresh (2026)',
             'slug' => 'already-fresh-2026',
+            'excerpt' => 'All set for 2026.',
+            'body' => 'No stale years here; founded 2019.',
         ]);
 
         $this->artisan('blog:normalize-years', ['--to' => 2026])
-            ->expectsOutputToContain('Updated 1 title(s)')
+            ->expectsOutputToContain('Updated 1 post(s): 1 title(s), 1 body(ies), 1 excerpt(s)')
             ->assertSuccessful();
 
         $blog->refresh();
@@ -52,9 +75,32 @@ class NormalizeBlogYearsCommandTest extends TestCase
 
         $this->assertSame('Workday Autofill Guide (2026)', $blog->title);
         $this->assertSame('workday-autofill-guide-2025', $blog->slug);
-        $this->assertSame('Written in 2025 for job seekers.', $blog->excerpt);
-        $this->assertSame("## Intro\n\nWe launched features in 2024 and 2025.", $blog->body);
+        $this->assertSame('Written in 2026 for job seekers. Founded 2019.', $blog->excerpt);
+        $this->assertSame(
+            "## Intro\n\nWe launched features in 2026 and 2026. Legacy note: 2019 founding.",
+            $blog->body,
+        );
         $this->assertSame('Already fresh (2026)', $unchanged->title);
+        $this->assertSame('All set for 2026.', $unchanged->excerpt);
+        $this->assertSame('No stale years here; founded 2019.', $unchanged->body);
+    }
+
+    public function test_command_updates_body_when_title_already_current(): void
+    {
+        $blog = Blog::factory()->create([
+            'title' => 'Fresh title (2026)',
+            'slug' => 'fresh-title-2026',
+            'excerpt' => 'Excerpt without years.',
+            'body' => 'Still mentions the 2024 market and 2025 tools.',
+        ]);
+
+        $this->artisan('blog:normalize-years', ['--to' => 2026])
+            ->expectsOutputToContain('Updated 1 post(s): 0 title(s), 1 body(ies), 0 excerpt(s)')
+            ->assertSuccessful();
+
+        $blog->refresh();
+        $this->assertSame('Fresh title (2026)', $blog->title);
+        $this->assertSame('Still mentions the 2026 market and 2026 tools.', $blog->body);
     }
 
     public function test_dry_run_does_not_write(): void
@@ -62,14 +108,16 @@ class NormalizeBlogYearsCommandTest extends TestCase
         $blog = Blog::factory()->create([
             'title' => 'Indeed Auto Apply (2024)',
             'slug' => 'indeed-auto-apply-2024',
+            'body' => 'Updated for 2025 seekers.',
         ]);
 
         $this->artisan('blog:normalize-years', ['--to' => 2026, '--dry-run' => true])
-            ->expectsOutputToContain('Would update 1 title(s)')
+            ->expectsOutputToContain('Would update 1 post(s)')
             ->assertSuccessful();
 
         $blog->refresh();
         $this->assertSame('Indeed Auto Apply (2024)', $blog->title);
+        $this->assertSame('Updated for 2025 seekers.', $blog->body);
     }
 
     public function test_slug_option_limits_scope(): void
