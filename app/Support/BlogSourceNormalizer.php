@@ -166,6 +166,7 @@ final class BlogSourceNormalizer
         $text = (string) preg_replace('/^\s*[-*+]\s+/m', '', $text);
         $text = (string) preg_replace('/^\s*\d+\.\s+/m', '', $text);
         $text = (string) preg_replace('/!?\[|\]|\(\s*$/', ' ', $text);
+        $text = str_replace('\\', ' ', $text);
 
         // HTML tags that sometimes leak into scrape snippets
         $text = strip_tags($text);
