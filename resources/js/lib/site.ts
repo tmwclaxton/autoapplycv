@@ -279,6 +279,9 @@ export const SETUP_STEPS = [
 
 export const MARKETING_NAV_LINKS = [
     { label: 'Blog', route: 'blog' },
+    { label: 'Glossary', route: 'glossary' },
+    { label: 'FAQ', route: 'faq' },
+    { label: 'ATS Checker', route: 'tools.ats-score-checker' },
     { label: 'How to', route: 'how-to' },
     { label: 'Pricing', route: 'pricing' },
     { label: 'Analytics', route: 'analytics' },

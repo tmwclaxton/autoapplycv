@@ -76,9 +76,37 @@ return [
             'massapply.com',
             'applyall.com',
             'tealdohr.com',
+            'tealhq.com',
             'aiapply.co',
             'easy-apply-automater.com',
+            'autoapplymax.com',
+            'easyapplymax.com',
+            'applyglide.com',
+            'huntr.co',
+            'usemassive.com',
+            'massivjobs.com',
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Competitor topic import (inspiration only - never republish their copy)
+    |--------------------------------------------------------------------------
+    |
+    | Run order:
+    | 1. php artisan blog:import-competitor-topics --limit=10 --skip-image
+    | 2. Spot-check 2-3 drafts (title variety, length, no competitor brand, honesty)
+    | 3. php artisan blog:publish --limit=10
+    | 4. php artisan blog:expand-published --skip-image  (once for the six live posts)
+    | 5. Weekly schedule: blog:generate --length=long
+    |
+    */
+    'import' => [
+        'sitemap_url' => 'https://www.autoapplymax.com/sitemap.xml',
+        'manifest_disk' => 'local',
+        'manifest_path' => 'blog-imports/autoapplymax-manifest.json',
+        'scrape_max_markdown_chars' => 24000,
+        'default_length' => 'pillar',
     ],
 
     /*
@@ -86,14 +114,15 @@ return [
     | SEO keyword strategy (weekly blog:generate)
     |--------------------------------------------------------------------------
     |
-    | Stable product defaults for AutoCVApply content targeting. Each generated
-    | post picks one cluster (weighted), then 2-4 supporting keywords from that
-    | cluster. Avoids clusters already reflected in recent titles/tags when possible.
+    | Search-intent pillars (AutoApplyMax-style): titles earn the Google click;
+    | AutoCVApply appears in body/CTA, not jammed into every title.
     |
     */
     'seo' => [
 
         'supporting_keywords_per_post' => [2, 4],
+
+        'default_generate_length' => 'long',
 
         'brand_terms' => [
             'AutoCVApply',
@@ -103,20 +132,17 @@ return [
         ],
 
         'primary_keywords' => [
-            'what is AutoCVApply',
-            'autofill job applications',
+            'how to auto apply on LinkedIn',
             'auto apply jobs chrome extension',
-            'LinkedIn Easy Apply chrome extension',
-            'Indeed Apply autofill',
-            'CV autofill chrome extension',
-            'autofill job application forms',
-            'Draft All job applications',
-            'Workday application autofill',
+            'autofill job applications',
+            'LinkedIn Easy Apply',
+            'Indeed Apply UK',
+            'Workday application form',
+            'ATS resume tips',
+            'job application burnout',
+            'best autofill chrome extension',
         ],
 
-        /*
-         * Reject topic/title drafts that fall into this generic marketing mush.
-         */
         'banned_title_phrases' => [
             'save time and reduce errors',
             'save time and cut errors',
@@ -142,58 +168,48 @@ return [
             'safe smart and puts you in control',
         ],
 
-        /*
-         * Rotate title shapes so the blog index does not read as one template.
-         * blog:generate picks one style that recent titles have not used.
-         */
         'title_styles' => [
             [
-                'id' => 'feature-first',
-                'label' => 'Feature-first',
-                'hint' => 'Lead with AutoFill, Draft All, Auto Apply, or CV parsing - not "Beginner\'s Guide".',
-                'example' => 'Draft All for Easy Apply screening questions (then you review)',
+                'id' => 'query-led',
+                'label' => 'Search-query led',
+                'hint' => 'Write the title as a Google query people type. Year stamp (2026) is fine. Brand optional / rare.',
+                'example' => 'How to Auto Apply on LinkedIn Easy Apply (2026)',
+            ],
+            [
+                'id' => 'comparison',
+                'label' => 'Comparison',
+                'hint' => 'X vs Y or "Best … for …" roundups. Stay honest; do not invent competitor features.',
+                'example' => 'Indeed Apply vs LinkedIn Easy Apply for UK job seekers',
+            ],
+            [
+                'id' => 'numbered-specific',
+                'label' => 'Numbered and specific',
+                'hint' => 'Number + concrete object (tools, mistakes, boards) - not vague "ways to save time".',
+                'example' => '7 autofill Chrome extensions for job applications (2026)',
+            ],
+            [
+                'id' => 'situation-hook',
+                'label' => 'Situation hook',
+                'hint' => 'Lead with the reader problem, then the useful answer. Parenthetical hooks are fine.',
+                'example' => 'Job application burnout: when volume stops working',
             ],
             [
                 'id' => 'board-or-ats',
                 'label' => 'Board or ATS first',
                 'hint' => 'Lead with LinkedIn, Indeed, Workday, Greenhouse, or another real platform.',
-                'example' => 'LinkedIn Easy Apply from the Auto Apply sidebar',
-            ],
-            [
-                'id' => 'workflow',
-                'label' => 'Concrete workflow',
-                'hint' => 'Describe the steps or outcome of the workflow without benefit slogans.',
-                'example' => 'Upload a CV once, then AutoFill employer career-site forms',
+                'example' => 'Workday application forms: how to stop retyping your CV',
             ],
             [
                 'id' => 'question',
                 'label' => 'Reader question',
                 'hint' => 'Frame as a real question a job seeker would type into Google.',
-                'example' => 'Can you Auto Apply on Indeed and still review every answer?',
+                'example' => 'What is an ATS and why does it reject CVs?',
             ],
             [
-                'id' => 'contrast',
-                'label' => 'Contrast',
-                'hint' => 'Contrast two modes (board Auto Apply vs ATS user-submit) or myth vs reality.',
-                'example' => 'Auto Apply on LinkedIn vs AutoFill on Workday: who clicks Submit?',
-            ],
-            [
-                'id' => 'short-punchy',
-                'label' => 'Short punchy',
-                'hint' => 'Under ~70 characters. Specific noun phrase. Avoid trailing "with AutoCVApply".',
-                'example' => 'Stop retyping your CV on every Workday form',
-            ],
-            [
-                'id' => 'audience-situation',
-                'label' => 'Situation-led',
-                'hint' => 'Lead with a situation (between gigs, graduate volume) then the product move - not "save time".',
-                'example' => 'Between contracts: one profile across employer portals',
-            ],
-            [
-                'id' => 'numbered-specific',
-                'label' => 'Numbered and specific',
-                'hint' => 'Only if using a listicle. Number + concrete object (boards, steps, myths) - not vague "ways to save time".',
-                'example' => '4 Easy Apply boards one Auto Apply sidebar can run end-to-end',
+                'id' => 'myth-contrast',
+                'label' => 'Myth or contrast',
+                'hint' => 'Bust a myth or contrast two modes (board Auto Apply vs ATS user-submit).',
+                'example' => 'Autofill is not a silent job bot',
             ],
         ],
 
@@ -201,205 +217,188 @@ return [
             'Guarantees of interviews, offers, or salary outcomes',
             'Black-hat ATS keyword stuffing or "hack the ATS" advice',
             'Fake customer counts, success rates, or employer partnerships',
-            'Competitor hit pieces or thin affiliate roundups',
-            'Generic career advice with no named AutoCVApply workflow (AutoFill, Draft All, or Auto Apply)',
-            'Vague "save time and reduce errors" posts that never name product surfaces or boards',
-            'Audience-only framing (graduates / career changers) without a specific product workflow',
+            'Competitor hit pieces or thin affiliate roundups that invent features',
+            'Republishing or closely paraphrasing a competitor blog post',
+            'Citing AutoApplyMax, EasyApplyMax, or their Chrome Web Store listing as a source or hero product',
             'Claiming AutoCVApply submits ATS/career-site applications without the user',
             'Implying Auto Apply runs without the user starting them from the extension',
-            'Unrelated lifestyle, newsjacking, or keyword-only posts with no practical value',
+            'Unrelated lifestyle or newsjacking with no practical job-search value',
             'Writing localhost, staging, or non-production URLs',
         ],
 
         'thin_content_rules' => [
-            'Every post must teach a concrete job-seeker workflow that names AutoFill, Draft All, and/or Auto Apply.',
-            'Name at least one real platform family (job-board Easy Apply OR an ATS such as Workday/Greenhouse).',
-            'Do not write under ~450 words of substance (respect the chosen length preset).',
-            'Do not repeat the primary keyword in every paragraph; prefer natural variants.',
-            'Do not invent features, supported boards, or pricing beyond the research brief.',
-            'H2s should map to real reader questions or workflow steps, not keyword lists.',
-            'At least one section must walk through product steps a reader can do today.',
-            'Link only to https://autocvapply.com paths or the official Chrome Web Store listing when citing the product.',
+            'Write a long, practical SEO article (respect the length preset - default long/pillar).',
+            'Open with a TL;DR of 3-5 concrete steps the reader can do.',
+            'Include a when-it-is-worth-it / when-it-is-not section when the topic is automation or volume applying.',
+            'End with an FAQ (3-5 Q&As) and a soft AutoCVApply CTA - not a hard sell in the title.',
+            'Product surfaces (AutoFill, Draft All, Auto Apply) belong in the body and CTA; titles should earn the search click first.',
+            'Do not invent features, supported boards, stats, or pricing beyond the research brief.',
+            'H2s should map to real reader questions or workflow steps.',
+            'Link only to https://autocvapply.com paths or the official Chrome Web Store listing for the product.',
         ],
 
         'clusters' => [
 
             [
-                'id' => 'what-is-autocvapply',
-                'weight' => 2,
-                'primary' => 'what is AutoCVApply',
+                'id' => 'linkedin-auto-apply',
+                'weight' => 3,
+                'primary' => 'how to auto apply on LinkedIn',
                 'supporting' => [
-                    'AutoCVApply Chrome extension',
-                    'upload once apply everywhere',
-                    'job application autofill extension',
-                    'Draft All Auto Apply explained',
+                    'LinkedIn Easy Apply',
+                    'LinkedIn auto apply chrome extension',
+                    'Easy Apply screening questions',
+                    'auto apply jobs LinkedIn 2026',
                 ],
                 'angle_hints' => [
-                    'Pillar explainer: what the product is, the three tools, free vs credits, what it is not',
-                    'Link to pricing and how-to; keep control model honest',
+                    'Search-intent how-to: filters, caps, screening questions, safety',
+                    'Soft CTA: AutoCVApply Auto Apply sidebar - user starts the run',
                 ],
                 'must_cover' => [
-                    'Define AutoCVApply as extension + web app for job seekers',
-                    'Explain AutoFill, Draft All, and Auto Apply as three distinct tools',
-                    'List supported Auto Apply boards and note ATS user-submit',
-                    'Cover free profile upload vs monthly credits and Free/Starter/Pro',
+                    'Explain Easy Apply vs external ATS redirects',
+                    'Describe a safe, user-started Auto Apply workflow',
+                    'Cover screening questions and human review',
+                    'Contrast board Auto Apply with ATS sites where the user submits',
+                ],
+            ],
+
+            [
+                'id' => 'autofill-extensions-comparison',
+                'weight' => 3,
+                'primary' => 'best autofill chrome extension for job applications',
+                'supporting' => [
+                    'auto apply jobs chrome extension',
+                    'job application autofill tools',
+                    'chrome extension fill job forms',
+                ],
+                'angle_hints' => [
+                    'Comparison / roundup tone; honest criteria (boards, review control, pricing)',
+                    'Position AutoCVApply as one option with clear differentiators',
+                ],
+                'must_cover' => [
+                    'Define what good autofill/auto-apply tools do',
+                    'Call out Auto Apply boards vs ATS user-submit honesty',
+                    'Mention profile-once workflow without inventing competitor feature tables',
+                    'Soft CTA to try AutoCVApply',
+                ],
+            ],
+
+            [
+                'id' => 'indeed-uk-boards',
+                'weight' => 3,
+                'primary' => 'Indeed Apply UK',
+                'supporting' => [
+                    'Totaljobs Quick Apply',
+                    'Reed Easy Apply',
+                    'Glassdoor Easy Apply',
+                    'UK job board auto apply',
+                ],
+                'angle_hints' => [
+                    'UK board coverage and how Auto Apply differs per board',
+                    'Multi-platform search strategy',
+                ],
+                'must_cover' => [
+                    'Name Indeed plus at least two of Totaljobs, Glassdoor, Reed',
+                    'Explain user-launched Auto Apply on those boards',
+                    'Note profile quality still matters',
+                    'Soft CTA to AutoCVApply sidebar Auto Apply',
+                ],
+            ],
+
+            [
+                'id' => 'ats-workday-forms',
+                'weight' => 2,
+                'primary' => 'Workday application form',
+                'supporting' => [
+                    'Greenhouse job application',
+                    'ATS form autofill',
+                    'employer career site application',
+                ],
+                'angle_hints' => [
+                    'Long multi-step ATS forms; AutoFill + Draft All; user submits',
+                ],
+                'must_cover' => [
+                    'Name Workday and at least one other ATS',
+                    'Explain user still clicks Submit on ATS sites',
+                    'Recommend a clean profile before a busy week',
+                    'Soft CTA to AutoFill / Draft All',
                 ],
             ],
 
             [
                 'id' => 'autofill-job-applications',
-                'weight' => 3,
+                'weight' => 2,
                 'primary' => 'autofill job applications',
                 'supporting' => [
                     'autofill job application forms',
                     'chrome extension autofill CV',
-                    'one click autofill job forms',
-                    'stop retyping CV details',
                     'upload once apply everywhere',
                 ],
                 'angle_hints' => [
-                    'Profile once → AutoFill empty fields on ATS forms → user reviews and submits',
-                    'Credits meter extension AI usage; CV upload/profile edit stay free',
+                    'Practical how-to for autofill without title brand stuffing',
                 ],
                 'must_cover' => [
-                    'Upload CV once and edit the parsed profile before filling forms',
-                    'Install/connect the Chrome extension and use AutoFill on a real application page',
-                    'Explain that ATS/career-site fills still require the user to submit',
-                    'Mention monthly credits at a high level without inventing per-action prices',
+                    'Upload CV and edit profile once',
+                    'Use AutoFill on a real form',
+                    'ATS user-submit honesty',
+                    'Soft CTA with credits mentioned at high level',
                 ],
             ],
 
             [
-                'id' => 'linkedin-easy-apply',
-                'weight' => 3,
-                'primary' => 'LinkedIn Easy Apply chrome extension',
-                'supporting' => [
-                    'LinkedIn Easy Apply autofill',
-                    'auto apply LinkedIn jobs',
-                    'LinkedIn job application assistant',
-                    'Easy Apply screening questions',
-                ],
-                'angle_hints' => [
-                    'Sidebar Auto Apply on LinkedIn Easy Apply: search, open, fill, review, submit',
-                    'Draft All helps with Easy Apply screening questions before/during the run',
-                ],
-                'must_cover' => [
-                    'User starts Auto Apply from the extension sidebar (not a silent bot)',
-                    'Describe the LinkedIn Easy Apply loop: search → open → fill steps → submit',
-                    'Contrast with ATS sites where the user still clicks Submit',
-                    'Mention reviewing drafted screening answers before they go out',
-                ],
-            ],
-
-            [
-                'id' => 'indeed-uk-job-boards',
-                'weight' => 3,
-                'primary' => 'Indeed Apply autofill',
-                'supporting' => [
-                    'Totaljobs Quick Apply extension',
-                    'Reed Easy Apply autofill',
-                    'Glassdoor Easy Apply chrome extension',
-                    'UK job board auto apply',
-                    'auto apply jobs chrome extension',
-                ],
-                'angle_hints' => [
-                    'UK board Auto Apply: Indeed, Totaljobs, Glassdoor, Reed (plus LinkedIn)',
-                    'Same sidebar Auto Apply model across boards; form steps differ by board',
-                ],
-                'must_cover' => [
-                    'Name Indeed Apply plus at least two of Totaljobs, Glassdoor, Reed',
-                    'Explain Auto Apply is user-launched end-to-end on those boards',
-                    'Bust the myth that board autofill alone is enough without a reviewed profile',
-                    'Keep competitor Chrome Web Store listings out of Sources',
-                ],
-            ],
-
-            [
-                'id' => 'ats-employer-autofill',
+                'id' => 'resume-cv-uk',
                 'weight' => 2,
-                'primary' => 'Workday application autofill',
+                'primary' => 'ATS resume tips',
                 'supporting' => [
-                    'Greenhouse job application autofill',
-                    'Lever application form filler',
-                    'ATS form autofill chrome extension',
-                    'employer career site autofill',
-                    'Ashby SmartRecruiters autofill',
+                    'CV parser for job applications',
+                    'tailor CV for job description',
+                    'UK CV format',
                 ],
                 'angle_hints' => [
-                    'Long multi-step Workday/Greenhouse forms: AutoFill + Draft All, user submits',
-                    'Why employer portals repeat the same CV fields',
+                    'Resume/CV SEO content with soft product CTA to upload/parse',
                 ],
                 'must_cover' => [
-                    'Name Workday and at least one of Greenhouse, Lever, Ashby, SmartRecruiters',
-                    'Show AutoFill for structured fields and Draft All for free-text screeners',
-                    'State clearly the user reviews and submits on ATS sites',
-                    'Recommend editing the profile before a busy application week',
+                    'Practical CV/ATS advice without black-hat stuffing',
+                    'How a clean parsed profile helps later autofill',
+                    'Soft CTA to free CV upload on AutoCVApply',
+                ],
+            ],
+
+            [
+                'id' => 'job-search-strategy',
+                'weight' => 2,
+                'primary' => 'job application burnout',
+                'supporting' => [
+                    'how many jobs to apply to per day',
+                    'job search strategy UK',
+                    'application fatigue',
+                ],
+                'angle_hints' => [
+                    'Strategy / wellbeing / volume applying - product as one lever, not the whole article',
+                ],
+                'must_cover' => [
+                    'When high volume helps vs when targeted applications win',
+                    'Practical recovery or pacing tips',
+                    'Soft CTA to reduce repetitive form work with AutoCVApply',
                 ],
             ],
 
             [
                 'id' => 'draft-all-screening',
                 'weight' => 2,
-                'primary' => 'Draft All job applications',
+                'primary' => 'AI answers screening questions',
                 'supporting' => [
-                    'AI answers screening questions',
-                    'draft job application answers from CV',
-                    'human tone job application answers',
-                    'autofill screening questions chrome extension',
+                    'Draft All job applications',
+                    'screening questions job application',
+                    'why do you want this role answer',
                 ],
                 'angle_hints' => [
-                    'Draft All for "Why this role?" and similar screeners, then human review',
-                    'Answers grounded in the saved profile - reject generic AI filler',
+                    'Screening-question fatigue; Draft All with human review',
                 ],
                 'must_cover' => [
-                    'Define Draft All as AI drafts for unanswered free-text / screening questions',
-                    'Stress profile grounding and human review before submit',
-                    'Pair Draft All with AutoFill for structured fields',
-                    'Note Draft All uses extension credits',
-                ],
-            ],
-
-            [
-                'id' => 'cv-parse-profile',
-                'weight' => 2,
-                'primary' => 'CV parser for job applications',
-                'supporting' => [
-                    'upload CV autofill profile',
-                    'parse CV to job application profile',
-                    'AI CV extraction for applications',
-                    'editable CV profile for autofill',
-                ],
-                'angle_hints' => [
-                    'CV upload + profile edit are free; credits apply to extension AI actions',
-                    'Quality-control the parsed profile before AutoFill or Auto Apply',
-                ],
-                'must_cover' => [
-                    'Walk through upload → AI extract → edit profile on the dashboard',
-                    'Explain why a clean profile improves every later AutoFill/Draft All/Auto Apply run',
-                    'State upload/profile editing are free on every plan',
-                    'Link readers to get started at the production login URL',
-                ],
-            ],
-
-            [
-                'id' => 'auto-apply-workflow',
-                'weight' => 2,
-                'primary' => 'auto apply jobs chrome extension',
-                'supporting' => [
-                    'job application automation chrome extension',
-                    'auto apply LinkedIn Indeed',
-                    'high volume job applications faster',
-                    'application fatigue job search',
-                ],
-                'angle_hints' => [
-                    'Design a weekly Auto Apply routine the user starts and monitors',
-                    'Free vs Starter vs Pro credits for search intensity',
-                ],
-                'must_cover' => [
-                    'Define Auto Apply as user-started sidebar automation on supported boards',
-                    'Name LinkedIn and Indeed (and preferably Totaljobs/Glassdoor/Reed)',
-                    'Contrast board Auto Apply with ATS user-submit fills',
-                    'Cover credit tiers at Free / Starter / Pro without inventing extras',
+                    'Define Draft All and profile grounding',
+                    'Human review before submit',
+                    'Pair with AutoFill for structured fields',
+                    'Credits note at high level',
                 ],
             ],
 
@@ -408,20 +407,37 @@ return [
                 'weight' => 1,
                 'primary' => 'ATS score CV against job description',
                 'supporting' => [
-                    'tailor CV keywords for job description',
                     'cover letter for job applications',
                     'match CV to job posting',
-                    'job fit score for applications',
                 ],
                 'angle_hints' => [
-                    'Use ATS/fit scoring before spending credits on weak-fit roles',
-                    'Cover letters during Auto Apply still need human review',
+                    'Fit scoring and cover letters as gates before spending credits',
                 ],
                 'must_cover' => [
-                    'Explain fit/ATS scoring as a gate before applying',
-                    'Mention cover letters can be generated in the extension during Auto Apply',
-                    'Keep honest: scores help prioritise, they do not guarantee interviews',
-                    'Tie scoring back to credits (ATS scores and cover letters spend credits)',
+                    'Scores prioritise; they do not guarantee interviews',
+                    'Cover letters need human review',
+                    'Soft CTA to AutoCVApply tools',
+                ],
+            ],
+
+            [
+                'id' => 'competitor-comparisons',
+                'weight' => 2,
+                'primary' => 'AutoCVApply vs autofill chrome extension',
+                'supporting' => [
+                    'best auto apply jobs chrome extension',
+                    'LazyApply alternative',
+                    'Simplify jobs alternative',
+                    'AutoApplyMax alternative',
+                ],
+                'angle_hints' => [
+                    'Criteria-based vs posts; honest Auto Apply boards vs ATS submit',
+                ],
+                'must_cover' => [
+                    'Use evaluation criteria not invented competitor matrices',
+                    'Name AutoCVApply board Auto Apply coverage',
+                    'Keep ATS user-submit honesty',
+                    'Soft CTA to try Free credits',
                 ],
             ],
 

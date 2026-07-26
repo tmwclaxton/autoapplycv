@@ -29,6 +29,93 @@ class FirecrawlService
     }
 
     /**
+     * Scrape a URL to markdown via Firecrawl.
+     *
+     * @return array{title: string, markdown: string, url: string}|null
+     */
+    public function scrape(string $url, int $maxMarkdownChars = 24000): ?array
+    {
+        $url = trim($url);
+        if ($url === '' || ! filter_var($url, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
+        if (! $this->isConfigured()) {
+            Log::warning('Firecrawl scrape skipped: API key not configured.', ['url' => $url]);
+
+            return null;
+        }
+
+        $maxMarkdownChars = max(500, min($maxMarkdownChars, 200000));
+
+        try {
+            $response = Http::withToken($this->apiKey)
+                ->acceptJson()
+                ->timeout($this->timeout)
+                ->post($this->baseUrl.'/scrape', [
+                    'url' => $url,
+                    'formats' => ['markdown'],
+                    'onlyMainContent' => true,
+                ]);
+        } catch (ConnectionException $e) {
+            Log::warning('Firecrawl scrape connection failed.', [
+                'url' => $url,
+                'message' => $e->getMessage(),
+            ]);
+
+            return null;
+        } catch (Throwable $e) {
+            Log::warning('Firecrawl scrape request failed.', [
+                'url' => $url,
+                'message' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+
+        if (! $response->successful()) {
+            Log::warning('Firecrawl scrape HTTP error.', [
+                'url' => $url,
+                'status' => $response->status(),
+                'body' => mb_substr($response->body(), 0, 500),
+            ]);
+
+            return null;
+        }
+
+        $payload = $response->json();
+        if (! is_array($payload) || ($payload['success'] ?? true) === false) {
+            return null;
+        }
+
+        $data = $payload['data'] ?? $payload;
+        if (! is_array($data)) {
+            return null;
+        }
+
+        $markdown = trim((string) ($data['markdown'] ?? ''));
+        if ($markdown === '') {
+            return null;
+        }
+
+        if (mb_strlen($markdown) > $maxMarkdownChars) {
+            $markdown = mb_substr($markdown, 0, $maxMarkdownChars)."\n\n[truncated]";
+        }
+
+        $metadata = is_array($data['metadata'] ?? null) ? $data['metadata'] : [];
+        $title = trim((string) ($metadata['title'] ?? $data['title'] ?? ''));
+        if ($title === '') {
+            $title = $url;
+        }
+
+        return [
+            'title' => $title,
+            'markdown' => $markdown,
+            'url' => $url,
+        ];
+    }
+
+    /**
      * Search the web via Firecrawl.
      *
      * @return array<int, array{title: string, url: string, description: string}>

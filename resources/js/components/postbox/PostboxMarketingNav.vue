@@ -22,18 +22,24 @@ import {
     analytics,
     contact,
     dashboard,
+    faq,
+    glossary,
     home,
     howTo,
     login,
     pricing,
 } from '@/routes';
 import { index as blog } from '@/routes/blog';
+import { atsScoreChecker } from '@/routes/tools';
 
 const page = usePage();
 const { isCurrentUrl } = useCurrentUrl();
 
 const routeMap = {
     blog,
+    glossary,
+    faq,
+    'tools.ats-score-checker': atsScoreChecker,
     'how-to': howTo,
     pricing,
     analytics,

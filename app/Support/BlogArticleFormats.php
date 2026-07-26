@@ -11,41 +11,45 @@ class BlogArticleFormats
     {
         return [
             [
-                'key' => 'step-by-step',
-                'name' => 'Step-by-step guide',
-                'hint' => 'Walk the reader through a clear numbered sequence of steps. Process-focused and practical. Do not title it "Beginner\'s Guide".',
-                'title_pattern' => 'Titles name the workflow or platform first, e.g. "LinkedIn Easy Apply from the Auto Apply sidebar".',
+                'key' => 'how-to',
+                'name' => 'How-to guide',
+                'hint' => 'Search-intent how-to. TL;DR steps first, then deep sections. Soft product CTA late - not brand in the title.',
+                'title_pattern' => 'Titles look like Google queries, e.g. "How to Auto Apply on LinkedIn Easy Apply (2026)".',
+            ],
+            [
+                'key' => 'comparison',
+                'name' => 'Comparison / roundup',
+                'hint' => 'X vs Y or Best tools listicle. Honest criteria. Soft CTA to AutoCVApply as one option.',
+                'title_pattern' => 'Titles use "Best … (2026)", "X vs Y", or numbered tool roundups.',
             ],
             [
                 'key' => 'listicle',
                 'name' => 'Numbered tips listicle',
-                'hint' => 'Structure the article as numbered tips. Each section is one tip with a bold subheading and example.',
-                'title_pattern' => 'Titles use a specific number + object ("4 Easy Apply boards...") - never "N Ways to Save Time".',
+                'hint' => 'Numbered tips with concrete objects. Never "N Ways to Save Time".',
+                'title_pattern' => 'Titles use a specific number + object ("7 mistakes…", "5 boards…").',
             ],
             [
                 'key' => 'myth-buster',
                 'name' => 'Myth-buster',
-                'hint' => 'Identify common misconceptions. Each section states a myth, then dismantles it with better advice.',
-                'title_pattern' => 'Titles name the myth topic concretely ("Autofill myths: you still click Submit").',
+                'hint' => 'State myths, dismantle with practical advice. Keep control-model honesty.',
+                'title_pattern' => 'Titles name the myth topic ("Autofill is not a silent bot").',
             ],
             [
-                'key' => 'beginners-guide',
-                'name' => 'First-run walkthrough',
-                'hint' => 'Assume the reader is new. Define terms and build from basics to actionable steps. Never use the words "Beginner\'s Guide" in the title.',
-                'title_pattern' => 'Titles use "First run:", "Getting your profile ready:", or a plain workflow title - never "Beginner\'s Guide to...".',
+                'key' => 'strategy',
+                'name' => 'Strategy explainer',
+                'hint' => 'Broader job-search strategy, burnout, volume vs quality. Product is one lever in the body.',
+                'title_pattern' => 'Titles lead with the reader problem or strategy question.',
             ],
             [
                 'key' => 'qa',
                 'name' => 'Q&A explainer',
-                'hint' => 'Each section answers a real question job seekers ask. Honest and conversational tone.',
+                'hint' => 'Each section answers a real question. End with an FAQ block as well.',
                 'title_pattern' => 'Titles are often a question, or "X questions about Y".',
             ],
         ];
     }
 
     /**
-     * Prefer formats that recent titles have not already overused.
-     *
      * @param  array<int, string>  $recentTitles
      * @return array{key: string, name: string, hint: string, title_pattern: string}
      */
@@ -64,65 +68,36 @@ class BlogArticleFormats
             }
         }
 
-        // Beginner-guide openings have flooded the index - deprioritise hard.
-        if (($used['beginners-guide'] ?? false) === true || self::recentTitlesLookBeginnerHeavy($recentTitles)) {
-            $used['beginners-guide'] = true;
-        }
-
         $fresh = array_values(array_filter(
             $formats,
             fn (array $format): bool => ! isset($used[$format['key']]),
         ));
-        $pool = $fresh !== [] ? $fresh : array_values(array_filter(
-            $formats,
-            fn (array $format): bool => $format['key'] !== 'beginners-guide',
-        ));
-        if ($pool === []) {
-            $pool = $formats;
-        }
+        $pool = $fresh !== [] ? $fresh : $formats;
 
         return $pool[array_rand($pool)];
-    }
-
-    /**
-     * @param  array<int, string>  $recentTitles
-     */
-    public static function recentTitlesLookBeginnerHeavy(array $recentTitles): bool
-    {
-        $beginner = 0;
-        $total = 0;
-        foreach ($recentTitles as $title) {
-            if (! is_string($title) || trim($title) === '') {
-                continue;
-            }
-            $total++;
-            $normalised = BlogKeywordStrategy::normaliseText($title);
-            if (str_starts_with($normalised, 'beginner') || str_contains($normalised, 'beginner s guide') || str_contains($normalised, 'beginners guide')) {
-                $beginner++;
-            }
-        }
-
-        return $total > 0 && ($beginner / $total) >= 0.34;
     }
 
     public static function detectFormatKeyFromTitle(string $title): ?string
     {
         $haystack = BlogKeywordStrategy::normaliseText($title);
 
-        if (str_starts_with($haystack, 'beginner') || str_contains($haystack, 'beginner s guide') || str_contains($haystack, 'first run') || str_contains($haystack, 'getting your profile')) {
-            return 'beginners-guide';
-        }
-        if (str_contains($haystack, 'myth')) {
+        if (str_contains($haystack, 'myth') || str_contains($haystack, 'not a silent')) {
             return 'myth-buster';
         }
-        if (preg_match('/^\d+\s/', $haystack) === 1 || str_contains($haystack, ' ways to ') || str_contains($haystack, ' tips for ')) {
+        if (str_contains($haystack, ' vs ') || str_starts_with($haystack, 'best ')) {
+            return 'comparison';
+        }
+        if (preg_match('/^\d+\s/', $haystack) === 1 || str_contains($haystack, ' tips ') || str_contains($haystack, ' mistakes ')) {
             return 'listicle';
         }
-        if (str_contains($title, '?') || str_contains($haystack, 'questions about') || str_contains($haystack, 'answered')) {
+        if (str_contains($title, '?') || str_contains($haystack, 'questions about')) {
             return 'qa';
         }
-        if (str_starts_with($haystack, 'how to ') || str_contains($haystack, 'step by step') || str_contains($haystack, 'sidebar')) {
-            return 'step-by-step';
+        if (str_contains($haystack, 'burnout') || str_contains($haystack, 'strategy') || str_contains($haystack, 'when volume')) {
+            return 'strategy';
+        }
+        if (str_starts_with($haystack, 'how to ') || str_contains($haystack, 'step by step')) {
+            return 'how-to';
         }
 
         return null;
@@ -133,7 +108,7 @@ class BlogArticleFormats
      */
     public static function lengthPresetKeys(): array
     {
-        return ['short', 'medium', 'long'];
+        return ['short', 'medium', 'long', 'pillar'];
     }
 
     public static function resolveArticleLength(string $length): string
@@ -141,9 +116,13 @@ class BlogArticleFormats
         $length = strtolower(trim($length));
 
         if ($length === 'random') {
-            $keys = self::lengthPresetKeys();
+            $keys = ['medium', 'long', 'pillar'];
 
             return $keys[array_rand($keys)];
+        }
+
+        if ($length === 'default') {
+            return (string) config('blog.seo.default_generate_length', 'long');
         }
 
         if (in_array($length, self::lengthPresetKeys(), true)) {
@@ -151,16 +130,17 @@ class BlogArticleFormats
         }
 
         throw new \InvalidArgumentException(
-            'Invalid --length ['.$length.']. Use one of: '.implode(', ', self::lengthPresetKeys()).', random.'
+            'Invalid --length ['.$length.']. Use one of: '.implode(', ', self::lengthPresetKeys()).', default, random.'
         );
     }
 
     public static function articleBodyWordGuidance(string $lengthKey): string
     {
         return match ($lengthKey) {
-            'short' => 'approximately 450–700 words',
-            'medium' => 'approximately 800–1150 words',
-            'long' => 'approximately 1200–1800 words',
+            'short' => 'approximately 450-700 words',
+            'medium' => 'approximately 900-1300 words',
+            'long' => 'approximately 1500-2200 words',
+            'pillar' => 'approximately 2000-2800 words',
             default => throw new \InvalidArgumentException("Unknown article length preset: {$lengthKey}"),
         };
     }
@@ -170,8 +150,9 @@ class BlogArticleFormats
         return match ($lengthKey) {
             'short' => 3,
             'medium' => 4,
-            'long' => 5,
-            default => 4,
+            'long' => 6,
+            'pillar' => 7,
+            default => 6,
         };
     }
 
@@ -182,9 +163,10 @@ class BlogArticleFormats
     {
         [$minTotal, $maxTotal] = match ($lengthKey) {
             'short' => [450, 700],
-            'medium' => [800, 1150],
-            'long' => [1200, 1800],
-            default => [800, 1150],
+            'medium' => [900, 1300],
+            'long' => [1500, 2200],
+            'pillar' => [2000, 2800],
+            default => [1500, 2200],
         };
 
         $n = max(1, $sectionCount);
@@ -201,22 +183,18 @@ class BlogArticleFormats
     public static function topicAngles(): array
     {
         return [
-            'Upload once, apply everywhere: how one profile powers AutoFill across many ATS forms',
-            'LinkedIn Easy Apply from the Auto Apply sidebar: search, fill, review, submit',
-            'Indeed Apply plus Totaljobs, Glassdoor, and Reed: one Auto Apply workflow for UK boards',
-            'Workday and Greenhouse multi-step forms: AutoFill structured fields, Draft All the screeners',
-            'Draft All for "Why this role?" answers grounded in your saved CV profile',
-            'CV upload and profile editing are free - polish the profile before spending credits',
-            'Auto Apply is user-started: what the sidebar run does (and does not) automate',
-            'Free vs Starter vs Pro credits when you are running high-volume board applications',
-            'ATS/fit scoring as a gate before you spend credits on weak-fit roles',
-            'Cover letters during Auto Apply: generate, review, then attach',
-            'Ashby and Lever career sites: autofill + Draft All, you still click Submit',
-            'How screening-question fatigue shows up on Easy Apply modals - and what Draft All changes',
-            'Building a weekly board Auto Apply routine you monitor instead of babysitting every field',
-            'Why a messy parsed profile ruins every later AutoFill and Draft All run',
-            'Human-like typing on Auto Apply runs: practical anti-bot behaviour, not black-hat claims',
-            'When to use AutoFill alone vs Draft All vs full job-board Auto Apply',
+            'How to auto-apply on LinkedIn Easy Apply safely in 2026',
+            'Indeed Apply vs LinkedIn Easy Apply for UK job seekers',
+            'Best autofill Chrome extensions for job applications (honest criteria)',
+            'Workday multi-step forms without rebuilding your CV each time',
+            'Job application burnout: when volume stops working',
+            'ATS resume tips that are practical - not black-hat',
+            'Screening questions: when AI drafts help and when they hurt',
+            'Multi-board UK search: LinkedIn, Indeed, Totaljobs, Reed, Glassdoor',
+            'Graduate scheme forms recycle the same fields - use one profile',
+            'Between contracts: keep a warm profile without spam applying',
+            'Cover letters and ATS scores as gates before spending credits',
+            'What autofill tools should never claim about silent submit',
         ];
     }
 }

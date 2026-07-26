@@ -258,4 +258,60 @@ class FirecrawlServiceTest extends TestCase
             $prompt,
         );
     }
+
+    public function test_select_sources_rejects_autoapplymax_host(): void
+    {
+        $selected = FirecrawlService::selectSourcesForArticle([
+            [
+                'title' => 'Competitor post',
+                'url' => 'https://www.autoapplymax.com/blog/how-to-auto-apply-on-linkedin-2026',
+                'description' => 'Should be blocked.',
+            ],
+            [
+                'title' => 'LinkedIn help',
+                'url' => 'https://www.linkedin.com/help/linkedin',
+                'description' => 'Ok.',
+            ],
+            [
+                'title' => 'AutoCVApply',
+                'url' => 'https://autocvapply.com/blog',
+                'description' => 'Ok.',
+            ],
+            [
+                'title' => 'Indeed advice',
+                'url' => 'https://www.indeed.com/career-advice/finding-a-job',
+                'description' => 'Ok.',
+            ],
+        ], []);
+
+        $urls = array_column($selected, 'url');
+        $this->assertNotContains(
+            'https://www.autoapplymax.com/blog/how-to-auto-apply-on-linkedin-2026',
+            $urls,
+        );
+        $this->assertContains('https://autocvapply.com/blog', $urls);
+    }
+
+    public function test_scrape_returns_markdown_when_api_succeeds(): void
+    {
+        config(['services.firecrawl.api_key' => 'test-key']);
+
+        Http::fake([
+            'https://api.firecrawl.dev/v1/scrape' => Http::response([
+                'success' => true,
+                'data' => [
+                    'markdown' => "# Hello\n\nBody text.",
+                    'metadata' => ['title' => 'Hello page'],
+                ],
+            ], 200),
+        ]);
+
+        $service = new FirecrawlService;
+        $result = $service->scrape('https://example.com/page');
+
+        $this->assertNotNull($result);
+        $this->assertSame('Hello page', $result['title']);
+        $this->assertStringContainsString('Body text', $result['markdown']);
+        $this->assertSame('https://example.com/page', $result['url']);
+    }
 }

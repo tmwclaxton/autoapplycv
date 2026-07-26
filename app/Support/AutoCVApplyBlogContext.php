@@ -107,10 +107,17 @@ Examples of credit use: Assist replies, cover letters, ATS scores, Draft All bat
 
 ## Tone for blog posts
 - Write for UK job seekers; plain, practical, specific.
-- Name real product surfaces: AutoFill, Draft All, Auto Apply sidebar, profile upload.
+- Search-intent titles first; product surfaces in the body.
 - Prefer concrete workflows over vague "save time / reduce errors" fluff.
 - Emphasise dignity of work and reducing admin burden - not misleading shortcuts.
 - Be accurate about job-board Auto Apply vs ATS user-submit.
+
+## How to mention AutoCVApply in SEO posts (soft CTA)
+- Do not make every title about AutoCVApply.
+- After practical advice, offer one soft CTA: install the extension or upload a CV at {$site}/login.
+- Official Chrome Web Store: {$chromeStore}
+- One mid-article callout is enough; end with a short CTA after the FAQ.
+- Never invent competitor comparisons as if AutoCVApply were AutoApplyMax or EasyApplyMax.
 
 ## Glossary
 - **Profile**: structured CV data after upload and optional editing.

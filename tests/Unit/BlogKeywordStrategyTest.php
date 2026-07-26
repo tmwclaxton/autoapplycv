@@ -77,16 +77,16 @@ class BlogKeywordStrategyTest extends TestCase
         $this->assertStringContainsString('Thin-content rules', $block);
         $this->assertStringContainsString('Must-cover product beats', $block);
         $this->assertStringContainsString('Banned generic title/topic phrases', $block);
-        $this->assertStringContainsString('product-led SEO post', $block);
+        $this->assertStringContainsString('search-intent SEO', $block);
         $this->assertStringContainsString('no stuffing', strtolower($block));
     }
 
     public function test_target_for_cluster_returns_selected_supporting(): void
     {
-        $target = BlogKeywordStrategy::targetForCluster('linkedin-easy-apply');
+        $target = BlogKeywordStrategy::targetForCluster('linkedin-auto-apply');
 
-        $this->assertSame('linkedin-easy-apply', $target['id']);
-        $this->assertSame('LinkedIn Easy Apply chrome extension', $target['primary']);
+        $this->assertSame('linkedin-auto-apply', $target['id']);
+        $this->assertSame('how to auto apply on LinkedIn', $target['primary']);
         $this->assertNotEmpty($target['must_cover']);
         $this->assertArrayHasKey('selected_supporting', $target);
     }
@@ -182,8 +182,8 @@ class BlogKeywordStrategyTest extends TestCase
         ], $haystack));
 
         $this->assertFalse(BlogKeywordStrategy::clusterMatchesRecent([
-            'id' => 'linkedin-easy-apply',
-            'primary' => 'LinkedIn Easy Apply chrome extension',
+            'id' => 'linkedin-auto-apply',
+            'primary' => 'how to auto apply on LinkedIn',
             'supporting' => [],
         ], $haystack));
     }

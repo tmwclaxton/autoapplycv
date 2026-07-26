@@ -28,8 +28,8 @@ class RetitleBlogPostsCommandTest extends TestCase
         $this->artisan('blog:retitle')->assertExitCode(0);
 
         $blog->refresh();
-        $this->assertSame('What is AutoCVApply?', $blog->title);
-        $this->assertSame('what-is-autocvapply', $blog->slug);
+        $this->assertSame('What is AutoCVApply? CV Autofill and Auto Apply Explained (2026)', $blog->title);
+        $this->assertSame('what-is-autocvapply-cv-autofill-and-auto-apply-explained-2026', $blog->slug);
         $this->assertSame($expected['excerpt'], $blog->excerpt);
         $this->assertStringContainsString('## What AutoCVApply is', $blog->body);
         $this->assertStringContainsString('Draft All', $blog->body);

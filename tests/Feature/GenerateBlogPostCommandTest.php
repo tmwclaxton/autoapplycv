@@ -46,15 +46,16 @@ class GenerateBlogPostCommandTest extends TestCase
                 });
         });
 
-        $this->artisan('blog:generate', ['--dry-run' => true])
+        $this->artisan('blog:generate', ['--dry-run' => true, '--cluster' => 'linkedin-auto-apply'])
             ->assertExitCode(0);
 
         $this->assertDatabaseCount('blogs', 0);
 
         $promptText = collect($captured)->pluck('content')->implode("\n");
         $this->assertStringContainsString('SEO keyword target', $promptText);
-        $this->assertStringContainsString('what is AutoCVApply', $promptText);
-        $this->assertStringContainsString('what-is-autocvapply', $promptText);
+        $this->assertStringContainsString('how to auto apply on LinkedIn', $promptText);
+        $this->assertStringContainsString('linkedin-auto-apply', $promptText);
+        $this->assertStringContainsString('search-intent', strtolower($promptText));
         $this->assertStringContainsString('Topics / angles to avoid', $promptText);
     }
 
@@ -242,12 +243,12 @@ class GenerateBlogPostCommandTest extends TestCase
 
         $this->artisan('blog:generate', [
             '--dry-run' => true,
-            '--cluster' => 'linkedin-easy-apply',
+            '--cluster' => 'linkedin-auto-apply',
         ])->assertExitCode(0);
 
         $promptText = collect($captured)->pluck('content')->implode("\n");
-        $this->assertStringContainsString('linkedin-easy-apply', $promptText);
-        $this->assertStringContainsString('LinkedIn Easy Apply chrome extension', $promptText);
+        $this->assertStringContainsString('linkedin-auto-apply', $promptText);
+        $this->assertStringContainsString('how to auto apply on LinkedIn', $promptText);
         $this->assertStringContainsString('Must-cover product beats', $promptText);
     }
 

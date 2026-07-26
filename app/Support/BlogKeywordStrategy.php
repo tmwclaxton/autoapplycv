@@ -236,29 +236,26 @@ class BlogKeywordStrategy
     {
         $haystack = self::normaliseText($title);
 
-        if (str_starts_with($haystack, 'can you') || str_starts_with($haystack, 'does ') || str_ends_with($haystack, '?') || str_contains($title, '?')) {
+        if (str_starts_with($haystack, 'can you') || str_starts_with($haystack, 'does ') || str_starts_with($haystack, 'what is') || str_contains($title, '?')) {
             return 'question';
         }
-        if (str_contains($haystack, ' vs ') || str_contains($haystack, 'myth')) {
-            return 'contrast';
+        if (str_contains($haystack, ' vs ') || str_starts_with($haystack, 'best ')) {
+            return 'comparison';
+        }
+        if (str_contains($haystack, 'myth') || str_contains($haystack, 'not a silent')) {
+            return 'myth-contrast';
         }
         if (preg_match('/^\d+\s/', $haystack) === 1) {
             return 'numbered-specific';
         }
-        if (str_starts_with($haystack, 'between ') || str_starts_with($haystack, 'graduate') || str_contains($haystack, 'between gig') || str_contains($haystack, 'between contract')) {
-            return 'audience-situation';
+        if (str_contains($haystack, 'burnout') || str_starts_with($haystack, 'between ') || str_contains($haystack, 'when volume')) {
+            return 'situation-hook';
         }
         if (str_starts_with($haystack, 'linkedin') || str_starts_with($haystack, 'indeed') || str_starts_with($haystack, 'workday') || str_starts_with($haystack, 'greenhouse')) {
             return 'board-or-ats';
         }
-        if (str_starts_with($haystack, 'draft all') || str_starts_with($haystack, 'autofill') || str_starts_with($haystack, 'auto apply') || str_starts_with($haystack, 'upload')) {
-            return 'feature-first';
-        }
-        if (str_word_count($haystack) <= 10) {
-            return 'short-punchy';
-        }
-        if (str_contains($haystack, 'then ') || str_contains($haystack, 'from the') || str_contains($haystack, 'sidebar')) {
-            return 'workflow';
+        if (str_starts_with($haystack, 'how to ') || str_contains($haystack, '2026')) {
+            return 'query-led';
         }
 
         return null;
@@ -359,9 +356,10 @@ Style: {$styleLabel}
 {$titleStyle['hint']}{$exampleLine}
 Title variety rules:
 - Do NOT start with "Beginner's Guide" or "How to Save Time".
-- Mention AutoCVApply at most once in the title (ok to omit if the keyword + feature are clear).
+- Mention AutoCVApply at most once in the title (prefer omitting brand from the title).
 - Do NOT end the title with "with AutoCVApply" / "from AutoCVApply".
 - The title must look different from other posts on the blog index - vary opening words and structure.
+- Product surfaces belong in body/CTA; titles should match search intent first.
 STYLE;
         }
 
@@ -373,12 +371,11 @@ Supporting keywords (use 2-4 naturally across H2s/body; no stuffing): {$supporti
 Brand terms to include where natural: {$brand}
 {$titleStyleBlock}
 
-Editorial bar (high-level SEO strategy):
-- This is a product-led SEO post, not generic career advice with AutoCVApply sprinkled in.
-- Lead with a specific AutoCVApply workflow (AutoFill, Draft All, and/or Auto Apply) tied to the primary keyword.
-- Title should be specific and searchable; avoid mushy benefit slogans.
-- Name real boards/ATS from the research brief when the cluster requires them.
-- Prefer "how the product works on X" over "tips for graduates/career changers".
+Editorial bar (search-intent SEO):
+- Write an article people would Google - title earns the click; AutoCVApply is a soft recommendation in the body/CTA.
+- Do NOT stuff AutoFill / Draft All / Auto Apply into the title unless the query is literally about that product.
+- Prefer year stamps, vs comparisons, How to…, Best… when they fit the cluster.
+- Include TL;DR steps, practical depth, FAQ, and one soft CTA (install / login) - not a hard sell.
 
 SEO writing rules:
 - Optimise title, excerpt, and H2s for the primary keyword without repeating it in every sentence.

@@ -103,7 +103,7 @@ class BlogArticleGenerationServiceTest extends TestCase
 
         $this->assertStringContainsString('autofill job applications', $planPrompt);
         $this->assertStringContainsString('SEO keyword target', $planPrompt);
-        $this->assertStringContainsString('product-led SEO', $planPrompt);
+        $this->assertStringContainsString('search-intent SEO', $planPrompt);
         $this->assertStringContainsString('only include urls from the web research', strtolower($planPrompt));
         $this->assertStringContainsString('chrome extension autofill CV', $sectionPrompt);
         $this->assertStringContainsString('never keyword-stuff', $sectionPrompt);
@@ -166,5 +166,57 @@ class BlogArticleGenerationServiceTest extends TestCase
         $planPrompt = collect($planMessages)->pluck('content')->implode("\n");
         $this->assertStringContainsString('https://example.com/research', $planPrompt);
         $this->assertStringContainsString('Web research (Firecrawl search results)', $planPrompt);
+    }
+
+    public function test_generate_full_article_body_includes_tldr_faq_and_cta(): void
+    {
+        /** @var NanoGptService&MockInterface $nanoGpt */
+        $nanoGpt = Mockery::mock(NanoGptService::class);
+        $nanoGpt->shouldReceive('chatJson')
+            ->times(4)
+            ->andReturnUsing(function (): array {
+                static $planSent = false;
+                if (! $planSent) {
+                    $planSent = true;
+
+                    return [
+                        'title' => 'How to autofill job applications (2026)',
+                        'excerpt' => 'Practical tips.',
+                        'tags' => ['autofill'],
+                        'sources' => [],
+                        'tldr' => ['Upload CV', 'Edit profile', 'Autofill and review'],
+                        'faq' => [
+                            ['question' => 'Does it submit?', 'answer' => 'Not on ATS - you click Submit.'],
+                        ],
+                        'cta' => 'Soft CTA to AutoCVApply.',
+                        'sections' => [
+                            ['heading' => 'Why autofill helps', 'beats' => 'Time saved'],
+                            ['heading' => 'Set up a profile', 'beats' => 'Upload CV'],
+                            ['heading' => 'Use the extension', 'beats' => 'Review'],
+                        ],
+                    ];
+                }
+
+                return [
+                    'content' => str_repeat('Practical autofill advice for UK job seekers. ', 40),
+                ];
+            });
+
+        $service = new BlogArticleGenerationService($nanoGpt);
+        $article = $service->generateFullArticle(
+            'How to autofill job applications',
+            'Research brief.',
+            'short',
+            [
+                'key' => 'how-to',
+                'name' => 'How-to',
+                'hint' => 'Practical.',
+                'title_pattern' => 'How to...',
+            ],
+        );
+
+        $this->assertStringStartsWith('## TL;DR', $article['body']);
+        $this->assertStringContainsString('## FAQ', $article['body']);
+        $this->assertStringContainsString('Soft CTA to AutoCVApply.', $article['body']);
     }
 }

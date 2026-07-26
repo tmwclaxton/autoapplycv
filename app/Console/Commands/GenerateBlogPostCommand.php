@@ -18,11 +18,13 @@ use Illuminate\Support\Str;
 class GenerateBlogPostCommand extends Command
 {
     protected $signature = 'blog:generate
-                            {--length=medium : Article length: short, medium, long, or random}
+                            {--length=default : Article length: short, medium, long, pillar, default, or random}
                             {--cluster= : Force an SEO cluster id from config/blog.php}
                             {--update= : Regenerate an existing blog by id or slug}
                             {--keep-slug : When updating, keep the existing slug}
                             {--keep-image : When updating, keep the existing hero image}
+                            {--skip-image : Skip hero image generation}
+                            {--status=published : Status when creating: published or draft}
                             {--dry-run : Output topic and format without generating or saving}';
 
     protected $description = 'Generate a weekly AI blog post about AutoCVApply for job seekers';
@@ -91,7 +93,8 @@ class GenerateBlogPostCommand extends Command
 
         $imagePath = $existing?->getRawOriginal('image_url');
         $keepImage = (bool) $this->option('keep-image') && $existing !== null;
-        if (! $keepImage) {
+        $skipImage = (bool) $this->option('skip-image');
+        if (! $keepImage && ! $skipImage) {
             $this->line('  Generating hero image...');
             $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
             $generatedPath = $heroImages->generateAndStore($imagePrompt);
@@ -101,8 +104,10 @@ class GenerateBlogPostCommand extends Command
             } else {
                 $this->warn('  No hero image generated'.($existing ? '; keeping previous image if any' : ''));
             }
-        } else {
+        } elseif ($keepImage) {
             $this->line('  Keeping existing hero image.');
+        } else {
+            $this->line('  Skipping hero image.');
         }
 
         $this->line('  Writing article...');
@@ -162,6 +167,9 @@ class GenerateBlogPostCommand extends Command
             ? $existing->slug
             : $this->uniqueSlug(Str::slug($title), $existing?->id);
 
+        $statusOption = strtolower(trim((string) $this->option('status')));
+        $status = $statusOption === 'draft' ? BlogStatus::Draft : BlogStatus::Published;
+
         $payload = [
             'title' => $title,
             'slug' => $slug,
@@ -170,8 +178,9 @@ class GenerateBlogPostCommand extends Command
             'image_url' => $imagePath,
             'tags' => $tags,
             'sources' => $sources,
-            'status' => BlogStatus::Published,
-            'published_at' => $existing?->published_at ?? now(),
+            'status' => $existing !== null ? ($existing->status ?? $status) : $status,
+            'published_at' => $existing?->published_at
+                ?? ($status === BlogStatus::Published ? now() : null),
         ];
 
         if ($existing !== null) {
@@ -182,7 +191,7 @@ class GenerateBlogPostCommand extends Command
         } else {
             $blog = Blog::create($payload);
             $this->newLine();
-            $this->info("Published: {$blog->title}");
+            $this->info(($status === BlogStatus::Draft ? 'Drafted: ' : 'Published: ').$blog->title);
         }
 
         $this->line("  Slug: {$blog->slug}");
@@ -214,26 +223,7 @@ class GenerateBlogPostCommand extends Command
             return BlogKeywordStrategy::targetForCluster($clusterOption);
         }
 
-        // Prefer a pillar "What is AutoCVApply?" post when the catalog lacks one.
-        if (! $this->catalogHasProductIntro($recentTitles, $recentTags)) {
-            $this->line('  Catalog missing product intro - forcing what-is-autocvapply cluster.');
-
-            return BlogKeywordStrategy::targetForCluster('what-is-autocvapply');
-        }
-
         return BlogKeywordStrategy::selectTarget($recentTitles, $recentTags);
-    }
-
-    /**
-     * @param  array<int, string>  $recentTitles
-     * @param  array<int, string>  $recentTags
-     */
-    protected function catalogHasProductIntro(array $recentTitles, array $recentTags): bool
-    {
-        $haystack = BlogKeywordStrategy::normaliseHaystack($recentTitles, $recentTags);
-
-        return str_contains($haystack, 'what is autocvapply')
-            || str_contains($haystack, 'what-is-autocvapply');
     }
 
     protected function findBlogForUpdate(string $idOrSlug): ?Blog
@@ -376,8 +366,9 @@ class GenerateBlogPostCommand extends Command
         }
 
         $system = 'You are the SEO content strategist for AutoCVApply (autocvapply.com). '
-            .'Suggest one specific, product-led blog topic for UK job seekers that targets the SEO keyword cluster below. '
-            .'The topic must name a real AutoCVApply workflow (AutoFill, Draft All, and/or Auto Apply) and a real board or ATS when the cluster requires it. '
+            .'Suggest one specific search-intent blog topic for UK job seekers that targets the SEO keyword cluster below. '
+            .'Write it like a Google query people would type (How to / Best / vs / year stamp). '
+            .'AutoCVApply can appear in the article body later - do NOT require the brand in the topic title. '
             .'Do NOT use vague slogans like "save time and reduce errors" or "Beginner\'s Guide". '
             .'Follow the required title style so this post will not look like the others on the blog index. '
             ."Format: {$formatName}. "
