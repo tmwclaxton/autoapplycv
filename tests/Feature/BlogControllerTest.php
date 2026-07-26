@@ -150,6 +150,36 @@ MD,
             );
     }
 
+    public function test_blog_show_sanitizes_messy_source_descriptions(): void
+    {
+        $blog = Blog::factory()->published()->create([
+            'title' => 'AI tools for applying faster',
+            'slug' => 'ai-tools-applying-faster',
+            'sources' => [
+                [
+                    'title' => '10 AI Tools to Supercharge Your Job Search',
+                    'url' => 'https://example.com/ai-tools',
+                    'description' => "# Heading\n## **Sub**\n![img](https://cdn.example/x.png)\nhttps://chatgpt.com/?q=Summarize+this",
+                ],
+            ],
+        ]);
+
+        $this->get(route('blog.show', $blog))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Blog/Show')
+                ->where(
+                    'post.sources.0.description',
+                    fn (string $description): bool => $description !== ''
+                        && ! str_contains($description, '##')
+                        && ! str_contains($description, '**')
+                        && ! str_contains($description, '![')
+                        && ! str_contains($description, 'https://')
+                )
+                ->where('post.sources.0.title', '10 AI Tools to Supercharge Your Job Search')
+            );
+    }
+
     public function test_blog_show_returns_404_for_draft_post(): void
     {
         $blog = Blog::factory()->create([

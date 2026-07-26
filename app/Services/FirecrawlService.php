@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Support\BlogSourceNormalizer;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -212,29 +213,19 @@ class FirecrawlService
             }
             $seenUrls[$urlKey] = true;
 
-            $title = trim((string) ($row['title'] ?? ''));
+            $title = BlogSourceNormalizer::cleanTitle((string) ($row['title'] ?? ''));
             if ($title === '') {
                 $title = $url;
-            }
-
-            $description = trim((string) (
-                $row['description']
-                ?? $row['snippet']
-                ?? $row['markdown']
-                ?? ''
-            ));
-            if (mb_strlen($description) > 400) {
-                $description = mb_substr($description, 0, 397).'...';
             }
 
             $sources[] = [
                 'title' => $title,
                 'url' => $url,
-                'description' => $description,
+                'description' => BlogSourceNormalizer::descriptionFromSearchRow($row),
             ];
         }
 
-        return self::filterAllowedSources($sources);
+        return BlogSourceNormalizer::normalizeList(self::filterAllowedSources($sources));
     }
 
     /**
@@ -382,7 +373,7 @@ class FirecrawlService
 
         $pool = $selected !== [] ? array_values($selected) : $researchSources;
 
-        return self::rankSourcesForArticle($pool);
+        return BlogSourceNormalizer::normalizeList(self::rankSourcesForArticle($pool));
     }
 
     /**

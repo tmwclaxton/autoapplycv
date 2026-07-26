@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogCompetitorComparisons;
+use App\Support\BlogSourceNormalizer;
 use App\Support\BlogTldrPlacement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -233,6 +234,6 @@ PROMPT;
             $out[] = $source;
         }
 
-        return $out;
+        return BlogSourceNormalizer::normalizeList($out);
     }
 }

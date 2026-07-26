@@ -52,6 +52,8 @@ return [
         'target_min' => 3,
         'target_max' => 5,
         'min_before_broaden' => 2,
+        /** Plain-text blurb under each Sources & references link (after markdown strip). */
+        'description_max_length' => 160,
         'official_chrome_extension_id' => 'mldeodhhcbnhnjklmelneecjpjkjemih',
         'official_chrome_web_store_slug' => 'autocvapply',
         'official_chrome_web_store_url' => 'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',

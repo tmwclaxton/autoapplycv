@@ -130,7 +130,7 @@ function formatDate(date: string): string {
                     v-if="post.image_url"
                     :src="post.image_url"
                     :alt="post.title"
-                    class="mb-8 max-h-[32rem] w-full rounded-xl border-2 border-postbox-navy object-contain"
+                    class="mx-auto mb-8 block h-auto max-h-[32rem] w-auto max-w-full rounded-xl border-2 border-postbox-navy"
                 />
                 <div class="postbox-prose" v-html="post.body_html" />
             </div>
@@ -154,7 +154,10 @@ function formatDate(date: string): string {
                         >
                             {{ source.title }}
                         </a>
-                        <p class="mt-0.5 text-sm text-muted-foreground">
+                        <p
+                            v-if="source.description"
+                            class="mt-0.5 text-sm text-muted-foreground"
+                        >
                             {{ source.description }}
                         </p>
                     </li>

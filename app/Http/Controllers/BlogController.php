@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
 use App\Support\BlogMarkdownRenderer;
+use App\Support\BlogSourceNormalizer;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -44,7 +45,7 @@ class BlogController extends Controller
                 'body_html' => $this->markdownBodyToHtml($body),
                 'image_url' => $blog->image_url,
                 'tags' => $blog->tags ?? [],
-                'sources' => $blog->sources ?? [],
+                'sources' => BlogSourceNormalizer::normalizeList($blog->sources ?? []),
                 'published_at' => $blog->published_at?->toIso8601String(),
                 'view_count' => $blog->view_count,
                 'url' => $postUrl,

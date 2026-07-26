@@ -76,6 +76,24 @@ class FirecrawlServiceTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function test_normalize_search_results_strips_markdown_body_from_description(): void
+    {
+        $results = FirecrawlService::normalizeSearchResults([
+            [
+                'title' => '## **Messy Title**',
+                'url' => 'https://example.com/messy',
+                'markdown' => "# Messy Title\n## Section\n![hero](https://cdn.example/h.png)\nA useful blurb about autofill for job seekers.",
+            ],
+        ]);
+
+        $this->assertCount(1, $results);
+        $this->assertSame('Messy Title', $results[0]['title']);
+        $this->assertStringContainsString('useful blurb', $results[0]['description']);
+        $this->assertStringNotContainsString('##', $results[0]['description']);
+        $this->assertStringNotContainsString('![', $results[0]['description']);
+        $this->assertStringNotContainsString('https://', $results[0]['description']);
+    }
+
     public function test_normalize_search_results_drops_competitor_chrome_web_store_listing(): void
     {
         $results = FirecrawlService::normalizeSearchResults([
