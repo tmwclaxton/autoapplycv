@@ -491,8 +491,18 @@ var AutoCVApplyFieldInventory = (() => {
         return snapshot;
     }
 
-    async function enrichSnapshotOptions(elements) {
+    async function enrichSnapshotOptions(elements, options = {}) {
         if (typeof AutoCVApplyFormHeuristics?.harvestLazyComboboxOptionLabels !== 'function') {
+            return elements;
+        }
+
+        // Opening menus mutates the live page - only do this while Draft All, Auto Apply,
+        // or the side panel is actively using inventory.
+        if (options.allowInteractiveOptionHarvest !== true) {
+            inventoryLog('info', 'snapshot.options', 'Skipped lazy combobox option harvest (inactive)', {
+                elementCount: (elements || []).length,
+            });
+
             return elements;
         }
 
@@ -741,10 +751,10 @@ var AutoCVApplyFieldInventory = (() => {
         return merged;
     }
 
-    async function buildSnapshotAllFramesAsync(root, profile, settings, memo = {}) {
+    async function buildSnapshotAllFramesAsync(root, profile, settings, memo = {}, options = {}) {
         const merged = buildSnapshotAllFrames(root, profile, settings, memo);
 
-        await enrichSnapshotOptions(merged.elements);
+        await enrichSnapshotOptions(merged.elements, options);
 
         return merged;
     }

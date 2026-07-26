@@ -119,6 +119,7 @@ import {
 import {
     buildSidePanelVisibilityMessage,
     resolveSidePanelOpen,
+    shouldAllowInteractiveOptionHarvest,
     shouldPaintFieldHighlights,
 } from './side-panel-state.js';
 import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
@@ -484,6 +485,27 @@ function cancelDraftAll(reason = 'cancelled') {
     logWarn('background', 'draft-all.cancel', 'Draft All cancelled', { reason });
 
     return { success: true, cancelled: true, reason };
+}
+
+async function resolveInteractiveOptionHarvestAllowed() {
+    const storage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+    ]);
+
+    return shouldAllowInteractiveOptionHarvest({
+        sidePanelOpen: resolveSidePanelOpen(storage),
+        draftAllRunning,
+        autoApplyRunning: isAutoApplyRunning(),
+    });
+}
+
+async function collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, profilePayload = null) {
+    const allowInteractiveOptionHarvest = await resolveInteractiveOptionHarvestAllowed();
+
+    return collectSnapshotFromTab(tabId, frameId, profilePayload, {
+        allowInteractiveOptionHarvest,
+    });
 }
 const savedCoverLetterSourceKeys = new Set();
 let sidePanelPort = null;
@@ -1329,7 +1351,7 @@ async function enrichPendingFieldFromSnapshot(tabId, field) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         const element = (snapshotResponse?.snapshot?.elements || [])
             .find((item) => item.ref === field.ref);
 
@@ -1588,7 +1610,7 @@ function snapshotElementToDraftField(element) {
 
 async function collectUnfilledRequiredFields(tabId, formFrameId) {
     try {
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         const required = (snapshotResponse?.snapshot?.elements || [])
             .filter((element) => element.required);
         const filterResponse = await sendTabMessage(
@@ -1697,7 +1719,7 @@ async function fillRevealedDisabilitySignatureFields(tabId, formFrameId, profile
     let snapshot;
 
     try {
-        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         snapshot = snapshotResponse?.snapshot;
     } catch {
         return 0;
@@ -2020,7 +2042,11 @@ async function prefetchSnapshotForTab(tabId, tab) {
     try {
         const profilePayload = await getProfile().catch(() => null);
         const formFrameId = await findBestFormFrameId(tabId);
-        const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+        const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
+            tabId,
+            formFrameId,
+            profilePayload,
+        );
 
         if (collectResponse?.success && collectResponse.snapshot?.elements?.length) {
             await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
@@ -2113,7 +2139,11 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
     const profilePayload = await getProfile().catch(() => null);
-    let collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+    let collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
+        tabId,
+        formFrameId,
+        profilePayload,
+    );
 
     // SmartApply questions hydrate after the route change - empty snapshot on the
     // questions URL is almost always a race, not a real empty form.
@@ -2128,7 +2158,11 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
             await new Promise((resolve) => {
                 setTimeout(resolve, 400);
             });
-            collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
+            collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
+                tabId,
+                formFrameId,
+                profilePayload,
+            );
 
             if (collectResponse?.snapshot?.elements?.length) {
                 logInfo('background', 'snapshot.collect', 'SmartApply questions hydrated after wait', {
@@ -3626,7 +3660,7 @@ async function bridgeWaitForTab(tabId, { windowId = null, urlIncludes = null, ti
 }
 
 async function bridgeFindControlRef(tabId, frameId, name) {
-    const collectResponse = await collectSnapshotFromTab(tabId, frameId, null);
+    const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, null);
     const controls = collectResponse?.snapshot?.controls || [];
     const needle = String(name || '').trim().toLowerCase();
 
@@ -3696,7 +3730,7 @@ initExtensionBridge({
                 profilePayload = null;
             }
 
-            return collectSnapshotFromTab(resolvedTabId, frameId, profilePayload);
+            return collectSnapshotFromTabWithHarvestPolicy(resolvedTabId, frameId, profilePayload);
         },
         get_debug_logs: async () => getAllLogs(),
         debug_log_export: async () => exportLogsForTest(),

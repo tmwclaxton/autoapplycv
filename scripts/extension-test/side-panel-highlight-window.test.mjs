@@ -7,8 +7,25 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const {
     buildSidePanelVisibilityMessage,
+    shouldAllowInteractiveOptionHarvest,
     shouldPaintFieldHighlights,
 } = await import(pathToFileURL(join(ROOT, 'extension/src/shared/side-panel-state.js')).href);
+
+test('shouldAllowInteractiveOptionHarvest only when side panel, draft all, or auto apply is active', () => {
+    assert.equal(shouldAllowInteractiveOptionHarvest({}), false);
+    assert.equal(shouldAllowInteractiveOptionHarvest({ sidePanelOpen: false }), false);
+    assert.equal(shouldAllowInteractiveOptionHarvest({ sidePanelOpen: true }), true);
+    assert.equal(shouldAllowInteractiveOptionHarvest({ draftAllRunning: true }), true);
+    assert.equal(shouldAllowInteractiveOptionHarvest({ autoApplyRunning: true }), true);
+    assert.equal(
+        shouldAllowInteractiveOptionHarvest({
+            sidePanelOpen: false,
+            draftAllRunning: false,
+            autoApplyRunning: false,
+        }),
+        false,
+    );
+});
 
 test('shouldPaintFieldHighlights requires open side panel and matching host window', () => {
     assert.equal(

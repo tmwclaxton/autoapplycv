@@ -51,6 +51,25 @@ export function shouldPaintFieldHighlights({
 }
 
 /**
+ * Proactive dropdown / combobox opening (lazy option harvest) is only allowed
+ * while the side panel is open, Draft All is running, or Auto Apply is running.
+ * Background snapshot prefetch must not open page menus when the extension is idle.
+ *
+ * @param {{
+ *   sidePanelOpen?: boolean,
+ *   draftAllRunning?: boolean,
+ *   autoApplyRunning?: boolean,
+ * }} input
+ */
+export function shouldAllowInteractiveOptionHarvest({
+    sidePanelOpen = false,
+    draftAllRunning = false,
+    autoApplyRunning = false,
+} = {}) {
+    return Boolean(sidePanelOpen || draftAllRunning || autoApplyRunning);
+}
+
+/**
  * @param {Record<string, unknown>} storage
  * @param {{ tabWindowId?: number|null, hostWindowId?: number|null }} [options]
  */

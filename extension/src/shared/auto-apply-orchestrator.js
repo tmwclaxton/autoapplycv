@@ -3556,7 +3556,9 @@ async function runDraftAllForStep(
     let draftAllTimeoutMs = DRAFT_ALL_STEP_TIMEOUT_MS;
 
     try {
-        const inventory = await collectFieldsFromTab(tabId);
+        const inventory = await collectFieldsFromTab(tabId, undefined, {
+            allowInteractiveOptionHarvest: true,
+        });
         const fieldCount = Number(
             inventory?.fields?.length || inventory?.elements?.length || 0,
         );

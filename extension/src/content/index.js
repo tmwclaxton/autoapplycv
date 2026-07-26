@@ -1120,7 +1120,7 @@ async function runFieldHighlightRefresh(explicitPaintFieldHighlights) {
     }
 }
 
-async function collectDraftContext(injectedProfile = null) {
+async function collectDraftContext(injectedProfile = null, options = {}) {
     if (injectedProfile?.profile) {
         profile = injectedProfile;
     }
@@ -1138,8 +1138,17 @@ async function collectDraftContext(injectedProfile = null) {
     }
 
     const settings = getAutofillSettings();
+    const snapshotOptions = {
+        allowInteractiveOptionHarvest: options.allowInteractiveOptionHarvest === true,
+    };
     const snapshot = typeof AutoCVApplyFieldInventory !== 'undefined'
-        ? await AutoCVApplyFieldInventory.buildSnapshotAllFramesAsync(document, profileData.profile, settings, {})
+        ? await AutoCVApplyFieldInventory.buildSnapshotAllFramesAsync(
+            document,
+            profileData.profile,
+            settings,
+            {},
+            snapshotOptions,
+        )
         : null;
     const fields = typeof AutoCVApplyFieldInventory !== 'undefined' && snapshot
         ? AutoCVApplyFieldInventory.fieldsFromInventory(snapshot.elements)
@@ -1212,13 +1221,17 @@ contentMessageListener = (message, sender, sendResponse) => {
         }
 
         if (message.type === 'COLLECT_DRAFTABLE_FIELDS') {
-            sendResponse(await collectDraftContext());
+            sendResponse(await collectDraftContext(null, {
+                allowInteractiveOptionHarvest: message.allowInteractiveOptionHarvest === true,
+            }));
 
             return;
         }
 
         if (message.type === 'BUILD_FIELD_SNAPSHOT') {
-            sendResponse(await collectDraftContext(message.profilePayload));
+            sendResponse(await collectDraftContext(message.profilePayload, {
+                allowInteractiveOptionHarvest: message.allowInteractiveOptionHarvest === true,
+            }));
 
             return;
         }
