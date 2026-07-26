@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogCompetitorComparisons;
+use App\Support\BlogTldrPlacement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Throwable;
@@ -93,20 +94,24 @@ class CompetitorComparisonArticleService
 You write honest SEO comparison articles for AutoCVApply (UK job seekers).
 
 Rules:
-- Output markdown ONLY for the article body (no title). Start with ## TL;DR.
+- Output markdown ONLY for the article body (no title).
 - Include real markdown links: competitor homepage {$homepage}, and when known their pricing/features URLs from the brief.
 - Always link AutoCVApply pages: {$site}, {$site}/pricing, {$site}/login, {$site}/how-to, {$site}/blog/what-is-autocvapply, Chrome Web Store {$store}.
-- Required H2 sections (exact headings):
-  ## TL;DR
+- Required H2 sections (exact headings, in this order):
   ## Who each product is for
   ## How to compare Autofill and Auto Apply tools
   ## AutoCVApply vs {$competitor}: the practical angle
   ## When AutoCVApply is the better choice
   ## When {$competitor} might still fit
   ## Pricing posture
+  ## TL;DR
   ## FAQ
   ## Get started
+- Put ## TL;DR after the main comparison sections and immediately before ## FAQ.
 - Under the practical angle section include ### Feature matrix (honest, link-backed) and ### Automation and privacy model and ### What crawl research found about {$competitor}.
+- Feature matrix cells MUST answer with a short decisive lead-in: Yes / No / Partial / Unclear, then one honest clause grounded in the brief. Example: "Partial - markets LinkedIn and Indeed; not Totaljobs or Reed".
+- Do NOT use hedge cop-outs in matrix cells such as "See their site", "Varies - see crawl notes", "verify on ...", or "Not claimed as this exact UK set".
+- If unknown, write "Unclear - appears X from public pages" (still a real answer), never deflect to notes.
 - Ground competitor claims ONLY in the research brief. If a scrape failed, say so. Never invent prices, board lists, or guarantees.
 - AutoCVApply facts MUST match the AutoCVApply product truth in the brief (boards, ATS submit honesty, GBP pricing).
 - Soft CTA only. No em dashes. No "guarantee more interviews".
@@ -130,8 +135,9 @@ PROMPT;
 
         $body = trim($raw);
         $body = preg_replace('/\A#\s+[^\n]+\n+/u', '', $body) ?? $body;
+        $body = Str::of($body)->replace("\u{2014}", '-')->replace("\u{2013}", '-')->toString();
 
-        return Str::of($body)->replace("\u{2014}", '-')->replace("\u{2013}", '-')->toString();
+        return BlogTldrPlacement::moveNearBottom($body);
     }
 
     /**
@@ -154,6 +160,17 @@ PROMPT;
 
         if (str_contains($body, 'http://localhost') || str_contains($body, 'https://localhost')) {
             return false;
+        }
+
+        $matrixSection = BlogCompetitorComparisons::extractFeatureMatrixSection($body);
+        if ($matrixSection === '') {
+            return false;
+        }
+
+        foreach (BlogCompetitorComparisons::bannedMatrixHedgePhrases() as $phrase) {
+            if (str_contains($matrixSection, $phrase)) {
+                return false;
+            }
         }
 
         return true;

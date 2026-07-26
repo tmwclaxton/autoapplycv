@@ -422,7 +422,7 @@ return [
 
         'thin_content_rules' => [
             'Write a long, practical SEO article (respect the length preset - default long/pillar).',
-            'Open with a TL;DR of 3-5 concrete steps the reader can do.',
+            'Include a TL;DR of 3-5 concrete steps near the bottom (after the main sections, before FAQ).',
             'Include a when-it-is-worth-it / when-it-is-not section when the topic is automation or volume applying.',
             'End with an FAQ (3-5 Q&As) and a soft AutoCVApply CTA - not a hard sell in the title.',
             'Product surfaces (AutoFill, Draft All, Auto Apply) belong in the body and CTA; titles should earn the search click first.',

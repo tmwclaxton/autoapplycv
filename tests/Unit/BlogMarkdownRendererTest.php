@@ -154,6 +154,42 @@ MD);
     }
 
     #[Test]
+    public function it_colour_codes_yes_no_partial_matrix_cells(): void
+    {
+        $html = BlogMarkdownRenderer::toHtml(<<<'MD'
+| Capability | AutoCVApply | Competitor |
+|------------|-------------|------------|
+| Extension | Yes - Chrome Web Store | No - web autopilot only |
+| Boards | Partial - five UK boards | Unclear - site was down |
+MD);
+
+        $this->assertStringContainsString('postbox-matrix', $html);
+        $this->assertStringContainsString('postbox-cell-yes', $html);
+        $this->assertStringContainsString('postbox-cell-no', $html);
+        $this->assertStringContainsString('postbox-cell-partial', $html);
+        $this->assertStringContainsString('postbox-cell-unclear', $html);
+        $this->assertStringContainsString('postbox-status-yes', $html);
+        $this->assertStringContainsString('postbox-status-no', $html);
+        $this->assertStringContainsString('postbox-status-partial', $html);
+        $this->assertStringContainsString('postbox-status-unclear', $html);
+        $this->assertStringContainsString('>Yes</span>', $html);
+        $this->assertStringContainsString('>No</span>', $html);
+    }
+
+    #[Test]
+    public function it_keeps_author_supplied_status_spans_and_strips_unknown_classes(): void
+    {
+        $html = BlogMarkdownRenderer::toHtml(
+            '<table><tr><td class="postbox-cell-yes evil"><span class="postbox-status postbox-status-yes hack">Yes</span> - ok</td></tr></table>',
+        );
+
+        $this->assertStringContainsString('postbox-cell-yes', $html);
+        $this->assertStringContainsString('postbox-status-yes', $html);
+        $this->assertStringNotContainsString('evil', $html);
+        $this->assertStringNotContainsString('hack', $html);
+    }
+
+    #[Test]
     public function it_does_not_alter_already_structured_markdown(): void
     {
         $markdown = <<<'MD'

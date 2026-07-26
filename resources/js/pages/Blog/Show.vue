@@ -123,17 +123,17 @@ function formatDate(date: string): string {
                 </span>
             </div>
 
-            <img
-                v-if="post.image_url"
-                :src="post.image_url"
-                :alt="post.title"
-                class="mx-auto mt-8 aspect-[2/1] max-h-52 w-full max-w-3xl rounded-xl border-2 border-postbox-navy object-cover sm:max-h-64 md:max-h-72"
-            />
-
             <div
-                class="postbox-prose postbox-panel mt-10 w-full min-w-0 overflow-x-hidden p-6 sm:p-8"
-                v-html="post.body_html"
-            />
+                class="postbox-panel mt-10 w-full min-w-0 overflow-x-hidden p-6 sm:p-8"
+            >
+                <img
+                    v-if="post.image_url"
+                    :src="post.image_url"
+                    :alt="post.title"
+                    class="mb-8 max-h-[32rem] w-full rounded-xl border-2 border-postbox-navy object-contain"
+                />
+                <div class="postbox-prose" v-html="post.body_html" />
+            </div>
 
             <div
                 v-if="post.sources.length > 0"

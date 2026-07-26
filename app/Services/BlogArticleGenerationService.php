@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Support\BlogArticleFormats;
 use App\Support\BlogKeywordStrategy;
+use App\Support\BlogTldrPlacement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -50,14 +51,6 @@ class BlogArticleGenerationService
         $bodyParts = [];
         $previousNotes = [];
 
-        if ($plan['tldr'] !== []) {
-            $tldrLines = [];
-            foreach ($plan['tldr'] as $index => $step) {
-                $tldrLines[] = ($index + 1).'. '.$step;
-            }
-            $bodyParts[] = "## TL;DR\n\n".implode("\n", $tldrLines);
-        }
-
         foreach ($plan['sections'] as $index => $section) {
             $sectionNum = $index + 1;
             $heading = $section['heading'];
@@ -95,6 +88,14 @@ class BlogArticleGenerationService
 
             $bodyParts[] = '## '.$heading."\n\n".$contentTrimmed;
             $previousNotes[] = $heading.': '.mb_substr(trim(strip_tags($contentTrimmed)), 0, 280);
+        }
+
+        if ($plan['tldr'] !== []) {
+            $tldrLines = [];
+            foreach ($plan['tldr'] as $index => $step) {
+                $tldrLines[] = ($index + 1).'. '.$step;
+            }
+            $bodyParts[] = "## TL;DR\n\n".implode("\n", $tldrLines);
         }
 
         if ($plan['faq'] !== []) {
@@ -445,8 +446,9 @@ PROMPT;
     public static function normalizeBlogBodyForDisplay(string $body, string $pageTitle): string
     {
         $body = self::stripDuplicateLeadTitleFromBody($body, $pageTitle);
+        $body = self::dedupeAdjacentDuplicateHeadingsInMarkdown($body);
 
-        return self::dedupeAdjacentDuplicateHeadingsInMarkdown($body);
+        return BlogTldrPlacement::moveNearBottom($body);
     }
 
     public static function stripDuplicateLeadTitleFromBody(string $body, string $pageTitle): string

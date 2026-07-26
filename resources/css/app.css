@@ -681,4 +681,107 @@
     .postbox-prose :where(tbody tr:nth-child(even)) {
         background: color-mix(in srgb, var(--postbox-navy) 4%, transparent);
     }
+
+    .postbox-prose :where(.postbox-matrix) {
+        border-color: color-mix(
+            in srgb,
+            var(--postbox-navy) 28%,
+            var(--border)
+        );
+    }
+
+    .postbox-prose :where(.postbox-matrix thead th:nth-child(2)) {
+        background: color-mix(in srgb, #1a7f4b 14%, var(--postbox-grey));
+    }
+
+    .postbox-prose :where(.postbox-matrix thead th:nth-child(3)) {
+        background: color-mix(
+            in srgb,
+            var(--postbox-navy) 10%,
+            var(--postbox-grey)
+        );
+    }
+
+    .postbox-prose :where(td.postbox-cell-yes) {
+        background: color-mix(in srgb, #1a7f4b 14%, var(--postbox-surface));
+    }
+
+    .postbox-prose :where(td.postbox-cell-partial),
+    .postbox-prose :where(td.postbox-cell-unclear) {
+        background: color-mix(in srgb, #b45309 12%, var(--postbox-surface));
+    }
+
+    .postbox-prose :where(td.postbox-cell-no) {
+        background: color-mix(
+            in srgb,
+            var(--postbox-red) 10%,
+            var(--postbox-surface)
+        );
+    }
+
+    .postbox-prose :where(td.postbox-cell-info) {
+        background: color-mix(
+            in srgb,
+            var(--postbox-navy) 6%,
+            var(--postbox-surface)
+        );
+    }
+
+    .postbox-prose :where(.postbox-status) {
+        display: inline-block;
+        margin-right: 0.35rem;
+        padding: 0.1rem 0.45rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1.35;
+        vertical-align: baseline;
+    }
+
+    .postbox-prose :where(.postbox-status-yes) {
+        color: #0f5c38;
+        background: color-mix(in srgb, #1a7f4b 22%, var(--postbox-surface));
+    }
+
+    .postbox-prose :where(.postbox-status-partial),
+    .postbox-prose :where(.postbox-status-unclear) {
+        color: #7c3a0a;
+        background: color-mix(in srgb, #b45309 20%, var(--postbox-surface));
+    }
+
+    .postbox-prose :where(.postbox-status-no) {
+        color: #8a1024;
+        background: color-mix(
+            in srgb,
+            var(--postbox-red) 18%,
+            var(--postbox-surface)
+        );
+    }
+
+    .postbox-prose :where(.postbox-status-info) {
+        color: var(--postbox-navy);
+        background: color-mix(
+            in srgb,
+            var(--postbox-navy) 12%,
+            var(--postbox-surface)
+        );
+    }
+
+    .dark .postbox-prose :where(.postbox-status-yes) {
+        color: #86efac;
+    }
+
+    .dark .postbox-prose :where(.postbox-status-partial),
+    .dark .postbox-prose :where(.postbox-status-unclear) {
+        color: #fdba74;
+    }
+
+    .dark .postbox-prose :where(.postbox-status-no) {
+        color: #fca5a5;
+    }
+
+    .dark .postbox-prose :where(.postbox-status-info) {
+        color: #bfdbfe;
+    }
 }

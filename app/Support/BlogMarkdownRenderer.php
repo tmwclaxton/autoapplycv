@@ -33,7 +33,32 @@ class BlogMarkdownRenderer
         'a', 'img', 'figure', 'figcaption',
         'blockquote', 'pre', 'code',
         'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
-        'div', 'iframe',
+        'div', 'span', 'iframe',
+    ];
+
+    /**
+     * Safe semantic classes for comparison feature-matrix cells.
+     *
+     * @var list<string>
+     */
+    private const MATRIX_CELL_CLASSES = [
+        'postbox-cell-yes',
+        'postbox-cell-no',
+        'postbox-cell-partial',
+        'postbox-cell-unclear',
+        'postbox-cell-info',
+    ];
+
+    /**
+     * @var list<string>
+     */
+    private const MATRIX_STATUS_CLASSES = [
+        'postbox-status',
+        'postbox-status-yes',
+        'postbox-status-no',
+        'postbox-status-partial',
+        'postbox-status-unclear',
+        'postbox-status-info',
     ];
 
     /**
@@ -398,10 +423,8 @@ class BlogMarkdownRenderer
                 'a' => in_array($lower, ['href', 'title', 'rel', 'target'], true),
                 'img' => in_array($lower, ['src', 'alt', 'title', 'width', 'height', 'loading'], true),
                 'iframe' => in_array($lower, ['src', 'title', 'allow', 'allowfullscreen', 'frameborder', 'loading', 'referrerpolicy'], true),
-                'td', 'th' => in_array($lower, ['colspan', 'rowspan', 'align'], true),
-                'div' => $lower === 'class',
-                'code' => $lower === 'class',
-                'pre' => $lower === 'class',
+                'td', 'th' => in_array($lower, ['colspan', 'rowspan', 'align', 'class'], true),
+                'div', 'span', 'code', 'pre' => $lower === 'class',
                 default => false,
             };
 
@@ -434,7 +457,7 @@ class BlogMarkdownRenderer
             );
         }
 
-        if (in_array($tag, ['div', 'code', 'pre'], true) && $element->hasAttribute('class')) {
+        if (in_array($tag, ['div', 'span', 'code', 'pre', 'td', 'th'], true) && $element->hasAttribute('class')) {
             $safeClasses = self::filterSafeClasses($element->getAttribute('class'), $tag);
 
             if ($safeClasses === []) {
@@ -469,14 +492,30 @@ class BlogMarkdownRenderer
                 $parent->tagName === 'div'
                 && str_contains($parent->getAttribute('class'), 'postbox-table-wrap')
             ) {
+                if (
+                    self::tableLooksLikeFeatureMatrix($table)
+                    && ! str_contains($parent->getAttribute('class'), 'postbox-matrix')
+                ) {
+                    $parent->setAttribute(
+                        'class',
+                        trim($parent->getAttribute('class').' postbox-matrix'),
+                    );
+                }
+
                 continue;
             }
 
             $wrap = $document->createElement('div');
-            $wrap->setAttribute('class', 'postbox-table-wrap');
+            $wrapClasses = ['postbox-table-wrap'];
+            if (self::tableLooksLikeFeatureMatrix($table)) {
+                $wrapClasses[] = 'postbox-matrix';
+            }
+            $wrap->setAttribute('class', implode(' ', $wrapClasses));
             $parent->insertBefore($wrap, $table);
             $wrap->appendChild($table);
         }
+
+        self::enhanceFeatureMatrixCells($document, $root);
 
         foreach ($root->getElementsByTagName('iframe') as $iframe) {
             if ($iframe instanceof DOMElement) {
@@ -568,7 +607,15 @@ class BlogMarkdownRenderer
                 continue;
             }
 
-            if ($tag === 'div' && in_array($class, ['postbox-table-wrap', 'postbox-embed'], true)) {
+            if ($tag === 'div' && in_array($class, ['postbox-table-wrap', 'postbox-embed', 'postbox-matrix'], true)) {
+                $allowed[] = $class;
+            }
+
+            if (in_array($tag, ['td', 'th'], true) && in_array($class, self::MATRIX_CELL_CLASSES, true)) {
+                $allowed[] = $class;
+            }
+
+            if ($tag === 'span' && in_array($class, self::MATRIX_STATUS_CLASSES, true)) {
                 $allowed[] = $class;
             }
 
@@ -578,6 +625,118 @@ class BlogMarkdownRenderer
         }
 
         return array_values(array_unique($allowed));
+    }
+
+    private static function tableLooksLikeFeatureMatrix(DOMElement $table): bool
+    {
+        foreach ($table->getElementsByTagName('th') as $th) {
+            if (! $th instanceof DOMElement) {
+                continue;
+            }
+
+            $label = strtolower(trim(preg_replace('/\s+/u', ' ', $th->textContent) ?? ''));
+            if ($label === 'capability' || str_contains($label, 'autocvapply')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function enhanceFeatureMatrixCells(DOMDocument $document, DOMElement $root): void
+    {
+        /** @var list<DOMElement> $cells */
+        $cells = [];
+
+        foreach ($root->getElementsByTagName('td') as $td) {
+            if ($td instanceof DOMElement) {
+                $cells[] = $td;
+            }
+        }
+
+        foreach ($cells as $td) {
+            $status = self::detectMatrixStatus($td->textContent);
+            if ($status === null) {
+                continue;
+            }
+
+            $cellClass = 'postbox-cell-'.$status;
+            $existing = self::filterSafeClasses($td->getAttribute('class'), 'td');
+            if (! in_array($cellClass, $existing, true)) {
+                $existing[] = $cellClass;
+            }
+            $td->setAttribute('class', implode(' ', $existing));
+
+            if (self::cellAlreadyHasStatusBadge($td)) {
+                continue;
+            }
+
+            self::wrapLeadingStatusBadge($document, $td, $status);
+        }
+    }
+
+    private static function detectMatrixStatus(string $text): ?string
+    {
+        $trimmed = trim(preg_replace('/\s+/u', ' ', $text) ?? '');
+
+        if (preg_match('/^(Yes|No|Partial|Unclear)\b/iu', $trimmed, $matches) !== 1) {
+            return null;
+        }
+
+        return strtolower($matches[1]);
+    }
+
+    private static function cellAlreadyHasStatusBadge(DOMElement $td): bool
+    {
+        foreach ($td->getElementsByTagName('span') as $span) {
+            if (! $span instanceof DOMElement) {
+                continue;
+            }
+
+            $classes = preg_split('/\s+/', trim($span->getAttribute('class'))) ?: [];
+            if (in_array('postbox-status', $classes, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function wrapLeadingStatusBadge(DOMDocument $document, DOMElement $td, string $status): void
+    {
+        $firstText = null;
+        foreach ($td->childNodes as $child) {
+            if ($child->nodeType === XML_TEXT_NODE) {
+                $firstText = $child;
+                break;
+            }
+        }
+
+        if ($firstText === null || $firstText->nodeValue === null) {
+            return;
+        }
+
+        if (preg_match('/^(\s*)(Yes|No|Partial|Unclear)\b(.*)$/ius', $firstText->nodeValue, $matches) !== 1) {
+            return;
+        }
+
+        $badge = $document->createElement('span');
+        $badge->setAttribute('class', 'postbox-status postbox-status-'.$status);
+        $badge->appendChild($document->createTextNode($matches[2]));
+
+        $remainder = $matches[3];
+        $leading = $matches[1];
+
+        $td->insertBefore($badge, $firstText);
+        if ($leading !== '') {
+            $td->insertBefore($document->createTextNode($leading), $badge);
+        }
+
+        if ($remainder === '') {
+            $td->removeChild($firstText);
+        } else {
+            $firstText->nodeValue = $remainder;
+        }
     }
 
     private static function isSafeHref(string $href): bool

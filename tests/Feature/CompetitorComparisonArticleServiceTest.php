@@ -46,4 +46,23 @@ class CompetitorComparisonArticleServiceTest extends TestCase
         $this->assertContains('https://autocvapply.com/pricing', $urls);
         $this->assertContains('https://lazyapply.com', $urls);
     }
+
+    public function test_validation_rejects_matrix_hedge_copouts(): void
+    {
+        $service = app(CompetitorComparisonArticleService::class);
+        $definition = collect(BlogCompetitorComparisons::definitions())->firstWhere('id', 'massive');
+        $this->assertNotNull($definition);
+
+        $body = BlogCompetitorComparisons::body($definition);
+        $this->assertTrue($service->bodyPassesValidation($definition, $body));
+
+        $hedged = preg_replace(
+            '/\| Chrome\/Firefox apply extension \|[^\n]+\n/',
+            "| Chrome/Firefox apply extension | Yes | See their site / features |\n",
+            $body,
+            1,
+        );
+        $this->assertIsString($hedged);
+        $this->assertFalse($service->bodyPassesValidation($definition, $hedged));
+    }
 }

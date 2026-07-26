@@ -13,7 +13,7 @@ class BlogArticleFormats
             [
                 'key' => 'how-to',
                 'name' => 'How-to guide',
-                'hint' => 'Search-intent how-to. TL;DR steps first, then deep sections. Soft product CTA late - not brand in the title.',
+                'hint' => 'Search-intent how-to. Deep sections first, then TL;DR near the bottom before FAQ. Soft product CTA late - not brand in the title.',
                 'title_pattern' => 'Titles look like Google queries, e.g. "How to Auto Apply on LinkedIn Easy Apply (2026)".',
             ],
             [

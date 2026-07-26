@@ -215,7 +215,9 @@ class BlogArticleGenerationServiceTest extends TestCase
             ],
         );
 
-        $this->assertStringStartsWith('## TL;DR', $article['body']);
+        $this->assertStringContainsString('## TL;DR', $article['body']);
+        $this->assertMatchesRegularExpression('/## Use the extension.*## TL;DR.*## FAQ/s', $article['body']);
+        $this->assertDoesNotMatchRegularExpression('/\A## TL;DR/s', trim($article['body']));
         $this->assertStringContainsString('## FAQ', $article['body']);
         $this->assertStringContainsString('Soft CTA to AutoCVApply.', $article['body']);
     }

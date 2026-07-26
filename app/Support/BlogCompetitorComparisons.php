@@ -14,6 +14,27 @@ use Illuminate\Support\Str;
 class BlogCompetitorComparisons
 {
     /**
+     * Phrases that must not appear in feature-matrix cells (cop-out hedges).
+     *
+     * @return list<string>
+     */
+    public static function bannedMatrixHedgePhrases(): array
+    {
+        return [
+            'See their site',
+            'Varies - see crawl',
+            'see crawl notes',
+            'Not claimed as this exact UK set',
+            'verify on usemassive',
+            'verify on their',
+            'verify on huntr',
+            'verify current numbers',
+            'Varies - see',
+            'treat as unverified until',
+        ];
+    }
+
+    /**
      * @return array<int, array{
      *     id: string,
      *     competitor: string,
@@ -27,6 +48,14 @@ class BlogCompetitorComparisons
      *     crawl_summary: array<int, string>,
      *     pricing_posture: string,
      *     automation_model: string,
+     *     feature_matrix: array{
+     *         extension: string,
+     *         uk_boards: string,
+     *         ats_autofill: string,
+     *         draft_all: string,
+     *         job_tracker: string,
+     *         pricing: string
+     *     },
      *     title: string,
      *     slug: string,
      *     excerpt: string,
@@ -52,8 +81,16 @@ class BlogCompetitorComparisons
                     'Pricing on the homepage: Free ($0, 2 AI credits/month), Premium ($6.99/mo annual or similar monthly), Unlimited ($22.99/mo).',
                     'Onboarding copy emphasises install extension, set profile, go to LinkedIn Jobs and click Start.',
                 ],
-                'pricing_posture' => 'Free forever with limited AI credits; paid Premium/Unlimited tiers for more AI generations (USD). Exact limits change - check their pricing section.',
+                'pricing_posture' => 'Free forever with limited AI credits (2/mo); paid Premium (~$7/mo) and Unlimited (~$23/mo) for more AI generations (USD).',
                 'automation_model' => 'Browser extension auto-apply on supported boards; autofill marketed for broader portals. Volume-oriented LinkedIn workflow.',
+                'feature_matrix' => [
+                    'extension' => 'Yes - Chrome extension on the Web Store; LinkedIn Jobs "Start" is the core flow',
+                    'uk_boards' => 'Partial - markets LinkedIn, Indeed, Glassdoor, WTTJ, Monster; not Totaljobs or Reed',
+                    'ats_autofill' => 'Yes - AI autofill marketed for Greenhouse, Lever, Workday, and 100+ portals',
+                    'draft_all' => 'Partial - AI answers custom questions from profile/CV; resume and cover letter generation is the headline',
+                    'job_tracker' => 'Yes - application tracking dashboard with filters and CSV export',
+                    'pricing' => 'Yes - Free with 2 AI credits/mo; Premium ~$7/mo; Unlimited ~$23/mo (USD)',
+                ],
             ],
             [
                 'id' => 'lazyapply',
@@ -71,8 +108,16 @@ class BlogCompetitorComparisons
                     'Individual plans shown as yearly: Basic (~$99/yr, 15 apps/day), Premium (~$149/yr, 150 apps/day), Ultimate (~$999/yr, 1500 apps/day), with a 30-day refund policy page.',
                     'Also lists LinkedIn and resume helper tools (cover letter, resume score, etc.).',
                 ],
-                'pricing_posture' => 'Annual individual plans in the roughly $99-$999/year band with daily application caps; verify current numbers on their pricing section.',
+                'pricing_posture' => 'Annual individual plans roughly $99-$999/year with daily application caps (Basic 15/day through Ultimate 1500/day).',
                 'automation_model' => 'High-volume automated applies and referral outreach; less emphasis on UK board coverage or human review of every screener.',
+                'feature_matrix' => [
+                    'extension' => 'Partial - product is Job GPT / mass-apply tooling; LinkedIn helpers listed, not a UK multi-board sidebar like AutoCVApply',
+                    'uk_boards' => 'Partial - markets Indeed plus Greenhouse/Dice/ZipRecruiter volume; not Totaljobs, Reed, or Glassdoor as a UK Auto Apply set',
+                    'ats_autofill' => 'Yes - automated applies marketed on Greenhouse and similar portals at high daily caps',
+                    'draft_all' => 'Partial - Job GPT automates answers at volume; less emphasis on per-screener human review before submit',
+                    'job_tracker' => 'Yes - tracking dashboard and multi-profile analytics are part of the pitch',
+                    'pricing' => 'Yes - annual plans ~$99-$999/yr with 15-1500 apps/day caps; 30-day refund policy page',
+                ],
             ],
             [
                 'id' => 'simplify',
@@ -88,10 +133,18 @@ class BlogCompetitorComparisons
                     'Homepage: matched jobs, Copilot extension autofill, AI resume builder, and job tracker powered by one profile.',
                     'Copilot is positioned to autofill applications and highlight missing resume keywords; install/learn-more paths at /install and /copilot.',
                     'Tracker markets bookmarking from 50+ boards; resume builder includes ATS score and keyword tips.',
-                    'Public /pricing returned 404 at research time - do not invent plan prices; point readers to the live site.',
+                    'Public /pricing returned 404 at research time - free signup is the headline CTA.',
                 ],
-                'pricing_posture' => 'Free signup is heavily promoted; paid tiers exist historically for AI extras but were not confirmed on a live pricing URL during research - check simplify.jobs directly.',
+                'pricing_posture' => 'Free signup is the headline ("Join Now - It\'s Free"); paid AI extras may exist historically, but no live public pricing table was confirmed.',
                 'automation_model' => 'Autofill + tracking + matching; you typically still submit. Strong discovery/CRM surface vs AutoCVApply\'s apply engine focus.',
+                'feature_matrix' => [
+                    'extension' => 'Yes - Simplify Copilot Chrome extension for autofill and keyword tips',
+                    'uk_boards' => 'No - Copilot autofills applications; not marketed as Auto Apply on LinkedIn/Indeed/Totaljobs/Glassdoor/Reed',
+                    'ats_autofill' => 'Yes - Copilot autofills repetitive application questions; you typically still submit',
+                    'draft_all' => 'Partial - AI resume tailoring and keyword tips; not an in-browser Draft All for every screener with review',
+                    'job_tracker' => 'Yes - job tracker with bookmarking from 50+ boards is a core product surface',
+                    'pricing' => 'Partial - free signup is the headline; Unclear from public pages whether paid AI tiers are live (no /pricing table found)',
+                ],
             ],
             [
                 'id' => 'loopcv',
@@ -109,8 +162,16 @@ class BlogCompetitorComparisons
                     'Pricing page: Free (Basic Looper), Standard ~$19.99/mo, Premium ~$59.99/mo, Done For You ~$89.99/mo - with monthly application/email caps and job-board limits.',
                     'FAQ states applications go through standard flows; employers should not see an automation label (their claim).',
                 ],
-                'pricing_posture' => 'Free plan with low monthly caps; paid Standard/Premium/Done-For-You from roughly $20-$90/mo (verify on their pricing page).',
+                'pricing_posture' => 'Free plan with low monthly caps; paid Standard/Premium/Done-For-You roughly $20-$90/mo with application and email limits.',
                 'automation_model' => 'Cloud automation + optional extension; can apply/email without you driving each form. Control is filter/review based rather than per-field browser fill.',
+                'feature_matrix' => [
+                    'extension' => 'Partial - LinkedIn auto-apply extension exists; core product is cloud loopers that apply/email without you driving each form',
+                    'uk_boards' => 'No - cloud matching/apply across boards they support; not the UK Totaljobs/Reed/Glassdoor Auto Apply sidebar set',
+                    'ats_autofill' => 'Partial - applies on your behalf through standard flows; not "fill then you Submit" browser AutoFill',
+                    'draft_all' => 'Partial - AI CV builder/checker and outreach copy; optional review of matches rather than Draft All per screener',
+                    'job_tracker' => 'Yes - analytics, application tracking, and A/B CV testing are marketed',
+                    'pricing' => 'Yes - Free Basic Looper; Standard ~$20/mo, Premium ~$60/mo, Done For You ~$90/mo',
+                ],
             ],
             [
                 'id' => 'applyglide',
@@ -120,7 +181,7 @@ class BlogCompetitorComparisons
                 'features_url' => null,
                 'category' => 'auto-apply / resume tooling (category listing)',
                 'angle' => 'ApplyGlide appears in auto-apply comparison directories, but live site research found the homepage unavailable and indexed pages skewed toward resume/cover-letter templates. AutoCVApply differentiates with a verified Chrome extension workflow: structured CV profile, Draft All, UK board Auto Apply, and clear ATS honesty.',
-                'when_them' => 'You specifically need ApplyGlide\'s current product surface (confirm on their site) and it covers the boards you use - otherwise treat directory mentions as unverified.',
+                'when_them' => 'You specifically need ApplyGlide\'s current product surface (confirm live on their site) and it covers the boards you use - otherwise treat directory mentions as stale.',
                 'who_they_are' => 'A product still listed in competitor compare directories; public site status was unreliable during research, so feature claims stay cautious.',
                 'crawl_summary' => [
                     'Direct Firecrawl scrape of https://applyglide.com returned a Cloudflare 520 origin error at research time.',
@@ -128,8 +189,16 @@ class BlogCompetitorComparisons
                     'Third-party compare pages still list ApplyGlide in the auto-apply category - those are not primary sources for current features.',
                     'Do not invent board lists, pricing, or automation claims until the live site is readable again.',
                 ],
-                'pricing_posture' => 'Not verified - homepage was down during research. Check applyglide.com for current plans.',
-                'automation_model' => 'Unverified from primary crawl. Prefer AutoCVApply when you need documented board Auto Apply + ATS autofill behaviour.',
+                'pricing_posture' => 'Unclear from public pages; homepage returned Cloudflare 520 during research, so no live plan table was readable.',
+                'automation_model' => 'Unclear from public pages - primary crawl failed. Prefer AutoCVApply when you need documented board Auto Apply + ATS autofill behaviour.',
+                'feature_matrix' => [
+                    'extension' => 'Unclear - homepage Cloudflare 520; cannot confirm a live apply extension from primary pages',
+                    'uk_boards' => 'Unclear - no readable board Auto Apply claims from the live site; directory listings are not primary evidence',
+                    'ats_autofill' => 'Unclear - indexed pages skew to resume/cover templates rather than documented ATS autofill',
+                    'draft_all' => 'Unclear - no verified Draft All / screener-draft product page while the origin was down',
+                    'job_tracker' => 'Unclear - tracker features not confirmed from a working primary scrape',
+                    'pricing' => 'Unclear - no public plan table readable while applyglide.com returned 520',
+                ],
             ],
             [
                 'id' => 'jobcopilot',
@@ -145,10 +214,18 @@ class BlogCompetitorComparisons
                     'Homepage: configure filters, upload resume once, copilot finds jobs daily and autofills applications; claims up to ~50 personalized applications per day.',
                     'Emphasises verified jobs on official company career pages (not board spam), resume tailoring, and training the copilot from edited answers.',
                     'Feature hub includes job search automation and related job-search products bundled as one solution.',
-                    'Pricing page exists at /pricing (cookie banner heavy in scrape); treat dollar amounts as verify-on-site.',
+                    'Pricing: Premium from ~$0.93/day (up to 20 matches) and Elite from ~$1.05/day (up to 50 matches), with weekly/monthly/quarterly billing.',
                 ],
-                'pricing_posture' => 'Paid automation plans promoted on /pricing - confirm current tiers on their site rather than relying on third-party roundups.',
+                'pricing_posture' => 'Paid Premium (~$0.93/day, up to 20 matches) and Elite (~$1.05/day, up to 50 matches) with weekly/monthly/quarterly options.',
                 'automation_model' => 'Background copilot applies to career-page jobs; optional human review. Different from AutoCVApply\'s user-started board Auto Apply in the browser.',
+                'feature_matrix' => [
+                    'extension' => 'No - cloud copilot that finds and autofills career-page jobs; not a Chrome board Auto Apply sidebar',
+                    'uk_boards' => 'No - focuses on official company career pages, not LinkedIn/Indeed/Totaljobs/Glassdoor/Reed Auto Apply',
+                    'ats_autofill' => 'Yes - autofills applications on company career pages; optional save-for-review before send',
+                    'draft_all' => 'Partial - trains from edited answers and tailors resumes; not the same as in-browser Draft All on every screener',
+                    'job_tracker' => 'Yes - job application tracker is listed on paid plans',
+                    'pricing' => 'Yes - Premium from ~$0.93/day (20 matches); Elite from ~$1.05/day (50 matches)',
+                ],
             ],
             [
                 'id' => 'huntr',
@@ -166,8 +243,16 @@ class BlogCompetitorComparisons
                     'Pricing: Free tier (limited tailored resumes and 100 tracked jobs) and Pro around $40/mo monthly or lower on longer billing.',
                     'Strong CRM/resume identity - autofill is one module, not the whole product.',
                 ],
-                'pricing_posture' => 'Free plan plus Pro (~$26-$40/mo depending on billing period) - verify on huntr.co/pricing.',
+                'pricing_posture' => 'Free plan (limited tailored resumes, 100 tracked jobs) plus Pro roughly $26-$40/mo depending on billing period.',
                 'automation_model' => 'Tracker-first with autofill assist; not positioned as UK multi-board Auto Apply.',
+                'feature_matrix' => [
+                    'extension' => 'Yes - Chrome extension for autofill and job clipping into the tracker',
+                    'uk_boards' => 'No - autofill assist, not Auto Apply sessions on LinkedIn/Indeed/Totaljobs/Glassdoor/Reed',
+                    'ats_autofill' => 'Yes - one-click application form fill is marketed alongside the CRM',
+                    'draft_all' => 'Partial - AI resume/cover tools and tailored resumes; not Draft All for every free-text screener',
+                    'job_tracker' => 'Yes - job, contact, and interview trackers are the product centre of gravity',
+                    'pricing' => 'Yes - Free tier plus Pro ~$26-$40/mo depending on billing period',
+                ],
             ],
             [
                 'id' => 'sonara',
@@ -183,10 +268,18 @@ class BlogCompetitorComparisons
                     'Homepage: cast a wider net / 10x applications; AI finds and applies to relevant openings continuously.',
                     'Flow marketed as: get to know you → find jobs → apply for you; wake up to daily matches.',
                     'Shows live-looking job cards and partner branding (e.g. Monster/CareerBuilder style trust strip).',
-                    'Public pricing URL was not confirmed in research - avoid inventing plan prices.',
+                    'Public pricing URL was not confirmed in research - signup CTA is "Get Started" without a public plan table.',
                 ],
-                'pricing_posture' => 'Not confirmed from a dedicated pricing scrape - check sonara.ai for current plans.',
+                'pricing_posture' => 'Unclear from public pages; homepage pushes Get Started without a dedicated public pricing table.',
                 'automation_model' => 'Hands-off match-and-apply service. AutoCVApply instead keeps you starting board runs and submitting ATS forms.',
+                'feature_matrix' => [
+                    'extension' => 'No - web autopilot that finds and applies for you; not a browser Auto Apply extension',
+                    'uk_boards' => 'No - continuous match-and-apply service; not UK Totaljobs/Reed/Glassdoor Auto Apply in one sidebar',
+                    'ats_autofill' => 'Partial - "we apply for you" on matched openings; not fill-then-you-Submit browser AutoFill',
+                    'draft_all' => 'Partial - AI handles application grunt work after learning preferences; not Draft All with your review in Chrome',
+                    'job_tracker' => 'Partial - daily match lists and apply history implied; not a full CRM like Huntr/Teal',
+                    'pricing' => 'Unclear - no dedicated public pricing page confirmed; signup is Get Started',
+                ],
             ],
             [
                 'id' => 'teal',
@@ -204,8 +297,16 @@ class BlogCompetitorComparisons
                     'Less emphasis on end-to-end board Auto Apply than on resume quality and organisation.',
                     'Treat Teal as complementary for many seekers who still want a dedicated apply extension.',
                 ],
-                'pricing_posture' => 'Free signup is the headline; paid upgrades may exist for advanced AI - confirm on tealhq.com rather than inventing tiers.',
+                'pricing_posture' => 'Free signup is the headline ("It\'s 100% Free"); paid upgrades may exist for advanced AI, but free resume/tracker is the pitch.',
                 'automation_model' => 'Resume + tracker first; bookmarking/extension assist. Not a UK multi-board Auto Apply sidebar.',
+                'feature_matrix' => [
+                    'extension' => 'Yes - Chrome extension to bookmark jobs from 40+ boards into the tracker',
+                    'uk_boards' => 'No - bookmarking assist, not Auto Apply on LinkedIn/Indeed/Totaljobs/Glassdoor/Reed',
+                    'ats_autofill' => 'No - resume builder and tracker lead; not marketed as deep ATS AutoFill + you submit',
+                    'draft_all' => 'Partial - AI resume tailoring and keyword recommendations; not Draft All for employer screener boxes',
+                    'job_tracker' => 'Yes - job tracker and matching mode are core product surfaces',
+                    'pricing' => 'Partial - free signup is the headline; paid AI upgrades may exist for advanced features',
+                ],
             ],
             [
                 'id' => 'massive',
@@ -221,10 +322,18 @@ class BlogCompetitorComparisons
                     'Homepage: finds and applies to jobs daily; fill profile → get matches → sit back; claims up to ~200 applications/month.',
                     'Features: apply on your behalf, custom resume/cover letter per job, personalized hiring-team messages, visa sponsorship filters.',
                     'FAQ: employers "can\'t detect" Massive (their claim); you can preview submissions; Autopilot or manual job selection.',
-                    'www.usemassive.com DNS failed in one crawl attempt; apex usemassive.com succeeded.',
+                    'www.usemassive.com DNS failed in one crawl attempt; apex usemassive.com succeeded. No public plan table on the homepage.',
                 ],
-                'pricing_posture' => 'Paid membership implied by signup funnel; exact public plan table was not scraped - verify on usemassive.com.',
+                'pricing_posture' => 'Paid membership implied by signup; homepage markets up to ~200 applications/month without listing a public plan table.',
                 'automation_model' => 'Service-side autopilot applies for you. Opposite of AutoCVApply\'s user-started browser extension model.',
+                'feature_matrix' => [
+                    'extension' => 'No - web autopilot service; applies on your behalf after profile setup, not a Chrome Auto Apply extension',
+                    'uk_boards' => 'No - curated company matches and service-side apply; not LinkedIn/Indeed/Totaljobs/Glassdoor/Reed Auto Apply',
+                    'ats_autofill' => 'Partial - fills and submits applications for you (you can preview); not browser AutoFill where you keep Submit',
+                    'draft_all' => 'Partial - custom resume/cover letter and AI answers per job; preview before send, not in-browser Draft All',
+                    'job_tracker' => 'Partial - shows submitted applications and previews; not a full stages/CRM tracker',
+                    'pricing' => 'Partial - paid membership via signup; homepage claims up to ~200 apps/month, no public plan table scraped',
+                ],
             ],
         ];
 
@@ -313,11 +422,13 @@ class BlogCompetitorComparisons
         $featuresUrl = $definition['features_url'] ?? null;
         /** @var array<int, string> $crawlSummary */
         $crawlSummary = $definition['crawl_summary'] ?? [];
+        /** @var array<string, string> $matrix */
+        $matrix = $definition['feature_matrix'] ?? [];
 
         $competitorLink = "[{$competitor}]({$homepage})";
         $pricingLink = is_string($pricingUrl) && $pricingUrl !== ''
             ? "[pricing]({$pricingUrl})"
-            : 'pricing (check their site - no stable public pricing URL confirmed)';
+            : 'their homepage pricing / signup funnel';
         $featuresLink = is_string($featuresUrl) && $featuresUrl !== ''
             ? "[features]({$featuresUrl})"
             : 'features on their homepage';
@@ -330,15 +441,15 @@ class BlogCompetitorComparisons
             $crawlBullets = "- No crawl notes stored for {$competitor}; treat claims as unverified.\n";
         }
 
+        $featureMatrix = self::featureMatrixMarkdown(
+            $site,
+            $store,
+            $competitor,
+            $competitorLink,
+            $matrix,
+        );
+
         return <<<MD
-## TL;DR
-
-1. Decide what you need: board Auto Apply, ATS autofill, screening-answer drafts, a job tracker, or all of the above.
-2. Compare tools on **control** (who starts applies / who clicks Submit), **board coverage**, and **profile reuse** - not marketing slogans.
-3. [AutoCVApply]({$site}) is built for UK-style searching: one CV profile, [AutoFill]({$site}/how-to) on ATS forms, Draft All for free-text, Auto Apply on LinkedIn / Indeed / Totaljobs / Glassdoor / Reed.
-4. {$competitorLink} sits in the {$category} space - use it if that narrower job matches your bottleneck.
-5. Prefer the tool that keeps you reviewing answers; silent mass-apply rarely ages well.
-
 ## Who each product is for
 
 ### AutoCVApply
@@ -385,15 +496,7 @@ Research notes from Firecrawl scrapes of their public pages (products change - r
 {$crawlBullets}
 ### Feature matrix (honest, link-backed)
 
-| Capability | AutoCVApply | {$competitor} (from public pages) |
-|------------|-------------|-------------------------------------|
-| Primary URL | [autocvapply.com]({$site}) | {$competitorLink} |
-| Chrome/Firefox apply extension | Yes ([Chrome Web Store]({$store})) | See their site / {$featuresLink} |
-| UK board Auto Apply (LI, Indeed, Totaljobs, Glassdoor, Reed) | Yes, user-started | Not claimed as this exact UK set in our brief |
-| ATS AutoFill + you submit | Yes | Varies - see crawl notes |
-| Draft All / AI screeners with review | Yes (credits) | Varies - see crawl notes |
-| Job tracker / CRM | Light (apply-focused) | Often stronger if they are tracker-first |
-| Pricing posture | [GBP monthly credits]({$site}/pricing) | {$pricingPosture} |
+{$featureMatrix}
 
 ### Automation and privacy model
 
@@ -423,9 +526,17 @@ If that describes you, start at {$competitorLink} for that job - and still keep 
 
 **AutoCVApply:** Free includes CV upload, profile editing, and 1,500 monthly extension credits. Paid plans are monthly GBP via UK Direct Debit. Full detail: [pricing]({$site}/pricing).
 
-**{$competitor}:** {$pricingPosture} {$pricingLink}.
+**{$competitor}:** {$pricingPosture} See {$pricingLink}.
 
 Always compare the **workflow you will use weekly**, not the lowest advertised headline price alone.
+
+## TL;DR
+
+1. Decide what you need: board Auto Apply, ATS autofill, screening-answer drafts, a job tracker, or all of the above.
+2. Compare tools on **control** (who starts applies / who clicks Submit), **board coverage**, and **profile reuse** - not marketing slogans.
+3. [AutoCVApply]({$site}) is built for UK-style searching: one CV profile, [AutoFill]({$site}/how-to) on ATS forms, Draft All for free-text, Auto Apply on LinkedIn / Indeed / Totaljobs / Glassdoor / Reed.
+4. {$competitorLink} sits in the {$category} space - use it if that narrower job matches your bottleneck.
+5. Prefer the tool that keeps you reviewing answers; silent mass-apply rarely ages well.
 
 ## FAQ
 
@@ -453,6 +564,64 @@ Yes. Many people track stages in a CRM and use AutoCVApply for filling and board
 
 More product detail: [What is AutoCVApply?]({$site}/blog/what-is-autocvapply) and [How to]({$site}/how-to). Still comparing tools? Browse more [blog comparisons]({$site}/blog).
 MD;
+    }
+
+    /**
+     * Build the markdown feature matrix with decisive Yes/No/Partial/Unclear cells.
+     *
+     * @param  array<string, string>  $matrix
+     */
+    public static function featureMatrixMarkdown(
+        string $site,
+        string $store,
+        string $competitor,
+        string $competitorLink,
+        array $matrix,
+    ): string {
+        $extension = self::matrixCell($matrix, 'extension', 'Unclear - public pages did not confirm an apply extension');
+        $ukBoards = self::matrixCell($matrix, 'uk_boards', 'Unclear - UK board Auto Apply set not confirmed on public pages');
+        $ats = self::matrixCell($matrix, 'ats_autofill', 'Unclear - ATS autofill behaviour not confirmed on public pages');
+        $draft = self::matrixCell($matrix, 'draft_all', 'Unclear - screener drafting not confirmed on public pages');
+        $tracker = self::matrixCell($matrix, 'job_tracker', 'Unclear - tracker/CRM depth not confirmed on public pages');
+        $pricing = self::matrixCell($matrix, 'pricing', 'Unclear - no public plan table confirmed');
+
+        return <<<MD
+| Capability | AutoCVApply | {$competitor} (from public pages) |
+|------------|-------------|-------------------------------------|
+| Primary URL | [autocvapply.com]({$site}) | {$competitorLink} |
+| Chrome/Firefox apply extension | Yes - [Chrome Web Store]({$store}) listing; Firefox supported too | {$extension} |
+| UK board Auto Apply (LI, Indeed, Totaljobs, Glassdoor, Reed) | Yes - user-started sidebar on all five | {$ukBoards} |
+| ATS AutoFill + you submit | Yes - structured fill; you keep Submit on ATS sites | {$ats} |
+| Draft All / AI screeners with review | Yes - credit-metered drafts you edit before send | {$draft} |
+| Job tracker / CRM | Partial - apply-focused; pair with a CRM if you need stages | {$tracker} |
+| Pricing posture | Yes - [GBP monthly credits]({$site}/pricing): Free 1,500 / Starter £7 / Pro £17 | {$pricing} |
+MD;
+    }
+
+    /**
+     * @param  array<string, string>  $matrix
+     */
+    public static function matrixCell(array $matrix, string $key, string $fallback): string
+    {
+        $value = trim((string) ($matrix[$key] ?? ''));
+
+        if ($value === '') {
+            return $fallback;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Extract the Feature matrix markdown table from a comparison body.
+     */
+    public static function extractFeatureMatrixSection(string $body): string
+    {
+        if (preg_match('/### Feature matrix[^\n]*\n+([\s\S]*?)(?=\n### |\n## |\z)/u', $body, $matches) !== 1) {
+            return '';
+        }
+
+        return trim($matches[1]);
     }
 
     /**

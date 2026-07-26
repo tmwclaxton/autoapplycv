@@ -375,7 +375,7 @@ Editorial bar (search-intent SEO):
 - Write an article people would Google - title earns the click; AutoCVApply is a soft recommendation in the body/CTA.
 - Do NOT stuff AutoFill / Draft All / Auto Apply into the title unless the query is literally about that product.
 - Prefer year stamps, vs comparisons, How to…, Best… when they fit the cluster.
-- Include TL;DR steps, practical depth, FAQ, and one soft CTA (install / login) - not a hard sell.
+- Include TL;DR steps near the bottom (before FAQ), practical depth, FAQ, and one soft CTA (install / login) - not a hard sell.
 
 SEO writing rules:
 - Optimise title, excerpt, and H2s for the primary keyword without repeating it in every sentence.
