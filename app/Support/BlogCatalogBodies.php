@@ -68,9 +68,9 @@ Extension AI actions use monthly **credits** (Assist, Draft All, cover letters, 
 
 | Plan | Price | Credits / month |
 |------|-------|-----------------|
-| Free | £0 | 250 |
-| Starter | £7/mo | 2,500 |
-| Pro | £17/mo | 15,000 |
+| Free | £0 | 1,500 |
+| Starter | £7/mo | 12,500 |
+| Pro | £17/mo | 95,000 |
 
 Allowances reset on the 1st. Paid plans bill by UK Direct Debit via GoCardless. See [pricing]({$site}/pricing).
 

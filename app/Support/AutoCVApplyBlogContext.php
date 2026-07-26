@@ -74,9 +74,9 @@ Examples of credit use: Assist replies, cover letters, ATS scores, Draft All bat
 
 | Plan | Price | Extension credits / month |
 |------|-------|---------------------------|
-| Free | £0 | 250 |
-| Starter | £7/mo | 2,500 |
-| Pro | £17/mo | 15,000 |
+| Free | £0 | 1,500 |
+| Starter | £7/mo | 12,500 |
+| Pro | £17/mo | 95,000 |
 
 - CV upload and profile editing are **always free**.
 - Paid plans bill via UK Direct Debit (GoCardless). Users can start on Free without a card.

@@ -101,7 +101,7 @@ class AdminCreditAwardTest extends TestCase
 
         $recipient = User::factory()->create([
             'email' => 'recipient@example.com',
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
@@ -115,7 +115,7 @@ class AdminCreditAwardTest extends TestCase
         $summary = app(AiTokenService::class)->summary($recipient->fresh());
 
         $this->assertSame(500, $summary['bonus_credits']);
-        $this->assertSame(750, $summary['total_credit_allowance']);
+        $this->assertSame(2000, $summary['total_credit_allowance']);
         $this->assertSame(500, $summary['credits_remaining']);
         $this->assertTrue($summary['can_use_credits']);
     }

@@ -335,9 +335,9 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 
 | Plan | Price | Autofills / month |
 |------|-------|-------------------|
-| **Free** | £0 | 250 |
-| **Starter** | £7/mo | 2,500 |
-| **Pro** | £17/mo | 15,000 |
+| **Free** | £0 | 1,500 |
+| **Starter** | £7/mo | 12,500 |
+| **Pro** | £17/mo | 95,000 |
 
 > Each successfully filled form input uses one autofill. Allowances reset on the 1st of each month.
 

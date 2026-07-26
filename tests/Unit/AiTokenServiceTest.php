@@ -25,7 +25,7 @@ class AiTokenServiceTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->assertSame(250, $this->service->monthlyCreditAllowance($user));
+        $this->assertSame(1500, $this->service->monthlyCreditAllowance($user));
         $this->assertTrue($this->service->canSpendCredits($user));
     }
 
@@ -36,13 +36,13 @@ class AiTokenServiceTest extends TestCase
         $this->service->recordCredit($user, 4);
 
         $this->assertSame(4, $this->service->creditsUsed($user->fresh()));
-        $this->assertSame(246, $this->service->creditsRemaining($user->fresh()));
+        $this->assertSame(1496, $this->service->creditsRemaining($user->fresh()));
     }
 
     public function test_can_spend_credits_checks_requested_count(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 248,
+            'ai_tokens_used' => 1498,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
@@ -92,7 +92,7 @@ class AiTokenServiceTest extends TestCase
     public function test_monthly_limit_blocks_additional_credit_usage(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
@@ -105,7 +105,7 @@ class AiTokenServiceTest extends TestCase
             'subscription_tier' => 'starter',
         ]);
 
-        $this->assertSame(2500, $this->service->monthlyCreditAllowance($user));
+        $this->assertSame(12500, $this->service->monthlyCreditAllowance($user));
     }
 
     public function test_summary_includes_credit_details(): void
@@ -120,7 +120,7 @@ class AiTokenServiceTest extends TestCase
 
         $this->assertSame('pro', $summary['tier']);
         $this->assertSame('Pro', $summary['tier_label']);
-        $this->assertSame(15000, $summary['monthly_credits']);
+        $this->assertSame(95000, $summary['monthly_credits']);
         $this->assertSame(10, $summary['credits_used']);
         $this->assertTrue($summary['can_use_credits']);
     }
@@ -150,7 +150,7 @@ class AiTokenServiceTest extends TestCase
     public function test_quota_exhausted_returns_block_reason(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
@@ -163,12 +163,12 @@ class AiTokenServiceTest extends TestCase
         Carbon::setTestNow('2026-05-15 12:00:00');
 
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'bonus_autofills' => 500,
             'ai_tokens_period_start' => '2026-05-01 00:00:00',
         ]);
 
-        $this->assertSame(750, $this->service->totalCreditAllowance($user));
+        $this->assertSame(2000, $this->service->totalCreditAllowance($user));
         $this->assertSame(500, $this->service->creditsRemaining($user));
         $this->assertTrue($this->service->canSpendCredits($user));
 
@@ -180,7 +180,7 @@ class AiTokenServiceTest extends TestCase
 
         $this->assertSame(0, $user->ai_tokens_used);
         $this->assertSame(500, $user->bonus_autofills);
-        $this->assertSame(750, $this->service->creditsRemaining($user));
+        $this->assertSame(2000, $this->service->creditsRemaining($user));
     }
 
     public function test_summary_includes_bonus_credit_fields(): void
@@ -194,7 +194,7 @@ class AiTokenServiceTest extends TestCase
         $summary = $this->service->summary($user);
 
         $this->assertSame(1_000, $summary['bonus_credits']);
-        $this->assertSame(1_250, $summary['total_credit_allowance']);
-        $this->assertSame(1_200, $summary['credits_remaining']);
+        $this->assertSame(2_500, $summary['total_credit_allowance']);
+        $this->assertSame(2_450, $summary['credits_remaining']);
     }
 }

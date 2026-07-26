@@ -263,7 +263,7 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         ]);
 
         $user = User::factory()->create([
-            'ai_tokens_used' => 249,
+            'ai_tokens_used' => 1499,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
         CvProfile::factory()->for($user)->create();
@@ -305,7 +305,7 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame(1, $summary['batches_ok']);
         $this->assertSame(1, $summary['batches_failed']);
         $this->assertCount(1, $errors);
-        $this->assertSame(250, $user->fresh()->ai_tokens_used);
+        $this->assertSame(1500, $user->fresh()->ai_tokens_used);
     }
 
     protected function tearDown(): void

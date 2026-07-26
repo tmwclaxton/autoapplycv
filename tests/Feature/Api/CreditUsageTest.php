@@ -23,7 +23,7 @@ class CreditUsageTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('count', 3)
             ->assertJsonPath('subscription.credits_used', 3)
-            ->assertJsonPath('subscription.credits_remaining', 247)
+            ->assertJsonPath('subscription.credits_remaining', 1497)
             ->assertJsonPath('extension_usage.fields_autofilled', 3);
 
         $this->assertSame(3, $user->fresh()->fields_autofilled);
@@ -43,7 +43,7 @@ class CreditUsageTest extends TestCase
     public function test_credit_usage_returns_402_when_requested_count_exceeds_remaining_allowance(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 248,
+            'ai_tokens_used' => 1498,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
         CvProfile::factory()->for($user)->create();
@@ -59,7 +59,7 @@ class CreditUsageTest extends TestCase
     public function test_credit_usage_returns_402_when_monthly_limit_is_reached(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
         CvProfile::factory()->for($user)->create();

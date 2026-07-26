@@ -22,7 +22,7 @@ class GenerateBlogPostCommandTest extends TestCase
         $doc = AutoCVApplyBlogContext::document();
 
         $this->assertStringContainsString('https://autocvapply.com', $doc);
-        $this->assertStringContainsString('250', $doc);
+        $this->assertStringContainsString('1,500', $doc);
         $this->assertStringContainsString('Starter', $doc);
         $this->assertStringContainsString('Workday', $doc);
         $this->assertStringContainsString('Draft All', $doc);

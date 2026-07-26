@@ -142,7 +142,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         <PostboxCta
             class="mt-10"
             title="Start on the free plan"
-            description="250 credits per month to get going - upgrade when you need more."
+            description="1,500 credits per month to get going - upgrade when you need more."
             button-label="Get started free"
         />
 

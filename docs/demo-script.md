@@ -166,7 +166,7 @@ Good when you need it to actually work - investors, early users, anyone sceptica
 
 **Say something like:**
 
-> Uploading your CV and editing the profile doesn't cost anything. Credits are for the AI bits - drafting answers, scoring, cover letters. Free tier gives you 250 a month; if you're applying seriously you'll probably want more.
+> Uploading your CV and editing the profile doesn't cost anything. Credits are for the AI bits - drafting answers, scoring, cover letters. Free tier gives you 1,500 a month; if you're applying seriously you'll probably want more.
 
 **If you have time:**
 
@@ -236,7 +236,7 @@ For audiences who basically live on LinkedIn, or when someone asks "but does it 
 | What do you do with my data? | It stays in your account. The extension talks to the API with a token you can revoke. |
 | Will this get me flagged as a bot? | We type gradually, not dump a paste. On ATS sites you review before submit anyway. |
 | Which sites? | Autofill works on a lot of ATS platforms - Greenhouse, Ashby, Workday, Lever, others. Full auto-submit is LinkedIn Easy Apply for now. |
-| Price? | Free tier, 250 credits/month. Paid plans if you're doing volume. |
+| Price? | Free tier, 1,500 credits/month. Paid plans if you're doing volume. |
 | Is it open source? | Code's on GitHub - PolyForm Noncommercial licence. |
 
 ---

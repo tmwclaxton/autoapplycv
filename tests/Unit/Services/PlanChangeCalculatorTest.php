@@ -44,7 +44,7 @@ class PlanChangeCalculatorTest extends TestCase
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
-            'ai_tokens_used' => 1250,
+            'ai_tokens_used' => 6250,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
@@ -58,7 +58,7 @@ class PlanChangeCalculatorTest extends TestCase
     {
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
-            'ai_tokens_used' => 2500,
+            'ai_tokens_used' => 12500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
