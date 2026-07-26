@@ -20,6 +20,7 @@ class SendNewUserDiscordNotificationTest extends TestCase
         config([
             'discord.webhook_url' => $webhookUrl,
             'discord.new_user_message' => 'New user joined AutoCVApply',
+            'n8n.token' => null,
         ]);
 
         Http::preventStrayRequests();
@@ -53,6 +54,7 @@ class SendNewUserDiscordNotificationTest extends TestCase
         config([
             'discord.webhook_url' => $webhookUrl,
             'discord.new_user_message' => 'New user joined AutoCVApply',
+            'n8n.token' => null,
         ]);
 
         Http::preventStrayRequests();
@@ -74,6 +76,7 @@ class SendNewUserDiscordNotificationTest extends TestCase
     {
         config([
             'discord.webhook_url' => null,
+            'n8n.token' => null,
         ]);
 
         Http::preventStrayRequests();
@@ -82,5 +85,25 @@ class SendNewUserDiscordNotificationTest extends TestCase
         event(new Registered(User::factory()->create()));
 
         Http::assertNothingSent();
+    }
+
+    public function test_single_registered_event_posts_discord_once(): void
+    {
+        $webhookUrl = 'https://discord.com/api/webhooks/test/token';
+
+        config([
+            'discord.webhook_url' => $webhookUrl,
+            'discord.new_user_message' => 'New user joined AutoCVApply',
+            'n8n.token' => null,
+        ]);
+
+        Http::preventStrayRequests();
+        Http::fake([
+            $webhookUrl => Http::response('', 204),
+        ]);
+
+        event(new Registered(User::factory()->create()));
+
+        Http::assertSentCount(1);
     }
 }

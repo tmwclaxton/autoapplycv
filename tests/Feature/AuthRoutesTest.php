@@ -21,4 +21,16 @@ class AuthRoutesTest extends TestCase
         $response->assertRedirect();
         $this->assertStringContainsString('screen_hint=sign-up', $response->headers->get('Location'));
     }
+
+    public function test_authenticate_route_does_not_redispatch_registered(): void
+    {
+        $source = file_get_contents(base_path('routes/auth.php'));
+
+        $this->assertIsString($source);
+        $this->assertStringNotContainsString(
+            'event(new Registered',
+            $source,
+            'WorkOS already dispatches Registered; auth.php must not dispatch it again.',
+        );
+    }
 }
