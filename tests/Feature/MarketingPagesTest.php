@@ -39,6 +39,27 @@ class MarketingPagesTest extends TestCase
             ->assertInertia(fn ($page) => $page->component($component));
     }
 
+    public function test_pricing_page_includes_credit_costs_from_config(): void
+    {
+        $this->get(route('pricing'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Pricing')
+                ->has('plans')
+                ->has('creditCosts', 4)
+                ->where('creditCosts.0.key', 'chat')
+                ->where('creditCosts.0.label', 'Assist reply')
+                ->where('creditCosts.0.credits', (int) config('cv.ai_assist.chat_cost'))
+                ->where('creditCosts.1.key', 'question')
+                ->where('creditCosts.1.credits', (int) config('cv.ai_assist.question_cost'))
+                ->where('creditCosts.2.key', 'cover_letter')
+                ->where('creditCosts.2.credits', (int) config('cv.ai_assist.cover_letter_cost'))
+                ->where('creditCosts.3.key', 'ats_score')
+                ->where('creditCosts.3.credits', (int) config('cv.ai_assist.ats_score_cost'))
+                ->where('draftAllBatchSize', max(1, (int) config('cv.ai_assist.draft_all_batch_size', 10)))
+            );
+    }
+
     public function test_extension_download_panel_browser_cards_use_theme_aware_surface(): void
     {
         $source = (string) file_get_contents(
