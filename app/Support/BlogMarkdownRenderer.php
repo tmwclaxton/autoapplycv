@@ -43,6 +43,7 @@ class BlogMarkdownRenderer
 
     public static function toHtml(string $markdown): string
     {
+        $markdown = self::repairCollapsedMarkdown($markdown);
         $markdown = self::promoteStandaloneVideoUrls($markdown);
         [$markdown, $embeds] = self::extractAllowlistedEmbeds($markdown);
 
@@ -54,6 +55,161 @@ class BlogMarkdownRenderer
         $html = self::restoreEmbedPlaceholders($html, $embeds);
 
         return self::sanitizeAndEnhance($html);
+    }
+
+    /**
+     * Restore structure when markdown newlines were collapsed to spaces (e.g. legacy import bug).
+     *
+     * Without this, CommonMark treats the whole article as one ATX heading and leaves raw ## visible.
+     */
+    public static function repairCollapsedMarkdown(string $markdown): string
+    {
+        $normalized = str_replace(["\r\n", "\r"], "\n", $markdown);
+
+        if (substr_count($normalized, "\n") >= 8) {
+            return $normalized;
+        }
+
+        if (! preg_match('/#{2,6}\s+\S/u', $normalized)) {
+            return $normalized;
+        }
+
+        $text = trim(preg_replace('/[^\S\n]+/u', ' ', $normalized) ?? $normalized);
+        $text = preg_replace('/(?!\A)\s*(#{2,6}\s+)/u', "\n\n$1", $text) ?? $text;
+
+        $lines = preg_split("/\n/", $text) ?: [];
+        $fixed = [];
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+
+            if ($line === '') {
+                $fixed[] = '';
+
+                continue;
+            }
+
+            if (preg_match('/^(#{2,6}\s+)(.+)$/u', $line, $matches) !== 1) {
+                $fixed[] = $line;
+
+                continue;
+            }
+
+            [$heading, $rest] = self::splitHeadingFromCollapsedProse($matches[1], $matches[2]);
+            $fixed[] = $heading;
+
+            if ($rest !== '') {
+                $fixed[] = '';
+                $fixed[] = $rest;
+            }
+        }
+
+        $text = implode("\n", $fixed);
+        $text = preg_replace('/(?<=\S)[ \t]+(\d{1,2}\.\s+)/u', "\n$1", $text) ?? $text;
+        $text = preg_replace('/^(#{2,6} .+)\n(\d{1,2}\.\s+)/mu', "$1\n\n$2", $text) ?? $text;
+
+        return trim($text)."\n";
+    }
+
+    /**
+     * @return array{0: string, 1: string}
+     */
+    private static function splitHeadingFromCollapsedProse(string $hashes, string $rest): array
+    {
+        foreach (['TL;DR', 'FAQ', 'Get started'] as $known) {
+            if (preg_match('/^('.preg_quote($known, '/').')\b(.*)$/iu', $rest, $matches) === 1) {
+                return [$hashes.trim($matches[1]), trim($matches[2])];
+            }
+        }
+
+        /** @var list<string> $connectors */
+        $connectors = [
+            'vs', 'and', 'or', 'for', 'to', 'of', 'a', 'an', 'the', 'on', 'in', 'with', 'without',
+            'your', 'into', 'from', 'over', 'per', 'by', 'between', 'across', 'using',
+        ];
+
+        $words = preg_split('/\s+/u', $rest) ?: [];
+        $headingWords = [];
+        $i = 0;
+
+        while ($i < count($words)) {
+            if ($headingWords !== [] && self::looksLikeCollapsedProseStart($words, $i, $connectors)) {
+                break;
+            }
+
+            $headingWords[] = $words[$i];
+            $i++;
+
+            if (count($headingWords) >= 16) {
+                break;
+            }
+        }
+
+        return [
+            $hashes.implode(' ', $headingWords),
+            trim(implode(' ', array_slice($words, $i))),
+        ];
+    }
+
+    /**
+     * @param  list<string>  $words
+     * @param  list<string>  $connectors
+     */
+    private static function looksLikeCollapsedProseStart(array $words, int $index, array $connectors): bool
+    {
+        if ($index >= count($words)) {
+            return false;
+        }
+
+        $word = $words[$index];
+        $plain = strtolower((string) preg_replace('/[^a-z0-9]+/iu', '', $word));
+
+        if ($plain === '' || in_array($plain, $connectors, true)) {
+            return false;
+        }
+
+        $next = $words[$index + 1] ?? null;
+
+        if ($next !== null) {
+            $nextPlain = strtolower((string) preg_replace('/[^a-z0-9]+/iu', '', $next));
+            $wordTitleCase = preg_match('/^[A-Z][a-z]/u', $word) === 1;
+            $nextAllLower = preg_match('/^[a-z]/u', $next) === 1
+                && ! in_array($nextPlain, $connectors, true);
+
+            if ($wordTitleCase && $nextAllLower && strlen($nextPlain) > 3) {
+                return true;
+            }
+
+            $next2 = $words[$index + 2] ?? null;
+
+            if ($next2 !== null && ! self::isCollapsedSentenceStarter($nextPlain)) {
+                $next2Plain = strtolower((string) preg_replace('/[^a-z0-9]+/iu', '', $next2));
+                $wordCap = preg_match('/^[A-Z]/u', $word) === 1;
+                $nextCap = preg_match('/^[A-Z]/u', $next) === 1;
+                $next2Lower = preg_match('/^[a-z]/u', $next2) === 1
+                    && ! in_array($next2Plain, $connectors, true)
+                    && strlen($next2Plain) > 3;
+
+                if ($wordCap && $nextCap && $next2Lower) {
+                    return true;
+                }
+            }
+        }
+
+        return preg_match('/^[a-z]/u', $word) === 1
+            && ! in_array($plain, $connectors, true)
+            && strlen($plain) > 2;
+    }
+
+    private static function isCollapsedSentenceStarter(string $plain): bool
+    {
+        return in_array($plain, [
+            'when', 'if', 'while', 'after', 'before', 'during', 'although', 'because', 'once',
+            'since', 'unless', 'until', 'whereas', 'whenever', 'wherever', 'whether', 'why',
+            'how', 'who', 'where', 'which', 'this', 'these', 'those', 'there', 'here', 'job',
+            'jobs', 'autofill', 'auto', 'uk', 'users', 'user', 'many', 'most', 'some', 'each',
+            'every', 'both', 'neither', 'either',
+        ], true);
     }
 
     /**

@@ -609,7 +609,11 @@ USER;
             $cleaned = preg_replace($pattern, 'AutoCVApply', $cleaned) ?? $cleaned;
         }
 
-        return trim(preg_replace('/\s+/u', ' ', $cleaned) ?? $cleaned);
+        // Collapse horizontal whitespace only - never join markdown lines into one wall of text.
+        $cleaned = preg_replace('/[^\S\n]+/u', ' ', $cleaned) ?? $cleaned;
+        $cleaned = preg_replace("/\n{3,}/u", "\n\n", $cleaned) ?? $cleaned;
+
+        return trim($cleaned);
     }
 
     public function containsBlockedCompetitorBrand(string $text): bool

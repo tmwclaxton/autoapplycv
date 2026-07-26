@@ -134,4 +134,42 @@ MD);
         $this->assertStringContainsString('<code>', $html);
         $this->assertStringContainsString('<pre>', $html);
     }
+
+    #[Test]
+    public function it_repairs_collapsed_markdown_into_headings_and_paragraphs(): void
+    {
+        $collapsed = '## TL;DR 1. Upload your CV once. 2. Review before you submit. '
+            .'## Understanding Auto Apply vs Autofill Chrome Extensions When navigating job boards, '
+            .'pick tools that keep you in control. ### Autofill Extensions: What They Do '
+            .'Autofill Chrome extensions primarily fill repeated fields.';
+
+        $html = BlogMarkdownRenderer::toHtml($collapsed);
+
+        $this->assertStringContainsString('<h2>TL;DR</h2>', $html);
+        $this->assertStringContainsString('<h2>Understanding Auto Apply vs Autofill Chrome Extensions</h2>', $html);
+        $this->assertStringContainsString('<h3>Autofill Extensions: What They Do</h3>', $html);
+        $this->assertStringContainsString('<p>', $html);
+        $this->assertStringContainsString('<li>', $html);
+        $this->assertStringNotContainsString('## ', $html);
+    }
+
+    #[Test]
+    public function it_does_not_alter_already_structured_markdown(): void
+    {
+        $markdown = <<<'MD'
+## TL;DR
+
+1. Upload once
+
+## Understanding Auto Apply
+
+When navigating job boards, stay in control.
+MD;
+
+        $html = BlogMarkdownRenderer::toHtml($markdown);
+
+        $this->assertStringContainsString('<h2>TL;DR</h2>', $html);
+        $this->assertStringContainsString('<h2>Understanding Auto Apply</h2>', $html);
+        $this->assertStringContainsString('<p>When navigating job boards, stay in control.</p>', $html);
+    }
 }

@@ -89,6 +89,29 @@ MD,
             );
     }
 
+    public function test_blog_show_repairs_collapsed_markdown_into_html_tags(): void
+    {
+        $blog = Blog::factory()->published()->create([
+            'title' => 'Choose an auto apply tool',
+            'slug' => 'choose-auto-apply-tool',
+            'body' => '## TL;DR 1. Upload your CV once. 2. Review before you submit. ## Understanding Auto Apply vs Autofill Chrome Extensions When navigating job boards, pick tools that keep you in control. ### Autofill Extensions: What They Do Autofill Chrome extensions primarily fill repeated fields.',
+        ]);
+
+        $this->get(route('blog.show', $blog))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Blog/Show')
+                ->where(
+                    'post.body_html',
+                    fn (string $html): bool => str_contains($html, '<h2>TL;DR</h2>')
+                        && str_contains($html, '<h2>Understanding Auto Apply vs Autofill Chrome Extensions</h2>')
+                        && str_contains($html, '<h3>Autofill Extensions: What They Do</h3>')
+                        && str_contains($html, '<p>')
+                        && ! str_contains($html, '## ')
+                )
+            );
+    }
+
     public function test_blog_show_renders_inline_images_and_youtube_embeds(): void
     {
         $blog = Blog::factory()->published()->create([
