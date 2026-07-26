@@ -27,6 +27,18 @@ class NormalizeBlogYearsCommandTest extends TestCase
         );
         $this->assertFalse(BlogYearNormalizer::titleNeedsNormalization('Guide for 2026', 2026));
         $this->assertTrue(BlogYearNormalizer::titleNeedsNormalization('Guide for 2023', 2026));
+        $this->assertSame(
+            'Internship Applications for 2026-2027 Roles',
+            BlogYearNormalizer::normalizeTitle('Internship Applications for 2026-2027 Roles', 2026),
+        );
+        $this->assertSame(
+            'Applications for 2027 Roles',
+            BlogYearNormalizer::normalizeTitle('Applications for 2027 Roles', 2026),
+        );
+        $this->assertSame(
+            'Applications for 2026 Roles',
+            BlogYearNormalizer::normalizeTitle('Applications for 2025 Roles', 2026),
+        );
     }
 
     public function test_content_normalizer_rewrites_marketing_years_not_history(): void

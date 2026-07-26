@@ -11,7 +11,8 @@ final class BlogYearNormalizer
     private const CONTENT_YEAR_FLOOR = 2024;
 
     /**
-     * Replace whole-word 20xx year tokens that are not the target year.
+     * Replace whole-word past/current 20xx year tokens with the target year.
+     * Future years (e.g. 2027 in "2026-2027 roles") are left alone.
      */
     public static function normalizeTitle(string $title, int $toYear): string
     {
@@ -21,8 +22,14 @@ final class BlogYearNormalizer
 
         return (string) preg_replace_callback(
             '/\b(20\d{2})\b/',
-            static function (array $matches) use ($target): string {
-                return $matches[1] === $target ? $matches[1] : $target;
+            static function (array $matches) use ($target, $toYear): string {
+                $year = (int) $matches[1];
+
+                if ($year < $toYear) {
+                    return $target;
+                }
+
+                return $matches[1];
             },
             $title,
         );
