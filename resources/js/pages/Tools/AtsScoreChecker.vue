@@ -300,32 +300,6 @@ const pageFaqs = [
             description="Paste your CV and a job description for the same AI Assist ATS score used in Auto Apply. Three free scores without an account; signed-in users spend credits as usual."
         />
 
-        <ul
-            class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-postbox-navy sm:text-sm"
-            role="list"
-        >
-            <li
-                class="border-2 border-postbox-navy bg-postbox-grey px-3 py-1.5"
-            >
-                Same AI as Assist
-            </li>
-            <li
-                class="border-2 border-postbox-navy bg-postbox-grey px-3 py-1.5"
-            >
-                {{ guestFreeUsesLimit }} free for guests
-            </li>
-            <li
-                class="border-2 border-postbox-navy bg-postbox-grey px-3 py-1.5"
-            >
-                Paste or .txt
-            </li>
-            <li
-                class="border-2 border-postbox-navy bg-postbox-grey px-3 py-1.5"
-            >
-                {{ atsScoreCost }} credits when signed in
-            </li>
-        </ul>
-
         <div class="mt-8 grid gap-6 lg:grid-cols-2">
             <section class="postbox-panel flex flex-col gap-3 p-5 sm:p-6">
                 <h2 class="text-lg font-bold text-postbox-navy">Your CV</h2>
