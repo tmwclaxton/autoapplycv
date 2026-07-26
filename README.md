@@ -929,6 +929,7 @@ Do not paste unredacted live LinkedIn HTML into `tests/fixtures/auto-apply/linke
 | `npm run form-corpus:fill-verify:curated` | Curated JSDOM tier (CI default) |
 | `npm run form-corpus:fill-verify:smoke` | Per-platform Playwright smoke |
 | `npm run platform-logos:download` | Refresh platform logos in `public/images/platforms/logos/` |
+| `npm run competitor-logos:download` | Refresh competitor logos in `public/images/competitors/logos/` |
 | `npm run readme:platforms` | Regenerate Supported platforms block in README from `site.ts` |
 | `npm run form-corpus:visual-regression` | Screenshot baseline compare |
 | `npm run form-corpus:build-curated` | Regenerate curated + smoke manifests |

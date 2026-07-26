@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, ExternalLink } from 'lucide-vue-next';
+import { reactive } from 'vue';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
@@ -18,12 +19,33 @@ type Comparison = {
     reasons: string[];
     when_them: string;
     homepage_url: string;
+    logo_url: string | null;
 };
 
 defineProps<{
     comparisons: Comparison[];
     comparisonCount: number;
 }>();
+
+const failedLogos = reactive<Record<string, boolean>>({});
+
+function competitorInitials(name: string): string {
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+
+    if (parts.length === 0) {
+        return '?';
+    }
+
+    if (parts.length === 1) {
+        return parts[0].slice(0, 2).toUpperCase();
+    }
+
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+}
+
+function onLogoError(id: string): void {
+    failedLogos[id] = true;
+}
 </script>
 
 <template>
@@ -49,23 +71,6 @@ defineProps<{
             description="Short takes on why AutoCVApply wins for UK board Auto Apply, ATS AutoFill, and Draft All - with a full write-up for each competitor."
         />
 
-        <nav
-            class="postbox-panel mt-6 flex flex-wrap items-center gap-2 p-4 sm:p-5"
-            aria-label="Jump to competitor"
-        >
-            <p class="postbox-label mr-2 w-full sm:mr-3 sm:w-auto">
-                Jump to a comparison
-            </p>
-            <a
-                v-for="item in comparisons"
-                :key="item.id"
-                :href="`#${item.id}`"
-                class="inline-flex items-center border-2 border-postbox-navy bg-postbox-grey px-3 py-1.5 text-sm font-bold text-postbox-navy no-underline hover:bg-postbox-red hover:text-white"
-            >
-                {{ item.competitor }}
-            </a>
-        </nav>
-
         <p class="mt-4 text-sm text-muted-foreground">
             <Link :href="home()" class="postbox-link">Home</Link>
             <span aria-hidden="true"> / </span>
@@ -79,12 +84,38 @@ defineProps<{
                 :key="item.id"
                 class="postbox-panel scroll-mt-28 p-6 sm:p-8"
             >
-                <p class="postbox-label">{{ item.category }}</p>
-                <h2
-                    class="mt-2 mb-3 text-2xl font-bold tracking-tight text-postbox-navy sm:text-3xl"
-                >
-                    {{ item.headline }}
-                </h2>
+                <div class="flex items-start gap-3 sm:gap-4">
+                    <div
+                        class="flex size-10 shrink-0 items-center justify-center border-2 border-postbox-navy bg-white sm:size-12"
+                        aria-hidden="true"
+                    >
+                        <img
+                            v-if="item.logo_url && !failedLogos[item.id]"
+                            :src="item.logo_url"
+                            :alt="`${item.competitor} logo`"
+                            class="h-8 w-8 object-contain sm:h-10 sm:w-10"
+                            width="40"
+                            height="40"
+                            loading="lazy"
+                            decoding="async"
+                            @error="onLogoError(item.id)"
+                        />
+                        <span
+                            v-else
+                            class="text-xs font-bold tracking-wide text-postbox-navy sm:text-sm"
+                        >
+                            {{ competitorInitials(item.competitor) }}
+                        </span>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="postbox-label">{{ item.category }}</p>
+                        <h2
+                            class="mt-2 mb-3 text-2xl font-bold tracking-tight text-postbox-navy sm:text-3xl"
+                        >
+                            {{ item.headline }}
+                        </h2>
+                    </div>
+                </div>
                 <p
                     class="text-sm leading-relaxed text-muted-foreground sm:text-base"
                 >

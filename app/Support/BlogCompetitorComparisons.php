@@ -361,6 +361,56 @@ class BlogCompetitorComparisons
     }
 
     /**
+     * Official logo/favicon URLs used when refreshing public/images/competitors/logos.
+     *
+     * @return array<string, string>
+     */
+    public static function logoSources(): array
+    {
+        return [
+            'autoapplymax' => 'https://www.autoapplymax.com/icons/AAM-Icon.png',
+            'lazyapply' => 'https://lazyapply.com/favicon.ico',
+            'simplify' => 'https://simplify.jobs/_landing/images/logos/logo.svg',
+            'loopcv' => 'https://www.loopcv.pro/favicon-32x32.png',
+            'applyglide' => 'https://www.google.com/s2/favicons?domain=applyglide.com&sz=128',
+            'jobcopilot' => 'https://jobcopilot.com/wp-content/uploads/2024/03/cropped-Jobcopilot_icon-270x270.png',
+            'huntr' => 'https://huntr.co/images/icons/favicon-128.png',
+            'sonara' => 'https://www.sonara.ai/favicon.ico',
+            'teal' => 'https://cdn.prod.website-files.com/62775a91cc3db44c787149de/62974e314b5eb9517ab13691_favicon.png',
+            'massive' => 'https://usemassive.com/assets/maasive-favicon.ico',
+        ];
+    }
+
+    /**
+     * Public path for a competitor logo under public/images/competitors/logos.
+     */
+    public static function logoUrl(string $id): ?string
+    {
+        $sourceUrl = self::logoSources()[$id] ?? null;
+
+        if ($sourceUrl === null) {
+            return null;
+        }
+
+        return '/images/competitors/logos/'.$id.'.'.self::logoExtension($sourceUrl);
+    }
+
+    public static function logoExtension(string $sourceUrl): string
+    {
+        $pathname = strtolower((string) parse_url($sourceUrl, PHP_URL_PATH));
+
+        if (str_ends_with($pathname, '.ico')) {
+            return 'ico';
+        }
+
+        if (str_ends_with($pathname, '.svg')) {
+            return 'svg';
+        }
+
+        return 'png';
+    }
+
+    /**
      * Marketing /compare page entries derived from comparison definitions.
      *
      * @return array<int, array{
@@ -372,7 +422,8 @@ class BlogCompetitorComparisons
      *     summary: string,
      *     reasons: array<int, string>,
      *     when_them: string,
-     *     homepage_url: string
+     *     homepage_url: string,
+     *     logo_url: string|null
      * }>
      */
     public static function comparePageEntries(): array
@@ -388,6 +439,7 @@ class BlogCompetitorComparisons
                 'reasons' => self::compareReasons($definition),
                 'when_them' => $definition['when_them'],
                 'homepage_url' => $definition['homepage_url'],
+                'logo_url' => self::logoUrl($definition['id']),
             ];
         }, self::definitions());
     }

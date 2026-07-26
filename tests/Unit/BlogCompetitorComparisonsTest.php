@@ -158,16 +158,36 @@ class BlogCompetitorComparisonsTest extends TestCase
             $this->assertArrayHasKey('slug', $entry);
             $this->assertArrayHasKey('summary', $entry);
             $this->assertArrayHasKey('homepage_url', $entry);
+            $this->assertArrayHasKey('logo_url', $entry);
             $this->assertStringStartsWith('autocvapply-vs-', $entry['slug']);
             $this->assertNotSame('', $entry['summary']);
             $this->assertGreaterThanOrEqual(2, count($entry['reasons']));
             $this->assertLessThanOrEqual(4, count($entry['reasons']));
             $this->assertStringStartsWith('http', $entry['homepage_url']);
+            $this->assertIsString($entry['logo_url']);
+            $this->assertStringStartsWith('/images/competitors/logos/', $entry['logo_url']);
+            $this->assertFileExists(public_path(ltrim($entry['logo_url'], '/')));
         }
 
         $massive = collect($entries)->firstWhere('id', 'massive');
         $this->assertIsArray($massive);
         $this->assertSame('autocvapply-vs-massive', $massive['slug']);
         $this->assertStringContainsString('LinkedIn, Indeed, Totaljobs', implode(' ', $massive['reasons']));
+    }
+
+    public function test_logo_sources_cover_every_competitor_definition(): void
+    {
+        $ids = array_column(BlogCompetitorComparisons::definitions(), 'id');
+        $sources = BlogCompetitorComparisons::logoSources();
+
+        $this->assertSame($ids, array_keys($sources));
+
+        foreach ($sources as $id => $sourceUrl) {
+            $this->assertStringStartsWith('http', $sourceUrl);
+            $this->assertSame(
+                BlogCompetitorComparisons::logoUrl($id),
+                '/images/competitors/logos/'.$id.'.'.BlogCompetitorComparisons::logoExtension($sourceUrl),
+            );
+        }
     }
 }

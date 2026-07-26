@@ -210,6 +210,7 @@ class MarketingPagesTest extends TestCase
                 ->where('comparisonCount', 10)
                 ->where('comparisons.0.id', 'autoapplymax')
                 ->where('comparisons.0.slug', 'autocvapply-vs-autoapplymax')
+                ->where('comparisons.0.logo_url', '/images/competitors/logos/autoapplymax.png')
                 ->has('comparisons.0.reasons')
                 ->where('comparisons.9.id', 'massive')
             );
@@ -218,6 +219,9 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('Why AutoCVApply', $source);
         $this->assertStringContainsString('blogShow', $source);
         $this->assertStringContainsString('homepage_url', $source);
+        $this->assertStringContainsString('logo_url', $source);
+        $this->assertStringContainsString('competitorInitials', $source);
+        $this->assertStringNotContainsString('Jump to a comparison', $source);
     }
 
     public function test_platform_badges_include_logo_urls_for_listed_boards(): void

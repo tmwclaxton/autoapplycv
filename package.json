@@ -16,6 +16,7 @@
         "em-dash:check": "node scripts/check-no-em-dash.mjs",
         "em-dash:fix": "node scripts/check-no-em-dash.mjs --fix",
         "platform-logos:download": "node scripts/download-platform-logos.mjs",
+        "competitor-logos:download": "node scripts/download-competitor-logos.mjs",
         "readme:platforms": "node scripts/generate-readme-platforms-section.mjs --write",
         "secrets:check-fixtures": "node scripts/check-fixture-secrets.mjs",
         "types:check": "vue-tsc --noEmit",
