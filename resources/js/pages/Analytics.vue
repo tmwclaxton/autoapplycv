@@ -6,9 +6,11 @@ import {
     ChevronRight,
     FileText,
     MessageCircle,
+    Minus,
+    Plus,
     Sparkles,
 } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import DailyMetricChart from '@/components/analytics/DailyMetricChart.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
@@ -33,15 +35,16 @@ interface CvMetricSummary {
 
 interface AnalyticsRange {
     month: string;
-    window: '7' | '30' | 'month';
+    days: number;
     from: string;
     to: string;
-    days: number;
     label: string;
     prev_month: string | null;
     next_month: string | null;
     can_go_prev: boolean;
     can_go_next: boolean;
+    min_days: number;
+    max_days: number;
 }
 
 interface AnalyticsSummary {
@@ -58,23 +61,35 @@ const props = defineProps<{
     analytics: AnalyticsSummary;
 }>();
 
-const windowOptions = [
-    { value: '7' as const, label: 'Last 7 days' },
-    { value: '30' as const, label: 'Last 30 days' },
-    { value: 'month' as const, label: 'Full month' },
-];
+const daysInput = ref(String(props.analytics.range.days));
+
+watch(
+    () => props.analytics.range.days,
+    (days) => {
+        daysInput.value = String(days);
+    },
+);
 
 const periodLabel = computed(() => {
-    const { from, to, days, label } = props.analytics.range;
+    const { from, to, label } = props.analytics.range;
     const fromLabel = formatDate(from);
     const toLabel = formatDate(to);
+    const spanDays = props.analytics.days;
 
     if (from === to) {
         return `${label} · ${fromLabel}`;
     }
 
-    return `${label} · ${fromLabel} to ${toLabel} (${days} days)`;
+    return `${label} · ${fromLabel} to ${toLabel} (${spanDays} days)`;
 });
+
+const canDecreaseDays = computed(
+    () => props.analytics.range.days > props.analytics.range.min_days,
+);
+
+const canIncreaseDays = computed(
+    () => props.analytics.range.days < props.analytics.range.max_days,
+);
 
 function formatNumber(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
@@ -87,12 +102,29 @@ function formatDate(value: string): string {
     });
 }
 
-function visitRange(month: string, window: AnalyticsRange['window']): void {
+function clampDays(value: number): number {
+    const { min_days: minDays, max_days: maxDays } = props.analytics.range;
+
+    return Math.min(maxDays, Math.max(minDays, Math.round(value)));
+}
+
+function visitRange(month: string, days: number): void {
+    const nextDays = clampDays(days);
+
+    if (
+        month === props.analytics.range.month &&
+        nextDays === props.analytics.range.days
+    ) {
+        daysInput.value = String(nextDays);
+
+        return;
+    }
+
     router.get(
         analyticsRoute.url({
             query: {
                 month,
-                window,
+                days: nextDays,
             },
         }),
         {},
@@ -109,15 +141,23 @@ function goToMonth(month: string | null): void {
         return;
     }
 
-    visitRange(month, props.analytics.range.window);
+    visitRange(month, props.analytics.range.days);
 }
 
-function setWindow(window: AnalyticsRange['window']): void {
-    if (window === props.analytics.range.window) {
+function adjustDays(delta: number): void {
+    visitRange(props.analytics.range.month, props.analytics.range.days + delta);
+}
+
+function commitDaysInput(): void {
+    const parsed = Number.parseInt(daysInput.value, 10);
+
+    if (Number.isNaN(parsed)) {
+        daysInput.value = String(props.analytics.range.days);
+
         return;
     }
 
-    visitRange(props.analytics.range.month, window);
+    visitRange(props.analytics.range.month, parsed);
 }
 </script>
 
@@ -167,23 +207,44 @@ function setWindow(window: AnalyticsRange['window']): void {
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
-                <p class="postbox-label mr-1 w-full sm:mr-2 sm:w-auto">
-                    Window
-                </p>
+                <p class="postbox-label mr-1 w-full sm:mr-2 sm:w-auto">Days</p>
                 <button
-                    v-for="option in windowOptions"
-                    :key="option.value"
                     type="button"
-                    class="inline-flex items-center border-2 px-3 py-1.5 text-sm font-bold no-underline transition-colors"
-                    :class="
-                        analytics.range.window === option.value
-                            ? 'border-postbox-navy bg-postbox-navy text-white'
-                            : 'border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white'
-                    "
-                    :aria-pressed="analytics.range.window === option.value"
-                    @click="setWindow(option.value)"
+                    class="inline-flex size-9 items-center justify-center border-2 border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-postbox-grey disabled:hover:text-postbox-navy"
+                    :disabled="!canDecreaseDays"
+                    aria-label="Decrease by 7 days"
+                    @click="adjustDays(-7)"
                 >
-                    {{ option.label }}
+                    <Minus class="size-4" />
+                </button>
+                <div class="flex items-center gap-2">
+                    <input
+                        id="analytics-days"
+                        v-model="daysInput"
+                        type="number"
+                        inputmode="numeric"
+                        :min="analytics.range.min_days"
+                        :max="analytics.range.max_days"
+                        class="w-16 border-2 border-postbox-navy bg-white px-2 py-1.5 text-center text-sm font-bold text-postbox-navy tabular-nums"
+                        aria-label="Number of days in the analytics window"
+                        @keydown.enter.prevent="commitDaysInput"
+                        @blur="commitDaysInput"
+                    />
+                    <label
+                        for="analytics-days"
+                        class="text-sm font-bold text-postbox-navy"
+                    >
+                        days
+                    </label>
+                </div>
+                <button
+                    type="button"
+                    class="inline-flex size-9 items-center justify-center border-2 border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-postbox-grey disabled:hover:text-postbox-navy"
+                    :disabled="!canIncreaseDays"
+                    aria-label="Increase by 7 days"
+                    @click="adjustDays(7)"
+                >
+                    <Plus class="size-4" />
                 </button>
             </div>
 

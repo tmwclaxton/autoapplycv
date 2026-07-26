@@ -31,15 +31,16 @@ class AutofillAnalyticsService
      *     days: int,
      *     range: array{
      *         month: string,
-     *         window: string,
+     *         days: int,
      *         from: string,
      *         to: string,
-     *         days: int,
      *         label: string,
      *         prev_month: string|null,
      *         next_month: string|null,
      *         can_go_prev: bool,
      *         can_go_next: bool,
+     *         min_days: int,
+     *         max_days: int,
      *     },
      *     metrics: array{
      *         answers_autofilled: array{
@@ -66,7 +67,7 @@ class AutofillAnalyticsService
     {
         $this->syncLegacyCountersFromUsers();
 
-        $range ??= AnalyticsDateRange::fromInput(null, AnalyticsDateRange::WINDOW_MONTH);
+        $range ??= AnalyticsDateRange::fromInput(null, null);
         $from = $range->from->copy()->startOfDay();
         $to = $range->to->copy()->startOfDay();
         $days = $range->days();

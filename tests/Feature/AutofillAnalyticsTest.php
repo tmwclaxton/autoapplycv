@@ -86,8 +86,9 @@ class AutofillAnalyticsTest extends TestCase
                 ->where('analytics.metrics.answers_autofilled.total', 55)
                 ->where('analytics.metrics.answers_autofilled.period_total', 55)
                 ->where('analytics.range.month', now()->format('Y-m'))
-                ->where('analytics.range.window', 'month')
+                ->where('analytics.range.days', AnalyticsDateRange::DEFAULT_DAYS)
                 ->where('analytics.range.can_go_next', false)
+                ->missing('analytics.range.window')
                 ->missing('analytics.metrics.cvs_parsed.series')
                 ->missing('auto_apply'));
     }
@@ -108,7 +109,7 @@ class AutofillAnalyticsTest extends TestCase
             'cvs_parsed_count' => 1,
         ]);
 
-        $expectedDays = now()->day;
+        $expectedDays = AnalyticsDateRange::DEFAULT_DAYS;
 
         $this->get(route('analytics'))
             ->assertOk()
@@ -118,13 +119,14 @@ class AutofillAnalyticsTest extends TestCase
                 ->where('analytics.metrics.answers_autofilled.period_total', 20)
                 ->where('analytics.metrics.extension_questions.total', 7)
                 ->where('analytics.metrics.cvs_parsed.total', 3)
+                ->where('analytics.range.days', $expectedDays)
                 ->where('analytics.days', $expectedDays)
                 ->has('analytics.metrics.answers_autofilled.series', $expectedDays)
                 ->missing('analytics.metrics.cvs_parsed.series')
                 ->missing('auto_apply'));
     }
 
-    public function test_analytics_page_accepts_month_and_window_query_params(): void
+    public function test_analytics_page_accepts_month_and_days_query_params(): void
     {
         $previousMonth = now()->subMonthNoOverflow()->startOfMonth();
 
@@ -151,13 +153,13 @@ class AutofillAnalyticsTest extends TestCase
 
         $this->get(route('analytics', [
             'month' => $previousMonth->format('Y-m'),
-            'window' => '7',
+            'days' => 7,
         ]))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('Analytics')
                 ->where('analytics.range.month', $previousMonth->format('Y-m'))
-                ->where('analytics.range.window', '7')
+                ->where('analytics.range.days', 7)
                 ->where('analytics.range.can_go_next', true)
                 ->where('analytics.days', 7)
                 ->where('analytics.metrics.answers_autofilled.period_total', 9)
@@ -173,13 +175,23 @@ class AutofillAnalyticsTest extends TestCase
 
         $this->get(route('analytics', [
             'month' => $futureMonth,
-            'window' => 'month',
+            'days' => 30,
         ]))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('Analytics')
                 ->where('analytics.range.month', now()->format('Y-m'))
+                ->where('analytics.range.days', 30)
                 ->where('analytics.range.can_go_next', false));
+    }
+
+    public function test_analytics_page_rejects_days_outside_allowed_range(): void
+    {
+        $this->get(route('analytics', ['days' => 0]))
+            ->assertSessionHasErrors('days');
+
+        $this->get(route('analytics', ['days' => AnalyticsDateRange::MAX_DAYS + 1]))
+            ->assertSessionHasErrors('days');
     }
 
     public function test_analytics_json_is_publicly_accessible(): void
@@ -198,7 +210,7 @@ class AutofillAnalyticsTest extends TestCase
             'cvs_parsed_count' => 1,
         ]);
 
-        $expectedDays = now()->day;
+        $expectedDays = AnalyticsDateRange::DEFAULT_DAYS;
 
         $this->get(route('analytics.json'))
             ->assertOk()
@@ -207,7 +219,8 @@ class AutofillAnalyticsTest extends TestCase
             ->assertJsonPath('metrics.answers_autofilled.period_total', 20)
             ->assertJsonPath('metrics.extension_questions.total', 7)
             ->assertJsonPath('metrics.cvs_parsed.total', 3)
-            ->assertJsonPath('range.window', 'month')
+            ->assertJsonPath('range.days', $expectedDays)
+            ->assertJsonMissingPath('range.window')
             ->assertJsonCount($expectedDays, 'metrics.answers_autofilled.series')
             ->assertJsonMissingPath('metrics.cvs_parsed.series')
             ->assertJsonMissingPath('auto_apply');

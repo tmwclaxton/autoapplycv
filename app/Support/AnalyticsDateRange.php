@@ -8,20 +8,11 @@ use InvalidArgumentException;
 
 final class AnalyticsDateRange
 {
-    public const WINDOW_MONTH = 'month';
+    public const DEFAULT_DAYS = 30;
 
-    public const WINDOW_7 = '7';
+    public const MIN_DAYS = 1;
 
-    public const WINDOW_30 = '30';
-
-    /**
-     * @var list<string>
-     */
-    public const WINDOWS = [
-        self::WINDOW_7,
-        self::WINDOW_30,
-        self::WINDOW_MONTH,
-    ];
+    public const MAX_DAYS = 90;
 
     public const MAX_MONTHS_BACK = 36;
 
@@ -29,14 +20,22 @@ final class AnalyticsDateRange
         public readonly CarbonInterface $from,
         public readonly CarbonInterface $to,
         public readonly string $month,
-        public readonly string $window,
+        public readonly int $selectedDays,
     ) {
         if ($this->to->lt($this->from)) {
             throw new InvalidArgumentException('Analytics date range end must be on or after start.');
         }
+
+        if ($this->selectedDays < self::MIN_DAYS || $this->selectedDays > self::MAX_DAYS) {
+            throw new InvalidArgumentException(sprintf(
+                'Analytics days must be between %d and %d.',
+                self::MIN_DAYS,
+                self::MAX_DAYS,
+            ));
+        }
     }
 
-    public static function fromInput(?string $month, ?string $window): self
+    public static function fromInput(?string $month, ?int $days): self
     {
         $today = now()->startOfDay();
         $currentMonthStart = $today->copy()->startOfMonth();
@@ -52,46 +51,45 @@ final class AnalyticsDateRange
             $monthStart = $earliestMonthStart->copy();
         }
 
-        $resolvedWindow = in_array($window, self::WINDOWS, true)
-            ? $window
-            : self::WINDOW_MONTH;
-
+        $selectedDays = self::normalizeDays($days);
         $monthEnd = $monthStart->copy()->endOfMonth()->startOfDay();
-        $rangeEnd = $monthEnd->lt($today) ? $monthEnd : $today->copy();
+        $to = $monthEnd->lt($today) ? $monthEnd : $today->copy();
+        $from = $to->copy()->subDays($selectedDays - 1);
+        $earliestAllowed = $earliestMonthStart->copy();
 
-        if ($resolvedWindow === self::WINDOW_MONTH) {
-            $from = $monthStart->copy();
-            $to = $rangeEnd;
-        } else {
-            $windowDays = (int) $resolvedWindow;
-            $to = $rangeEnd->copy();
-            $from = $to->copy()->subDays($windowDays - 1);
-
-            if ($from->lt($monthStart)) {
-                $from = $monthStart->copy();
-            }
+        if ($from->lt($earliestAllowed)) {
+            $from = $earliestAllowed->copy();
         }
 
         return new self(
             $from,
             $to,
             $monthStart->format('Y-m'),
-            $resolvedWindow,
+            $selectedDays,
         );
     }
 
     public static function lastDays(int $days): self
     {
-        $days = max(1, min(90, $days));
+        $selectedDays = self::normalizeDays($days);
         $to = now()->startOfDay();
-        $from = $to->copy()->subDays($days - 1);
+        $from = $to->copy()->subDays($selectedDays - 1);
 
         return new self(
             $from,
             $to,
             $to->format('Y-m'),
-            $days <= 7 ? self::WINDOW_7 : self::WINDOW_30,
+            $selectedDays,
         );
+    }
+
+    public static function normalizeDays(?int $days): int
+    {
+        if ($days === null) {
+            return self::DEFAULT_DAYS;
+        }
+
+        return max(self::MIN_DAYS, min(self::MAX_DAYS, $days));
     }
 
     public function days(): int
@@ -102,15 +100,16 @@ final class AnalyticsDateRange
     /**
      * @return array{
      *     month: string,
-     *     window: string,
+     *     days: int,
      *     from: string,
      *     to: string,
-     *     days: int,
      *     label: string,
      *     prev_month: string|null,
      *     next_month: string|null,
      *     can_go_prev: bool,
      *     can_go_next: bool,
+     *     min_days: int,
+     *     max_days: int,
      * }
      */
     public function meta(): array
@@ -127,10 +126,9 @@ final class AnalyticsDateRange
 
         return [
             'month' => $this->month,
-            'window' => $this->window,
+            'days' => $this->selectedDays,
             'from' => $this->from->toDateString(),
             'to' => $this->to->toDateString(),
-            'days' => $this->days(),
             'label' => $monthDate->format('F Y'),
             'prev_month' => $canGoPrev
                 ? $monthDate->copy()->subMonthNoOverflow()->format('Y-m')
@@ -140,6 +138,8 @@ final class AnalyticsDateRange
                 : null,
             'can_go_prev' => $canGoPrev,
             'can_go_next' => $canGoNext,
+            'min_days' => self::MIN_DAYS,
+            'max_days' => self::MAX_DAYS,
         ];
     }
 

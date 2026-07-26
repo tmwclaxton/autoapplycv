@@ -19,18 +19,24 @@ class AnalyticsPeriodRequest extends FormRequest
     {
         return [
             'month' => ['sometimes', 'nullable', 'string', 'max:7'],
-            'window' => ['sometimes', 'nullable', 'string', 'max:8'],
+            'days' => [
+                'sometimes',
+                'nullable',
+                'integer',
+                'min:'.AnalyticsDateRange::MIN_DAYS,
+                'max:'.AnalyticsDateRange::MAX_DAYS,
+            ],
         ];
     }
 
     public function dateRange(): AnalyticsDateRange
     {
         $month = $this->query('month');
-        $window = $this->query('window');
+        $days = $this->query('days');
 
         return AnalyticsDateRange::fromInput(
             is_string($month) ? $month : null,
-            is_string($window) ? $window : null,
+            is_numeric($days) ? (int) $days : null,
         );
     }
 }
