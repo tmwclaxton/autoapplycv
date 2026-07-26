@@ -9,6 +9,7 @@ use App\Services\AutofillAnalyticsService;
 use App\Services\ExtensionAutoApplyAnalyticsService;
 use App\Services\ExtensionNanoGptUsageService;
 use App\Services\ExtensionPageCaptureService;
+use App\Support\AnalyticsDateRange;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,7 +38,7 @@ class AdminDashboardController extends Controller
             ...$this->autoApply->adminDashboardData($queryAppends),
             ...$this->nanoGptUsage->adminDashboardData(),
             'autofill_analytics' => $this->autofillAnalytics->publicSummary(
-                (int) config('admin.dashboard_chart_days', 30),
+                AnalyticsDateRange::lastDays((int) config('admin.dashboard_chart_days', 30)),
             ),
             ...$this->health->adminDashboardData(),
             'credit_packages' => config('admin.credit_packages', []),

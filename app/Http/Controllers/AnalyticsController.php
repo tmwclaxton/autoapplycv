@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnalyticsPeriodRequest;
 use App\Services\AutofillAnalyticsService;
 use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
@@ -13,10 +14,10 @@ class AnalyticsController extends Controller
         private readonly AutofillAnalyticsService $analytics,
     ) {}
 
-    public function index(): Response
+    public function index(AnalyticsPeriodRequest $request): Response
     {
         return Inertia::render('Analytics', [
-            'analytics' => $this->analytics->publicSummary(),
+            'analytics' => $this->analytics->publicSummary($request->dateRange()),
         ]);
     }
 
@@ -24,10 +25,10 @@ class AnalyticsController extends Controller
      * Public JSON for README badges (shields.io) and other read-only consumers.
      * Same payload as the /analytics Inertia page (real + synthetic totals).
      */
-    public function json(): JsonResponse
+    public function json(AnalyticsPeriodRequest $request): JsonResponse
     {
         return response()
-            ->json($this->analytics->publicSummary())
+            ->json($this->analytics->publicSummary($request->dateRange()))
             ->header('Cache-Control', 'public, max-age=300');
     }
 }

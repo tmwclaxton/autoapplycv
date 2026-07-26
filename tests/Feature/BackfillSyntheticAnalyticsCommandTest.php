@@ -6,6 +6,7 @@ use App\Models\AutofillDailyStat;
 use App\Models\AutofillSyntheticDailyStat;
 use App\Services\AutofillAnalyticsService;
 use App\Services\SyntheticAnalyticsService;
+use App\Support\AnalyticsDateRange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -91,12 +92,15 @@ class BackfillSyntheticAnalyticsCommandTest extends TestCase
             'cvs_parsed_count' => 2,
         ]);
 
-        $summary = app(AutofillAnalyticsService::class)->publicSummary(7);
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(
+            AnalyticsDateRange::lastDays(7),
+        );
 
         $this->assertSame(15, $summary['metrics']['answers_autofilled']['total']);
         $this->assertSame(5, $summary['metrics']['extension_questions']['total']);
         $this->assertSame(3, $summary['metrics']['cvs_parsed']['total']);
         $this->assertSame(15, $summary['metrics']['answers_autofilled']['series'][6]['count']);
+        $this->assertArrayNotHasKey('series', $summary['metrics']['cvs_parsed']);
     }
 
     public function test_backfill_does_not_mutate_real_daily_stats(): void

@@ -149,12 +149,18 @@ interface AutofillMetricSummary {
     }>;
 }
 
+interface AutofillCvMetricSummary {
+    label: string;
+    total: number;
+    period_total: number;
+}
+
 interface AutofillAnalyticsSummary {
     days: number;
     metrics: {
         answers_autofilled: AutofillMetricSummary;
         extension_questions: AutofillMetricSummary;
-        cvs_parsed: AutofillMetricSummary;
+        cvs_parsed: AutofillCvMetricSummary;
     };
 }
 

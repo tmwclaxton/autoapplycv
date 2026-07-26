@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { BarChart3, FileText, MessageCircle, Sparkles } from 'lucide-vue-next';
+import { Head, router } from '@inertiajs/vue3';
+import {
+    BarChart3,
+    ChevronLeft,
+    ChevronRight,
+    FileText,
+    MessageCircle,
+    Sparkles,
+} from 'lucide-vue-next';
+import { computed } from 'vue';
 import DailyMetricChart from '@/components/analytics/DailyMetricChart.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
+import { analytics as analyticsRoute } from '@/routes';
 
 interface MetricSummary {
     label: string;
@@ -16,21 +25,99 @@ interface MetricSummary {
     }>;
 }
 
+interface CvMetricSummary {
+    label: string;
+    total: number;
+    period_total: number;
+}
+
+interface AnalyticsRange {
+    month: string;
+    window: '7' | '30' | 'month';
+    from: string;
+    to: string;
+    days: number;
+    label: string;
+    prev_month: string | null;
+    next_month: string | null;
+    can_go_prev: boolean;
+    can_go_next: boolean;
+}
+
 interface AnalyticsSummary {
     days: number;
+    range: AnalyticsRange;
     metrics: {
         answers_autofilled: MetricSummary;
         extension_questions: MetricSummary;
-        cvs_parsed: MetricSummary;
+        cvs_parsed: CvMetricSummary;
     };
 }
 
-defineProps<{
+const props = defineProps<{
     analytics: AnalyticsSummary;
 }>();
 
+const windowOptions = [
+    { value: '7' as const, label: 'Last 7 days' },
+    { value: '30' as const, label: 'Last 30 days' },
+    { value: 'month' as const, label: 'Full month' },
+];
+
+const periodLabel = computed(() => {
+    const { from, to, days, label } = props.analytics.range;
+    const fromLabel = formatDate(from);
+    const toLabel = formatDate(to);
+
+    if (from === to) {
+        return `${label} · ${fromLabel}`;
+    }
+
+    return `${label} · ${fromLabel} to ${toLabel} (${days} days)`;
+});
+
 function formatNumber(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function formatDate(value: string): string {
+    return new Date(`${value}T00:00:00`).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+    });
+}
+
+function visitRange(month: string, window: AnalyticsRange['window']): void {
+    router.get(
+        analyticsRoute.url({
+            query: {
+                month,
+                window,
+            },
+        }),
+        {},
+        {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+        },
+    );
+}
+
+function goToMonth(month: string | null): void {
+    if (!month) {
+        return;
+    }
+
+    visitRange(month, props.analytics.range.window);
+}
+
+function setWindow(window: AnalyticsRange['window']): void {
+    if (window === props.analytics.range.window) {
+        return;
+    }
+
+    visitRange(props.analytics.range.month, window);
 }
 </script>
 
@@ -47,6 +134,63 @@ function formatNumber(value: number): string {
             title="Product usage over time."
             description="A public, aggregate view of autofilled answers, extension questions, and CV parses across all users. Auto Apply runs use the same Draft All and page capture pipelines - no separate product metrics. No personal data - just daily totals."
         />
+
+        <div
+            class="postbox-panel mb-8 flex flex-col gap-4 p-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:p-5"
+        >
+            <div class="flex flex-wrap items-center gap-2">
+                <p class="postbox-label mr-1 w-full sm:mr-2 sm:w-auto">Month</p>
+                <button
+                    type="button"
+                    class="inline-flex size-9 items-center justify-center border-2 border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-postbox-grey disabled:hover:text-postbox-navy"
+                    :disabled="!analytics.range.can_go_prev"
+                    aria-label="Previous month"
+                    @click="goToMonth(analytics.range.prev_month)"
+                >
+                    <ChevronLeft class="size-4" />
+                </button>
+                <div
+                    class="min-w-[9.5rem] border-2 border-postbox-navy bg-white px-3 py-1.5 text-center text-sm font-bold text-postbox-navy"
+                    aria-live="polite"
+                >
+                    {{ analytics.range.label }}
+                </div>
+                <button
+                    type="button"
+                    class="inline-flex size-9 items-center justify-center border-2 border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-postbox-grey disabled:hover:text-postbox-navy"
+                    :disabled="!analytics.range.can_go_next"
+                    aria-label="Next month"
+                    @click="goToMonth(analytics.range.next_month)"
+                >
+                    <ChevronRight class="size-4" />
+                </button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+                <p class="postbox-label mr-1 w-full sm:mr-2 sm:w-auto">
+                    Window
+                </p>
+                <button
+                    v-for="option in windowOptions"
+                    :key="option.value"
+                    type="button"
+                    class="inline-flex items-center border-2 px-3 py-1.5 text-sm font-bold no-underline transition-colors"
+                    :class="
+                        analytics.range.window === option.value
+                            ? 'border-postbox-navy bg-postbox-navy text-white'
+                            : 'border-postbox-navy bg-postbox-grey text-postbox-navy hover:bg-postbox-red hover:text-white'
+                    "
+                    :aria-pressed="analytics.range.window === option.value"
+                    @click="setWindow(option.value)"
+                >
+                    {{ option.label }}
+                </button>
+            </div>
+
+            <p class="w-full text-sm text-muted-foreground">
+                Showing {{ periodLabel }}
+            </p>
+        </div>
 
         <div class="mb-8 grid gap-4 lg:grid-cols-3">
             <div class="postbox-panel p-5">
@@ -69,7 +213,7 @@ function formatNumber(value: number): string {
                             analytics.metrics.answers_autofilled.period_total,
                         )
                     }}
-                    in the last {{ analytics.days }} days
+                    in this window
                 </p>
             </div>
 
@@ -95,7 +239,7 @@ function formatNumber(value: number): string {
                             analytics.metrics.extension_questions.period_total,
                         )
                     }}
-                    in the last {{ analytics.days }} days
+                    in this window
                 </p>
             </div>
 
@@ -115,7 +259,7 @@ function formatNumber(value: number): string {
                     {{
                         formatNumber(analytics.metrics.cvs_parsed.period_total)
                     }}
-                    in the last {{ analytics.days }} days
+                    in this window
                 </p>
             </div>
         </div>
@@ -123,7 +267,7 @@ function formatNumber(value: number): string {
         <div class="space-y-8">
             <DailyMetricChart
                 title="Answers autofilled per day"
-                :description="`Last ${analytics.days} days across all users.`"
+                :description="`Daily totals from ${formatDate(analytics.range.from)} to ${formatDate(analytics.range.to)}.`"
                 empty-title="No autofills recorded yet."
                 empty-description="As people use the extension, daily totals will appear here."
                 :series="analytics.metrics.answers_autofilled.series"
@@ -133,24 +277,13 @@ function formatNumber(value: number): string {
 
             <DailyMetricChart
                 title="Extension questions per day"
-                :description="`Chat prompts, quick answers, and batch question runs over the last ${analytics.days} days.`"
+                :description="`Chat prompts, quick answers, and batch question runs from ${formatDate(analytics.range.from)} to ${formatDate(analytics.range.to)}.`"
                 empty-title="No extension questions recorded yet."
                 empty-description="When users ask the extension for help, daily totals will appear here."
                 :series="analytics.metrics.extension_questions.series"
                 :days="analytics.days"
                 bar-class="fill-postbox-navy/80 hover:fill-postbox-navy"
                 unit-label="questions"
-            />
-
-            <DailyMetricChart
-                title="CVs parsed per day"
-                :description="`Successful AI CV parses over the last ${analytics.days} days.`"
-                empty-title="No CV parses recorded yet."
-                empty-description="When users upload and parse a CV, daily totals will appear here."
-                :series="analytics.metrics.cvs_parsed.series"
-                :days="analytics.days"
-                bar-class="fill-primary/80 hover:fill-primary"
-                unit-label="CVs"
             />
         </div>
 
