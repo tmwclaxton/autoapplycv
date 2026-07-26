@@ -137,11 +137,15 @@ final class BlogSourceNormalizer
     {
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
-        // Image markdown dumps (alt + URL)
+        // Image markdown (complete and truncated mid-URL from older 400-char cuts)
         $text = (string) preg_replace('/!\[[^\]]*]\([^)]*\)/', ' ', $text);
+        $text = (string) preg_replace('/!\[[^\]]*]\([^)\s]*/', ' ', $text);
+        $text = (string) preg_replace('/!\[[^\]]*$/', ' ', $text);
 
-        // [label](url) -> label
-        $text = (string) preg_replace('/\[([^\]]*)]\([^)]*\)/', '$1', $text);
+        // [label](url) -> label (complete and truncated)
+        $text = (string) preg_replace('/\[([^\]]*)]\([^)]*\)/', ' $1 ', $text);
+        $text = (string) preg_replace('/\[([^\]]*)]\([^)\s]*/', ' $1 ', $text);
+        $text = (string) preg_replace('/\[[^\]]*$/', ' ', $text);
 
         // Bare URLs (including long chatgpt/perplexity share links)
         $text = (string) preg_replace('#https?://[^\s<>"\')\]]+#i', ' ', $text);
@@ -157,10 +161,11 @@ final class BlogSourceNormalizer
         $text = (string) preg_replace('/\*{1,3}([^*]+)\*{1,3}/', '$1', $text);
         $text = (string) preg_replace('/_{1,3}([^_]+)_{1,3}/', '$1', $text);
 
-        // Residual emphasis markers and list bullets
+        // Residual emphasis markers, list bullets, and orphaned markdown punctuation
         $text = (string) preg_replace('/[*_~`]+/', ' ', $text);
         $text = (string) preg_replace('/^\s*[-*+]\s+/m', '', $text);
         $text = (string) preg_replace('/^\s*\d+\.\s+/m', '', $text);
+        $text = (string) preg_replace('/!?\[|\]|\(\s*$/', ' ', $text);
 
         // HTML tags that sometimes leak into scrape snippets
         $text = strip_tags($text);

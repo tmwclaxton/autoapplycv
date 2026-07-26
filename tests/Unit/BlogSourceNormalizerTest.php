@@ -30,6 +30,21 @@ MD;
         $this->assertLessThanOrEqual(160, mb_strlen($clean));
     }
 
+    public function test_clean_description_handles_truncated_markdown_stubs(): void
+    {
+        $raw = 'Best AI tools for job seekers ChatGPT[Perplexity](https://chatgpt.com/?q=Summarize'
+            .' ApplyGenie LoopCV ![ai for job application automation](https://static.wixstatic.com/media/abc';
+
+        $clean = BlogSourceNormalizer::cleanDescription($raw, 160);
+
+        $this->assertStringNotContainsString('![', $clean);
+        $this->assertStringNotContainsString('](', $clean);
+        $this->assertStringNotContainsString('https://', $clean);
+        $this->assertStringContainsString('Best AI tools', $clean);
+        $this->assertStringContainsString('Perplexity', $clean);
+        $this->assertStringContainsString('ApplyGenie', $clean);
+    }
+
     public function test_normalize_list_keeps_titled_links_with_short_blurbs(): void
     {
         $sources = BlogSourceNormalizer::normalizeList([
