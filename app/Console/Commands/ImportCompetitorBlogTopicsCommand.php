@@ -18,24 +18,27 @@ use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Run order (AutoApplyMax-style corpus):
- * 1. blog:import-competitor-topics --limit=10 --skip-image  (creates Drafts)
+ * Run order (multi-competitor corpus):
+ * 1. blog:import-competitor-topics --refresh-manifest --limit=10  (creates Drafts + hero images)
  * 2. Spot-check 2-3 drafts (title, length, no competitor brand, product honesty)
  * 3. blog:publish --limit=10
  * 4. Repeat until catalog filled; weekly blog:generate --length=long continues for net-new
- * 5. blog:expand-published once for the six live posts
+ * 5. blog:expand-published once for legacy live posts
+ *
+ * Use --skip-image only when NanoGPT image rate limits force a staged approach.
  */
 class ImportCompetitorBlogTopicsCommand extends Command
 {
     protected $signature = 'blog:import-competitor-topics
                             {--limit=10 : Max topics to process this run}
                             {--offset=0 : Skip the first N pending sitemap URLs}
+                            {--source= : Only refresh/import a single configured source id (e.g. loopcv)}
                             {--only= : Process a single source slug or URL substring}
                             {--dry-run : List planned imports without scraping/generating}
                             {--skip-image : Skip hero image generation}
-                            {--refresh-manifest : Re-fetch sitemap and merge new URLs into the manifest}';
+                            {--refresh-manifest : Re-fetch sitemaps/indexes and merge new URLs into the manifest}';
 
-    protected $description = 'Import AutoApplyMax sitemap topics as rewritten AutoCVApply draft posts (inspiration only)';
+    protected $description = 'Import competitor blog topics as rewritten AutoCVApply draft posts (inspiration only)';
 
     public function handle(
         CompetitorBlogImportService $importer,
@@ -46,6 +49,7 @@ class ImportCompetitorBlogTopicsCommand extends Command
     ): int {
         $limit = max(1, (int) $this->option('limit'));
         $offset = max(0, (int) $this->option('offset'));
+        $sourceFilter = trim((string) $this->option('source'));
         $only = trim((string) $this->option('only'));
         $dryRun = (bool) $this->option('dry-run');
         $skipImage = (bool) $this->option('skip-image');
@@ -53,44 +57,48 @@ class ImportCompetitorBlogTopicsCommand extends Command
             (string) config('blog.import.default_length', 'pillar')
         );
 
+        $sources = $importer->configuredSources($sourceFilter !== '' ? $sourceFilter : null);
+        if ($sources === []) {
+            $this->error($sourceFilter !== ''
+                ? "No enabled import source matches --source={$sourceFilter}."
+                : 'No enabled competitor blog sources configured in blog.import.sources.');
+
+            return self::FAILURE;
+        }
+
         $this->info('Importing competitor blog topics as AutoCVApply drafts...');
         $this->line('  Length: '.$lengthKey);
         $this->line('  Manifest: '.$importer->manifestPath());
+        $this->line('  Sources: '.implode(', ', array_map(
+            fn (array $s): string => (string) $s['id'],
+            $sources,
+        )));
+        $this->line('  Hero images: '.($skipImage ? 'skipped' : 'enabled'));
 
         $manifest = $importer->loadManifest();
         $refresh = (bool) $this->option('refresh-manifest') || $manifest['entries'] === [];
 
         if ($refresh) {
-            $this->line('  Fetching sitemap: '.$importer->sitemapUrl());
-            $urls = $importer->fetchBlogUrlsFromSitemap();
-            if ($urls === []) {
-                $this->error('No /blog/* URLs found in sitemap (or fetch failed).');
+            $this->line('  Refreshing manifests from configured sources...');
+            $result = $importer->refreshManifestFromSources($sourceFilter !== '' ? $sourceFilter : null);
+            $manifest = $result['manifest'];
+            $this->line('  Discovered URLs this refresh: '.$result['total_urls'].' (new entries: '.$result['added'].')');
+            $this->line('  Manifest entries: '.count($manifest['entries']));
+
+            if ($manifest['entries'] === []) {
+                $this->error('No blog post URLs discovered from configured sources.');
 
                 return self::FAILURE;
             }
-            foreach ($urls as $url) {
-                $key = $importer->sourceSlugFromUrl($url);
-                if (! isset($manifest['entries'][$key])) {
-                    $manifest['entries'][$key] = [
-                        'source_url' => $url,
-                        'source_slug' => $key,
-                        'source_title' => null,
-                        'status' => 'pending',
-                        'autocvapply_slug' => null,
-                        'autocvapply_title' => null,
-                        'blog_id' => null,
-                        'error' => null,
-                        'updated_at' => null,
-                    ];
-                } else {
-                    $manifest['entries'][$key]['source_url'] = $url;
-                }
-            }
-            $importer->saveManifest($manifest);
-            $this->line('  Manifest entries: '.count($manifest['entries']));
         }
 
-        $pending = $this->selectPendingEntries($manifest['entries'], $only, $offset, $limit);
+        $pending = $this->selectPendingEntries(
+            $manifest['entries'],
+            $sourceFilter,
+            $only,
+            $offset,
+            $limit,
+        );
 
         if ($pending === []) {
             $this->info('Nothing to import (no pending entries match filters).');
@@ -102,7 +110,8 @@ class ImportCompetitorBlogTopicsCommand extends Command
 
         if ($dryRun) {
             foreach ($pending as $entry) {
-                $this->line('  - '.$entry['source_slug'].' => '.$entry['source_url']);
+                $sourceId = (string) ($entry['source_id'] ?? 'unknown');
+                $this->line('  - ['.$sourceId.'] '.$entry['source_slug'].' => '.$entry['source_url']);
             }
             $this->newLine();
             $this->info('Dry run: no scrape, rewrite, or database write.');
@@ -122,8 +131,10 @@ class ImportCompetitorBlogTopicsCommand extends Command
 
         foreach ($pending as $key => $entry) {
             $url = (string) $entry['source_url'];
+            $sourceId = (string) ($entry['source_id'] ?? 'unknown');
             $this->newLine();
             $this->info("Topic: {$key}");
+            $this->line('  Source: '.$sourceId);
             $this->line('  URL: '.$url);
 
             try {
@@ -167,7 +178,10 @@ class ImportCompetitorBlogTopicsCommand extends Command
                 $imagePath = null;
                 if (! $skipImage) {
                     $this->line('  Generating hero image...');
-                    $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
+                    $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic, [
+                        'title' => $brief['title'] ?? '',
+                        'tags' => BlogKeywordStrategy::tagsForTarget($seoTarget),
+                    ]);
                     $imagePath = $heroImages->generateAndStore($imagePrompt);
                 } else {
                     $this->line('  Skipping hero image.');
@@ -196,20 +210,20 @@ class ImportCompetitorBlogTopicsCommand extends Command
                 $body = $importer->stripCompetitorBrand($this->normaliseDashes($post['body']));
                 $excerpt = $importer->stripCompetitorBrand($this->normaliseDashes($post['excerpt']));
 
-                if ($this->containsBlockedCompetitorBrand($title.$body.$excerpt)) {
+                if ($importer->containsBlockedCompetitorBrand($title.$body.$excerpt)) {
                     throw new \RuntimeException('Generated content still mentions competitor brand.');
                 }
 
                 $tags = array_values(array_unique(array_merge(
                     BlogKeywordStrategy::tagsForTarget($seoTarget),
                     array_map(fn (string $tag): string => $this->normaliseDashes($tag), $post['tags'] ?? []),
-                    [$seoTarget['id'], 'imported-topic'],
+                    [$seoTarget['id'], 'imported-topic', 'source-'.$sourceId],
                 )));
 
-                $sources = FirecrawlService::selectSourcesForArticle($researchSources, $post['sources'] ?? []);
-                $sources = array_values(array_filter(
-                    $sources,
-                    fn (array $source): bool => ! $this->isBlockedImportSourceUrl((string) ($source['url'] ?? '')),
+                $sourcesOut = FirecrawlService::selectSourcesForArticle($researchSources, $post['sources'] ?? []);
+                $sourcesOut = array_values(array_filter(
+                    $sourcesOut,
+                    fn (array $sourceRow): bool => ! $importer->isBlockedImportSourceUrl((string) ($sourceRow['url'] ?? '')),
                 ));
 
                 $blog = Blog::create([
@@ -219,7 +233,7 @@ class ImportCompetitorBlogTopicsCommand extends Command
                     'body' => $body,
                     'image_url' => $imagePath,
                     'tags' => $tags,
-                    'sources' => $sources,
+                    'sources' => $sourcesOut,
                     'status' => BlogStatus::Draft,
                     'published_at' => null,
                 ]);
@@ -264,8 +278,13 @@ class ImportCompetitorBlogTopicsCommand extends Command
      * @param  array<string, array<string, mixed>>  $entries
      * @return array<string, array<string, mixed>>
      */
-    protected function selectPendingEntries(array $entries, string $only, int $offset, int $limit): array
-    {
+    protected function selectPendingEntries(
+        array $entries,
+        string $sourceFilter,
+        string $only,
+        int $offset,
+        int $limit,
+    ): array {
         $pending = [];
         foreach ($entries as $key => $entry) {
             if (! is_array($entry)) {
@@ -275,8 +294,14 @@ class ImportCompetitorBlogTopicsCommand extends Command
             if (! in_array($status, ['pending', 'failed'], true)) {
                 continue;
             }
+            if ($sourceFilter !== '') {
+                $entrySource = (string) ($entry['source_id'] ?? '');
+                if ($entrySource !== $sourceFilter && ! str_starts_with($key, $sourceFilter.':')) {
+                    continue;
+                }
+            }
             if ($only !== '') {
-                $hay = strtolower($key.' '.($entry['source_url'] ?? ''));
+                $hay = strtolower($key.' '.($entry['source_url'] ?? '').' '.($entry['source_id'] ?? ''));
                 if (! str_contains($hay, strtolower($only))) {
                     continue;
                 }
@@ -285,9 +310,8 @@ class ImportCompetitorBlogTopicsCommand extends Command
         }
 
         ksort($pending);
-        $slice = array_slice($pending, $offset, $limit, true);
 
-        return $slice;
+        return array_slice($pending, $offset, $limit, true);
     }
 
     /**
@@ -358,19 +382,6 @@ class ImportCompetitorBlogTopicsCommand extends Command
         }
 
         return $candidate;
-    }
-
-    protected function containsBlockedCompetitorBrand(string $text): bool
-    {
-        return (bool) preg_match('/\b(AutoApplyMax|EasyApplyMax|autoapplymax\.com|easyapplymax\.com)\b/iu', $text);
-    }
-
-    protected function isBlockedImportSourceUrl(string $url): bool
-    {
-        $host = strtolower((string) (parse_url($url, PHP_URL_HOST) ?? ''));
-
-        return str_ends_with($host, 'autoapplymax.com')
-            || str_ends_with($host, 'easyapplymax.com');
     }
 
     protected function normaliseDashes(string $text): string

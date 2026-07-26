@@ -21,6 +21,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Competitor comparison posts (blog:seed-competitor-comparisons)
+    |--------------------------------------------------------------------------
+    |
+    | Curated bodies ship by default. Optional --ai / --refresh-research use
+    | NanoGPT + Firecrawl scrapes of homepage/pricing/features (and extras).
+    |
+    */
+    'comparisons' => [
+        'scrape_max_markdown_chars' => 12000,
+        'ai_timeout' => 120,
+        'extra_paths' => [
+            // Optional extra scrape paths per comparison id (relative or absolute).
+            'loopcv' => ['autoapply', 'help'],
+            'simplify' => ['copilot', 'install'],
+            'autoapplymax' => ['#demo'],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Research source filtering (Firecrawl + persisted Blog sources)
     |--------------------------------------------------------------------------
     |
@@ -67,6 +87,7 @@ return [
             'jobcopilot.com',
             'loopcv.pro',
             'loopcv.com',
+            'blog.loopcv.pro',
             'lazyapply.com',
             'sonara.ai',
             'autojob.io',
@@ -85,6 +106,9 @@ return [
             'huntr.co',
             'usemassive.com',
             'massivjobs.com',
+            'kickresume.com',
+            'wonsulting.com',
+            'careerflow.ai',
         ],
     ],
 
@@ -93,20 +117,190 @@ return [
     | Competitor topic import (inspiration only - never republish their copy)
     |--------------------------------------------------------------------------
     |
+    | Competitor blog roots were discovered from AutoApplyMax footer Compare
+    | links (directory only - AutoApplyMax content is not scraped) plus the
+    | explicit LoopCV blog at https://blog.loopcv.pro/.
+    |
+    | Skipped (no usable public blog): LazyApply, ApplyGlide, Massive.
+    |
     | Run order:
-    | 1. php artisan blog:import-competitor-topics --limit=10 --skip-image
+    | 1. php artisan blog:import-competitor-topics --refresh-manifest --limit=10
     | 2. Spot-check 2-3 drafts (title variety, length, no competitor brand, honesty)
     | 3. php artisan blog:publish --limit=10
-    | 4. php artisan blog:expand-published --skip-image  (once for the six live posts)
+    | 4. php artisan blog:expand-published --skip-image  (once for legacy live posts)
     | 5. Weekly schedule: blog:generate --length=long
+    |
+    | Prefer hero images on (omit --skip-image) unless NanoGPT rate limits force staging.
     |
     */
     'import' => [
-        'sitemap_url' => 'https://www.autoapplymax.com/sitemap.xml',
         'manifest_disk' => 'local',
-        'manifest_path' => 'blog-imports/autoapplymax-manifest.json',
+        'manifest_path' => 'blog-imports/competitor-manifest.json',
         'scrape_max_markdown_chars' => 24000,
         'default_length' => 'pillar',
+        'sitemap_max_nested_fetches' => 40,
+        'index_max_pages' => 8,
+
+        /*
+         * Directory-only reference (not scraped for republication).
+         * AutoApplyMax footer Compare links used to discover competitors below.
+         */
+        'directory' => [
+            'host' => 'autoapplymax.com',
+            'compare_paths' => [
+                '/compare/autoapplymax-vs-lazyapply',
+                '/compare/autoapplymax-vs-simplify',
+                '/compare/autoapplymax-vs-loopcv',
+                '/compare/autoapplymax-vs-applyglide',
+                '/compare/autoapplymax-vs-jobcopilot',
+                '/compare/autoapplymax-vs-huntr',
+                '/compare/autoapplymax-vs-sonara',
+                '/compare/autoapplymax-vs-teal',
+                '/compare/autoapplymax-vs-massive',
+                '/compare/autoapplymax-vs-wonsulting',
+                '/compare/autoapplymax-vs-kickresume',
+                '/compare/autoapplymax-vs-careerflow',
+            ],
+        ],
+
+        'sources' => [
+            [
+                'id' => 'loopcv',
+                'name' => 'LoopCV',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://blog.loopcv.pro/sitemap-posts.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['blog.loopcv.pro'],
+                'path_regex' => '#^/[a-z0-9][a-z0-9-]{2,}/?$#i',
+                'exclude_path_regexes' => [
+                    '#^/(tag|author|page|newsletter|fr|es|pt|tr|gr|ghost)(/|$)#i',
+                ],
+                'brand_names' => ['LoopCV', 'Loopcv', 'loopcv.pro', 'loopcv.com'],
+            ],
+            [
+                'id' => 'simplify',
+                'name' => 'Simplify',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://simplify.jobs/blog/sitemap/posts.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['simplify.jobs'],
+                'path_regex' => '#^/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [],
+                'brand_names' => ['Simplify Jobs', 'Simplify.jobs', 'Simplify'],
+            ],
+            [
+                'id' => 'huntr',
+                'name' => 'Huntr',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://huntr.co/sitemap.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['huntr.co'],
+                'path_regex' => '#^/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [],
+                'brand_names' => ['Huntr', 'huntr.co'],
+            ],
+            [
+                'id' => 'jobcopilot',
+                'name' => 'JobCopilot',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://jobcopilot.com/post-sitemap.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['jobcopilot.com'],
+                'path_regex' => '#^/[a-z0-9][a-z0-9-]{2,}/?$#i',
+                'exclude_path_regexes' => [
+                    '#^/(de|es|pt|it|nl|fr)(/|$)#i',
+                    '#^/(resources|page|category|tag|author)(/|$)#i',
+                    '#^/(automate-[a-z0-9-]+-job-applications|how-to-automate-[a-z0-9-]+-job-applications)/?$#i',
+                ],
+                'brand_names' => ['JobCopilot', 'Job Copilot', 'jobcopilot.com'],
+            ],
+            [
+                'id' => 'wonsulting',
+                'name' => 'Wonsulting',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://www.wonsulting.com/sitemap.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['wonsulting.com'],
+                'path_regex' => '#^/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [],
+                'brand_names' => ['Wonsulting', 'WonsultingAI', 'wonsulting.com'],
+            ],
+            [
+                'id' => 'careerflow',
+                'name' => 'Careerflow',
+                'enabled' => true,
+                'sitemap_urls' => [
+                    'https://www.careerflow.ai/sitemap.xml',
+                ],
+                'index_urls' => [],
+                'host_suffixes' => ['careerflow.ai'],
+                'path_regex' => '#^/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [
+                    '#^/blog-categories(/|$)#i',
+                ],
+                'brand_names' => ['Careerflow', 'CareerFlow', 'careerflow.ai'],
+            ],
+            [
+                'id' => 'kickresume',
+                'name' => 'Kickresume',
+                'enabled' => true,
+                'sitemap_urls' => [],
+                'index_urls' => [
+                    'https://www.kickresume.com/en/blog/',
+                    'https://www.kickresume.com/en/blog/?page=2',
+                    'https://www.kickresume.com/en/blog/?page=3',
+                    'https://www.kickresume.com/en/blog/?page=4',
+                ],
+                'host_suffixes' => ['kickresume.com'],
+                'path_regex' => '#^/en/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [],
+                'brand_names' => ['Kickresume', 'kickresume.com'],
+            ],
+            [
+                'id' => 'sonara',
+                'name' => 'Sonara',
+                'enabled' => true,
+                'sitemap_urls' => [],
+                'index_urls' => [
+                    'https://www.sonara.ai/blog',
+                    'https://www.sonara.ai/blog/page/2',
+                    'https://www.sonara.ai/blog/page/3',
+                    'https://www.sonara.ai/blog/page/4',
+                ],
+                'host_suffixes' => ['sonara.ai'],
+                'path_regex' => '#^/blog/[^/]+/?$#',
+                'exclude_path_regexes' => [
+                    '#^/blog/page(/|$)#i',
+                ],
+                'brand_names' => ['Sonara', 'Sonara.ai', 'sonara.ai'],
+            ],
+            [
+                'id' => 'teal',
+                'name' => 'Teal',
+                'enabled' => true,
+                'sitemap_urls' => [],
+                'index_urls' => [
+                    'https://www.tealhq.com/career-hub',
+                    'https://www.tealhq.com/category/job-search',
+                    'https://www.tealhq.com/category/resumes',
+                    'https://www.tealhq.com/category/cover-letters',
+                ],
+                'host_suffixes' => ['tealhq.com'],
+                'path_regex' => '#^/post/[^/]+/?$#',
+                'exclude_path_regexes' => [],
+                'brand_names' => ['Teal HQ', 'TealHQ', 'Teal', 'tealhq.com'],
+            ],
+        ],
     ],
 
     /*

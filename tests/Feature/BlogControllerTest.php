@@ -89,6 +89,44 @@ MD,
             );
     }
 
+    public function test_blog_show_renders_inline_images_and_youtube_embeds(): void
+    {
+        $blog = Blog::factory()->published()->create([
+            'title' => 'How Auto Apply looks in practice',
+            'slug' => 'auto-apply-in-practice',
+            'body' => <<<'MD'
+## Walkthrough
+
+![Side panel drafting answers](https://cdn.example.com/side-panel.png)
+
+<figure>
+<img src="https://cdn.example.com/score.png" alt="ATS score">
+<figcaption>Score before you apply</figcaption>
+</figure>
+
+<iframe src="https://www.youtube.com/embed/CwdVyGdgXk8" title="Product walkthrough"></iframe>
+
+<script>alert("xss")</script>
+<iframe src="https://evil.example/embed"></iframe>
+MD,
+        ]);
+
+        $this->get(route('blog.show', $blog))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Blog/Show')
+                ->where(
+                    'post.body_html',
+                    fn (string $html): bool => str_contains($html, 'cdn.example.com/side-panel.png')
+                        && str_contains($html, '<figcaption>Score before you apply</figcaption>')
+                        && str_contains($html, 'postbox-embed')
+                        && str_contains($html, 'youtube-nocookie.com/embed/CwdVyGdgXk8')
+                        && ! str_contains($html, '<script')
+                        && ! str_contains($html, 'evil.example')
+                )
+            );
+    }
+
     public function test_blog_show_returns_404_for_draft_post(): void
     {
         $blog = Blog::factory()->create([

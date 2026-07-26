@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Support\AutoCVApplyBlogContext;
+use App\Support\BlogHeroSceneVariety;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -129,9 +130,14 @@ class NanoGptBlogHeroImageService
         return $objectPath;
     }
 
-    public function buildPrompt(NanoGptService $nanoGpt, string $topic): string
+    /**
+     * @param  array{slug?: string, title?: string, tags?: list<string>, scene_offset?: int}  $context
+     */
+    public function buildPrompt(NanoGptService $nanoGpt, string $topic, array $context = []): string
     {
-        $instructions = <<<'INSTRUCTIONS'
+        $scene = $this->resolveScene($topic, $context);
+
+        $instructions = <<<INSTRUCTIONS
 You are writing a prompt for Recraft V4.1, a professional design-focused AI image generator.
 The image will be displayed at a wide 16:9 landscape ratio as a blog hero banner.
 
@@ -139,9 +145,10 @@ Given the blog topic and product summary, return ONE concise paragraph (3-5 sent
 SCENE-BASED illustration - concrete and exciting, not flat stock clipart.
 
 Rules:
-- Scene: a job seeker mid-apply - laptop open at a desk or cafe, browser tabs suggesting job boards (generic, unbranded UI shapes only), coffee or notebook nearby; sense of progress and momentum.
-- Energy: dynamic lighting (warm window light, soft lamp glow, golden hour), depth with foreground/midground/background; slight motion (hand on trackpad, papers shifting) without chaos.
-- People: silhouetted or stylised figures without detailed faces; hopeful, focused, quietly triumphant mood.
+- Required scene direction ({$scene['label']}): {$scene['directive']}
+- Do NOT default to a face-forward person staring at a laptop unless that scene direction explicitly needs a screen as a secondary prop.
+- Energy: dynamic lighting (warm window light, soft lamp glow, golden hour), depth with foreground/midground/background; slight motion without chaos.
+- People: silhouetted or stylised figures without detailed faces when people appear; hopeful, focused, quietly triumphant mood.
 - Style: rich editorial illustration with layered colour and soft texture - magazine cover energy, not a sterile flat icon set or generic corporate stock.
 - Composition: wide landscape (16:9); strong focal point in the centre third; avoid empty sparse backgrounds.
 - Colour: warm professional palette (cream paper, warm wood, soft amber light) with optional navy and red accents; high contrast and inviting.
@@ -150,7 +157,24 @@ Rules:
 INSTRUCTIONS;
 
         $summary = AutoCVApplyBlogContext::summaryForImagePrompt();
-        $user = "Blog topic: {$topic}\n\nProduct summary (for mood only):\n{$summary}\n\nDescribe a vivid, concrete scene-based illustration for the hero image:";
+        $title = trim((string) ($context['title'] ?? ''));
+        $slug = trim((string) ($context['slug'] ?? ''));
+        $tags = $context['tags'] ?? [];
+        $tagLine = is_array($tags) && $tags !== []
+            ? implode(', ', array_map(static fn ($tag): string => (string) $tag, $tags))
+            : '';
+
+        $user = "Blog topic: {$topic}\n";
+        if ($title !== '') {
+            $user .= "Post title: {$title}\n";
+        }
+        if ($slug !== '') {
+            $user .= "Slug: {$slug}\n";
+        }
+        if ($tagLine !== '') {
+            $user .= "Tags: {$tagLine}\n";
+        }
+        $user .= "Assigned scene id: {$scene['id']}\n\nProduct summary (for mood only):\n{$summary}\n\nDescribe a vivid, concrete scene-based illustration for the hero image:";
 
         $prompt = trim((string) $nanoGpt->chat([
             ['role' => 'system', 'content' => $instructions],
@@ -158,5 +182,25 @@ INSTRUCTIONS;
         ], ['temperature' => 0.75]));
 
         return $prompt !== '' ? $prompt : $topic;
+    }
+
+    /**
+     * @param  array{slug?: string, title?: string, tags?: list<string>, scene_offset?: int}  $context
+     * @return array{id: string, label: string, directive: string, keywords: list<string>}
+     */
+    public function resolveScene(string $topic, array $context = []): array
+    {
+        $tags = $context['tags'] ?? [];
+        if (! is_array($tags)) {
+            $tags = [];
+        }
+
+        return BlogHeroSceneVariety::selectScene(
+            $topic,
+            (string) ($context['slug'] ?? ''),
+            (string) ($context['title'] ?? ''),
+            array_values(array_filter($tags, static fn ($tag): bool => is_string($tag) && $tag !== '')),
+            (int) ($context['scene_offset'] ?? 0),
+        );
     }
 }

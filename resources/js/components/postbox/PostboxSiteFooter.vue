@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Link } from '@inertiajs/vue3';
-import { Chrome, Cookie, Github, Scale, Shield } from 'lucide-vue-next';
+import {
+    BookOpen,
+    Chrome,
+    CircleHelp,
+    Cookie,
+    Github,
+    Scale,
+    Shield,
+} from 'lucide-vue-next';
 import DiscordIcon from '@/components/DiscordIcon.vue';
 import PostboxMark from '@/components/postbox/PostboxMark.vue';
 import {
@@ -29,6 +37,11 @@ const legalRouteMap = {
     terms,
     privacy,
 } as const;
+
+const resourceIcons: Record<keyof typeof resourceRouteMap, LucideIcon> = {
+    glossary: BookOpen,
+    faq: CircleHelp,
+};
 
 const legalIcons: Record<keyof typeof legalRouteMap, LucideIcon> = {
     terms: Scale,
@@ -115,6 +128,11 @@ const linkClass =
                                 :href="resourceRouteMap[item.route]().url"
                                 :class="linkClass"
                             >
+                                <component
+                                    :is="resourceIcons[item.route]"
+                                    class="size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
                                 {{ item.label }}
                             </Link>
                         </li>

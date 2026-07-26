@@ -7,8 +7,8 @@ import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import { scoreAtsKeywordOverlap } from '@/lib/atsKeywordChecker';
 import { CHROME_WEB_STORE_URL } from '@/lib/site';
-import { faq, howTo, login } from '@/routes';
 import type { AtsCheckerResult } from '@/lib/atsKeywordChecker';
+import { faq, howTo, login } from '@/routes';
 
 const cvText = ref('');
 const jobDescription = ref('');

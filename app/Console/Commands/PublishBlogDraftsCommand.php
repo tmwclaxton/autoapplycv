@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
  * Publish oldest draft blogs in batches after smoke review.
  *
  * Typical run order:
- * 1. blog:import-competitor-topics --limit=10 --skip-image
+ * 1. blog:import-competitor-topics --refresh-manifest --limit=10
  * 2. Spot-check 2-3 drafts
  * 3. blog:publish --limit=10
  * 4. blog:expand-published (existing live posts, once)

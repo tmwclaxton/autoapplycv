@@ -147,7 +147,11 @@ class ExpandPublishedBlogPostsCommand extends Command
                 $imagePath = $blog->getRawOriginal('image_url');
                 if (! $this->option('skip-image')) {
                     $this->line('  Generating hero image...');
-                    $generated = $heroImages->generateAndStore($heroImages->buildPrompt($nanoGpt, $topic));
+                    $generated = $heroImages->generateAndStore($heroImages->buildPrompt($nanoGpt, $topic, [
+                        'slug' => $blog->slug,
+                        'title' => $blog->title,
+                        'tags' => $blog->tags ?? [],
+                    ]));
                     if ($generated) {
                         $imagePath = $generated;
                     }

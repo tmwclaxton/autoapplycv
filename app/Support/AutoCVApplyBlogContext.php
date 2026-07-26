@@ -133,7 +133,7 @@ CONTEXT;
     public static function summaryForImagePrompt(): string
     {
         return <<<'SUMMARY'
-AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill ATS forms, Draft All screening answers, and Auto Apply on LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed. Warm, optimistic, professional - people at laptops completing job applications with less repetitive typing. Prefer vivid product-in-context scenes (desk + laptop + application flow energy) over abstract shapes. Postbox-inspired red and navy accents optional; no logos, competitor branding, or readable text in the image.
+AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill ATS forms, Draft All screening answers, and Auto Apply on LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed. Warm, optimistic, professional mood. Prefer vivid product-in-context scenes with real job-search variety (desk sessions, cafe remote work, commute phone apply, interview prep notes, ATS still-life, multi-monitor ops, notebook JD markup, city-window home office, whiteboard planning) - not endless face-forward laptop portraits. Postbox-inspired red and navy accents optional; no logos, competitor branding, or readable text in the image.
 SUMMARY;
     }
 }

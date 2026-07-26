@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
+use App\Support\BlogMarkdownRenderer;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -55,17 +55,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Convert blog markdown to HTML, wrapping GFM tables for mobile overflow.
+     * Convert blog markdown to safe HTML with tables, images, and allowlisted embeds.
      */
     protected function markdownBodyToHtml(string $body): string
     {
-        $html = Str::markdown($body);
-
-        return preg_replace(
-            '/<table\b[^>]*>.*?<\/table>/is',
-            '<div class="postbox-table-wrap">$0</div>',
-            $html,
-        ) ?? $html;
+        return BlogMarkdownRenderer::toHtml($body);
     }
 
     /**

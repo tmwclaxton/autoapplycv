@@ -96,7 +96,11 @@ class GenerateBlogPostCommand extends Command
         $skipImage = (bool) $this->option('skip-image');
         if (! $keepImage && ! $skipImage) {
             $this->line('  Generating hero image...');
-            $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
+            $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic, [
+                'slug' => $existing?->slug ?? '',
+                'title' => $existing?->title ?? '',
+                'tags' => $existing?->tags ?? ($seoTarget ? BlogKeywordStrategy::tagsForTarget($seoTarget) : []),
+            ]);
             $generatedPath = $heroImages->generateAndStore($imagePrompt);
             if ($generatedPath) {
                 $imagePath = $generatedPath;
