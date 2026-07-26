@@ -171,6 +171,29 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('Live preview', $source);
     }
 
+    public function test_glossary_letter_sections_have_clear_dividers(): void
+    {
+        $source = (string) file_get_contents(resource_path('js/pages/Glossary.vue'));
+
+        $this->assertStringContainsString('border-t-2 border-postbox-navy pt-8', $source);
+        $this->assertStringContainsString(
+            'border-b border-postbox-navy/25 pb-3 text-3xl font-bold tracking-wide',
+            $source,
+        );
+        $this->assertStringContainsString('aria-labelledby="`letter-${letter}`"', $source);
+    }
+
+    public function test_faq_sections_use_expandable_shelves(): void
+    {
+        $source = (string) file_get_contents(resource_path('js/pages/Faq.vue'));
+
+        $this->assertStringContainsString('border-t-2 border-postbox-navy pt-8', $source);
+        $this->assertStringContainsString('<details', $source);
+        $this->assertStringContainsString('<summary', $source);
+        $this->assertStringContainsString('group-open:rotate-180', $source);
+        $this->assertStringContainsString('openFromHash', $source);
+    }
+
     public function test_platform_badges_include_logo_urls_for_listed_boards(): void
     {
         $site = (string) file_get_contents(resource_path('js/lib/site.ts'));

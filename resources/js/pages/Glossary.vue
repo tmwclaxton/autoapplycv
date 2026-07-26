@@ -90,8 +90,20 @@ const orderedLetters = computed(() =>
         </p>
 
         <PostboxProse class="mt-6">
-            <template v-for="letter in orderedLetters" :key="letter">
-                <h2 :id="`letter-${letter}`" class="scroll-mt-28">
+            <section
+                v-for="(letter, letterIndex) in orderedLetters"
+                :key="letter"
+                :aria-labelledby="`letter-${letter}`"
+                :class="
+                    letterIndex > 0
+                        ? 'mt-10 border-t-2 border-postbox-navy pt-8'
+                        : ''
+                "
+            >
+                <h2
+                    :id="`letter-${letter}`"
+                    class="mt-0 mb-6 scroll-mt-28 border-b border-postbox-navy/25 pb-3 text-3xl font-bold tracking-wide"
+                >
                     {{ letter }}
                 </h2>
 
@@ -128,7 +140,7 @@ const orderedLetters = computed(() =>
                         </span>
                     </p>
                 </article>
-            </template>
+            </section>
         </PostboxProse>
 
         <PostboxCta

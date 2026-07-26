@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { ChevronDown } from 'lucide-vue-next';
+import { onMounted, onUnmounted } from 'vue';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
-import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import { DISCORD_INVITE_URL } from '@/lib/site';
 import { home } from '@/routes';
 
@@ -30,6 +31,35 @@ defineProps<{
     sections: FaqSection[];
     itemCount: number;
 }>();
+
+function isExternalRelatedLink(href: string): boolean {
+    return href.startsWith('http') && !href.includes('autocvapply.com');
+}
+
+function openFromHash(): void {
+    const hash = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+
+    if (!hash) {
+        return;
+    }
+
+    const target = document.getElementById(hash);
+
+    if (target instanceof HTMLDetailsElement) {
+        target.open = true;
+    }
+
+    target?.scrollIntoView({ block: 'start' });
+}
+
+onMounted(() => {
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('hashchange', openFromHash);
+});
 </script>
 
 <template>
@@ -76,59 +106,94 @@ defineProps<{
             <span class="text-postbox-navy">FAQ</span>
         </p>
 
-        <PostboxProse class="mt-6">
-            <template v-for="section in sections" :key="section.id">
-                <h2 :id="section.id" class="scroll-mt-28">
+        <div class="postbox-panel mt-6 w-full p-6 sm:p-8">
+            <section
+                v-for="(section, sectionIndex) in sections"
+                :key="section.id"
+                :aria-labelledby="section.id"
+                :class="
+                    sectionIndex > 0
+                        ? 'mt-10 border-t-2 border-postbox-navy pt-8'
+                        : ''
+                "
+            >
+                <h2
+                    :id="section.id"
+                    class="mt-0 mb-6 scroll-mt-28 border-b border-postbox-navy/25 pb-3 text-3xl font-bold tracking-wide text-postbox-navy"
+                >
                     {{ section.title }}
                 </h2>
 
-                <article
-                    v-for="item in section.items"
-                    :id="item.slug"
-                    :key="item.slug"
-                    class="scroll-mt-28"
-                >
-                    <h3>{{ item.question }}</h3>
-                    <p
-                        v-for="(paragraph, index) in item.paragraphs"
-                        :key="index"
+                <div class="flex flex-col gap-2">
+                    <details
+                        v-for="item in section.items"
+                        :id="item.slug"
+                        :key="item.slug"
+                        class="group scroll-mt-28 border-2 border-postbox-navy bg-postbox-grey/40 open:bg-postbox-surface"
                     >
-                        {{ paragraph }}
-                    </p>
-                    <p v-if="item.related.length > 0" class="!mb-0">
-                        <span
-                            v-for="(link, linkIndex) in item.related"
-                            :key="link.href"
+                        <summary
+                            class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-postbox-navy marker:content-none [&::-webkit-details-marker]:hidden"
                         >
-                            <a
-                                :href="link.href"
-                                class="postbox-link font-semibold"
-                                :target="
-                                    link.href.startsWith('http') &&
-                                    !link.href.includes('autocvapply.com')
-                                        ? '_blank'
-                                        : undefined
-                                "
-                                :rel="
-                                    link.href.startsWith('http') &&
-                                    !link.href.includes('autocvapply.com')
-                                        ? 'noopener noreferrer'
-                                        : undefined
-                                "
+                            <h3
+                                class="m-0 text-base leading-snug font-bold text-postbox-navy"
                             >
-                                {{ link.label }}
-                            </a>
-                            <span
-                                v-if="linkIndex < item.related.length - 1"
+                                {{ item.question }}
+                            </h3>
+                            <ChevronDown
+                                class="size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
                                 aria-hidden="true"
+                            />
+                        </summary>
+
+                        <div
+                            class="border-t border-postbox-navy/20 px-4 pt-3 pb-4"
+                        >
+                            <p
+                                v-for="(paragraph, index) in item.paragraphs"
+                                :key="index"
+                                class="mb-3 text-sm leading-relaxed text-muted-foreground last:mb-0"
                             >
-                                ·
-                            </span>
-                        </span>
-                    </p>
-                </article>
-            </template>
-        </PostboxProse>
+                                {{ paragraph }}
+                            </p>
+                            <p
+                                v-if="item.related.length > 0"
+                                class="mt-3 mb-0 text-sm"
+                            >
+                                <span
+                                    v-for="(link, linkIndex) in item.related"
+                                    :key="link.href"
+                                >
+                                    <a
+                                        :href="link.href"
+                                        class="postbox-link font-semibold"
+                                        :target="
+                                            isExternalRelatedLink(link.href)
+                                                ? '_blank'
+                                                : undefined
+                                        "
+                                        :rel="
+                                            isExternalRelatedLink(link.href)
+                                                ? 'noopener noreferrer'
+                                                : undefined
+                                        "
+                                    >
+                                        {{ link.label }}
+                                    </a>
+                                    <span
+                                        v-if="
+                                            linkIndex < item.related.length - 1
+                                        "
+                                        aria-hidden="true"
+                                    >
+                                        ·
+                                    </span>
+                                </span>
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+        </div>
 
         <div class="postbox-panel-muted mt-10 p-6 sm:p-8">
             <h2 class="text-xl font-bold text-postbox-navy">
