@@ -122,6 +122,15 @@ return [
         'draft_all_batch_size' => (int) env('CV_AI_DRAFT_ALL_BATCH_SIZE', 10),
     ],
 
+    /*
+    | Free ATS score checker (/tools/ats-score-checker) for guests.
+    | Authenticated users pay AiAssistCosts::atsScoreCost() like the extension.
+    */
+    'ats_score_checker' => [
+        'guest_free_uses' => 3,
+        'session_key' => 'ats_score_checker_guest_uses',
+    ],
+
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),
 
 ];

@@ -35,9 +35,17 @@ class MarketingPagesTest extends TestCase
     #[DataProvider('publicPagesProvider')]
     public function test_marketing_pages_are_publicly_accessible(string $route, string $component): void
     {
-        $this->get(route($route))
+        $response = $this->get(route($route))
             ->assertOk()
             ->assertInertia(fn ($page) => $page->component($component));
+
+        if ($route === 'tools.ats-score-checker') {
+            $response->assertInertia(fn ($page) => $page
+                ->where('atsScoreCost', (int) config('cv.ai_assist.ats_score_cost'))
+                ->where('guestFreeUsesLimit', (int) config('cv.ats_score_checker.guest_free_uses'))
+                ->where('guestFreeUsesRemaining', (int) config('cv.ats_score_checker.guest_free_uses'))
+            );
+        }
     }
 
     public function test_pricing_page_includes_credit_costs_from_config(): void

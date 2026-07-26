@@ -30,6 +30,9 @@ Route::get('/glossary', [GlossaryController::class, 'index'])->name('glossary');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/compare', [CompareController::class, 'index'])->name('compare');
 Route::get('/tools/ats-score-checker', [AtsScoreCheckerController::class, 'index'])->name('tools.ats-score-checker');
+Route::post('/tools/ats-score-checker/score', [AtsScoreCheckerController::class, 'score'])
+    ->middleware('throttle:10,1')
+    ->name('tools.ats-score-checker.score');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');

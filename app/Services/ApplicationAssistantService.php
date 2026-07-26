@@ -1126,6 +1126,24 @@ class ApplicationAssistantService
     {
         $cvText = trim((string) ($profile->formatted_cv_text ?: $profile->summary));
 
+        return $this->scoreAtsFromText($cvText, $jobDescription, $rolePreferences);
+    }
+
+    /**
+     * Same NanoGPT Assist ATS scoring used by the extension, for raw CV text (tools page guests / paste).
+     *
+     * @return array{
+     *     score: int,
+     *     matched_keywords: array<int, string>,
+     *     missing_keywords: array<int, string>,
+     *     suggestions: array<int, string>,
+     *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string},
+     * }|null
+     */
+    public function scoreAtsFromText(?string $cvText, ?string $jobDescription, ?string $rolePreferences = null): ?array
+    {
+        $cvText = trim((string) $cvText);
+
         if ($cvText === '' || $jobDescription === null || trim($jobDescription) === '') {
             return null;
         }
