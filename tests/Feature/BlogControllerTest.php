@@ -60,6 +60,35 @@ class BlogControllerTest extends TestCase
             );
     }
 
+    public function test_blog_show_renders_markdown_tables_as_html(): void
+    {
+        $blog = Blog::factory()->published()->create([
+            'title' => 'Compare autofill tools',
+            'slug' => 'compare-autofill-tools',
+            'body' => <<<'MD'
+## How to compare
+
+| Criterion | Why it matters |
+|-----------|----------------|
+| Profile once | Reuse employment history |
+| Human control | Review AI text before submit |
+MD,
+        ]);
+
+        $this->get(route('blog.show', $blog))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Blog/Show')
+                ->where(
+                    'post.body_html',
+                    fn (string $html): bool => str_contains($html, '<table>')
+                        && str_contains($html, '<th>Criterion</th>')
+                        && str_contains($html, '<td>Profile once</td>')
+                        && str_contains($html, 'postbox-table-wrap')
+                )
+            );
+    }
+
     public function test_blog_show_returns_404_for_draft_post(): void
     {
         $blog = Blog::factory()->create([

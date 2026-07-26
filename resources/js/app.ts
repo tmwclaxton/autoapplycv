@@ -28,12 +28,15 @@ createInertiaApp({
             'Contact',
             'HowTo',
             'Pricing',
+            'Glossary',
+            'Faq',
         ];
 
         switch (true) {
             case standalonePages.includes(name):
             case name.startsWith('Legal/'):
             case name.startsWith('Blog/'):
+            case name.startsWith('Tools/'):
                 return null;
             case name.startsWith('settings/'):
             case name.startsWith('teams/'):

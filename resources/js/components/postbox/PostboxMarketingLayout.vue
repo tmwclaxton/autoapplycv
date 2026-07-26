@@ -28,14 +28,11 @@ const maxWidthClass = {
     <div class="postbox-page flex min-h-svh flex-col">
         <header class="postbox-bar-top">
             <div
-                :class="[
-                    'mx-auto flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 sm:gap-x-4 sm:px-6 sm:py-4 lg:flex-nowrap lg:gap-y-0',
-                    maxWidthClass[maxWidth],
-                ]"
+                class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 sm:gap-x-4 sm:px-6 sm:py-4 xl:flex-nowrap xl:gap-y-0"
             >
                 <Link
                     :href="home()"
-                    class="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3 lg:shrink-0"
+                    class="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3 xl:shrink-0"
                 >
                     <PostboxMark />
                     <div class="min-w-0">
@@ -45,14 +42,14 @@ const maxWidthClass = {
                             AutoCVApply
                         </p>
                         <p
-                            class="postbox-tagline truncate text-xs sm:text-sm lg:hidden 2xl:block"
+                            class="postbox-tagline truncate text-xs sm:text-sm xl:hidden 2xl:block"
                         >
                             {{ tagline }}
                         </p>
                     </div>
                 </Link>
                 <nav
-                    class="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto lg:min-w-0"
+                    class="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto xl:min-w-0"
                 >
                     <slot name="nav" />
                     <Link

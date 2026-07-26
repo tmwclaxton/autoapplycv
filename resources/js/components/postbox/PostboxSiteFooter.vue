@@ -9,15 +9,21 @@ import {
     DISCORD_INVITE_URL,
     FIREFOX_ADDONS_URL,
     FOOTER_LEGAL_LINKS,
+    FOOTER_RESOURCE_LINKS,
     GITHUB_REPOSITORY_URL,
     INSTAGRAM_URL,
     X_URL,
 } from '@/lib/site';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { LucideIcon } from 'lucide-vue-next';
-import { home, privacy, terms } from '@/routes';
+import { faq, glossary, home, privacy, terms } from '@/routes';
 
 const cookieConsent = useCookieConsentStore();
+
+const resourceRouteMap = {
+    glossary,
+    faq,
+} as const;
 
 const legalRouteMap = {
     terms,
@@ -37,7 +43,7 @@ const linkClass =
     <footer class="postbox-bar-bottom px-4 py-8 sm:px-6 sm:py-10">
         <div class="mx-auto flex max-w-6xl flex-col gap-8">
             <div
-                class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-4"
+                class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5"
             >
                 <div
                     class="col-span-2 flex flex-col gap-3 sm:col-span-3 lg:col-span-1"
@@ -92,6 +98,25 @@ const linkClass =
                                 />
                                 Firefox Add-ons
                             </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-labelledby="footer-resources-heading">
+                    <p id="footer-resources-heading" class="postbox-label mb-3">
+                        Resources
+                    </p>
+                    <ul class="flex flex-col gap-2 text-sm" role="list">
+                        <li
+                            v-for="item in FOOTER_RESOURCE_LINKS"
+                            :key="item.route"
+                        >
+                            <Link
+                                :href="resourceRouteMap[item.route]().url"
+                                :class="linkClass"
+                            >
+                                {{ item.label }}
+                            </Link>
                         </li>
                     </ul>
                 </nav>

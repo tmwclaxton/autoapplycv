@@ -279,8 +279,6 @@ export const SETUP_STEPS = [
 
 export const MARKETING_NAV_LINKS = [
     { label: 'Blog', route: 'blog' },
-    { label: 'Glossary', route: 'glossary' },
-    { label: 'FAQ', route: 'faq' },
     { label: 'ATS Checker', route: 'tools.ats-score-checker' },
     { label: 'How to', route: 'how-to' },
     { label: 'Pricing', route: 'pricing' },
@@ -289,7 +287,13 @@ export const MARKETING_NAV_LINKS = [
     { label: 'Contact', route: 'contact' },
 ] as const;
 
-/** Footer-only legal links. Product pages live in the marketing header. */
+/** Footer resources (glossary/FAQ) - kept out of the header to reduce overflow. */
+export const FOOTER_RESOURCE_LINKS = [
+    { label: 'Glossary', route: 'glossary' },
+    { label: 'FAQ', route: 'faq' },
+] as const;
+
+/** Footer-only legal links. Primary product pages live in the marketing header. */
 export const FOOTER_LEGAL_LINKS = [
     { label: 'Terms', route: 'terms' },
     { label: 'Privacy', route: 'privacy' },

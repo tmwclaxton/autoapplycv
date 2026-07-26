@@ -520,4 +520,37 @@
         font-family: ui-monospace, monospace;
         font-size: 0.8125rem;
     }
+
+    .postbox-prose :where(.postbox-table-wrap) {
+        margin-bottom: 1rem;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .postbox-prose :where(table) {
+        width: 100%;
+        min-width: 28rem;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--postbox-grey-dark);
+    }
+
+    .postbox-prose :where(thead th) {
+        background: var(--postbox-grey);
+        color: var(--postbox-navy);
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .postbox-prose :where(th, td) {
+        border: 1px solid var(--border);
+        padding: 0.625rem 0.75rem;
+        vertical-align: top;
+    }
+
+    .postbox-prose :where(tbody tr:nth-child(even)) {
+        background: color-mix(in srgb, var(--postbox-navy) 4%, transparent);
+    }
 }

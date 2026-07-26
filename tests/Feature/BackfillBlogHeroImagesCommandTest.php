@@ -74,4 +74,27 @@ class BackfillBlogHeroImagesCommandTest extends TestCase
 
         $this->assertSame('blogs/heroes/new.png', $post->fresh()->getRawOriginal('image_url'));
     }
+
+    #[Test]
+    public function test_it_force_regenerates_existing_heroes(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('blogs/heroes/old.png', 'png-bytes');
+
+        $post = Blog::factory()->published()->create([
+            'slug' => 'force-regen-hero',
+            'image_url' => 'blogs/heroes/old.png',
+        ]);
+
+        $this->mock(NanoGptBlogHeroImageService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('buildPrompt')->once()->andReturn('Vivid job seeker scene.');
+            $mock->shouldReceive('generateAndStore')->once()->andReturn('blogs/heroes/fresh.png');
+        });
+
+        $this->artisan('blog:backfill-hero-images', ['--force' => true, '--slug' => 'force-regen-hero'])
+            ->assertExitCode(0);
+
+        $this->assertSame('blogs/heroes/fresh.png', $post->fresh()->getRawOriginal('image_url'));
+        Storage::disk('public')->assertMissing('blogs/heroes/old.png');
+    }
 }

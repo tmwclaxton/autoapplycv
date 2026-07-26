@@ -12,9 +12,10 @@ class BackfillBlogHeroImagesCommand extends Command
 {
     protected $signature = 'blog:backfill-hero-images
                             {--slug= : Only backfill a single post by slug}
-                            {--missing-files : Regenerate posts whose image file is missing from disk}';
+                            {--missing-files : Regenerate posts whose image file is missing from disk}
+                            {--force : Regenerate heroes even when an image already exists (use after prompt upgrades)}';
 
-    protected $description = 'Generate hero images for published blog posts that are missing one';
+    protected $description = 'Generate hero images for published blog posts that are missing one (or regenerate with --force)';
 
     public function handle(NanoGptService $nanoGpt, NanoGptBlogHeroImageService $heroImages): int
     {
@@ -27,6 +28,10 @@ class BackfillBlogHeroImagesCommand extends Command
         $posts = $query->orderBy('published_at')->get();
 
         $posts = $posts->filter(function (Blog $post): bool {
+            if ($this->option('force')) {
+                return true;
+            }
+
             if ($this->option('missing-files') && $this->imageFileMissing($post)) {
                 return true;
             }

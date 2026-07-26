@@ -92,19 +92,52 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('X.com', $contact);
     }
 
-    public function test_marketing_footer_avoids_duplicating_header_product_links(): void
+    public function test_marketing_footer_includes_resources_and_marketing_pages_are_standalone(): void
     {
         $footer = (string) file_get_contents(
             resource_path('js/components/postbox/PostboxSiteFooter.vue'),
         );
         $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
+        $nav = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxMarketingNav.vue'),
+        );
+        $app = (string) file_get_contents(resource_path('js/app.ts'));
 
         $this->assertStringContainsString('FOOTER_LEGAL_LINKS', $site);
+        $this->assertStringContainsString('FOOTER_RESOURCE_LINKS', $site);
         $this->assertStringNotContainsString('export const FOOTER_LINKS', $site);
+
+        preg_match(
+            '/export const MARKETING_NAV_LINKS[^=]*=\s*\[([\s\S]*?)\] as const;/',
+            $site,
+            $navLinks,
+        );
+        $this->assertNotEmpty($navLinks, 'Expected MARKETING_NAV_LINKS in site.ts');
+        $this->assertStringNotContainsString('Glossary', $navLinks[1]);
+        $this->assertStringNotContainsString("'faq'", $navLinks[1]);
+
+        preg_match(
+            '/export const FOOTER_RESOURCE_LINKS[^=]*=\s*\[([\s\S]*?)\] as const;/',
+            $site,
+            $resourceLinks,
+        );
+        $this->assertNotEmpty($resourceLinks, 'Expected FOOTER_RESOURCE_LINKS in site.ts');
+        $this->assertStringContainsString('Glossary', $resourceLinks[1]);
+        $this->assertStringContainsString("'faq'", $resourceLinks[1]);
+
         $this->assertStringContainsString('footer-extension-heading', $footer);
+        $this->assertStringContainsString('footer-resources-heading', $footer);
         $this->assertStringContainsString('footer-community-heading', $footer);
         $this->assertStringContainsString('footer-legal-heading', $footer);
         $this->assertStringNotContainsString('footer-product-heading', $footer);
+        $this->assertStringContainsString('FOOTER_RESOURCE_LINKS', $footer);
+
+        $this->assertStringNotContainsString('glossary,', $nav);
+        $this->assertStringNotContainsString('faq,', $nav);
+
+        $this->assertStringContainsString("'Glossary'", $app);
+        $this->assertStringContainsString("'Faq'", $app);
+        $this->assertStringContainsString("name.startsWith('Tools/')", $app);
     }
 
     public function test_welcome_page_includes_cover_letter_section(): void

@@ -135,26 +135,27 @@ class NanoGptBlogHeroImageService
 You are writing a prompt for Recraft V4.1, a professional design-focused AI image generator.
 The image will be displayed at a wide 16:9 landscape ratio as a blog hero banner.
 
-Given the blog topic and product summary, return ONE concise paragraph (3–5 sentences) describing a CONCRETE,
-SCENE-BASED illustration - not an abstract or metaphorical composition.
+Given the blog topic and product summary, return ONE concise paragraph (3-5 sentences) describing a VIVID,
+SCENE-BASED illustration - concrete and exciting, not flat stock clipart.
 
 Rules:
-- Scene: a job seeker at a laptop or desk working on an online application; hopeful, focused mood.
-- People: silhouetted or stylised figures without detailed faces.
-- Style: clean flat editorial illustration; magazine-quality, not a photo.
-- Composition: wide landscape (16:9); focal scene in the centre third.
-- Colour: warm professional palette (navy, red accent, cream paper tones optional).
-- No text, watermarks, logos, or readable on-screen UI. No brand names.
+- Scene: a job seeker mid-apply - laptop open at a desk or cafe, browser tabs suggesting job boards (generic, unbranded UI shapes only), coffee or notebook nearby; sense of progress and momentum.
+- Energy: dynamic lighting (warm window light, soft lamp glow, golden hour), depth with foreground/midground/background; slight motion (hand on trackpad, papers shifting) without chaos.
+- People: silhouetted or stylised figures without detailed faces; hopeful, focused, quietly triumphant mood.
+- Style: rich editorial illustration with layered colour and soft texture - magazine cover energy, not a sterile flat icon set or generic corporate stock.
+- Composition: wide landscape (16:9); strong focal point in the centre third; avoid empty sparse backgrounds.
+- Colour: warm professional palette (cream paper, warm wood, soft amber light) with optional navy and red accents; high contrast and inviting.
+- No text, watermarks, logos, brand marks, or readable on-screen UI. No competitor or job-board branding. No invented product logos.
 - Output ONLY the image prompt, nothing else.
 INSTRUCTIONS;
 
         $summary = AutoCVApplyBlogContext::summaryForImagePrompt();
-        $user = "Blog topic: {$topic}\n\nProduct summary (for mood only):\n{$summary}\n\nDescribe a concrete scene-based illustration for the hero image:";
+        $user = "Blog topic: {$topic}\n\nProduct summary (for mood only):\n{$summary}\n\nDescribe a vivid, concrete scene-based illustration for the hero image:";
 
         $prompt = trim((string) $nanoGpt->chat([
             ['role' => 'system', 'content' => $instructions],
             ['role' => 'user', 'content' => $user],
-        ], ['temperature' => 0.6]));
+        ], ['temperature' => 0.75]));
 
         return $prompt !== '' ? $prompt : $topic;
     }

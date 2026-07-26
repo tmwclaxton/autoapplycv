@@ -41,7 +41,7 @@ class BlogController extends Controller
                 'title' => $blog->title,
                 'slug' => $blog->slug,
                 'excerpt' => $blog->excerpt,
-                'body_html' => Str::markdown($body),
+                'body_html' => $this->markdownBodyToHtml($body),
                 'image_url' => $blog->image_url,
                 'tags' => $blog->tags ?? [],
                 'sources' => $blog->sources ?? [],
@@ -52,6 +52,20 @@ class BlogController extends Controller
             'more_posts' => $this->morePostsForArticle($blog),
             'share_links' => $this->shareLinks($postUrl, $blog->title, $blog->excerpt),
         ]);
+    }
+
+    /**
+     * Convert blog markdown to HTML, wrapping GFM tables for mobile overflow.
+     */
+    protected function markdownBodyToHtml(string $body): string
+    {
+        $html = Str::markdown($body);
+
+        return preg_replace(
+            '/<table\b[^>]*>.*?<\/table>/is',
+            '<div class="postbox-table-wrap">$0</div>',
+            $html,
+        ) ?? $html;
     }
 
     /**

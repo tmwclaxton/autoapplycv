@@ -3,10 +3,12 @@
 namespace Tests\Unit;
 
 use App\Services\NanoGptBlogHeroImageService;
+use App\Services\NanoGptService;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class NanoGptBlogHeroImageServiceTest extends TestCase
@@ -57,5 +59,30 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
         $this->assertStringStartsWith('blogs/heroes/', $path);
         $this->assertStringEndsWith('.png', $path);
         Storage::disk('public')->assertExists($path);
+    }
+
+    public function test_build_prompt_asks_for_vivid_scene_based_heroes(): void
+    {
+        $nanoGpt = $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chat')
+                ->once()
+                ->withArgs(function (array $messages, array $options): bool {
+                    $system = $messages[0]['content'] ?? '';
+
+                    return is_string($system)
+                        && str_contains($system, 'VIVID')
+                        && str_contains($system, 'warm window light')
+                        && str_contains($system, 'No competitor')
+                        && ($options['temperature'] ?? null) === 0.75;
+                })
+                ->andReturn('A hopeful job seeker at a sunlit desk finishing an application.');
+        });
+
+        $prompt = (new NanoGptBlogHeroImageService)->buildPrompt($nanoGpt, 'How to autofill Workday');
+
+        $this->assertSame(
+            'A hopeful job seeker at a sunlit desk finishing an application.',
+            $prompt,
+        );
     }
 }
