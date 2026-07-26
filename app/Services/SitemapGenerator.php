@@ -70,6 +70,7 @@ class SitemapGenerator
             ['route' => 'how-to', 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['route' => 'glossary', 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['route' => 'faq', 'changefreq' => 'monthly', 'priority' => '0.8'],
+            ['route' => 'compare', 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['route' => 'tools.ats-score-checker', 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['route' => 'pricing', 'changefreq' => 'weekly', 'priority' => '0.9'],
             ['route' => 'contact', 'changefreq' => 'monthly', 'priority' => '0.6'],

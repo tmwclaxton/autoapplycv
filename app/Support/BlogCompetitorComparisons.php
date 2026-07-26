@@ -361,6 +361,108 @@ class BlogCompetitorComparisons
     }
 
     /**
+     * Marketing /compare page entries derived from comparison definitions.
+     *
+     * @return array<int, array{
+     *     id: string,
+     *     competitor: string,
+     *     slug: string,
+     *     category: string,
+     *     headline: string,
+     *     summary: string,
+     *     reasons: array<int, string>,
+     *     when_them: string,
+     *     homepage_url: string
+     * }>
+     */
+    public static function comparePageEntries(): array
+    {
+        return array_map(function (array $definition): array {
+            return [
+                'id' => $definition['id'],
+                'competitor' => $definition['competitor'],
+                'slug' => $definition['slug'],
+                'category' => $definition['category'],
+                'headline' => 'AutoCVApply vs '.$definition['competitor'],
+                'summary' => $definition['angle'],
+                'reasons' => self::compareReasons($definition),
+                'when_them' => $definition['when_them'],
+                'homepage_url' => $definition['homepage_url'],
+            ];
+        }, self::definitions());
+    }
+
+    /**
+     * Punchy, matrix-backed reasons AutoCVApply is the better pick for this competitor.
+     *
+     * @param  array<string, mixed>  $definition
+     * @return list<string>
+     */
+    public static function compareReasons(array $definition): array
+    {
+        $competitor = (string) $definition['competitor'];
+        /** @var array<string, string> $matrix */
+        $matrix = $definition['feature_matrix'] ?? [];
+        $reasons = [];
+
+        $ukBoards = self::matrixVerdict($matrix, 'uk_boards');
+        if ($ukBoards !== 'Yes') {
+            $reasons[] = 'User-started Auto Apply on LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed in one sidebar - the UK board set '.$competitor.' does not match.';
+        }
+
+        $extension = self::matrixVerdict($matrix, 'extension');
+        if ($extension === 'No' || $extension === 'Unclear') {
+            $reasons[] = 'A Chrome and Firefox extension you start yourself - not a silent cloud bot applying without you.';
+        } elseif ($extension === 'Partial') {
+            $reasons[] = 'One extension token for AutoFill, Draft All, and board Auto Apply - not a LinkedIn-only helper bolted onto another product.';
+        }
+
+        $ats = self::matrixVerdict($matrix, 'ats_autofill');
+        if ($ats === 'No' || $ats === 'Unclear') {
+            $reasons[] = 'ATS AutoFill on Workday/Greenhouse-class forms where you keep Submit - honest about what automation does.';
+        } elseif ($ats === 'Partial') {
+            $reasons[] = 'Browser AutoFill where you review and submit ATS forms yourself - not a third party submitting on your behalf.';
+        } else {
+            $reasons[] = 'ATS AutoFill plus Draft All with transparent credits - you edit answers before they leave the browser.';
+        }
+
+        $draft = self::matrixVerdict($matrix, 'draft_all');
+        if ($draft !== 'Yes') {
+            $reasons[] = 'Draft All for free-text screeners grounded in your CV profile, then you edit tone before send.';
+        }
+
+        $tracker = self::matrixVerdict($matrix, 'job_tracker');
+        if ($tracker === 'Yes') {
+            $reasons[] = 'Built as an apply engine (profile once, fill, Auto Apply) - pair with a CRM if you need stages; do not pay twice for the wrong bottleneck.';
+        }
+
+        $reasons = array_values(array_unique($reasons));
+
+        if (count($reasons) < 2) {
+            $reasons[] = 'Free plan with real monthly credits and clear GBP pricing before you lean on AI.';
+            $reasons[] = 'One CV profile powering AutoFill, Draft All, and Auto Apply across boards and ATS forms.';
+        }
+
+        return array_slice($reasons, 0, 4);
+    }
+
+    /**
+     * @param  array<string, string>  $matrix
+     */
+    public static function matrixVerdict(array $matrix, string $key): string
+    {
+        $value = trim((string) ($matrix[$key] ?? ''));
+
+        foreach (['Yes', 'No', 'Partial', 'Unclear'] as $verdict) {
+            if (str_starts_with($value, $verdict)) {
+                return $verdict;
+            }
+        }
+
+        return 'Unclear';
+    }
+
+    /**
      * @return array{title: string, slug: string, excerpt: string, body: string, tags: array<int, string>}
      */
     public static function postFor(string $id): array

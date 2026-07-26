@@ -36,6 +36,7 @@ class SitemapTest extends TestCase
         $this->assertStringContainsString('<loc>'.route('pricing', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('glossary', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('faq', absolute: true).'</loc>', $xml);
+        $this->assertStringContainsString('<loc>'.route('compare', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('tools.ats-score-checker', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('blog.index', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('blog.show', $published, absolute: true).'</loc>', $xml);

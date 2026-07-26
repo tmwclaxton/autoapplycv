@@ -146,4 +146,28 @@ class BlogCompetitorComparisonsTest extends TestCase
         $this->assertStringNotContainsString('See their site', $section);
         $this->assertStringNotContainsString('Varies - see crawl', $section);
     }
+
+    public function test_compare_page_entries_reuse_definitions_with_punchy_reasons(): void
+    {
+        $entries = BlogCompetitorComparisons::comparePageEntries();
+
+        $this->assertCount(10, $entries);
+
+        foreach ($entries as $entry) {
+            $this->assertArrayHasKey('id', $entry);
+            $this->assertArrayHasKey('slug', $entry);
+            $this->assertArrayHasKey('summary', $entry);
+            $this->assertArrayHasKey('homepage_url', $entry);
+            $this->assertStringStartsWith('autocvapply-vs-', $entry['slug']);
+            $this->assertNotSame('', $entry['summary']);
+            $this->assertGreaterThanOrEqual(2, count($entry['reasons']));
+            $this->assertLessThanOrEqual(4, count($entry['reasons']));
+            $this->assertStringStartsWith('http', $entry['homepage_url']);
+        }
+
+        $massive = collect($entries)->firstWhere('id', 'massive');
+        $this->assertIsArray($massive);
+        $this->assertSame('autocvapply-vs-massive', $massive['slug']);
+        $this->assertStringContainsString('LinkedIn, Indeed, Totaljobs', implode(' ', $massive['reasons']));
+    }
 }

@@ -287,10 +287,11 @@ export const MARKETING_NAV_LINKS = [
     { label: 'Contact', route: 'contact' },
 ] as const;
 
-/** Footer resources (glossary/FAQ) - kept out of the header to reduce overflow. */
+/** Footer resources (glossary/FAQ/compare) - kept out of the header to reduce overflow. */
 export const FOOTER_RESOURCE_LINKS = [
     { label: 'Glossary', route: 'glossary' },
     { label: 'FAQ', route: 'faq' },
+    { label: 'Compare', route: 'compare' },
 ] as const;
 
 /** Footer-only legal links. Primary product pages live in the marketing header. */

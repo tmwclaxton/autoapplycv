@@ -9,6 +9,7 @@ import {
     Github,
     Scale,
     Shield,
+    Split,
 } from 'lucide-vue-next';
 import DiscordIcon from '@/components/DiscordIcon.vue';
 import PostboxMark from '@/components/postbox/PostboxMark.vue';
@@ -24,13 +25,14 @@ import {
 } from '@/lib/site';
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import type { LucideIcon } from 'lucide-vue-next';
-import { faq, glossary, home, privacy, terms } from '@/routes';
+import { compare, faq, glossary, home, privacy, terms } from '@/routes';
 
 const cookieConsent = useCookieConsentStore();
 
 const resourceRouteMap = {
     glossary,
     faq,
+    compare,
 } as const;
 
 const legalRouteMap = {
@@ -41,6 +43,7 @@ const legalRouteMap = {
 const resourceIcons: Record<keyof typeof resourceRouteMap, LucideIcon> = {
     glossary: BookOpen,
     faq: CircleHelp,
+    compare: Split,
 };
 
 const legalIcons: Record<keyof typeof legalRouteMap, LucideIcon> = {

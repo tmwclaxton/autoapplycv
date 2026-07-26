@@ -21,6 +21,7 @@ class MarketingPagesTest extends TestCase
             'how-to' => ['how-to', 'HowTo'],
             'glossary' => ['glossary', 'Glossary'],
             'faq' => ['faq', 'Faq'],
+            'compare' => ['compare', 'Compare'],
             'ats-checker' => ['tools.ats-score-checker', 'Tools/AtsScoreChecker'],
             'pricing' => ['pricing', 'Pricing'],
             'analytics' => ['analytics', 'Analytics'],
@@ -136,6 +137,7 @@ class MarketingPagesTest extends TestCase
         $this->assertNotEmpty($navLinks, 'Expected MARKETING_NAV_LINKS in site.ts');
         $this->assertStringNotContainsString('Glossary', $navLinks[1]);
         $this->assertStringNotContainsString("'faq'", $navLinks[1]);
+        $this->assertStringNotContainsString("'compare'", $navLinks[1]);
 
         preg_match(
             '/export const FOOTER_RESOURCE_LINKS[^=]*=\s*\[([\s\S]*?)\] as const;/',
@@ -145,6 +147,7 @@ class MarketingPagesTest extends TestCase
         $this->assertNotEmpty($resourceLinks, 'Expected FOOTER_RESOURCE_LINKS in site.ts');
         $this->assertStringContainsString('Glossary', $resourceLinks[1]);
         $this->assertStringContainsString("'faq'", $resourceLinks[1]);
+        $this->assertStringContainsString("'compare'", $resourceLinks[1]);
 
         $this->assertStringContainsString('footer-extension-heading', $footer);
         $this->assertStringContainsString('footer-resources-heading', $footer);
@@ -155,9 +158,11 @@ class MarketingPagesTest extends TestCase
 
         $this->assertStringNotContainsString('glossary,', $nav);
         $this->assertStringNotContainsString('faq,', $nav);
+        $this->assertStringNotContainsString('compare,', $nav);
 
         $this->assertStringContainsString("'Glossary'", $app);
         $this->assertStringContainsString("'Faq'", $app);
+        $this->assertStringContainsString("'Compare'", $app);
         $this->assertStringContainsString("name.startsWith('Tools/')", $app);
     }
 
@@ -192,6 +197,27 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString('<summary', $source);
         $this->assertStringContainsString('group-open:rotate-180', $source);
         $this->assertStringContainsString('openFromHash', $source);
+    }
+
+    public function test_compare_page_lists_competitors_from_blog_definitions(): void
+    {
+        $response = $this->get(route('compare'));
+
+        $response->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Compare')
+                ->has('comparisons', 10)
+                ->where('comparisonCount', 10)
+                ->where('comparisons.0.id', 'autoapplymax')
+                ->where('comparisons.0.slug', 'autocvapply-vs-autoapplymax')
+                ->has('comparisons.0.reasons')
+                ->where('comparisons.9.id', 'massive')
+            );
+
+        $source = (string) file_get_contents(resource_path('js/pages/Compare.vue'));
+        $this->assertStringContainsString('Why AutoCVApply', $source);
+        $this->assertStringContainsString('blogShow', $source);
+        $this->assertStringContainsString('homepage_url', $source);
     }
 
     public function test_platform_badges_include_logo_urls_for_listed_boards(): void

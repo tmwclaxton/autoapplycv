@@ -30,6 +30,7 @@ createInertiaApp({
             'Pricing',
             'Glossary',
             'Faq',
+            'Compare',
         ];
 
         switch (true) {
