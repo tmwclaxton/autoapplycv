@@ -9382,7 +9382,7 @@ export async function startAutoApply({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
-    pauseBeforeSubmit = true,
+    pauseBeforeSubmit = false,
     timingLevel = null,
     force = false,
     hostTabId = null,

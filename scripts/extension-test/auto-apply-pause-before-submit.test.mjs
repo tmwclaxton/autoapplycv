@@ -10,14 +10,24 @@ const { createInitialSession } = await import(
     pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-session.js')).href
 );
 
-test('createInitialSession defaults pauseBeforeSubmit to true (safe review)', () => {
+test('createInitialSession defaults pauseBeforeSubmit to false', () => {
     const session = createInitialSession({
         platform: 'linkedin',
         roleDescription: 'software engineer',
     });
 
-    assert.equal(session.pauseBeforeSubmit, true);
+    assert.equal(session.pauseBeforeSubmit, false);
     assert.equal('autoSubmitEnabled' in session, false);
+});
+
+test('createInitialSession accepts pauseBeforeSubmit true for review pause', () => {
+    const session = createInitialSession({
+        platform: 'linkedin',
+        roleDescription: 'software engineer',
+        pauseBeforeSubmit: true,
+    });
+
+    assert.equal(session.pauseBeforeSubmit, true);
 });
 
 test('createInitialSession accepts pauseBeforeSubmit false for auto-submit', () => {
@@ -30,10 +40,11 @@ test('createInitialSession accepts pauseBeforeSubmit false for auto-submit', () 
     assert.equal(session.pauseBeforeSubmit, false);
 });
 
-test('sidepanel control uses pause-before-submit label checked by default', () => {
+test('sidepanel control uses pause-before-submit label unchecked by default', () => {
     const html = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel.html'), 'utf8');
 
-    assert.match(html, /id="auto-apply-pause-before-submit"[^>]*checked/);
+    assert.match(html, /id="auto-apply-pause-before-submit"/);
+    assert.doesNotMatch(html, /id="auto-apply-pause-before-submit"[^>]*checked/);
     assert.match(html, />Pauses before Submit</);
     assert.doesNotMatch(html, /Auto submit/);
     assert.doesNotMatch(html, /Off pauses before Submit/);

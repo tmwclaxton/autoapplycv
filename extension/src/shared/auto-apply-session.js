@@ -98,7 +98,7 @@ export function createInitialSession({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
-    pauseBeforeSubmit = true,
+    pauseBeforeSubmit = false,
     timingLevel = DEFAULT_AUTO_APPLY_TIMING_LEVEL,
 }) {
     return {
@@ -112,7 +112,7 @@ export function createInitialSession({
         filters: filters || null,
         fitCheckEnabled: fitCheckEnabled !== false,
         minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 10)),
-        pauseBeforeSubmit: pauseBeforeSubmit !== false,
+        pauseBeforeSubmit: pauseBeforeSubmit === true,
         timingLevel: normalizeTimingLevel(timingLevel),
         stats: {
             found: 0,
@@ -225,7 +225,7 @@ export async function loadAutoApplySession() {
         ...session,
         fitCheckEnabled: session.fitCheckEnabled !== false,
         minFitScore: Math.max(0, Math.min(100, Number(session.minFitScore) || 10)),
-        pauseBeforeSubmit: session.pauseBeforeSubmit !== false,
+        pauseBeforeSubmit: session.pauseBeforeSubmit === true,
         filters: session.filters ?? null,
         stats: {
             ...(session.stats || {}),
