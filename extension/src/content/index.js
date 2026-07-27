@@ -2069,7 +2069,23 @@ contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(await AutoCVApplyIndeedAutoApply.clickContinueOrSubmit());
+            try {
+                sendResponse(await AutoCVApplyIndeedAutoApply.clickContinueOrSubmit());
+            } catch (error) {
+                const stopped =
+                    error?.name === 'AutoApplyStopError' ||
+                    error?.code === 'AUTO_APPLY_STOP';
+
+                sendResponse({
+                    success: false,
+                    stopped,
+                    action: stopped ? 'stopped' : 'blocked',
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : 'Indeed Continue/Submit failed.',
+                });
+            }
 
             return;
         }

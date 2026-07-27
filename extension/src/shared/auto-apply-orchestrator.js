@@ -67,6 +67,7 @@ import {
 } from './auto-apply-stop-signal.js';
 import {
     clearActiveAutoApplyTiming,
+    INDEED_HYDRATION_MIN_MULTIPLIER,
     persistActiveAutoApplyTiming,
     resolveDelayMultiplier,
     resolveSubmitConfirmationPollMs,
@@ -617,6 +618,42 @@ function randomDelay(baseMs, spreadMs = null) {
     const scaledSpread = scaleDelayMs(spread, activeDelayMultiplier);
 
     return scaledBase + Math.floor(Math.random() * (scaledSpread + 1));
+}
+
+/**
+ * Indeed SmartApply hydration-safe delay. Speed slider cannot shrink these
+ * waits below balanced timing (0.45x), which is what races question/submit DOM.
+ *
+ * @param {number} baseMs
+ * @param {number|null} [spreadMs]
+ * @returns {number}
+ */
+function indeedHydrationDelay(baseMs, spreadMs = null) {
+    const multiplier = Math.max(
+        INDEED_HYDRATION_MIN_MULTIPLIER,
+        activeDelayMultiplier,
+    );
+    const scaledBase = scaleDelayMs(baseMs, multiplier);
+    const spread = spreadMs ?? Math.max(700, Math.floor(scaledBase * 0.45));
+    const scaledSpread = scaleDelayMs(spread, multiplier);
+
+    return scaledBase + Math.floor(Math.random() * (scaledSpread + 1));
+}
+
+function isIndeedQuestionsStep(applyState) {
+    const fingerprint = String(applyState?.stepFingerprint || '');
+
+    return /questions-module|qualification-questions/i.test(fingerprint);
+}
+
+async function persistAutoApplyStopRequested(stopRequested) {
+    try {
+        await chrome.storage.session.set({
+            autoApplyStopRequested: Boolean(stopRequested),
+        });
+    } catch {
+        // Session storage may be unavailable in tests.
+    }
 }
 
 /**
@@ -4973,7 +5010,8 @@ async function openIndeedJobInner(tabId, job, session) {
     tabId = await returnToIndeedSearch(tabId, session);
     await waitForIndeedContentScript(tabId);
     await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
-    await sleep(randomDelay(850, 550));
+    // Floor timing: Speed (0.1x) was selecting cards before the SERP hydrated.
+    await sleep(indeedHydrationDelay(850, 550));
 
     let selectResponse = null;
 
@@ -5015,7 +5053,7 @@ async function openIndeedJobInner(tabId, job, session) {
         await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
             () => {},
         );
-        await sleep(randomDelay(750, 500));
+        await sleep(indeedHydrationDelay(750, 500));
     }
 
     if (selectResponse?.success) {
@@ -5033,21 +5071,11 @@ async function openIndeedJobInner(tabId, job, session) {
         };
     }
 
-    if (!selectResponse?.needsNavigation) {
-        return {
-            success: false,
-            tabId,
-            skipReason: selectResponse?.jobUnavailable
-                ? 'job_unavailable'
-                : 'job_open_failed',
-            error:
-                selectResponse?.error || 'Could not open Indeed job listing.',
-        };
-    }
-
+    // Fall through to direct viewjob navigation when SERP select fails for any
+    // reason (including Speed-tier races where needsNavigation is unset).
     await logSession(
         'info',
-        `Opening ${job.title} directly (job card not visible in search list).`,
+        `Opening ${job.title} directly (job card not selected in search list).`,
     );
 
     const jobUrl =
@@ -5061,7 +5089,7 @@ async function openIndeedJobInner(tabId, job, session) {
 
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    await sleep(indeedHydrationDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
     await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', {
         force: true,
     }).catch(() => {});
@@ -6022,15 +6050,36 @@ async function processIndeedJobInner(
                 }
             }
         } else if (!isIndeedDraftSkipStep(applyState)) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
+            await sleep(
+                indeedHydrationDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400),
+            );
 
-            const draftResult = await runDraftAllForStep(
+            let draftResult = await runDraftAllForStep(
                 tabId,
                 job,
                 applyState.stepLabel,
                 runDraftAll,
                 session,
             );
+
+            // Speed-tier race: questions URL can still be empty on first scan.
+            if (
+                isIndeedQuestionsStep(applyState) &&
+                /no application questions/i.test(String(draftResult?.error || ''))
+            ) {
+                await logSession(
+                    'warn',
+                    `[draft] ${job.title}: questions not ready - retrying after hydration wait.`,
+                );
+                await sleep(indeedHydrationDelay(1200, 600));
+                draftResult = await runDraftAllForStep(
+                    tabId,
+                    job,
+                    applyState.stepLabel,
+                    runDraftAll,
+                    session,
+                );
+            }
 
             if (draftResult?.stopped) {
                 return { outcome: 'stopped', reason: 'user_stop', tabId };
@@ -6054,6 +6103,47 @@ async function processIndeedJobInner(
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
             }
+
+            // Do not Continue past a questions step that still has empty answers
+            // after Draft All (Indeed often leaves Continue enabled anyway).
+            if (
+                isIndeedQuestionsStep(postDraftState || applyState) &&
+                Number(draftResult?.fieldsFilled || 0) === 0 &&
+                !draftResult?.error
+            ) {
+                await logSession(
+                    'warn',
+                    `[draft] ${job.title}: questions step still empty after Draft All - pausing.`,
+                );
+                const emptyPause = await ensureStepFilledOrPaused(
+                    tabId,
+                    job,
+                    postDraftState || applyState,
+                    {
+                        ...draftResult,
+                        pendingFields: [
+                            {
+                                question: applyState.stepLabel || 'Indeed questions',
+                                label: applyState.stepLabel || 'Indeed questions',
+                                reason: 'required_empty',
+                            },
+                        ],
+                    },
+                    session,
+                    profileData,
+                );
+
+                session = emptyPause.session || session;
+                profileData = emptyPause.profileData ?? profileData;
+
+                if (emptyPause.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+            }
+        }
+
+        if (await shouldStop(session)) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
         }
 
         if (applyStateNeedsSubmitPause(applyState)) {
@@ -6091,6 +6181,14 @@ async function processIndeedJobInner(
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, {
             type: 'INDEED_FILL_AND_ADVANCE',
         });
+
+        if (
+            advanceResponse?.stopped ||
+            advanceResponse?.action === 'stopped' ||
+            (await shouldStop(session))
+        ) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
 
         const advanceBlockedByCaptcha =
             Boolean(advanceResponse?.error?.includes('captcha'))
@@ -9440,6 +9538,7 @@ export async function startAutoApply({
 
         configureAutoApplyTiming(session.timingLevel);
         await persistActiveAutoApplyTiming(session.timingLevel);
+        await persistAutoApplyStopRequested(false);
 
         let hostBinding = null;
 
@@ -9948,6 +10047,7 @@ async function runAutoApplyLoop(
     sessionWriteOwnerRunId = initialSession.runId;
     configureAutoApplyTiming(initialSession.timingLevel);
     await persistActiveAutoApplyTiming(initialSession.timingLevel);
+    await persistAutoApplyStopRequested(false);
 
     if (initialSession.platform === INDEED_PLATFORM_ID) {
         return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData, {
@@ -10415,6 +10515,8 @@ export async function stopAutoApply() {
     }
 
     await stopAutoApplyPauseKeepalive();
+    // Wake content-script hydration loops (Indeed Continue/Submit waits) promptly.
+    await persistAutoApplyStopRequested(true);
 
     if (isTerminalAutoApplyStatus(session.status)) {
         await resetAutoApplySession();

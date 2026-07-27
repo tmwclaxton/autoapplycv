@@ -28,6 +28,31 @@ var AutoCVApplyIndeedAutoApply = (() => {
         await sleep(humanDelayMs(minMs, maxMs));
     }
 
+    /** DOM hydration waits - ignore the fastest Speed-slider tiers. */
+    async function hydrationPause(minMs, maxMs) {
+        if (typeof AutoCVApplyTiming !== 'undefined' && AutoCVApplyTiming.hydrationPause) {
+            await AutoCVApplyTiming.hydrationPause(minMs, maxMs);
+
+            return;
+        }
+
+        await sleep(humanDelayMs(minMs, maxMs));
+    }
+
+    async function throwIfAutoApplyStopped(message = 'Auto Apply stop requested.') {
+        if (
+            typeof AutoCVApplyTiming !== 'undefined' &&
+            typeof AutoCVApplyTiming.isAutoApplyStopRequested === 'function' &&
+            (await AutoCVApplyTiming.isAutoApplyStopRequested())
+        ) {
+            const error = new Error(message);
+            error.name = 'AutoApplyStopError';
+            error.code = 'AUTO_APPLY_STOP';
+
+            throw error;
+        }
+    }
+
     function isIndeedHostname() {
         return /indeed\.com$/i.test(window.location.hostname);
     }
@@ -2485,13 +2510,16 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
+            await throwIfAutoApplyStopped(
+                'Stopped while waiting for Indeed submission confirmation.',
+            );
             const verify = verifySubmitted();
 
             if (verify.submitted) {
                 return verify;
             }
 
-            await humanPause(400, 650);
+            await hydrationPause(400, 650);
         }
 
         return verifySubmitted();
@@ -2500,6 +2528,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
         await selectResumeCardIfNeeded();
+        await throwIfAutoApplyStopped('Stopped before Indeed Continue/Submit.');
 
         // Review-before-submit pauses often leave the tab on post-apply when the
         // user (or a prior click) already submitted. Treat that as success instead
@@ -2540,6 +2569,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
             });
 
             for (let attempt = 0; attempt < 10; attempt += 1) {
+                await throwIfAutoApplyStopped(
+                    'Stopped while waiting for Indeed Submit button.',
+                );
+
                 if (readIndeedCaptchaPresent()) {
                     return {
                         success: false,
@@ -2567,7 +2600,8 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 }
 
                 if (attempt < 9) {
-                    await humanPause(350, 650);
+                    // Floor Speed-slider scaling so Submit has time to hydrate.
+                    await hydrationPause(350, 650);
                 }
             }
 
@@ -2650,7 +2684,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
 
         if (!continueButton) {
             for (let attempt = 0; attempt < 12; attempt += 1) {
-                await humanPause(400, 700);
+                await throwIfAutoApplyStopped(
+                    'Stopped while waiting for Indeed Continue.',
+                );
+                await hydrationPause(400, 700);
 
                 const lateSubmitted = verifySubmitted();
 
@@ -2680,7 +2717,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
                     const deadline = Date.now() + 14_000;
 
                     while (Date.now() < deadline) {
-                        await humanPause(320, 560);
+                        await throwIfAutoApplyStopped(
+                            'Stopped while waiting for Indeed step transition.',
+                        );
+                        await hydrationPause(320, 560);
 
                         const nextFingerprint = readStepFingerprint();
 
@@ -2768,7 +2808,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const deadline = Date.now() + 14_000;
 
         while (Date.now() < deadline) {
-            await humanPause(320, 560);
+            await throwIfAutoApplyStopped(
+                'Stopped while waiting for Indeed step transition.',
+            );
+            await hydrationPause(320, 560);
 
             const nextFingerprint = readStepFingerprint();
 

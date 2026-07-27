@@ -2152,11 +2152,12 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         && collectResponse?.success
         && !(collectResponse?.snapshot?.elements?.length)
     ) {
-        const hydrateDeadline = Date.now() + 6_000;
+        // Longer than Speed-tier beforeDraftAll so question widgets can mount.
+        const hydrateDeadline = Date.now() + 10_000;
 
         while (Date.now() < hydrateDeadline) {
             await new Promise((resolve) => {
-                setTimeout(resolve, 400);
+                setTimeout(resolve, 350);
             });
             collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
                 tabId,

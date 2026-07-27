@@ -12,6 +12,14 @@ const TIMING_LEVEL_MULTIPLIERS = {
     5: 0.1,
 };
 
+/**
+ * SmartApply question/submit nodes hydrate after route changes. Scaling all the
+ * way to level-5 (0.1x) races Draft All and Submit discovery - keep a floor at
+ * balanced (0.45x) for those waits.
+ */
+export const INDEED_HYDRATION_MIN_MULTIPLIER =
+    TIMING_LEVEL_MULTIPLIERS[3];
+
 const TIMING_LEVEL_LABELS = {
     1: 'Careful timing',
     2: 'Careful',
