@@ -77,4 +77,16 @@ assert.match(
     /Save & fill/,
 );
 
+const reviewPause = {
+    pauseReason: 'review_before_submit',
+    clarifyingQuestion: 'Review the application, then resume Auto Apply to submit.',
+    job: { jobId: 'job-2', title: 'Analyst', company: 'Beta' },
+};
+assert.equal(resolveAutoApplyPauseReason(reviewPause), 'review_before_submit');
+assert.equal(isManualResumeAutoApplyPause(reviewPause), true);
+const reviewCopy = buildAutoApplyManualResumePanelCopy(reviewPause);
+assert.equal(reviewCopy?.title, 'Review before continue');
+assert.equal(reviewCopy?.buttonLabel, 'Resume');
+assert.match(buildAutoApplyPauseBannerMessage(reviewPause), /Review the application/);
+
 console.log('auto-apply-manual-resume.test.mjs: ok');

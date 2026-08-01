@@ -1,14 +1,19 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminGaConversionTestController;
 use App\Http\Controllers\Admin\AdminPageCaptureController;
 use App\Http\Controllers\Admin\AdminUserCreditController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Api\ExtensionTokenController;
+use App\Http\Controllers\AtsScoreCheckerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CompareController;
 use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\ExtensionAuthController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\GlossaryController;
 use App\Http\Controllers\GoCardlessWebhookController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PricingController;
@@ -21,6 +26,13 @@ use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 Route::inertia('/', 'Welcome')->name('home');
 Route::inertia('/about', 'About')->name('about');
 Route::inertia('/how-to', 'HowTo')->name('how-to');
+Route::get('/glossary', [GlossaryController::class, 'index'])->name('glossary');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/compare', [CompareController::class, 'index'])->name('compare');
+Route::get('/tools/ats-score-checker', [AtsScoreCheckerController::class, 'index'])->name('tools.ats-score-checker');
+Route::post('/tools/ats-score-checker/score', [AtsScoreCheckerController::class, 'score'])
+    ->middleware('throttle:10,1')
+    ->name('tools.ats-score-checker.score');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
@@ -64,6 +76,7 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/ga-conversion-test', AdminGaConversionTestController::class)->name('ga-conversion-test');
         Route::get('/users/lookup', [AdminUserCreditController::class, 'lookup'])->name('users.lookup');
         Route::post('/users/award-credits', [AdminUserCreditController::class, 'store'])->name('users.award-credits');
         Route::get('/page-captures/{extensionPageCapture}', [AdminPageCaptureController::class, 'show'])
@@ -75,6 +88,10 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
 if (app()->environment('local')) {
     require __DIR__.'/readme-screenshots.php';
+
+    // Unauthenticated local-only probe so agents can verify gtag without WorkOS.
+    Route::get('/_local/ga-conversion-test', AdminGaConversionTestController::class)
+        ->name('local.ga-conversion-test');
 }
 
 require __DIR__.'/auth.php';

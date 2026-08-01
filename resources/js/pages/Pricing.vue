@@ -12,12 +12,28 @@ import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { login } from '@/routes';
 import billing from '@/routes/billing';
 
-defineProps<{
+export interface CreditCostRow {
+    key: string;
+    label: string;
+    credits: number;
+}
+
+const props = defineProps<{
     plans: PricingPlan[];
+    creditCosts: CreditCostRow[];
+    draftAllBatchSize: number;
 }>();
 
 const page = usePage();
 const isAuthenticated = computed(() => Boolean(page.props.auth.user));
+
+function formatCredits(value: number): string {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function creditLabel(credits: number): string {
+    return credits === 1 ? 'credit' : 'credits';
+}
 </script>
 
 <template>
@@ -39,24 +55,56 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             :is-authenticated="isAuthenticated"
         />
 
-        <div class="mt-10 grid gap-4 lg:grid-cols-3">
-            <div class="postbox-panel p-4 sm:p-6">
+        <section class="postbox-panel mt-10 p-6 sm:p-8">
+            <div class="mb-2 flex items-center gap-3">
                 <div
-                    class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    class="flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >
                     <Zap class="size-5 text-postbox-red" />
                 </div>
-                <h2 class="text-lg font-bold text-postbox-navy">
-                    What uses credits?
+                <h2 class="text-xl font-bold text-postbox-navy">
+                    Credit costs by action
                 </h2>
-                <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Extension AI actions spend credits from your monthly
-                    allowance. Assist replies cost 1 credit each. Cover letters
-                    and ATS scores cost 5 credits. Draft All batches and other
-                    tools use their own prices shown in the extension.
-                </p>
+            </div>
+            <p
+                class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground"
+            >
+                Extension AI tools spend credits from your monthly allowance.
+                These are the live prices used when you Assist, Draft All, score
+                ATS fit, or generate a cover letter.
+            </p>
+
+            <div class="postbox-prose mt-6">
+                <div class="postbox-table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Action</th>
+                                <th scope="col">Credits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in props.creditCosts" :key="row.key">
+                                <td>{{ row.label }}</td>
+                                <td>
+                                    {{ formatCredits(row.credits) }}
+                                    {{ creditLabel(row.credits) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
+            <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Draft All charges the autofilled-question price per field, in
+                batches of up to
+                {{ formatCredits(props.draftAllBatchSize) }} questions. CV
+                upload and profile editing do not use credits.
+            </p>
+        </section>
+
+        <div class="mt-10 grid gap-4 lg:grid-cols-2">
             <div class="postbox-panel p-4 sm:p-6">
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
@@ -142,7 +190,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         <PostboxCta
             class="mt-10"
             title="Start on the free plan"
-            description="250 credits per month to get going - upgrade when you need more."
+            description="1,500 credits per month to get going - upgrade when you need more."
             button-label="Get started free"
         />
 

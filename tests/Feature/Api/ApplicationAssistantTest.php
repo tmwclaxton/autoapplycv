@@ -67,7 +67,7 @@ class ApplicationAssistantTest extends TestCase
     public function test_ai_assist_returns_402_when_quota_exhausted(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
         CvProfile::factory()->for($user)->create();

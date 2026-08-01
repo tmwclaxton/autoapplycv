@@ -10,6 +10,10 @@ declare global {
     interface Window {
         gtag?: (...args: unknown[]) => void;
         dataLayer?: unknown[];
+        __autocvapplyGoogleAdsConversions?: {
+            sign_up?: string;
+            purchase?: string;
+        };
     }
 }
 
@@ -35,6 +39,43 @@ function measurementId(): string | null {
     } catch {
         return null;
     }
+}
+
+function adsConversionSendTo(kind: 'sign_up' | 'purchase'): string | null {
+    const sendTo = window.__autocvapplyGoogleAdsConversions?.[kind]?.trim();
+
+    return sendTo || null;
+}
+
+/**
+ * Fire a native Google Ads website conversion (AW- send_to).
+ * Requires advertising consent so ad_storage / ad_user_data are granted.
+ */
+function trackAdsConversion(
+    kind: 'sign_up' | 'purchase',
+    choices: ConsentChoices,
+    params: Record<string, unknown> = {},
+): boolean {
+    if (!isAdvertisingConsentGranted(choices)) {
+        return false;
+    }
+
+    if (typeof window.gtag !== 'function') {
+        return false;
+    }
+
+    const sendTo = adsConversionSendTo(kind);
+
+    if (!sendTo) {
+        return false;
+    }
+
+    window.gtag('event', 'conversion', {
+        send_to: sendTo,
+        ...params,
+    });
+
+    return true;
 }
 
 function trackPageView(pagePath: string): void {
@@ -140,11 +181,18 @@ export function trackPurchaseConversion(
         ],
     };
 
-    // Standard GA4 ecommerce purchase (older Ads import).
+    // Standard GA4 ecommerce purchase (and legacy GA4-imported Ads action).
     window.gtag('event', 'purchase', purchaseParams);
 
-    // Google Ads "PURCHASE" / Web Purchase action expects this event name.
+    // Legacy GA4 custom purchase event name still used in some reports.
     window.gtag('event', 'conversion_event_purchase', purchaseParams);
+
+    // Native Google Ads website conversion (records in Ads without GA4 import lag).
+    trackAdsConversion('purchase', choices, {
+        transaction_id: conversion.transaction_id,
+        value: conversion.value,
+        currency: conversion.currency,
+    });
 
     return true;
 }
@@ -188,9 +236,14 @@ export function trackSignUpConversion(
         transaction_id: transactionId,
     });
 
-    // Google Ads primary action imported as this GA4 event name.
+    // Legacy GA4-imported Ads custom event (still useful in GA4).
     window.gtag('event', 'ads_conversion_Sign_up_1', {
         method,
+        transaction_id: transactionId,
+    });
+
+    // Native Google Ads website conversion (records in Ads without GA4 import lag).
+    trackAdsConversion('sign_up', choices, {
         transaction_id: transactionId,
     });
 
@@ -198,18 +251,50 @@ export function trackSignUpConversion(
 }
 
 /**
+ * Bind a Google Ads click id so GA4 can attribute later conversion events.
+ * Prefer landing with ?gclid=; this also sets the linker cookie for same-tab tests.
+ */
+export function bindGclidForTesting(gclid: string): boolean {
+    const trimmed = gclid.trim();
+
+    if (!trimmed || typeof window.gtag !== 'function') {
+        return false;
+    }
+
+    window.gtag('set', { gclid: trimmed });
+
+    try {
+        const maxAge = 90 * 24 * 60 * 60;
+        const stamp = Math.floor(Date.now() / 1000);
+        document.cookie = `_gcl_aw=1.${stamp}.${encodeURIComponent(trimmed)};path=/;max-age=${maxAge};SameSite=Lax`;
+    } catch {
+        // cookie write may fail in restricted contexts
+    }
+
+    return true;
+}
+
+/**
  * Fire one-off test conversions for verifying Ads / GA4 (admin tooling).
+ * Pass a real gclid from Ads click_view so events can attribute to the campaign.
  *
  * @returns Labels of events that were sent
  */
 export function trackTestConversions(
     choices: ConsentChoices,
     count = 5,
+    gclid: string | null = null,
 ): string[] {
     const batches = Math.max(1, Math.min(20, count));
     const sent: string[] = [];
     let purchases = 0;
     let signUps = 0;
+
+    if (gclid?.trim()) {
+        if (bindGclidForTesting(gclid)) {
+            sent.push(`gclid bound`);
+        }
+    }
 
     for (let index = 0; index < batches; index++) {
         const stamp = `${Date.now()}_${index}_${Math.random().toString(36).slice(2, 8)}`;
@@ -240,11 +325,19 @@ export function trackTestConversions(
     if (purchases > 0) {
         sent.push(`purchase x${purchases}`);
         sent.push(`conversion_event_purchase x${purchases}`);
+
+        if (adsConversionSendTo('purchase')) {
+            sent.push(`AW purchase x${purchases}`);
+        }
     }
 
     if (signUps > 0) {
         sent.push(`sign_up x${signUps}`);
         sent.push(`ads_conversion_Sign_up_1 x${signUps}`);
+
+        if (adsConversionSendTo('sign_up')) {
+            sent.push(`AW sign_up x${signUps}`);
+        }
     }
 
     return sent;

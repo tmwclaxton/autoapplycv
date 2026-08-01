@@ -128,8 +128,15 @@ return [
         'draft_all_answer_vet_max_tokens' => 2048,
     ],
 
-    'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),
+    /*
+    | Free ATS score checker (/tools/ats-score-checker) for guests.
+    | Authenticated users pay AiAssistCosts::atsScoreCost() like the extension.
+    */
+    'ats_score_checker' => [
+        'guest_free_uses' => 3,
+        'session_key' => 'ats_score_checker_guest_uses',
+    ],
 
-    'analytics_chart_days' => 30,
+    'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),
 
 ];

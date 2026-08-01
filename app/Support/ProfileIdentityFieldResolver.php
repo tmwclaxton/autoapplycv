@@ -24,7 +24,7 @@ class ProfileIdentityFieldResolver
      * @var array<int, array{path: string, keywords: array<int, string>, exact_labels?: array<int, string>}>
      */
     private const LABEL_MAPPINGS = [
-        ['path' => 'full_name', 'keywords' => ['full name', 'applicant name', 'your name', 'candidate name'], 'exact_labels' => ['name']],
+        ['path' => 'full_name', 'keywords' => ['full name', 'full legal name', 'legal name', 'applicant name', 'your name', 'candidate name'], 'exact_labels' => ['name']],
         ['path' => 'full_name.first', 'keywords' => ['first name', 'given name', 'forename', 'fornamn', 'förnamn']],
         ['path' => 'full_name.last', 'keywords' => ['last name', 'surname', 'family name', 'efternamn']],
         ['path' => 'email', 'keywords' => ['email', 'e-mail', 'personal email', 'e post', 'epost']],

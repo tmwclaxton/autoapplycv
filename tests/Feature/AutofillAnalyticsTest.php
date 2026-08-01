@@ -9,6 +9,7 @@ use App\Services\AutofillAnalyticsService;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\NanoGptService;
+use App\Support\AnalyticsDateRange;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -42,10 +43,13 @@ class AutofillAnalyticsTest extends TestCase
             'parsing_complete' => true,
         ]);
 
-        $summary = app(AutofillAnalyticsService::class)->publicSummary(30);
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(
+            AnalyticsDateRange::lastDays(30),
+        );
 
         $this->assertSame(20, $summary['metrics']['answers_autofilled']['total']);
         $this->assertSame(1, $summary['metrics']['cvs_parsed']['total']);
+        $this->assertArrayNotHasKey('series', $summary['metrics']['cvs_parsed']);
     }
 
     public function test_public_summary_does_not_double_count_already_synced_usage(): void
@@ -60,7 +64,9 @@ class AutofillAnalyticsTest extends TestCase
             'answers_count' => 10,
         ]);
 
-        $summary = app(AutofillAnalyticsService::class)->publicSummary(30);
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(
+            AnalyticsDateRange::lastDays(30),
+        );
 
         $this->assertSame(10, $summary['metrics']['answers_autofilled']['total']);
     }
@@ -79,6 +85,11 @@ class AutofillAnalyticsTest extends TestCase
                 ->component('Analytics')
                 ->where('analytics.metrics.answers_autofilled.total', 55)
                 ->where('analytics.metrics.answers_autofilled.period_total', 55)
+                ->where('analytics.range.month', now()->format('Y-m'))
+                ->where('analytics.range.days', AnalyticsDateRange::DEFAULT_DAYS)
+                ->where('analytics.range.can_go_next', false)
+                ->missing('analytics.range.window')
+                ->missing('analytics.metrics.cvs_parsed.series')
                 ->missing('auto_apply'));
     }
 
@@ -98,6 +109,8 @@ class AutofillAnalyticsTest extends TestCase
             'cvs_parsed_count' => 1,
         ]);
 
+        $expectedDays = AnalyticsDateRange::DEFAULT_DAYS;
+
         $this->get(route('analytics'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -106,8 +119,79 @@ class AutofillAnalyticsTest extends TestCase
                 ->where('analytics.metrics.answers_autofilled.period_total', 20)
                 ->where('analytics.metrics.extension_questions.total', 7)
                 ->where('analytics.metrics.cvs_parsed.total', 3)
-                ->has('analytics.metrics.answers_autofilled.series', 30)
+                ->where('analytics.range.days', $expectedDays)
+                ->where('analytics.days', $expectedDays)
+                ->has('analytics.metrics.answers_autofilled.series', $expectedDays)
+                ->missing('analytics.metrics.cvs_parsed.series')
                 ->missing('auto_apply'));
+    }
+
+    public function test_analytics_page_accepts_month_and_days_query_params(): void
+    {
+        $previousMonth = now()->subMonthNoOverflow()->startOfMonth();
+
+        AutofillDailyStat::factory()->create([
+            'date' => $previousMonth->copy()->addDays(2)->toDateString(),
+            'answers_count' => 5,
+            'extension_questions_count' => 1,
+            'cvs_parsed_count' => 1,
+        ]);
+
+        AutofillDailyStat::factory()->create([
+            'date' => $previousMonth->copy()->endOfMonth()->toDateString(),
+            'answers_count' => 9,
+            'extension_questions_count' => 2,
+            'cvs_parsed_count' => 1,
+        ]);
+
+        AutofillDailyStat::factory()->create([
+            'date' => now()->toDateString(),
+            'answers_count' => 100,
+            'extension_questions_count' => 50,
+            'cvs_parsed_count' => 10,
+        ]);
+
+        $this->get(route('analytics', [
+            'month' => $previousMonth->format('Y-m'),
+            'days' => 7,
+        ]))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Analytics')
+                ->where('analytics.range.month', $previousMonth->format('Y-m'))
+                ->where('analytics.range.days', 7)
+                ->where('analytics.range.can_go_next', true)
+                ->where('analytics.days', 7)
+                ->where('analytics.metrics.answers_autofilled.period_total', 9)
+                ->where('analytics.metrics.extension_questions.period_total', 2)
+                ->where('analytics.metrics.cvs_parsed.period_total', 1)
+                ->has('analytics.metrics.answers_autofilled.series', 7)
+                ->missing('analytics.metrics.cvs_parsed.series'));
+    }
+
+    public function test_analytics_page_clamps_future_month_to_current_month(): void
+    {
+        $futureMonth = now()->addMonthNoOverflow()->format('Y-m');
+
+        $this->get(route('analytics', [
+            'month' => $futureMonth,
+            'days' => 30,
+        ]))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Analytics')
+                ->where('analytics.range.month', now()->format('Y-m'))
+                ->where('analytics.range.days', 30)
+                ->where('analytics.range.can_go_next', false));
+    }
+
+    public function test_analytics_page_rejects_days_outside_allowed_range(): void
+    {
+        $this->get(route('analytics', ['days' => 0]))
+            ->assertSessionHasErrors('days');
+
+        $this->get(route('analytics', ['days' => AnalyticsDateRange::MAX_DAYS + 1]))
+            ->assertSessionHasErrors('days');
     }
 
     public function test_analytics_json_is_publicly_accessible(): void
@@ -126,6 +210,8 @@ class AutofillAnalyticsTest extends TestCase
             'cvs_parsed_count' => 1,
         ]);
 
+        $expectedDays = AnalyticsDateRange::DEFAULT_DAYS;
+
         $this->get(route('analytics.json'))
             ->assertOk()
             ->assertHeader('Cache-Control', 'max-age=300, public')
@@ -133,7 +219,10 @@ class AutofillAnalyticsTest extends TestCase
             ->assertJsonPath('metrics.answers_autofilled.period_total', 20)
             ->assertJsonPath('metrics.extension_questions.total', 7)
             ->assertJsonPath('metrics.cvs_parsed.total', 3)
-            ->assertJsonCount(30, 'metrics.answers_autofilled.series')
+            ->assertJsonPath('range.days', $expectedDays)
+            ->assertJsonMissingPath('range.window')
+            ->assertJsonCount($expectedDays, 'metrics.answers_autofilled.series')
+            ->assertJsonMissingPath('metrics.cvs_parsed.series')
             ->assertJsonMissingPath('auto_apply');
     }
 
@@ -146,7 +235,9 @@ class AutofillAnalyticsTest extends TestCase
             'cvs_parsed_count' => 1,
         ]);
 
-        $summary = app(AutofillAnalyticsService::class)->publicSummary(7);
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(
+            AnalyticsDateRange::lastDays(7),
+        );
 
         $this->assertSame(7, $summary['days']);
         $this->assertSame(5, $summary['metrics']['answers_autofilled']['period_total']);
@@ -154,6 +245,7 @@ class AutofillAnalyticsTest extends TestCase
         $this->assertSame(1, $summary['metrics']['cvs_parsed']['period_total']);
         $this->assertSame(0, $summary['metrics']['answers_autofilled']['series'][0]['count']);
         $this->assertSame(5, $summary['metrics']['answers_autofilled']['series'][6]['count']);
+        $this->assertArrayNotHasKey('series', $summary['metrics']['cvs_parsed']);
     }
 
     public function test_recording_autofill_increments_daily_global_stats(): void

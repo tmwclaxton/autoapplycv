@@ -1119,7 +1119,7 @@ async function runFieldHighlightRefresh(explicitPaintFieldHighlights) {
     }
 }
 
-async function collectDraftContext(injectedProfile = null) {
+async function collectDraftContext(injectedProfile = null, options = {}) {
     if (injectedProfile?.profile) {
         profile = injectedProfile;
     }
@@ -1137,8 +1137,17 @@ async function collectDraftContext(injectedProfile = null) {
     }
 
     const settings = getAutofillSettings();
+    const snapshotOptions = {
+        allowInteractiveOptionHarvest: options.allowInteractiveOptionHarvest === true,
+    };
     const snapshot = typeof AutoCVApplyFieldInventory !== 'undefined'
-        ? await AutoCVApplyFieldInventory.buildSnapshotAllFramesAsync(document, profileData.profile, settings, {})
+        ? await AutoCVApplyFieldInventory.buildSnapshotAllFramesAsync(
+            document,
+            profileData.profile,
+            settings,
+            {},
+            snapshotOptions,
+        )
         : null;
     const fields = typeof AutoCVApplyFieldInventory !== 'undefined' && snapshot
         ? AutoCVApplyFieldInventory.fieldsFromInventory(snapshot.elements)
@@ -1211,13 +1220,17 @@ contentMessageListener = (message, sender, sendResponse) => {
         }
 
         if (message.type === 'COLLECT_DRAFTABLE_FIELDS') {
-            sendResponse(await collectDraftContext());
+            sendResponse(await collectDraftContext(null, {
+                allowInteractiveOptionHarvest: message.allowInteractiveOptionHarvest === true,
+            }));
 
             return;
         }
 
         if (message.type === 'BUILD_FIELD_SNAPSHOT') {
-            sendResponse(await collectDraftContext(message.profilePayload));
+            sendResponse(await collectDraftContext(message.profilePayload, {
+                allowInteractiveOptionHarvest: message.allowInteractiveOptionHarvest === true,
+            }));
 
             return;
         }
@@ -2016,6 +2029,35 @@ contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'INDEED_CAPTCHA_PREPARE') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ present: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.prepareCaptchaForSolve());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_CAPTCHA_INJECT_TOKEN') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(
+                AutoCVApplyIndeedAutoApply.injectCaptchaToken(
+                    message.token,
+                    message.captchaType || 'recaptcha_v2',
+                ),
+            );
+
+            return;
+        }
+
         if (message.type === 'INDEED_OPEN_CONTACT_INFO') {
             if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
@@ -2035,7 +2077,23 @@ contentMessageListener = (message, sender, sendResponse) => {
                 return;
             }
 
-            sendResponse(await AutoCVApplyIndeedAutoApply.clickContinueOrSubmit());
+            try {
+                sendResponse(await AutoCVApplyIndeedAutoApply.clickContinueOrSubmit());
+            } catch (error) {
+                const stopped =
+                    error?.name === 'AutoApplyStopError' ||
+                    error?.code === 'AUTO_APPLY_STOP';
+
+                sendResponse({
+                    success: false,
+                    stopped,
+                    action: stopped ? 'stopped' : 'blocked',
+                    error:
+                        error instanceof Error
+                            ? error.message
+                            : 'Indeed Continue/Submit failed.',
+                });
+            }
 
             return;
         }

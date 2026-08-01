@@ -23,6 +23,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         finalizeAutoApplyAnalyticsSession,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -167,6 +168,12 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
             markWatchdogProgress(session);
         } catch (error) {
             if (!ownsLatest(await loadAutoApplySession())) {
+                return;
+            }
+
+            if (isAutoApplyStopError?.(error) || (await shouldStop(session))) {
+                await finalizeStoppedSession();
+
                 return;
             }
 

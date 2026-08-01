@@ -28,12 +28,14 @@ import {
     pricing,
 } from '@/routes';
 import { index as blog } from '@/routes/blog';
+import { atsScoreChecker } from '@/routes/tools';
 
 const page = usePage();
 const { isCurrentUrl } = useCurrentUrl();
 
 const routeMap = {
     blog,
+    'tools.ats-score-checker': atsScoreChecker,
     'how-to': howTo,
     pricing,
     analytics,
@@ -47,14 +49,14 @@ const navLinkClass = (href: string): string =>
         : 'border-transparent text-postbox-navy hover:border-postbox-navy hover:bg-postbox-grey';
 
 const desktopNavLinkClass =
-    'shrink-0 whitespace-nowrap !px-2 !py-2 text-xs xl:!px-3 xl:text-sm';
+    'shrink-0 whitespace-nowrap !px-2 !py-2 text-xs 2xl:!px-3 2xl:text-sm';
 
 const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 </script>
 
 <template>
     <div class="flex items-center gap-2">
-        <div class="lg:hidden">
+        <div class="xl:hidden">
             <Sheet>
                 <SheetTrigger as-child>
                     <button
@@ -135,7 +137,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             </Sheet>
         </div>
 
-        <div class="hidden flex-nowrap items-center gap-1 lg:flex xl:gap-2">
+        <div class="hidden flex-nowrap items-center gap-1 xl:flex 2xl:gap-2">
             <ThemeToggle />
             <Link
                 :href="home()"
@@ -181,14 +183,14 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             <Link
                 v-if="isAuthenticated"
                 :href="dashboard()"
-                class="postbox-btn shrink-0 !px-3 !py-2 text-xs xl:!px-5 xl:text-sm"
+                class="postbox-btn shrink-0 !px-3 !py-2 text-xs 2xl:!px-5 2xl:text-sm"
             >
                 Dashboard
             </Link>
             <Link
                 v-else
                 :href="login()"
-                class="postbox-btn shrink-0 !px-3 !py-2 text-xs xl:!px-5 xl:text-sm"
+                class="postbox-btn shrink-0 !px-3 !py-2 text-xs 2xl:!px-5 2xl:text-sm"
             >
                 Get started
                 <ArrowRight class="size-4" />
@@ -198,11 +200,11 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         <Link
             v-if="isAuthenticated"
             :href="dashboard()"
-            class="postbox-btn shrink-0 lg:hidden"
+            class="postbox-btn shrink-0 xl:hidden"
         >
             Dashboard
         </Link>
-        <Link v-else :href="login()" class="postbox-btn shrink-0 lg:hidden">
+        <Link v-else :href="login()" class="postbox-btn shrink-0 xl:hidden">
             Start
         </Link>
     </div>

@@ -18,6 +18,7 @@ import {
     normalizeAutoApplyPlatform,
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
+import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
     resolveProfileSearchLocation,
@@ -42,6 +43,7 @@ const datePostedSelect = document.getElementById('auto-apply-date-posted');
 const minSalarySelect = document.getElementById('auto-apply-min-salary');
 const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
 const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
+const pauseBeforeSubmitInput = document.getElementById('auto-apply-pause-before-submit');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
 const timingLevelInput = document.getElementById('auto-apply-timing-level');
 const timingValueEl = document.getElementById('auto-apply-timing-value');
@@ -207,6 +209,7 @@ function readSettingsFromForm() {
         market: marketSelect?.value || 'auto',
         fitCheckEnabled: fitEnabledInput.checked,
         minFitScore: readMinFitScore(),
+        pauseBeforeSubmit: Boolean(pauseBeforeSubmitInput?.checked),
         timingLevel: readTimingLevel(),
     };
 }
@@ -225,7 +228,8 @@ function applySettingsToForm(settings) {
     }
 
     if (typeof settings.roleDescription === 'string') {
-        roleInput.value = settings.roleDescription;
+        // Drop education / headline leftovers persisted from older builds.
+        roleInput.value = sanitizeAutoApplyRoleDescription(settings.roleDescription);
     }
 
     if (typeof settings.maxApplications === 'number' && settings.maxApplications > 0) {
@@ -264,6 +268,10 @@ function applySettingsToForm(settings) {
         minFitScoreInput.value = String(Math.max(0, Math.min(100, settings.minFitScore)));
     }
 
+    if (typeof settings.pauseBeforeSubmit === 'boolean' && pauseBeforeSubmitInput) {
+        pauseBeforeSubmitInput.checked = settings.pauseBeforeSubmit;
+    }
+
     if (timingLevelInput) {
         timingLevelInput.value = String(normalizeTimingLevel(settings.timingLevel));
     }
@@ -297,7 +305,8 @@ function syncFitGateControls() {
 }
 
 /**
- * Prefill Auto Apply search fields from the signed-in profile.
+ * Prefill Auto Apply location from the signed-in profile.
+ * Role stays user-entered only - never copy profile headline / education.
  *
  * @param {object|null|undefined} profileData
  */
@@ -313,10 +322,11 @@ export function syncSearchDefaultsFromProfile(profileData) {
         }
     }
 
-    const headline = String(profileData?.profile?.headline || '').trim();
+    // Clear bad role values already shown (headline / Russell Group / "/").
+    const cleanedRole = sanitizeAutoApplyRoleDescription(roleInput.value, profileData);
 
-    if (!roleInput.value.trim() && headline) {
-        roleInput.value = headline;
+    if (cleanedRole !== roleInput.value.trim()) {
+        roleInput.value = cleanedRole;
     }
 
     schedulePersistSettings();
@@ -731,6 +741,7 @@ function bindSettingsPersistence() {
         minSalarySelect,
         fitEnabledInput,
         minFitScoreInput,
+        pauseBeforeSubmitInput,
         maxApplicationsInput,
         timingLevelInput,
     ].filter(Boolean);
@@ -804,11 +815,17 @@ export function initAutoApplyPanel({ showMessage }) {
 
     startBtn.addEventListener('click', async () => {
         const platform = readSelectedPlatform();
-        const roleDescription = roleInput.value.trim();
+        const roleDescription = sanitizeAutoApplyRoleDescription(roleInput.value);
+
+        if (roleDescription !== roleInput.value.trim()) {
+            roleInput.value = roleDescription;
+        }
+
         const maxApplications = Number.parseInt(maxApplicationsInput.value, 10) || 3;
         const filters = readSearchFilters(platform);
         const fitCheckEnabled = fitEnabledInput.checked;
         const minFitScore = readMinFitScore();
+        const pauseBeforeSubmit = Boolean(pauseBeforeSubmitInput?.checked);
         const timingLevel = readTimingLevel();
 
         if (!platform) {
@@ -840,6 +857,7 @@ export function initAutoApplyPanel({ showMessage }) {
                 filters,
                 fitCheckEnabled,
                 minFitScore,
+                pauseBeforeSubmit,
                 timingLevel,
                 hostTabId: hostTab?.id ?? null,
                 hostWindowId: hostTab?.windowId ?? null,

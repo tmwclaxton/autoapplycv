@@ -25,3 +25,22 @@ test('CV-Library orchestrator skips previously applied apply steps', () => {
     assert.ok(source.includes('alreadyApplied'));
     assert.ok(source.includes("reason: 'already_applied'"));
 });
+
+test('CV-Library Continue does not immediately click Submit on the next step', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+
+    assert.ok(source.includes('Do not click Submit here'));
+    assert.ok(source.includes('readProgressStepLabel'));
+    assert.ok(source.includes('next-btn'));
+    assert.equal(source.includes('lateSubmit'), false);
+});
+
+test('CV-Library apply pages exclude header keyword/location search from Draft All', () => {
+    const heuristics = readFileSync(
+        join(ROOT, 'extension/src/content/form-heuristics.js'),
+        'utf8',
+    );
+
+    assert.ok(heuristics.includes("name === 'keyword'"));
+    assert.ok(heuristics.includes('Header job search chrome appears on apply pages'));
+});

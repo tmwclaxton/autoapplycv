@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
+use App\Support\BlogMarkdownRenderer;
+use App\Support\BlogSourceNormalizer;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,10 +42,10 @@ class BlogController extends Controller
                 'title' => $blog->title,
                 'slug' => $blog->slug,
                 'excerpt' => $blog->excerpt,
-                'body_html' => Str::markdown($body),
+                'body_html' => $this->markdownBodyToHtml($body),
                 'image_url' => $blog->image_url,
                 'tags' => $blog->tags ?? [],
-                'sources' => $blog->sources ?? [],
+                'sources' => BlogSourceNormalizer::normalizeList($blog->sources ?? []),
                 'published_at' => $blog->published_at?->toIso8601String(),
                 'view_count' => $blog->view_count,
                 'url' => $postUrl,
@@ -52,6 +53,14 @@ class BlogController extends Controller
             'more_posts' => $this->morePostsForArticle($blog),
             'share_links' => $this->shareLinks($postUrl, $blog->title, $blog->excerpt),
         ]);
+    }
+
+    /**
+     * Convert blog markdown to safe HTML with tables, images, and allowlisted embeds.
+     */
+    protected function markdownBodyToHtml(string $body): string
+    {
+        return BlogMarkdownRenderer::toHtml($body);
     }
 
     /**

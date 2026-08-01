@@ -1,5 +1,4 @@
 import {
-    isCountryOnlyLocation,
     resolveGlassdoorHost,
     resolveSessionMarket,
 } from './job-board-market.js';
@@ -10,6 +9,7 @@ export const GLASSDOOR_PLATFORM_ID = 'glassdoor';
  * @typedef {Object} GlassdoorSearchFilters
  * @property {string} [location]
  * @property {string} [market]
+ * @property {string} [keyword] Role/keyword used for SEO result matching after form submit.
  */
 
 /**
@@ -75,31 +75,15 @@ export function buildGlassdoorJobSearchUrl(
         throw new Error('Role description is required.');
     }
 
-    const params = new URLSearchParams({
-        'sc.keyword0': keyword,
-    });
-
-    const location = String(filters?.location || '').trim();
-
-    if (location) {
-        if (!isCountryOnlyLocation(location)) {
-            params.set('locT', 'C');
-        }
-
-        params.set('locKeyword', location);
-    }
-
-    if (easyApplyOnly) {
-        params.set('applicationType', '1');
-    }
-
-    if (page > 1) {
-        params.set('p', String(page));
-    }
+    // Glassdoor ignores sc.keyword0 / locKeyword query params on Job/index and Job/jobs
+    // and shows "Recommended Jobs For You". Navigate to a clean jobs landing page; the
+    // content script fills the real search inputs and submits.
+    void page;
+    void easyApplyOnly;
 
     const baseHost = resolveGlassdoorHostFromOptions({ host, filters });
 
-    return `https://${baseHost}/Job/jobs.htm?${params.toString()}`;
+    return `https://${baseHost}/Job/index.htm`;
 }
 
 /**
@@ -207,30 +191,38 @@ export function urlsMatchGlassdoorSearch(
             return false;
         }
 
-        const currentKeyword = current.searchParams.get('sc.keyword0') || '';
-        const expectedKeyword = expected.searchParams.get('sc.keyword0') || '';
+        // Only SEO result pages count as a real search. Query-param landings are ignored
+        // by Glassdoor and must be treated as unmatched so prepare fills the form.
+        const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(current.pathname);
+
+        if (!seoSearch) {
+            return false;
+        }
+
+        const expectedKeyword = String(
+            filters?.keyword ||
+                expected.searchParams.get('sc.keyword0') ||
+                '',
+        ).trim();
+        const expectedLocation = String(
+            filters?.location ||
+                expected.searchParams.get('locKeyword') ||
+                '',
+        ).trim();
         const currentPathSlug = slugifyGlassdoorSegment(current.pathname);
         const expectedKeywordSlug = slugifyGlassdoorSegment(expectedKeyword);
-        const seoSearch = /^\/Job\/.+-jobs-SRCH_/i.test(current.pathname);
+        const expectedLocationSlug = slugifyGlassdoorSegment(expectedLocation);
 
         if (
             expectedKeywordSlug &&
-            slugifyGlassdoorSegment(currentKeyword) !== expectedKeywordSlug &&
-            !(seoSearch && currentPathSlug.includes(expectedKeywordSlug))
+            !currentPathSlug.includes(expectedKeywordSlug)
         ) {
             return false;
         }
 
-        const currentLocation = current.searchParams.get('locKeyword') || '';
-        const expectedLocation =
-            expected.searchParams.get('locKeyword') ||
-            String(filters?.location || '').trim();
-        const expectedLocationSlug = slugifyGlassdoorSegment(expectedLocation);
-
         if (
             expectedLocationSlug &&
-            slugifyGlassdoorSegment(currentLocation) !== expectedLocationSlug &&
-            !(seoSearch && currentPathSlug.includes(expectedLocationSlug))
+            !currentPathSlug.includes(expectedLocationSlug)
         ) {
             return false;
         }

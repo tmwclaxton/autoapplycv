@@ -3,15 +3,18 @@
  */
 var AutoCVApplyTiming = (() => {
     const ACTIVE_KEY = 'autoApplyActiveTimingLevel';
-    const DEFAULT_LEVEL = 5;
-    const MIN_DELAY_MS = 40;
+    const DEFAULT_LEVEL = 1;
+    const MIN_DELAY_MS = 20;
     const MULTIPLIERS = {
-        1: 0.25,
-        2: 0.4,
-        3: 0.55,
-        4: 0.78,
-        5: 1,
+        1: 1,
+        2: 0.72,
+        3: 0.45,
+        4: 0.22,
+        5: 0.1,
     };
+    /** Match auto-apply-timing.js INDEED_HYDRATION_MIN_MULTIPLIER (balanced). */
+    const HYDRATION_MIN_MULTIPLIER = MULTIPLIERS[3];
+    const STOP_REQUESTED_KEY = 'autoApplyStopRequested';
 
     /** @type {number|null} */
     let cachedMultiplier = null;
@@ -43,18 +46,39 @@ var AutoCVApplyTiming = (() => {
         }
     }
 
-    async function humanPause(minMs, maxMs) {
+    async function humanPause(minMs, maxMs, options = {}) {
         if (cachedMultiplier === null) {
             await refreshMultiplier();
         }
 
         const min = Math.min(minMs, maxMs);
         const max = Math.max(minMs, maxMs);
-        const scaledMin = scaleDelayMs(min, cachedMultiplier);
-        const scaledMax = Math.max(scaledMin, scaleDelayMs(max, cachedMultiplier));
+        const multiplier = options.hydration
+            ? Math.max(HYDRATION_MIN_MULTIPLIER, cachedMultiplier ?? 1)
+            : (cachedMultiplier ?? 1);
+        const scaledMin = scaleDelayMs(min, multiplier);
+        const scaledMax = Math.max(scaledMin, scaleDelayMs(max, multiplier));
         const delay = scaledMin + Math.floor(Math.random() * (scaledMax - scaledMin + 1));
 
         await new Promise((resolve) => window.setTimeout(resolve, delay));
+    }
+
+    /**
+     * Pause used while waiting for SmartApply DOM (questions / Submit) to appear.
+     * Ignores the fastest timing tiers so Speed cannot race hydration.
+     */
+    async function hydrationPause(minMs, maxMs) {
+        await humanPause(minMs, maxMs, { hydration: true });
+    }
+
+    async function isAutoApplyStopRequested() {
+        try {
+            const stored = await chrome.storage.session.get([STOP_REQUESTED_KEY]);
+
+            return stored[STOP_REQUESTED_KEY] === true;
+        } catch {
+            return false;
+        }
     }
 
     if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
@@ -67,6 +91,8 @@ var AutoCVApplyTiming = (() => {
 
     return {
         humanPause,
+        hydrationPause,
+        isAutoApplyStopRequested,
         refreshMultiplier,
     };
 })();

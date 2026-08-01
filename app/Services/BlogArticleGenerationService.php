@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Support\BlogArticleFormats;
 use App\Support\BlogKeywordStrategy;
+use App\Support\BlogTldrPlacement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -43,6 +44,8 @@ class BlogArticleGenerationService
             'section_headings' => array_column($plan['sections'], 'heading'),
             'tag_count' => count($plan['tags']),
             'source_count' => count($plan['sources']),
+            'tldr_count' => count($plan['tldr']),
+            'faq_count' => count($plan['faq']),
         ]);
 
         $bodyParts = [];
@@ -87,6 +90,28 @@ class BlogArticleGenerationService
             $previousNotes[] = $heading.': '.mb_substr(trim(strip_tags($contentTrimmed)), 0, 280);
         }
 
+        if ($plan['tldr'] !== []) {
+            $tldrLines = [];
+            foreach ($plan['tldr'] as $index => $step) {
+                $tldrLines[] = ($index + 1).'. '.$step;
+            }
+            $bodyParts[] = "## TL;DR\n\n".implode("\n", $tldrLines);
+        }
+
+        if ($plan['faq'] !== []) {
+            $faqParts = ['## FAQ'];
+            foreach ($plan['faq'] as $item) {
+                $faqParts[] = '### '.$item['question']."\n\n".$item['answer'];
+            }
+            $bodyParts[] = implode("\n\n", $faqParts);
+        }
+
+        $cta = trim($plan['cta']);
+        if ($cta === '') {
+            $cta = self::defaultSoftCta();
+        }
+        $bodyParts[] = "## Get started\n\n".$cta;
+
         $body = self::normalizeBlogBodyForDisplay(implode("\n\n", $bodyParts), (string) $plan['title']);
 
         $onProgress?->__invoke('generation_complete', [
@@ -106,7 +131,16 @@ class BlogArticleGenerationService
     /**
      * @param  array{min: int, max: int}  $wordRange
      * @param  array{key: string, name: string, hint: string, title_pattern: string}  $format
-     * @return array{title: string, excerpt: string, tags: array<int, string>, sources: array<int, mixed>, sections: array<int, array{heading: string, beats: string}>}
+     * @return array{
+     *     title: string,
+     *     excerpt: string,
+     *     tags: array<int, string>,
+     *     sources: array<int, mixed>,
+     *     tldr: array<int, string>,
+     *     faq: array<int, array{question: string, answer: string}>,
+     *     cta: string,
+     *     sections: array<int, array{heading: string, beats: string}>
+     * }
      */
     protected function planArticle(
         string $topic,
@@ -127,17 +161,30 @@ class BlogArticleGenerationService
             'blog.sources.official_chrome_web_store_url',
             'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
         );
+        $site = rtrim((string) config('blog.public_site_url', 'https://autocvapply.com'), '/');
         $targetMin = (int) config('blog.sources.target_min', 3);
         $targetMax = (int) config('blog.sources.target_max', 5);
 
         $system = <<<PROMPT
-You plan blog articles for AutoCVApply (autocvapply.com), a tool that helps UK job seekers autofill application forms.
+You plan long-form search-intent SEO blog articles for AutoCVApply (autocvapply.com).
+AutoCVApply is a Chrome/Firefox extension + web app: upload a CV once, AutoFill ATS forms, Draft All screening answers, and Auto Apply on supported job boards.
 Article format: {$formatName}. {$formatHint}
-Return JSON only with keys: title, excerpt, tags (array of 3-6 lowercase strings), sources (array of objects with title, url, description), sections (array of exactly {$sectionCount} objects with heading and beats).
-Optimise title, excerpt, and H2 headings for the SEO keyword target without stuffing.
+Return JSON only with keys:
+- title, excerpt
+- tags (array of 3-6 lowercase strings)
+- sources (array of objects with title, url, description)
+- tldr (array of 3-5 short action steps)
+- faq (array of 3-5 objects with question and answer)
+- cta (one soft markdown paragraph with links to {$site}/login and/or {$officialStore})
+- sections (array of exactly {$sectionCount} objects with heading and beats)
+Title must earn a Google click (How to / Best / vs / year stamp). Mention AutoCVApply at most once in the title; prefer omitting brand from the title.
+Never use "Beginner's Guide", "save time and reduce/cut errors", or end with "with AutoCVApply".
+Product surfaces belong in body beats and CTA - not title stuffing.
+Include a when-worth-it / when-not angle in section beats when the topic is automation or volume applying.
 Do not invent AutoCVApply features beyond the research brief. Do not promise interviews or offers.
-For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer {$targetMin}-{$targetMax} diverse, high-quality sources (autocvapply.com, official AutoCVApply Chrome Web Store, LinkedIn/Indeed/job-board docs, reputable career guides). Never invent or guess URLs. If no web research is present, return an empty sources array.
-Never cite competitor autofill or Easy Apply Chrome extensions as Sources or as if they were AutoCVApply. The only Chrome Web Store listing for this product is {$officialStore}.
+Never cite AutoApplyMax, EasyApplyMax, or competitor Chrome extensions as Sources or as the hero product.
+Product links only to {$site}/... or {$officialStore} - never localhost.
+For sources: only include URLs from the Web research (Firecrawl) section of the brief. Prefer {$targetMin}-{$targetMax} diverse sources. Never invent URLs. If no web research is present, return an empty sources array.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n\n{$seoBlock}\n" : "\n";
@@ -149,7 +196,7 @@ Topic:
 Research brief:
 {$research}
 
-Target length: {$wordGuidance} across exactly {$sectionCount} sections (~{$wordRange['min']}-{$wordRange['max']} words each).
+Target length: {$wordGuidance} across exactly {$sectionCount} sections (~{$wordRange['min']}-{$wordRange['max']} words each), plus TL;DR and FAQ.
 PROMPT;
 
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
@@ -205,14 +252,16 @@ PROMPT;
         $lastException = null;
 
         $system = <<<PROMPT
-You write one section of a blog article for AutoCVApply ({$formatName}).
+You write one section of a long-form search-intent SEO blog article for AutoCVApply ({$formatName}).
 Write ONLY this section's Markdown body in JSON field "content".
 Do NOT repeat the section heading as ## at the start. You may use ### subheadings with different wording.
-UK job seekers audience. Practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
-Use SEO keywords naturally where they fit this section; never keyword-stuff.
+UK job seekers audience. Specific, practical, honest tone. ~{$wordRange['min']}-{$wordRange['max']} words for this section.
+Lead with useful advice; mention AutoCVApply / AutoFill / Draft All / Auto Apply only where natural for this section.
+Use SEO keywords naturally where they fit; never keyword-stuff.
 Do not invent product features beyond the research brief.
+When mentioning product URLs, use only https://autocvapply.com paths or the official Chrome Web Store listing - never localhost.
 When the research brief includes Firecrawl web sources, ground non-product claims in those sources. Do not invent citations or URLs.
-Never describe competitor autofill / Easy Apply Chrome extensions as AutoCVApply. Only refer to AutoCVApply and its official Chrome Web Store listing when mentioning an extension install.
+Never describe competitor autofill / Easy Apply Chrome extensions (including AutoApplyMax) as AutoCVApply.
 PROMPT;
 
         $seoSection = $seoBlock !== '' ? "\n{$seoBlock}\n" : "\n";
@@ -264,14 +313,23 @@ PROMPT;
 
     /**
      * @param  array<string, mixed>  $decoded
-     * @return array{title: string, excerpt: string, tags: array<int, string>, sources: array<int, mixed>, sections: array<int, array{heading: string, beats: string}>}
+     * @return array{
+     *     title: string,
+     *     excerpt: string,
+     *     tags: array<int, string>,
+     *     sources: array<int, mixed>,
+     *     tldr: array<int, string>,
+     *     faq: array<int, array{question: string, answer: string}>,
+     *     cta: string,
+     *     sections: array<int, array{heading: string, beats: string}>
+     * }
      */
     public static function normalizeArticlePlan(array $decoded, string $topic, int $sectionCount): array
     {
         $title = trim((string) ($decoded['title'] ?? $topic));
         $excerpt = trim((string) ($decoded['excerpt'] ?? ''));
         if ($excerpt === '') {
-            $excerpt = 'Practical advice for UK job seekers using AutoCVApply to autofill repetitive application forms.';
+            $excerpt = 'Practical advice for UK job seekers applying faster without repetitive form-filling.';
         }
 
         $tags = collect($decoded['tags'] ?? [])
@@ -284,6 +342,39 @@ PROMPT;
             ->filter(fn (mixed $source): bool => is_array($source))
             ->values()
             ->all();
+
+        $tldr = [];
+        foreach ($decoded['tldr'] ?? [] as $step) {
+            $text = self::normalizePlanText($step);
+            if ($text !== '') {
+                $tldr[] = $text;
+            }
+        }
+        if ($tldr === []) {
+            $tldr = [
+                'Clarify the goal of this application week.',
+                'Prepare a clean CV profile before filling forms.',
+                'Apply with review - do not silent-submit on ATS sites.',
+            ];
+        }
+
+        $faq = [];
+        foreach ($decoded['faq'] ?? [] as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+            $question = self::normalizePlanText($item['question'] ?? '');
+            $answer = self::normalizePlanText($item['answer'] ?? '');
+            if ($question === '' || $answer === '') {
+                continue;
+            }
+            $faq[] = ['question' => $question, 'answer' => $answer];
+        }
+
+        $cta = self::normalizePlanText($decoded['cta'] ?? '');
+        if ($cta === '') {
+            $cta = self::defaultSoftCta();
+        }
 
         $sections = [];
         foreach ($decoded['sections'] ?? [] as $section) {
@@ -311,8 +402,22 @@ PROMPT;
             'excerpt' => $excerpt,
             'tags' => $tags,
             'sources' => $sources,
+            'tldr' => array_slice($tldr, 0, 5),
+            'faq' => array_slice($faq, 0, 5),
+            'cta' => $cta,
             'sections' => array_slice($sections, 0, $sectionCount),
         ];
+    }
+
+    public static function defaultSoftCta(): string
+    {
+        $site = rtrim((string) config('blog.public_site_url', 'https://autocvapply.com'), '/');
+        $store = (string) config(
+            'blog.sources.official_chrome_web_store_url',
+            'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih',
+        );
+
+        return 'If repetitive forms are the bottleneck, [upload your CV once on AutoCVApply]('.$site.'/login) and use AutoFill, Draft All, or Auto Apply from the extension - with you still in control of submits. [Get the Chrome extension]('.$store.').';
     }
 
     public static function normalizePlanText(mixed $value): string
@@ -341,8 +446,9 @@ PROMPT;
     public static function normalizeBlogBodyForDisplay(string $body, string $pageTitle): string
     {
         $body = self::stripDuplicateLeadTitleFromBody($body, $pageTitle);
+        $body = self::dedupeAdjacentDuplicateHeadingsInMarkdown($body);
 
-        return self::dedupeAdjacentDuplicateHeadingsInMarkdown($body);
+        return BlogTldrPlacement::moveNearBottom($body);
     }
 
     public static function stripDuplicateLeadTitleFromBody(string $body, string $pageTitle): string

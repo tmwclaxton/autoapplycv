@@ -60,12 +60,14 @@ export function createSimplyHiredOrchestrator(deps) {
         finalizeAutoApplyAnalyticsSession,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
         pauseForCaptchaReview,
         waitForIndeedCaptchaResume,
+        waitForReviewBeforeSubmitIfNeeded,
     } = deps;
 
     const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
@@ -124,26 +126,26 @@ export function createSimplyHiredOrchestrator(deps) {
                     await logSession('warn', `[simplyhired_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
 
                     try {
-                        await waitForSimplyHiredContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                        await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
-                    } catch {
-                        try {
-                            const currentUrl = await readTabUrl(tabId);
+                        const currentUrl = await readTabUrl(tabId);
+                        const onJobPage = /\/job\//i.test(currentUrl);
 
+                        try {
+                            await waitForSimplyHiredContentScript(tabId, 2_500);
+                        } catch {
                             // Reloading an open /job page during apply discovery can bounce
                             // back to search and false-skip as "no Quick Apply".
-                            if (!/\/job\//i.test(currentUrl)) {
+                            if (!onJobPage) {
                                 await chrome.tabs.reload(tabId);
                                 await waitForTabLoadComplete(tabId);
                             }
 
                             await waitForSimplyHiredContentScript(tabId);
-                            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
-                            await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
-                        } catch {
-                            // Fall through to retry send on next loop iteration.
                         }
+
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
+                        await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    } catch {
+                        // Fall through to retry send on next loop iteration.
                     }
 
                     continue;
@@ -200,17 +202,34 @@ export function createSimplyHiredOrchestrator(deps) {
 
         watchdogState.recoveryCount += 1;
 
+        const currentUrl = await readTabUrl(tabId);
+        const onJobPage = /\/job\//i.test(currentUrl);
+        const indeedHandoff = isSimplyHiredIndeedHandoffUrl(currentUrl);
+
+        if (indeedHandoff) {
+            await logSession(
+                'info',
+                `[stuck_recovery] ${reason} - Indeed handoff detected; skipping SimplyHired reload.`,
+            );
+            markWatchdogProgress(session);
+
+            return tabId;
+        }
+
         await logSession(
             'warn',
-            `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
+            `[stuck_recovery] ${reason} - recovery ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`
+                + (onJobPage ? ' (job page: return to search without reload)' : ''),
         );
 
-        try {
-            await chrome.tabs.reload(tabId);
-            await waitForTabLoadComplete(tabId);
-            await waitForSimplyHiredContentScript(tabId);
-        } catch {
-            // Fall through to search navigation.
+        if (!onJobPage) {
+            try {
+                await chrome.tabs.reload(tabId);
+                await waitForTabLoadComplete(tabId);
+                await waitForSimplyHiredContentScript(tabId);
+            } catch {
+                // Fall through to search navigation.
+            }
         }
 
         tabId = await returnToSimplyHiredSearch(tabId, session);
@@ -1100,6 +1119,39 @@ export function createSimplyHiredOrchestrator(deps) {
                 }
 
                 await logSession('info', `[review] ${job.title}: attempting submit.`);
+
+                if (typeof waitForReviewBeforeSubmitIfNeeded === 'function') {
+                    const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                        session,
+                        tabId,
+                        job,
+                        {
+                            kind: 'submit',
+                            stepFingerprint: applyState.stepFingerprint || 'simplyhired-review',
+                        },
+                    );
+
+                    session = submitReview.session || session;
+
+                    if (submitReview.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
+                }
+
+                // User may submit manually during review pause; confirm before advancing.
+                const postReviewState = await sendIndeedApplyFlowMessage(tabId, {
+                    type: 'INDEED_APPLY_STATE',
+                }).catch(() => null);
+
+                if (postReviewState?.submitted) {
+                    submitted = true;
+                    await logSession(
+                        'success',
+                        `[submit] ${job.title}: already submitted after review pause.`,
+                    );
+                    break;
+                }
+
                 const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
 
                 if (advanceResponse?.action === 'submit') {
@@ -1193,6 +1245,11 @@ export function createSimplyHiredOrchestrator(deps) {
                     session,
                     SIMPLYHIRED_PLATFORM_ID,
                 );
+
+                if (draftResult?.stopped) {
+                    return { outcome: 'stopped', reason: 'user_stop', tabId };
+                }
+
                 const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
                 const pauseOutcome = await ensureStepFilledOrPaused(
                     tabId,
@@ -1350,6 +1407,7 @@ export function createSimplyHiredOrchestrator(deps) {
             shouldStop,
             finalizeStoppedSession,
             interruptibleSleep,
+            isAutoApplyStopError,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,

@@ -149,12 +149,18 @@ interface AutofillMetricSummary {
     }>;
 }
 
+interface AutofillCvMetricSummary {
+    label: string;
+    total: number;
+    period_total: number;
+}
+
 interface AutofillAnalyticsSummary {
     days: number;
     metrics: {
         answers_autofilled: AutofillMetricSummary;
         extension_questions: AutofillMetricSummary;
-        cvs_parsed: AutofillMetricSummary;
+        cvs_parsed: AutofillCvMetricSummary;
     };
 }
 
@@ -312,6 +318,7 @@ const activeTab = ref<
 const page = usePage();
 const consentStore = useCookieConsentStore();
 const gaTestResult = ref('');
+const gaTestGclid = ref('');
 const creditAwardSuccess = computed(
     () => page.props.flash?.credit_award_success as string | undefined,
 );
@@ -324,12 +331,26 @@ function fireTestGaConversions(): void {
         return;
     }
 
-    const sent = trackTestConversions(consentStore.choices);
+    if (!consentStore.choices.advertising) {
+        gaTestResult.value =
+            'Enable Advertising cookies (needed for Google Ads attribution), then try again.';
 
-    gaTestResult.value =
-        sent.length > 0
-            ? `Sent: ${sent.join(', ')}. Check GA4 Realtime / Ads in a few minutes.`
-            : 'Nothing sent. Enable Analytics or Advertising cookies, disable ad blockers, and retry.';
+        return;
+    }
+
+    const gclid = gaTestGclid.value.trim() || null;
+    const sent = trackTestConversions(consentStore.choices, 5, gclid);
+
+    if (sent.length === 0) {
+        gaTestResult.value =
+            'Nothing sent. Enable Analytics or Advertising cookies, disable ad blockers, and retry.';
+
+        return;
+    }
+
+    gaTestResult.value = gclid
+        ? `Sent with gclid: ${sent.join(', ')}. Check GA4 Realtime now; Ads campaign conversions can lag hours.`
+        : `Sent without gclid: ${sent.join(', ')}. These show in GA4 but usually NOT on the Ads campaign. Paste a real gclid from Ads clicks and fire again.`;
 }
 
 const lookupEmail = ref('');
@@ -437,6 +458,17 @@ function syncAdminTabToUrl(tab: typeof activeTab.value): void {
 
 onMounted(() => {
     applyAdminTabFromUrl();
+
+    const params = new URLSearchParams(window.location.search);
+    const gclid = params.get('gclid')?.trim();
+
+    if (gclid) {
+        gaTestGclid.value = gclid;
+    }
+
+    if (params.get('ga_test') === '1' && gclid && consentStore.hasDecided) {
+        fireTestGaConversions();
+    }
 });
 
 watch(activeTab, (tab) => {
@@ -605,6 +637,13 @@ function autoApplySessionStatusClass(status: string): string {
                 signups, plans, and platform health.
             </p>
             <div class="mt-4 flex flex-wrap items-center gap-3">
+                <input
+                    v-model="gaTestGclid"
+                    type="text"
+                    class="postbox-input max-w-xl text-sm"
+                    placeholder="gclid from Ads click (required for campaign attribution)"
+                    aria-label="Google Ads gclid"
+                />
                 <button
                     type="button"
                     class="postbox-btn-outline text-sm"

@@ -85,16 +85,30 @@ class ApplicationAssistantService
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
                         .'When job.company is set, motivation / why-join / cover-letter / additional-information answers MUST name that company in the opening (for example "I am applying to join {job.company}") and treat it as the employer you are applying to - never name a different company as the place you want to join or the challenges you want to take on. Past employers from profile.experience may still be cited as experience. '
                         .$clarifyingInstructions
-                        .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
+                        .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). Never write a sentence when an option is required. '
+                        .'FORMAT DISCIPLINE: Match answer length to the field. '
+                        .'For field_type url, email, or tel: return ONLY the URL, email, or phone value - no surrounding sentence. Prefer profile.linkedin_url, profile.website_url, profile.email, profile.phone, or application_answers links. '
+                        .'For field_type number: return digits only. '
+                        .'For salary / compensation / currency questions: return ONLY a currency value such as 65000, £65,000, 65k, or 0 - never an essay. Use application_settings.expected_salary_yearly when present. Use 0 when the question allows none/not applicable. '
+                        .'For notice period questions: return a short phrase only (e.g. "1 month", "2 weeks") from application_settings.notice_period when present. '
+                        .'For percentage questions: return a number optionally with %. '
+                        .'When a question includes answer_shape, obey it strictly: '
+                        .'yes_no => Yes/No or an exact options value; digit/short_number/percent => digits only; currency => currency token only; '
+                        .'url/email/phone => bare value; one_liner => one short line within max_words; '
+                        .'short_paragraph => a few grounded sentences; long_paragraph => a longer grounded answer that meets min_words when provided (usually 5-8 sentences, not 2). '
+                        .'When min_words is set, write at least that many words. When max_words is set, stay within it unless returning an exact options value. '
+                        .'When must_mention is set, include each listed token verbatim. '
+                        .'When format_repair_hint is set, treat it as a mandatory correction for this retry. '
                         .'For eligibility / filter / screener questions about work authorization, sponsorship, right to work, location eligibility, commute/hybrid office attendance when the profile location can meet it: when the profile supports progressing, choose the option that passes the gate - do not self-reject on those alone. Return null only when the profile truly lacks the fact. '
                         .'CRITICAL - named tools / platforms / support skills (Okta, MDM, Helpline, IAM, Jamf, Intune, macOS enterprise support, 1st/2nd/3rd line tech support, networking troubleshooting): answer Yes ONLY when that tool or skill is clearly evidenced in profile.skills, profile.experience highlights/technologies, or structured_data. Otherwise answer No (or return null for free-text skill ratings / tool years / tool example essays). Never invent high skill scores, tool years, or Yes answers to pass a filter when the CV is software engineering without those tools. '
                         .'For Yes/No experience-threshold gates that ask only for total years (for example "Do you have 4+ years of experience?"): derive years from profile.experience start_date/end_date (and Present) when that timeline is longer than application_settings.years_of_experience - answer Yes when the timeline meets the threshold. Do not self-reject solely from a low years_of_experience setting. '
                         .'For skill-rating questions (rate out of 5/10, MDM/Helpline/Networking/IAM): return honest low scores or null when those skills are absent from the profile - never invent 4/5 or similar. Format multi-skill ratings as a short numbered list only when each skill is evidenced. '
-                        .'For open text questions about motivation, interest, fit, portfolio, GitHub, security, experience, or skills, write 2-4 sentences in first person. '
+                        .'For open textarea questions about motivation, interest, fit, experience narrative, or skills (not URL/email/phone/number/select/radio): write grounded first-person prose; use 2-4 sentences for short_paragraph and at least min_words for long_paragraph/substance. '
+                        .'Do NOT write 2-4 sentences for URL, email, phone, number, salary, notice, percent, radio, or select fields - even if the label mentions GitHub, portfolio, LinkedIn, or experience. '
                         .'Never answer essay / MDM / experience-example questions with a phone number, email, URL, or other contact field. '
-                        .'For culture-values, company-values, or "give an example from your professional experience that aligns with…" essays: when profile.experience has roles, you MUST draft 2-4 sentences (do not return null). '
+                        .'For culture-values, company-values, or "give an example from your professional experience that aligns with..." essays: when profile.experience has roles, you MUST draft 2-4 sentences (do not return null). '
                         .'Use values named in the question label or its context/helper text (for example Connect, Challenge, Own) and tie them to a real employer, role, and highlight from the profile - paraphrasing real experience to show alignment is required; inventing fake projects is not. '
-                        .'Every open-ended answer MUST name at least one real employer AND job title from profile.experience (for example "At Riverbank Systems as Senior Engineer I..."). '
+                        .'Every open-ended textarea answer MUST name at least one real employer AND job title from profile.experience (for example "At Riverbank Systems as Senior Engineer I..."). '
                         .'You MUST cite specific employers, job titles, dates, projects, or highlight bullets from profile.experience, profile.skills, profile.structured_data.projects, or profile.application_answers. '
                         .'Never use vague placeholders like "enterprise software projects", "various startups", or "eager to deepen my expertise" without tying them to a named employer or role from the profile. '
                         .'If code or portfolio work is private, name the real employer and role from the profile and say honestly that it is not public - do not invent a generic fintech or startup scenario. '
@@ -108,9 +122,11 @@ class ApplicationAssistantService
                         .'Never answer free-text city, phone, email, date, number, salary, or notice fields with bare Yes/No. '
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
                         .'Prefer null for missing factual fields (city, salary, notice, languages, skill years) when the profile lacks a clear fact - not for open-ended motivation or culture-values essays when profile.experience has roles. '
+                        .'For one_liner / short free-text fields: prefer a short concrete value over null. If the question allows None/N/A/Prefer not to say, return that instead of null. '
+                        .'Pull degree/university/job title/employer/skills/notice/salary/github handle from profile, education, experience, application_settings, and application_answers when present. '
                         .'Never invent employers, degrees, dates, skills, tools, cities, salaries, or notice periods not listed in the profile. '
                         .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
-                        .'For logistics or preference yes/no questions (relocate, commute, hybrid, sponsorship, right to work, start date readiness) return "yes" or "no" using application_settings when present. '
+                        .'For logistics or preference yes/no questions (relocate, commute, hybrid, sponsorship, right to work, start date readiness) return only "Yes" or "No" (or the exact option text) using application_settings when present - never a paragraph. '
                         .'For named-tool or platform competence yes/no (Okta, MDM, Jamf, Intune, Helpline, IAM, Active Directory, ServiceNow, Salesforce, AWS, Azure, etc.): answer Yes only when that tool appears in profile.skills or profile.experience technologies/highlights; otherwise return No (or the exact No option). Never invent tool experience. '
                         .'For skill ratings out of 5 or 10, only give a mid/high score when the tool is evidenced on the CV; otherwise return a low score or null. '
                         .'For checkbox groups that allow multiple selections, return comma-separated option texts. '
@@ -1142,6 +1158,24 @@ class ApplicationAssistantService
     public function scoreAts(CvProfile $profile, ?string $jobDescription, ?string $rolePreferences = null): ?array
     {
         $cvText = trim((string) ($profile->formatted_cv_text ?: $profile->summary));
+
+        return $this->scoreAtsFromText($cvText, $jobDescription, $rolePreferences);
+    }
+
+    /**
+     * Same NanoGPT Assist ATS scoring used by the extension, for raw CV text (tools page guests / paste).
+     *
+     * @return array{
+     *     score: int,
+     *     matched_keywords: array<int, string>,
+     *     missing_keywords: array<int, string>,
+     *     suggestions: array<int, string>,
+     *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string},
+     * }|null
+     */
+    public function scoreAtsFromText(?string $cvText, ?string $jobDescription, ?string $rolePreferences = null): ?array
+    {
+        $cvText = trim((string) $cvText);
 
         if ($cvText === '' || $jobDescription === null || trim($jobDescription) === '') {
             return null;

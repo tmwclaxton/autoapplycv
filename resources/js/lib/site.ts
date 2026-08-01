@@ -3,6 +3,10 @@ export const GITHUB_REPOSITORY_URL =
 
 export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
+export const INSTAGRAM_URL = 'https://www.instagram.com/autocvapply/';
+
+export const X_URL = 'https://x.com/AutoCVApply';
+
 export const CHROME_WEB_STORE_URL =
     'https://chromewebstore.google.com/detail/autocvapply/mldeodhhcbnhnjklmelneecjpjkjemih';
 
@@ -275,6 +279,7 @@ export const SETUP_STEPS = [
 
 export const MARKETING_NAV_LINKS = [
     { label: 'Blog', route: 'blog' },
+    { label: 'ATS Checker', route: 'tools.ats-score-checker' },
     { label: 'How to', route: 'how-to' },
     { label: 'Pricing', route: 'pricing' },
     { label: 'Analytics', route: 'analytics' },
@@ -282,13 +287,15 @@ export const MARKETING_NAV_LINKS = [
     { label: 'Contact', route: 'contact' },
 ] as const;
 
-export const FOOTER_LINKS = [
-    { label: 'Blog', route: 'blog' },
-    { label: 'How to', route: 'how-to' },
-    { label: 'Pricing', route: 'pricing' },
-    { label: 'Analytics', route: 'analytics' },
-    { label: 'About', route: 'about' },
-    { label: 'Contact', route: 'contact' },
+/** Footer resources (glossary/FAQ/compare) - kept out of the header to reduce overflow. */
+export const FOOTER_RESOURCE_LINKS = [
+    { label: 'Glossary', route: 'glossary' },
+    { label: 'FAQ', route: 'faq' },
+    { label: 'Compare', route: 'compare' },
+] as const;
+
+/** Footer-only legal links. Primary product pages live in the marketing header. */
+export const FOOTER_LEGAL_LINKS = [
     { label: 'Terms', route: 'terms' },
     { label: 'Privacy', route: 'privacy' },
 ] as const;

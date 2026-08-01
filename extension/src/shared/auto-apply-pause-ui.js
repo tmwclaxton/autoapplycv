@@ -85,7 +85,7 @@ export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
 
 /**
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
- * @returns {'captcha'|'login'|'identity_confirm'|null}
+ * @returns {'captcha'|'login'|'identity_confirm'|'review_before_submit'|null}
  */
 export function resolveAutoApplyPauseReason(pauseContext) {
     if (!pauseContext) {
@@ -96,6 +96,7 @@ export function resolveAutoApplyPauseReason(pauseContext) {
         pauseContext.pauseReason === 'captcha'
         || pauseContext.pauseReason === 'login'
         || pauseContext.pauseReason === 'identity_confirm'
+        || pauseContext.pauseReason === 'review_before_submit'
     ) {
         return pauseContext.pauseReason;
     }
@@ -195,6 +196,21 @@ export function buildAutoApplyManualResumePanelCopy(pauseContext) {
         };
     }
 
+    if (pauseReason === 'review_before_submit') {
+        const detail = String(pauseContext.clarifyingQuestion || pauseContext.questionText || '').trim()
+            || 'Review the application, then resume Auto Apply to submit.';
+
+        return {
+            title: 'Review before continue',
+            detail,
+            summary: 'Auto Apply is paused until you review and tap Resume.',
+            buttonLabel: 'Resume',
+            composerLockHint: 'Review the application in the browser tab, then tap Resume above.',
+            composerPlaceholder: 'Review in the browser tab, then tap Resume.',
+            statusLabel: 'Paused - review, then Resume to continue',
+        };
+    }
+
     return null;
 }
 
@@ -229,6 +245,10 @@ export function buildAutoApplyPauseBannerMessage(pauseContext) {
 
     if (pauseReason === 'identity_confirm') {
         return 'Indeed contact does not match your signed-in profile. Tap Resume in Assist to update the job board contact. Stop still works if you want to cancel this run.';
+    }
+
+    if (pauseReason === 'review_before_submit') {
+        return 'Review the application in the browser tab, then tap Resume in Assist to continue. Stop still works if you want to cancel this run.';
     }
 
     const fieldLabel = resolveAutoApplyPauseFieldLabel(pauseContext);

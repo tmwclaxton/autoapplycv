@@ -131,7 +131,7 @@ class ApplicationFieldInventoryTest extends TestCase
     public function test_inventory_succeeds_when_quota_is_exhausted(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 250,
+            'ai_tokens_used' => 1500,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
         CvProfile::factory()->for($user)->create();
@@ -171,7 +171,7 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('credit_cost', 0);
 
-        $this->assertSame(250, $user->fresh()->ai_tokens_used);
+        $this->assertSame(1500, $user->fresh()->ai_tokens_used);
     }
 
     public function test_inventory_always_returns_single_step_result(): void

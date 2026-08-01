@@ -34,7 +34,7 @@ class SubscriptionTest extends TestCase
                 'component' => 'Billing',
             ])
             ->assertJsonPath('props.subscription.tier', 'free')
-            ->assertJsonPath('props.subscription.monthly_credits', 250)
+            ->assertJsonPath('props.subscription.monthly_credits', 1500)
             ->assertJsonPath('props.billing.payments', [])
             ->assertJsonPath('props.plan_change_confirmations.starter.action', 'subscribe')
             ->assertJsonPath('props.plan_change_confirmations.starter.amount_due_pence', 700);
@@ -206,7 +206,7 @@ class SubscriptionTest extends TestCase
             ->assertJsonPath('props.subscription.effective_tier', 'free')
             ->assertJsonPath('props.subscription.pending_tier', 'starter')
             ->assertJsonPath('props.subscription.status_label', 'Active')
-            ->assertJsonPath('props.subscription.credits_remaining', 250);
+            ->assertJsonPath('props.subscription.credits_remaining', 1500);
     }
 
     public function test_pending_paid_tier_summary_shows_free_effective_allowance(): void
@@ -237,7 +237,7 @@ class SubscriptionTest extends TestCase
             ->assertJsonPath('props.subscription.can_resume_checkout', true)
             ->assertJsonPath('props.subscription.can_use_credits', false)
             ->assertJsonPath('props.subscription.credit_block_reason', 'pending_setup')
-            ->assertJsonPath('props.subscription.monthly_credits', 250);
+            ->assertJsonPath('props.subscription.monthly_credits', 1500);
     }
 
     public function test_billing_page_reconciles_stuck_pending_subscription(): void

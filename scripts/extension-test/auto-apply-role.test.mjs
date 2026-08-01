@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { buildJobSearchUrl } from '../../extension/src/shared/auto-apply-platforms.js';
-import { sanitizeAutoApplyRoleDescription } from '../../extension/src/shared/auto-apply-role.js';
+import {
+    isNonJobSearchRoleDescription,
+    sanitizeAutoApplyRoleDescription,
+} from '../../extension/src/shared/auto-apply-role.js';
 import { buildIndeedJobSearchUrl } from '../../extension/src/shared/indeed-platform.js';
 import { buildLinkedInJobSearchUrl } from '../../extension/src/shared/linkedin-platform.js';
 
@@ -31,6 +34,24 @@ assert.equal(
     sanitizeAutoApplyRoleDescription('James Mitchell', ukSoftwareProfile),
     '',
 );
+
+assert.equal(
+    sanitizeAutoApplyRoleDescription('Russell Group / University of Warwick', null),
+    '',
+);
+
+assert.equal(
+    sanitizeAutoApplyRoleDescription('/', null),
+    '',
+);
+
+assert.equal(
+    sanitizeAutoApplyRoleDescription('University Software Engineer', null),
+    'University Software Engineer',
+);
+
+assert.equal(isNonJobSearchRoleDescription('Russell Group'), true);
+assert.equal(isNonJobSearchRoleDescription('software engineer'), false);
 
 const indeedUrl = buildIndeedJobSearchUrl(
     sanitizeAutoApplyRoleDescription('software engineer', ukSoftwareProfile),

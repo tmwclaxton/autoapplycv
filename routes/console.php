@@ -7,7 +7,7 @@ Schedule::job(new WorkerHeartbeatJob)
     ->everyMinute()
     ->withoutOverlapping();
 
-Schedule::command('blog:generate')
+Schedule::command('blog:generate --length=long')
     ->weeklyOn(1, '9:00')
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/blog-generate.log'));

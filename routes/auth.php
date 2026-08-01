@@ -15,6 +15,8 @@ Route::middleware(['guest'])->group(function () {
     Route::get('authenticate', function (AuthKitAuthenticationRequest $request) {
         $user = $request->authenticate();
 
+        // WorkOS AuthKitAuthenticationRequest already dispatches Registered for
+        // newly created users - do not dispatch it again here.
         if ($user->wasRecentlyCreated) {
             session()->flash('sign_up_conversion', [
                 'transaction_id' => 'signup_'.$user->id.'_'.now()->timestamp,

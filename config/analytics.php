@@ -46,4 +46,22 @@ return [
 
     'google_analytics_id' => 'G-XXET6H4VM1',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google Ads (gtag.js conversion tags)
+    |--------------------------------------------------------------------------
+    |
+    | Native website conversion actions for Ads attribution. Labels come from
+    | conversionActions/7692708224 (sign-up) and 7692708227 (purchase).
+    | Leave google_ads_id empty to disable the AW config + conversion pings.
+    |
+    */
+
+    'google_ads_id' => 'AW-18219075665',
+
+    'google_ads_conversions' => [
+        'sign_up' => 'AW-18219075665/xFpFCIDTldQcENGQxO9D',
+        'purchase' => 'AW-18219075665/_yFvCIPTldQcENGQxO9D',
+    ],
+
 ];

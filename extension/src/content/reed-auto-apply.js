@@ -1314,6 +1314,21 @@ var AutoCVApplyReedAutoApply = (() => {
             };
         }
 
+        const title = String(document.title || '');
+        const bodyText = String(document.body?.textContent || '').slice(0, 4000);
+
+        if (
+            /500|internal server error|service unavailable/i.test(title)
+            || /something went wrong|internal server error|http error 500|error 500/i.test(bodyText)
+        ) {
+            return {
+                ok: false,
+                issues: [{ code: 'server_error', message: 'Reed returned a server error page.' }],
+                blocking: [{ code: 'server_error', message: 'Reed returned a server error page.' }],
+                primary: { code: 'server_error', message: 'Reed returned a server error page.' },
+            };
+        }
+
         return { ok: true, issues: [], blocking: [], primary: null };
     }
 

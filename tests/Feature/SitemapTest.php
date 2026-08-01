@@ -34,6 +34,10 @@ class SitemapTest extends TestCase
         $this->assertStringContainsString('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', $xml);
         $this->assertStringContainsString('<loc>'.route('home', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('pricing', absolute: true).'</loc>', $xml);
+        $this->assertStringContainsString('<loc>'.route('glossary', absolute: true).'</loc>', $xml);
+        $this->assertStringContainsString('<loc>'.route('faq', absolute: true).'</loc>', $xml);
+        $this->assertStringContainsString('<loc>'.route('compare', absolute: true).'</loc>', $xml);
+        $this->assertStringContainsString('<loc>'.route('tools.ats-score-checker', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('blog.index', absolute: true).'</loc>', $xml);
         $this->assertStringContainsString('<loc>'.route('blog.show', $published, absolute: true).'</loc>', $xml);
         $this->assertStringNotContainsString('draft-post', $xml);

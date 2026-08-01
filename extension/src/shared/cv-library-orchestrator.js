@@ -47,10 +47,13 @@ export function createCvLibraryOrchestrator(deps) {
         shouldStop,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
+        waitForReviewBeforeSubmitIfNeeded,
+        applyStateNeedsSubmitPause,
     } = deps;
 
     async function sendCvLibraryMessage(tabId, type, payload = {}, options = {}) {
@@ -75,16 +78,27 @@ export function createCvLibraryOrchestrator(deps) {
                         onApplyFlow = false;
                     }
 
-                    try {
-                        // Never reload an open apply form - that drops Submit controls mid-step.
-                        if (!onApplyFlow) {
-                            await chrome.tabs.reload(tabId);
-                            await waitForTabLoadComplete(tabId);
-                        }
-
-                        await waitForCvLibraryContentScript(tabId);
+                    const resumeCvLibraryTab = async (waitMs = 20_000) => {
+                        await waitForCvLibraryContentScript(tabId, waitMs);
                         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                         await sendTabMessage(tabId, { type: 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    };
+
+                    try {
+                        // Prefer a quick ping, then reload. Waiting the full content-script
+                        // timeout before reload made post-extension-reload recovery feel stuck.
+                        // Never reload an open apply form - that drops Submit controls mid-step.
+                        if (onApplyFlow) {
+                            await resumeCvLibraryTab(8_000);
+                        } else {
+                            try {
+                                await resumeCvLibraryTab(2_500);
+                            } catch {
+                                await chrome.tabs.reload(tabId);
+                                await waitForTabLoadComplete(tabId);
+                                await resumeCvLibraryTab(20_000);
+                            }
+                        }
                     } catch {
                         // Fall through to retry send on next loop iteration.
                     }
@@ -708,6 +722,11 @@ export function createCvLibraryOrchestrator(deps) {
                     session,
                     CV_LIBRARY_PLATFORM_ID,
                 );
+
+            if (draftResult?.stopped) {
+                return { outcome: 'stopped', reason: 'user_stop', tabId };
+            }
+
             const postDraftState = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_APPLY_STATE');
             const pauseOutcome = await ensureStepFilledOrPaused(
                 tabId,
@@ -723,6 +742,29 @@ export function createCvLibraryOrchestrator(deps) {
 
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            const submitGateState = postDraftState || applyState;
+            const shouldPauseBeforeSubmit = typeof applyStateNeedsSubmitPause === 'function'
+                ? applyStateNeedsSubmitPause(submitGateState)
+                : Boolean(submitGateState?.isReviewStep);
+
+            if (shouldPauseBeforeSubmit && typeof waitForReviewBeforeSubmitIfNeeded === 'function') {
+                const submitReview = await waitForReviewBeforeSubmitIfNeeded(
+                    session,
+                    tabId,
+                    job,
+                    {
+                        kind: 'submit',
+                        stepFingerprint: submitGateState?.stepFingerprint || 'cv-library-review',
+                    },
+                );
+
+                session = submitReview.session || session;
+
+                if (submitReview.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
             }
 
             let advanceResponse;
@@ -912,6 +954,7 @@ export function createCvLibraryOrchestrator(deps) {
             shouldStop,
             finalizeStoppedSession,
             interruptibleSleep,
+            isAutoApplyStopError,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,

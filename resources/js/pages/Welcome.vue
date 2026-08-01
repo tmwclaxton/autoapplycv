@@ -7,7 +7,9 @@ import {
     Chrome,
     FileText,
     FileUp,
+    KeyRound,
     MessageCircle,
+    PauseCircle,
     ShieldCheck,
     Sparkles,
     Stamp,
@@ -195,6 +197,46 @@ defineProps<{
                         Auto Apply from the extension sidebar on LinkedIn,
                         Indeed, Totaljobs, Glassdoor, and Reed - search, fill,
                         review, and submit.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <PauseCircle class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Check before you submit
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        <strong>Pauses before Submit</strong> is on by default
+                        in Auto Apply settings. The run stops at review (and
+                        LinkedIn resume confirm) so you can check the
+                        application, then Resume when you are happy - or turn
+                        the toggle off for full hands-off submit.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <KeyRound class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Captcha help on apply flows
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Auto Apply can detect and auto-solve common widgets -
+                        Google reCAPTCHA v2, hCaptcha, and Cloudflare Turnstile
+                        - when a sitekey is present. Harder interactive
+                        checkpoints still pause for you to complete, then
+                        Resume.
                     </p>
                 </div>
 

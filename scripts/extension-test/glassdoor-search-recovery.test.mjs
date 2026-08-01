@@ -14,9 +14,18 @@ test('Glassdoor recovers from recommended feed via on-page search form', () => {
     const source = readFileSync(GLASSDOOR_PATH, 'utf8');
 
     assert.match(source, /fillAndSubmitJobSearch/);
+    assert.match(source, /searchBar-jobTitle/);
+    assert.match(source, /searchBar-location/);
     assert.match(source, /keyword-search-input/);
     assert.match(source, /location-search-input/);
-    assert.match(source, /data-test="search-button"/);
+    assert.match(source, /readSearchSubmitControl/);
+    assert.match(source, /pressEnterOnInput/);
+    assert.match(source, /selectLocationSuggestion/);
+    assert.match(source, /Recommended Jobs For You/);
+    assert.doesNotMatch(
+        source,
+        /Query params already match even if Glassdoor keeps the Recommended title/,
+    );
     assert.match(source, /aria-label="Jobs List"/);
     assert.match(source, /JobsList_jobsList/);
     assert.match(source, /readJobSearchRoot\(\) \|\| document/);

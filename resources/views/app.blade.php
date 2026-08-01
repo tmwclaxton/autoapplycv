@@ -42,9 +42,13 @@
         </x-inertia::head>
 
         @php($googleAnalyticsId = config('analytics.google_analytics_id'))
-        @if (filled($googleAnalyticsId))
+        @php($googleAdsId = config('analytics.google_ads_id'))
+        @php($googleAdsConversions = config('analytics.google_ads_conversions', []))
+        @php($gtagBootstrapId = filled($googleAnalyticsId) ? $googleAnalyticsId : $googleAdsId)
+        @if (filled($gtagBootstrapId))
             <!-- Google tag (gtag.js) + Consent Mode defaults (updated from CookieConsent Pinia store) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
+            {{-- Bootstrap gtag.js with GA or AW so Ads conversions still load if GA is unset. --}}
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gtagBootstrapId }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -57,7 +61,13 @@
                 });
                 gtag('js', new Date());
                 {{-- send_page_view false: Inertia SPA pageviews are sent from resources/js/lib/googleAnalytics.ts on router navigate (including initial load), only after analytics consent. --}}
+                @if (filled($googleAnalyticsId))
                 gtag('config', @json($googleAnalyticsId), { send_page_view: false });
+                @endif
+                @if (filled($googleAdsId))
+                gtag('config', @json($googleAdsId));
+                window.__autocvapplyGoogleAdsConversions = @json($googleAdsConversions);
+                @endif
             </script>
         @endif
     </head>

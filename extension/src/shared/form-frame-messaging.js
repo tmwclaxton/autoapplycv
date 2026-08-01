@@ -756,19 +756,23 @@ async function resolveFormFrameId(tabId, frameId) {
     return findBestFormFrameId(tabId);
 }
 
-export async function collectFieldsFromTab(tabId, frameId) {
+export async function collectFieldsFromTab(tabId, frameId, options = {}) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
 
-    return sendTabMessage(tabId, { type: 'COLLECT_DRAFTABLE_FIELDS' }, resolvedFrameId);
+    return sendTabMessage(tabId, {
+        type: 'COLLECT_DRAFTABLE_FIELDS',
+        allowInteractiveOptionHarvest: options.allowInteractiveOptionHarvest === true,
+    }, resolvedFrameId);
 }
 
-export async function collectSnapshotFromTab(tabId, frameId, profilePayload = null) {
+export async function collectSnapshotFromTab(tabId, frameId, profilePayload = null, options = {}) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
 
     try {
         return await sendTabMessage(tabId, {
             type: 'BUILD_FIELD_SNAPSHOT',
             profilePayload,
+            allowInteractiveOptionHarvest: options.allowInteractiveOptionHarvest === true,
         }, resolvedFrameId, {
             timeoutMs: SNAPSHOT_TIMEOUT_MS,
         });

@@ -6,6 +6,7 @@ use App\Models\AutofillDailyStat;
 use App\Models\AutofillSyntheticDailyStat;
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Support\AnalyticsDateRange;
 use Carbon\CarbonInterface;
 
 class AutofillAnalyticsService
@@ -28,6 +29,19 @@ class AutofillAnalyticsService
     /**
      * @return array{
      *     days: int,
+     *     range: array{
+     *         month: string,
+     *         days: int,
+     *         from: string,
+     *         to: string,
+     *         label: string,
+     *         prev_month: string|null,
+     *         next_month: string|null,
+     *         can_go_prev: bool,
+     *         can_go_next: bool,
+     *         min_days: int,
+     *         max_days: int,
+     *     },
      *     metrics: array{
      *         answers_autofilled: array{
      *             label: string,
@@ -45,17 +59,18 @@ class AutofillAnalyticsService
      *             label: string,
      *             total: int,
      *             period_total: int,
-     *             series: array<int, array{date: string, count: int}>,
      *         },
      *     },
      * }
      */
-    public function publicSummary(?int $days = null): array
+    public function publicSummary(?AnalyticsDateRange $range = null): array
     {
         $this->syncLegacyCountersFromUsers();
 
-        $days = max(7, min(90, $days ?? (int) config('cv.analytics_chart_days', 30)));
-        $start = now()->subDays($days - 1)->startOfDay();
+        $range ??= AnalyticsDateRange::fromInput(null, null);
+        $from = $range->from->copy()->startOfDay();
+        $to = $range->to->copy()->startOfDay();
+        $days = $range->days();
 
         $answersByDate = [];
         $questionsByDate = [];
@@ -63,7 +78,8 @@ class AutofillAnalyticsService
 
         $this->accumulateDailyCounts(
             AutofillDailyStat::query()
-                ->whereDate('date', '>=', $start->toDateString())
+                ->whereDate('date', '>=', $from->toDateString())
+                ->whereDate('date', '<=', $to->toDateString())
                 ->orderBy('date')
                 ->get(),
             $answersByDate,
@@ -73,7 +89,8 @@ class AutofillAnalyticsService
 
         $this->accumulateDailyCounts(
             AutofillSyntheticDailyStat::query()
-                ->whereDate('date', '>=', $start->toDateString())
+                ->whereDate('date', '>=', $from->toDateString())
+                ->whereDate('date', '<=', $to->toDateString())
                 ->orderBy('date')
                 ->get(),
             $answersByDate,
@@ -83,10 +100,11 @@ class AutofillAnalyticsService
 
         return [
             'days' => $days,
+            'range' => $range->meta(),
             'metrics' => [
                 'answers_autofilled' => $this->buildMetricSeries(
                     $days,
-                    $start,
+                    $from,
                     $answersByDate,
                     'Answers autofilled',
                     (int) AutofillDailyStat::query()->sum('answers_count')
@@ -94,20 +112,18 @@ class AutofillAnalyticsService
                 ),
                 'extension_questions' => $this->buildMetricSeries(
                     $days,
-                    $start,
+                    $from,
                     $questionsByDate,
                     'Extension questions',
                     (int) AutofillDailyStat::query()->sum('extension_questions_count')
                         + (int) AutofillSyntheticDailyStat::query()->sum('extension_questions_count'),
                 ),
-                'cvs_parsed' => $this->buildMetricSeries(
-                    $days,
-                    $start,
-                    $cvsByDate,
-                    'CVs parsed',
-                    (int) AutofillDailyStat::query()->sum('cvs_parsed_count')
+                'cvs_parsed' => [
+                    'label' => 'CVs parsed',
+                    'total' => (int) AutofillDailyStat::query()->sum('cvs_parsed_count')
                         + (int) AutofillSyntheticDailyStat::query()->sum('cvs_parsed_count'),
-                ),
+                    'period_total' => $this->sumCountsInRange($days, $from, $cvsByDate),
+                ],
             ],
         ];
     }
@@ -209,5 +225,23 @@ class AutofillAnalyticsService
             'period_total' => $periodTotal,
             'series' => $series,
         ];
+    }
+
+    /**
+     * @param  array<string, int>  $countsByDate
+     */
+    private function sumCountsInRange(
+        int $days,
+        CarbonInterface $start,
+        array $countsByDate,
+    ): int {
+        $periodTotal = 0;
+
+        for ($offset = 0; $offset < $days; $offset++) {
+            $date = $start->copy()->addDays($offset)->toDateString();
+            $periodTotal += (int) ($countsByDate[$date] ?? 0);
+        }
+
+        return $periodTotal;
     }
 }

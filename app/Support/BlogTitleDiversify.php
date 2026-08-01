@@ -1,0 +1,153 @@
+<?php
+
+namespace App\Support;
+
+use Illuminate\Support\Str;
+
+/**
+ * Curated catalog rewrites for published blog posts (title, excerpt, slug, body).
+ *
+ * Keys are previous slugs (including intermediate retitle slugs) so rewrites
+ * stay idempotent across deploys.
+ */
+class BlogTitleDiversify
+{
+    /**
+     * @return array<string, array{title: string, excerpt: string, slug: string, body: string, tags: array<int, string>, pin_newest?: bool}>
+     */
+    public static function byOldSlug(): array
+    {
+        $canonical = self::canonicalByTopic();
+        $rows = [];
+
+        foreach (self::slugAliasesByTopic() as $topic => $aliases) {
+            foreach ($aliases as $oldSlug) {
+                $rows[$oldSlug] = $canonical[$topic];
+            }
+        }
+
+        foreach ($rows as &$row) {
+            $row['slug'] = Str::slug($row['title']);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * @return array<string, array{title: string, excerpt: string, body: string, tags: array<int, string>, pin_newest?: bool}>
+     */
+    public static function canonicalByTopic(): array
+    {
+        return [
+            'what-is-autocvapply' => [
+                'title' => 'What is AutoCVApply? CV Autofill and Auto Apply Explained (2026)',
+                'excerpt' => 'AutoCVApply is a Chrome and Firefox extension plus web app: upload a CV once, AutoFill ATS forms, Draft All screening answers, and Auto Apply on supported job boards - with you still in control.',
+                'body' => BlogCatalogBodies::whatIsAutocvapply(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'what-is-autocvapply', 'chrome-extension', 'autofill', 'draft-all', 'auto-apply'],
+                'pin_newest' => true,
+            ],
+            'workday-autofill' => [
+                'title' => 'How to Autofill Workday Job Applications Without Retyping Your CV (2026)',
+                'excerpt' => 'Empty Workday and Greenhouse fields get your saved profile. You still review the page and click Submit on ATS career sites.',
+                'body' => BlogCatalogBodies::workdayAutofill(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'workday', 'greenhouse', 'autofill', 'ats'],
+            ],
+            'linkedin-auto-apply' => [
+                'title' => 'How to Auto Apply on LinkedIn Easy Apply (2026)',
+                'excerpt' => 'Launch a LinkedIn Easy Apply session yourself: search, open roles, fill steps, check screening answers, then submit from the extension.',
+                'body' => BlogCatalogBodies::linkedinAutoApply(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'linkedin-easy-apply', 'auto-apply', 'draft-all'],
+            ],
+            'graduate-volume' => [
+                'title' => 'Graduate Scheme Applications at Volume Without Rebuilding Every Form',
+                'excerpt' => 'One structured profile covers the contact and history questions that show up on every scheme form. Use Draft All when the free-text screeners appear.',
+                'body' => BlogCatalogBodies::graduateVolume(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'graduate-jobs', 'autofill', 'draft-all'],
+            ],
+            'contractor-between-gigs' => [
+                'title' => 'Between Contracts: Keep One CV Profile Warm Across Employer Portals',
+                'excerpt' => 'When you are applying between gigs, reuse a reviewed profile instead of rebuilding employment history on every employer portal.',
+                'body' => BlogCatalogBodies::contractorBetweenGigs(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'contractors', 'autofill', 'ats'],
+            ],
+            'autofill-control-myth' => [
+                'title' => 'Is Job Application Autofill a Silent Bot? What You Still Control',
+                'excerpt' => 'AutoCVApply fills fields in your browser from your profile. On ATS sites you click Submit. On board Auto Apply, you start the run and can review drafted answers.',
+                'body' => BlogCatalogBodies::autofillControlMyth(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'autofill', 'auto-apply', 'privacy'],
+            ],
+            // Kept for local-only posts if present.
+            'draft-all-workday' => [
+                'title' => 'Draft All vs blank "Why this role?" boxes on Workday',
+                'excerpt' => 'Draft All writes free-text answers from your saved CV on Workday and Greenhouse. Edit the tone, then submit yourself.',
+                'body' => BlogCatalogBodies::draftAllWorkday(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'draft-all', 'workday'],
+            ],
+            'uk-boards-auto-apply' => [
+                'title' => 'One sidebar for Indeed, Totaljobs, Glassdoor, and Reed',
+                'excerpt' => 'End-to-end Auto Apply on UK boards from the extension: Indeed Apply, Totaljobs Quick Apply, Glassdoor Easy Apply, and Reed Easy Apply - you start each session.',
+                'body' => BlogCatalogBodies::ukBoardsAutoApply(),
+                'tags' => ['autocvapply', 'job-search', 'careers', 'indeed', 'totaljobs', 'auto-apply'],
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, array<int, string>>
+     */
+    public static function slugAliasesByTopic(): array
+    {
+        return [
+            // Production #6 (lead) - was CV parser / "why upload a CV..."
+            'what-is-autocvapply' => [
+                'beginners-guide-to-using-a-cv-parser-for-job-applications-with-autocvapply',
+                'from-pdf-to-profile-cv-parsing-that-powers-every-autofill-later',
+                'why-upload-a-cv-to-autocvapply-before-you-apply',
+                'what-is-autocvapply',
+                'what-is-autocvapply-cv-autofill-and-auto-apply-explained-2026',
+            ],
+            'workday-autofill' => [
+                'beginners-guide-to-autofill-job-applications-with-autocvapply-for-faster-uk-job-hunting',
+                'stop-retyping-your-cv-on-every-workday-form',
+                '5-ways-to-autofill-job-applications-using-autocvapplys-autofill-on-workday-and-greenhouse-forms',
+                'workday-wants-your-life-story-again-autofill-it',
+                'how-to-autofill-workday-job-applications-without-retyping-your-cv-2026',
+            ],
+            'linkedin-auto-apply' => [
+                'how-to-save-time-and-cut-errors-using-the-linkedin-easy-apply-chrome-extension-from-autocvapply',
+                'linkedin-easy-apply-from-the-auto-apply-sidebar',
+                'using-autocvapplys-auto-apply-sidebar-with-the-linkedin-easy-apply-chrome-extension-to-review-and-submit-screening-questions',
+                'easy-apply-at-speed-auto-apply-from-the-sidebar',
+                'how-to-auto-apply-on-linkedin-easy-apply-2026',
+            ],
+            'graduate-volume' => [
+                'beginners-guide-to-saving-time-and-avoiding-errors-when-applying-for-graduate-jobs-with-autocvapplys-autofill-extension',
+                'graduate-applications-at-volume-without-rebuilding-your-details-each-time',
+                'graduate-schemes-recycle-the-same-fields-so-should-your-profile',
+                'graduate-scheme-applications-at-volume-without-rebuilding-every-form',
+            ],
+            'contractor-between-gigs' => [
+                'how-contractors-can-save-hours-and-cut-errors-using-autocvapplys-autofill-between-gigs',
+                'between-contracts-one-cv-profile-across-employer-portals',
+                'between-contracts-keep-one-profile-warm',
+                'between-contracts-keep-one-cv-profile-warm-across-employer-portals',
+            ],
+            'autofill-control-myth' => [
+                'myth-buster-using-autocvapplys-autofill-is-safe-smart-and-puts-you-in-control',
+                'autofill-myths-you-still-review-before-anything-is-submitted',
+                'autofill-is-not-a-silent-bot',
+                'is-job-application-autofill-a-silent-bot-what-you-still-control',
+            ],
+            'draft-all-workday' => [
+                'myth-buster-draft-all-job-applications-with-autocvapply-create-human-tone-answers-on-workday-and-greenhouse',
+                'draft-all-on-workday-screening-answers-from-your-cv-not-filler',
+                'draft-all-vs-blank-why-this-role-boxes-on-workday',
+            ],
+            'uk-boards-auto-apply' => [
+                'how-to-use-autocvapplys-auto-apply-sidebar-for-indeed-apply-autofill-and-quick-apply-on-totaljobs-glassdoor-and-reed',
+                'indeed-totaljobs-glassdoor-reed-one-auto-apply-sidebar',
+                'one-sidebar-for-indeed-totaljobs-glassdoor-and-reed',
+            ],
+        ];
+    }
+}

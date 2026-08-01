@@ -24,6 +24,7 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
         finalizeAutoApplyAnalyticsSession,
         finalizeStoppedSession,
         interruptibleSleep,
+        isAutoApplyStopError,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -149,6 +150,12 @@ export async function runTotalJobsAutoApplyLoop(ctx, initialSession, runDraftAll
 
             markWatchdogProgress(session);
         } catch (error) {
+            if (isAutoApplyStopError?.(error) || (await shouldStop(session))) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             await recordAnalyticsEvent(session, 'error', job, {
                 metadata: { message: error.message || 'Auto Apply job failed.' },
             }, tabId);

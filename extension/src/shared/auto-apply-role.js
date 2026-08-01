@@ -1,6 +1,7 @@
 /**
  * Auto Apply role/search query helpers.
- * Search must use the user-entered role filter only - never profile name.
+ * Search must use the user-entered job-role filter only - never profile name,
+ * LinkedIn-style headline, or education metadata.
  */
 
 function escapeRegExp(value) {
@@ -24,7 +25,40 @@ function splitNameParts(fullName) {
 }
 
 /**
- * Remove candidate name segments accidentally appended to a role search query.
+ * True when text is education / profile fluff, not a job-search role.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+export function isNonJobSearchRoleDescription(value) {
+    const role = String(value || '').trim();
+
+    if (!role) {
+        return true;
+    }
+
+    // Lone slash / punctuation leftovers from bad autofill.
+    if (/^[\\/|·•\u2013\u2014\s]+$/.test(role)) {
+        return true;
+    }
+
+    if (/russell\s*group/i.test(role)) {
+        return true;
+    }
+
+    // Education-only blurbs (allow titles that still name a job).
+    if (
+        /\b(university|college|undergraduate|postgraduate|bachelor'?s|master'?s|a-?levels?|gcse|ib\b|sixth\s+form)\b/i.test(role)
+        && !/\b(engineer|developer|designer|manager|analyst|scientist|teacher|lecturer|tutor|researcher|nurse|consultant|accountant|lawyer|solicitor|architect|recruiter|sales|product|ops|operations|support|admin|assistant|intern|apprentice)\b/i.test(role)
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Remove candidate name / education / headline pollution from a role search query.
  *
  * @param {string} roleDescription
  * @param {object|null|undefined} profileData
@@ -33,7 +67,7 @@ function splitNameParts(fullName) {
 export function sanitizeAutoApplyRoleDescription(roleDescription, profileData = null) {
     let role = String(roleDescription || '').trim();
 
-    if (!role) {
+    if (!role || isNonJobSearchRoleDescription(role)) {
         return '';
     }
 
@@ -54,7 +88,7 @@ export function sanitizeAutoApplyRoleDescription(roleDescription, profileData = 
     role = role.replace(suffixPattern, '').trim();
     role = role.replace(prefixPattern, '').trim();
 
-    if (nameParts.has(role.toLowerCase())) {
+    if (!role || isNonJobSearchRoleDescription(role) || nameParts.has(role.toLowerCase())) {
         return '';
     }
 
@@ -62,7 +96,8 @@ export function sanitizeAutoApplyRoleDescription(roleDescription, profileData = 
         .split(',')
         .map((segment) => segment.trim())
         .filter(Boolean)
-        .filter((segment) => !nameParts.has(segment.toLowerCase()));
+        .filter((segment) => !nameParts.has(segment.toLowerCase()))
+        .filter((segment) => !isNonJobSearchRoleDescription(segment));
 
     return segments.join(', ').trim();
 }

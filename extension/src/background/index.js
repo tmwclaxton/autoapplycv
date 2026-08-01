@@ -6,6 +6,7 @@ import {
 } from './auto-apply-blockers.js';
 import {
     configureAutoApplyAtsSubscriptionHandler,
+    configureAutoApplyCaptchaSolver,
     configureAutoApplyProfileLoader,
     clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
@@ -137,6 +138,7 @@ import {
 import {
     buildSidePanelVisibilityMessage,
     resolveSidePanelOpen,
+    shouldAllowInteractiveOptionHarvest,
     shouldPaintFieldHighlights,
 } from './side-panel-state.js';
 import { resolveSpeakLanguagePendingSave } from './speak-language-answer.js';
@@ -147,7 +149,25 @@ import {
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
+configureAutoApplyCaptchaSolver(async ({ type, sitekey, pageUrl }) =>
+    requestCaptchaSolve({ type, sitekey, pageUrl }),
+);
 void reconcileOrphanedAutoApplySession();
+
+if (chrome?.alarms?.onAlarm) {
+    chrome.alarms.onAlarm.addListener((alarm) => {
+        if (alarm?.name !== 'auto-apply-pause-keepalive') {
+            return;
+        }
+
+        // Wake the service worker and keep paused sessions from being treated as orphaned runs.
+        void loadAutoApplySession().then((session) => {
+            if (session?.status === 'paused_for_input' && !isAutoApplyRunning()) {
+                // Session remains paused until Resume rehydrates the run loop.
+            }
+        });
+    });
+}
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
@@ -503,6 +523,27 @@ function cancelDraftAll(reason = 'cancelled') {
     });
 
     return { success: true, cancelled: true, reason };
+}
+
+async function resolveInteractiveOptionHarvestAllowed() {
+    const storage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+    ]);
+
+    return shouldAllowInteractiveOptionHarvest({
+        sidePanelOpen: resolveSidePanelOpen(storage),
+        draftAllRunning,
+        autoApplyRunning: isAutoApplyRunning(),
+    });
+}
+
+async function collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, profilePayload = null) {
+    const allowInteractiveOptionHarvest = await resolveInteractiveOptionHarvestAllowed();
+
+    return collectSnapshotFromTab(tabId, frameId, profilePayload, {
+        allowInteractiveOptionHarvest,
+    });
 }
 const savedCoverLetterSourceKeys = new Set();
 let sidePanelPort = null;
@@ -944,6 +985,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     filters: message.filters || null,
                     fitCheckEnabled: message.fitCheckEnabled !== false,
                     minFitScore: message.minFitScore,
+                    pauseBeforeSubmit: message.pauseBeforeSubmit === true,
                     timingLevel: message.timingLevel,
                     hostTabId: message.hostTabId ?? null,
                     hostWindowId: message.hostWindowId ?? null,
@@ -965,6 +1007,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'AUTO_APPLY_STOP') {
+        cancelDraftAll('auto_apply_stop');
         stopAutoApply()
             .then((session) =>
                 sendResponse({
@@ -981,6 +1024,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'AUTO_APPLY_FORCE_STOP') {
+        cancelDraftAll('auto_apply_force_stop');
         forceResetAutoApply()
             .then(() =>
                 sendResponse({
@@ -1048,6 +1092,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 }),
             )
             .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'SOLVE_CAPTCHA') {
+        void (async () => {
+            try {
+                const result = await requestCaptchaSolve({
+                    type: message.captchaType || 'recaptcha_v2',
+                    sitekey: message.sitekey,
+                    pageUrl: message.pageUrl,
+                });
+
+                sendResponse({
+                    success: true,
+                    token: result.token,
+                    provider: result.provider,
+                });
+            } catch (err) {
+                sendResponse({ error: err.message || 'Captcha solve failed.' });
+            }
+        })();
 
         return true;
     }
@@ -1457,10 +1523,7 @@ async function enrichPendingFieldFromSnapshot(tabId, field) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const snapshotResponse = await collectSnapshotFromTab(
-            tabId,
-            formFrameId,
-        );
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         const element = (snapshotResponse?.snapshot?.elements || []).find(
             (item) => item.ref === field.ref,
         );
@@ -1775,10 +1838,7 @@ function snapshotElementToDraftField(element) {
 
 async function collectUnfilledRequiredFields(tabId, formFrameId) {
     try {
-        const snapshotResponse = await collectSnapshotFromTab(
-            tabId,
-            formFrameId,
-        );
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         // Prefer the frame that actually built the snapshot (Greenhouse embed
         // on Formlabs hosts) so filled checks run against the same document.
         const filterFrameId =
@@ -1920,10 +1980,7 @@ async function fillRevealedDisabilitySignatureFields(
     let snapshot;
 
     try {
-        const snapshotResponse = await collectSnapshotFromTab(
-            tabId,
-            formFrameId,
-        );
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
         snapshot = snapshotResponse?.snapshot;
     } catch {
         return 0;
@@ -2317,7 +2374,7 @@ async function prefetchSnapshotForTab(tabId, tab) {
     try {
         const profilePayload = await getProfile().catch(() => null);
         const formFrameId = await findBestFormFrameId(tabId);
-        const collectResponse = await collectSnapshotFromTab(
+        const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
             tabId,
             formFrameId,
             profilePayload,
@@ -2482,7 +2539,7 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
     const profilePayload = await getProfile().catch(() => null);
-    let collectResponse = await collectSnapshotFromTab(
+    let collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
         tabId,
         formFrameId,
         profilePayload,
@@ -2495,13 +2552,14 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         collectResponse?.success &&
         !collectResponse?.snapshot?.elements?.length
     ) {
-        const hydrateDeadline = Date.now() + 6_000;
+        // Longer than Speed-tier beforeDraftAll so question widgets can mount.
+        const hydrateDeadline = Date.now() + 10_000;
 
         while (Date.now() < hydrateDeadline) {
             await new Promise((resolve) => {
-                setTimeout(resolve, 400);
+                setTimeout(resolve, 350);
             });
-            collectResponse = await collectSnapshotFromTab(
+            collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
                 tabId,
                 formFrameId,
                 profilePayload,
@@ -3476,6 +3534,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         job: job || profileData?.job || null,
                         company: job?.company || profileData?.company || null,
                     },
+                    { trustSavedAnswers: true },
                 );
                 answersToApply = partitioned.toApply;
                 pendingFields = mergePendingFields(
@@ -5051,6 +5110,37 @@ function buildPatchBody(path, value) {
     return body;
 }
 
+async function requestCaptchaSolve({ type, sitekey, pageUrl }) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    if (!apiToken || !apiBase) {
+        throw new Error('Connect the extension before solving captchas.');
+    }
+
+    const response = await fetch(`${apiBase}/api/extension/captcha/solve`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: type || 'recaptcha_v2',
+            sitekey,
+            page_url: pageUrl,
+        }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || !data?.success || !data?.token) {
+        throw new Error(data?.error || `Captcha solve failed (${response.status}).`);
+    }
+
+    return data;
+}
+
 async function recordCreditUsage(count) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
@@ -5160,7 +5250,7 @@ async function bridgeWaitForTab(
 }
 
 async function bridgeFindControlRef(tabId, frameId, name) {
-    const collectResponse = await collectSnapshotFromTab(tabId, frameId, null);
+    const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, null);
     const controls = collectResponse?.snapshot?.controls || [];
     const needle = String(name || '')
         .trim()
@@ -5249,7 +5339,7 @@ initExtensionBridge({
                 profilePayload = null;
             }
 
-            return collectSnapshotFromTab(
+            return collectSnapshotFromTabWithHarvestPolicy(
                 resolvedTabId,
                 frameId,
                 profilePayload,
@@ -5687,6 +5777,7 @@ initExtensionBridge({
             maxApplications = 2,
             fitCheckEnabled = false,
             minFitScore = 10,
+            pauseBeforeSubmit = false,
             timingLevel = null,
             filters = null,
             location = null,
@@ -5712,6 +5803,7 @@ initExtensionBridge({
                 filters: mergedFilters,
                 fitCheckEnabled: fitCheckEnabled === true,
                 minFitScore: Number(minFitScore) || 10,
+                pauseBeforeSubmit: pauseBeforeSubmit === true,
                 timingLevel,
                 force: force === true,
                 hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
@@ -5732,6 +5824,7 @@ initExtensionBridge({
             session: await getAutoApplyStatus(),
         }),
         auto_apply_stop: async () => {
+            cancelDraftAll('auto_apply_stop');
             const session = await stopAutoApply();
 
             return {
@@ -5764,6 +5857,7 @@ initExtensionBridge({
             return { success: true, result };
         },
         auto_apply_reset: async () => {
+            cancelDraftAll('auto_apply_reset');
             await forceResetAutoApply();
 
             return { success: true };

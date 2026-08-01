@@ -196,9 +196,15 @@
                                 <textarea
                                     id="auto-apply-role"
                                     class="postbox-input postbox-input-compact auto-apply-role-input"
+                                    name="autocvapply-job-search-role"
                                     rows="2"
                                     placeholder="software engineer remote UK"
                                     autocomplete="off"
+                                    autocapitalize="off"
+                                    autocorrect="off"
+                                    spellcheck="false"
+                                    data-1p-ignore="true"
+                                    data-lpignore="true"
                                 ></textarea>
                             </div>
 
@@ -261,6 +267,40 @@
                                         </div>
                                     </div>
                                     <p class="postbox-hint auto-apply-inline-hint">UK LinkedIn brackets. Salary in your role text is also used for fit scoring.</p>
+                                </div>
+                            </details>
+
+                            <details id="auto-apply-settings-details" class="auto-apply-details">
+                                <summary class="auto-apply-details-summary">Auto Apply settings</summary>
+                                <div class="auto-apply-details-body">
+                                    <div class="auto-apply-timing-bar">
+                                        <div class="auto-apply-timing-header">
+                                            <span class="postbox-label">Timing</span>
+                                            <span id="auto-apply-timing-value" class="auto-apply-timing-value">Careful timing</span>
+                                        </div>
+                                        <div class="auto-apply-timing-slider-row">
+                                            <span class="auto-apply-timing-end-label">Careful timing</span>
+                                            <input
+                                                id="auto-apply-timing-level"
+                                                class="auto-apply-timing-slider"
+                                                type="range"
+                                                min="1"
+                                                max="5"
+                                                step="1"
+                                                value="1"
+                                                aria-label="Auto Apply timing from careful to speed"
+                                            />
+                                            <span class="auto-apply-timing-end-label">Speed</span>
+                                        </div>
+                                        <p class="postbox-hint auto-apply-inline-hint">Left is slower and more human-like. Right is faster and less human-like, and does not prevent platform detection.</p>
+                                    </div>
+
+                                    <div class="auto-apply-fit-bar">
+                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-before-submit">
+                                            <input id="auto-apply-pause-before-submit" type="checkbox" />
+                                            <span>Pauses before Submit</span>
+                                        </label>
+                                    </div>
 
                                     <div class="auto-apply-fit-bar">
                                         <label class="auto-apply-fit-toggle" for="auto-apply-fit-enabled">
@@ -279,28 +319,6 @@
                                             />
                                         </div>
                                         <p class="postbox-hint auto-apply-inline-hint">5 credits per scored job</p>
-                                    </div>
-
-                                    <div class="auto-apply-timing-bar">
-                                        <div class="auto-apply-timing-header">
-                                            <span class="postbox-label">Timing</span>
-                                            <span id="auto-apply-timing-value" class="auto-apply-timing-value">Careful timing</span>
-                                        </div>
-                                        <div class="auto-apply-timing-slider-row">
-                                            <span class="auto-apply-timing-end-label">Speed</span>
-                                            <input
-                                                id="auto-apply-timing-level"
-                                                class="auto-apply-timing-slider"
-                                                type="range"
-                                                min="1"
-                                                max="5"
-                                                step="1"
-                                                value="5"
-                                                aria-label="Auto Apply timing between speed and careful timing"
-                                            />
-                                            <span class="auto-apply-timing-end-label">Careful timing</span>
-                                        </div>
-                                        <p class="postbox-hint auto-apply-inline-hint">Faster timing is less human-like. Slower timing is more human-like but does not prevent platform detection.</p>
                                     </div>
                                 </div>
                             </details>
