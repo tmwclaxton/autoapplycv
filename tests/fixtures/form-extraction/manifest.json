@@ -88700,6 +88700,17 @@
       "page_title": "Job posting is not available",
       "notes": "Live UK SimplyHired Quick Apply card navigated to Job posting is not available; autonomous flow must skip without repeated reloads.",
       "vet_issues": []
+    },
+    {
+      "id": "indeed-review-preview-loading-error",
+      "category": "form-extraction",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "indeed-review-preview-loading-error.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/review-module",
+      "page_title": "Review the contents of this job application | Indeed",
+      "notes": "Live Glassdoor Easy Apply handoff reached Indeed review-module after autonomous resume selection; preview displayed 'We're having trouble loading your application preview. Try again', with Review action reported by inventory but no stable submit control. CAPTCHA absent.",
+      "vet_issues": []
     }
   ]
 }

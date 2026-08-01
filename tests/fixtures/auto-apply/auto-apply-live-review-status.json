@@ -2,7 +2,7 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-07-13T08:00:00+01:00",
+  "updated_at": "2026-08-01T20:00:00+01:00",
   "campaign_status": "paused",
   "scenarios_tested_count": 16,
   "jobs_attempted_count": 115,
@@ -877,6 +877,68 @@
       }
     },
     "verdict": "Campaign final wrap at 07:00 London. 15/116 queue scenarios tested; defensible P0 2/12 pass (p0-10 offline, p0-11 live submit); 1 job submitted. Routing-only runs do not count as pass."
+  },
+  "current_session_2026_08_01": {
+    "extension_version": "2.25.340",
+    "commit": "c0aa780f",
+    "simplyhired": {
+      "search_url": "https://www.simplyhired.co.uk/search?q=Python+Developer&l=London",
+      "job_id": "PsABRsJVMVEBpkml9S2s0KN1A3hPldTLvZRmsTy18dZJiXOIDhUPzA",
+      "autonomous_result": "job page did not load - SimplyHired job posting is not available",
+      "repeated_evidence": "Two unavailable detail pages were skipped autonomously with the exact reason; no manual field answers used.",
+      "stats": {
+        "found": 15,
+        "skipped": 5,
+        "applied": 0
+      }
+    },
+    "glassdoor": {
+      "search_url": "https://www.glassdoor.co.uk/Job/london-software-engineer-jobs-SRCH_IL.0,6_IC2671300_KO7,24.htm",
+      "external_skip_evidence": "Five detail pages reported external apply only after live availability checks.",
+      "easy_apply_job_id": "1010207864346",
+      "easy_apply_evidence": "GLASSDOOR_CHECK_APPLY_AVAILABILITY returned easyApply=true and hasApplyButton=true; GLASSDOOR_OPEN_APPLY handed off to smartapply.indeed.com.",
+      "indeed_evidence": "Resume Draft All filled the CV selection autonomously; review preview initially failed to load, Retry returned to required screener questions. captchaPresent=false. No submit confirmation.",
+      "stats": {
+        "found": 30,
+        "skipped": 5,
+        "applied": 0
+      }
+    },
+    "indeed_uk": {
+      "search_url": "https://uk.indeed.com/jobs?q=software+engineer&l=London&sc=0kf%3Aattr%28DSQF7%29",
+      "autonomous_result": "15 jobs collected; first four detail pages independently reported external apply and were skipped.",
+      "stats": {
+        "found": 15,
+        "skipped": 4,
+        "applied": 0
+      },
+      "phone_captcha_evidence": "No phone field or CAPTCHA appeared because the inspected live queue remained external-only. The separate Glassdoor handoff reached Indeed questions without CAPTCHA, then paused on truthful commute and experience answers.",
+      "review_preview_fixture": "indeed-review-preview-loading-error"
+    },
+    "configuration_matrix": {
+      "timing_level_1": "live session started and external skips were supervised",
+      "timing_level_5": "live session started with fit gate enabled and minFitScore=100; external skips occurred before fit scoring",
+      "fit_gate": "not proven because inspected jobs were external-only",
+      "pause_before_submit": "not live-proven",
+      "pause_on_external": "live external skips observed; pause setting not independently toggled",
+      "phone_and_captcha": "no phone field or CAPTCHA appeared in this handoff; prior Indeed UK phone validation remains open",
+      "cover_letter_blacklist_login_dedupe_phone_extension": "offline tests pass; live matrix evidence still required"
+    },
+    "quality": {
+      "targeted_tests": "pass",
+      "format_check": "pass",
+      "em_dash_check": "pass",
+      "lint_check_ci": "pass",
+      "pint": "pass",
+      "build_reload": "build passed; bridge reconnected after reload",
+      "push": "staging pushed at c0aa780f"
+    },
+    "production_ready": false,
+    "remaining_gaps": [
+      "Indeed UK phone validation and CAPTCHA pause/submit confirmation",
+      "Repeated live proof for pause-before-submit, cover-letter controls, blacklist, login gating, dedupe, and phone extension",
+      "Glassdoor end-to-end submit confirmation after required screener answers"
+    ]
   },
   "extension_version": "2.25.66",
   "live_verify_completed_at": "2026-07-13T07:55:00+01:00",
