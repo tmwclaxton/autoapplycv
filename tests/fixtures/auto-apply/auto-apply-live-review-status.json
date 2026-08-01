@@ -967,13 +967,14 @@
       "lint_check_ci": "pass",
       "pint": "pass",
       "build_reload": "build passed; bridge reconnected after reload",
-      "push": "staging pushed at c0aa780f; current Indeed fix pending quality gate"
+      "push": "staging pushed through f6091c04; latest Indeed hydration and TotalJobs confirmation fixes are deployed"
     },
     "production_ready": false,
     "remaining_gaps": [
       "Indeed UK phone validation and CAPTCHA pause/submit confirmation",
       "Repeated live proof for pause-before-submit, cover-letter controls, blacklist, login gating, dedupe, and phone extension",
-      "Glassdoor end-to-end submit confirmation after required screener answers"
+      "Glassdoor end-to-end submit confirmation after required screener answers",
+      "TotalJobs direct platform confirmation after the orchestrator's submit response"
     ]
   },
   "extension_version": "2.25.66",
