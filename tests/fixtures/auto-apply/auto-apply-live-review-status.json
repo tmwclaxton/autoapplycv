@@ -925,6 +925,18 @@
       "live_confirmation": "LinkedIn search page showed Applied 7 seconds ago for the same job after the modal closed.",
       "phone_evidence": "Draft All ran with phoneCountryCode=+44; this application exposed Python and React years fields, not a phone extension field."
     },
+    "totaljobs": {
+      "campaign": "software engineer / London",
+      "live_attempts": [
+        "Staff Software Engineer - AI at Moody's",
+        "Software Engineer, New Grad - Infrastructure at Palantir",
+        "Software Engineer at Bright Purple Resourcing"
+      ],
+      "defect": "Auto Apply logs reported submitted, but direct TOTALJOBS_VERIFY_SUBMITTED checks on the returned job page reported submitted=false and no confirmation.",
+      "fix": "TotalJobs content now blocks an unconfirmed Submit click, and the orchestrator verifies TOTALJOBS_VERIFY_SUBMITTED before recording success.",
+      "targeted_test": "scripts/extension-test/totaljobs-submit-confirmation.test.mjs",
+      "status": "rebuilt and reloaded; exact live retest queued for a new unsubmitted job"
+    },
     "indeed_uk": {
       "search_url": "https://uk.indeed.com/jobs?q=software+engineer&l=London&sc=0kf%3Aattr%28DSQF7%29",
       "autonomous_result": "15 jobs collected; first four detail pages independently reported external apply and were skipped.",

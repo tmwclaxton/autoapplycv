@@ -781,13 +781,25 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
             await clickElement(submitButton);
             const verify = await waitForSubmissionConfirmation();
 
+            if (!verify.submitted) {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    submitted: false,
+                    transitioned: false,
+                    stepFingerprint: readStepFingerprint(),
+                    validationErrors: readValidationErrors(),
+                    error: 'Totaljobs Submit click did not confirm an application.',
+                };
+            }
+
             return {
                 success: true,
                 action: 'submit',
-                submitted: verify.submitted,
+                submitted: true,
                 transitioned: true,
                 stepFingerprint: readStepFingerprint(),
-                validationErrors: verify.submitted ? [] : readValidationErrors(),
+                validationErrors: [],
                 confirmation: verify.confirmation,
             };
         }

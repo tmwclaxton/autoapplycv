@@ -8042,8 +8042,15 @@ async function processTotalJobsJob(
         }
 
         if (advanceResponse?.submitted) {
-            submitted = true;
-            break;
+            const submitVerification = await sendTotalJobsMessage(
+                tabId,
+                'TOTALJOBS_VERIFY_SUBMITTED',
+            );
+
+            if (submitVerification?.submitted) {
+                submitted = true;
+                break;
+            }
         }
 
         if (
