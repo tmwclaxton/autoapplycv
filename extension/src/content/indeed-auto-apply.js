@@ -1435,6 +1435,17 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return /trouble loading your application preview/i.test(text);
     }
 
+    function isIndeedReviewPreviewLoading() {
+        if (!isIndeedReviewStep()) {
+            return false;
+        }
+
+        const reviewRoot = readIndeedReviewRoot();
+        const text = normalize(reviewRoot?.textContent || document.body?.textContent);
+
+        return /preparing review|loading your application preview/i.test(text);
+    }
+
     function isRecaptchaBadgeNode(node) {
         if (!(node instanceof HTMLElement)) {
             return false;
@@ -2643,6 +2654,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const onResumeCardStep = isIndeedResumeCardStep();
         const continueButton = readContinueButton();
         const reviewPreviewUnavailable = isIndeedReviewPreviewUnavailable();
+        const reviewPreviewLoading = isIndeedReviewPreviewLoading();
         const submitButton = findSubmitButton({
             includeDisabled: true,
             reviewOnly: true,
@@ -2658,13 +2670,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return {
             open: true,
             submitted: false,
-            canContinue: Boolean(continueButton) && !reviewPreviewUnavailable,
+            canContinue: Boolean(continueButton) && !reviewPreviewUnavailable && !reviewPreviewLoading,
             canSubmit: Boolean(submitButton && !submitButton.disabled),
             hasSubmitButton: Boolean(submitButton),
             submitDisabled: Boolean(submitButton?.disabled),
             isReviewStep: onReviewStep,
             isResumeCardStep: onResumeCardStep,
             reviewPreviewUnavailable,
+            reviewPreviewLoading,
             captchaPresent,
             storedApplicant,
             jobTitle: applyJobMeta.jobTitle,
@@ -3066,6 +3079,17 @@ var AutoCVApplyIndeedAutoApply = (() => {
                     success: false,
                     action: 'blocked',
                     error: 'Submit blocked by captcha on Indeed review step.',
+                    validationErrors: readValidationErrors(),
+                    stepFingerprint: previousFingerprint,
+                };
+            }
+
+            if (isIndeedReviewPreviewLoading()) {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    reviewPreviewUnavailable: true,
+                    error: 'Indeed review preview did not finish loading. Retry the application later.',
                     validationErrors: readValidationErrors(),
                     stepFingerprint: previousFingerprint,
                 };

@@ -242,6 +242,25 @@ assert.equal(
     'Review preview loading error must not treat Review as a forward action',
 );
 
+const reviewPreviewLoadingHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <p>Preparing review</p>
+  </div>
+</body></html>`;
+const IndeedPreviewLoading = loadIndeedOnReview(reviewPreviewLoadingHtml);
+const previewLoadingState = IndeedPreviewLoading.getIndeedApplyState();
+assert.equal(
+    previewLoadingState.reviewPreviewLoading,
+    true,
+    'Preparing review must be surfaced while the preview is hydrating',
+);
+assert.equal(
+    previewLoadingState.canContinue,
+    false,
+    'Preparing review must not expose a forward action',
+);
+
 const decoySubmitHtml = `
 <!doctype html><html><body>
   <div id="mosaic-provider-module-apply-preview">
