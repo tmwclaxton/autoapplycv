@@ -4007,9 +4007,6 @@ export function resolveResidenceCityValue(profileData) {
         location.split(',')[0] || '',
         profileData,
     );
-    const postcode = String(
-        readProfileValue(profileData, 'postcode') || '',
-    ).trim();
 
     if (locationCity && city) {
         const cityKey = city.toLowerCase();
@@ -4019,7 +4016,7 @@ export function resolveResidenceCityValue(profileData) {
             cityKey.includes(locationKey) ||
             locationKey.includes(cityKey);
 
-        if (!overlapping && postcode) {
+        if (!overlapping) {
             return locationCity;
         }
     }

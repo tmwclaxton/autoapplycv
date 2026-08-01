@@ -35,6 +35,15 @@ const profile = {
         },
     },
 };
+const commifyFixture = JSON.parse(
+    readFileSync(
+        new URL(
+            '../../tests/fixtures/auto-apply/linkedin-commify-location-fixture.json',
+            import.meta.url,
+        ),
+        'utf8',
+    ),
+);
 
 test('splitFullName reads structured full_name objects', () => {
     assert.deepEqual(splitFullName({ first: 'Toby', last: 'Claxton' }), {
@@ -107,6 +116,35 @@ test('surname-as-location bleed is detected and rejected', () => {
         }),
         '',
     );
+});
+
+test('canonical profile location wins over stale unrelated city', () => {
+    const staleCityProfile = {
+        profile: {
+            full_name: { first: 'Toby', last: 'Claxton' },
+            ...commifyFixture.profile,
+        },
+    };
+
+    assert.equal(
+        resolveResidenceCityValue(staleCityProfile),
+        commifyFixture.expected_answer,
+    );
+
+    const { identityAnswers } = partitionIdentityProfileFields(
+        [{
+            ref: 'location',
+            label: commifyFixture.field.label,
+            field_type: commifyFixture.field.field_type,
+            dom: {
+                id: commifyFixture.field.dom_id,
+            },
+        }],
+        staleCityProfile,
+    );
+
+    assert.equal(identityAnswers[0]?.answer, commifyFixture.expected_answer);
+    assert.notEqual(identityAnswers[0]?.answer, 'West Bengal');
 });
 
 test('partitionBatchAnswers replaces Claxton, Norfolk with profile locality', () => {
