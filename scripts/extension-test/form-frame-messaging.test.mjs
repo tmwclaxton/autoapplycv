@@ -131,6 +131,28 @@ test('Draft All does not count failed applies as filled via stageCount', async (
     assert.match(background, /draft-all\.identity_replay/);
 });
 
+test('Draft All waits for LinkedIn Easy Apply shell hydration', async () => {
+    const background = await import('node:fs').then((fs) =>
+        fs.readFileSync(
+            join(ROOT, 'extension/src/background/index.js'),
+            'utf8',
+        ),
+    );
+
+    assert.match(
+        background,
+        /LinkedIn Easy Apply hydrated after wait/,
+    );
+    assert.match(
+        background,
+        /type: 'LINKEDIN_EASY_APPLY_STATE'/,
+    );
+    assert.match(
+        background,
+        /const hydrateDeadline = Date\.now\(\) \+ 12_000/,
+    );
+});
+
 test('computeApplyDraftBatchTimeoutMs scales with batch size', () => {
     assert.equal(computeApplyDraftBatchTimeoutMs([]), 45_000);
 

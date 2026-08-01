@@ -2585,6 +2585,56 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         profilePayload,
     );
 
+    // LinkedIn opens the Easy Apply shell before its form payload hydrates.
+    // Do not treat that empty shell as the live form or advance/close it.
+    if (
+        /linkedin\.com\/jobs\/view\//i.test(String(tab.url || '')) &&
+        collectResponse?.success &&
+        !collectResponse?.snapshot?.elements?.length
+    ) {
+        const hydrateDeadline = Date.now() + 12_000;
+
+        while (Date.now() < hydrateDeadline) {
+            const applyState = await sendTabMessage(
+                tabId,
+                { type: 'LINKEDIN_EASY_APPLY_STATE' },
+                formFrameId,
+            ).catch(() => null);
+
+            if (
+                !applyState?.open ||
+                applyState.hasContent === true ||
+                applyState.loading !== true
+            ) {
+                break;
+            }
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, 500);
+            });
+
+            collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
+                tabId,
+                formFrameId,
+                profilePayload,
+            );
+
+            if (collectResponse?.snapshot?.elements?.length) {
+                logInfo(
+                    'background',
+                    'snapshot.collect',
+                    'LinkedIn Easy Apply hydrated after wait',
+                    {
+                        fieldCount: collectResponse.snapshot.elements.length,
+                        waitedMs: Date.now() - snapshotStartedAt,
+                    },
+                    tabId,
+                );
+                break;
+            }
+        }
+    }
+
     // SmartApply questions hydrate after the route change - empty snapshot on the
     // questions URL is almost always a race, not a real empty form.
     if (
