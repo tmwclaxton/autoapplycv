@@ -79,3 +79,18 @@ assert.ok(
 );
 
 console.log('simplyhired-prepare-sparse-serp.test.mjs: ok');
+
+const unavailable = load(
+    `<!doctype html><html><head><title>Job posting is not available</title></head><body>
+      <main>Job posting is not available</main>
+    </body></html>`,
+    'https://www.simplyhired.co.uk/job/unavailableJob',
+);
+
+const unavailableResult = await unavailable.waitForJobDetailReady('unavailableJob', 35_000);
+
+assert.equal(unavailableResult.success, false);
+assert.equal(unavailableResult.jobUnavailable, true);
+assert.equal(unavailableResult.error, 'SimplyHired job posting is not available.');
+
+console.log('simplyhired-unavailable-job-detail.test.mjs: ok');

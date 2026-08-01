@@ -37,6 +37,20 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
         return isSimplyHiredHostname() && /^\/job\//i.test(window.location.pathname);
     }
 
+    function readUnavailableJobMarker() {
+        const title = normalize(document.title);
+        const body = normalize(document.body?.textContent);
+
+        if (
+            /^(job posting is not available|job not found|this job is no longer available)$/i.test(title)
+            || /\b(?:job posting is not available|this job is no longer available|job has been removed)\b/i.test(body)
+        ) {
+            return 'SimplyHired job posting is not available.';
+        }
+
+        return null;
+    }
+
     function isElementVisible(element) {
         if (!(element instanceof HTMLElement)) {
             return false;
@@ -456,6 +470,16 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
+            const unavailable = readUnavailableJobMarker();
+
+            if (unavailable) {
+                return {
+                    success: false,
+                    jobUnavailable: true,
+                    error: unavailable,
+                };
+            }
+
             if (readJobIdFromUrl() === targetId && isSimplyHiredJobPage()) {
                 if (readApplyButton() || readExternalApplyMarker() || hasIndeedApplyIframe()) {
                     return { success: true, jobId: targetId };
