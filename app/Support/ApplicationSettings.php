@@ -6,8 +6,38 @@ use Carbon\Carbon;
 
 class ApplicationSettings
 {
+    public const DEFAULT_PAUSE_BEFORE_SUBMIT = false;
+
+    public const DEFAULT_TIMING_LEVEL = 1;
+
+    public const MIN_TIMING_LEVEL = 1;
+
+    public const MAX_TIMING_LEVEL = 5;
+
+    public const DEFAULT_STOP_FOR_COVER_LETTER = false;
+
+    public const DEFAULT_AUTO_GENERATE_COVER_LETTER = true;
+
     /**
-     * @return array<string, string>
+     * @return array{
+     *     phone_country_code: string,
+     *     years_of_experience: string,
+     *     expected_salary_weekly: string,
+     *     expected_salary_monthly: string,
+     *     expected_salary_yearly: string,
+     *     visa_sponsorship: string,
+     *     legally_authorized: string,
+     *     affirm_local_commute: string,
+     *     affirm_local_hybrid: string,
+     *     willing_to_relocate: string,
+     *     drivers_license: string,
+     *     notice_period: string,
+     *     job_preferences: string,
+     *     pause_before_submit: bool,
+     *     timing_level: int,
+     *     stop_for_cover_letter: bool,
+     *     auto_generate_cover_letter: bool,
+     * }
      */
     public static function defaults(): array
     {
@@ -25,12 +55,46 @@ class ApplicationSettings
             'drivers_license' => 'yes',
             'notice_period' => '',
             'job_preferences' => '',
+            'pause_before_submit' => self::DEFAULT_PAUSE_BEFORE_SUBMIT,
+            'timing_level' => self::DEFAULT_TIMING_LEVEL,
+            'stop_for_cover_letter' => self::DEFAULT_STOP_FOR_COVER_LETTER,
+            'auto_generate_cover_letter' => self::DEFAULT_AUTO_GENERATE_COVER_LETTER,
+        ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function booleanKeys(): array
+    {
+        return [
+            'pause_before_submit',
+            'stop_for_cover_letter',
+            'auto_generate_cover_letter',
         ];
     }
 
     /**
      * @param  array<string, mixed>|null  $settings
-     * @return array<string, string>
+     * @return array{
+     *     phone_country_code: string,
+     *     years_of_experience: string,
+     *     expected_salary_weekly: string,
+     *     expected_salary_monthly: string,
+     *     expected_salary_yearly: string,
+     *     visa_sponsorship: string,
+     *     legally_authorized: string,
+     *     affirm_local_commute: string,
+     *     affirm_local_hybrid: string,
+     *     willing_to_relocate: string,
+     *     drivers_license: string,
+     *     notice_period: string,
+     *     job_preferences: string,
+     *     pause_before_submit: bool,
+     *     timing_level: int,
+     *     stop_for_cover_letter: bool,
+     *     auto_generate_cover_letter: bool,
+     * }
      */
     public static function merge(?array $settings): array
     {
@@ -40,6 +104,8 @@ class ApplicationSettings
             return $merged;
         }
 
+        $booleanKeys = self::booleanKeys();
+
         foreach (array_keys($merged) as $key) {
             if (! array_key_exists($key, $settings)) {
                 continue;
@@ -47,12 +113,37 @@ class ApplicationSettings
 
             $value = $settings[$key];
 
+            if (in_array($key, $booleanKeys, true)) {
+                if (is_bool($value)) {
+                    $merged[$key] = $value;
+                }
+
+                continue;
+            }
+
+            if ($key === 'timing_level') {
+                $merged[$key] = self::normalizeTimingLevel($value);
+
+                continue;
+            }
+
             if (is_string($value) || is_numeric($value)) {
                 $merged[$key] = (string) $value;
             }
         }
 
         return $merged;
+    }
+
+    public static function normalizeTimingLevel(mixed $value): int
+    {
+        if (! is_int($value) && ! (is_string($value) && ctype_digit($value))) {
+            return self::DEFAULT_TIMING_LEVEL;
+        }
+
+        $parsed = (int) $value;
+
+        return max(self::MIN_TIMING_LEVEL, min(self::MAX_TIMING_LEVEL, $parsed));
     }
 
     public static function computeEarliestStart(?string $noticePeriod, ?Carbon $from = null): ?string
@@ -80,6 +171,15 @@ class ApplicationSettings
             'application_settings.drivers_license' => ['nullable', 'in:yes,no'],
             'application_settings.notice_period' => ['nullable', 'string', 'max:100'],
             'application_settings.job_preferences' => ['nullable', 'string', 'max:5000'],
+            'application_settings.pause_before_submit' => ['nullable', 'boolean'],
+            'application_settings.timing_level' => [
+                'nullable',
+                'integer',
+                'min:'.self::MIN_TIMING_LEVEL,
+                'max:'.self::MAX_TIMING_LEVEL,
+            ],
+            'application_settings.stop_for_cover_letter' => ['nullable', 'boolean'],
+            'application_settings.auto_generate_cover_letter' => ['nullable', 'boolean'],
         ];
     }
 }

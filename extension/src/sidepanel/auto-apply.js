@@ -18,6 +18,10 @@ import {
     normalizeAutoApplyPlatform,
     platformSupportsMarketSelector,
 } from './auto-apply-platforms.js';
+import {
+    extractAutoApplySettingsFromProfile,
+    toApplicationSettingsPatch,
+} from './auto-apply-profile-settings.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 import {
@@ -44,6 +48,8 @@ const minSalarySelect = document.getElementById('auto-apply-min-salary');
 const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
 const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
 const pauseBeforeSubmitInput = document.getElementById('auto-apply-pause-before-submit');
+const stopForCoverLetterInput = document.getElementById('auto-apply-stop-for-cover-letter');
+const autoGenerateCoverLetterInput = document.getElementById('auto-apply-auto-generate-cover-letter');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
 const timingLevelInput = document.getElementById('auto-apply-timing-level');
 const timingValueEl = document.getElementById('auto-apply-timing-value');
@@ -76,6 +82,8 @@ let notifyUser = null;
 let lastRenderedSession = null;
 /** @type {ReturnType<typeof setTimeout>|null} */
 let saveSettingsTimer = null;
+/** @type {ReturnType<typeof setTimeout>|null} */
+let saveProfileSettingsTimer = null;
 let automationRunning = false;
 
 function extensionContext() {
@@ -211,6 +219,10 @@ function readSettingsFromForm() {
         minFitScore: readMinFitScore(),
         pauseBeforeSubmit: Boolean(pauseBeforeSubmitInput?.checked),
         timingLevel: readTimingLevel(),
+        stopForCoverLetter: Boolean(stopForCoverLetterInput?.checked),
+        autoGenerateCoverLetter: autoGenerateCoverLetterInput
+            ? Boolean(autoGenerateCoverLetterInput.checked)
+            : true,
     };
 }
 
@@ -272,6 +284,14 @@ function applySettingsToForm(settings) {
         pauseBeforeSubmitInput.checked = settings.pauseBeforeSubmit;
     }
 
+    if (typeof settings.stopForCoverLetter === 'boolean' && stopForCoverLetterInput) {
+        stopForCoverLetterInput.checked = settings.stopForCoverLetter;
+    }
+
+    if (typeof settings.autoGenerateCoverLetter === 'boolean' && autoGenerateCoverLetterInput) {
+        autoGenerateCoverLetterInput.checked = settings.autoGenerateCoverLetter;
+    }
+
     if (timingLevelInput) {
         timingLevelInput.value = String(normalizeTimingLevel(settings.timingLevel));
     }
@@ -300,17 +320,91 @@ function schedulePersistSettings() {
     }, 250);
 }
 
+/**
+ * Persist pause/timing to the user profile. Failures are silent - local storage still holds values.
+ */
+function schedulePersistProfileSettings() {
+    if (saveProfileSettingsTimer) {
+        window.clearTimeout(saveProfileSettingsTimer);
+    }
+
+    saveProfileSettingsTimer = window.setTimeout(() => {
+        void persistAutoApplySettingsToProfile();
+    }, 400);
+}
+
+async function persistAutoApplySettingsToProfile() {
+    const patch = toApplicationSettingsPatch({
+        pauseBeforeSubmit: Boolean(pauseBeforeSubmitInput?.checked),
+        timingLevel: readTimingLevel(),
+        stopForCoverLetter: Boolean(stopForCoverLetterInput?.checked),
+        autoGenerateCoverLetter: autoGenerateCoverLetterInput
+            ? Boolean(autoGenerateCoverLetterInput.checked)
+            : true,
+    });
+
+    try {
+        const ctx = extensionContext();
+        const payload = {
+            type: 'UPDATE_APPLICATION_SETTINGS',
+            settings: patch,
+        };
+        const response = ctx
+            ? await ctx.safeRuntimeSend(payload)
+            : await chrome.runtime.sendMessage(payload);
+
+        if (response?.error) {
+            return;
+        }
+    } catch {
+        // Profile may be unavailable offline or before login - keep local defaults.
+    }
+}
+
 function syncFitGateControls() {
     minFitScoreInput.disabled = !fitEnabledInput.checked;
 }
 
 /**
+ * Apply pause/timing from the signed-in profile (defaults when unset).
+ *
+ * @param {object|null|undefined} profileData
+ */
+export function syncAutoApplySettingsFromProfile(profileData) {
+    const fromProfile = extractAutoApplySettingsFromProfile(profileData);
+
+    applySettingsToForm({
+        pauseBeforeSubmit: fromProfile.pauseBeforeSubmit,
+        timingLevel: fromProfile.timingLevel,
+        stopForCoverLetter: fromProfile.stopForCoverLetter,
+        autoGenerateCoverLetter: fromProfile.autoGenerateCoverLetter,
+    });
+
+    void chrome.storage.local.get([SETTINGS_STORAGE_KEY]).then((stored) => {
+        const existing = stored?.[SETTINGS_STORAGE_KEY];
+
+        return chrome.storage.local.set({
+            [SETTINGS_STORAGE_KEY]: {
+                ...(existing && typeof existing === 'object' ? existing : {}),
+                pauseBeforeSubmit: fromProfile.pauseBeforeSubmit,
+                timingLevel: fromProfile.timingLevel,
+                stopForCoverLetter: fromProfile.stopForCoverLetter,
+                autoGenerateCoverLetter: fromProfile.autoGenerateCoverLetter,
+            },
+        });
+    }).catch(() => {});
+}
+
+/**
  * Prefill Auto Apply location from the signed-in profile.
  * Role stays user-entered only - never copy profile headline / education.
+ * Also syncs pause/timing from application_settings.
  *
  * @param {object|null|undefined} profileData
  */
 export function syncSearchDefaultsFromProfile(profileData) {
+    syncAutoApplySettingsFromProfile(profileData);
+
     const profileLocation = resolveProfileSearchLocation(profileData);
     const currentLocation = locationInput.value.trim();
 
@@ -729,6 +823,15 @@ function expandActivityPanelForRun() {
     resetActivityPanelVisibility();
 }
 
+function isProfileSyncedSettingInput(input) {
+    return (
+        input === pauseBeforeSubmitInput
+        || input === timingLevelInput
+        || input === stopForCoverLetterInput
+        || input === autoGenerateCoverLetterInput
+    );
+}
+
 function bindSettingsPersistence() {
     const inputs = [
         platformSelect,
@@ -742,6 +845,8 @@ function bindSettingsPersistence() {
         fitEnabledInput,
         minFitScoreInput,
         pauseBeforeSubmitInput,
+        stopForCoverLetterInput,
+        autoGenerateCoverLetterInput,
         maxApplicationsInput,
         timingLevelInput,
     ].filter(Boolean);
@@ -749,9 +854,17 @@ function bindSettingsPersistence() {
     for (const input of inputs) {
         input.addEventListener('input', () => {
             schedulePersistSettings();
+
+            if (isProfileSyncedSettingInput(input)) {
+                schedulePersistProfileSettings();
+            }
         });
         input.addEventListener('change', () => {
             schedulePersistSettings();
+
+            if (isProfileSyncedSettingInput(input)) {
+                schedulePersistProfileSettings();
+            }
 
             if (input === platformSelect) {
                 syncMarketField(readSelectedPlatform() || LINKEDIN_PLATFORM_ID);
@@ -769,10 +882,12 @@ function bindSettingsPersistence() {
         timingLevelInput.addEventListener('input', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
+            schedulePersistProfileSettings();
         });
         timingLevelInput.addEventListener('change', () => {
             syncTimingLevelLabel();
             schedulePersistSettings();
+            schedulePersistProfileSettings();
         });
     }
 }
@@ -827,6 +942,10 @@ export function initAutoApplyPanel({ showMessage }) {
         const minFitScore = readMinFitScore();
         const pauseBeforeSubmit = Boolean(pauseBeforeSubmitInput?.checked);
         const timingLevel = readTimingLevel();
+        const stopForCoverLetter = Boolean(stopForCoverLetterInput?.checked);
+        const autoGenerateCoverLetter = autoGenerateCoverLetterInput
+            ? Boolean(autoGenerateCoverLetterInput.checked)
+            : true;
 
         if (!platform) {
             showMessage('Choose a supported job board.', 'error');
@@ -841,6 +960,7 @@ export function initAutoApplyPanel({ showMessage }) {
         }
 
         await chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: readSettingsFromForm() });
+        schedulePersistProfileSettings();
 
         startBtn.disabled = true;
         stopBtn.disabled = false;
@@ -859,6 +979,8 @@ export function initAutoApplyPanel({ showMessage }) {
                 minFitScore,
                 pauseBeforeSubmit,
                 timingLevel,
+                stopForCoverLetter,
+                autoGenerateCoverLetter,
                 hostTabId: hostTab?.id ?? null,
                 hostWindowId: hostTab?.windowId ?? null,
             };
@@ -993,5 +1115,6 @@ export function initAutoApplyPanel({ showMessage }) {
         refreshStatus,
         resetAutoApplyUiOnPanelHidden,
         syncSearchDefaultsFromProfile,
+        syncAutoApplySettingsFromProfile,
     };
 }

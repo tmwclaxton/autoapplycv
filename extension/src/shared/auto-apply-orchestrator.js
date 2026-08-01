@@ -13,6 +13,10 @@ import {
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
 import {
+    shouldStopForCoverLetterInput,
+    stepHasCoverLetterInput,
+} from './auto-apply-cover-letter.js';
+import {
     configureAutoApplyAtsSubscriptionHandler,
     formatAutoApplyFitLogMessage,
     formatFitUnavailableContinueMessage,
@@ -3399,6 +3403,105 @@ async function waitForReviewBeforeSubmitIfNeeded(session, tabId, job, options = 
 }
 
 /**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {{ jobId?: string, title?: string, company?: string }} job
+ */
+async function pauseForCoverLetterInput(session, tabId, job) {
+    const prompt =
+        'Cover letter field detected. Add or review the cover letter, then resume Auto Apply.';
+    const pauseContext = {
+        job: {
+            jobId: job?.jobId || null,
+            title: job?.title || 'Application',
+            company: job?.company || '',
+        },
+        stepFingerprint: 'cover-letter-input',
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: 'fill_and_advance',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        pauseReason: 'cover_letter_input',
+    };
+
+    await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                `[paused] ${job?.title || 'Application'}: cover letter input - Resume in Assist when ready.`,
+            ),
+            pauseContext,
+        ),
+    );
+
+    await startAutoApplyPauseKeepalive();
+    await openAssistSidePanelForCaptcha(tabId);
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'cover_letter_input',
+        })
+        .catch(() => {});
+}
+
+/**
+ * Pause when stop-for-cover-letter is on and the step exposes a cover letter field.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {{ jobId?: string, title?: string, company?: string }} job
+ * @param {{ draftResult?: object|null, inventoryFields?: unknown }} [options]
+ * @returns {Promise<{ skipped?: boolean, stopped?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+export async function waitForCoverLetterInputIfNeeded(
+    session,
+    tabId,
+    job,
+    options = {},
+) {
+    if (!shouldStopForCoverLetterInput(session)) {
+        return { skipped: true, session };
+    }
+
+    let inventoryFields = Array.isArray(options.inventoryFields)
+        ? options.inventoryFields
+        : [];
+
+    if (
+        !stepHasCoverLetterInput(options.draftResult, inventoryFields)
+    ) {
+        try {
+            const inventory = await collectFieldsFromTab(tabId, undefined, {
+                allowInteractiveOptionHarvest: false,
+            });
+            inventoryFields = inventory?.fields || inventory?.elements || [];
+        } catch {
+            inventoryFields = [];
+        }
+    }
+
+    if (!stepHasCoverLetterInput(options.draftResult, inventoryFields)) {
+        return { skipped: true, session };
+    }
+
+    await pauseForCoverLetterInput(session, tabId, job);
+    const resumed = await waitForAutoApplyResume();
+
+    if (resumed.stopRequested) {
+        return { stopped: true, session: resumed };
+    }
+
+    return { resumed: true, session: resumed };
+}
+
+/**
  * Re-pause Auto Apply after a blocked-field answer fails LinkedIn validation.
  */
 export async function rePauseAutoApplyForValidationRetry({
@@ -3662,6 +3765,22 @@ async function runDraftAllForStep(
             },
             tabId,
         );
+    }
+
+    const coverLetterPause = await waitForCoverLetterInputIfNeeded(
+        session,
+        tabId,
+        job,
+        { draftResult },
+    );
+
+    if (coverLetterPause.stopped) {
+        return {
+            ...draftResult,
+            stopped: true,
+            error: draftResult?.error || 'Auto Apply stopped.',
+            session: coverLetterPause.session,
+        };
     }
 
     return draftResult;
@@ -9437,7 +9556,7 @@ function buildTotalJobsRunnerContext() {
 }
 
 /**
- * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, timingLevel?: number, runDraftAll: Function }} options
+ * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, timingLevel?: number, stopForCoverLetterInput?: boolean, autoGenerateCoverLetter?: boolean, runDraftAll: Function }} options
  */
 export async function startAutoApply({
     platform,
@@ -9448,6 +9567,8 @@ export async function startAutoApply({
     minFitScore = 10,
     pauseBeforeSubmit = false,
     timingLevel = null,
+    stopForCoverLetterInput = false,
+    autoGenerateCoverLetter = true,
     force = false,
     hostTabId = null,
     hostWindowId = null,
@@ -9500,6 +9621,8 @@ export async function startAutoApply({
             minFitScore,
             pauseBeforeSubmit,
             timingLevel,
+            stopForCoverLetterInput,
+            autoGenerateCoverLetter,
         });
 
         configureAutoApplyTiming(session.timingLevel);
@@ -10779,6 +10902,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     appendAutoApplyLog,
     waitForApplicationSubmitConfirmation,
     waitForReviewBeforeSubmitIfNeeded,
+    waitForCoverLetterInputIfNeeded,
     applyStateNeedsSubmitPause,
 });
 

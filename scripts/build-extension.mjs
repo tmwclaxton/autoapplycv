@@ -474,6 +474,14 @@ copyFileSync(
     join(DIST, 'auto-apply-timing.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/auto-apply-profile-settings.js'),
+    join(DIST, 'auto-apply-profile-settings.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-cover-letter.js'),
+    join(DIST, 'auto-apply-cover-letter.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-timing-content.js'),
     join(DIST, 'auto-apply-timing-content.js'),
 );

@@ -39,9 +39,87 @@ class ApplicationPreferencesTest extends TestCase
             ->assertJsonPath('application_settings.notice_period', '2 weeks')
             ->assertJsonPath('application_settings.job_preferences', 'Remote Laravel roles in the UK.')
             ->assertJsonPath('application_settings.phone_country_code', '+44')
+            ->assertJsonPath('application_settings.pause_before_submit', false)
+            ->assertJsonPath('application_settings.timing_level', 1)
+            ->assertJsonPath('application_settings.stop_for_cover_letter', false)
+            ->assertJsonPath('application_settings.auto_generate_cover_letter', true)
             ->assertJsonPath('computed_earliest_start', '19 July 2026');
 
         Carbon::setTestNow();
+    }
+
+    public function test_api_profile_defaults_auto_apply_settings_when_unset(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => true,
+            'application_settings' => [
+                'notice_period' => '1 week',
+            ],
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/profile')
+            ->assertOk()
+            ->assertJsonPath('application_settings.pause_before_submit', false)
+            ->assertJsonPath('application_settings.timing_level', 1)
+            ->assertJsonPath('application_settings.stop_for_cover_letter', false)
+            ->assertJsonPath('application_settings.auto_generate_cover_letter', true);
+    }
+
+    public function test_api_profile_can_store_and_retrieve_auto_apply_settings(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => true,
+            'application_settings' => [],
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->patchJson('/api/profile', [
+            'application_settings' => [
+                'pause_before_submit' => true,
+                'timing_level' => 4,
+                'stop_for_cover_letter' => true,
+                'auto_generate_cover_letter' => false,
+            ],
+        ])
+            ->assertOk()
+            ->assertJsonPath('profile.application_settings.pause_before_submit', true)
+            ->assertJsonPath('profile.application_settings.timing_level', 4)
+            ->assertJsonPath('profile.application_settings.stop_for_cover_letter', true)
+            ->assertJsonPath('profile.application_settings.auto_generate_cover_letter', false);
+
+        $profile = $user->fresh()->cvProfile;
+        $settings = ApplicationSettings::merge($profile->application_settings);
+
+        $this->assertTrue($settings['pause_before_submit']);
+        $this->assertSame(4, $settings['timing_level']);
+        $this->assertTrue($settings['stop_for_cover_letter']);
+        $this->assertFalse($settings['auto_generate_cover_letter']);
+
+        $this->getJson('/api/profile')
+            ->assertOk()
+            ->assertJsonPath('application_settings.pause_before_submit', true)
+            ->assertJsonPath('application_settings.timing_level', 4)
+            ->assertJsonPath('application_settings.stop_for_cover_letter', true)
+            ->assertJsonPath('application_settings.auto_generate_cover_letter', false);
+    }
+
+    public function test_api_profile_rejects_invalid_auto_apply_timing_level(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create(['parsing_complete' => true]);
+
+        Sanctum::actingAs($user);
+
+        $this->patchJson('/api/profile', [
+            'application_settings' => [
+                'timing_level' => 9,
+            ],
+        ])->assertUnprocessable();
     }
 
     public function test_api_profile_rejects_persisted_earliest_start(): void

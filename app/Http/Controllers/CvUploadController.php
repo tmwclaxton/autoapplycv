@@ -190,8 +190,15 @@ class CvUploadController extends Controller
             ...CoverLetterDesignSettings::validationRules(),
         ]);
 
+        $existing = CvProfile::query()->where('user_id', $request->user()->id)->first();
+
         if (array_key_exists('application_settings', $validated)) {
-            $validated['application_settings'] = ApplicationSettings::merge($validated['application_settings']);
+            $validated['application_settings'] = ApplicationSettings::merge(
+                array_merge(
+                    is_array($existing?->application_settings) ? $existing->application_settings : [],
+                    $validated['application_settings'],
+                ),
+            );
         }
 
         if (array_key_exists('application_answers', $validated)) {
@@ -199,8 +206,6 @@ class CvUploadController extends Controller
         }
 
         unset($validated['application_answers_append'], $validated['application_answers_remove_id']);
-
-        $existing = CvProfile::query()->where('user_id', $request->user()->id)->first();
 
         if (array_key_exists('cover_letter_design', $validated) || array_key_exists('cover_letter_font', $validated)) {
             $normalized = CoverLetterDesignSettings::normalize(

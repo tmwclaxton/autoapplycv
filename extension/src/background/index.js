@@ -4,6 +4,7 @@ import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     findFieldValidationError,
 } from './auto-apply-blockers.js';
+import { shouldSkipCoverLetterGenerationForSession } from './auto-apply-cover-letter.js';
 import {
     configureAutoApplyAtsSubscriptionHandler,
     configureAutoApplyCaptchaSolver,
@@ -21,7 +22,10 @@ import {
     forceResetAutoApply,
     stopAutoApplyForSidePanelClosed,
 } from './auto-apply-orchestrator.js';
-import { loadAutoApplySession } from './auto-apply-session.js';
+import {
+    isActiveAutoApplyStatus,
+    loadAutoApplySession,
+} from './auto-apply-session.js';
 import { mergeAutoApplyStartFilters } from './auto-apply-start-filters.js';
 import { initExtensionBridge } from './bridge-client.js';
 import {
@@ -987,6 +991,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     minFitScore: message.minFitScore,
                     pauseBeforeSubmit: message.pauseBeforeSubmit === true,
                     timingLevel: message.timingLevel,
+                    stopForCoverLetterInput: message.stopForCoverLetter === true,
+                    autoGenerateCoverLetter: message.autoGenerateCoverLetter !== false,
                     hostTabId: message.hostTabId ?? null,
                     hostWindowId: message.hostWindowId ?? null,
                     runDraftAll,
@@ -1226,6 +1232,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'APPLY_PROFILE_UPDATE') {
         applyProfileUpdate(message.update)
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'UPDATE_APPLICATION_SETTINGS') {
+        updateApplicationSettings(message.settings)
             .then(sendResponse)
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -3230,14 +3244,16 @@ async function fillDocumentsThenReapplyStickyAnswers({
     }
 
     // Late Greenhouse remounts can clear an earlier cover-letter attach.
-    try {
-        await sendTabMessage(
-            tabId,
-            { type: 'FILL_COVER_LETTER', job },
-            nextFrameId,
-        );
-    } catch {
-        // Best-effort; file input may be absent on this board.
+    if (!(await shouldSkipAutoApplyCoverLetterGeneration())) {
+        try {
+            await sendTabMessage(
+                tabId,
+                { type: 'FILL_COVER_LETTER', job },
+                nextFrameId,
+            );
+        } catch {
+            // Best-effort; file input may be absent on this board.
+        }
     }
 
     return {
@@ -4142,10 +4158,14 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         // Stream timeout / omitted cover-letter answers leave optional CLs blank
         // after job-specific __CLEAR__. Recover via draft-field + template.
-        const missingCoverLetterRefs = collectMissingCoverLetterRetryRefs(
-            draftFields,
-            appliedAnswersByRef,
-        );
+        const skipCoverLetterRecovery =
+            await shouldSkipAutoApplyCoverLetterGeneration();
+        const missingCoverLetterRefs = skipCoverLetterRecovery
+            ? []
+            : collectMissingCoverLetterRetryRefs(
+                  draftFields,
+                  appliedAnswersByRef,
+              );
 
         if (missingCoverLetterRefs.length > 0) {
             const coverLetterRecovery = await retryEmptyDraftBatchAnswers({
@@ -4821,10 +4841,21 @@ async function getCoverLetterDocument(
     };
 }
 
+async function shouldSkipAutoApplyCoverLetterGeneration() {
+    const session = await loadAutoApplySession();
+
+    return shouldSkipCoverLetterGenerationForSession(
+        session,
+        isActiveAutoApplyStatus,
+    );
+}
+
 async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
     if (!shouldFillApplicationDocumentsDuringDraftAll()) {
         return;
     }
+
+    const skipCoverLetter = await shouldSkipAutoApplyCoverLetterGeneration();
 
     // Resume attach remounts Greenhouse/Teamtailor forms - wait before CL.
     await fillApplicationDocumentsSequence({
@@ -4840,6 +4871,10 @@ async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
             }
         },
         fillCoverLetter: async () => {
+            if (skipCoverLetter) {
+                return;
+            }
+
             try {
                 await sendTabMessage(
                     tabId,
@@ -5084,6 +5119,51 @@ async function applyProfileUpdate(update) {
 
     invalidateProfileCache();
     await clearQuestionMemo();
+
+    return data;
+}
+
+/**
+ * Patch application_settings on the profile (Auto Apply pause/timing, etc.).
+ * Does not clear the question memo.
+ *
+ * @param {Record<string, unknown>|null|undefined} settings
+ */
+async function updateApplicationSettings(settings) {
+    if (!settings || typeof settings !== 'object' || Array.isArray(settings)) {
+        throw new Error('Invalid application settings.');
+    }
+
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    const response = await fetch(`${apiBase}/api/profile`, {
+        method: 'PATCH',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            application_settings: settings,
+        }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(
+            apiErrorMessage(data, 'Could not update application settings.'),
+        );
+    }
+
+    invalidateProfileCache();
 
     return data;
 }
@@ -5779,6 +5859,8 @@ initExtensionBridge({
             minFitScore = 10,
             pauseBeforeSubmit = false,
             timingLevel = null,
+            stopForCoverLetter = false,
+            autoGenerateCoverLetter = true,
             filters = null,
             location = null,
             market = null,
@@ -5805,6 +5887,8 @@ initExtensionBridge({
                 minFitScore: Number(minFitScore) || 10,
                 pauseBeforeSubmit: pauseBeforeSubmit === true,
                 timingLevel,
+                stopForCoverLetterInput: stopForCoverLetter === true,
+                autoGenerateCoverLetter: autoGenerateCoverLetter !== false,
                 force: force === true,
                 hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
                 hostWindowId:

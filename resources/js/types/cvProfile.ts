@@ -136,6 +136,14 @@ export interface ApplicationSettings {
     drivers_license: 'yes' | 'no';
     notice_period: string;
     job_preferences: string;
+    /** Extension Auto Apply: pause at Submit/Review. Default off. */
+    pause_before_submit: boolean;
+    /** Extension Auto Apply timing level 1 (careful) through 5 (speed). */
+    timing_level: number;
+    /** Extension Auto Apply: pause when a cover letter field is present. Default off. */
+    stop_for_cover_letter: boolean;
+    /** Extension Auto Apply: generate/attach cover letters automatically. Default on. */
+    auto_generate_cover_letter: boolean;
 }
 
 export interface ApplicationAnswer {
@@ -258,15 +266,49 @@ export function defaultApplicationSettings(): ApplicationSettings {
         drivers_license: 'yes',
         notice_period: '',
         job_preferences: '',
+        pause_before_submit: false,
+        timing_level: 1,
+        stop_for_cover_letter: false,
+        auto_generate_cover_letter: true,
     };
+}
+
+function normalizeAutoApplyTimingLevel(value: unknown): number {
+    const parsed = Number.parseInt(String(value ?? ''), 10);
+
+    if (Number.isNaN(parsed)) {
+        return 1;
+    }
+
+    return Math.max(1, Math.min(5, parsed));
+}
+
+function normalizeBooleanSetting(value: unknown, fallback: boolean): boolean {
+    return typeof value === 'boolean' ? value : fallback;
 }
 
 export function normalizeApplicationSettings(
     input: Partial<ApplicationSettings> | null | undefined,
 ): ApplicationSettings {
+    const defaults = defaultApplicationSettings();
+    const source = input ?? {};
+
     return {
-        ...defaultApplicationSettings(),
-        ...(input ?? {}),
+        ...defaults,
+        ...source,
+        pause_before_submit: normalizeBooleanSetting(
+            source.pause_before_submit,
+            defaults.pause_before_submit,
+        ),
+        timing_level: normalizeAutoApplyTimingLevel(source.timing_level),
+        stop_for_cover_letter: normalizeBooleanSetting(
+            source.stop_for_cover_letter,
+            defaults.stop_for_cover_letter,
+        ),
+        auto_generate_cover_letter: normalizeBooleanSetting(
+            source.auto_generate_cover_letter,
+            defaults.auto_generate_cover_letter,
+        ),
     };
 }
 

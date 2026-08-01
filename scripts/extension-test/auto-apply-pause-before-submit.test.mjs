@@ -66,6 +66,8 @@ test('sidepanel Auto Apply settings shelf holds timing, pause, and min fit score
 
     assert.match(settingsBlock, /id="auto-apply-timing-level"/);
     assert.match(settingsBlock, /id="auto-apply-pause-before-submit"/);
+    assert.match(settingsBlock, /id="auto-apply-stop-for-cover-letter"/);
+    assert.match(settingsBlock, /id="auto-apply-auto-generate-cover-letter"/);
     assert.match(settingsBlock, /id="auto-apply-fit-enabled"/);
     assert.match(settingsBlock, /id="auto-apply-min-fit-score"/);
 
