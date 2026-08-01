@@ -724,6 +724,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const alreadyApplied = isPreviouslyAppliedStepLabel(label);
         const isReviewStep = /review|check your application|summary|your details/i.test(label || '')
             || Boolean(document.querySelector('[data-qa="application-review-summary"]'));
+        const coverLetterControl = document.querySelector(
+            'button[name="coverLetter"], [data-qa*="cover-letter"], [data-qa*="coverLetter"], textarea[name*="cover"], textarea[id*="cover"]',
+        );
+        const hasCoverLetterInput = Boolean(coverLetterControl);
 
         return {
             open: true,
@@ -732,6 +736,7 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             canContinue: Boolean(continueButton) && !isReviewStep && !alreadyApplied,
             canSubmit: Boolean(submitButton) || isReviewStep,
             hasSubmitButton: Boolean(submitButton),
+            hasCoverLetterInput,
             stepLabel: label,
             actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
             stepFingerprint: readStepFingerprint(),

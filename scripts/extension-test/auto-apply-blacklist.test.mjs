@@ -112,6 +112,29 @@ test('blocks description and location phrases', () => {
     );
 });
 
+test('multi-word employer phrases do not match JD description text', () => {
+    assert.equal(
+        evaluateJobAgainstBlacklist({
+            blacklistText: 'client server',
+            title: 'Cybersecurity, Senior Associate',
+            company: 'State Street Corporation',
+            description:
+                'Experience with client server architectures and cloud platforms',
+        }).blocked,
+        false,
+    );
+
+    assert.equal(
+        evaluateJobAgainstBlacklist({
+            blacklistText: 'client server',
+            title: 'TypeScript Engineer',
+            company: 'Client Server',
+            description: 'Build React apps',
+        }).blocked,
+        true,
+    );
+});
+
 test('parseBlacklistRules extracts quoted and avoid clauses', () => {
     const rules = parseBlacklistRules('no construction jobs and avoid "Acme Corp"');
     const phrases = rules.map((rule) => rule.phrase);

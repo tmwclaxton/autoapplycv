@@ -18,6 +18,8 @@ function loadIndeedAutoApply(domWindow) {
         window: domWindow,
         document: domWindow.document,
         HTMLElement: domWindow.HTMLElement,
+        HTMLButtonElement: domWindow.HTMLButtonElement,
+        HTMLAnchorElement: domWindow.HTMLAnchorElement,
         setTimeout: domWindow.setTimeout.bind(domWindow),
         clearTimeout: domWindow.clearTimeout.bind(domWindow),
         MouseEvent: domWindow.MouseEvent,
@@ -63,6 +65,30 @@ const openDom = new JSDOM(
 const openApi = loadIndeedAutoApply(openDom.window);
 
 assert.equal(openApi.readAlreadyAppliedMarker(), false);
+
+const statusAppliedWidgetDom = new JSDOM(
+    `<div id="jobsearch-ViewjobPaneWrapper">
+      <div class="jobsearch-IndeedApplyButton jobsearch-IndeedApplyButton--disabled">
+        <div class="ia-IndeedApplyButton">
+          <span data-testid="indeed-apply-widget" class="indeed-apply-widget indeed-apply-status-applied">
+            <button id="indeedApplyButton" data-testid="indeedApplyButton-test" disabled aria-label="Apply with Indeed">
+              Apply with Indeed
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>`,
+    {
+        url: 'https://uk.indeed.com/job/senior-wordpress-developer-bc0e531dc003bee8',
+    },
+);
+const statusAppliedWidgetApi = loadIndeedAutoApply(statusAppliedWidgetDom.window);
+
+assert.equal(
+    statusAppliedWidgetApi.readAlreadyAppliedMarker(),
+    true,
+    'indeed-apply-status-applied widget must count as already applied even when CTA still says Apply with Indeed',
+);
 
 const atumAppliedCardDom = new JSDOM(
     `<div class="job_seen_beacon" data-jk="f8f954020280cd41">

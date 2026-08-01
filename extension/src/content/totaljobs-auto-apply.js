@@ -360,7 +360,7 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
 
             const label = normalize(button.textContent);
 
-            if (/unavailable|expired|closed/i.test(label)) {
+            if (/unavailable|expired|closed|already applied/i.test(label)) {
                 continue;
             }
 
@@ -372,9 +372,54 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
         return null;
     }
 
+    /**
+     * Live Totaljobs job pages show a disabled harmonised CTA labeled
+     * "Already applied" after a prior Quick Apply.
+     */
+    function readAlreadyAppliedMarker() {
+        const candidates = [
+            ...document.querySelectorAll('button[data-testid="harmonised-apply-button"]'),
+            ...document.querySelectorAll('a[data-testid="harmonised-apply-button"]'),
+            ...document.querySelectorAll('[data-at="apply-now-section"] button'),
+            ...document.querySelectorAll('[data-at="apply-now-section"] a'),
+            ...document.querySelectorAll('button, a, [role="button"]'),
+        ];
+
+        for (const element of candidates) {
+            if (!(element instanceof HTMLElement) || !isElementVisible(element)) {
+                continue;
+            }
+
+            const label = normalize(
+                `${element.textContent || ''} ${element.getAttribute('aria-label') || ''}`,
+            );
+
+            if (/already applied/i.test(label)) {
+                return true;
+            }
+
+            if (
+                element.disabled
+                && /^(applied|application submitted)$/i.test(label)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     async function clickTotalJobsApply() {
         for (let attempt = 0; attempt < 3; attempt += 1) {
             await prepareJobView({ force: attempt === 0 });
+
+            if (readAlreadyAppliedMarker()) {
+                return {
+                    success: false,
+                    alreadyApplied: true,
+                    error: 'Already applied to this job on Totaljobs.',
+                };
+            }
 
             const applyButton = readApplyButton();
 
@@ -403,6 +448,14 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
             }
 
             await humanPause(500, 850);
+        }
+
+        if (readAlreadyAppliedMarker()) {
+            return {
+                success: false,
+                alreadyApplied: true,
+                error: 'Already applied to this job on Totaljobs.',
+            };
         }
 
         return { success: false, error: 'Totaljobs Apply button not found on job page.' };
@@ -594,10 +647,25 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
             return {
                 open: false,
                 submitted: true,
+                alreadyApplied: false,
                 canContinue: false,
                 canSubmit: false,
                 stepLabel: 'Application submitted',
                 stepFingerprint: 'submitted',
+                validationErrors: [],
+                isReviewStep: false,
+            };
+        }
+
+        if (isTotalJobsJobPage() && readAlreadyAppliedMarker()) {
+            return {
+                open: false,
+                submitted: false,
+                alreadyApplied: true,
+                canContinue: false,
+                canSubmit: false,
+                stepLabel: 'Already applied',
+                stepFingerprint: 'already-applied',
                 validationErrors: [],
                 isReviewStep: false,
             };
@@ -613,6 +681,7 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
             return {
                 open: false,
                 submitted: verify.submitted,
+                alreadyApplied: false,
                 canContinue: false,
                 canSubmit: false,
                 stepLabel: null,
@@ -636,6 +705,7 @@ var AutoCVApplyTotalJobsAutoApply = (() => {
         return {
             open: true,
             submitted: false,
+            alreadyApplied: false,
             canContinue: Boolean(continueButton) && !isReviewStep,
             canSubmit: submitEnabled,
             hasSubmitButton: Boolean(submitButton),

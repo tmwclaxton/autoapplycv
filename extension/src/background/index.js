@@ -982,19 +982,39 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             }
 
             try {
+                // Omit unset booleans so startAutoApply can apply profile
+                // application_settings (same contract as the MCP bridge tool).
                 const session = await startAutoApply({
                     platform: message.platform,
                     roleDescription: message.roleDescription,
                     maxApplications: message.maxApplications,
                     filters: message.filters || null,
-                    fitCheckEnabled: message.fitCheckEnabled !== false,
+                    ...(typeof message.fitCheckEnabled === 'boolean'
+                        ? { fitCheckEnabled: message.fitCheckEnabled }
+                        : {}),
                     minFitScore: message.minFitScore,
-                    pauseBeforeSubmit: message.pauseBeforeSubmit === true,
+                    ...(typeof message.pauseBeforeSubmit === 'boolean'
+                        ? { pauseBeforeSubmit: message.pauseBeforeSubmit }
+                        : {}),
                     timingLevel: message.timingLevel,
-                    stopForCoverLetterInput: message.stopForCoverLetter === true,
-                    autoGenerateCoverLetter: message.autoGenerateCoverLetter !== false,
-                    easyApplyOnly: message.easyApplyOnly !== false,
-                    pauseOnExternalApply: message.pauseOnExternalApply === true,
+                    ...(typeof message.stopForCoverLetter === 'boolean'
+                        ? { stopForCoverLetterInput: message.stopForCoverLetter }
+                        : {}),
+                    ...(typeof message.autoGenerateCoverLetter === 'boolean'
+                        ? {
+                              autoGenerateCoverLetter:
+                                  message.autoGenerateCoverLetter,
+                          }
+                        : {}),
+                    ...(typeof message.easyApplyOnly === 'boolean'
+                        ? { easyApplyOnly: message.easyApplyOnly }
+                        : {}),
+                    ...(typeof message.pauseOnExternalApply === 'boolean'
+                        ? {
+                              pauseOnExternalApply:
+                                  message.pauseOnExternalApply,
+                          }
+                        : {}),
                     jobBlacklist:
                         typeof message.jobBlacklist === 'string'
                             ? message.jobBlacklist
@@ -4517,10 +4537,14 @@ async function quickAnswerFocused(tabId) {
     };
 }
 
-async function getProfile() {
+async function getProfile({ force = false } = {}) {
     const now = Date.now();
 
-    if (cachedProfile && now - cacheTimestamp < CACHE_TTL_MS) {
+    if (
+        !force &&
+        cachedProfile &&
+        now - cacheTimestamp < CACHE_TTL_MS
+    ) {
         return cachedProfile;
     }
 
@@ -5863,12 +5887,12 @@ initExtensionBridge({
             maxApplications = 2,
             fitCheckEnabled = false,
             minFitScore = 10,
-            pauseBeforeSubmit = false,
+            pauseBeforeSubmit,
             timingLevel = null,
-            stopForCoverLetter = false,
-            autoGenerateCoverLetter = true,
-            easyApplyOnly = true,
-            pauseOnExternalApply = false,
+            stopForCoverLetter,
+            autoGenerateCoverLetter,
+            easyApplyOnly,
+            pauseOnExternalApply,
             jobBlacklist = null,
             filters = null,
             location = null,
@@ -5894,12 +5918,21 @@ initExtensionBridge({
                 filters: mergedFilters,
                 fitCheckEnabled: fitCheckEnabled === true,
                 minFitScore: Number(minFitScore) || 10,
-                pauseBeforeSubmit: pauseBeforeSubmit === true,
+                // Omit booleans so startAutoApply can apply profile application_settings.
+                ...(typeof pauseBeforeSubmit === 'boolean'
+                    ? { pauseBeforeSubmit }
+                    : {}),
                 timingLevel,
-                stopForCoverLetterInput: stopForCoverLetter === true,
-                autoGenerateCoverLetter: autoGenerateCoverLetter !== false,
-                easyApplyOnly: easyApplyOnly !== false,
-                pauseOnExternalApply: pauseOnExternalApply === true,
+                ...(typeof stopForCoverLetter === 'boolean'
+                    ? { stopForCoverLetterInput: stopForCoverLetter }
+                    : {}),
+                ...(typeof autoGenerateCoverLetter === 'boolean'
+                    ? { autoGenerateCoverLetter }
+                    : {}),
+                ...(typeof easyApplyOnly === 'boolean' ? { easyApplyOnly } : {}),
+                ...(typeof pauseOnExternalApply === 'boolean'
+                    ? { pauseOnExternalApply }
+                    : {}),
                 jobBlacklist:
                     typeof jobBlacklist === 'string' ? jobBlacklist : null,
                 force: force === true,

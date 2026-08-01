@@ -6,6 +6,7 @@ use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Inertia\Support\Header;
 use InvalidArgumentException;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
@@ -20,6 +21,13 @@ class SubscriptionTest extends TestCase
     {
         parent::setUp();
         $this->withoutMiddleware(ValidateSessionWithWorkOS::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+
+        parent::tearDown();
     }
 
     public function test_authenticated_user_can_view_billing_page(): void
@@ -153,6 +161,8 @@ class SubscriptionTest extends TestCase
 
     public function test_legacy_paid_user_can_move_back_to_free_and_cancel_gocardless(): void
     {
+        Carbon::setTestNow('2026-07-15 12:00:00');
+
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
             'gocardless_subscription_id' => 'SB123',

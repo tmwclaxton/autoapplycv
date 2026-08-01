@@ -157,6 +157,22 @@ var AutoCVApplyReedAutoApply = (() => {
         return hasReedApplyStepControls() || isReedApplicationSummaryStep() || isReedApplyModalOpen();
     }
 
+    /**
+     * Review/summary can paint the "Application" title a beat before the
+     * visible Submit CTA hydrates. Do not treat modal-open alone as ready.
+     */
+    async function waitForSubmitButton(timeoutMs = 15_000) {
+        const deadline = Date.now() + timeoutMs;
+        let button = findSubmitButton();
+
+        while (!button && Date.now() < deadline) {
+            await humanPause(350, 550);
+            button = findSubmitButton();
+        }
+
+        return button;
+    }
+
     function isEasyApplyHostPage() {
         return isReedApplyFlowPage();
     }
@@ -270,6 +286,17 @@ var AutoCVApplyReedAutoApply = (() => {
         ) || 'Unknown company';
     }
 
+    /**
+     * Reed SERP titles sometimes include a leading "?" decoration. Passing that
+     * through into post-apply related-job URLs produces 404 pages and loses
+     * submit confirmation.
+     */
+    function sanitizeReedJobTitle(text) {
+        const cleaned = normalize(text).replace(/^[\s?¿¡*!#]+/u, '').trim();
+
+        return cleaned || 'Unknown role';
+    }
+
     function searchHasEasyApplyFilter() {
         return new URLSearchParams(window.location.search).get('filterEasilyApply') === 'true';
     }
@@ -330,10 +357,11 @@ var AutoCVApplyReedAutoApply = (() => {
             jobs.push({
                 jobId: resolvedJobId,
                 path: href.startsWith('/') ? href.split('?')[0] : null,
-                title: normalize(titleLink?.textContent)
-                    || normalize(titleButton?.textContent)
-                    || normalize(item.querySelector('[data-qa="job-title-btn-wrapper"]')?.textContent)
-                    || 'Unknown role',
+                title: sanitizeReedJobTitle(
+                    titleLink?.textContent
+                    || titleButton?.textContent
+                    || item.querySelector('[data-qa="job-title-btn-wrapper"]')?.textContent,
+                ),
                 company: readCompanyFromCard(item),
                 reedApply: easyApply,
                 easyApply,
@@ -906,7 +934,9 @@ var AutoCVApplyReedAutoApply = (() => {
             modalOpen: isReedApplyModalOpen(),
             submitted: false,
             canContinue: Boolean(continueButton) && !isReviewStep,
-            canSubmit: Boolean(submitButton) || isReviewStep,
+            // Require a visible Submit CTA - review title alone is not enough
+            // (Reed paints "Application" before submit-application-btn hydrates).
+            canSubmit: Boolean(submitButton),
             hasSubmitButton: Boolean(submitButton),
             stepLabel: label || (summaryStep ? 'Application' : null),
             actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
@@ -1108,10 +1138,11 @@ var AutoCVApplyReedAutoApply = (() => {
         const isReview = isReedApplicationSummaryStep()
             || /review|check your application|summary|^application$/i.test(stepLabel);
 
-        // Final summary can paint Submit a beat after the last Continue.
+        // Final summary can paint the Application title before Submit is visible.
+        // waitForApplyModalContent returns early on modal/summary heuristics - poll
+        // the Submit CTA itself (Wagada-class hydrate race on Reed).
         if (!submitButton && (isReview || !continueButton)) {
-            await waitForApplyModalContent(8_000);
-            submitButton = findSubmitButton();
+            submitButton = await waitForSubmitButton(15_000);
         }
 
         if (submitButton && (isReview || !continueButton)) {

@@ -1,0 +1,34 @@
+{
+  "id": "indeed-smartapply-cnc-years-number",
+  "min_fields": 1,
+  "exact_field_count": 1,
+  "fields": [
+    {
+      "question": "how many years of cnc/machining experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "number-input-:rh:",
+        "name": "q_0a63642d9278ac8e6c60cbec10e4804d",
+        "data_testid": "input-q_0a63642d9278ac8e6c60cbec10e4804d-input",
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "99",
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

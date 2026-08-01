@@ -134,15 +134,15 @@ $query->join('companies', 'companies.id', '=', 'users.company_id');
 DB::select('SELECT * FROM orders WHERE status = ?', ['pending']);
 ```
 
-Correct — reference the model's table:
+Correct - reference the model's table:
 ```php
 DB::table((new User)->getTable())->where('active', true)->get();
 
-// Even better — use Eloquent or the query builder instead of raw SQL
+// Even better - use Eloquent or the query builder instead of raw SQL
 User::where('active', true)->get();
 Order::where('status', 'pending')->get();
 ```
 
-Prefer Eloquent queries and relationships over `DB::table()` whenever possible — they already reference the model's table. When `DB::table()` or raw joins are unavoidable, always use `(new Model)->getTable()` to keep the reference traceable.
+Prefer Eloquent queries and relationships over `DB::table()` whenever possible - they already reference the model's table. When `DB::table()` or raw joins are unavoidable, always use `(new Model)->getTable()` to keep the reference traceable.
 
-**Exception — migrations:** In migrations, hardcoded table names via `DB::table('settings')` are acceptable and preferred. Models change over time but migrations are frozen snapshots — referencing a model that is later renamed or deleted would break the migration.
+**Exception - migrations:** In migrations, hardcoded table names via `DB::table('settings')` are acceptable and preferred. Models change over time but migrations are frozen snapshots - referencing a model that is later renamed or deleted would break the migration.

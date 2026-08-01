@@ -50,6 +50,10 @@ createInertiaApp({
         color: '#c8102e',
     },
     setup({ el, App, props, plugin }) {
+        if (!el) {
+            throw new Error('Inertia root element not found.');
+        }
+
         const pinia = createPinia();
 
         // Hydrate consent before GA pageview listener can fire on navigate.

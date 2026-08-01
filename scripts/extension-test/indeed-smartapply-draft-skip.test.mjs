@@ -36,6 +36,16 @@ assert.match(
     'Resume card step regex must cover selection/module/relevant-experience',
 );
 assert.match(
+    orchestratorSource,
+    /intervention/i,
+    'Draft All must skip SmartApply intervention soft-gate steps',
+);
+assert.match(
+    indeedSource,
+    /readInterventionContinueButton/,
+    'Must preferentially find Apply anyway on intervention steps',
+);
+assert.match(
     indeedSource,
     /isResumeCardStep:\s*onResumeCardStep/,
     'INDEED_APPLY_STATE must expose isResumeCardStep',
@@ -96,6 +106,38 @@ const html = readFileSync(fixturePath, 'utf8');
 assert.ok(html.length > 10_000, 'Captured SmartApply screener fixture must exist');
 assert.match(html, /questions-module|True|False|rich-text-question/i);
 
+function loadIndeedOnReview(html) {
+    const dom = new JSDOM(html, {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/review-module',
+    });
+    const context = dom.window;
+    const sandbox = {
+        window: context,
+        document: context.document,
+        HTMLElement: context.HTMLElement,
+        HTMLInputElement: context.HTMLInputElement,
+        HTMLButtonElement: context.HTMLButtonElement,
+        HTMLIFrameElement: context.HTMLIFrameElement,
+        Element: context.Element,
+        Node: context.Node,
+        Document: context.Document,
+        getComputedStyle: context.getComputedStyle.bind(context),
+        console,
+        globalThis: context,
+    };
+    context.globalThis = context;
+    vm.createContext(sandbox);
+
+    const indeedScript = indeedSource
+        .replace(
+            'const AutoCVApplyIndeedAutoApply =',
+            'globalThis.AutoCVApplyIndeedAutoApply =',
+        );
+    vm.runInContext(indeedScript, sandbox);
+
+    return context.AutoCVApplyIndeedAutoApply;
+}
+
 const miniReviewHtml = `
 <!doctype html><html><body>
   <div id="mosaic-provider-module-apply-preview">
@@ -104,36 +146,154 @@ const miniReviewHtml = `
   </div>
 </body></html>`;
 
-const dom = new JSDOM(miniReviewHtml, {
-    url: 'https://smartapply.indeed.com/beta/indeedapply/form/review-module',
-});
-const context = dom.window;
-const sandbox = {
-    window: context,
-    document: context.document,
-    HTMLElement: context.HTMLElement,
-    Element: context.Element,
-    Node: context.Node,
-    getComputedStyle: context.getComputedStyle.bind(context),
-    console,
-    globalThis: context,
-};
-context.globalThis = context;
-vm.createContext(sandbox);
-
-const indeedScript = indeedSource
-    .replace(
-        'const AutoCVApplyIndeedAutoApply =',
-        'globalThis.AutoCVApplyIndeedAutoApply =',
-    );
-vm.runInContext(indeedScript, sandbox);
-
-const Indeed = context.AutoCVApplyIndeedAutoApply;
+const Indeed = loadIndeedOnReview(miniReviewHtml);
 assert.equal(Indeed.isIndeedReviewStep(), true, 'review-module URL is review');
 assert.equal(Indeed.isIndeedResumeCardStep(), false, 'review is not resume card');
 
 const submit = Indeed.findSubmitButton({ includeDisabled: true, reviewOnly: true });
 assert.ok(submit, 'bare Submit button must be found on review');
 assert.match(submit.textContent.trim(), /^Submit$/i);
+
+const inputSubmitHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <h1>Review your application</h1>
+    <input type="submit" value="Submit" name="submit-application" />
+  </div>
+</body></html>`;
+const IndeedInput = loadIndeedOnReview(inputSubmitHtml);
+const inputSubmit = IndeedInput.findSubmitButton({
+    includeDisabled: true,
+    reviewOnly: true,
+});
+assert.ok(
+    inputSubmit,
+    'input[type=submit] value=Submit must be found (textContent is empty)',
+);
+assert.equal(String(inputSubmit.getAttribute('value') || ''), 'Submit');
+
+const sendAppHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <h1>Please review your application</h1>
+    <button type="button">Send application</button>
+  </div>
+</body></html>`;
+const IndeedSend = loadIndeedOnReview(sendAppHtml);
+const sendSubmit = IndeedSend.findSubmitButton({
+    includeDisabled: true,
+    reviewOnly: true,
+});
+assert.ok(sendSubmit, 'Send application must count as review Submit');
+
+const footerSubmitHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <h1>Review your application</h1>
+    <p>Preview only - submit lives in the sticky footer.</p>
+  </div>
+  <footer>
+    <button type="button" data-testid="submit-application-button">Submit your application</button>
+  </footer>
+</body></html>`;
+const IndeedFooter = loadIndeedOnReview(footerSubmitHtml);
+const footerSubmit = IndeedFooter.findSubmitButton({
+    includeDisabled: true,
+    reviewOnly: true,
+});
+assert.ok(
+    footerSubmit,
+    'Submit outside mosaic review root must still be found',
+);
+assert.match(
+    footerSubmit.getAttribute('data-testid') || '',
+    /submit-application-button/,
+);
+
+const decoySubmitHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <h1>Review your application</h1>
+    <button type="submit">Save draft</button>
+    <button type="submit" name="submit-application" data-testid="submit-application-button">Submit your application</button>
+  </div>
+</body></html>`;
+const IndeedDecoy = loadIndeedOnReview(decoySubmitHtml);
+const decoySubmit = IndeedDecoy.findSubmitButton({
+    includeDisabled: true,
+    reviewOnly: true,
+});
+assert.ok(decoySubmit, 'must skip earlier non-submit type=submit decoys');
+assert.match(
+    decoySubmit.getAttribute('data-testid') || '',
+    /submit-application-button/,
+);
+
+assert.match(
+    indeedSource,
+    /review \(your \|my \)\?application/,
+    'Continue labels must include Review your application',
+);
+assert.match(
+    indeedSource,
+    /querySelectorAll\([\s\S]{0,40}submit-application-button/,
+    'Submit discovery must scan all prioritized candidates',
+);
+assert.match(
+    indeedSource,
+    /Disabled "Apply with Indeed" beside an Applied CTA/,
+    'Already-applied marker must detect disabled Apply + Applied CTA',
+);
+
+const alreadyAppliedHtml = `
+<!doctype html><html><body>
+  <div id="jobsearch-ViewjobPaneWrapper" class="jobsearch-ViewJob">
+    <button aria-label="Applied" disabled><span>Applied</span></button>
+    <button id="indeedApplyButton" data-testid="indeedApplyButton-test" disabled aria-label="Apply with Indeed">Apply with Indeed</button>
+  </div>
+</body></html>`;
+function loadIndeedOnUrl(html, url) {
+    const dom = new JSDOM(html, { url });
+    const context = dom.window;
+    const sandbox = {
+        window: context,
+        document: context.document,
+        HTMLElement: context.HTMLElement,
+        HTMLInputElement: context.HTMLInputElement,
+        HTMLButtonElement: context.HTMLButtonElement,
+        HTMLIFrameElement: context.HTMLIFrameElement,
+        Element: context.Element,
+        Node: context.Node,
+        Document: context.Document,
+        getComputedStyle: context.getComputedStyle.bind(context),
+        console,
+        globalThis: context,
+    };
+    context.globalThis = context;
+    vm.createContext(sandbox);
+    vm.runInContext(
+        indeedSource.replace(
+            'const AutoCVApplyIndeedAutoApply =',
+            'globalThis.AutoCVApplyIndeedAutoApply =',
+        ),
+        sandbox,
+    );
+
+    return context.AutoCVApplyIndeedAutoApply;
+}
+const IndeedAppliedView = loadIndeedOnUrl(
+    alreadyAppliedHtml,
+    'https://uk.indeed.com/job/senior-backend-software-engineer-golang-5abb1309c5e30555',
+);
+assert.equal(
+    IndeedAppliedView.readAlreadyAppliedMarker(),
+    true,
+    'viewjob Applied CTA must count as already applied',
+);
+assert.equal(
+    IndeedAppliedView.readIndeedApplyButton(),
+    null,
+    'disabled Apply with Indeed must not be treated as clickable',
+);
 
 console.log('indeed-smartapply-draft-skip tests passed.');

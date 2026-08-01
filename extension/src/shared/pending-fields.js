@@ -100,6 +100,10 @@ export function shouldRejectPhoneAnswerOnField(field, answer) {
         return false;
     }
 
+    if (classifyFieldExpectation(field) === 'number') {
+        return false;
+    }
+
     if (
         isSmsOrMarketingConsentField(field) ||
         isMarketingOrFutureConsentField(field)

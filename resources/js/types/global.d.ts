@@ -15,10 +15,30 @@ declare module 'vite/client' {
 
 declare module '@inertiajs/core' {
     export interface InertiaConfig {
+        flashDataType: {
+            success?: string | null;
+            error?: string | null;
+            purchase_conversion?: Record<string, unknown> | null;
+            sign_up_conversion?: {
+                transaction_id?: string;
+                method?: string;
+            } | null;
+            credit_award_success?: string | null;
+        };
         sharedPageProps: {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            flash: {
+                success?: string | null;
+                error?: string | null;
+                purchase_conversion?: Record<string, unknown> | null;
+                sign_up_conversion?: {
+                    transaction_id?: string;
+                    method?: string;
+                } | null;
+                credit_award_success?: string | null;
+            };
             [key: string]: unknown;
         };
     }

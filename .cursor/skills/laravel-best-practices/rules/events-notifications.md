@@ -29,7 +29,7 @@ class InvoicePaid extends Notification implements ShouldQueue
 
 ## Use `afterCommit()` on Notifications in Transactions
 
-Same race condition as events — call `afterCommit()` to delay dispatch until the transaction commits.
+Same race condition as events - call `afterCommit()` to delay dispatch until the transaction commits.
 
 ```php
 $user->notify((new InvoicePaid($invoice))->afterCommit());
@@ -49,4 +49,4 @@ Notification::route('mail', 'admin@example.com')->notify(new SystemAlert());
 
 ## Implement `HasLocalePreference` on Notifiable Models
 
-Laravel automatically uses the user's preferred locale for all notifications and mailables — no per-call `locale()` needed.
+Laravel automatically uses the user's preferred locale for all notifications and mailables - no per-call `locale()` needed.

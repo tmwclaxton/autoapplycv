@@ -461,13 +461,6 @@ export function partitionFieldsByQuestionMemo(
             continue;
         }
 
-        // Office-days / onsite commute must use live location heuristics, not a
-        // stale Yes/No memo from an earlier city or outdated decline path.
-        if (isOnSiteCommuteQuestionLabel(label)) {
-            remainingFields.push(field);
-            continue;
-        }
-
         // Security clearance / defence travel comfort must stay screening_clarify
         // (live Faculty: stale Yes memo filled weekly UK defence travel).
         if (

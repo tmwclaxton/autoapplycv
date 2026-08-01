@@ -475,7 +475,11 @@ watch(activeTab, (tab) => {
     syncAdminTabToUrl(tab);
 });
 
-function formatNumber(value: number): string {
+function formatNumber(value: number | null | undefined): string {
+    if (value == null) {
+        return '-';
+    }
+
     return new Intl.NumberFormat('en-GB').format(value);
 }
 

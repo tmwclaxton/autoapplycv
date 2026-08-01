@@ -2,7 +2,7 @@
 
 ## Use `addSelect()` Subqueries for Single Values from Has-Many
 
-Instead of eager-loading an entire has-many relationship for a single value (like the latest timestamp), use a correlated subquery via `addSelect()`. This pulls the value directly in the main SQL query — zero extra queries.
+Instead of eager-loading an entire has-many relationship for a single value (like the latest timestamp), use a correlated subquery via `addSelect()`. This pulls the value directly in the main SQL query - zero extra queries.
 
 ```php
 public function scopeWithLastLoginAt($query): void
@@ -80,13 +80,13 @@ Running a small, targeted secondary query and passing its results via `whereIn` 
 
 ## Use Compound Indexes Matching `orderBy` Column Order
 
-When ordering by multiple columns, create a single compound index in the same column order as the `ORDER BY` clause. Individual single-column indexes cannot combine for multi-column sorts — the database will filesort without a compound index.
+When ordering by multiple columns, create a single compound index in the same column order as the `ORDER BY` clause. Individual single-column indexes cannot combine for multi-column sorts - the database will filesort without a compound index.
 
 ```php
 // Migration
 $table->index(['last_name', 'first_name']);
 
-// Query — column order must match the index
+// Query - column order must match the index
 User::query()->orderBy('last_name')->orderBy('first_name')->paginate();
 ```
 

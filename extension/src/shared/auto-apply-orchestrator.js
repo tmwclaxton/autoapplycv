@@ -11,6 +11,7 @@ import {
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
     findFieldValidationError,
+    isGenericValidationMessage,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
 import {
@@ -283,6 +284,10 @@ function isExternalApplyJobCard(session, job) {
 
     if (platform === SIMPLYHIRED_PLATFORM_ID) {
         return job?.simplyHiredApply === false || job?.quickApply === false;
+    }
+
+    if (platform === INDEED_PLATFORM_ID || platform === GLASSDOOR_PLATFORM_ID) {
+        return job?.indeedApply === false || job?.easyApply === false;
     }
 
     return false;
@@ -813,6 +818,10 @@ function indeedHydrationDelay(baseMs, spreadMs = null) {
 
 function isIndeedQuestionsStep(applyState) {
     const fingerprint = String(applyState?.stepFingerprint || '');
+
+    if (/intervention/i.test(fingerprint)) {
+        return false;
+    }
 
     return /questions-module|qualification-questions/i.test(fingerprint);
 }
@@ -1587,6 +1596,143 @@ function isIndeedSmartApplyTabUrl(url) {
     );
 }
 
+function normalizeJobTitleForMatch(value) {
+    return String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9+\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+const GENERIC_JOB_TITLE_TOKENS = new Set([
+    'software',
+    'engineer',
+    'developer',
+    'senior',
+    'junior',
+    'lead',
+    'principal',
+    'staff',
+    'full',
+    'stack',
+    'backend',
+    'frontend',
+    'front',
+    'end',
+    'and',
+    'the',
+    'with',
+    'for',
+]);
+
+function distinctiveJobTitleTokens(value) {
+    return normalizeJobTitleForMatch(value)
+        .split(' ')
+        .filter(
+            (token) =>
+                token.length > 2 && !GENERIC_JOB_TITLE_TOKENS.has(token),
+        );
+}
+
+function jobTitlesLooselyMatch(expectedTitle, observedTitle) {
+    const expected = normalizeJobTitleForMatch(expectedTitle);
+    const observed = normalizeJobTitleForMatch(observedTitle);
+
+    if (!expected || !observed) {
+        return true;
+    }
+
+    if (expected === observed) {
+        return true;
+    }
+
+    if (expected.includes(observed) || observed.includes(expected)) {
+        return true;
+    }
+
+    const expectedTokens = expected
+        .split(' ')
+        .filter((token) => token.length > 2 && !/^(and|the|with|for)$/i.test(token));
+    const observedTokens = new Set(
+        observed
+            .split(' ')
+            .filter((token) => token.length > 2),
+    );
+    const overlap = expectedTokens.filter((token) =>
+        observedTokens.has(token),
+    ).length;
+
+    // Shared "software engineer" tokens must not equate Embedded RTOS with
+    // unrelated Python/SQL Market Data SmartApply sessions (live Glassdoor miss).
+    const expectedDistinct = distinctiveJobTitleTokens(expectedTitle);
+    const observedDistinct = new Set(distinctiveJobTitleTokens(observedTitle));
+
+    if (expectedDistinct.length > 0 && observedDistinct.size > 0) {
+        const distinctOverlap = expectedDistinct.filter((token) =>
+            observedDistinct.has(token),
+        ).length;
+
+        return distinctOverlap > 0 && overlap >= Math.min(2, expectedTokens.length);
+    }
+
+    const needed = Math.max(2, Math.ceil(expectedTokens.length * 0.6));
+
+    return expectedTokens.length > 0 && overlap >= needed;
+}
+
+function companiesLooselyMatch(expectedCompany, observedCompany) {
+    const expected = normalizeJobTitleForMatch(expectedCompany);
+    const observed = normalizeJobTitleForMatch(observedCompany);
+
+    if (!expected || !observed) {
+        return true;
+    }
+
+    if (expected === observed) {
+        return true;
+    }
+
+    return expected.includes(observed) || observed.includes(expected);
+}
+
+function smartApplyMatchesExpectedJob(applyState, job) {
+    const headerTitle = String(applyState?.jobTitle || '').trim();
+    const stepLabel = String(applyState?.stepLabel || '').trim();
+    const genericLabel =
+        !stepLabel ||
+        /^(indeed apply|easy apply|apply|continue|review|resume)$/i.test(
+            normalizeJobTitleForMatch(stepLabel),
+        );
+    const observedTitle =
+        headerTitle ||
+        (genericLabel ? '' : stepLabel);
+    const observedCompany = String(applyState?.jobCompany || '').trim();
+
+    if (
+        observedCompany &&
+        job?.company &&
+        !companiesLooselyMatch(job.company, observedCompany)
+    ) {
+        return {
+            matched: false,
+            observedTitle: observedTitle || observedCompany,
+        };
+    }
+
+    if (
+        !observedTitle ||
+        /^(indeed apply|easy apply|apply)$/i.test(
+            normalizeJobTitleForMatch(observedTitle),
+        )
+    ) {
+        return { matched: true, observedTitle: null };
+    }
+
+    const matched = jobTitlesLooselyMatch(job?.title, observedTitle);
+
+    return { matched, observedTitle };
+}
+
 function isIndeedDraftSkipStep(applyState) {
     if (!applyState) {
         return false;
@@ -1598,7 +1744,9 @@ function isIndeedDraftSkipStep(applyState) {
 
     const fingerprint = String(applyState.stepFingerprint || '');
 
-    return /resume-selection|resume-module|relevant-experience|review-module|preview-module/i.test(
+    // Intervention is a qualification soft-gate with Apply anyway / Keep applying
+    // only - Draft All finds no fields and delays the Continue click for ~minutes.
+    return /resume-selection|resume-module|relevant-experience|review-module|preview-module|intervention/i.test(
         fingerprint,
     );
 }
@@ -1759,19 +1907,43 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
     throw new Error('Totaljobs tab messaging failed.');
 }
 
+const REED_SLOW_MESSAGE_TIMEOUT_MS = {
+    REED_OPEN_APPLY: 45_000,
+    REED_FILL_AND_ADVANCE: 45_000,
+    REED_WAIT_FOR_JOB_DETAIL: 40_000,
+    REED_WAIT_FOR_JOB_DESCRIPTION: 25_000,
+    REED_NEXT_SEARCH_PAGE: 30_000,
+};
+
+function resolveReedMessageTimeoutMs(type, explicitTimeoutMs = null) {
+    if (typeof explicitTimeoutMs === 'number' && explicitTimeoutMs > 0) {
+        return explicitTimeoutMs;
+    }
+
+    return REED_SLOW_MESSAGE_TIMEOUT_MS[type] ?? 20_000;
+}
+
 async function sendReedMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 2;
+    const timeoutMs = resolveReedMessageTimeoutMs(type, options.timeoutMs);
     // Submit/Continue often navigates Reed away from the job page and kills the
-    // content-script port. Reloading destroys confirmation state and leaves Auto
-    // Apply on a location SERP with no modal - never reload for these types.
+    // content-script port. OPEN_APPLY can also outlive the default 20s timeout
+    // while the Easy Apply modal mounts - reloading destroys that modal and
+    // leaves Auto Apply stuck after "Opening…" with no [fill] logs.
     const noReloadOnMessagingError = new Set([
+        'REED_OPEN_APPLY',
         'REED_FILL_AND_ADVANCE',
         'REED_VERIFY_SUBMITTED',
+        // Post-submit related-jobs pages (and Reed 404s from odd titles) kill the
+        // port; reloading those URLs destroys confirmation evidence.
+        'REED_APPLY_STATE',
     ]);
 
     for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
         try {
-            return await sendTabMessage(tabId, { type, ...payload }, 0);
+            return await sendTabMessage(tabId, { type, ...payload }, 0, {
+                timeoutMs,
+            });
         } catch (error) {
             const message =
                 error instanceof Error ? error.message : String(error);
@@ -1832,6 +2004,20 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 3;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        const urlBeforeSend = await readIndeedTabUrl(tabId);
+
+        // Never treat a leftover SmartApply tab as a fresh Glassdoor Apply open.
+        // OPEN_APPLY must start from Glassdoor; the post-click SmartApply URL is
+        // only accepted below when navigation happens mid-message.
+        if (
+            type === 'GLASSDOOR_OPEN_APPLY' &&
+            isIndeedSmartApplyTabUrl(urlBeforeSend)
+        ) {
+            throw new Error(
+                'Cannot open Glassdoor Apply while the tab is still on Indeed SmartApply. Return to Glassdoor search first.',
+            );
+        }
+
         try {
             return await sendTabMessage(tabId, { type, ...payload }, 0);
         } catch (error) {
@@ -1839,10 +2025,15 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
                 error instanceof Error ? error.message : String(error);
             const tabUrl = await readIndeedTabUrl(tabId);
             const onSmartApply = isIndeedSmartApplyTabUrl(tabUrl);
+            const navigatedDuringOpenApply =
+                type === 'GLASSDOOR_OPEN_APPLY' &&
+                onSmartApply &&
+                !isIndeedSmartApplyTabUrl(urlBeforeSend);
 
             // Glassdoor Easy Apply navigates into Indeed SmartApply and closes
-            // the message channel / times out. Do not reload the apply form away.
-            if (onSmartApply && type === 'GLASSDOOR_OPEN_APPLY') {
+            // the message channel / times out. Only treat that as success when
+            // the tab was on Glassdoor before the click.
+            if (navigatedDuringOpenApply) {
                 return {
                     success: true,
                     easyApply: true,
@@ -1851,17 +2042,18 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
                 };
             }
 
+            if (onSmartApply) {
+                throw new Error(
+                    'Glassdoor tab is on Indeed SmartApply; return to Glassdoor search before continuing.',
+                );
+            }
+
             if (attempt < maxAttempts && isExtensionMessagingError(message)) {
                 invalidateTabFrameCache(tabId);
                 await logSession(
                     'warn',
                     `[glassdoor_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`,
                 );
-
-                if (onSmartApply) {
-                    await waitForTabLoadComplete(tabId).catch(() => {});
-                    continue;
-                }
 
                 try {
                     await waitForGlassdoorContentScript(tabId);
@@ -2112,9 +2304,9 @@ async function returnToGlassdoorSearch(tabId, session) {
                     expectedKeyword: session.roleDescription,
                     expectedLocation: session.filters?.location || null,
                 },
-            ).catch(() => ({ searchMatched: true }));
+            ).catch(() => ({ searchMatched: false }));
 
-            if (prepared?.searchMatched !== false) {
+            if (prepared?.searchMatched === true) {
                 return tabId;
             }
         }
@@ -3440,6 +3632,83 @@ async function handleExternalApplyJobIfNeeded(session, tabId, job, skipReason) {
     return null;
 }
 
+/**
+ * SERP cards often omit external markers; OPEN_APPLY discovers company-site
+ * apply later. Re-run the external gate with a marked job so pause-on-external
+ * still fires.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {object} job
+ * @param {string} skipReason
+ * @param {string} [detail]
+ * @returns {Promise<{ outcome: string, reason: string, tabId: number, detail?: string, session?: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+async function skipAfterDiscoveredExternalApply(
+    session,
+    tabId,
+    job,
+    skipReason,
+    detail = '',
+) {
+    const markedJob = {
+        ...job,
+        reedApply: session.platform === REED_PLATFORM_ID ? false : job?.reedApply,
+        easyApply:
+            session.platform === REED_PLATFORM_ID ||
+            session.platform === INDEED_PLATFORM_ID ||
+            session.platform === GLASSDOOR_PLATFORM_ID
+                ? false
+                : job?.easyApply,
+        indeedApply:
+            session.platform === INDEED_PLATFORM_ID ||
+            session.platform === GLASSDOOR_PLATFORM_ID
+                ? false
+                : job?.indeedApply,
+        totaljobsApply:
+            session.platform === TOTALJOBS_PLATFORM_ID
+                ? false
+                : job?.totaljobsApply,
+        simplyHiredApply:
+            session.platform === SIMPLYHIRED_PLATFORM_ID
+                ? false
+                : job?.simplyHiredApply,
+        quickApply:
+            session.platform === SIMPLYHIRED_PLATFORM_ID
+                ? false
+                : job?.quickApply,
+        cvLibraryApply:
+            session.platform === CV_LIBRARY_PLATFORM_ID
+                ? false
+                : job?.cvLibraryApply,
+    };
+
+    const gated = await handleExternalApplyJobIfNeeded(
+        session,
+        tabId,
+        markedJob,
+        skipReason,
+    );
+
+    if (gated) {
+        return detail
+            ? { ...gated, detail: gated.detail || detail }
+            : gated;
+    }
+
+    await recordAnalyticsEvent(session, 'skipped', job, {
+        metadata: { reason: skipReason },
+    });
+
+    return {
+        outcome: 'skipped',
+        reason: skipReason,
+        detail,
+        tabId,
+        session,
+    };
+}
+
 async function readTabUrl(tabId) {
     try {
         const tab = await chrome.tabs.get(tabId);
@@ -3930,12 +4199,39 @@ async function handleAdvanceValidationRetry(
     lastAttempt = null,
 ) {
     const blocker = detectUnfilledBlockers(modalState, {}, { profileData });
+    const validationErrors = modalState?.validationErrors || [];
+    const hasValidationErrors = validationErrors.length > 0;
 
-    if (!blocker.blocked || blocker.reason !== 'validation') {
+    if (!blocker.blocked && !hasValidationErrors) {
         return { retried: false, session };
     }
 
-    const validationError = findFieldValidationError(modalState, blocker.field);
+    const effectiveBlocker = blocker.blocked
+        ? blocker
+        : {
+              blocked: true,
+              reason: 'validation',
+              field: {
+                  label: 'Application field',
+                  question: validationErrors[0],
+                  type: 'text',
+              },
+          };
+
+    // Step-level Indeed errors often map to no_mapping / required_empty blockers;
+    // still pause whenever validation copy is present.
+    if (
+        !hasValidationErrors &&
+        effectiveBlocker.reason !== 'validation'
+    ) {
+        return { retried: false, session };
+    }
+
+    const validationError =
+        findFieldValidationError(modalState, effectiveBlocker.field) ||
+        validationErrors.find((error) => !isGenericValidationMessage(error)) ||
+        validationErrors[0] ||
+        null;
 
     if (!validationError) {
         return { retried: false, session };
@@ -3947,7 +4243,7 @@ async function handleAdvanceValidationRetry(
     if (validationAttempt > AUTO_APPLY_VALIDATION_RETRY_LIMIT) {
         throw new Error(
             `Validation failed after ${AUTO_APPLY_VALIDATION_RETRY_LIMIT} attempts for ` +
-                `"${blocker.field?.label || 'field'}": ${validationError}`,
+                `"${effectiveBlocker.field?.label || 'field'}": ${validationError}`,
         );
     }
 
@@ -3956,7 +4252,7 @@ async function handleAdvanceValidationRetry(
         tabId,
         job,
         modalState,
-        blocker,
+        effectiveBlocker,
         profileData,
         {
             validationError,
@@ -6083,13 +6379,25 @@ async function processIndeedJobInner(
     }
 
     if (!openResult.success) {
+        const openSkipReason = openResult.skipReason || 'job_unavailable';
+
+        if (openSkipReason === 'no_indeed_apply') {
+            return skipAfterDiscoveredExternalApply(
+                session,
+                tabId,
+                job,
+                'no_indeed_apply',
+                openResult.error || '',
+            );
+        }
+
         await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: openResult.skipReason || 'job_unavailable' },
+            metadata: { reason: openSkipReason },
         });
 
         return {
             outcome: 'skipped',
-            reason: openResult.skipReason || 'job_unavailable',
+            reason: openSkipReason,
             detail: openResult.error || '',
             tabId,
         };
@@ -6292,51 +6600,39 @@ async function processIndeedJobInner(
         });
 
         if (!retryApply?.success) {
-            await recordAnalyticsEvent(session, 'skipped', job, {
-                metadata: {
-                    reason: retryApply?.captcha
-                        ? 'captcha_required'
-                        : 'no_indeed_apply',
-                },
-            });
+            if (retryApply?.captcha) {
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'captcha_required' },
+                });
 
-            return {
-                outcome: 'skipped',
-                reason: retryApply?.captcha
-                    ? 'captcha_required'
-                    : 'no_indeed_apply',
-                detail: retryApply?.error || '',
+                return {
+                    outcome: 'skipped',
+                    reason: 'captcha_required',
+                    detail: retryApply?.error || '',
+                    tabId,
+                };
+            }
+
+            return skipAfterDiscoveredExternalApply(
+                session,
                 tabId,
-            };
+                job,
+                'no_indeed_apply',
+                retryApply?.error || '',
+            );
         }
 
         Object.assign(applyResponse, retryApply);
     }
 
-    if (applyResponse?.easyApply === false) {
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_indeed_apply' },
-        });
-
-        return { outcome: 'skipped', reason: 'no_indeed_apply', tabId };
-    }
-
-    if (!applyResponse?.success) {
-        const skipReason =
-            applyResponse?.easyApply === false
-                ? 'no_indeed_apply'
-                : 'no_indeed_apply';
-
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: skipReason },
-        });
-
-        return {
-            outcome: 'skipped',
-            reason: skipReason,
-            detail: applyResponse?.error || '',
+    if (applyResponse?.easyApply === false || !applyResponse?.success) {
+        return skipAfterDiscoveredExternalApply(
+            session,
             tabId,
-        };
+            job,
+            'no_indeed_apply',
+            applyResponse?.error || '',
+        );
     }
 
     await waitForTabLoadComplete(tabId);
@@ -6495,6 +6791,31 @@ async function processIndeedJobInner(
         }
 
         if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
+            if ((applyState.validationErrors || []).length > 0) {
+                const stuckRetry = await handleAdvanceValidationRetry(
+                    session,
+                    tabId,
+                    job,
+                    applyState,
+                    profileData,
+                );
+
+                session = stuckRetry.session || session;
+
+                if (stuckRetry.stopped) {
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
+                }
+
+                if (stuckRetry.retried) {
+                    sameStepCount = 0;
+                    continue;
+                }
+            }
+
             throw new Error(
                 `Stuck on Indeed Apply step "${applyState.stepLabel || 'unknown'}" ` +
                     `(${EASY_APPLY_STUCK_STEP_LIMIT}x). ` +
@@ -6865,11 +7186,26 @@ async function processIndeedJobInner(
             const postAdvanceState = await sendIndeedApplyFlowMessage(tabId, {
                 type: 'INDEED_APPLY_STATE',
             });
+            const validationState = {
+                ...(postAdvanceState || {}),
+                validationErrors:
+                    (postAdvanceState?.validationErrors?.length
+                        ? postAdvanceState.validationErrors
+                        : null) ||
+                    advanceResponse?.validationErrors ||
+                    [],
+                invalidFields:
+                    (postAdvanceState?.invalidFields?.length
+                        ? postAdvanceState.invalidFields
+                        : null) ||
+                    advanceResponse?.invalidFields ||
+                    [],
+            };
             const retryOutcome = await handleAdvanceValidationRetry(
                 session,
                 tabId,
                 job,
-                postAdvanceState || advanceResponse,
+                validationState,
                 profileData,
             );
 
@@ -6886,6 +7222,7 @@ async function processIndeedJobInner(
 
             throw new Error(
                 advanceResponse.error ||
+                    validationState.validationErrors?.[0] ||
                     'Indeed Apply action blocked by validation.',
             );
         }
@@ -7465,6 +7802,14 @@ async function processTotalJobsJob(
             'TOTALJOBS_APPLY_STATE',
         ).catch(() => null);
 
+        if (fallbackState?.alreadyApplied) {
+            return {
+                success: false,
+                alreadyApplied: true,
+                error: 'Already applied to this job on Totaljobs.',
+            };
+        }
+
         if (fallbackState?.open) {
             return { success: true, totaljobsApply: true, navigating: true };
         }
@@ -7472,25 +7817,22 @@ async function processTotalJobsJob(
         return null;
     });
 
-    if (applyResponse?.totaljobsApply === false) {
+    if (applyResponse?.alreadyApplied) {
         await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_totaljobs_apply' },
+            metadata: { reason: 'already_applied' },
         });
 
-        return { outcome: 'skipped', reason: 'no_totaljobs_apply', tabId };
+        return { outcome: 'skipped', reason: 'already_applied', tabId };
     }
 
-    if (!applyResponse?.success) {
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_totaljobs_apply' },
-        });
-
-        return {
-            outcome: 'skipped',
-            reason: 'no_totaljobs_apply',
-            detail: applyResponse?.error || '',
+    if (applyResponse?.totaljobsApply === false || !applyResponse?.success) {
+        return skipAfterDiscoveredExternalApply(
+            session,
             tabId,
-        };
+            job,
+            'no_totaljobs_apply',
+            applyResponse?.error || '',
+        );
     }
 
     await waitForTabLoadComplete(tabId);
@@ -8466,45 +8808,52 @@ async function processReedJob(
         return { outcome: 'retry', reason: 'login_resumed', tabId };
     }
 
-    if (applyResponse?.reedApply === false) {
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_reed_apply' },
-        });
-
-        return { outcome: 'skipped', reason: 'no_reed_apply', tabId };
-    }
-
-    if (applyResponse?.alreadyApplied || applyResponse?.submitted) {
+    if (applyResponse?.alreadyApplied) {
         await logSession(
-            'success',
-            `[submitted] ${job.title} at ${job.company} (already applied).`,
+            'info',
+            `Skipped ${job.title} at ${job.company} - already applied`,
         );
-        await recordAnalyticsEvent(session, 'submitted', job, {
+        await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'already_applied' },
         });
 
-        return { outcome: 'applied', tabId };
+        return { outcome: 'skipped', reason: 'already_applied', tabId };
     }
 
-    if (!applyResponse?.success) {
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_reed_apply' },
-        });
-
-        return {
-            outcome: 'skipped',
-            reason: 'no_reed_apply',
-            detail: applyResponse?.error || '',
+    if (applyResponse?.reedApply === false || !applyResponse?.success) {
+        return skipAfterDiscoveredExternalApply(
+            session,
             tabId,
-        };
+            job,
+            'no_reed_apply',
+            applyResponse?.error || '',
+        );
     }
 
-    await waitForTabLoadComplete(tabId);
-    await waitForReedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
-    invalidateTabFrameCache(tabId);
+    // When OPEN_APPLY already left a ready modal, skip another long
+    // content-script poll (SCAN_PAGE_HEALTH can burn 45s on SPA noise).
+    const postOpenState = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(
+        () => null,
+    );
+    const applyAlreadyReady = Boolean(
+        postOpenState?.open
+        && (postOpenState.modalOpen
+            || postOpenState.contentReady
+            || postOpenState.canSubmit
+            || postOpenState.canContinue
+            || postOpenState.isReviewStep
+            || postOpenState.submitted),
+    );
 
-    const applyFlowReady = await waitForReedApplyFlowOpen(tabId);
+    if (!applyAlreadyReady) {
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
+        invalidateTabFrameCache(tabId);
+    }
+
+    const applyFlowReady = applyAlreadyReady
+        || await waitForReedApplyFlowOpen(tabId);
 
     if (!applyFlowReady) {
         throw new Error('Reed Easy Apply form did not open after navigation.');
@@ -8728,6 +9077,30 @@ async function processReedJob(
 
             if (!advanceResponse.submitted) {
                 await waitForTabLoadComplete(tabId).catch(() => {});
+
+                // Reed sometimes redirects to a related-jobs search that 404s when
+                // the title had odd characters - recover the job page for VERIFY.
+                try {
+                    const tab = await chrome.tabs.get(tabId);
+                    const tabUrl = String(tab?.url || '');
+                    const tabTitle = String(tab?.title || '');
+                    const lostPostSubmitPage =
+                        /404|page not found/i.test(tabTitle)
+                        || /[?&]keywords=/i.test(tabUrl)
+                        || /\/jobs\/jobs-in-/i.test(tabUrl);
+
+                    if (lostPostSubmitPage && job?.jobId) {
+                        const recoverUrl = buildReedJobOpenUrl(job.jobId, {
+                            path: job.path || null,
+                            url: job.url || null,
+                        });
+                        await chrome.tabs.update(tabId, { url: recoverUrl });
+                        await waitForTabLoadComplete(tabId);
+                    }
+                } catch {
+                    // Fall through to confirmation poll on the current tab.
+                }
+
                 await waitForReedContentScript(tabId).catch(() => {});
                 const confirmResult =
                     await waitForApplicationSubmitConfirmation(
@@ -8884,9 +9257,9 @@ async function ensureGlassdoorTab(session) {
                             expectedKeyword: session.roleDescription,
                             expectedLocation: session.filters?.location || null,
                         },
-                    ).catch(() => ({ searchMatched: true }));
+                    ).catch(() => ({ searchMatched: false }));
 
-                    needsNavigation = prepared?.searchMatched === false;
+                    needsNavigation = prepared?.searchMatched !== true;
                 }
 
                 if (needsNavigation) {
@@ -8903,21 +9276,41 @@ async function ensureGlassdoorTab(session) {
                         tabId,
                         'GLASSDOOR_ACCEPT_COOKIE_CONSENT',
                     ).catch(() => {});
-                    await sendGlassdoorMessage(
+                    const prepared = await sendGlassdoorMessage(
                         tabId,
                         'GLASSDOOR_PREPARE_JOB_SEARCH',
                         {
                             expectedKeyword: session.roleDescription,
                             expectedLocation: session.filters?.location || null,
                         },
-                    ).catch(() => {});
+                    ).catch(() => ({ searchMatched: false }));
+
+                    if (prepared?.searchMatched !== true) {
+                        throw new Error(
+                            prepared?.error ||
+                                'Glassdoor search results do not match the expected role or location.',
+                        );
+                    }
+
+                    await logSession(
+                        'info',
+                        `Glassdoor search ready: ${prepared?.url || searchUrl}`,
+                    );
 
                     return tabId;
                 }
 
                 return tab.id;
             }
-        } catch {
+        } catch (error) {
+            // Tab was closed or search prepare failed; recreate below unless
+            // this was an explicit search mismatch (surface it).
+            if (
+                error instanceof Error &&
+                /Glassdoor search results do not match/i.test(error.message)
+            ) {
+                throw error;
+            }
             // Tab was closed; recreate below.
         }
     }
@@ -8940,10 +9333,22 @@ async function ensureGlassdoorTab(session) {
     await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
+    const prepared = await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
         expectedKeyword: session.roleDescription,
         expectedLocation: session.filters?.location || null,
-    }).catch(() => {});
+    }).catch(() => ({ searchMatched: false }));
+
+    if (prepared?.searchMatched !== true) {
+        throw new Error(
+            prepared?.error ||
+                'Glassdoor search results do not match the expected role or location.',
+        );
+    }
+
+    await logSession(
+        'info',
+        `Glassdoor search ready: ${prepared?.url || searchUrl}`,
+    );
 
     return tabId;
 }
@@ -8972,9 +9377,9 @@ async function collectGlassdoorJobsFromTab(tabId, session) {
                 expectedKeyword: session?.roleDescription || null,
                 expectedLocation: session?.filters?.location || null,
             },
-        ).catch(() => ({ searchMatched: true }));
+        ).catch(() => ({ searchMatched: false }));
 
-        if (prepared?.searchMatched === false) {
+        if (prepared?.searchMatched !== true) {
             tabId = await returnToGlassdoorSearch(tabId, session);
             await waitForGlassdoorContentScript(tabId);
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
@@ -9077,6 +9482,7 @@ async function appendUniqueGlassdoorJobs(tabId, session) {
 }
 
 async function openGlassdoorJobInner(tabId, job, session) {
+    tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
     tabId = await returnToGlassdoorSearch(tabId, session);
     await waitForGlassdoorContentScript(tabId);
     await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
@@ -9319,6 +9725,33 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
     return { proceed: true, score: scoreResult.score };
 }
 
+async function leaveStaleIndeedSmartApplyForGlassdoor(tabId, session) {
+    const searchTabId = session?.tabId ?? tabId;
+    const currentUrl = await readIndeedTabUrl(tabId);
+
+    if (isIndeedSmartApplyTabUrl(currentUrl)) {
+        await logSession(
+            'warn',
+            'Leaving stale Indeed SmartApply before next Glassdoor job.',
+        );
+    }
+
+    await closeIndeedAuxiliaryTabs(session, searchTabId);
+
+    if (
+        isIndeedSmartApplyTabUrl(currentUrl) ||
+        isIndeedSmartApplyTabUrl(await readIndeedTabUrl(searchTabId))
+    ) {
+        tabId = await returnToGlassdoorSearch(
+            isIndeedSmartApplyTabUrl(currentUrl) ? tabId : searchTabId,
+            session,
+        );
+        await closeIndeedAuxiliaryTabs(session, tabId);
+    }
+
+    return tabId;
+}
+
 async function processGlassdoorJob(
     tabId,
     job,
@@ -9326,6 +9759,30 @@ async function processGlassdoorJob(
     session,
     profileData = null,
 ) {
+    const searchTabId = session?.tabId ?? tabId;
+
+    try {
+        return await processGlassdoorJobInner(
+            tabId,
+            job,
+            runDraftAll,
+            session,
+            profileData,
+        );
+    } finally {
+        await closeIndeedAuxiliaryTabs(session, searchTabId);
+    }
+}
+
+async function processGlassdoorJobInner(
+    tabId,
+    job,
+    runDraftAll,
+    session,
+    profileData = null,
+) {
+    tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+
     const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
         session,
         tabId,
@@ -9472,6 +9929,8 @@ async function processGlassdoorJob(
         return { outcome: 'stopped', reason: 'user_input_stop', tabId };
     }
 
+    const urlBeforeOpenApply = await readIndeedTabUrl(tabId);
+
     try {
         applyResponse = await sendGlassdoorMessage(
             tabId,
@@ -9479,8 +9938,12 @@ async function processGlassdoorJob(
         );
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
+        const urlAfterOpenApply = await readIndeedTabUrl(tabId);
+        const navigatedToSmartApply =
+            isIndeedSmartApplyTabUrl(urlAfterOpenApply) &&
+            !isIndeedSmartApplyTabUrl(urlBeforeOpenApply);
 
-        if (isIndeedSmartApplyTabUrl(await readIndeedTabUrl(tabId))) {
+        if (navigatedToSmartApply) {
             applyResponse = {
                 success: true,
                 easyApply: true,
@@ -9577,21 +10040,116 @@ async function processGlassdoorJob(
     }
 
     const readyDeadline = Date.now() + 12_000;
+    let readyState = null;
 
     while (Date.now() < readyDeadline) {
-        const readyState = await sendIndeedApplyFlowMessage(tabId, {
+        readyState = await sendIndeedApplyFlowMessage(tabId, {
             type: 'INDEED_APPLY_STATE',
         }).catch(() => null);
 
         if (
             readyState?.canContinue ||
             readyState?.canSubmit ||
-            readyState?.isReviewStep
+            readyState?.isReviewStep ||
+            readyState?.jobTitle
         ) {
             break;
         }
 
         await sleep(500);
+    }
+
+    let smartApplyMatch = smartApplyMatchesExpectedJob(readyState, job);
+
+    if (!smartApplyMatch.matched) {
+        await logSession(
+            'warn',
+            `[smartapply_mismatch] Expected "${job.title}" but Indeed opened "${smartApplyMatch.observedTitle}" - exiting stale SmartApply and retrying once.`,
+        );
+        await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_ABANDON_APPLY',
+        }).catch(() => null);
+        await sleep(randomDelay(900, 500));
+        tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+
+        const reopen = await openGlassdoorJobInner(tabId, job, session);
+        tabId = reopen.tabId || tabId;
+
+        if (!reopen.success) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: 'smartapply_job_mismatch',
+                    observedTitle: smartApplyMatch.observedTitle,
+                },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'smartapply_job_mismatch',
+                detail: `Indeed SmartApply opened "${smartApplyMatch.observedTitle}" instead of "${job.title}".`,
+                tabId,
+            };
+        }
+
+        const urlBeforeRetryOpen = await readIndeedTabUrl(tabId);
+
+        try {
+            applyResponse = await sendGlassdoorMessage(
+                tabId,
+                'GLASSDOOR_OPEN_APPLY',
+            );
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : String(error);
+            const urlAfterRetryOpen = await readIndeedTabUrl(tabId);
+            const navigatedToSmartApply =
+                isIndeedSmartApplyTabUrl(urlAfterRetryOpen) &&
+                !isIndeedSmartApplyTabUrl(urlBeforeRetryOpen);
+
+            if (!navigatedToSmartApply) {
+                throw new Error(message);
+            }
+
+            applyResponse = {
+                success: true,
+                easyApply: true,
+                navigating: true,
+                smartApply: true,
+            };
+        }
+
+        await waitForTabLoadComplete(tabId).catch(() => {});
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
+        invalidateTabFrameCache(tabId);
+
+        readyState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
+        smartApplyMatch = smartApplyMatchesExpectedJob(readyState, job);
+
+        if (!smartApplyMatch.matched) {
+            await logSession(
+                'warn',
+                `[smartapply_mismatch] Retry still opened "${smartApplyMatch.observedTitle}" for "${job.title}" - skipping.`,
+            );
+            await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_ABANDON_APPLY',
+            }).catch(() => null);
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: 'smartapply_job_mismatch',
+                    observedTitle: smartApplyMatch.observedTitle,
+                },
+            });
+            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+
+            return {
+                outcome: 'skipped',
+                reason: 'smartapply_job_mismatch',
+                detail: `Indeed SmartApply opened "${smartApplyMatch.observedTitle}" instead of "${job.title}".`,
+                tabId,
+            };
+        }
     }
 
     let submitted = false;
@@ -9621,6 +10179,33 @@ async function processGlassdoorJob(
             }
 
             break;
+        }
+
+        const stepIdentity = smartApplyMatchesExpectedJob(applyState, job);
+
+        if (!stepIdentity.matched) {
+            await logSession(
+                'warn',
+                `[smartapply_mismatch] Aborting fill/submit for "${job.title}" - SmartApply shows "${stepIdentity.observedTitle}".`,
+            );
+            await sendIndeedApplyFlowMessage(tabId, {
+                type: 'INDEED_ABANDON_APPLY',
+            }).catch(() => null);
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: 'smartapply_job_mismatch',
+                    observedTitle: stepIdentity.observedTitle,
+                    stage: 'fill_loop',
+                },
+            });
+            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+
+            return {
+                outcome: 'skipped',
+                reason: 'smartapply_job_mismatch',
+                detail: `Indeed SmartApply showed "${stepIdentity.observedTitle}" while applying to "${job.title}".`,
+                tabId,
+            };
         }
 
         if (
@@ -10190,12 +10775,12 @@ export async function startAutoApply({
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
-    pauseBeforeSubmit = false,
+    pauseBeforeSubmit = undefined,
     timingLevel = null,
-    stopForCoverLetterInput = false,
-    autoGenerateCoverLetter = true,
-    easyApplyOnly = true,
-    pauseOnExternalApply = false,
+    stopForCoverLetterInput = undefined,
+    autoGenerateCoverLetter = undefined,
+    easyApplyOnly = undefined,
+    pauseOnExternalApply = undefined,
     jobBlacklist = null,
     force = false,
     hostTabId = null,
@@ -10221,7 +10806,9 @@ export async function startAutoApply({
 
         platform = normalizedPlatform;
 
-        const profileData = await getProfileForAutoApply();
+        // Force-refresh so tinker/API setting changes are not masked by the
+        // 15-minute background profile cache (live LinkedIn pause miss).
+        const profileData = await getProfileForAutoApply({ forceRefresh: true });
         const profileSettings = extractAutoApplySettingsFromProfile(profileData);
         const trimmedRole = sanitizeAutoApplyRoleDescription(
             String(roleDescription || '').trim(),
@@ -10240,10 +10827,34 @@ export async function startAutoApply({
             filters,
             profileData,
         });
+        // Caller overrides win; otherwise use saved profile application_settings
+        // (MCP/bridge often omit these and previously always auto-submitted).
         const resolvedJobBlacklist =
             typeof jobBlacklist === 'string'
                 ? jobBlacklist
                 : profileSettings.jobBlacklist;
+        const resolvedPauseBeforeSubmit =
+            typeof pauseBeforeSubmit === 'boolean'
+                ? pauseBeforeSubmit
+                : profileSettings.pauseBeforeSubmit;
+        const resolvedTimingLevel =
+            timingLevel == null ? profileSettings.timingLevel : timingLevel;
+        const resolvedStopForCoverLetter =
+            typeof stopForCoverLetterInput === 'boolean'
+                ? stopForCoverLetterInput
+                : profileSettings.stopForCoverLetter;
+        const resolvedAutoGenerateCoverLetter =
+            typeof autoGenerateCoverLetter === 'boolean'
+                ? autoGenerateCoverLetter
+                : profileSettings.autoGenerateCoverLetter;
+        const resolvedEasyApplyOnly =
+            typeof easyApplyOnly === 'boolean'
+                ? easyApplyOnly
+                : profileSettings.easyApplyOnly;
+        const resolvedPauseOnExternalApply =
+            typeof pauseOnExternalApply === 'boolean'
+                ? pauseOnExternalApply
+                : profileSettings.pauseOnExternalApply;
 
         let session = createInitialSession({
             platform,
@@ -10252,12 +10863,12 @@ export async function startAutoApply({
             filters: resolvedFilters,
             fitCheckEnabled,
             minFitScore,
-            pauseBeforeSubmit,
-            timingLevel,
-            stopForCoverLetterInput,
-            autoGenerateCoverLetter,
-            easyApplyOnly,
-            pauseOnExternalApply,
+            pauseBeforeSubmit: resolvedPauseBeforeSubmit,
+            timingLevel: resolvedTimingLevel,
+            stopForCoverLetterInput: resolvedStopForCoverLetter,
+            autoGenerateCoverLetter: resolvedAutoGenerateCoverLetter,
+            easyApplyOnly: resolvedEasyApplyOnly,
+            pauseOnExternalApply: resolvedPauseOnExternalApply,
             jobBlacklist: resolvedJobBlacklist,
         });
 
@@ -10527,7 +11138,9 @@ async function runIndeedAutoApplyLoop(
 
         await logSession(
             'info',
-            `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`,
+            session.easyApplyOnly !== false
+                ? `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`
+                : `Found ${session.queue.length} jobs (Indeed Apply filter off; includes external apply).`,
         );
     }
 
@@ -11121,13 +11734,13 @@ export function configureAutoApplyCaptchaSolver(solver) {
     captchaSolver = typeof solver === 'function' ? solver : null;
 }
 
-async function getProfileForAutoApply() {
+async function getProfileForAutoApply({ forceRefresh = false } = {}) {
     if (!profileLoader) {
         return null;
     }
 
     try {
-        return await profileLoader();
+        return await profileLoader({ force: forceRefresh === true });
     } catch {
         return null;
     }

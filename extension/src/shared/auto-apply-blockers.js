@@ -80,6 +80,8 @@ const GENERIC_VALIDATION_MESSAGE_PATTERNS = [
     /^please enter a valid answer$/i,
     /^please select an option$/i,
     /^please make a selection$/i,
+    /^choose an option to continue\.?$/i,
+    /^answer this question to continue\.?$/i,
     /^this field is required$/i,
     /^required field$/i,
     /^field is required$/i,
@@ -178,6 +180,16 @@ export function findFieldValidationError(modalState, field) {
         if (fieldMatchesValidationError(normalized, error)) {
             return error;
         }
+    }
+
+    // Indeed often surfaces step-level copy ("Choose an option to continue")
+    // without binding it to an inventoriable field - still pause with that text.
+    if (validationErrors.length > 0) {
+        const specificError = validationErrors.find(
+            (error) => !isGenericValidationMessage(error),
+        );
+
+        return specificError || validationErrors[0] || null;
     }
 
     return null;

@@ -111,6 +111,34 @@ test('Reed Easy Apply allows long multi-page question wizards', () => {
 test('Reed fill-and-advance waits for late Submit on review steps', () => {
     const source = readFileSync(SOURCE, 'utf8');
 
-    assert.ok(source.includes('await waitForApplyModalContent(8_000)'));
+    assert.ok(source.includes('async function waitForSubmitButton('));
+    assert.ok(
+        source.includes('await waitForSubmitButton(15_000)'),
+        'Must poll findSubmitButton on review - waitForApplyModalContent returns early on modal open',
+    );
+    assert.ok(
+        !source.includes('await waitForApplyModalContent(8_000);\n            submitButton = findSubmitButton()'),
+        'Must not use waitForApplyModalContent as the Submit hydrate wait',
+    );
     assert.ok(source.includes('\\bsubmit\\s+application\\b'));
+});
+
+test('Reed canSubmit requires a visible Submit CTA, not review title alone', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+    const stateStart = source.indexOf('function getReedApplyState()');
+    const stateBody = source.slice(stateStart, stateStart + 3500);
+
+    assert.ok(stateBody.includes('canSubmit: Boolean(submitButton)'));
+    assert.ok(
+        !stateBody.includes('canSubmit: Boolean(submitButton) || isReviewStep'),
+        'Review title without hydrated Submit must not report canSubmit',
+    );
+});
+
+test('Reed job card titles strip leading question-mark decoration', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+
+    assert.ok(source.includes('function sanitizeReedJobTitle('));
+    assert.ok(source.includes('sanitizeReedJobTitle('));
+    assert.ok(source.includes('/^[\\s?¿¡*!#]+/u'));
 });

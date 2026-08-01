@@ -1,3 +1,9 @@
+export type Team = {
+    id: number;
+    name: string;
+    [key: string]: unknown;
+};
+
 export type User = {
     id: number;
     name: string;
@@ -11,4 +17,5 @@ export type User = {
 
 export type Auth = {
     user: User;
+    is_admin: boolean;
 };

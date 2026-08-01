@@ -25,6 +25,13 @@ export function isBareYesNoAnswer(answer) {
 
 function fieldHasYesNoOptions(field) {
     const options = Array.isArray(field?.options) ? field.options : [];
+
+    // Binary Yes/No only. Three-way status chips (Not applicable / Yes… / No…)
+    // must stay as multi-choice - live Oxford SmartApply visa checkboxes.
+    if (options.length !== 2) {
+        return false;
+    }
+
     // Exact Yes/No or prefixed ("No, I do not require a visa") - live Mytos Lever.
     const hasYes = options.some((option) =>
         /^(yes)\b/i.test(String(option).trim()),
@@ -211,7 +218,16 @@ function isNumberField(field) {
         return true;
     }
 
-    return /\b(?:how many|number of|years of experience|total years)\b/.test(normalized);
+    return (
+        /\b(?:how many|number of|years of experience|total years)\b/.test(
+            normalized,
+        ) ||
+        /\b(?:numeric\s+)?percentage\s+average\b/.test(normalized) ||
+        /\baverage\s+(?:mark|grade|percentage|percent)\b/.test(normalized) ||
+        /\b(?:overall\s+)?(?:percentage|percent|mark)\s+average\b/.test(
+            normalized,
+        )
+    );
 }
 
 function isSalaryField(field) {
@@ -347,9 +363,23 @@ function looksLikeEmailAnswer(answer) {
 }
 
 function looksLikePhoneAnswer(answer) {
-    const compact = String(answer || '').trim().replace(/\s+/g, '');
+    const compact = String(answer || '')
+        .trim()
+        .replace(/[\s().-]/g, '');
 
     return /^\+?\d{10,15}$/.test(compact);
+}
+
+function isPlausibleWholeNumberAnswer(answer, { max = 99 } = {}) {
+    const text = String(answer || '').trim();
+
+    if (!/^\d{1,3}(?:\.\d+)?$/.test(text)) {
+        return false;
+    }
+
+    const value = Number(text);
+
+    return Number.isFinite(value) && value >= 0 && value <= max;
 }
 
 /**
@@ -655,20 +685,6 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         }
     }
 
-    // Numeric years/count fields must not swallow salary or notice text.
-    if (
-        category === 'number'
-        && isFreeTextField(field)
-        && looksLikeSalaryAmountAnswer(text)
-    ) {
-        return {
-            coherent: false,
-            reason: 'salary_on_number',
-            category,
-            rejected: true,
-        };
-    }
-
     if (category === 'date' && isFreeTextField(field) && isBareYesNoAnswer(text)) {
         return {
             coherent: false,
@@ -678,17 +694,41 @@ export function evaluateAnswerTypeCoherence(field, answer) {
         };
     }
 
-    if (
-        category === 'number'
-        && isFreeTextField(field)
-        && (looksLikeNoticePeriodAnswer(text) || looksLikeEmailAnswer(text) || isBareYesNoAnswer(text))
-    ) {
-        return {
-            coherent: false,
-            reason: 'non_number_on_number',
-            category,
-            rejected: true,
-        };
+    // LinkedIn "-numeric" years (and similar): reject email/phone/name/essay bleed
+    // before salary heuristics (national phone digits can look like large amounts).
+    // Live Wave Talent: Contact email was written into TypeScript years via stale f0.
+    if (category === 'number' && isFreeTextField(field)) {
+        if (
+            looksLikeEmailAnswer(text) ||
+            looksLikePhoneAnswer(text) ||
+            looksLikeNoticePeriodAnswer(text) ||
+            isBareYesNoAnswer(text)
+        ) {
+            return {
+                coherent: false,
+                reason: 'non_number_on_number',
+                category,
+                rejected: true,
+            };
+        }
+
+        if (looksLikeSalaryAmountAnswer(text)) {
+            return {
+                coherent: false,
+                reason: 'salary_on_number',
+                category,
+                rejected: true,
+            };
+        }
+
+        if (!isPlausibleWholeNumberAnswer(text, { max: 999 })) {
+            return {
+                coherent: false,
+                reason: 'non_number_on_number',
+                category,
+                rejected: true,
+            };
+        }
     }
 
     return { coherent: true, reason: null, category, rejected: false };

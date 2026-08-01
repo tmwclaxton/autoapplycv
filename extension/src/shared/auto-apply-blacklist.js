@@ -188,7 +188,13 @@ export function evaluateJobAgainstBlacklist(input = {}) {
                 };
             }
 
-            if (containsPhrase(description, rule.phrase)) {
+            // Single-token keywords (e.g. gambling, NHS) may appear only in the
+            // JD. Multi-word employer phrases must not match description text -
+            // live false positive: "client server" blocked State Street JD copy.
+            if (
+                !rule.phrase.includes(' ')
+                && containsPhrase(description, rule.phrase)
+            ) {
                 return {
                     blocked: true,
                     reason: `description matches "${rule.raw}"`,

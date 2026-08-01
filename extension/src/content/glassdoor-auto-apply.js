@@ -545,7 +545,12 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
         );
 
         if (searchMatched) {
-            return { success: true, skipped: true, searchMatched: true };
+            return {
+                success: true,
+                skipped: true,
+                searchMatched: true,
+                url: window.location.href,
+            };
         }
 
         if (expectedKeyword || expectedLocation) {
@@ -568,6 +573,7 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
                             success: true,
                             searchMatched: true,
                             submitted: true,
+                            url: window.location.href,
                         };
                     }
 
@@ -578,6 +584,7 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
             return {
                 success: false,
                 searchMatched: false,
+                url: window.location.href,
                 error: submitted.error
                     || (/countryRedirect=true/i.test(window.location.href)
                         ? 'Glassdoor redirected this search to a regional recommended feed. Sign in with a US Glassdoor profile or clear the country redirect before Auto Apply.'
@@ -588,7 +595,11 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
         window.scrollBy({ top: 500, behavior: 'smooth' });
         await humanPause(400, 700);
 
-        return { success: true, searchMatched };
+        return {
+            success: true,
+            searchMatched,
+            url: window.location.href,
+        };
     }
 
     function readApplyButton() {
@@ -692,12 +703,10 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
         for (let attempt = 0; attempt < 4; attempt += 1) {
             dismissLoginOverlay();
 
-            if (hasIndeedApplyIframe()) {
-                return { success: true, easyApply: true, alreadyOpen: true };
-            }
-
             const applyButton = readApplyButton();
 
+            // Prefer a fresh Apply click even if a leftover Indeed iframe is
+            // still mounted from a prior Glassdoor job.
             if (applyButton) {
                 await scrollIntoViewHuman(applyButton);
                 await clickElement(applyButton, { quick: false });
@@ -713,6 +722,10 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
                 }
 
                 return { success: true, easyApply: true, clicked: true };
+            }
+
+            if (hasIndeedApplyIframe()) {
+                return { success: true, easyApply: true, alreadyOpen: true };
             }
 
             if (readExternalApplyMarker()) {

@@ -2,7 +2,7 @@
 
 ## Implement `ShouldQueue` on the Mailable Class
 
-Makes queueing the default regardless of how the mailable is dispatched. No need to remember `Mail::queue()` at every call site — `Mail::send()` also queues it.
+Makes queueing the default regardless of how the mailable is dispatched. No need to remember `Mail::queue()` at every call site - `Mail::send()` also queues it.
 
 ## Use `afterCommit()` on Mailables Inside Transactions
 
@@ -24,4 +24,4 @@ Markdown mailables auto-generate both HTML and plain-text versions, use responsi
 
 Content tests: instantiate the mailable directly, call `assertSeeInHtml()`.
 Sending tests: use `Mail::fake()` and `assertSent()`/`assertQueued()`.
-Don't mix them — it conflates concerns and makes tests brittle.
+Don't mix them - it conflates concerns and makes tests brittle.

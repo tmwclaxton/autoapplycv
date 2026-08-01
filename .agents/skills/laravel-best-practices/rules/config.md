@@ -65,7 +65,7 @@ return $this->type === 'normal';
 return $this->type === self::TYPE_NORMAL;
 ```
 
-If the application already uses language files for localization, use `__()` for user-facing strings too. Do not introduce language files purely for English-only apps — simple string literals are fine there.
+If the application already uses language files for localization, use `__()` for user-facing strings too. Do not introduce language files purely for English-only apps - simple string literals are fine there.
 
 ```php
 // Only when lang files already exist in the project

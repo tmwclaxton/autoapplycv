@@ -506,6 +506,37 @@ test('rejects salary amount on years-of-experience number field', () => {
     );
 });
 
+test('rejects email name phone bleed on LinkedIn TypeScript years numeric field', () => {
+    const field = {
+        label: 'How many years of work experience do you have with TypeScript?',
+        field_type: 'text',
+        dom: {
+            id: 'single-line-text-form-component-formElement-urn-li-jobs-applyformcommon-easyApplyFormElement-4443106764-31005905004-numeric',
+            type: 'text',
+        },
+    };
+
+    assert.equal(classifyFieldExpectation(field), 'number');
+    assert.equal(
+        evaluateAnswerTypeCoherence(field, 'tmwclaxton@gmail.com').reason,
+        'non_number_on_number',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence(field, 'Toby Claxton').reason,
+        'non_number_on_number',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence(field, '+447837370669').reason,
+        'non_number_on_number',
+    );
+    assert.equal(
+        evaluateAnswerTypeCoherence(field, '7837370669').reason,
+        'non_number_on_number',
+    );
+    assert.equal(shouldRejectAnswerForTypeCoherence(field, '2'), false);
+    assert.equal(shouldRejectAnswerForTypeCoherence(field, '0'), false);
+});
+
 test('German Gehaltsvorstellungen number field accepts yearly salary', () => {
     const field = {
         label: 'Wie hoch sind deine Gehaltsvorstellungen (brutto Jahreslohn)?',
@@ -856,6 +887,37 @@ test('Lever visa Yes/No with prefixed options accepts bare No', async () => {
     );
     assert.equal(result.rejected, false);
     assert.equal(result.category, 'yes_no_choice');
+});
+
+test('Indeed three-way visa checkboxes are not yes_no_choice', async () => {
+    const { evaluateAnswerTypeCoherence } = await import(
+        '../../extension/src/shared/draft-all/type-coherence.js'
+    );
+
+    const field = {
+        label: 'visa',
+        field_type: 'checkbox',
+        options: [
+            'Not applicable',
+            'Yes, I have a visa or immigration status which allows me to work in the country in the role for which I am applying',
+            'No, I require sponsorship',
+        ],
+    };
+
+    const rejectedLongYes = evaluateAnswerTypeCoherence(
+        field,
+        'Yes, I have a visa or immigration status which allows me to work in the country in the role for which I am applying',
+    );
+    assert.equal(rejectedLongYes.category, 'choice');
+    assert.equal(
+        rejectedLongYes.rejected,
+        false,
+        'listed visa status option must not be rejected as non_yes_no_on_yes_no_choice',
+    );
+
+    const notApplicable = evaluateAnswerTypeCoherence(field, 'Not applicable');
+    assert.equal(notApplicable.category, 'choice');
+    assert.equal(notApplicable.rejected, false);
 });
 
 test('Greenhouse Yes/No combobox without harvested options accepts bare No', async () => {

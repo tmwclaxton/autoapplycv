@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -17,6 +18,13 @@ class PlanChangeTest extends TestCase
     {
         parent::setUp();
         $this->withoutMiddleware(ValidateSessionWithWorkOS::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+
+        parent::tearDown();
     }
 
     public function test_upgrade_from_starter_to_pro_starts_instant_bank_pay_checkout(): void
@@ -50,6 +58,8 @@ class PlanChangeTest extends TestCase
 
     public function test_downgrade_from_pro_to_starter_updates_subscription_without_charge(): void
     {
+        Carbon::setTestNow('2026-07-15 12:00:00');
+
         $user = User::factory()->create([
             'subscription_tier' => 'pro',
             'subscription_status' => 'active',
@@ -77,6 +87,8 @@ class PlanChangeTest extends TestCase
 
     public function test_downgrade_to_free_cancels_direct_debit(): void
     {
+        Carbon::setTestNow('2026-07-15 12:00:00');
+
         $user = User::factory()->create([
             'subscription_tier' => 'starter',
             'subscription_status' => 'active',

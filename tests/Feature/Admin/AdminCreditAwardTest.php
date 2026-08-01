@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Enums\SubscriptionTier;
 use App\Models\CreditGrant;
 use App\Models\User;
 use App\Services\AiTokenService;
@@ -57,7 +58,7 @@ class AdminCreditAwardTest extends TestCase
             ->assertJsonPath('user.email', $recipient->email)
             ->assertJsonPath('user.bonus_credits', 100)
             ->assertJsonPath('user.credits_used', 25)
-            ->assertJsonPath('user.credits_remaining', 325);
+            ->assertJsonPath('user.credits_remaining', SubscriptionTier::Free->monthlyCredits() + 100 - 25);
     }
 
     public function test_admin_can_award_credit_package_to_user(): void

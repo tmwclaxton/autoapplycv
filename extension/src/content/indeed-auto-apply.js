@@ -409,10 +409,41 @@ var AutoCVApplyIndeedAutoApply = (() => {
             '0123456789abcdef',
             'abcdef0123456789',
             '0f1e2d3c4b5a6978',
+            'f1e2d3c4b5a67890',
+            'f1e2d3c4b5a69780',
+            'a1b2c3d4e5f67890',
+            'a1b2c3d4e5f60789',
+            '123456789abcdef0',
+            '0123456789abcdef',
         ]);
 
         if (banned.has(id)) {
             return false;
+        }
+
+        // Reject obviously synthetic hex sequences scraped from placeholders.
+        if (/^(?:0123456789abcdef|fedcba9876543210)$/i.test(id)) {
+            return false;
+        }
+
+        if (/^(?:f1e2d3c4b5a6|a1b2c3d4e5f6)[0-9a-f]{4}$/i.test(id)) {
+            return false;
+        }
+
+        // Reject ids that are just ascending nibble pairs (1a2b3c…).
+        if (/^(?:[0-9a-f][0-9a-f]){8}$/i.test(id)) {
+            const pairs = id.match(/[0-9a-f]{2}/gi) || [];
+            let ascending = 0;
+
+            for (let i = 1; i < pairs.length; i += 1) {
+                if (parseInt(pairs[i], 16) === parseInt(pairs[i - 1], 16) + 1) {
+                    ascending += 1;
+                }
+            }
+
+            if (ascending >= 5) {
+                return false;
+            }
         }
 
         return true;
@@ -810,7 +841,11 @@ var AutoCVApplyIndeedAutoApply = (() => {
             for (const selector of selectors) {
                 const button = root.querySelector(selector);
 
-                if (button instanceof HTMLElement && isElementVisible(button)) {
+                if (
+                    button instanceof HTMLElement &&
+                    isElementVisible(button) &&
+                    !(button instanceof HTMLButtonElement && button.disabled)
+                ) {
                     return button;
                 }
             }
@@ -821,6 +856,13 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 if (
                     !(element instanceof HTMLElement) ||
                     !isElementVisible(element)
+                ) {
+                    continue;
+                }
+
+                if (
+                    element instanceof HTMLButtonElement &&
+                    element.disabled
                 ) {
                     continue;
                 }
@@ -920,11 +962,28 @@ var AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readAlreadyAppliedMarker(root = readJobViewRoot()) {
-        if (root === document) {
-            return false;
+        const searchRoot =
+            root instanceof HTMLElement || root === document
+                ? root
+                : document;
+
+        // Live Indeed/SimplyHired handoff: widget keeps "Apply with Indeed"
+        // label but marks applied via indeed-apply-status-applied.
+        for (const widget of searchRoot.querySelectorAll(
+            '[data-testid="indeed-apply-widget"], .indeed-apply-widget, [class*="indeed-apply-status-"]',
+        )) {
+            if (!(widget instanceof HTMLElement)) {
+                continue;
+            }
+
+            const className = String(widget.className || '');
+
+            if (/indeed-apply-status-applied/i.test(className)) {
+                return true;
+            }
         }
 
-        for (const element of root.querySelectorAll(
+        for (const element of searchRoot.querySelectorAll(
             'button, a, span, [data-testid*="applied"], [class*="applied"]',
         )) {
             if (!(element instanceof HTMLElement)) {
@@ -941,14 +1000,42 @@ var AutoCVApplyIndeedAutoApply = (() => {
             }
         }
 
-        const rootText = normalize(root.textContent);
+        // Disabled "Apply with Indeed" beside an Applied CTA - live SimplyHired
+        // redirect to Indeed for jobs already applied.
+        const applyButton = readIndeedApplyButton();
+
+        if (
+            applyButton instanceof HTMLButtonElement &&
+            applyButton.disabled &&
+            /apply with indeed|apply now/i.test(readControlLabel(applyButton))
+        ) {
+            for (const element of searchRoot.querySelectorAll(
+                'button[disabled], button[aria-label="Applied"]',
+            )) {
+                if (
+                    element instanceof HTMLElement &&
+                    isIndeedAppliedLabel(
+                        element.textContent,
+                        element.getAttribute('aria-label') || '',
+                    )
+                ) {
+                    return true;
+                }
+            }
+        }
+
+        if (searchRoot === document) {
+            return false;
+        }
+
+        const rootText = normalize(searchRoot.textContent);
 
         if (
             /\byou applied on\b|\byou've applied\b|\balready applied\b|\bapplication sent\b/i.test(
                 rootText,
             )
         ) {
-            return !readIndeedApplyButton();
+            return !readIndeedApplyButton() || Boolean(applyButton?.disabled);
         }
 
         return false;
@@ -1941,6 +2028,12 @@ var AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readContinueButton() {
+        const interventionButton = readInterventionContinueButton();
+
+        if (interventionButton) {
+            return interventionButton;
+        }
+
         const scopes = [readApplyModuleScope(), document];
 
         for (const scope of scopes) {
@@ -2021,60 +2114,136 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return false;
         }
 
+        // Qualification / intervention soft-gate CTAs - check before the broad
+        // \bcontinue\b matcher so "Apply anyway" is never shadowed by other CTAs.
         if (
-            /^(continue|save and continue|next|review)$/i.test(label) ||
-            /\b(continue|next)\b/i.test(label)
-        ) {
-            return true;
-        }
-
-        // Qualification / intervention soft-gate CTAs.
-        return (
-            /\b(apply anyway|keep applying|still want to apply|continue applying|continue to apply)\b/i.test(
+            /^(apply anyway|keep applying|still want to apply|continue applying|continue to apply)$/i.test(
+                label,
+            ) ||
+            /\b(apply anyway|keep applying|still want to apply)\b/i.test(
                 label,
             ) ||
             /^yes[,.]?\s*(i\s+)?(still\s+)?(want to\s+)?(continue|apply)\b/i.test(
                 label,
             )
-        );
+        ) {
+            return true;
+        }
+
+        if (
+            /^(continue|save and continue|next|review)$/i.test(label) ||
+            /\b(continue|next)\b/i.test(label) ||
+            /\breview (your |my )?application\b/i.test(label)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
-    function findSubmitButton({
-        includeDisabled = false,
-        reviewOnly = true,
-    } = {}) {
-        const reviewRoot = readIndeedReviewRoot();
-        const scope = reviewOnly
-            ? reviewRoot
-            : reviewRoot || readApplyModuleScope();
+    function readInterventionContinueButton() {
+        const slug = readApplyStepSlug() || '';
 
-        // SmartApply beta sometimes marks review via URL before mosaic preview
-        // root hydrates - still search the document for Submit.
-        if (reviewOnly && !scope && !isIndeedReviewStep()) {
+        if (!/intervention/i.test(slug)) {
             return null;
         }
 
-        const searchRoot = scope || document;
-        const submit = searchRoot.querySelector(
-            '[data-testid="submit-application-button"], [name="submit-application"], button[type="submit"]',
+        for (const button of document.querySelectorAll(
+            'button, [role="button"], a[role="button"]',
+        )) {
+            if (!(button instanceof HTMLElement) || button.disabled) {
+                continue;
+            }
+
+            if (button.closest('#onetrust-banner-sdk, #indeed-globalnav')) {
+                continue;
+            }
+
+            const label = readControlLabel(button);
+
+            if (isIndeedContinueLabel(label) && isElementVisible(button)) {
+                return button;
+            }
+        }
+
+        return null;
+    }
+
+    function readControlLabel(control) {
+        if (!(control instanceof HTMLElement)) {
+            return '';
+        }
+
+        // input[type=submit|button] often has an empty textContent; the visible
+        // label lives in value / aria-label.
+        return normalize(
+            control.getAttribute('aria-label') ||
+                control.getAttribute('value') ||
+                (control instanceof HTMLInputElement ? control.value : '') ||
+                control.textContent,
+        );
+    }
+
+    function isIndeedSubmitLabel(label) {
+        if (!label) {
+            return false;
+        }
+
+        if (/\b(continue|next|save and continue)\b/i.test(label)) {
+            return false;
+        }
+
+        return (
+            /\b(submit application|submit your application|submit my application|send application|send your application)\b/i.test(
+                label,
+            ) ||
+            /^submit$/i.test(label) ||
+            /^send$/i.test(label)
+        );
+    }
+
+    function findSubmitButtonInRoot(searchRoot, includeDisabled = false) {
+        if (!(searchRoot instanceof Element) && searchRoot !== document) {
+            return null;
+        }
+
+        // Prefer explicit Indeed submit markers, then any type=submit. Must scan
+        // ALL matches - an earlier unrelated type=submit used to short-circuit
+        // querySelector and hide the sticky application CTA (live Oxford review).
+        const prioritized = searchRoot.querySelectorAll(
+            '[data-testid="submit-application-button"], [name="submit-application"], button[type="submit"], input[type="submit"]',
         );
 
-        if (
-            submit instanceof HTMLElement &&
-            (includeDisabled || !submit.disabled)
-        ) {
-            const submitLabel = normalize(
-                submit.getAttribute('aria-label') || submit.textContent,
-            );
+        for (const submit of prioritized) {
+            if (!(submit instanceof HTMLElement)) {
+                continue;
+            }
 
-            // Avoid Continue buttons that use type=submit.
-            if (!/\b(continue|next|save)\b/i.test(submitLabel)) {
+            if (!includeDisabled && submit.disabled) {
+                continue;
+            }
+
+            const submitLabel = readControlLabel(submit);
+
+            // Prefer labeled Submit CTAs; also accept data-testid submit controls
+            // with empty/odd labels once we are on an explicit review step.
+            if (isIndeedSubmitLabel(submitLabel)) {
+                return submit;
+            }
+
+            if (
+                isIndeedReviewStep() &&
+                submit.matches(
+                    '[data-testid="submit-application-button"], [name="submit-application"]',
+                ) &&
+                !/\b(continue|next|save)\b/i.test(submitLabel)
+            ) {
                 return submit;
             }
         }
 
         for (const button of searchRoot.querySelectorAll(
-            'button, [role="button"], input[type="submit"]',
+            'button, [role="button"], input[type="submit"], input[type="button"]',
         )) {
             if (!(button instanceof HTMLElement)) {
                 continue;
@@ -2084,15 +2253,84 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(
-                button.getAttribute('aria-label') || button.textContent,
-            );
-
-            if (
-                /\b(submit application|submit your application)\b/i.test(label)
-                || /^submit$/i.test(label)
-            ) {
+            if (isIndeedSubmitLabel(readControlLabel(button))) {
                 return button;
+            }
+        }
+
+        return null;
+    }
+
+    function readSameOriginDocuments(rootDocument = document) {
+        const docs = [rootDocument];
+
+        for (const iframe of rootDocument.querySelectorAll('iframe')) {
+            if (!(iframe instanceof HTMLIFrameElement)) {
+                continue;
+            }
+
+            try {
+                const childDoc = iframe.contentDocument;
+
+                if (childDoc instanceof Document && !docs.includes(childDoc)) {
+                    docs.push(childDoc);
+                }
+            } catch {
+                // Cross-origin iframe - ignore.
+            }
+        }
+
+        return docs;
+    }
+
+    function findSubmitButton({
+        includeDisabled = false,
+        reviewOnly = true,
+    } = {}) {
+        const reviewRoot = readIndeedReviewRoot();
+        const onReview = isIndeedReviewStep();
+
+        // SmartApply beta sometimes marks review via URL before mosaic preview
+        // root hydrates - still search the document for Submit.
+        if (reviewOnly && !reviewRoot && !onReview) {
+            return null;
+        }
+
+        // Sticky footer Submit often lives outside the mosaic review root, and
+        // some SmartApply shells put the CTA in a same-origin iframe.
+        const searchRoots = [];
+
+        if (reviewRoot) {
+            searchRoots.push(reviewRoot);
+        }
+
+        if (!reviewOnly || onReview) {
+            const moduleScope = readApplyModuleScope();
+
+            if (moduleScope && !searchRoots.includes(moduleScope)) {
+                searchRoots.push(moduleScope);
+            }
+
+            for (const doc of readSameOriginDocuments(document)) {
+                if (!searchRoots.includes(doc)) {
+                    searchRoots.push(doc);
+                }
+
+                if (doc !== document && doc.body instanceof HTMLElement) {
+                    searchRoots.push(doc.body);
+                }
+            }
+        }
+
+        if (searchRoots.length === 0) {
+            searchRoots.push(document);
+        }
+
+        for (const searchRoot of searchRoots) {
+            const submit = findSubmitButtonInRoot(searchRoot, includeDisabled);
+
+            if (submit) {
+                return submit;
             }
         }
 
@@ -2177,6 +2415,132 @@ var AutoCVApplyIndeedAutoApply = (() => {
         );
     }
 
+    function readApplyJobMeta() {
+        const headerTitle = normalize(
+            document.querySelector(
+                '#ia-JobHeader-title, #ia-JobInfoCard-header-title, h1.ia-JobHeader-title',
+            )?.textContent,
+        );
+        const headerCompany = normalize(
+            document.querySelector(
+                '.ia-JobHeader-information span, [class*="ia-JobHeader"] span',
+            )?.textContent,
+        );
+
+        let embeddedTitle = '';
+        let embeddedCompany = '';
+        let embeddedJobId = '';
+
+        try {
+            const initial = window._initialData;
+
+            if (initial?.jobInfo) {
+                embeddedTitle = normalize(initial.jobInfo.jobTitle);
+                embeddedCompany = normalize(initial.jobInfo.jobCompany);
+                embeddedJobId = normalize(
+                    initial.jobInfo.jobId || initial.jobInfo.jobKey,
+                );
+            }
+
+            if (initial?.jobContext) {
+                embeddedTitle =
+                    embeddedTitle || normalize(initial.jobContext.title);
+                embeddedJobId =
+                    embeddedJobId ||
+                    normalize(initial.jobContext.key || initial.jobContext.jobKey);
+            }
+        } catch {
+            // Ignore cross-context reads.
+        }
+
+        if (!embeddedTitle) {
+            const html = document.documentElement?.innerHTML || '';
+            const titleMatch = html.match(
+                /"jobTitle"\s*:\s*"((?:\\.|[^"\\]){2,200})"/,
+            );
+            const companyMatch = html.match(
+                /"jobCompany"\s*:\s*"((?:\\.|[^"\\]){1,200})"/,
+            );
+            const keyMatch = html.match(
+                /"jobContext"\s*:\s*\{[^}]{0,400}?"(?:key|jobKey)"\s*:\s*"((?:\\.|[^"\\]){6,80})"/,
+            );
+
+            embeddedTitle = normalize(
+                titleMatch?.[1]?.replace(/\\"/g, '"').replace(/\\u0026/g, '&'),
+            );
+            embeddedCompany = normalize(
+                companyMatch?.[1]?.replace(/\\"/g, '"').replace(/\\u0026/g, '&'),
+            );
+            embeddedJobId = normalize(keyMatch?.[1]);
+        }
+
+        return {
+            jobTitle: headerTitle || embeddedTitle || null,
+            jobCompany: embeddedCompany || headerCompany || null,
+            jobId: embeddedJobId || null,
+        };
+    }
+
+    async function abandonIndeedApply() {
+        if (!isIndeedApplyFlowPage()) {
+            return { success: false, abandoned: false, reason: 'not_on_apply' };
+        }
+
+        const exitButton = document.querySelector(
+            '[data-testid="ExitLinkWithModalComponent-exitButton"], button[aria-label*="Exit" i]',
+        );
+
+        if (!(exitButton instanceof HTMLElement) || !isElementVisible(exitButton)) {
+            return { success: false, abandoned: false, reason: 'exit_not_found' };
+        }
+
+        await clickElement(exitButton, { quick: true });
+        await humanPause(400, 700);
+
+        const confirmDeadline = Date.now() + 6_000;
+
+        while (Date.now() < confirmDeadline) {
+            const confirmButton =
+                document.querySelector(
+                    '[data-testid="ExitConfirmationModal-exit"]',
+                ) ||
+                [
+                    ...document.querySelectorAll(
+                        'button, [role="button"], a[role="button"]',
+                    ),
+                ].find((node) => {
+                    if (
+                        !(node instanceof HTMLElement) ||
+                        !isElementVisible(node)
+                    ) {
+                        return false;
+                    }
+
+                    const text = normalize(node.textContent);
+                    const testId = node.getAttribute('data-testid') || '';
+
+                    return (
+                        /ExitConfirmationModal-exit/i.test(testId) ||
+                        /^(leave|discard|yes,?\s*exit|confirm)$/i.test(text)
+                    );
+                });
+
+            if (confirmButton instanceof HTMLElement) {
+                await clickElement(confirmButton, { quick: true });
+                await humanPause(700, 1100);
+                break;
+            }
+
+            await humanPause(250, 400);
+        }
+
+        return {
+            success: true,
+            abandoned: true,
+            stillOpen: isIndeedApplyFlowPage(),
+        };
+    }
+
     function verifySubmitted() {
         const slug = readApplyStepSlug() || '';
 
@@ -2184,6 +2548,15 @@ var AutoCVApplyIndeedAutoApply = (() => {
             return {
                 submitted: true,
                 confirmation: 'Application submitted',
+            };
+        }
+
+        // Viewjob / SERP pages show an "Applied" CTA for prior applications.
+        // That is not a SmartApply post-apply confirmation (SimplyHired hang).
+        if (!isIndeedApplyFlowPage()) {
+            return {
+                submitted: false,
+                confirmation: null,
             };
         }
 
@@ -2206,11 +2579,10 @@ var AutoCVApplyIndeedAutoApply = (() => {
 
     function getIndeedApplyState() {
         if (!isIndeedApplyFlowPage()) {
-            const submittedCheck = verifySubmitted();
-
             return {
                 open: false,
-                submitted: submittedCheck.submitted,
+                submitted: false,
+                alreadyApplied: readAlreadyAppliedMarker(),
                 canSubmit: false,
                 canContinue: false,
                 stepLabel: null,
@@ -2269,6 +2641,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const invalidFields = readInvalidFields();
         const captchaPresent = readIndeedCaptchaPresent();
         const storedApplicant = readIndeedStoredApplicantIdentity();
+        const applyJobMeta = readApplyJobMeta();
 
         return {
             open: true,
@@ -2281,6 +2654,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
             isResumeCardStep: onResumeCardStep,
             captchaPresent,
             storedApplicant,
+            jobTitle: applyJobMeta.jobTitle,
+            jobCompany: applyJobMeta.jobCompany,
+            applyJobId: applyJobMeta.jobId,
             stepLabel: readStepLabel(),
             stepFingerprint: readStepFingerprint(),
             validationErrors,
@@ -2568,7 +2944,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 reviewOnly: true,
             });
 
-            for (let attempt = 0; attempt < 10; attempt += 1) {
+            for (let attempt = 0; attempt < 16; attempt += 1) {
                 await throwIfAutoApplyStopped(
                     'Stopped while waiting for Indeed Submit button.',
                 );
@@ -2583,6 +2959,8 @@ var AutoCVApplyIndeedAutoApply = (() => {
                     };
                 }
 
+                // Review shells sometimes flash Continue before Submit hydrates -
+                // keep waiting while the URL still says review-module.
                 submitButton = findSubmitButton({
                     includeDisabled: true,
                     reviewOnly: true,
@@ -2599,9 +2977,13 @@ var AutoCVApplyIndeedAutoApply = (() => {
                     break;
                 }
 
-                if (attempt < 9) {
+                if (!submitButton && readContinueButton() && !isIndeedReviewStep()) {
+                    break;
+                }
+
+                if (attempt < 15) {
                     // Floor Speed-slider scaling so Submit has time to hydrate.
-                    await hydrationPause(350, 650);
+                    await hydrationPause(400, 750);
                 }
             }
 
@@ -3002,6 +3384,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         waitForJobDescriptionReady,
         clickIndeedApply,
         getIndeedApplyState,
+        abandonIndeedApply,
         clickContinueOrSubmit,
         verifySubmitted,
         isIndeedResumeCardStep,

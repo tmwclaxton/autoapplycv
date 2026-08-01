@@ -1022,14 +1022,40 @@ export function createSimplyHiredOrchestrator(deps) {
                     { timeoutMs: 25_000 },
                 ).catch(() => null);
 
-                if (applyResponse?.success || applyResponse?.alreadyApplied) {
+                if (applyResponse?.alreadyApplied) {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'already_applied' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'already_applied',
+                        detail: 'Indeed shows Applied after SimplyHired handoff.',
+                        tabId,
+                    };
+                }
+
+                if (applyResponse?.success) {
                     indeedApplyOpened = true;
                     break;
                 }
 
                 const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
 
-                if (state?.open || state?.submitted) {
+                if (state?.alreadyApplied) {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'already_applied' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'already_applied',
+                        detail: 'Indeed shows Applied after SimplyHired handoff.',
+                        tabId,
+                    };
+                }
+
+                if (state?.open) {
                     indeedApplyOpened = true;
                     break;
                 }

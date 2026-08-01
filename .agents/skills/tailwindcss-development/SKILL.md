@@ -25,7 +25,7 @@ Use `search-docs` for detailed Tailwind CSS v4 patterns and documentation.
 
 ### CSS-First Configuration
 
-In Tailwind v4, configuration is CSS-first using the `@theme` directive — no separate `tailwind.config.js` file is needed:
+In Tailwind v4, configuration is CSS-first using the `@theme` directive - no separate `tailwind.config.js` file is needed:
 
 <!-- CSS-First Config -->
 ```css

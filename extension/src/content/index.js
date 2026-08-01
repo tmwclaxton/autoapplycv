@@ -2029,6 +2029,22 @@ contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'INDEED_ABANDON_APPLY') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({
+                    success: false,
+                    abandoned: false,
+                    error: 'Indeed auto-apply helpers unavailable.',
+                });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.abandonIndeedApply());
+
+            return;
+        }
+
         if (message.type === 'INDEED_CAPTCHA_PREPARE') {
             if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
                 sendResponse({ present: false, error: 'Indeed auto-apply helpers unavailable.' });

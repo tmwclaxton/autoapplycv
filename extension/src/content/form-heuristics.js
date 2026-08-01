@@ -13793,7 +13793,82 @@ var AutoCVApplyFormHeuristics = (() => {
             return 'radio';
         }
 
+        // LinkedIn Easy Apply marks numeric years inputs with "-numeric" in the id
+        // while keeping type="text". Surface them as number so draft gates apply.
+        const domId = String(element.id || '').toLowerCase();
+
+        if (
+            element.type === 'number' ||
+            domId.includes('numeric') ||
+            domId.includes('number-input')
+        ) {
+            return 'number';
+        }
+
         return element.type || 'text';
+    }
+
+    function looksLikeEmailShapedAnswer(answer) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(answer || '').trim());
+    }
+
+    function looksLikePhoneShapedAnswer(answer) {
+        const compact = String(answer || '')
+            .trim()
+            .replace(/[\s().-]/g, '');
+
+        return /^\+?\d{10,15}$/.test(compact);
+    }
+
+    function isNumericYearsLikeTarget(target, fieldType = null) {
+        const element = Array.isArray(target) ? target[0] : target;
+
+        if (!(element instanceof Element)) {
+            return String(fieldType || '').toLowerCase() === 'number';
+        }
+
+        const domId = String(element.id || '').toLowerCase();
+        const inputType = String(element.type || fieldType || '').toLowerCase();
+
+        return (
+            inputType === 'number' ||
+            domId.includes('numeric') ||
+            domId.includes('number-input')
+        );
+    }
+
+    function isPlausibleNumericYearsAnswer(answer) {
+        const text = String(answer ?? '').trim();
+
+        if (!/^\d{1,2}(?:\.\d+)?$/.test(text)) {
+            return false;
+        }
+
+        const value = Number(text);
+
+        return Number.isFinite(value) && value >= 0 && value <= 99;
+    }
+
+    function shouldRejectAnswerForNumericTarget(target, fieldType, answer) {
+        if (!isNumericYearsLikeTarget(target, fieldType)) {
+            return false;
+        }
+
+        const text = String(answer ?? '').trim();
+
+        if (!text) {
+            return false;
+        }
+
+        if (
+            looksLikeEmailShapedAnswer(text) ||
+            looksLikePhoneShapedAnswer(text) ||
+            /^(yes|no)$/i.test(text)
+        ) {
+            return true;
+        }
+
+        return !isPlausibleNumericYearsAnswer(text);
     }
 
     function getSelectOptions(element) {
@@ -14718,6 +14793,32 @@ var AutoCVApplyFormHeuristics = (() => {
                 ? target[0]?.tagName
                 : target?.tagName,
         });
+
+        // Defense in depth for LinkedIn "-numeric" years inputs: never write
+        // contact identity (email/phone/name) into a whole-number field.
+        if (
+            String(resolvedAnswer) !== '__CLEAR__' &&
+            shouldRejectAnswerForNumericTarget(
+                target,
+                fieldType,
+                resolvedAnswer,
+            )
+        ) {
+            heuristicsLog(
+                'warn',
+                'apply.ref',
+                'Rejected non-numeric answer for numeric years target',
+                {
+                    fieldType,
+                    answerPreview: String(resolvedAnswer).slice(0, 80),
+                    targetId: Array.isArray(target)
+                        ? target[0]?.id || null
+                        : target?.id || null,
+                },
+            );
+
+            return false;
+        }
 
         if (String(resolvedAnswer) === '__CLEAR__') {
             const clearTarget = Array.isArray(target) ? target[0] : target;

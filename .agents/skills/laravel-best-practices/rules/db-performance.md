@@ -2,9 +2,9 @@
 
 ## Always Eager Load Relationships
 
-Lazy loading causes N+1 query problems — one query per loop iteration. Always use `with()` to load relationships upfront.
+Lazy loading causes N+1 query problems - one query per loop iteration. Always use `with()` to load relationships upfront.
 
-Incorrect (N+1 — executes 1 + N queries):
+Incorrect (N+1 - executes 1 + N queries):
 ```php
 $posts = Post::all();
 foreach ($posts as $post) {
@@ -46,7 +46,7 @@ Throws `LazyLoadingViolationException` when a relationship is accessed without b
 
 ## Select Only Needed Columns
 
-Avoid `SELECT *` — especially when tables have large text or JSON columns.
+Avoid `SELECT *` - especially when tables have large text or JSON columns.
 
 Incorrect:
 ```php
@@ -83,7 +83,7 @@ User::where('subscribed', true)->chunk(200, function ($users) {
 });
 ```
 
-Use `chunkById()` when modifying records during iteration — standard `chunk()` uses OFFSET which shifts when rows change:
+Use `chunkById()` when modifying records during iteration - standard `chunk()` uses OFFSET which shifts when rows change:
 
 ```php
 User::where('active', false)->chunkById(200, function ($users) {

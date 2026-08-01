@@ -53,6 +53,7 @@ export function createCvLibraryOrchestrator(deps) {
         appendAutoApplyLog,
         waitForApplicationSubmitConfirmation,
         waitForReviewBeforeSubmitIfNeeded,
+        waitForCoverLetterInputIfNeeded,
         applyStateNeedsSubmitPause,
     } = deps;
 
@@ -764,6 +765,31 @@ export function createCvLibraryOrchestrator(deps) {
 
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            const coverLetterState = postDraftState || applyState;
+
+            if (
+                typeof waitForCoverLetterInputIfNeeded === 'function'
+                && coverLetterState?.hasCoverLetterInput
+            ) {
+                const coverPause = await waitForCoverLetterInputIfNeeded(
+                    session,
+                    tabId,
+                    job,
+                    {
+                        inventoryFields: [{
+                            label: 'Cover letter',
+                            field_type: 'textarea',
+                        }],
+                    },
+                );
+
+                session = coverPause.session || session;
+
+                if (coverPause.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
             }
 
             const submitGateState = postDraftState || applyState;

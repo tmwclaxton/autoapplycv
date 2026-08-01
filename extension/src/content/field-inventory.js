@@ -786,7 +786,77 @@ var AutoCVApplyFieldInventory = (() => {
         return merged;
     }
 
+    function hasStableDomIdentity(dom, dataFieldPath = null) {
+        if (dataFieldPath) {
+            return true;
+        }
+
+        if (!dom || typeof dom !== 'object') {
+            return false;
+        }
+
+        return Boolean(
+            String(dom.id || '').trim() ||
+                String(dom.name || '').trim() ||
+                String(dom.data_testid || '').trim() ||
+                String(dom.data_field_path || '').trim() ||
+                String(dom.sr_data_test || '').trim(),
+        );
+    }
+
+    function targetMatchesRequestedDom(target, dom, dataFieldPath = null) {
+        const element = Array.isArray(target) ? target[0] : target;
+
+        if (!(element instanceof Element)) {
+            return false;
+        }
+
+        const requestedId = String(dom?.id || '').trim();
+
+        if (requestedId && element.id === requestedId) {
+            return true;
+        }
+
+        const requestedName = String(dom?.name || '').trim();
+
+        if (
+            requestedName &&
+            element.getAttribute?.('name') === requestedName &&
+            (!dom?.type ||
+                String(element.getAttribute?.('type') || element.type || '') ===
+                    String(dom.type))
+        ) {
+            return true;
+        }
+
+        const requestedTestId = String(dom?.data_testid || '').trim();
+
+        if (
+            requestedTestId &&
+            element.getAttribute?.('data-testid') === requestedTestId
+        ) {
+            return true;
+        }
+
+        const path = String(dataFieldPath || dom?.data_field_path || '').trim();
+
+        if (
+            path &&
+            typeof element.closest === 'function' &&
+            element.closest(`[data-field-path="${path}"]`)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     function resolveEntryTarget(entry) {
+        const stableDomIdentity = hasStableDomIdentity(
+            entry.dom,
+            entry.data_field_path,
+        );
+
         if (entry.dom || entry.data_field_path) {
             let resolvedFromDom = null;
 
@@ -813,9 +883,39 @@ var AutoCVApplyFieldInventory = (() => {
 
                 return resolvedFromDom;
             }
+
+            // Live LinkedIn Easy Apply: Contact email is f0/select, then Additional
+            // Questions remaps f0 to TypeScript years. A late contact apply still
+            // carries the email select DOM id; when that node is gone we must not
+            // fall back to the recycled registry target or email lands in years.
+            if (stableDomIdentity) {
+                inventoryLog(
+                    'warn',
+                    'apply.ref',
+                    'DOM metadata target missing - refusing recycled ref fallback',
+                    {
+                        field_type: entry.field_type,
+                        data_field_path: entry.data_field_path,
+                        domId: entry.dom?.id || null,
+                        registryTargetId: Array.isArray(entry.target)
+                            ? entry.target[0]?.id || null
+                            : entry.target?.id || null,
+                    },
+                );
+
+                return null;
+            }
         }
 
-        if (AutoCVApplyFormHeuristics.isTargetConnected(entry.target)) {
+        if (
+            AutoCVApplyFormHeuristics.isTargetConnected(entry.target) &&
+            (!stableDomIdentity ||
+                targetMatchesRequestedDom(
+                    entry.target,
+                    entry.dom,
+                    entry.data_field_path,
+                ))
+        ) {
             return entry.target;
         }
 
@@ -843,7 +943,7 @@ var AutoCVApplyFieldInventory = (() => {
             });
         }
 
-        return resolved || entry.target;
+        return resolved || null;
     }
 
     function resolveApplyEntry(ref, options = {}) {
