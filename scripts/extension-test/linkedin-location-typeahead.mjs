@@ -56,6 +56,22 @@ function loadRepoValidationScenario() {
     };
 }
 
+function loadCanonicalAreaScenario() {
+    return {
+        id: 'canonical-profile-area-does-not-select-unrelated-location',
+        extension_page_capture_id: null,
+        fixturePath: REPO_VALIDATION_FIXTURE,
+        page_url: 'https://www.linkedin.com/jobs/view/4417333299/',
+        answer: 'London Area',
+        expectedValue: 'London',
+        listboxOptions: [
+            'Los Angeles County, California, United States',
+            'London, England, United Kingdom',
+        ],
+        expectsNeedsFill: true,
+    };
+}
+
 function loadFixtureApi(html, url) {
     const dom = new JSDOM(html, {
         pretendToBeVisual: true,
@@ -164,7 +180,10 @@ async function runScenario(scenario) {
     assert.equal(filled, true, `${scenario.id}: expected LinkedIn location typeahead option selection`);
     assert.match(
         input.value,
-        new RegExp(scenario.answer.split(',')[0].trim(), 'i'),
+        new RegExp(
+            (scenario.expectedValue || scenario.answer.split(',')[0]).trim(),
+            'i',
+        ),
         `${scenario.id}: expected combobox value to reflect selected location`,
     );
 }
@@ -183,7 +202,11 @@ async function runCase(name, fn) {
     }
 }
 
-const scenarios = [...loadManifestScenarios(), loadRepoValidationScenario()];
+const scenarios = [
+    ...loadManifestScenarios(),
+    loadRepoValidationScenario(),
+    loadCanonicalAreaScenario(),
+];
 
 await runCase('db-export manifest lists typeahead scenarios', () => {
     const dbScenarios = loadManifestScenarios();

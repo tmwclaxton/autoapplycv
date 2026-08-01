@@ -6431,15 +6431,17 @@ var AutoCVApplyFormHeuristics = (() => {
         const doc = element.ownerDocument || document;
         const stringValue = String(value).trim();
         const typedValue = stringValue.split(',')[0].trim() || stringValue;
+        const locationSearchValue =
+            typedValue.replace(/\s+area\b/i, '').trim() || typedValue;
 
         element.focus();
         dispatchPointerClick(element);
-        await fillTypeaheadSearchText(element, typedValue);
+        await fillTypeaheadSearchText(element, locationSearchValue);
 
         let options = await waitForComboboxOptions(doc, element, 1500);
 
         if (options.length === 0) {
-            await fillTypeaheadSearchText(element, typedValue);
+            await fillTypeaheadSearchText(element, locationSearchValue);
             options = await waitForComboboxOptions(doc, element, 1500);
         }
 
@@ -6472,7 +6474,7 @@ var AutoCVApplyFormHeuristics = (() => {
             const score = scoreLinkedInLocationOption(
                 optionText,
                 stringValue,
-                typedValue,
+                locationSearchValue,
             );
 
             if (score > bestScore) {
@@ -6481,7 +6483,7 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        if (bestOption) {
+        if (bestOption && bestScore >= 10) {
             const selectedText = (
                 bestOption.textContent ||
                 bestOption.getAttribute('aria-label') ||
