@@ -1,3 +1,4 @@
+import { normalizeBlacklistText } from './auto-apply-blacklist.js';
 import {
     DEFAULT_AUTO_GENERATE_COVER_LETTER,
     DEFAULT_STOP_FOR_COVER_LETTER,
@@ -9,6 +10,15 @@ import {
 
 /** Default when profile has no pause_before_submit (off). */
 export const DEFAULT_PAUSE_BEFORE_SUBMIT = false;
+
+/** Default: only queue Easy Apply / Quick Apply jobs. */
+export const DEFAULT_EASY_APPLY_ONLY = true;
+
+/** Default: do not pause on company/external apply links. */
+export const DEFAULT_PAUSE_ON_EXTERNAL_APPLY = false;
+
+/** Default: empty blacklist (no skips). */
+export const DEFAULT_JOB_BLACKLIST = '';
 
 /**
  * @param {unknown} value
@@ -29,6 +39,9 @@ function readBooleanSetting(value, fallback) {
  *   timingLevel: number,
  *   stopForCoverLetter: boolean,
  *   autoGenerateCoverLetter: boolean,
+ *   easyApplyOnly: boolean,
+ *   pauseOnExternalApply: boolean,
+ *   jobBlacklist: string,
  * }}
  */
 export function extractAutoApplySettingsFromProfile(profileData) {
@@ -43,6 +56,9 @@ export function extractAutoApplySettingsFromProfile(profileData) {
             timingLevel: DEFAULT_AUTO_APPLY_TIMING_LEVEL,
             stopForCoverLetter: DEFAULT_STOP_FOR_COVER_LETTER,
             autoGenerateCoverLetter: DEFAULT_AUTO_GENERATE_COVER_LETTER,
+            easyApplyOnly: DEFAULT_EASY_APPLY_ONLY,
+            pauseOnExternalApply: DEFAULT_PAUSE_ON_EXTERNAL_APPLY,
+            jobBlacklist: DEFAULT_JOB_BLACKLIST,
         };
     }
 
@@ -60,6 +76,15 @@ export function extractAutoApplySettingsFromProfile(profileData) {
             settings.auto_generate_cover_letter,
             DEFAULT_AUTO_GENERATE_COVER_LETTER,
         ),
+        easyApplyOnly: readBooleanSetting(
+            settings.easy_apply_only,
+            DEFAULT_EASY_APPLY_ONLY,
+        ),
+        pauseOnExternalApply: readBooleanSetting(
+            settings.pause_on_external_apply,
+            DEFAULT_PAUSE_ON_EXTERNAL_APPLY,
+        ),
+        jobBlacklist: normalizeBlacklistText(settings.job_blacklist),
     };
 }
 
@@ -71,12 +96,18 @@ export function extractAutoApplySettingsFromProfile(profileData) {
  *   timingLevel?: number,
  *   stopForCoverLetter?: boolean,
  *   autoGenerateCoverLetter?: boolean,
+ *   easyApplyOnly?: boolean,
+ *   pauseOnExternalApply?: boolean,
+ *   jobBlacklist?: string,
  * }} settings
  * @returns {{
  *   pause_before_submit: boolean,
  *   timing_level: number,
  *   stop_for_cover_letter: boolean,
  *   auto_generate_cover_letter: boolean,
+ *   easy_apply_only: boolean,
+ *   pause_on_external_apply: boolean,
+ *   job_blacklist: string,
  * }}
  */
 export function toApplicationSettingsPatch(settings = {}) {
@@ -94,5 +125,14 @@ export function toApplicationSettingsPatch(settings = {}) {
             settings.autoGenerateCoverLetter,
             DEFAULT_AUTO_GENERATE_COVER_LETTER,
         ),
+        easy_apply_only: readBooleanSetting(
+            settings.easyApplyOnly,
+            DEFAULT_EASY_APPLY_ONLY,
+        ),
+        pause_on_external_apply: readBooleanSetting(
+            settings.pauseOnExternalApply,
+            DEFAULT_PAUSE_ON_EXTERNAL_APPLY,
+        ),
+        job_blacklist: normalizeBlacklistText(settings.jobBlacklist),
     };
 }

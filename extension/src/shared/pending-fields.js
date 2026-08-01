@@ -25,8 +25,18 @@ import {
     shouldRejectYesNoAnswerOnLocationField,
 } from './draft-all/type-coherence.js';
 import { normalizeQuestionLabel } from './draft-all-optimizations.js';
+import {
+    formatNationalForMaskedTel,
+    isPhoneExtensionField,
+    isPrimaryPhoneField,
+    resolvePhonePartsForApply,
+} from './phone-number.js';
 
 export { isMarketingOrFutureConsentField } from './draft-all/consent-fields.js';
+export {
+    isPhoneExtensionField,
+    isPrimaryPhoneField,
+} from './phone-number.js';
 
 export {
     isMeaningfulAnswer,
@@ -46,25 +56,33 @@ function looksLikePhoneAnswer(answer) {
         .trim()
         .replace(/\s+/g, '');
 
-    return /^\+?\d{10,15}$/.test(compact);
+    return /^\+?\d{10,15}$/.test(compact) || /^\d{1,8}$/.test(compact);
 }
 
 function isPhoneRelatedField(field) {
-    const label = field?.label || field?.question || '';
-    const domId = String(field?.dom?.id || '');
-    const normalized = normalizeQuestionLabel(label);
-
-    if (field?.field_type === 'tel' || domId === 'phone') {
+    if (isPhoneExtensionField(field)) {
         return true;
     }
+
+    const label = field?.label || field?.question || '';
 
     if (isDeviceManagementQuestionLabel(label)) {
         return false;
     }
 
-    return /^(?:phone(?:\s*number)?|mobile(?:\s*phone)?|mobile(?:\s*number)?|cell(?:\s*phone)?|telephone|telefon|téléphone)\b/i.test(
-        normalized,
-    );
+    return isPrimaryPhoneField(field);
+}
+
+function resolvePhonePartsFromProfile(profileData) {
+    return resolvePhonePartsForApply({
+        phone: readProfileValue(profileData, 'phone'),
+        phoneCountryCode: phoneCountryCode(profileData),
+        phoneExtension:
+            profileData?.application_settings?.phone_extension ||
+            profileData?.application_settings?.phoneExtension ||
+            profileData?.profile?.phone_extension ||
+            '',
+    });
 }
 
 function isSmsOrMarketingConsentField(field) {
@@ -87,6 +105,15 @@ export function shouldRejectPhoneAnswerOnField(field, answer) {
         isMarketingOrFutureConsentField(field)
     ) {
         return true;
+    }
+
+    // Full phone numbers must never land in PBX extension fields.
+    if (isPhoneExtensionField(field)) {
+        const compact = String(answer || '')
+            .trim()
+            .replace(/\s+/g, '');
+
+        return compact.length > 8 || compact.startsWith('+');
     }
 
     return !isPhoneRelatedField(field);
@@ -368,6 +395,22 @@ const PROFILE_FIELD_MAPPINGS = [
             'telefon',
             'téléphone',
         ],
+    },
+    {
+        path: '_phone_extension',
+        label: 'Phone extension',
+        dashboard_tab: 'profile',
+        dashboard_anchor: 'field-phone',
+        keywords: [
+            'phone extension',
+            'telephone extension',
+            'extension number',
+            'ext number',
+            'ext.',
+            'extension #',
+            'ext #',
+        ],
+        exactLabels: ['ext', 'ext.', 'extension', 'x'],
     },
     {
         path: 'linkedin_url',
@@ -654,6 +697,7 @@ const IDENTITY_PROFILE_PATHS = new Set([
     'phone',
     '_phone_country_dial',
     '_phone_national',
+    '_phone_extension',
     'linkedin_url',
     '_profile_link.github',
     '_profile_link.portfolio',
@@ -5064,6 +5108,10 @@ export function resolveProfileMappingForLabel(
         return null;
     }
 
+    if (isPhoneExtensionField({ label, dom })) {
+        return profileMappingByPath('_phone_extension');
+    }
+
     if (isHoursCommitmentQuestionLabel(label)) {
         return null;
     }
@@ -5435,6 +5483,15 @@ function phoneCountryCode(profileData) {
 }
 
 export function formatPhoneForForm(profileData, phone) {
+    const parts = resolvePhonePartsForApply({
+        phone,
+        phoneCountryCode: phoneCountryCode(profileData),
+    });
+
+    if (parts.e164) {
+        return parts.e164;
+    }
+
     const normalized = String(phone || '').replace(/\s/g, '');
 
     if (!normalized) {
@@ -5455,11 +5512,20 @@ export function formatPhoneForForm(profileData, phone) {
 }
 
 /**
- * Plain US-style tel masks only keep ~10 digits; E.164 values like +447700900999
- * collapse to the same (447) 700-900x display. Format national digits instead.
+ * Plain US-style tel masks only keep ~10 digits; E.164 values like +447400123456
+ * collapse badly in masked inputs. Format national digits instead.
  * Only apply NANP (xxx) xxx-xxxx masking for +1 dial codes.
  */
 export function formatPhoneForMaskedTelInput(profileData, phone) {
+    const parts = resolvePhonePartsForApply({
+        phone,
+        phoneCountryCode: phoneCountryCode(profileData),
+    });
+
+    if (parts.nationalNumber) {
+        return formatNationalForMaskedTel(parts);
+    }
+
     const e164 = formatPhoneForForm(profileData, phone);
     let digits = e164.replace(/\D/g, '');
 
@@ -5476,19 +5542,7 @@ export function formatPhoneForMaskedTelInput(profileData, phone) {
         digits = digits.slice(dialDigits.length);
     }
 
-    digits = digits.replace(/^0+/, '');
-
-    if (dialDigits === '1') {
-        if (digits.length > 10) {
-            digits = digits.slice(-10);
-        }
-
-        if (digits.length === 10) {
-            return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-        }
-    }
-
-    return digits;
+    return digits.replace(/^0+/, '');
 }
 
 const PHONE_DIAL_TO_COUNTRY_NAME = {
@@ -5507,19 +5561,19 @@ const PHONE_DIAL_TO_COUNTRY_NAME = {
 };
 
 function resolvePhoneDialCodeForApply(profileData) {
+    const parts = resolvePhonePartsFromProfile(profileData);
+
+    if (parts.dialCode) {
+        return parts.dialCode;
+    }
+
     const explicit = phoneCountryCode(profileData).replace(/\s/g, '');
 
     if (explicit) {
         return explicit.startsWith('+') ? explicit : `+${explicit}`;
     }
 
-    const formatted = formatPhoneForForm(
-        profileData,
-        readProfileValue(profileData, 'phone'),
-    );
-    const match = formatted.match(/^\+(\d{1,3})/);
-
-    return match ? `+${match[1]}` : '';
+    return '';
 }
 
 /**
@@ -5650,26 +5704,17 @@ function resolveCountryOptionForField(profileCountry, field) {
 }
 
 function resolvePhoneNationalForApply(profileData) {
-    const formatted = formatPhoneForForm(
-        profileData,
-        readProfileValue(profileData, 'phone'),
-    );
+    const parts = resolvePhonePartsFromProfile(profileData);
 
-    if (!formatted) {
-        return '';
+    if (parts.nationalNumber) {
+        return parts.nationalNumber;
     }
 
-    const dialCode = resolvePhoneDialCodeForApply(profileData).replace(
-        /\D/g,
-        '',
-    );
-    let digits = formatted.replace(/\D/g, '');
+    return '';
+}
 
-    if (dialCode && digits.startsWith(dialCode)) {
-        digits = digits.slice(dialCode.length);
-    }
-
-    return digits.replace(/^0+/, '');
+function resolvePhoneExtensionForApply(profileData) {
+    return resolvePhonePartsFromProfile(profileData).extension || '';
 }
 
 function shouldSkipUserPromptForFieldLabel(labelOrField, profileData = null) {
@@ -6127,6 +6172,10 @@ function profileValueForApply(mapping, profileData, field = null) {
     const value = readProfileValue(profileData, mapping.path);
 
     if (mapping.path === 'phone') {
+        if (isPhoneExtensionField(field)) {
+            return resolvePhoneExtensionForApply(profileData);
+        }
+
         if (!isMeaningfulAnswer(value)) {
             return '';
         }
@@ -6152,6 +6201,10 @@ function profileValueForApply(mapping, profileData, field = null) {
 
     if (mapping.path === '_phone_national') {
         return resolvePhoneNationalForApply(profileData);
+    }
+
+    if (mapping.path === '_phone_extension') {
+        return resolvePhoneExtensionForApply(profileData);
     }
 
     if (mapping.path === 'country') {

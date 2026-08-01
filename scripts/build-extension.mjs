@@ -357,9 +357,25 @@ writeFileSync(
             "from './pending-fields.js'",
         ),
 );
-copyFileSync(
-    join(SRC, 'shared/pending-fields.js'),
+// Bundle libphonenumber-js into a self-contained ESM module for the extension.
+execSync(
+    [
+        'npx',
+        'esbuild',
+        join(SRC, 'shared/phone-number.js'),
+        '--bundle',
+        '--format=esm',
+        '--platform=browser',
+        `--outfile=${join(DIST, 'phone-number.js')}`,
+    ].join(' '),
+    { cwd: ROOT, stdio: 'inherit' },
+);
+writeFileSync(
     join(DIST, 'pending-fields.js'),
+    readFileSync(join(SRC, 'shared/pending-fields.js'), 'utf8').replace(
+        "from './phone-number.js'",
+        "from './phone-number.js'",
+    ),
 );
 copyFileSync(
     join(SRC, 'shared/bridge-client.js'),
@@ -512,6 +528,14 @@ copyFileSync(
 copyFileSync(
     join(SRC, 'shared/auto-apply-outcomes.js'),
     join(DIST, 'auto-apply-outcomes.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-job-identity.js'),
+    join(DIST, 'auto-apply-job-identity.js'),
+);
+copyFileSync(
+    join(SRC, 'shared/auto-apply-blacklist.js'),
+    join(DIST, 'auto-apply-blacklist.js'),
 );
 copyFileSync(
     join(SRC, 'shared/draft-all-step-timeout.js'),

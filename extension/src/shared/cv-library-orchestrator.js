@@ -452,11 +452,32 @@ export function createCvLibraryOrchestrator(deps) {
     }
 
     async function evaluateCvLibraryJobFit(tabId, job, session) {
+        if (typeof deps.applyJobBlacklistGate === 'function') {
+            const blacklistGate = await deps.applyJobBlacklistGate(job, session, tabId);
+
+            if (!blacklistGate.proceed) {
+                return blacklistGate;
+            }
+        }
+
         if (!session.fitCheckEnabled) {
             return { proceed: true, score: null };
         }
 
         const { description } = await fetchCvLibraryJobDescriptionForFit(tabId, job);
+
+        if (typeof deps.applyJobBlacklistGate === 'function') {
+            const blacklistWithDescription = await deps.applyJobBlacklistGate(
+                job,
+                session,
+                tabId,
+                description,
+            );
+
+            if (!blacklistWithDescription.proceed) {
+                return blacklistWithDescription;
+            }
+        }
 
         if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
             await logSession(
@@ -578,6 +599,7 @@ export function createCvLibraryOrchestrator(deps) {
             return {
                 outcome: 'skipped',
                 reason: fitResult.reason || 'low_fit_score',
+                detail: fitResult.detail || '',
                 tabId,
                 atsScore: fitResult.score,
                 fitReason: fitResult.fitReason || '',

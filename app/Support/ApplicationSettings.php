@@ -18,9 +18,14 @@ class ApplicationSettings
 
     public const DEFAULT_AUTO_GENERATE_COVER_LETTER = true;
 
+    public const DEFAULT_EASY_APPLY_ONLY = true;
+
+    public const DEFAULT_PAUSE_ON_EXTERNAL_APPLY = false;
+
     /**
      * @return array{
      *     phone_country_code: string,
+     *     phone_extension: string,
      *     years_of_experience: string,
      *     expected_salary_weekly: string,
      *     expected_salary_monthly: string,
@@ -33,16 +38,20 @@ class ApplicationSettings
      *     drivers_license: string,
      *     notice_period: string,
      *     job_preferences: string,
+     *     job_blacklist: string,
      *     pause_before_submit: bool,
      *     timing_level: int,
      *     stop_for_cover_letter: bool,
      *     auto_generate_cover_letter: bool,
+     *     easy_apply_only: bool,
+     *     pause_on_external_apply: bool,
      * }
      */
     public static function defaults(): array
     {
         return [
             'phone_country_code' => '+44',
+            'phone_extension' => '',
             'years_of_experience' => '2',
             'expected_salary_weekly' => '',
             'expected_salary_monthly' => '',
@@ -55,10 +64,13 @@ class ApplicationSettings
             'drivers_license' => 'yes',
             'notice_period' => '',
             'job_preferences' => '',
+            'job_blacklist' => '',
             'pause_before_submit' => self::DEFAULT_PAUSE_BEFORE_SUBMIT,
             'timing_level' => self::DEFAULT_TIMING_LEVEL,
             'stop_for_cover_letter' => self::DEFAULT_STOP_FOR_COVER_LETTER,
             'auto_generate_cover_letter' => self::DEFAULT_AUTO_GENERATE_COVER_LETTER,
+            'easy_apply_only' => self::DEFAULT_EASY_APPLY_ONLY,
+            'pause_on_external_apply' => self::DEFAULT_PAUSE_ON_EXTERNAL_APPLY,
         ];
     }
 
@@ -71,6 +83,8 @@ class ApplicationSettings
             'pause_before_submit',
             'stop_for_cover_letter',
             'auto_generate_cover_letter',
+            'easy_apply_only',
+            'pause_on_external_apply',
         ];
     }
 
@@ -78,6 +92,7 @@ class ApplicationSettings
      * @param  array<string, mixed>|null  $settings
      * @return array{
      *     phone_country_code: string,
+     *     phone_extension: string,
      *     years_of_experience: string,
      *     expected_salary_weekly: string,
      *     expected_salary_monthly: string,
@@ -90,10 +105,13 @@ class ApplicationSettings
      *     drivers_license: string,
      *     notice_period: string,
      *     job_preferences: string,
+     *     job_blacklist: string,
      *     pause_before_submit: bool,
      *     timing_level: int,
      *     stop_for_cover_letter: bool,
      *     auto_generate_cover_letter: bool,
+     *     easy_apply_only: bool,
+     *     pause_on_external_apply: bool,
      * }
      */
     public static function merge(?array $settings): array
@@ -159,6 +177,7 @@ class ApplicationSettings
         return [
             'application_settings' => ['nullable', 'array'],
             'application_settings.phone_country_code' => ['nullable', 'string', 'max:8'],
+            'application_settings.phone_extension' => ['nullable', 'string', 'max:32'],
             'application_settings.years_of_experience' => ['nullable', 'string', 'max:3'],
             'application_settings.expected_salary_weekly' => ['nullable', 'string', 'max:100'],
             'application_settings.expected_salary_monthly' => ['nullable', 'string', 'max:100'],
@@ -171,6 +190,7 @@ class ApplicationSettings
             'application_settings.drivers_license' => ['nullable', 'in:yes,no'],
             'application_settings.notice_period' => ['nullable', 'string', 'max:100'],
             'application_settings.job_preferences' => ['nullable', 'string', 'max:5000'],
+            'application_settings.job_blacklist' => ['nullable', 'string', 'max:5000'],
             'application_settings.pause_before_submit' => ['nullable', 'boolean'],
             'application_settings.timing_level' => [
                 'nullable',
@@ -180,6 +200,8 @@ class ApplicationSettings
             ],
             'application_settings.stop_for_cover_letter' => ['nullable', 'boolean'],
             'application_settings.auto_generate_cover_letter' => ['nullable', 'boolean'],
+            'application_settings.easy_apply_only' => ['nullable', 'boolean'],
+            'application_settings.pause_on_external_apply' => ['nullable', 'boolean'],
         ];
     }
 }

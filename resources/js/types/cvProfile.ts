@@ -126,6 +126,8 @@ export interface CvStructuredData {
 
 export interface ApplicationSettings {
     phone_country_code: string;
+    /** Optional phone extension / PIN for apply forms. */
+    phone_extension: string;
     years_of_experience: string;
     expected_salary_weekly: string;
     expected_salary_monthly: string;
@@ -136,6 +138,8 @@ export interface ApplicationSettings {
     drivers_license: 'yes' | 'no';
     notice_period: string;
     job_preferences: string;
+    /** Extension Auto Apply: plain-English employers/roles to skip. */
+    job_blacklist: string;
     /** Extension Auto Apply: pause at Submit/Review. Default off. */
     pause_before_submit: boolean;
     /** Extension Auto Apply timing level 1 (careful) through 5 (speed). */
@@ -144,6 +148,10 @@ export interface ApplicationSettings {
     stop_for_cover_letter: boolean;
     /** Extension Auto Apply: generate/attach cover letters automatically. Default on. */
     auto_generate_cover_letter: boolean;
+    /** Extension Auto Apply: only queue Easy Apply / Quick Apply jobs. Default on. */
+    easy_apply_only: boolean;
+    /** Extension Auto Apply: pause when a job uses company/external apply. Default off. */
+    pause_on_external_apply: boolean;
 }
 
 export interface ApplicationAnswer {
@@ -256,6 +264,7 @@ export function emptyEducation(): CvEducation {
 export function defaultApplicationSettings(): ApplicationSettings {
     return {
         phone_country_code: '+44',
+        phone_extension: '',
         years_of_experience: '2',
         expected_salary_weekly: '',
         expected_salary_monthly: '',
@@ -266,10 +275,13 @@ export function defaultApplicationSettings(): ApplicationSettings {
         drivers_license: 'yes',
         notice_period: '',
         job_preferences: '',
+        job_blacklist: '',
         pause_before_submit: false,
         timing_level: 1,
         stop_for_cover_letter: false,
         auto_generate_cover_letter: true,
+        easy_apply_only: true,
+        pause_on_external_apply: false,
     };
 }
 
@@ -296,6 +308,14 @@ export function normalizeApplicationSettings(
     return {
         ...defaults,
         ...source,
+        phone_extension:
+            typeof source.phone_extension === 'string'
+                ? source.phone_extension
+                : defaults.phone_extension,
+        job_blacklist:
+            typeof source.job_blacklist === 'string'
+                ? source.job_blacklist
+                : defaults.job_blacklist,
         pause_before_submit: normalizeBooleanSetting(
             source.pause_before_submit,
             defaults.pause_before_submit,
@@ -308,6 +328,14 @@ export function normalizeApplicationSettings(
         auto_generate_cover_letter: normalizeBooleanSetting(
             source.auto_generate_cover_letter,
             defaults.auto_generate_cover_letter,
+        ),
+        easy_apply_only: normalizeBooleanSetting(
+            source.easy_apply_only,
+            defaults.easy_apply_only,
+        ),
+        pause_on_external_apply: normalizeBooleanSetting(
+            source.pause_on_external_apply,
+            defaults.pause_on_external_apply,
         ),
     };
 }

@@ -2,6 +2,7 @@ import {
     isAutoApplyActivityPanelExpanded,
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
+import { normalizeBlacklistText } from './auto-apply-blacklist.js';
 import { resolveAutoApplyControlsState } from './auto-apply-controls-ui.js';
 import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
 import { buildAutoApplyInterventionSummary } from './auto-apply-intervention.js';
@@ -48,8 +49,11 @@ const minSalarySelect = document.getElementById('auto-apply-min-salary');
 const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
 const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
 const pauseBeforeSubmitInput = document.getElementById('auto-apply-pause-before-submit');
+const easyApplyOnlyInput = document.getElementById('auto-apply-easy-apply-only');
+const pauseOnExternalApplyInput = document.getElementById('auto-apply-pause-on-external');
 const stopForCoverLetterInput = document.getElementById('auto-apply-stop-for-cover-letter');
 const autoGenerateCoverLetterInput = document.getElementById('auto-apply-auto-generate-cover-letter');
+const jobBlacklistInput = document.getElementById('auto-apply-job-blacklist');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
 const timingLevelInput = document.getElementById('auto-apply-timing-level');
 const timingValueEl = document.getElementById('auto-apply-timing-value');
@@ -223,6 +227,9 @@ function readSettingsFromForm() {
         autoGenerateCoverLetter: autoGenerateCoverLetterInput
             ? Boolean(autoGenerateCoverLetterInput.checked)
             : true,
+        easyApplyOnly: easyApplyOnlyInput ? Boolean(easyApplyOnlyInput.checked) : true,
+        pauseOnExternalApply: Boolean(pauseOnExternalApplyInput?.checked),
+        jobBlacklist: normalizeBlacklistText(jobBlacklistInput?.value || ''),
     };
 }
 
@@ -284,6 +291,18 @@ function applySettingsToForm(settings) {
         pauseBeforeSubmitInput.checked = settings.pauseBeforeSubmit;
     }
 
+    if (typeof settings.easyApplyOnly === 'boolean' && easyApplyOnlyInput) {
+        easyApplyOnlyInput.checked = settings.easyApplyOnly;
+    }
+
+    if (typeof settings.pauseOnExternalApply === 'boolean' && pauseOnExternalApplyInput) {
+        pauseOnExternalApplyInput.checked = settings.pauseOnExternalApply;
+    }
+
+    if (typeof settings.jobBlacklist === 'string' && jobBlacklistInput) {
+        jobBlacklistInput.value = settings.jobBlacklist;
+    }
+
     if (typeof settings.stopForCoverLetter === 'boolean' && stopForCoverLetterInput) {
         stopForCoverLetterInput.checked = settings.stopForCoverLetter;
     }
@@ -341,6 +360,9 @@ async function persistAutoApplySettingsToProfile() {
         autoGenerateCoverLetter: autoGenerateCoverLetterInput
             ? Boolean(autoGenerateCoverLetterInput.checked)
             : true,
+        easyApplyOnly: easyApplyOnlyInput ? Boolean(easyApplyOnlyInput.checked) : true,
+        pauseOnExternalApply: Boolean(pauseOnExternalApplyInput?.checked),
+        jobBlacklist: normalizeBlacklistText(jobBlacklistInput?.value || ''),
     });
 
     try {
@@ -378,6 +400,9 @@ export function syncAutoApplySettingsFromProfile(profileData) {
         timingLevel: fromProfile.timingLevel,
         stopForCoverLetter: fromProfile.stopForCoverLetter,
         autoGenerateCoverLetter: fromProfile.autoGenerateCoverLetter,
+        easyApplyOnly: fromProfile.easyApplyOnly,
+        pauseOnExternalApply: fromProfile.pauseOnExternalApply,
+        jobBlacklist: fromProfile.jobBlacklist,
     });
 
     void chrome.storage.local.get([SETTINGS_STORAGE_KEY]).then((stored) => {
@@ -390,6 +415,9 @@ export function syncAutoApplySettingsFromProfile(profileData) {
                 timingLevel: fromProfile.timingLevel,
                 stopForCoverLetter: fromProfile.stopForCoverLetter,
                 autoGenerateCoverLetter: fromProfile.autoGenerateCoverLetter,
+                easyApplyOnly: fromProfile.easyApplyOnly,
+                pauseOnExternalApply: fromProfile.pauseOnExternalApply,
+                jobBlacklist: fromProfile.jobBlacklist,
             },
         });
     }).catch(() => {});
@@ -829,6 +857,9 @@ function isProfileSyncedSettingInput(input) {
         || input === timingLevelInput
         || input === stopForCoverLetterInput
         || input === autoGenerateCoverLetterInput
+        || input === easyApplyOnlyInput
+        || input === pauseOnExternalApplyInput
+        || input === jobBlacklistInput
     );
 }
 
@@ -845,8 +876,11 @@ function bindSettingsPersistence() {
         fitEnabledInput,
         minFitScoreInput,
         pauseBeforeSubmitInput,
+        easyApplyOnlyInput,
+        pauseOnExternalApplyInput,
         stopForCoverLetterInput,
         autoGenerateCoverLetterInput,
+        jobBlacklistInput,
         maxApplicationsInput,
         timingLevelInput,
     ].filter(Boolean);
@@ -946,6 +980,11 @@ export function initAutoApplyPanel({ showMessage }) {
         const autoGenerateCoverLetter = autoGenerateCoverLetterInput
             ? Boolean(autoGenerateCoverLetterInput.checked)
             : true;
+        const easyApplyOnly = easyApplyOnlyInput
+            ? Boolean(easyApplyOnlyInput.checked)
+            : true;
+        const pauseOnExternalApply = Boolean(pauseOnExternalApplyInput?.checked);
+        const jobBlacklist = normalizeBlacklistText(jobBlacklistInput?.value || '');
 
         if (!platform) {
             showMessage('Choose a supported job board.', 'error');
@@ -981,6 +1020,9 @@ export function initAutoApplyPanel({ showMessage }) {
                 timingLevel,
                 stopForCoverLetter,
                 autoGenerateCoverLetter,
+                easyApplyOnly,
+                pauseOnExternalApply,
+                jobBlacklist,
                 hostTabId: hostTab?.id ?? null,
                 hostWindowId: hostTab?.windowId ?? null,
             };

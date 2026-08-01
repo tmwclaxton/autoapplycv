@@ -118,6 +118,58 @@ export function readGlassdoorJobIdFromHref(href) {
 }
 
 /**
+ * Stable key for Glassdoor queue / outcome dedupe.
+ * Prefer jobId, else normalized URL path (no query/hash), else title|company.
+ *
+ * @param {{
+ *   jobId?: string|null,
+ *   url?: string|null,
+ *   path?: string|null,
+ *   title?: string|null,
+ *   company?: string|null,
+ * }} job
+ * @returns {string}
+ */
+export function canonicalGlassdoorJobKey(job) {
+    const jobId = String(job?.jobId || '').trim();
+
+    if (jobId) {
+        return `id:${jobId}`;
+    }
+
+    const rawUrl = String(job?.url || job?.path || '').trim();
+
+    if (rawUrl) {
+        try {
+            const parsed = new URL(rawUrl, 'https://www.glassdoor.com');
+            const path = parsed.pathname.replace(/\/+$/, '').toLowerCase();
+
+            if (path) {
+                return `path:${path}`;
+            }
+        } catch {
+            const path = rawUrl
+                .split(/[?#]/)[0]
+                .replace(/\/+$/, '')
+                .toLowerCase();
+
+            if (path) {
+                return `path:${path}`;
+            }
+        }
+    }
+
+    const title = String(job?.title || '')
+        .trim()
+        .toLowerCase();
+    const company = String(job?.company || '')
+        .trim()
+        .toLowerCase();
+
+    return `meta:${title}|${company}`;
+}
+
+/**
  * @param {string} jobId
  * @param {{ path?: string|null, url?: string|null, host?: string|null, location?: string|null, filters?: GlassdoorSearchFilters|null }} [options]
  * @returns {string}

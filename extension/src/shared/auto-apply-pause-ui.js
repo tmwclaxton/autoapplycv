@@ -85,7 +85,7 @@ export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
 
 /**
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
- * @returns {'captcha'|'login'|'identity_confirm'|'review_before_submit'|null}
+ * @returns {'captcha'|'login'|'identity_confirm'|'review_before_submit'|'external_apply'|null}
  */
 export function resolveAutoApplyPauseReason(pauseContext) {
     if (!pauseContext) {
@@ -97,6 +97,7 @@ export function resolveAutoApplyPauseReason(pauseContext) {
         || pauseContext.pauseReason === 'login'
         || pauseContext.pauseReason === 'identity_confirm'
         || pauseContext.pauseReason === 'review_before_submit'
+        || pauseContext.pauseReason === 'external_apply'
     ) {
         return pauseContext.pauseReason;
     }
@@ -211,6 +212,21 @@ export function buildAutoApplyManualResumePanelCopy(pauseContext) {
         };
     }
 
+    if (pauseReason === 'external_apply') {
+        const detail = String(pauseContext.clarifyingQuestion || pauseContext.questionText || '').trim()
+            || 'This job uses company/external apply. Complete it in the browser if needed, then resume or stop.';
+
+        return {
+            title: 'External apply',
+            detail,
+            summary: 'Auto Apply paused on a company/external apply job.',
+            buttonLabel: 'Resume',
+            composerLockHint: 'Finish or skip the external apply, then tap Resume or Stop.',
+            composerPlaceholder: 'External apply - resume or stop when ready.',
+            statusLabel: 'Paused - external/company apply',
+        };
+    }
+
     return null;
 }
 
@@ -249,6 +265,10 @@ export function buildAutoApplyPauseBannerMessage(pauseContext) {
 
     if (pauseReason === 'review_before_submit') {
         return 'Review the application in the browser tab, then tap Resume in Assist to continue. Stop still works if you want to cancel this run.';
+    }
+
+    if (pauseReason === 'external_apply') {
+        return 'This job uses company/external apply. Complete it in the browser if needed, then tap Resume or Stop in Assist.';
     }
 
     const fieldLabel = resolveAutoApplyPauseFieldLabel(pauseContext);

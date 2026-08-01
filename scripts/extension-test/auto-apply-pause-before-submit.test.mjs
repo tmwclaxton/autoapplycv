@@ -124,3 +124,50 @@ test('applyStateNeedsSubmitPause covers CV-Library submit-only steps', async () 
         hasSubmitButton: true,
     }), true);
 });
+
+test('applyStateNeedsSubmitPause covers Indeed-shaped submit-only steps', async () => {
+    const { applyStateNeedsSubmitPause } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/auto-apply-orchestrator.js')).href
+    );
+
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: true,
+        canContinue: false,
+        hasSubmitButton: true,
+        stepLabel: 'Review your application',
+    }), true);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: true,
+        canSubmit: true,
+        canContinue: false,
+        hasSubmitButton: true,
+    }), true);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: false,
+        canContinue: true,
+        hasSubmitButton: false,
+        stepLabel: 'Contact info',
+    }), false);
+    assert.equal(applyStateNeedsSubmitPause({
+        isReviewStep: false,
+        canSubmit: false,
+        canContinue: false,
+        hasSubmitButton: true,
+    }), true);
+});
+
+test('sidepanel Auto Apply settings include easy-apply-only and pause-on-external', () => {
+    const html = readFileSync(join(ROOT, 'extension/src/sidepanel/sidepanel.html'), 'utf8');
+    const settingsStart = html.indexOf('id="auto-apply-settings-details"');
+    const settingsEnd = html.indexOf('</details>', settingsStart);
+    const settingsBlock = html.slice(settingsStart, settingsEnd);
+
+    assert.match(settingsBlock, /id="auto-apply-easy-apply-only"/);
+    assert.match(settingsBlock, /id="auto-apply-easy-apply-only"[^>]*checked/);
+    assert.match(settingsBlock, /id="auto-apply-pause-on-external"/);
+    assert.doesNotMatch(settingsBlock, /id="auto-apply-pause-on-external"[^>]*checked/);
+    assert.match(settingsBlock, />Easy Apply only</);
+    assert.match(settingsBlock, />Pause on external apply</);
+});

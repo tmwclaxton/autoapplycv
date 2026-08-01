@@ -3,6 +3,7 @@ export const AUTO_APPLY_OUTCOME = {
     APPLIED: 'applied',
     SKIPPED_EXTERNAL: 'skipped_external',
     SKIPPED_LOW_FIT: 'skipped_low_fit',
+    SKIPPED_BLACKLISTED: 'skipped_blacklisted',
     SKIPPED_ALREADY_APPLIED: 'skipped_already_applied',
     SKIPPED_EMPTY_SHELL: 'skipped_empty_shell',
     SKIPPED_PLACEHOLDER_JOB: 'skipped_placeholder_job',
@@ -29,6 +30,10 @@ export function classifyAutoApplyLogOutcome(message) {
 
     if (text.includes('low_fit_score') || text.includes('below fit')) {
         return AUTO_APPLY_OUTCOME.SKIPPED_LOW_FIT;
+    }
+
+    if (text.includes('blacklist')) {
+        return AUTO_APPLY_OUTCOME.SKIPPED_BLACKLISTED;
     }
 
     if (text.includes('already applied')) {
@@ -92,6 +97,7 @@ export function resolveCurrentQueueJobLabel(session) {
  *   outcome: string,
  *   reason?: string|null,
  *   stepFingerprint?: string|null,
+ *   fingerprint?: string|null,
  * }} entry
  * @returns {import('./auto-apply-session.js').AutoApplySession}
  */
@@ -103,6 +109,7 @@ export function appendAutoApplyJobOutcome(session, entry) {
         outcome: String(entry.outcome || AUTO_APPLY_OUTCOME.ERROR),
         reason: entry.reason ? String(entry.reason) : null,
         stepFingerprint: entry.stepFingerprint ? String(entry.stepFingerprint) : null,
+        fingerprint: entry.fingerprint ? String(entry.fingerprint) : null,
         ts: Date.now(),
     };
 
@@ -141,6 +148,10 @@ export function resolveStructuredJobProcessOutcome(result) {
         return { outcome: AUTO_APPLY_OUTCOME.SKIPPED_LOW_FIT, reason };
     }
 
+    if (reason === 'blacklisted') {
+        return { outcome: AUTO_APPLY_OUTCOME.SKIPPED_BLACKLISTED, reason };
+    }
+
     if (reason === 'empty_shell' || reason === 'form_shell_empty') {
         return { outcome: AUTO_APPLY_OUTCOME.SKIPPED_EMPTY_SHELL, reason };
     }
@@ -149,7 +160,16 @@ export function resolveStructuredJobProcessOutcome(result) {
         return { outcome: AUTO_APPLY_OUTCOME.SKIPPED_PLACEHOLDER_JOB, reason };
     }
 
-    if (reason === 'external_apply' || reason === 'no_easy_apply' || reason === 'no_indeed_apply') {
+    if (
+        reason === 'external_apply'
+        || reason === 'no_easy_apply'
+        || reason === 'no_indeed_apply'
+        || reason === 'no_reed_apply'
+        || reason === 'no_totaljobs_apply'
+        || reason === 'no_glassdoor_apply'
+        || reason === 'no_simplyhired_apply'
+        || reason === 'no_cv_library_apply'
+    ) {
         return { outcome: AUTO_APPLY_OUTCOME.SKIPPED_EXTERNAL, reason };
     }
 

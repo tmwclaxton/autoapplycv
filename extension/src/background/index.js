@@ -993,6 +993,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     timingLevel: message.timingLevel,
                     stopForCoverLetterInput: message.stopForCoverLetter === true,
                     autoGenerateCoverLetter: message.autoGenerateCoverLetter !== false,
+                    easyApplyOnly: message.easyApplyOnly !== false,
+                    pauseOnExternalApply: message.pauseOnExternalApply === true,
+                    jobBlacklist:
+                        typeof message.jobBlacklist === 'string'
+                            ? message.jobBlacklist
+                            : null,
                     hostTabId: message.hostTabId ?? null,
                     hostWindowId: message.hostWindowId ?? null,
                     runDraftAll,
@@ -5861,6 +5867,9 @@ initExtensionBridge({
             timingLevel = null,
             stopForCoverLetter = false,
             autoGenerateCoverLetter = true,
+            easyApplyOnly = true,
+            pauseOnExternalApply = false,
+            jobBlacklist = null,
             filters = null,
             location = null,
             market = null,
@@ -5889,6 +5898,10 @@ initExtensionBridge({
                 timingLevel,
                 stopForCoverLetterInput: stopForCoverLetter === true,
                 autoGenerateCoverLetter: autoGenerateCoverLetter !== false,
+                easyApplyOnly: easyApplyOnly !== false,
+                pauseOnExternalApply: pauseOnExternalApply === true,
+                jobBlacklist:
+                    typeof jobBlacklist === 'string' ? jobBlacklist : null,
                 force: force === true,
                 hostTabId: typeof hostTabId === 'number' ? hostTabId : null,
                 hostWindowId:

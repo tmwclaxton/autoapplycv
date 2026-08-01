@@ -29,6 +29,9 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         formatJobOutcomeLogMessage,
         recordAnalyticsEvent,
         appendAutoApplyLog,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
     } = ctx;
@@ -143,9 +146,12 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
                     result.outcome === 'applied' ? 'success' : 'info',
                     formatJobOutcomeLogMessage(job, result),
                 );
+                const withOutcome = typeof recordStructuredJobOutcome === 'function'
+                    ? recordStructuredJobOutcome(withLog, job, result)
+                    : withLog;
 
                 return {
-                    ...withLog,
+                    ...withOutcome,
                     stats,
                     currentIndex: current.currentIndex + 1,
                 };
@@ -173,12 +179,20 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
                         detail: error.message || 'Auto Apply job failed.',
                     }),
                 );
+                const withOutcome = typeof appendProcessedJobOutcome === 'function'
+                    ? appendProcessedJobOutcome(
+                        withLog,
+                        job,
+                        AUTO_APPLY_OUTCOME?.ERROR || 'error',
+                        error.message || 'job_failed',
+                    )
+                    : withLog;
 
                 return {
-                    ...withLog,
+                    ...withOutcome,
                     stats: {
-                        ...withLog.stats,
-                        errors: withLog.stats.errors + 1,
+                        ...withOutcome.stats,
+                        errors: withOutcome.stats.errors + 1,
                     },
                     currentIndex: current.currentIndex + 1,
                 };

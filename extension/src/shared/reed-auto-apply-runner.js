@@ -14,6 +14,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
     const {
         resetWatchdog,
         ensureReedTab,
+        ensureBoardLoginBeforeCollect,
         appendUniqueReedJobs,
         sendReedMessage,
         processReedJob,
@@ -29,6 +30,9 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         formatJobOutcomeLogMessage,
         recordAnalyticsEvent,
         appendAutoApplyLog,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
     } = ctx;
@@ -51,6 +55,23 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
 
     session = await updateSession({ tabId }) || session;
     markWatchdogProgress(session);
+
+    if (typeof ensureBoardLoginBeforeCollect === 'function') {
+        const loginPreflight = await ensureBoardLoginBeforeCollect(
+            session,
+            tabId,
+            session.platform,
+        );
+
+        session = loginPreflight.session || session;
+
+        if (loginPreflight.stopped) {
+            await finalizeStoppedSession();
+
+            return;
+        }
+    }
+
     await logSession('info', 'Collecting Reed job listings…');
 
     session = await appendUniqueReedJobs(tabId, session);
@@ -157,9 +178,12 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
                     result.outcome === 'applied' ? 'success' : 'info',
                     formatJobOutcomeLogMessage(job, result),
                 );
+                const withOutcome = typeof recordStructuredJobOutcome === 'function'
+                    ? recordStructuredJobOutcome(withLog, job, result)
+                    : withLog;
 
                 return {
-                    ...withLog,
+                    ...withOutcome,
                     stats,
                     currentIndex: current.currentIndex + 1,
                 };
@@ -184,9 +208,17 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
             session = await updateSession((current) => {
                 const stats = { ...current.stats, errors: current.stats.errors + 1 };
                 const withLog = appendAutoApplyLog(current, 'error', `${job.title}: ${error.message}`);
+                const withOutcome = typeof appendProcessedJobOutcome === 'function'
+                    ? appendProcessedJobOutcome(
+                        withLog,
+                        job,
+                        AUTO_APPLY_OUTCOME?.ERROR || 'error',
+                        error.message || 'job_failed',
+                    )
+                    : withLog;
 
                 return {
-                    ...withLog,
+                    ...withOutcome,
                     stats,
                     currentIndex: current.currentIndex + 1,
                 };

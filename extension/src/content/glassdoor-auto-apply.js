@@ -909,9 +909,15 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
             return {
                 ok: false,
                 primary: {
+                    code: 'login_required',
                     message: 'Sign in to Glassdoor to use Auto Apply.',
                 },
-                blocking: ['Glassdoor sign-in required'],
+                blocking: [
+                    {
+                        code: 'login_required',
+                        message: 'Glassdoor sign-in required',
+                    },
+                ],
             };
         }
 

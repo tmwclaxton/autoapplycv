@@ -38,7 +38,8 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {boolean} [captcha]
  * @property {boolean} [identityConfirm]
  * @property {boolean} [loginRequired]
- * @property {'captcha'|'login'|'identity_confirm'|'review_before_submit'|'cover_letter_input'|null} [pauseReason]
+ * @property {'captcha'|'login'|'identity_confirm'|'review_before_submit'|'cover_letter_input'|'external_apply'|null} [pauseReason]
+ * @property {string|null} [externalApplyUrl]
  */
 
 /**
@@ -58,6 +59,9 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {number} timingLevel
  * @property {boolean} stopForCoverLetterInput
  * @property {boolean} autoGenerateCoverLetter
+ * @property {boolean} easyApplyOnly
+ * @property {boolean} pauseOnExternalApply
+ * @property {string} jobBlacklist
  * @property {{ found: number, applied: number, skipped: number, errors: number, draftAllRuns: number, stepsAdvanced: number, fitSkipped: number }} stats
  * @property {AutoApplyJobEntry[]} queue
  * @property {number} currentIndex
@@ -69,7 +73,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {number|null} analyticsSessionId
  * @property {number} fieldsFilledCount
  * @property {AutoApplyPauseContext|null} pauseContext
- * @property {Array<{ jobId: string, title: string, company: string, outcome: string, reason: string|null, stepFingerprint?: string|null, ts: number }>} [jobOutcomes]
+ * @property {Array<{ jobId: string, title: string, company: string, outcome: string, reason: string|null, stepFingerprint?: string|null, fingerprint?: string|null, ts: number }>} [jobOutcomes]
  */
 
 function createAutoApplyRunId() {
@@ -92,6 +96,9 @@ function createAutoApplyRunId() {
  *   timingLevel?: number,
  *   stopForCoverLetterInput?: boolean,
  *   autoGenerateCoverLetter?: boolean,
+ *   easyApplyOnly?: boolean,
+ *   pauseOnExternalApply?: boolean,
+ *   jobBlacklist?: string,
  * }} input
  * @returns {AutoApplySession}
  */
@@ -106,6 +113,9 @@ export function createInitialSession({
     timingLevel = DEFAULT_AUTO_APPLY_TIMING_LEVEL,
     stopForCoverLetterInput = false,
     autoGenerateCoverLetter = true,
+    easyApplyOnly = true,
+    pauseOnExternalApply = false,
+    jobBlacklist = '',
 }) {
     return {
         status: 'running',
@@ -122,6 +132,9 @@ export function createInitialSession({
         timingLevel: normalizeTimingLevel(timingLevel),
         stopForCoverLetterInput: stopForCoverLetterInput === true,
         autoGenerateCoverLetter: autoGenerateCoverLetter !== false,
+        easyApplyOnly: easyApplyOnly !== false,
+        pauseOnExternalApply: pauseOnExternalApply === true,
+        jobBlacklist: typeof jobBlacklist === 'string' ? jobBlacklist : '',
         stats: {
             found: 0,
             applied: 0,
@@ -236,6 +249,9 @@ export async function loadAutoApplySession() {
         pauseBeforeSubmit: session.pauseBeforeSubmit === true,
         stopForCoverLetterInput: session.stopForCoverLetterInput === true,
         autoGenerateCoverLetter: session.autoGenerateCoverLetter !== false,
+        easyApplyOnly: session.easyApplyOnly !== false,
+        pauseOnExternalApply: session.pauseOnExternalApply === true,
+        jobBlacklist: typeof session.jobBlacklist === 'string' ? session.jobBlacklist : '',
         filters: session.filters ?? null,
         stats: {
             ...(session.stats || {}),

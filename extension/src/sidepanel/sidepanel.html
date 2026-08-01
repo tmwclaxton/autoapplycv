@@ -90,6 +90,7 @@
                     <button class="tab" data-tab="ats">ATS</button>
                     <button class="tab" data-tab="cover">Cover</button>
                     <button class="tab" data-tab="documents">Documents</button>
+                    <button class="tab" data-tab="blacklist">Blacklist</button>
                 </nav>
 
                 <div id="job-context" class="job-context" hidden>
@@ -295,10 +296,28 @@
                                         <p class="postbox-hint auto-apply-inline-hint">Left is slower and more human-like. Right is faster and less human-like, and does not prevent platform detection.</p>
                                     </div>
 
+                                    <p class="postbox-hint auto-apply-inline-hint">
+                                        Sign in to the job board in your browser before starting Auto Apply. If the board asks you to log in mid-run, Auto Apply pauses so you can sign in and resume.
+                                    </p>
+
                                     <div class="auto-apply-fit-bar">
                                         <label class="auto-apply-fit-toggle" for="auto-apply-pause-before-submit">
                                             <input id="auto-apply-pause-before-submit" type="checkbox" />
                                             <span>Pauses before Submit</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="auto-apply-fit-bar">
+                                        <label class="auto-apply-fit-toggle" for="auto-apply-easy-apply-only">
+                                            <input id="auto-apply-easy-apply-only" type="checkbox" checked />
+                                            <span>Easy Apply only</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="auto-apply-fit-bar">
+                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-on-external">
+                                            <input id="auto-apply-pause-on-external" type="checkbox" />
+                                            <span>Pause on external apply</span>
                                         </label>
                                     </div>
 
@@ -445,6 +464,25 @@
 
                             <div id="documents-list" class="document-list"></div>
                             <p id="documents-empty" class="postbox-hint" hidden>No documents saved yet. Generate a cover letter on the Cover tab or upload files above.</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="blacklist-tab">
+                        <div class="shell-scroll shell-auto-apply-panel">
+                            <p class="postbox-hint">
+                                Plain-English rules for employers and roles Auto Apply should skip.
+                                Empty means no blacklist. Examples: no construction jobs and avoid Microsoft
+                            </p>
+                            <label class="postbox-label" for="auto-apply-job-blacklist">Avoid list</label>
+                            <textarea
+                                id="auto-apply-job-blacklist"
+                                class="postbox-input shell-grow-input"
+                                rows="10"
+                                maxlength="5000"
+                                placeholder="no construction jobs&#10;avoid Microsoft&#10;&quot;Acme Corp&quot;"
+                                spellcheck="true"
+                            ></textarea>
+                            <p class="postbox-hint auto-apply-inline-hint">Saved to your profile. Max 5000 characters.</p>
                         </div>
                     </div>
                 </div>

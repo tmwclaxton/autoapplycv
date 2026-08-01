@@ -68,6 +68,11 @@ export function createSimplyHiredOrchestrator(deps) {
         pauseForCaptchaReview,
         waitForIndeedCaptchaResume,
         waitForReviewBeforeSubmitIfNeeded,
+        skipDuplicateAppliedJobIfNeeded,
+        handleExternalApplyJobIfNeeded,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
     } = deps;
 
     const SIMPLYHIRED_SLOW_MESSAGE_TIMEOUT_MS = {
@@ -369,13 +374,16 @@ export function createSimplyHiredOrchestrator(deps) {
             return session;
         }
 
+        const easyApplyOnly = session.easyApplyOnly !== false;
         const existingIds = new Set(session.queue.map((job) => job.jobId));
         const batchSeen = new Set();
         const freshJobs = jobs.filter((job) => (
             !existingIds.has(job.jobId)
             && !batchSeen.has(job.jobId)
-            && job.simplyHiredApply !== false
-            && job.quickApply !== false
+            && (
+                !easyApplyOnly
+                || (job.simplyHiredApply !== false && job.quickApply !== false)
+            )
             && !job.alreadyApplied
             && job.title !== 'Unknown role'
             && (batchSeen.add(job.jobId), true)
@@ -664,11 +672,32 @@ export function createSimplyHiredOrchestrator(deps) {
     }
 
     async function evaluateSimplyHiredJobFit(tabId, job, session) {
+        if (typeof deps.applyJobBlacklistGate === 'function') {
+            const blacklistGate = await deps.applyJobBlacklistGate(job, session, tabId);
+
+            if (!blacklistGate.proceed) {
+                return blacklistGate;
+            }
+        }
+
         if (!session.fitCheckEnabled) {
             return { proceed: true, score: null };
         }
 
         const { description } = await fetchSimplyHiredJobDescriptionForFit(tabId, job);
+
+        if (typeof deps.applyJobBlacklistGate === 'function') {
+            const blacklistWithDescription = await deps.applyJobBlacklistGate(
+                job,
+                session,
+                tabId,
+                description,
+            );
+
+            if (!blacklistWithDescription.proceed) {
+                return blacklistWithDescription;
+            }
+        }
 
         if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
             await logSession(
@@ -731,6 +760,31 @@ export function createSimplyHiredOrchestrator(deps) {
 
         if (await shouldStop(session)) {
             return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (typeof skipDuplicateAppliedJobIfNeeded === 'function') {
+            const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
+                session,
+                tabId,
+                job,
+            );
+
+            if (duplicateSkip) {
+                return duplicateSkip;
+            }
+        }
+
+        if (typeof handleExternalApplyJobIfNeeded === 'function') {
+            const externalGate = await handleExternalApplyJobIfNeeded(
+                session,
+                tabId,
+                job,
+                'no_simplyhired_apply',
+            );
+
+            if (externalGate) {
+                return externalGate;
+            }
         }
 
         await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT').catch(() => {});
@@ -865,6 +919,7 @@ export function createSimplyHiredOrchestrator(deps) {
                 return {
                     outcome: 'skipped',
                     reason: fitResult.reason || 'low_fit_score',
+                    detail: fitResult.detail || '',
                     tabId,
                     atsScore: fitResult.score,
                     fitReason: fitResult.fitReason || '',
@@ -1413,6 +1468,9 @@ export function createSimplyHiredOrchestrator(deps) {
             formatJobOutcomeLogMessage,
             recordAnalyticsEvent,
             appendAutoApplyLog,
+            recordStructuredJobOutcome,
+            appendProcessedJobOutcome,
+            AUTO_APPLY_OUTCOME,
             randomDelay,
             AUTO_APPLY_DELAY_MS,
             sleep,

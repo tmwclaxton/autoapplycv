@@ -5,6 +5,7 @@ import {
     startAutoApplyAnalyticsSession,
     syncAutoApplyAnalyticsSession,
 } from './auto-apply-analytics.js';
+import { evaluateJobAgainstBlacklist } from './auto-apply-blacklist.js';
 import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     buildAutoApplyPauseQuestion,
@@ -25,8 +26,11 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-
-export { configureAutoApplyAtsSubscriptionHandler };
+import {
+    canonicalJobFingerprint,
+    rememberAppliedFingerprint,
+    shouldSkipJobAsAlreadyApplied,
+} from './auto-apply-job-identity.js';
 import {
     appendAutoApplyJobOutcome,
     AUTO_APPLY_OUTCOME,
@@ -44,6 +48,7 @@ import {
     normalizeAutoApplyPlatform,
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
+import { extractAutoApplySettingsFromProfile } from './auto-apply-profile-settings.js';
 import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
 import {
@@ -100,37 +105,10 @@ import {
     findBestFormFrameId,
     scanFormValidationOnTab,
 } from './form-frame-messaging.js';
-
-/**
- * Tab messaging used by Auto Apply - abort promptly when Stop is pressed so we
- * do not wait out content-script delays (job detail, fill-and-advance, etc.).
- *
- * @param {number} tabId
- * @param {object} message
- * @param {number} [frameId]
- * @param {{ timeoutMs?: number }} [options]
- */
-function sendTabMessage(tabId, message, frameId = 0, options = {}) {
-    return raceAgainstAutoApplyStop(
-        sendTabMessageRaw(tabId, message, frameId, options),
-        { message: 'Stopped while messaging a job-board tab.' },
-    );
-}
-
-/**
- * @param {number} tabId
- * @param {object} message
- * @param {{ timeoutMs?: number }} [options]
- */
-function sendIndeedApplyFlowMessage(tabId, message, options = {}) {
-    return raceAgainstAutoApplyStop(
-        sendIndeedApplyFlowMessageRaw(tabId, message, options),
-        { message: 'Stopped while messaging an Indeed apply frame.' },
-    );
-}
 import { runGlassdoorAutoApplyLoop } from './glassdoor-auto-apply-runner.js';
 import {
     buildGlassdoorJobOpenUrl,
+    canonicalGlassdoorJobKey,
     isGlassdoorJobsSearchUrl,
     urlsMatchGlassdoorSearch,
 } from './glassdoor-platform.js';
@@ -171,6 +149,36 @@ import {
     isTotalJobsJobsSearchUrl,
     urlsMatchTotalJobsSearch,
 } from './totaljobs-platform.js';
+
+export { configureAutoApplyAtsSubscriptionHandler };
+
+/**
+ * Tab messaging used by Auto Apply - abort promptly when Stop is pressed so we
+ * do not wait out content-script delays (job detail, fill-and-advance, etc.).
+ *
+ * @param {number} tabId
+ * @param {object} message
+ * @param {number} [frameId]
+ * @param {{ timeoutMs?: number }} [options]
+ */
+function sendTabMessage(tabId, message, frameId = 0, options = {}) {
+    return raceAgainstAutoApplyStop(
+        sendTabMessageRaw(tabId, message, frameId, options),
+        { message: 'Stopped while messaging a job-board tab.' },
+    );
+}
+
+/**
+ * @param {number} tabId
+ * @param {object} message
+ * @param {{ timeoutMs?: number }} [options]
+ */
+function sendIndeedApplyFlowMessage(tabId, message, options = {}) {
+    return raceAgainstAutoApplyStop(
+        sendIndeedApplyFlowMessageRaw(tabId, message, options),
+        { message: 'Stopped while messaging an Indeed apply frame.' },
+    );
+}
 
 /**
  * @param {string} searchUrl
@@ -228,10 +236,104 @@ function buildSessionSearchOptions(session) {
             : baseFilters;
 
     return {
-        easyApplyOnly: true,
+        easyApplyOnly: session?.easyApplyOnly !== false,
         filters,
     };
 }
+
+/**
+ * @param {object|null|undefined} health
+ * @returns {boolean}
+ */
+function healthIndicatesLoginRequired(health) {
+    if (!health || health.ok !== false) {
+        return false;
+    }
+
+    if (health.primary?.code === 'login_required') {
+        return true;
+    }
+
+    const blocking = Array.isArray(health.blocking) ? health.blocking : [];
+
+    return blocking.some((issue) => {
+        if (typeof issue === 'string') {
+            return /sign[- ]?in|login/i.test(issue);
+        }
+
+        return issue?.code === 'login_required';
+    });
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {object} job
+ * @returns {boolean}
+ */
+function isExternalApplyJobCard(session, job) {
+    const platform = session?.platform;
+
+    if (platform === REED_PLATFORM_ID) {
+        return job?.reedApply === false || job?.easyApply === false;
+    }
+
+    if (platform === TOTALJOBS_PLATFORM_ID) {
+        return job?.totaljobsApply === false;
+    }
+
+    if (platform === SIMPLYHIRED_PLATFORM_ID) {
+        return job?.simplyHiredApply === false || job?.quickApply === false;
+    }
+
+    return false;
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {object} job
+ * @param {string} structuredOutcome
+ * @param {string|null} reason
+ * @returns {import('./auto-apply-session.js').AutoApplySession}
+ */
+function appendProcessedJobOutcome(session, job, structuredOutcome, reason = null) {
+    const fingerprint = canonicalJobFingerprint(session.platform, job);
+    const next = appendAutoApplyJobOutcome(session, {
+        jobId: job.jobId,
+        title: job.title,
+        company: job.company,
+        outcome: structuredOutcome,
+        reason,
+        fingerprint,
+    });
+
+    if (
+        structuredOutcome === AUTO_APPLY_OUTCOME.APPLIED
+        || structuredOutcome === AUTO_APPLY_OUTCOME.SKIPPED_ALREADY_APPLIED
+    ) {
+        void rememberAppliedFingerprint(fingerprint);
+    }
+
+    return next;
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {object} job
+ * @param {{ outcome?: string, reason?: string|null }} result
+ * @returns {import('./auto-apply-session.js').AutoApplySession}
+ */
+function recordStructuredJobOutcome(session, job, result) {
+    const structured = resolveStructuredJobProcessOutcome(result);
+
+    return appendProcessedJobOutcome(
+        session,
+        job,
+        structured.outcome,
+        structured.reason,
+    );
+}
+
+export { canonicalGlassdoorJobKey };
 
 function linkedInSearchParamKeys(filters) {
     const keys = new Set(['keywords', 'f_AL', 'origin']);
@@ -415,6 +517,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             apply_step_unavailable: 'apply form could not advance',
             apply_submit_failed: 'application could not be submitted',
             already_applied: 'already applied',
+            blacklisted: 'matched job blacklist',
             login_required: 'sign-in required on job board',
             board_server_error: 'job board returned a server error',
             captcha_required: 'CAPTCHA / security check',
@@ -445,7 +548,66 @@ function formatJobOutcomeLogMessage(job, result) {
     );
 }
 
+/**
+ * Skip jobs that match the profile blacklist before ATS scoring / apply.
+ * Empty blacklist and matcher failures are no-ops.
+ *
+ * @param {object} job
+ * @param {import('./auto-apply-session.js').AutoApplySession|null|undefined} session
+ * @param {number|null} [tabId]
+ * @param {string} [description]
+ * @returns {Promise<{ proceed: true }|{ proceed: false, reason: 'blacklisted', detail: string }>}
+ */
+async function applyJobBlacklistGate(job, session, tabId = null, description = '') {
+    try {
+        const result = evaluateJobAgainstBlacklist({
+            blacklistText: session?.jobBlacklist || '',
+            title: job?.title || '',
+            company: job?.company || '',
+            description: description || job?.description || '',
+            location: job?.location || '',
+        });
+
+        if (!result.blocked) {
+            return { proceed: true };
+        }
+
+        const detail = result.reason || 'matched blacklist';
+
+        await logSession(
+            'info',
+            formatIndeedSkipLogMessage(job, 'blacklisted', detail),
+        );
+        await recordAnalyticsEvent(
+            session,
+            'skipped',
+            job,
+            {
+                metadata: {
+                    reason: 'blacklisted',
+                    detail,
+                },
+            },
+            tabId,
+        );
+
+        return {
+            proceed: false,
+            reason: 'blacklisted',
+            detail,
+        };
+    } catch {
+        return { proceed: true };
+    }
+}
+
 async function evaluateJobFit(tabId, job, session) {
+    const blacklistGate = await applyJobBlacklistGate(job, session, tabId);
+
+    if (!blacklistGate.proceed) {
+        return blacklistGate;
+    }
+
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
     }
@@ -454,6 +616,17 @@ async function evaluateJobFit(tabId, job, session) {
         tabId,
         job,
     );
+
+    const blacklistWithDescription = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+        description,
+    );
+
+    if (!blacklistWithDescription.proceed) {
+        return blacklistWithDescription;
+    }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -3054,6 +3227,219 @@ async function waitForLoginRequiredResume(session, tabId, job, platformLabel = '
     return { resumed: true, session: loginResume };
 }
 
+/**
+ * Pause for board login when page health reports login_required.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {{ jobId?: string, title?: string, company?: string }|null} job
+ * @param {string} platformLabel
+ * @param {object|null|undefined} health
+ * @returns {Promise<{ stopped?: boolean, timedOut?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+async function waitForBoardLoginIfNeeded(session, tabId, job, platformLabel, health) {
+    if (!healthIndicatesLoginRequired(health)) {
+        return { session };
+    }
+
+    return waitForLoginRequiredResume(session, tabId, job, platformLabel);
+}
+
+/**
+ * Scan board page health once before the first job collect.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {string} platform
+ * @returns {Promise<{ stopped?: boolean, timedOut?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+async function ensureBoardLoginBeforeCollect(session, tabId, platform) {
+    const scanTypeByPlatform = {
+        [INDEED_PLATFORM_ID]: 'INDEED_SCAN_PAGE_HEALTH',
+        [GLASSDOOR_PLATFORM_ID]: 'GLASSDOOR_SCAN_PAGE_HEALTH',
+        [REED_PLATFORM_ID]: 'REED_SCAN_PAGE_HEALTH',
+        [TOTALJOBS_PLATFORM_ID]: 'TOTALJOBS_SCAN_PAGE_HEALTH',
+    };
+    const labelByPlatform = {
+        [INDEED_PLATFORM_ID]: 'Indeed',
+        [GLASSDOOR_PLATFORM_ID]: 'Glassdoor',
+        [REED_PLATFORM_ID]: 'Reed',
+        [TOTALJOBS_PLATFORM_ID]: 'Totaljobs',
+    };
+    const scanType = scanTypeByPlatform[platform];
+
+    if (!scanType) {
+        return { session };
+    }
+
+    const health = await sendTabMessage(tabId, { type: scanType }, 0).catch(() => null);
+
+    if (!healthIndicatesLoginRequired(health)) {
+        return { session };
+    }
+
+    const platformLabel = labelByPlatform[platform] || platform;
+
+    return waitForLoginRequiredResume(
+        session,
+        tabId,
+        {
+            jobId: '',
+            title: `${platformLabel} search`,
+            company: platformLabel,
+        },
+        platformLabel,
+    );
+}
+
+async function pauseForExternalApply(session, tabId, job) {
+    const applyUrl = String(job?.url || job?.path || '').trim();
+    const prompt = applyUrl
+        ? `This job uses company/external apply. Open the apply link if needed, then resume or stop Auto Apply.\n${applyUrl}`
+        : 'This job uses company/external apply. Complete it in the browser if needed, then resume or stop Auto Apply.';
+
+    const pauseContext = {
+        job: {
+            jobId: job?.jobId || null,
+            title: job?.title || 'External apply',
+            company: job?.company || '',
+        },
+        stepFingerprint: 'external-apply',
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: prompt,
+        questionText: prompt,
+        resumeAt: 'open_job',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        pauseReason: 'external_apply',
+        externalApplyUrl: applyUrl || null,
+    };
+
+    await updateSession((current) =>
+        pauseAutoApplyForInput(
+            appendAutoApplyLog(
+                current,
+                'warn',
+                `[paused] ${job?.title || 'Job'}: external/company apply - review the link, then resume or stop.`,
+            ),
+            pauseContext,
+        ),
+    );
+
+    await startAutoApplyPauseKeepalive();
+    await openAssistSidePanelForCaptcha(tabId);
+
+    chrome.runtime
+        .sendMessage({
+            type: 'AUTO_APPLY_PAUSED',
+            pauseContext,
+            reason: 'external_apply',
+        })
+        .catch(() => {});
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {object} job
+ * @returns {Promise<{ skipped?: boolean, stopped?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
+ */
+async function waitForExternalApplyPauseIfNeeded(session, tabId, job) {
+    if (!session?.pauseOnExternalApply || !isExternalApplyJobCard(session, job)) {
+        return { skipped: true, session };
+    }
+
+    await pauseForExternalApply(session, tabId, job);
+    const resumed = await waitForAutoApplyResume();
+
+    if (resumed.stopRequested) {
+        return { stopped: true, session: resumed };
+    }
+
+    return { resumed: true, session: resumed };
+}
+
+/**
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {object} job
+ * @returns {Promise<{ outcome: string, reason: string, tabId: number }|null>}
+ */
+async function skipDuplicateAppliedJobIfNeeded(session, tabId, job) {
+    const duplicate = await shouldSkipJobAsAlreadyApplied(
+        session,
+        session.platform,
+        job,
+    );
+
+    if (!duplicate) {
+        return null;
+    }
+
+    await logSession(
+        'info',
+        `[skip] ${job.title}: already applied earlier (fingerprint match).`,
+    );
+    await recordAnalyticsEvent(session, 'skipped', job, {
+        metadata: { reason: 'already_applied' },
+    });
+
+    return { outcome: 'skipped', reason: 'already_applied', tabId };
+}
+
+/**
+ * External/company-apply gate for Reed / Totaljobs / SimplyHired.
+ * When easy_apply_only: skip. When pause_on_external_apply: pause then skip.
+ * When both off: allow the job through queue/process (open may still fail).
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {number} tabId
+ * @param {object} job
+ * @param {string} skipReason
+ * @returns {Promise<{ outcome: string, reason: string, tabId: number, session?: import('./auto-apply-session.js').AutoApplySession }|null>}
+ */
+async function handleExternalApplyJobIfNeeded(session, tabId, job, skipReason) {
+    if (!isExternalApplyJobCard(session, job)) {
+        return null;
+    }
+
+    if (session.pauseOnExternalApply) {
+        const pauseWait = await waitForExternalApplyPauseIfNeeded(
+            session,
+            tabId,
+            job,
+        );
+
+        if (pauseWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        session = pauseWait.session || session;
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'external_apply' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'external_apply',
+            tabId,
+            session,
+        };
+    }
+
+    if (session.easyApplyOnly !== false) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: skipReason },
+        });
+
+        return { outcome: 'skipped', reason: skipReason, tabId, session };
+    }
+
+    return null;
+}
+
 async function readTabUrl(tabId) {
     try {
         const tab = await chrome.tabs.get(tabId);
@@ -3844,6 +4230,7 @@ async function processLinkedInJob(
         return {
             outcome: 'skipped',
             reason: fitResult.reason || 'low_fit_score',
+            detail: fitResult.detail || '',
             tabId,
             atsScore: fitResult.score,
         };
@@ -5308,11 +5695,28 @@ async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
 }
 
 async function evaluateIndeedJobFit(tabId, job, session) {
+    const blacklistGate = await applyJobBlacklistGate(job, session, tabId);
+
+    if (!blacklistGate.proceed) {
+        return blacklistGate;
+    }
+
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
     }
 
     const { description } = await fetchIndeedJobDescriptionForFit(tabId, job);
+
+    const blacklistWithDescription = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+        description,
+    );
+
+    if (!blacklistWithDescription.proceed) {
+        return blacklistWithDescription;
+    }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -5581,6 +5985,16 @@ async function processIndeedJobInner(
 ) {
     await closeIndeedAuxiliaryTabs(session, searchTabId);
 
+    const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
+        session,
+        tabId,
+        job,
+    );
+
+    if (duplicateSkip) {
+        return duplicateSkip;
+    }
+
     await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
@@ -5696,6 +6110,7 @@ async function processIndeedJobInner(
         return {
             outcome: 'skipped',
             reason: fitResult.reason || 'low_fit_score',
+            detail: fitResult.detail || '',
             tabId,
             atsScore: fitResult.score,
             fitReason: fitResult.fitReason || '',
@@ -5738,6 +6153,28 @@ async function processIndeedJobInner(
                 reason: 'captcha_required',
                 tabId,
             };
+        }
+    } else if (healthIndicatesLoginRequired(health)) {
+        const loginWait = await waitForBoardLoginIfNeeded(
+            session,
+            tabId,
+            job,
+            'Indeed',
+            health,
+        );
+
+        session = loginWait.session || session;
+
+        if (loginWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (loginWait.timedOut) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'login_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'login_required', tabId };
         }
     } else if (health && health.ok === false) {
         throw new Error(
@@ -6610,13 +7047,14 @@ async function appendUniqueTotalJobsJobs(tabId, session) {
         return session;
     }
 
+    const easyApplyOnly = session.easyApplyOnly !== false;
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
     const freshJobs = jobs.filter(
         (job) =>
             !existingIds.has(job.jobId) &&
             !batchSeen.has(job.jobId) &&
-            job.totaljobsApply !== false &&
+            (!easyApplyOnly || job.totaljobsApply !== false) &&
             !job.alreadyApplied &&
             job.title !== 'Unknown role' &&
             (batchSeen.add(job.jobId), true),
@@ -6731,6 +7169,12 @@ async function fetchTotalJobsJobDescriptionForFit(tabId, job = null) {
 }
 
 async function evaluateTotalJobsJobFit(tabId, job, session) {
+    const blacklistGate = await applyJobBlacklistGate(job, session, tabId);
+
+    if (!blacklistGate.proceed) {
+        return blacklistGate;
+    }
+
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
     }
@@ -6739,6 +7183,17 @@ async function evaluateTotalJobsJobFit(tabId, job, session) {
         tabId,
         job,
     );
+
+    const blacklistWithDescription = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+        description,
+    );
+
+    if (!blacklistWithDescription.proceed) {
+        return blacklistWithDescription;
+    }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -6842,6 +7297,27 @@ async function processTotalJobsJob(
     session,
     profileData = null,
 ) {
+    const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
+        session,
+        tabId,
+        job,
+    );
+
+    if (duplicateSkip) {
+        return duplicateSkip;
+    }
+
+    const externalGate = await handleExternalApplyJobIfNeeded(
+        session,
+        tabId,
+        job,
+        'no_totaljobs_apply',
+    );
+
+    if (externalGate) {
+        return externalGate;
+    }
+
     await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
@@ -6888,6 +7364,7 @@ async function processTotalJobsJob(
         return {
             outcome: 'skipped',
             reason: fitResult.reason || 'low_fit_score',
+            detail: fitResult.detail || '',
             tabId,
             atsScore: fitResult.score,
             fitReason: fitResult.fitReason || '',
@@ -6899,13 +7376,13 @@ async function processTotalJobsJob(
         'TOTALJOBS_SCAN_PAGE_HEALTH',
     );
 
-    if (health?.primary?.code === 'login_required'
-        || health?.blocking?.[0]?.code === 'login_required') {
-        const loginWait = await waitForLoginRequiredResume(
+    if (healthIndicatesLoginRequired(health)) {
+        const loginWait = await waitForBoardLoginIfNeeded(
             session,
             tabId,
             job,
             'Totaljobs',
+            health,
         );
 
         if (loginWait.stopped) {
@@ -7381,8 +7858,11 @@ async function collectReedJobsFromTab(tabId, session = null) {
         }
 
         const jobs = response.jobs || [];
+        const easyApplyOnly = session?.easyApplyOnly !== false;
         const freshJobs = jobs.filter(
-            (job) => job.reedApply !== false && !job.alreadyApplied,
+            (job) =>
+                (!easyApplyOnly || job.reedApply !== false)
+                && !job.alreadyApplied,
         );
 
         if (freshJobs.length > 0) {
@@ -7470,13 +7950,14 @@ async function appendUniqueReedJobs(tabId, session) {
         return session;
     }
 
+    const easyApplyOnly = session.easyApplyOnly !== false;
     const existingIds = new Set(session.queue.map((job) => job.jobId));
     const batchSeen = new Set();
     const freshJobs = jobs.filter(
         (job) =>
             !existingIds.has(job.jobId) &&
             !batchSeen.has(job.jobId) &&
-            job.reedApply !== false &&
+            (!easyApplyOnly || job.reedApply !== false) &&
             !job.alreadyApplied &&
             job.title !== 'Unknown role' &&
             (batchSeen.add(job.jobId), true),
@@ -7636,11 +8117,28 @@ async function fetchReedJobDescriptionForFit(tabId, job = null) {
 }
 
 async function evaluateReedJobFit(tabId, job, session) {
+    const blacklistGate = await applyJobBlacklistGate(job, session, tabId);
+
+    if (!blacklistGate.proceed) {
+        return blacklistGate;
+    }
+
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
     }
 
     const { description } = await fetchReedJobDescriptionForFit(tabId, job);
+
+    const blacklistWithDescription = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+        description,
+    );
+
+    if (!blacklistWithDescription.proceed) {
+        return blacklistWithDescription;
+    }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -7744,6 +8242,27 @@ async function processReedJob(
     session,
     profileData = null,
 ) {
+    const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
+        session,
+        tabId,
+        job,
+    );
+
+    if (duplicateSkip) {
+        return duplicateSkip;
+    }
+
+    const externalGate = await handleExternalApplyJobIfNeeded(
+        session,
+        tabId,
+        job,
+        'no_reed_apply',
+    );
+
+    if (externalGate) {
+        return externalGate;
+    }
+
     await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
@@ -7788,6 +8307,7 @@ async function processReedJob(
         return {
             outcome: 'skipped',
             reason: fitResult.reason || 'low_fit_score',
+            detail: fitResult.detail || '',
             tabId,
             atsScore: fitResult.score,
             fitReason: fitResult.fitReason || '',
@@ -7810,14 +8330,24 @@ async function processReedJob(
         },
     );
 
-    if (health?.primary?.code === 'login_required'
-        || health?.blocking?.[0]?.code === 'login_required'
-        || isReedLoginUrl(await readTabUrl(tabId))) {
-        const loginWait = await waitForLoginRequiredResume(
+    if (
+        healthIndicatesLoginRequired(health)
+        || isReedLoginUrl(await readTabUrl(tabId))
+    ) {
+        const loginWait = await waitForBoardLoginIfNeeded(
             session,
             tabId,
             job,
             'Reed',
+            healthIndicatesLoginRequired(health)
+                ? health
+                : {
+                      ok: false,
+                      primary: {
+                          code: 'login_required',
+                          message: 'Reed sign-in required to apply.',
+                      },
+                  },
         );
 
         if (loginWait.stopped) {
@@ -8484,18 +9014,51 @@ async function appendUniqueGlassdoorJobs(tabId, session) {
         return session;
     }
 
-    const existingIds = new Set(session.queue.map((job) => job.jobId));
-    const batchSeen = new Set();
-    const freshJobs = jobs.filter(
-        (job) =>
-            !existingIds.has(job.jobId) &&
-            !batchSeen.has(job.jobId) &&
-            job.glassdoorApply !== false &&
-            job.easyApply !== false &&
-            !job.alreadyApplied &&
-            job.title !== 'Unknown role' &&
-            (batchSeen.add(job.jobId), true),
+    const easyApplyOnly = session.easyApplyOnly !== false;
+    const existingKeys = new Set(
+        session.queue.map((job) => canonicalGlassdoorJobKey(job)),
     );
+    const outcomeKeys = new Set();
+
+    for (const entry of session.jobOutcomes || []) {
+        if (entry?.jobId) {
+            outcomeKeys.add(`id:${String(entry.jobId).trim()}`);
+        }
+
+        if (entry?.fingerprint) {
+            const fp = String(entry.fingerprint);
+            const idPart = fp.match(/\|id:(.+)$/);
+
+            if (idPart?.[1]) {
+                outcomeKeys.add(`id:${idPart[1]}`);
+            }
+        }
+
+        outcomeKeys.add(canonicalGlassdoorJobKey(entry));
+    }
+
+    const batchSeen = new Set();
+    const freshJobs = jobs.filter((job) => {
+        const key = canonicalGlassdoorJobKey(job);
+
+        if (
+            existingKeys.has(key)
+            || batchSeen.has(key)
+            || outcomeKeys.has(key)
+            || (job.jobId && outcomeKeys.has(`id:${job.jobId}`))
+            || (easyApplyOnly
+                && (job.glassdoorApply === false || job.easyApply === false))
+            || job.alreadyApplied
+            || job.title === 'Unknown role'
+        ) {
+            return false;
+        }
+
+        batchSeen.add(key);
+        existingKeys.add(key);
+
+        return true;
+    });
 
     if (freshJobs.length === 0) {
         return session;
@@ -8640,6 +9203,12 @@ async function fetchGlassdoorJobDescriptionForFit(tabId, job = null) {
 }
 
 async function evaluateGlassdoorJobFit(tabId, job, session) {
+    const blacklistGate = await applyJobBlacklistGate(job, session, tabId);
+
+    if (!blacklistGate.proceed) {
+        return blacklistGate;
+    }
+
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
     }
@@ -8648,6 +9217,17 @@ async function evaluateGlassdoorJobFit(tabId, job, session) {
         tabId,
         job,
     );
+
+    const blacklistWithDescription = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+        description,
+    );
+
+    if (!blacklistWithDescription.proceed) {
+        return blacklistWithDescription;
+    }
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -8746,6 +9326,16 @@ async function processGlassdoorJob(
     session,
     profileData = null,
 ) {
+    const duplicateSkip = await skipDuplicateAppliedJobIfNeeded(
+        session,
+        tabId,
+        job,
+    );
+
+    if (duplicateSkip) {
+        return duplicateSkip;
+    }
+
     await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
@@ -8786,7 +9376,29 @@ async function processGlassdoorJob(
         'GLASSDOOR_SCAN_PAGE_HEALTH',
     );
 
-    if (health && health.ok === false) {
+    if (healthIndicatesLoginRequired(health)) {
+        const loginWait = await waitForBoardLoginIfNeeded(
+            session,
+            tabId,
+            job,
+            'Glassdoor',
+            health,
+        );
+
+        session = loginWait.session || session;
+
+        if (loginWait.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
+        if (loginWait.timedOut) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'login_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'login_required', tabId };
+        }
+    } else if (health && health.ok === false) {
         throw new Error(
             health.primary?.message ||
                 health.blocking?.[0]?.message ||
@@ -8832,6 +9444,7 @@ async function processGlassdoorJob(
         return {
             outcome: 'skipped',
             reason: fitResult.reason || 'low_fit_score',
+            detail: fitResult.detail || '',
             tabId,
             atsScore: fitResult.score,
             fitReason: fitResult.fitReason || '',
@@ -9475,6 +10088,7 @@ function buildGlassdoorRunnerContext() {
     return {
         resetWatchdog,
         ensureGlassdoorTab,
+        ensureBoardLoginBeforeCollect,
         appendUniqueGlassdoorJobs,
         sendGlassdoorMessage,
         processGlassdoorJob,
@@ -9493,6 +10107,9 @@ function buildGlassdoorRunnerContext() {
         formatJobOutcomeLogMessage,
         recordAnalyticsEvent,
         appendAutoApplyLog,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
         sleep,
@@ -9503,6 +10120,7 @@ function buildReedRunnerContext() {
     return {
         resetWatchdog,
         ensureReedTab,
+        ensureBoardLoginBeforeCollect,
         appendUniqueReedJobs,
         sendReedMessage,
         processReedJob,
@@ -9521,6 +10139,9 @@ function buildReedRunnerContext() {
         formatJobOutcomeLogMessage,
         recordAnalyticsEvent,
         appendAutoApplyLog,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
         sleep,
@@ -9531,6 +10152,7 @@ function buildTotalJobsRunnerContext() {
     return {
         resetWatchdog,
         ensureTotalJobsTab,
+        ensureBoardLoginBeforeCollect,
         appendUniqueTotalJobsJobs,
         sendTotalJobsMessage,
         processTotalJobsJob,
@@ -9549,6 +10171,9 @@ function buildTotalJobsRunnerContext() {
         formatJobOutcomeLogMessage,
         recordAnalyticsEvent,
         appendAutoApplyLog,
+        recordStructuredJobOutcome,
+        appendProcessedJobOutcome,
+        AUTO_APPLY_OUTCOME,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
         sleep,
@@ -9569,6 +10194,9 @@ export async function startAutoApply({
     timingLevel = null,
     stopForCoverLetterInput = false,
     autoGenerateCoverLetter = true,
+    easyApplyOnly = true,
+    pauseOnExternalApply = false,
+    jobBlacklist = null,
     force = false,
     hostTabId = null,
     hostWindowId = null,
@@ -9594,6 +10222,7 @@ export async function startAutoApply({
         platform = normalizedPlatform;
 
         const profileData = await getProfileForAutoApply();
+        const profileSettings = extractAutoApplySettingsFromProfile(profileData);
         const trimmedRole = sanitizeAutoApplyRoleDescription(
             String(roleDescription || '').trim(),
             profileData,
@@ -9611,6 +10240,10 @@ export async function startAutoApply({
             filters,
             profileData,
         });
+        const resolvedJobBlacklist =
+            typeof jobBlacklist === 'string'
+                ? jobBlacklist
+                : profileSettings.jobBlacklist;
 
         let session = createInitialSession({
             platform,
@@ -9623,6 +10256,9 @@ export async function startAutoApply({
             timingLevel,
             stopForCoverLetterInput,
             autoGenerateCoverLetter,
+            easyApplyOnly,
+            pauseOnExternalApply,
+            jobBlacklist: resolvedJobBlacklist,
         });
 
         configureAutoApplyTiming(session.timingLevel);
@@ -9843,6 +10479,23 @@ async function runIndeedAutoApplyLoop(
     } else {
         session = (await updateSession({ tabId })) || session;
         markWatchdogProgress(session);
+
+        {
+            const loginPreflight = await ensureBoardLoginBeforeCollect(
+                session,
+                tabId,
+                INDEED_PLATFORM_ID,
+            );
+
+            session = loginPreflight.session || session;
+
+            if (loginPreflight.stopped) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+        }
+
         await logSession('info', 'Collecting Indeed job listings…');
 
         {
@@ -10005,14 +10658,11 @@ async function runIndeedAutoApplyLoop(
                         result.outcome === 'applied' ? 'success' : 'info',
                         formatJobOutcomeLogMessage(job, result),
                     );
-                    const structured = resolveStructuredJobProcessOutcome(result);
-                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
-                        jobId: job.jobId,
-                        title: job.title,
-                        company: job.company,
-                        outcome: structured.outcome,
-                        reason: structured.reason,
-                    });
+                    const withOutcome = recordStructuredJobOutcome(
+                        withLog,
+                        job,
+                        result,
+                    );
 
                     return {
                         ...withOutcome,
@@ -10055,13 +10705,12 @@ async function runIndeedAutoApplyLoop(
                         'error',
                         `${job.title}: ${error.message}`,
                     );
-                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
-                        jobId: job.jobId,
-                        title: job.title,
-                        company: job.company,
-                        outcome: AUTO_APPLY_OUTCOME.ERROR,
-                        reason: error.message || 'job_failed',
-                    });
+                    const withOutcome = appendProcessedJobOutcome(
+                        withLog,
+                        job,
+                        AUTO_APPLY_OUTCOME.ERROR,
+                        error.message || 'job_failed',
+                    );
 
                     return {
                         ...withOutcome,
@@ -10327,14 +10976,11 @@ async function runAutoApplyLoop(
                         result.outcome === 'applied' ? 'success' : 'info',
                         formatJobOutcomeLogMessage(job, result),
                     );
-                    const structured = resolveStructuredJobProcessOutcome(result);
-                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
-                        jobId: job.jobId,
-                        title: job.title,
-                        company: job.company,
-                        outcome: structured.outcome,
-                        reason: structured.reason,
-                    });
+                    const withOutcome = recordStructuredJobOutcome(
+                        withLog,
+                        job,
+                        result,
+                    );
 
                     return {
                         ...withOutcome,
@@ -10379,13 +11025,12 @@ async function runAutoApplyLoop(
                         'error',
                         `${job.title}: ${error.message}`,
                     );
-                    const withOutcome = appendAutoApplyJobOutcome(withLog, {
-                        jobId: job.jobId,
-                        title: job.title,
-                        company: job.company,
-                        outcome: AUTO_APPLY_OUTCOME.ERROR,
-                        reason: error.message || 'job_failed',
-                    });
+                    const withOutcome = appendProcessedJobOutcome(
+                        withLog,
+                        job,
+                        AUTO_APPLY_OUTCOME.ERROR,
+                        error.message || 'job_failed',
+                    );
 
                     return {
                         ...withOutcome,
@@ -10503,6 +11148,10 @@ function resolveAutoApplyResumeLogMessage(pauseContext) {
 
     if (pauseContext?.pauseReason === 'review_before_submit') {
         return 'Resuming Auto Apply after review.';
+    }
+
+    if (pauseContext?.pauseReason === 'external_apply') {
+        return 'Resuming Auto Apply after external apply pause.';
     }
 
     return 'Resuming Auto Apply after your answer.';
@@ -10876,6 +11525,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     fetchJobMetaFromTab,
     resolveJobDescriptionFromMetaResponse,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    applyJobBlacklistGate,
     formatIndeedSkipLogMessage,
     formatAutoApplyFitLogMessage,
     formatFitUnavailableContinueMessage,
@@ -10924,6 +11574,7 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     fetchJobMetaFromTab,
     resolveJobDescriptionFromMetaResponse,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    applyJobBlacklistGate,
     formatIndeedSkipLogMessage,
     formatAutoApplyFitLogMessage,
     formatFitUnavailableContinueMessage,
@@ -10953,4 +11604,9 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     pauseForCaptchaReview,
     waitForIndeedCaptchaResume,
     waitForReviewBeforeSubmitIfNeeded,
+    skipDuplicateAppliedJobIfNeeded,
+    handleExternalApplyJobIfNeeded,
+    recordStructuredJobOutcome,
+    appendProcessedJobOutcome,
+    AUTO_APPLY_OUTCOME,
 });
