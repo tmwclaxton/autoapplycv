@@ -70,6 +70,16 @@ assert.match(
     /!submitButton && readContinueButton\(\)/,
     'Missing Submit on false review must fall through to Continue',
 );
+assert.match(
+    indeedSource,
+    /isIndeedReviewPreviewUnavailable/,
+    'Review preview loading failures must be detected before clicking Review as Continue',
+);
+assert.match(
+    orchestratorSource,
+    /indeed_review_preview_unavailable/,
+    'Orchestrator must skip failed Indeed review previews without retrying navigation',
+);
 
 assert.match(
     orchestratorSource,
@@ -208,6 +218,28 @@ assert.ok(
 assert.match(
     footerSubmit.getAttribute('data-testid') || '',
     /submit-application-button/,
+);
+
+const reviewPreviewFailureHtml = `
+<!doctype html><html><body>
+  <div id="mosaic-provider-module-apply-preview">
+    <div data-testid="loading-error">
+      <p>We're having trouble loading your application preview.</p>
+      <button type="button">Try again</button>
+    </div>
+  </div>
+</body></html>`;
+const IndeedPreviewFailure = loadIndeedOnReview(reviewPreviewFailureHtml);
+const previewFailureState = IndeedPreviewFailure.getIndeedApplyState();
+assert.equal(
+    previewFailureState.reviewPreviewUnavailable,
+    true,
+    'Review preview loading error must be surfaced in Indeed state',
+);
+assert.equal(
+    previewFailureState.canContinue,
+    false,
+    'Review preview loading error must not treat Review as a forward action',
 );
 
 const decoySubmitHtml = `

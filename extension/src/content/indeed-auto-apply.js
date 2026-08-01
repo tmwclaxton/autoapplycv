@@ -1424,6 +1424,17 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return /review your application|please review/i.test(heading);
     }
 
+    function isIndeedReviewPreviewUnavailable() {
+        if (!isIndeedReviewStep()) {
+            return false;
+        }
+
+        const reviewRoot = readIndeedReviewRoot();
+        const text = normalize(reviewRoot?.textContent || document.body?.textContent);
+
+        return /trouble loading your application preview/i.test(text);
+    }
+
     function isRecaptchaBadgeNode(node) {
         if (!(node instanceof HTMLElement)) {
             return false;
@@ -2631,6 +2642,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const onReviewStep = isIndeedReviewStep();
         const onResumeCardStep = isIndeedResumeCardStep();
         const continueButton = readContinueButton();
+        const reviewPreviewUnavailable = isIndeedReviewPreviewUnavailable();
         const submitButton = findSubmitButton({
             includeDisabled: true,
             reviewOnly: true,
@@ -2646,12 +2658,13 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return {
             open: true,
             submitted: false,
-            canContinue: Boolean(continueButton),
+            canContinue: Boolean(continueButton) && !reviewPreviewUnavailable,
             canSubmit: Boolean(submitButton && !submitButton.disabled),
             hasSubmitButton: Boolean(submitButton),
             submitDisabled: Boolean(submitButton?.disabled),
             isReviewStep: onReviewStep,
             isResumeCardStep: onResumeCardStep,
+            reviewPreviewUnavailable,
             captchaPresent,
             storedApplicant,
             jobTitle: applyJobMeta.jobTitle,
@@ -2662,7 +2675,9 @@ var AutoCVApplyIndeedAutoApply = (() => {
             validationErrors,
             invalidFields,
             actionLabel:
-                onReviewStep && submitButton
+                reviewPreviewUnavailable
+                    ? 'Try again'
+                    : onReviewStep && submitButton
                     ? normalize(submitButton.textContent)
                     : continueButton
                       ? normalize(continueButton.textContent)
@@ -2927,6 +2942,17 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const onReviewStep = isIndeedReviewStep();
 
         if (onReviewStep) {
+            if (isIndeedReviewPreviewUnavailable()) {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    reviewPreviewUnavailable: true,
+                    error: 'Indeed review preview did not load. Retry the preview before submitting.',
+                    validationErrors: readValidationErrors(),
+                    stepFingerprint: previousFingerprint,
+                };
+            }
+
             // Captcha must fail fast: force-clicking a disabled Submit waits up to
             // 30s for confirmation and times out the 20s tab message channel.
             if (readIndeedCaptchaPresent()) {

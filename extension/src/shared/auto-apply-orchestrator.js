@@ -7177,6 +7177,19 @@ async function processIndeedJobInner(
             break;
         }
 
+        if (advanceResponse?.reviewPreviewUnavailable) {
+            await logSession(
+                'warn',
+                `[skip] ${job.title}: Indeed review preview failed to load; leaving the application untouched for a later retry.`,
+            );
+
+            return {
+                outcome: 'skipped',
+                reason: 'indeed_review_preview_unavailable',
+                tabId,
+            };
+        }
+
         if (
             advanceResponse?.action === 'blocked' ||
             ((advanceResponse?.validationErrors?.length || 0) > 0 &&

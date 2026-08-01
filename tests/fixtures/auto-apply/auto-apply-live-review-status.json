@@ -2,7 +2,7 @@
   "version": 1,
   "campaign": "auto-apply-live-quality",
   "started_at": "2026-07-12T23:35:00+01:00",
-  "updated_at": "2026-08-01T20:00:00+01:00",
+  "updated_at": "2026-08-01T21:11:00+01:00",
   "campaign_status": "paused",
   "scenarios_tested_count": 16,
   "jobs_attempted_count": 115,
@@ -880,7 +880,7 @@
   },
   "current_session_2026_08_01": {
     "extension_version": "2.25.340",
-    "commit": "c0aa780f",
+    "commit": "working-tree",
     "simplyhired": {
       "search_url": "https://www.simplyhired.co.uk/search?q=Python+Developer&l=London",
       "job_id": "PsABRsJVMVEBpkml9S2s0KN1A3hPldTLvZRmsTy18dZJiXOIDhUPzA",
@@ -904,6 +904,19 @@
         "applied": 0
       }
     },
+    "indeed_review_fix": {
+      "fixture": "indeed-review-preview-loading-error",
+      "root_cause": "The review preview can render a loading-error shell with a Review control that navigates back to earlier application steps. Treating that control as Continue discarded the review state.",
+      "fix": "Detect the loading-error shell, expose reviewPreviewUnavailable, block forward navigation, and return a dedicated orchestrator skip reason without clicking Review.",
+      "targeted_test": "scripts/extension-test/indeed-smartapply-draft-skip.test.mjs",
+      "live_retest": {
+        "glassdoor_job_id": "1010207864346",
+        "glassdoor_easy_apply": true,
+        "indeed_handoff": "smartapply.indeed.com",
+        "preview_failure": "reproduced and safely blocked without navigation from the review shell",
+        "subsequent_autonomous_run": "Indeed campaign reached review, submitted one application, and the job page later reported alreadyApplied=true"
+      }
+    },
     "indeed_uk": {
       "search_url": "https://uk.indeed.com/jobs?q=software+engineer&l=London&sc=0kf%3Aattr%28DSQF7%29",
       "autonomous_result": "15 jobs collected; first four detail pages independently reported external apply and were skipped.",
@@ -913,12 +926,15 @@
         "applied": 0
       },
       "phone_captcha_evidence": "No phone field or CAPTCHA appeared because the inspected live queue remained external-only. The separate Glassdoor handoff reached Indeed questions without CAPTCHA, then paused on truthful commute and experience answers.",
-      "review_preview_fixture": "indeed-review-preview-loading-error"
+      "review_preview_fixture": "indeed-review-preview-loading-error",
+      "live_review_captcha": "Review shell reached with hasSubmitButton=true, submitDisabled=true, captchaPresent=true; INDEED_FILL_AND_ADVANCE returned action=blocked and did not submit.",
+      "live_successful_submit": "Graphic Designer / Lead Graphic Designer (146257fa1874b5e5) completed through review; post-run INDEED_APPLY_STATE on the job page reported alreadyApplied=true."
     },
     "configuration_matrix": {
       "timing_level_1": "live session started and external skips were supervised",
       "timing_level_5": "live session started with fit gate enabled and minFitScore=100; external skips occurred before fit scoring",
-      "fit_gate": "not proven because inspected jobs were external-only",
+      "timing_level_5_submit": "live Indeed Carlisle campaign completed one application with 5 steps advanced and 0 errors",
+      "fit_gate": "live proven with minFitScore=100: 5 jobs fit-skipped at 5-15/100 and one external job skipped; no submit occurred",
       "pause_before_submit": "not live-proven",
       "pause_on_external": "live external skips observed; pause setting not independently toggled",
       "phone_and_captcha": "no phone field or CAPTCHA appeared in this handoff; prior Indeed UK phone validation remains open",
@@ -931,7 +947,7 @@
       "lint_check_ci": "pass",
       "pint": "pass",
       "build_reload": "build passed; bridge reconnected after reload",
-      "push": "staging pushed at c0aa780f"
+      "push": "staging pushed at c0aa780f; current Indeed fix pending quality gate"
     },
     "production_ready": false,
     "remaining_gaps": [
