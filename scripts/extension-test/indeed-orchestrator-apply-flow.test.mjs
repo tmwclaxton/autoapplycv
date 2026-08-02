@@ -62,6 +62,11 @@ assert.match(
     /fetchIndeedJobDescriptionForFit[\s\S]*?if \(identityMismatch\)[\s\S]*?reason: 'job_unavailable'/,
     'Indeed fit scoring must reject stale detail content',
 );
+assert.match(
+    orchestrator,
+    /'INDEED_NEXT_SEARCH_PAGE',[\s\S]*?\.catch\(\(error\) => \(\{[\s\S]*?success: false/,
+    'Indeed pagination messaging failures should end an exhausted run cleanly',
+);
 assert.doesNotMatch(
     processIndeedJobBlock,
     /tryAnswerScreenerField|attemptAutoAnswerBlocker/,

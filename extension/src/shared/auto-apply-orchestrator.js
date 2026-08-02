@@ -11460,7 +11460,11 @@ async function runIndeedAutoApplyLoop(
                 const nextPage = await sendIndeedMessage(
                     tabId,
                     'INDEED_NEXT_SEARCH_PAGE',
-                );
+                ).catch((error) => ({
+                    success: false,
+                    error:
+                        error instanceof Error ? error.message : String(error),
+                }));
 
                 if (!nextPage?.success) {
                     await logSession(
