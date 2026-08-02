@@ -291,6 +291,21 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     />
                 </div>
                 <div>
+                    <label for="field-phone-extension" class="postbox-label"
+                        >Phone extension</label
+                    >
+                    <input
+                        id="field-phone-extension"
+                        v-model="profile.application_settings.phone_extension"
+                        name="phone_extension"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        class="postbox-input"
+                        placeholder="Optional"
+                    />
+                </div>
+                <div>
                     <label for="field-location" class="postbox-label"
                         >Location</label
                     >
