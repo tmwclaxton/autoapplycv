@@ -100,7 +100,10 @@ test('wiring passes allowInteractiveOptionHarvest through snapshot collection', 
     assert.match(backgroundJs, /collectSnapshotFromTabWithHarvestPolicy/);
     assert.match(backgroundJs, /allowInteractiveOptionHarvest/);
     assert.match(messagingJs, /allowInteractiveOptionHarvest: options\.allowInteractiveOptionHarvest === true/);
-    assert.match(contentJs, /allowInteractiveOptionHarvest: message\.allowInteractiveOptionHarvest === true/);
+    assert.match(
+        contentJs,
+        /allowInteractiveOptionHarvest:\s*message\.allowInteractiveOptionHarvest === true/,
+    );
     assert.match(inventoryJs, /allowInteractiveOptionHarvest !== true/);
     assert.match(inventoryJs, /Skipped lazy combobox option harvest \(inactive\)/);
 });

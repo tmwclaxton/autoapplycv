@@ -40,7 +40,10 @@ assert.doesNotMatch(
 
 const processGlassdoorStart = source.indexOf('async function processGlassdoorJob');
 assert.ok(processGlassdoorStart > 0, 'processGlassdoorJob must exist');
-const processGlassdoorEnd = source.indexOf('async function process', processGlassdoorStart + 1);
+const processGlassdoorEnd = source.indexOf(
+    'async function processSimplyHiredJob',
+    processGlassdoorStart + 1,
+);
 const processGlassdoor = source.slice(
     processGlassdoorStart,
     processGlassdoorEnd > processGlassdoorStart ? processGlassdoorEnd : processGlassdoorStart + 80_000,

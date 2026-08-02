@@ -246,7 +246,10 @@ test('content script paints outlines only when side panel host window allows it'
 
     assert.match(contentJs, /resolveHighlightRoot/);
     assert.match(contentJs, /queuedHighlightSidePanelOpen/);
-    assert.match(contentJs, /urgent \|\| paintFieldHighlights === true \? 40/);
+    assert.match(
+        contentJs,
+        /urgent \|\| paintFieldHighlights === true[\s\S]*?\? 40/,
+    );
     assert.match(contentJs, /getFieldHighlightVisibility/);
     assert.match(contentJs, /paintFieldHighlights/);
     assert.match(contentJs, /Outlines only while the side panel is open on this tab's Chrome window/);
