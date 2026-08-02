@@ -34,4 +34,15 @@ test('open-time external discovery reuses pause-on-external gate', () => {
             "if (applyResponse?.easyApply === false || !applyResponse?.success)",
         ),
     );
+
+    const reedProcessStart = source.indexOf('async function processReedJob(');
+    const reedOpenFailure = source.slice(
+        reedProcessStart,
+        source.indexOf('const fitSession', reedProcessStart),
+    );
+
+    assert.match(
+        reedOpenFailure,
+        /openResult\.skipReason === 'no_reed_apply'[\s\S]*?skipAfterDiscoveredExternalApply\([\s\S]*?'no_reed_apply'/,
+    );
 });

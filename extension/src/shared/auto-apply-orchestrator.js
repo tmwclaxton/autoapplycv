@@ -8801,6 +8801,16 @@ async function processReedJob(
     tabId = openResult.tabId || tabId;
 
     if (!openResult.success) {
+        if (openResult.skipReason === 'no_reed_apply') {
+            return skipAfterDiscoveredExternalApply(
+                session,
+                tabId,
+                job,
+                'no_reed_apply',
+                openResult.error || '',
+            );
+        }
+
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: openResult.skipReason || 'job_unavailable' },
         });
