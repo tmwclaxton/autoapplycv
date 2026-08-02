@@ -2,10 +2,13 @@
  * CV-Library Easy Apply DOM helpers for Auto Apply (content script global).
  */
 var AutoCVApplyCvLibraryAutoApply = (() => {
-    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const sleep = (ms) =>
+        new Promise((resolve) => window.setTimeout(resolve, ms));
 
     function normalize(text) {
-        return String(text || '').replace(/\s+/g, ' ').trim();
+        return String(text || '')
+            .replace(/\s+/g, ' ')
+            .trim();
     }
 
     function humanDelayMs(minMs, maxMs) {
@@ -30,51 +33,65 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function isCvLibraryJobPage() {
-        return isCvLibraryHostname()
-            && /^\/job\/\d+\//i.test(window.location.pathname);
+        return (
+            isCvLibraryHostname() &&
+            /^\/job\/\d+\//i.test(window.location.pathname)
+        );
     }
 
     function isCvLibraryApplyPage() {
-        return isCvLibraryHostname()
-            && /^\/job\/apply\/\d+/i.test(window.location.pathname);
+        return (
+            isCvLibraryHostname() &&
+            /^\/job\/apply\/\d+/i.test(window.location.pathname)
+        );
     }
 
     function isCvLibraryConfirmPage() {
-        return isCvLibraryHostname()
-            && /^\/job\/apply\/\d+\/confirm\/?$/i.test(window.location.pathname);
+        return (
+            isCvLibraryHostname() &&
+            /^\/job\/apply\/\d+\/confirm\/?$/i.test(window.location.pathname)
+        );
     }
 
     function isPreviouslyAppliedStepLabel(label = readStepLabel()) {
-        return /you previously applied|already applied for this/i.test(String(label || ''));
+        return /you previously applied|already applied for this/i.test(
+            String(label || ''),
+        );
     }
 
     function matchesSubmissionConfirmation(text) {
-        return /(?:application (?:has been )?sent|application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|application complete|^success!?$)/i
-            .test(String(text || '').trim());
+        return /(?:application (?:has been )?sent|application (?:has been )?submitted|thank you for applying|we received your application|your application has been sent|you have applied|application complete|^success!?$)/i.test(
+            String(text || '').trim(),
+        );
     }
 
     function isCvLibraryLoginPage() {
-        return isCvLibraryHostname()
-            && /^\/login$/i.test(window.location.pathname);
+        return (
+            isCvLibraryHostname() && /^\/login$/i.test(window.location.pathname)
+        );
     }
 
     function readJobIdFromHref(href) {
-        const match = String(href || '').match(/\/job\/(\d{5,})(?:\/|$|\?)/i)
-            || String(href || '').match(/\/job\/apply\/(\d{5,})(?:[/?#]|$)/i)
-            || String(href || '').match(/[?&]jobId=(\d{5,})/i);
+        const match =
+            String(href || '').match(/\/job\/(\d{5,})(?:\/|$|\?)/i) ||
+            String(href || '').match(/\/job\/apply\/(\d{5,})(?:[/?#]|$)/i) ||
+            String(href || '').match(/[?&]jobId=(\d{5,})/i);
 
         return match?.[1] || null;
     }
 
     function readJobIdFromUrl() {
-        const queryJobId = new URLSearchParams(window.location.search).get('jobId');
+        const queryJobId = new URLSearchParams(window.location.search).get(
+            'jobId',
+        );
 
         if (queryJobId && /^\d{5,}$/.test(queryJobId)) {
             return queryJobId;
         }
 
-        const match = window.location.pathname.match(/\/job\/(\d{5,})(?:\/|$)/i)
-            || window.location.pathname.match(/\/job\/apply\/(\d{5,})/i);
+        const match =
+            window.location.pathname.match(/\/job\/(\d{5,})(?:\/|$)/i) ||
+            window.location.pathname.match(/\/job\/apply\/(\d{5,})/i);
 
         return match?.[1] || null;
     }
@@ -86,9 +103,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
 
         const style = window.getComputedStyle(element);
 
-        return style.display !== 'none'
-            && style.visibility !== 'hidden'
-            && element.getClientRects().length > 0;
+        return (
+            style.display !== 'none' &&
+            style.visibility !== 'hidden' &&
+            element.getClientRects().length > 0
+        );
     }
 
     async function scrollIntoViewHuman(element) {
@@ -96,7 +115,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             return;
         }
 
-        element.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+        element.scrollIntoView({
+            block: 'nearest',
+            inline: 'nearest',
+            behavior: 'smooth',
+        });
         await humanPause(280, 520);
     }
 
@@ -109,8 +132,20 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             await scrollIntoViewHuman(element);
         }
 
-        element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-        element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
+        element.dispatchEvent(
+            new MouseEvent('mousedown', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            }),
+        );
+        element.dispatchEvent(
+            new MouseEvent('mouseup', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            }),
+        );
         element.click();
 
         return true;
@@ -126,10 +161,7 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         for (const selector of selectors) {
             const button = document.querySelector(selector);
 
-            if (
-                button instanceof HTMLElement &&
-                isElementVisible(button)
-            ) {
+            if (button instanceof HTMLElement && isElementVisible(button)) {
                 await clickElement(button, { quick: true });
                 await humanPause(400, 700);
 
@@ -138,10 +170,7 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         }
 
         for (const button of document.querySelectorAll('button')) {
-            if (
-                !(button instanceof HTMLElement) ||
-                !isElementVisible(button)
-            ) {
+            if (!(button instanceof HTMLElement) || !isElementVisible(button)) {
                 continue;
             }
 
@@ -159,9 +188,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function readJobCardRoot(titleLink) {
-        return titleLink?.closest('[class*="JobCard_job"]')
-            || titleLink?.closest('[itemtype="https://schema.org/ListItem"]')
-            || titleLink?.parentElement?.parentElement?.parentElement;
+        return (
+            titleLink?.closest('[class*="JobCard_job"]') ||
+            titleLink?.closest('[itemtype="https://schema.org/ListItem"]') ||
+            titleLink?.parentElement?.parentElement?.parentElement
+        );
     }
 
     function cardHasEasyApply(card) {
@@ -193,8 +224,15 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     }
 
     function readCompanyFromCard(card) {
-        const company = normalize(card.querySelector('[data-qa^="job-card-company-link"]')?.textContent)
-            || normalize(card.querySelector('a[data-qa="company-name-link"]')?.textContent);
+        const company =
+            normalize(
+                card.querySelector('[data-qa^="job-card-company-link"]')
+                    ?.textContent,
+            ) ||
+            normalize(
+                card.querySelector('a[data-qa="company-name-link"]')
+                    ?.textContent,
+            );
 
         return company || 'Unknown company';
     }
@@ -203,7 +241,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const jobs = [];
         const seen = new Set();
 
-        for (const titleLink of document.querySelectorAll('a[data-qa="job-title-link"]')) {
+        for (const titleLink of document.querySelectorAll(
+            'a[data-qa="job-title-link"]',
+        )) {
             const card = readJobCardRoot(titleLink);
 
             if (!(card instanceof HTMLElement)) {
@@ -239,7 +279,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 cvLibraryApply: easyApply && !externalApply,
                 easyApply: easyApply && !externalApply,
                 alreadyApplied,
-                url: href.startsWith('http') ? href.split('?')[0] : `https://www.cv-library.co.uk${href.split('?')[0]}`,
+                url: href.startsWith('http')
+                    ? href.split('?')[0]
+                    : `https://www.cv-library.co.uk${href.split('?')[0]}`,
             });
         }
 
@@ -253,8 +295,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             return easyApplyJobs;
         }
 
-        return readJobCardsFromDocument({ easyApplyOnly: false })
-            .filter((job) => job.easyApply);
+        return readJobCardsFromDocument({ easyApplyOnly: false }).filter(
+            (job) => job.easyApply,
+        );
     }
 
     async function prepareJobSearch() {
@@ -263,8 +306,12 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const deadline = Date.now() + 25_000;
 
         while (Date.now() < deadline) {
-            const cards = document.querySelectorAll('a[data-qa="job-title-link"]').length;
-            const easyApplyCount = readJobCardsFromDocument({ easyApplyOnly: true }).length;
+            const cards = document.querySelectorAll(
+                'a[data-qa="job-title-link"]',
+            ).length;
+            const easyApplyCount = readJobCardsFromDocument({
+                easyApplyOnly: true,
+            }).length;
 
             if (cards >= 3 && easyApplyCount > 0) {
                 return { success: true, cardCount: cards, easyApplyCount };
@@ -275,16 +322,22 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         }
 
         return {
-            success: document.querySelectorAll('a[data-qa="job-title-link"]').length > 0,
-            cardCount: document.querySelectorAll('a[data-qa="job-title-link"]').length,
-            easyApplyCount: readJobCardsFromDocument({ easyApplyOnly: true }).length,
+            success:
+                document.querySelectorAll('a[data-qa="job-title-link"]')
+                    .length > 0,
+            cardCount: document.querySelectorAll('a[data-qa="job-title-link"]')
+                .length,
+            easyApplyCount: readJobCardsFromDocument({ easyApplyOnly: true })
+                .length,
         };
     }
 
     function findJobCardById(jobId) {
         const target = String(jobId || '').trim();
 
-        for (const titleLink of document.querySelectorAll('a[data-qa="job-title-link"]')) {
+        for (const titleLink of document.querySelectorAll(
+            'a[data-qa="job-title-link"]',
+        )) {
             const href = titleLink.getAttribute('href') || '';
             const cardJobId = readJobIdFromHref(href);
 
@@ -321,18 +374,28 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     function readExternalApplyMarker() {
         const applyLink = document.querySelector('a[data-qa="type-apply-now"]');
 
-        if (applyLink instanceof HTMLElement && /external-apply/i.test(applyLink.innerHTML || '')) {
+        if (
+            applyLink instanceof HTMLElement &&
+            /external-apply/i.test(applyLink.innerHTML || '')
+        ) {
             return applyLink;
         }
 
         for (const element of document.querySelectorAll('a, button')) {
-            if (!(element instanceof HTMLElement) || !isElementVisible(element)) {
+            if (
+                !(element instanceof HTMLElement) ||
+                !isElementVisible(element)
+            ) {
                 continue;
             }
 
             const text = normalize(element.textContent);
 
-            if (/apply on company site|external application|company website/i.test(text)) {
+            if (
+                /apply on company site|external application|company website/i.test(
+                    text,
+                )
+            ) {
                 return element;
             }
         }
@@ -356,7 +419,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                     continue;
                 }
 
-                if (/external-apply/i.test(link.innerHTML || link.className || '')) {
+                if (
+                    /external-apply/i.test(
+                        link.innerHTML || link.className || '',
+                    )
+                ) {
                     continue;
                 }
 
@@ -364,7 +431,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             }
         }
 
-        for (const button of document.querySelectorAll('button, a[role="button"], a')) {
+        for (const button of document.querySelectorAll(
+            'button, a[role="button"], a',
+        )) {
             if (!(button instanceof HTMLElement) || !isElementVisible(button)) {
                 continue;
             }
@@ -374,10 +443,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             const qa = normalize(button.getAttribute('data-qa') || '');
 
             if (
-                /^apply now$/i.test(text)
-                || /apply now/i.test(label)
-                || /^1.?click apply$/i.test(text)
-                || /^(apply-now|1-click-apply)/i.test(qa)
+                /^apply now$/i.test(text) ||
+                /apply now/i.test(label) ||
+                /^1.?click apply$/i.test(text) ||
+                /^(apply-now|1-click-apply)/i.test(qa)
             ) {
                 if (/external/i.test(text + label + qa)) {
                     continue;
@@ -392,7 +461,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
 
     function readApplyAvailability() {
         if (readExternalApplyMarker()) {
-            return { cvLibraryApply: false, hasApplyButton: false, externalApply: true };
+            return {
+                cvLibraryApply: false,
+                hasApplyButton: false,
+                externalApply: true,
+            };
         }
 
         const applyButton = readApplyButton();
@@ -408,7 +481,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
-            if (readJobIdFromUrl() === target && (isCvLibraryJobPage() || isCvLibraryApplyPage())) {
+            if (
+                readJobIdFromUrl() === target &&
+                (isCvLibraryJobPage() || isCvLibraryApplyPage())
+            ) {
                 if (readExternalApplyMarker()) {
                     return {
                         success: false,
@@ -422,7 +498,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 }
             }
 
-            const title = normalize(document.querySelector('h1, h2[data-testid="job-card-title"]')?.textContent);
+            const title = normalize(
+                document.querySelector('h1, h2[data-testid="job-card-title"]')
+                    ?.textContent,
+            );
 
             if (title && readJobIdFromUrl() === target) {
                 return { success: true, jobId: target };
@@ -457,12 +536,25 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             return true;
         }
 
-        if (isCvLibraryLoginPage() && new URLSearchParams(window.location.search).get('jobId')) {
+        if (
+            isCvLibraryLoginPage() &&
+            new URLSearchParams(window.location.search).get('jobId')
+        ) {
             return true;
         }
 
-        return Boolean(document.querySelector('form[data-qa="application-form"], form[action*="/job/apply"]'))
-            || Boolean(document.querySelector('[data-qa="application-step-title"], [data-qa="application-form-title"]'));
+        return (
+            Boolean(
+                document.querySelector(
+                    'form[data-qa="application-form"], form[action*="/job/apply"]',
+                ),
+            ) ||
+            Boolean(
+                document.querySelector(
+                    '[data-qa="application-step-title"], [data-qa="application-form-title"]',
+                ),
+            )
+        );
     }
 
     function isEasyApplyHostPage() {
@@ -494,7 +586,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const applyButton = readApplyButton();
 
         if (!(applyButton instanceof HTMLElement)) {
-            return { success: false, error: 'CV-Library Easy Apply button not found on job page.' };
+            return {
+                success: false,
+                error: 'CV-Library Easy Apply button not found on job page.',
+            };
         }
 
         await clickElement(applyButton);
@@ -516,12 +611,18 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             await humanPause(400, 700);
         }
 
-        return { success: false, error: 'CV-Library application form did not open.' };
+        return {
+            success: false,
+            error: 'CV-Library application form did not open.',
+        };
     }
 
     function readApplyRoot() {
-        return document.querySelector('form[data-qa="application-form"], form[action*="/job/apply"], main form')
-            || document;
+        return (
+            document.querySelector(
+                'form[data-qa="application-form"], form[action*="/job/apply"], main form',
+            ) || document
+        );
     }
 
     function readProgressStepLabel() {
@@ -535,7 +636,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         }
 
         for (const node of document.querySelectorAll('p, [role="status"]')) {
-            if (node.closest('header, nav, footer, #onetrust-consent-sdk, #onetrust-pc-sdk')) {
+            if (
+                node.closest(
+                    'header, nav, footer, #onetrust-consent-sdk, #onetrust-pc-sdk',
+                )
+            ) {
                 continue;
             }
 
@@ -556,7 +661,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             return progressLabel;
         }
 
-        const applyTitle = document.querySelector('[data-qa="application-step-title"], [data-qa="application-form-title"]');
+        const applyTitle = document.querySelector(
+            '[data-qa="application-step-title"], [data-qa="application-form-title"]',
+        );
 
         if (applyTitle) {
             return normalize(applyTitle.textContent);
@@ -583,10 +690,16 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
 
     function readStepFingerprint() {
         const label = readStepLabel() || 'unknown';
-        const slug = window.location.pathname.split('/').filter(Boolean).slice(-3).join('/');
+        const slug = window.location.pathname
+            .split('/')
+            .filter(Boolean)
+            .slice(-3)
+            .join('/');
         const action = findSubmitButton()
             ? 'submit'
-            : (findContinueButton() ? 'continue' : 'none');
+            : findContinueButton()
+              ? 'continue'
+              : 'none';
 
         return `${slug}|${label}|${action}`;
     }
@@ -595,8 +708,12 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const errors = [];
         const seen = new Set();
 
-        for (const node of document.querySelectorAll('[data-qa*="error"], [role="alert"], .invalid-feedback, [aria-invalid="true"]')) {
-            const text = normalize(node.getAttribute('aria-label') || node.textContent);
+        for (const node of document.querySelectorAll(
+            '[data-qa*="error"], [role="alert"], .invalid-feedback, [aria-invalid="true"]',
+        )) {
+            const text = normalize(
+                node.getAttribute('aria-label') || node.textContent,
+            );
 
             if (!text || seen.has(text)) {
                 continue;
@@ -620,15 +737,28 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     function findContinueButton() {
         const scope = readApplyRoot();
 
-        for (const testId of ['next-btn', 'continue-button', 'next-button', 'save-and-continue-button']) {
-            const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
+        for (const testId of [
+            'next-btn',
+            'continue-button',
+            'next-button',
+            'save-and-continue-button',
+        ]) {
+            const byTestId = scope.querySelector(
+                `[data-qa="${testId}"], [data-testid="${testId}"]`,
+            );
 
-            if (byTestId instanceof HTMLElement && !byTestId.disabled && !isIgnorableChrome(byTestId)) {
+            if (
+                byTestId instanceof HTMLElement &&
+                !byTestId.disabled &&
+                !isIgnorableChrome(byTestId)
+            ) {
                 return byTestId;
             }
         }
 
-        for (const button of scope.querySelectorAll('button, [role="button"]')) {
+        for (const button of scope.querySelectorAll(
+            'button, [role="button"]',
+        )) {
             if (!(button instanceof HTMLElement) || button.disabled) {
                 continue;
             }
@@ -637,7 +767,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 continue;
             }
 
-            const label = normalize(button.getAttribute('aria-label') || button.textContent);
+            const label = normalize(
+                button.getAttribute('aria-label') || button.textContent,
+            );
 
             if (/^(continue|next|save and continue)$/i.test(label)) {
                 return button;
@@ -650,25 +782,37 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
     function findSubmitButton() {
         const scope = readApplyRoot() || document;
 
-        for (const testId of ['submit-button-apply', 'submit-application-button', 'submit-button', 'send-application-button']) {
-            const byTestId = scope.querySelector(`[data-qa="${testId}"], [data-testid="${testId}"]`);
+        for (const testId of [
+            'submit-button-apply',
+            'submit-application-button',
+            'submit-button',
+            'send-application-button',
+        ]) {
+            const byTestId = scope.querySelector(
+                `[data-qa="${testId}"], [data-testid="${testId}"]`,
+            );
 
             if (
-                byTestId instanceof HTMLElement
-                && !byTestId.disabled
-                && isElementVisible(byTestId)
-                && !isIgnorableChrome(byTestId)
+                byTestId instanceof HTMLElement &&
+                !byTestId.disabled &&
+                isElementVisible(byTestId) &&
+                !isIgnorableChrome(byTestId)
             ) {
                 return byTestId;
             }
         }
 
-        for (const button of scope.querySelectorAll('button, [role="button"], input[type="submit"], a')) {
+        for (const button of scope.querySelectorAll(
+            'button, [role="button"], input[type="submit"], a',
+        )) {
             if (!(button instanceof HTMLElement) || button.disabled) {
                 continue;
             }
 
-            if (!(button instanceof HTMLInputElement) && !isElementVisible(button)) {
+            if (
+                !(button instanceof HTMLInputElement) &&
+                !isElementVisible(button)
+            ) {
                 continue;
             }
 
@@ -677,12 +821,16 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             }
 
             const label = normalize(
-                button.getAttribute('aria-label')
-                || button.getAttribute('value')
-                || button.textContent,
+                button.getAttribute('aria-label') ||
+                    button.getAttribute('value') ||
+                    button.textContent,
             );
 
-            if (/^(submit|submit application|send application|re-apply for this job)$/i.test(label)) {
+            if (
+                /^(submit|submit application|send application|re-apply for this job)$/i.test(
+                    label,
+                )
+            ) {
                 return button;
             }
         }
@@ -728,26 +876,232 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         const validationErrors = readValidationErrors();
         const label = readStepLabel();
         const alreadyApplied = isPreviouslyAppliedStepLabel(label);
-        const isReviewStep = /review|check your application|summary|your details/i.test(label || '')
-            || Boolean(document.querySelector('[data-qa="application-review-summary"]'));
+        const isReviewStep =
+            /review|check your application|summary|your details/i.test(
+                label || '',
+            ) ||
+            Boolean(
+                document.querySelector(
+                    '[data-qa="application-review-summary"]',
+                ),
+            );
         const coverLetterControl = document.querySelector(
             'button[name="coverLetter"], [data-qa*="cover-letter"], [data-qa*="coverLetter"], textarea[name*="cover"], textarea[id*="cover"]',
         );
         const hasCoverLetterInput = Boolean(coverLetterControl);
+        const hasGeneratedCoverLetter = Boolean(
+            document.querySelector(
+                '[data-autocvapply-generated-cover-letter="true"]',
+            ),
+        );
 
         return {
             open: true,
             submitted: false,
             alreadyApplied,
-            canContinue: Boolean(continueButton) && !isReviewStep && !alreadyApplied,
+            canContinue:
+                Boolean(continueButton) && !isReviewStep && !alreadyApplied,
             canSubmit: Boolean(submitButton) || isReviewStep,
             hasSubmitButton: Boolean(submitButton),
             hasCoverLetterInput,
+            hasGeneratedCoverLetter,
             stepLabel: label,
-            actionLabel: submitButton ? normalize(submitButton.textContent) : (continueButton ? normalize(continueButton.textContent) : null),
+            actionLabel: submitButton
+                ? normalize(submitButton.textContent)
+                : continueButton
+                  ? normalize(continueButton.textContent)
+                  : null,
             stepFingerprint: readStepFingerprint(),
             validationErrors,
             isReviewStep,
+        };
+    }
+
+    async function openCoverLetterEditor() {
+        const existingEditor = document.querySelector(
+            'textarea[name*="cover"], textarea[id*="cover"]',
+        );
+
+        if (
+            existingEditor instanceof HTMLElement &&
+            isElementVisible(existingEditor)
+        ) {
+            return { success: true, alreadyOpen: true };
+        }
+
+        const trigger = document.querySelector(
+            'button[name="coverLetter"], [data-qa*="cover-letter"], [data-qa*="coverLetter"]',
+        );
+
+        if (!(trigger instanceof HTMLElement) || !isElementVisible(trigger)) {
+            return {
+                success: false,
+                error: 'CV-Library cover-letter editor control not found.',
+            };
+        }
+
+        await clickElement(trigger);
+
+        const deadline = Date.now() + 8_000;
+
+        while (Date.now() < deadline) {
+            const editor = document.querySelector(
+                'textarea[name*="cover"], textarea[id*="cover"]',
+            );
+
+            if (editor instanceof HTMLElement && isElementVisible(editor)) {
+                return { success: true };
+            }
+
+            await humanPause(250, 450);
+        }
+
+        return {
+            success: false,
+            error: 'CV-Library cover-letter editor did not open.',
+        };
+    }
+
+    function setNativeControlValue(element, value) {
+        const prototype =
+            element instanceof HTMLTextAreaElement
+                ? HTMLTextAreaElement.prototype
+                : element instanceof HTMLSelectElement
+                  ? HTMLSelectElement.prototype
+                  : HTMLInputElement.prototype;
+        const setter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set;
+
+        if (typeof setter === 'function') {
+            setter.call(element, value);
+        } else {
+            element.value = value;
+        }
+
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    async function fillGeneratedCoverLetter({ text, jobTitle, company } = {}) {
+        const letter = String(text || '').trim();
+
+        if (!letter) {
+            return {
+                success: false,
+                error: 'Generated cover-letter text is empty.',
+            };
+        }
+
+        const opened = await openCoverLetterEditor();
+
+        if (!opened.success) {
+            return opened;
+        }
+
+        const savedLetterSelect = document.querySelector(
+            'select[name="coverLetterSelect"], select#coverLetterSelect',
+        );
+
+        if (savedLetterSelect instanceof HTMLSelectElement) {
+            const createOption = [...savedLetterSelect.options].find((option) =>
+                /create a new cover letter/i.test(
+                    normalize(option.textContent),
+                ),
+            );
+
+            if (!createOption) {
+                return {
+                    success: false,
+                    error: 'CV-Library create-new cover-letter option not found.',
+                };
+            }
+
+            setNativeControlValue(savedLetterSelect, createOption.value);
+            await humanPause(250, 450);
+        }
+
+        const subject = document.querySelector(
+            'input[name="subject"], input#subject',
+        );
+        const editor = document.querySelector(
+            'textarea[name="coverLetter"], textarea#coverLetter',
+        );
+
+        if (
+            !(subject instanceof HTMLInputElement) ||
+            !(editor instanceof HTMLTextAreaElement)
+        ) {
+            return {
+                success: false,
+                error: 'CV-Library cover-letter fields not found.',
+            };
+        }
+
+        const title = String(jobTitle || '').trim();
+        const employer = String(company || '').trim();
+        const subjectValue = [title, employer]
+            .filter(Boolean)
+            .join(' - ')
+            .slice(0, 255);
+
+        if (!subjectValue) {
+            return {
+                success: false,
+                error: 'Cover-letter role and company are unavailable.',
+            };
+        }
+
+        setNativeControlValue(subject, subjectValue);
+        setNativeControlValue(editor, letter);
+
+        const defaultCheckbox = document.querySelector(
+            'input[name="default"][type="checkbox"]',
+        );
+        const customSavedLetterCombobox = [
+            ...document.querySelectorAll('[role="combobox"]'),
+        ].find((element) =>
+            /(?:your saved cover letters|create a new cover letter|default cover letter)/i.test(
+                normalize(element.textContent),
+            ),
+        );
+
+        if (
+            defaultCheckbox instanceof HTMLInputElement &&
+            defaultCheckbox.checked
+        ) {
+            defaultCheckbox.click();
+        }
+
+        const generatedControls = [
+            savedLetterSelect,
+            subject,
+            editor,
+            defaultCheckbox,
+            customSavedLetterCombobox,
+        ].filter((element) => element instanceof HTMLElement);
+
+        for (const control of generatedControls) {
+            control.setAttribute(
+                'data-autocvapply-generated-cover-letter',
+                'true',
+            );
+        }
+
+        await humanPause(250, 450);
+
+        if (
+            subject.value.trim() !== subjectValue ||
+            editor.value.trim() !== letter
+        ) {
+            return {
+                success: false,
+                error: 'Generated cover letter did not persist in CV-Library.',
+            };
+        }
+
+        return {
+            success: true,
+            subject: subjectValue,
+            text: letter,
         };
     }
 
@@ -779,7 +1133,11 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             };
         }
 
-        if (document.querySelector('[data-qa="applied-label"], [data-qa*="application-submitted"]')) {
+        if (
+            document.querySelector(
+                '[data-qa="applied-label"], [data-qa*="application-submitted"]',
+            )
+        ) {
             return {
                 submitted: true,
                 confirmation: 'CV-Library application submitted',
@@ -839,7 +1197,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 pendingConfirmation: !verify.submitted,
                 transitioned: true,
                 stepFingerprint: readStepFingerprint(),
-                validationErrors: verify.submitted ? [] : readValidationErrors(),
+                validationErrors: verify.submitted
+                    ? []
+                    : readValidationErrors(),
                 confirmation: verify.confirmation,
             };
         }
@@ -889,7 +1249,9 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
                 transitioned,
                 stepFingerprint: nextFingerprint,
                 validationErrors: readValidationErrors(),
-                error: transitioned ? undefined : 'CV-Library Apply step did not change after Continue.',
+                error: transitioned
+                    ? undefined
+                    : 'CV-Library Apply step did not change after Continue.',
             };
         }
 
@@ -900,12 +1262,16 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             transitioned: false,
             stepFingerprint: previousFingerprint,
             validationErrors,
-            error: validationErrors[0] || 'No Continue or Submit control found on CV-Library Apply page.',
+            error:
+                validationErrors[0] ||
+                'No Continue or Submit control found on CV-Library Apply page.',
         };
     }
 
     async function goToNextSearchPage() {
-        const next = document.querySelector('a[data-qa="next"]:not([aria-disabled="true"])');
+        const next = document.querySelector(
+            'a[data-qa="next"]:not([aria-disabled="true"])',
+        );
 
         if (!(next instanceof HTMLElement)) {
             return { success: false, error: 'No next search page link found.' };
@@ -922,28 +1288,30 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
 
         const bodyText = normalize(document.body?.textContent);
 
-        if (/humans only|mistakenly blocked|security protections may/i.test(bodyText)) {
+        if (
+            /humans only|mistakenly blocked|security protections may/i.test(
+                bodyText,
+            )
+        ) {
             return {
                 ok: false,
                 primary: {
-                    message: 'CV-Library blocked automated access. Sign in manually and retry.',
+                    message:
+                        'CV-Library blocked automated access. Sign in manually and retry.',
                 },
                 blocking: ['CV-Library bot protection page'],
             };
         }
 
-        const hasInteractiveApplication = !isCvLibraryLoginPage()
-            && Boolean(findContinueButton() || findSubmitButton());
+        const hasInteractiveApplication =
+            !isCvLibraryLoginPage() &&
+            Boolean(findContinueButton() || findSubmitButton());
 
         if (
-            !hasInteractiveApplication
-            && (
-                isCvLibraryLoginPage()
-                || (
-                    /login to start your application/i.test(bodyText)
-                    && isCvLibraryApplyFlowPage()
-                )
-            )
+            !hasInteractiveApplication &&
+            (isCvLibraryLoginPage() ||
+                (/login to start your application/i.test(bodyText) &&
+                    isCvLibraryApplyFlowPage()))
         ) {
             return {
                 ok: false,
@@ -981,7 +1349,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         return best.slice(0, 20000);
     }
 
-    async function waitForJobDescriptionReady(minLength = 200, timeoutMs = 20_000) {
+    async function waitForJobDescriptionReady(
+        minLength = 200,
+        timeoutMs = 20_000,
+    ) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
@@ -1010,6 +1381,8 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         waitForJobDescriptionReady,
         clickCvLibraryApply,
         getCvLibraryApplyState,
+        fillGeneratedCoverLetter,
+        openCoverLetterEditor,
         clickContinueOrSubmit,
         verifySubmitted,
         goToNextSearchPage,

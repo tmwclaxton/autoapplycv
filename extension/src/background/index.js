@@ -7,6 +7,7 @@ import {
 import { shouldSkipCoverLetterGenerationForSession } from './auto-apply-cover-letter.js';
 import {
     configureAutoApplyAtsSubscriptionHandler,
+    configureAutoApplyCoverLetterGenerator,
     configureAutoApplyCaptchaSolver,
     configureAutoApplyProfileLoader,
     clearAutoApplyActivityLog,
@@ -166,7 +167,10 @@ if (chrome?.alarms?.onAlarm) {
 
         // Wake the service worker and keep paused sessions from being treated as orphaned runs.
         void loadAutoApplySession().then((session) => {
-            if (session?.status === 'paused_for_input' && !isAutoApplyRunning()) {
+            if (
+                session?.status === 'paused_for_input' &&
+                !isAutoApplyRunning()
+            ) {
                 // Session remains paused until Resume rehydrates the run loop.
             }
         });
@@ -225,6 +229,12 @@ function notifyUsageRefreshRequired() {
 }
 
 configureAutoApplyAtsSubscriptionHandler(applyCachedSubscription);
+configureAutoApplyCoverLetterGenerator((job) =>
+    assistCoverLetter({
+        job,
+        tone: 'professional',
+    }),
+);
 
 async function clearQuestionMemo() {
     await chrome.storage.local.remove(['questionMemo']);
@@ -542,8 +552,13 @@ async function resolveInteractiveOptionHarvestAllowed() {
     });
 }
 
-async function collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, profilePayload = null) {
-    const allowInteractiveOptionHarvest = await resolveInteractiveOptionHarvestAllowed();
+async function collectSnapshotFromTabWithHarvestPolicy(
+    tabId,
+    frameId,
+    profilePayload = null,
+) {
+    const allowInteractiveOptionHarvest =
+        await resolveInteractiveOptionHarvestAllowed();
 
     return collectSnapshotFromTab(tabId, frameId, profilePayload, {
         allowInteractiveOptionHarvest,
@@ -998,7 +1013,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         : {}),
                     timingLevel: message.timingLevel,
                     ...(typeof message.stopForCoverLetter === 'boolean'
-                        ? { stopForCoverLetterInput: message.stopForCoverLetter }
+                        ? {
+                              stopForCoverLetterInput:
+                                  message.stopForCoverLetter,
+                          }
                         : {}),
                     ...(typeof message.autoGenerateCoverLetter === 'boolean'
                         ? {
@@ -1563,7 +1581,10 @@ async function enrichPendingFieldFromSnapshot(tabId, field) {
 
     try {
         const formFrameId = await findBestFormFrameId(tabId);
-        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(
+            tabId,
+            formFrameId,
+        );
         const element = (snapshotResponse?.snapshot?.elements || []).find(
             (item) => item.ref === field.ref,
         );
@@ -1878,7 +1899,10 @@ function snapshotElementToDraftField(element) {
 
 async function collectUnfilledRequiredFields(tabId, formFrameId) {
     try {
-        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(
+            tabId,
+            formFrameId,
+        );
         // Prefer the frame that actually built the snapshot (Greenhouse embed
         // on Formlabs hosts) so filled checks run against the same document.
         const filterFrameId =
@@ -2020,7 +2044,10 @@ async function fillRevealedDisabilitySignatureFields(
     let snapshot;
 
     try {
-        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, formFrameId);
+        const snapshotResponse = await collectSnapshotFromTabWithHarvestPolicy(
+            tabId,
+            formFrameId,
+        );
         snapshot = snapshotResponse?.snapshot;
     } catch {
         return 0;
@@ -3354,7 +3381,11 @@ async function vetDraftAnswersBeforeApply({
     tabId,
     batchIndex = null,
 }) {
-    if (!DRAFT_ALL_ANSWER_VET_ENABLED || !Array.isArray(toApply) || toApply.length === 0) {
+    if (
+        !DRAFT_ALL_ANSWER_VET_ENABLED ||
+        !Array.isArray(toApply) ||
+        toApply.length === 0
+    ) {
         return { toApply, pending: [] };
     }
 
@@ -4590,11 +4621,7 @@ async function quickAnswerFocused(tabId) {
 async function getProfile({ force = false } = {}) {
     const now = Date.now();
 
-    if (
-        !force &&
-        cachedProfile &&
-        now - cacheTimestamp < CACHE_TTL_MS
-    ) {
+    if (!force && cachedProfile && now - cacheTimestamp < CACHE_TTL_MS) {
         return cachedProfile;
     }
 
@@ -5295,7 +5322,9 @@ async function requestCaptchaSolve({ type, sitekey, pageUrl }) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok || !data?.success || !data?.token) {
-        throw new Error(data?.error || `Captcha solve failed (${response.status}).`);
+        throw new Error(
+            data?.error || `Captcha solve failed (${response.status}).`,
+        );
     }
 
     return data;
@@ -5410,7 +5439,11 @@ async function bridgeWaitForTab(
 }
 
 async function bridgeFindControlRef(tabId, frameId, name) {
-    const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(tabId, frameId, null);
+    const collectResponse = await collectSnapshotFromTabWithHarvestPolicy(
+        tabId,
+        frameId,
+        null,
+    );
     const controls = collectResponse?.snapshot?.controls || [];
     const needle = String(name || '')
         .trim()
@@ -5979,7 +6012,9 @@ initExtensionBridge({
                 ...(typeof autoGenerateCoverLetter === 'boolean'
                     ? { autoGenerateCoverLetter }
                     : {}),
-                ...(typeof easyApplyOnly === 'boolean' ? { easyApplyOnly } : {}),
+                ...(typeof easyApplyOnly === 'boolean'
+                    ? { easyApplyOnly }
+                    : {}),
                 ...(typeof pauseOnExternalApply === 'boolean'
                     ? { pauseOnExternalApply }
                     : {}),

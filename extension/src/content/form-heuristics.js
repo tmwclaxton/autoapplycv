@@ -231,18 +231,17 @@ var AutoCVApplyFormHeuristics = (() => {
             // Header job search chrome appears on apply pages too (/job/apply/...),
             // not only results (/jobs...). Never treat it as an application field.
             if (
-                name === 'keyword'
-                || name === 'location'
-                || name === 'distance'
-                || id === 'keywords'
-                || element.closest?.(
+                name === 'keyword' ||
+                name === 'location' ||
+                name === 'distance' ||
+                id === 'keywords' ||
+                element.closest?.(
                     '#keywords, .search-form, [data-qa="search-keywords"], header form, [class*="SearchBar"], [class*="NavSearch"]',
                 )
             ) {
                 return true;
             }
         }
-
 
         if (
             /simplyhired\.(com|co\.uk)$/i.test(hostname) &&
@@ -8297,9 +8296,11 @@ var AutoCVApplyFormHeuristics = (() => {
 
     function getTotaljobsGenesisSegmentedControlLabel(container) {
         const doc = container?.ownerDocument || document;
-        const stripRequiredMarker = (text) => normalize(text).replace(/\s*\*+\s*$/, '');
+        const stripRequiredMarker = (text) =>
+            normalize(text).replace(/\s*\*+\s*$/, '');
 
-        const direct = getAccessibleLabel(doc, container) || getRadiogroupLabel(container);
+        const direct =
+            getAccessibleLabel(doc, container) || getRadiogroupLabel(container);
 
         if (direct.length >= 3) {
             return stripRequiredMarker(direct);
@@ -8321,7 +8322,9 @@ var AutoCVApplyFormHeuristics = (() => {
                 const labelEl = prev.matches?.('label')
                     ? prev
                     : prev.querySelector?.('label');
-                const text = labelEl ? stripRequiredMarker(labelEl.textContent || '') : '';
+                const text = labelEl
+                    ? stripRequiredMarker(labelEl.textContent || '')
+                    : '';
 
                 if (text.length >= 3) {
                     return text;
@@ -8333,10 +8336,14 @@ var AutoCVApplyFormHeuristics = (() => {
             const parent = scope.parentElement;
 
             if (parent) {
-                const labelEl = Array.from(parent.querySelectorAll('label')).find((label) => (
-                    !container.contains(label)
-                    && stripRequiredMarker(label.textContent || '').length >= 3
-                ));
+                const labelEl = Array.from(
+                    parent.querySelectorAll('label'),
+                ).find(
+                    (label) =>
+                        !container.contains(label) &&
+                        stripRequiredMarker(label.textContent || '').length >=
+                            3,
+                );
 
                 if (labelEl) {
                     return stripRequiredMarker(labelEl.textContent || '');
@@ -8354,7 +8361,9 @@ var AutoCVApplyFormHeuristics = (() => {
         const seen = new Set();
         const seenRadios = new WeakSet();
         const containers = [
-            ...root.querySelectorAll('[data-genesis-element="SEGMENTED_CONTROL_CONTAINER"]'),
+            ...root.querySelectorAll(
+                '[data-genesis-element="SEGMENTED_CONTROL_CONTAINER"]',
+            ),
             ...root.querySelectorAll('[role="radiogroup"]'),
             ...root.querySelectorAll('[role="group"]'),
         ];
@@ -8366,23 +8375,28 @@ var AutoCVApplyFormHeuristics = (() => {
 
             const radios = Array.from(
                 group.querySelectorAll('[role="radio"]'),
-            ).filter((radio) => (
-                isVisible(radio) && !seenRadios.has(radio)
-            ));
+            ).filter((radio) => isVisible(radio) && !seenRadios.has(radio));
 
             if (radios.length < 2) {
                 continue;
             }
 
-            const isGenesisSegmented = group.getAttribute('data-genesis-element') === 'SEGMENTED_CONTROL_CONTAINER'
-                || radios.some((radio) => /^sqIndex\d+-button-\d+$/i.test(radio.getAttribute('data-testid') || ''));
+            const isGenesisSegmented =
+                group.getAttribute('data-genesis-element') ===
+                    'SEGMENTED_CONTROL_CONTAINER' ||
+                radios.some((radio) =>
+                    /^sqIndex\d+-button-\d+$/i.test(
+                        radio.getAttribute('data-testid') || '',
+                    ),
+                );
             const label = isGenesisSegmented
                 ? getTotaljobsGenesisSegmentedControlLabel(group)
                 : getRadiogroupLabel(group);
-            const key = group.id
-                || group.getAttribute('data-testid')
-                || group.getAttribute('name')
-                || `${label}:${radios.length}`;
+            const key =
+                group.id ||
+                group.getAttribute('data-testid') ||
+                group.getAttribute('name') ||
+                `${label}:${radios.length}`;
 
             if (label.length < 3 || seen.has(key)) {
                 continue;
@@ -11766,6 +11780,37 @@ var AutoCVApplyFormHeuristics = (() => {
         return /search in all (form )?templates/i.test(placeholder);
     }
 
+    function isCookieConsentChrome(element) {
+        if (!element) {
+            return false;
+        }
+
+        const id = String(element.id || '').toLowerCase();
+
+        return (
+            id.startsWith('ot-group-id-') ||
+            id === 'vendor-search-handler' ||
+            id.startsWith('select-all-hosts-') ||
+            id.startsWith('select-all-vendor-') ||
+            Boolean(
+                element.closest?.(
+                    '#onetrust-consent-sdk, #onetrust-pc-sdk, #ot-sdk-cookie-policy, [class*="ot-sdk"]',
+                ),
+            )
+        );
+    }
+
+    function isGeneratedCoverLetterControl(element) {
+        return Boolean(
+            element?.matches?.(
+                '[data-autocvapply-generated-cover-letter="true"]',
+            ) ||
+            element?.closest?.(
+                '[data-autocvapply-generated-cover-letter="true"]',
+            ),
+        );
+    }
+
     /**
      * Workable select widgets keep a tabindex=-1 aria-hidden value input beside the readonly
      * combobox. Inventory the combobox, not this companion field.
@@ -11987,12 +12032,16 @@ var AutoCVApplyFormHeuristics = (() => {
         const testId = element.getAttribute?.('data-testid') || '';
         const name = element.getAttribute?.('name') || element.name || '';
 
-        return /^input-(firstName|lastName)-/i.test(testId)
-            || /^(firstName|lastName)$/i.test(name);
+        return (
+            /^input-(firstName|lastName)-/i.test(testId) ||
+            /^(firstName|lastName)$/i.test(name)
+        );
     }
 
     function readTotaljobsGenesisEmailValue(doc = document) {
-        const emailInput = doc.querySelector('[data-testid="input-email-text"], input[name="email"]');
+        const emailInput = doc.querySelector(
+            '[data-testid="input-email-text"], input[name="email"]',
+        );
 
         return String(emailInput?.value || '').trim();
     }
@@ -12004,7 +12053,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return '';
         }
 
-        if (!isTotaljobsGenesisNameInput(element) || !stringValue.includes('@')) {
+        if (
+            !isTotaljobsGenesisNameInput(element) ||
+            !stringValue.includes('@')
+        ) {
             return stringValue;
         }
 
@@ -12013,21 +12065,34 @@ var AutoCVApplyFormHeuristics = (() => {
         let repaired = stringValue;
 
         if (emailValue.includes('@') && stringValue.endsWith(emailValue)) {
-            repaired = stringValue.slice(0, stringValue.length - emailValue.length).trim();
-        } else if (emailValue.includes('@') && stringValue.includes(emailValue)) {
+            repaired = stringValue
+                .slice(0, stringValue.length - emailValue.length)
+                .trim();
+        } else if (
+            emailValue.includes('@') &&
+            stringValue.includes(emailValue)
+        ) {
             repaired = stringValue.split(emailValue).join('').trim();
-        } else if (stringValue === emailValue || /^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(stringValue)) {
+        } else if (
+            stringValue === emailValue ||
+            /^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(stringValue)
+        ) {
             repaired = '';
         } else {
             repaired = stringValue.replace(/\s*[^\s]*@[^\s]*/g, '').trim();
         }
 
-        heuristicsLog('warn', 'apply.totaljobs', 'Rejected email-shaped value for Totaljobs name field', {
-            testId: element.getAttribute?.('data-testid') || null,
-            name: element.getAttribute?.('name') || element.name || null,
-            valuePreview: stringValue.slice(0, 80),
-            repairedPreview: repaired.slice(0, 80) || null,
-        });
+        heuristicsLog(
+            'warn',
+            'apply.totaljobs',
+            'Rejected email-shaped value for Totaljobs name field',
+            {
+                testId: element.getAttribute?.('data-testid') || null,
+                name: element.getAttribute?.('name') || element.name || null,
+                valuePreview: stringValue.slice(0, 80),
+                repairedPreview: repaired.slice(0, 80) || null,
+            },
+        );
 
         return repaired;
     }
@@ -12037,7 +12102,10 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const stringValue = sanitizeTotaljobsGenesisFormInputValue(element, value);
+        const stringValue = sanitizeTotaljobsGenesisFormInputValue(
+            element,
+            value,
+        );
 
         if (!stringValue) {
             return false;
@@ -12049,11 +12117,13 @@ var AutoCVApplyFormHeuristics = (() => {
         // Always clear first. Genesis/React often ignores select()+insertText and appends
         // into the previously focused name field (e.g. email into lastName).
         setNativeValue(element, '');
-        element.dispatchEvent(new InputEvent('input', {
-            bubbles: true,
-            cancelable: true,
-            inputType: 'deleteContentBackward',
-        }));
+        element.dispatchEvent(
+            new InputEvent('input', {
+                bubbles: true,
+                cancelable: true,
+                inputType: 'deleteContentBackward',
+            }),
+        );
 
         let filled = false;
 
@@ -12110,7 +12180,11 @@ var AutoCVApplyFormHeuristics = (() => {
         );
 
         for (const input of inputs) {
-            if (!(input instanceof HTMLInputElement) || input.disabled || input.readOnly) {
+            if (
+                !(input instanceof HTMLInputElement) ||
+                input.disabled ||
+                input.readOnly
+            ) {
                 continue;
             }
 
@@ -13069,7 +13143,8 @@ var AutoCVApplyFormHeuristics = (() => {
         // cannot post while the field stays sidebar-pending.
         if (hidden && finalHidden && !finalVisible) {
             if (!hidden.dataset.autocvapplyName) {
-                hidden.dataset.autocvapplyName = hidden.getAttribute('name') || '';
+                hidden.dataset.autocvapplyName =
+                    hidden.getAttribute('name') || '';
             }
 
             setNativeValue(hidden, '');
@@ -13520,6 +13595,13 @@ var AutoCVApplyFormHeuristics = (() => {
             root,
             'input, textarea, select',
         ).filter((element) => {
+            if (
+                isCookieConsentChrome(element) ||
+                isGeneratedCoverLetterControl(element)
+            ) {
+                return false;
+            }
+
             if (isAshbyHiddenYesNoInput(element)) {
                 return false;
             }
@@ -13970,7 +14052,12 @@ var AutoCVApplyFormHeuristics = (() => {
         const greenhouseFormControl =
             isGreenhouseApplicationFormControl(element);
 
-        if (isSiteSearchChrome(element) || isJobBoardNavSearchInput(element)) {
+        if (
+            isCookieConsentChrome(element) ||
+            isGeneratedCoverLetterControl(element) ||
+            isSiteSearchChrome(element) ||
+            isJobBoardNavSearchInput(element)
+        ) {
             return false;
         }
 
@@ -14187,7 +14274,11 @@ var AutoCVApplyFormHeuristics = (() => {
                     continue;
                 }
 
-                if (includeFilled && isSiteSearchChrome(element)) {
+                if (
+                    includeFilled &&
+                    (isSiteSearchChrome(element) ||
+                        isJobBoardNavSearchInput(element))
+                ) {
                     continue;
                 }
 
@@ -14249,7 +14340,11 @@ var AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (includeFilled && isSiteSearchChrome(element)) {
+            if (
+                includeFilled &&
+                (isSiteSearchChrome(element) ||
+                    isJobBoardNavSearchInput(element))
+            ) {
                 continue;
             }
 
@@ -14305,6 +14400,15 @@ var AutoCVApplyFormHeuristics = (() => {
             label,
             optionLabels,
         } of collectStandaloneComboboxFields(root)) {
+            if (
+                isCookieConsentChrome(combobox) ||
+                isGeneratedCoverLetterControl(combobox) ||
+                isSiteSearchChrome(combobox) ||
+                isJobBoardNavSearchInput(combobox)
+            ) {
+                continue;
+            }
+
             const identity = draftableIdentityKey(combobox, label);
 
             if (label.length < 3 || seen.has(identity)) {

@@ -18,6 +18,7 @@ import {
 import {
     shouldStopForCoverLetterInput,
     stepHasCoverLetterInput,
+    validateGeneratedCoverLetterText,
 } from './auto-apply-cover-letter.js';
 import {
     configureAutoApplyAtsSubscriptionHandler,
@@ -98,7 +99,11 @@ import { openBrowserPanel } from './browser-panel.js';
 import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
 import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
-import { DRAFT_ALL_STEP_TIMEOUT_MS, resolveDraftAllStepTimeoutMs } from './draft-all-step-timeout.js';
+import {
+    DRAFT_ALL_STEP_TIMEOUT_MS,
+    resolveDraftAllStepTimeoutMs,
+    shouldSkipDraftAllForStep,
+} from './draft-all-step-timeout.js';
 import {
     invalidateTabFrameCache,
     resolveIndeedApplyTabId,
@@ -301,7 +306,12 @@ function isExternalApplyJobCard(session, job) {
  * @param {string|null} reason
  * @returns {import('./auto-apply-session.js').AutoApplySession}
  */
-function appendProcessedJobOutcome(session, job, structuredOutcome, reason = null) {
+function appendProcessedJobOutcome(
+    session,
+    job,
+    structuredOutcome,
+    reason = null,
+) {
     const fingerprint = canonicalJobFingerprint(session.platform, job);
     const next = appendAutoApplyJobOutcome(session, {
         jobId: job.jobId,
@@ -313,8 +323,8 @@ function appendProcessedJobOutcome(session, job, structuredOutcome, reason = nul
     });
 
     if (
-        structuredOutcome === AUTO_APPLY_OUTCOME.APPLIED
-        || structuredOutcome === AUTO_APPLY_OUTCOME.SKIPPED_ALREADY_APPLIED
+        structuredOutcome === AUTO_APPLY_OUTCOME.APPLIED ||
+        structuredOutcome === AUTO_APPLY_OUTCOME.SKIPPED_ALREADY_APPLIED
     ) {
         void rememberAppliedFingerprint(fingerprint);
     }
@@ -564,7 +574,12 @@ function formatJobOutcomeLogMessage(job, result) {
  * @param {string} [description]
  * @returns {Promise<{ proceed: true }|{ proceed: false, reason: 'blacklisted', detail: string }>}
  */
-async function applyJobBlacklistGate(job, session, tabId = null, description = '') {
+async function applyJobBlacklistGate(
+    job,
+    session,
+    tabId = null,
+    description = '',
+) {
     try {
         const result = evaluateJobAgainstBlacklist({
             blacklistText: session?.jobBlacklist || '',
@@ -919,9 +934,9 @@ async function waitForApplicationSubmitConfirmation(
             }
 
             if (
-                platform === INDEED_PLATFORM_ID
-                && state?.isReviewStep
-                && (state.captchaPresent || state.submitDisabled)
+                platform === INDEED_PLATFORM_ID &&
+                state?.isReviewStep &&
+                (state.captchaPresent || state.submitDisabled)
             ) {
                 return {
                     submitted: false,
@@ -1288,16 +1303,19 @@ function sanitizeSessionForBroadcast(session) {
                   lastAttempt: session.pauseContext.lastAttempt,
                   validationError: session.pauseContext.validationError,
                   captcha: Boolean(session.pauseContext.captcha),
-                  identityConfirm: Boolean(session.pauseContext.identityConfirm),
+                  identityConfirm: Boolean(
+                      session.pauseContext.identityConfirm,
+                  ),
                   loginRequired: Boolean(session.pauseContext.loginRequired),
-                  pauseReason: session.pauseContext.pauseReason
-                      || (session.pauseContext.captcha
+                  pauseReason:
+                      session.pauseContext.pauseReason ||
+                      (session.pauseContext.captcha
                           ? 'captcha'
                           : session.pauseContext.loginRequired
-                              ? 'login'
-                              : session.pauseContext.identityConfirm
-                                  ? 'identity_confirm'
-                                  : null),
+                            ? 'login'
+                            : session.pauseContext.identityConfirm
+                              ? 'identity_confirm'
+                              : null),
               }
             : null,
     };
@@ -1636,8 +1654,7 @@ function distinctiveJobTitleTokens(value) {
     return normalizeJobTitleForMatch(value)
         .split(' ')
         .filter(
-            (token) =>
-                token.length > 2 && !GENERIC_JOB_TITLE_TOKENS.has(token),
+            (token) => token.length > 2 && !GENERIC_JOB_TITLE_TOKENS.has(token),
         );
 }
 
@@ -1659,11 +1676,11 @@ function jobTitlesLooselyMatch(expectedTitle, observedTitle) {
 
     const expectedTokens = expected
         .split(' ')
-        .filter((token) => token.length > 2 && !/^(and|the|with|for)$/i.test(token));
+        .filter(
+            (token) => token.length > 2 && !/^(and|the|with|for)$/i.test(token),
+        );
     const observedTokens = new Set(
-        observed
-            .split(' ')
-            .filter((token) => token.length > 2),
+        observed.split(' ').filter((token) => token.length > 2),
     );
     const overlap = expectedTokens.filter((token) =>
         observedTokens.has(token),
@@ -1679,7 +1696,9 @@ function jobTitlesLooselyMatch(expectedTitle, observedTitle) {
             observedDistinct.has(token),
         ).length;
 
-        return distinctOverlap > 0 && overlap >= Math.min(2, expectedTokens.length);
+        return (
+            distinctOverlap > 0 && overlap >= Math.min(2, expectedTokens.length)
+        );
     }
 
     const needed = Math.max(2, Math.ceil(expectedTokens.length * 0.6));
@@ -1710,9 +1729,7 @@ function smartApplyMatchesExpectedJob(applyState, job) {
         /^(indeed apply|easy apply|apply|continue|review|resume)$/i.test(
             normalizeJobTitleForMatch(stepLabel),
         );
-    const observedTitle =
-        headerTitle ||
-        (genericLabel ? '' : stepLabel);
+    const observedTitle = headerTitle || (genericLabel ? '' : stepLabel);
     const observedCompany = String(applyState?.jobCompany || '').trim();
 
     if (
@@ -1964,8 +1981,8 @@ async function sendReedMessage(tabId, type, payload = {}, options = {}) {
                     }
                 } catch (loginError) {
                     if (
-                        loginError instanceof Error
-                        && /sign-in required/i.test(loginError.message)
+                        loginError instanceof Error &&
+                        /sign-in required/i.test(loginError.message)
                     ) {
                         throw loginError;
                     }
@@ -2679,7 +2696,9 @@ async function waitForTabLoadComplete(tabId, timeoutMs = 90_000) {
             }
 
             cleanup();
-            reject(createAutoApplyStopError('Stopped while waiting for tab load.'));
+            reject(
+                createAutoApplyStopError('Stopped while waiting for tab load.'),
+            );
         }, 250);
 
         const listener = (updatedTabId, changeInfo) => {
@@ -3257,7 +3276,9 @@ async function openAssistSidePanelForCaptcha(tabId) {
 
     try {
         const tab = await chrome.tabs.get(tabId);
-        await chrome.windows.update(tab.windowId, { focused: true }).catch(() => {});
+        await chrome.windows
+            .update(tab.windowId, { focused: true })
+            .catch(() => {});
         await chrome.tabs.update(tabId, { active: true }).catch(() => {});
 
         await openBrowserPanel({
@@ -3337,23 +3358,23 @@ async function pauseForCaptchaReview(
         options.stage === 'viewjob'
             ? 'viewjob'
             : options.stage === 'search'
-                ? 'search'
-                : 'review';
+              ? 'search'
+              : 'review';
     const prompt =
         'CAPTCHA detected - solve in the browser, then resume Auto Apply.';
     const stepFingerprint =
-        modalState?.stepFingerprint
-        || (stage === 'viewjob'
+        modalState?.stepFingerprint ||
+        (stage === 'viewjob'
             ? 'viewjob-security-check'
             : stage === 'search'
-                ? 'search-security-check'
-                : 'review-module');
+              ? 'search-security-check'
+              : 'review-module');
     const resumeAt =
         stage === 'viewjob'
             ? 'open_job'
             : stage === 'search'
-                ? 'open_job'
-                : 'fill_and_advance';
+              ? 'open_job'
+              : 'fill_and_advance';
 
     const pauseContext = {
         job: {
@@ -3378,8 +3399,8 @@ async function pauseForCaptchaReview(
         stage === 'search'
             ? `[paused] CAPTCHA detected on Indeed search - solve in browser, then resume in Assist.`
             : stage === 'viewjob'
-                ? `[paused] ${job.title}: CAPTCHA detected on job page - solve in browser, then resume in Assist.`
-                : `[paused] ${job.title}: CAPTCHA detected on review step - solve in browser, then resume in Assist.`;
+              ? `[paused] ${job.title}: CAPTCHA detected on job page - solve in browser, then resume in Assist.`
+              : `[paused] ${job.title}: CAPTCHA detected on review step - solve in browser, then resume in Assist.`;
 
     await updateSession((current) =>
         pauseAutoApplyForInput(
@@ -3400,9 +3421,13 @@ async function pauseForCaptchaReview(
         .catch(() => {});
 }
 
-async function pauseForLoginRequired(session, tabId, job, platformLabel = 'Reed') {
-    const prompt =
-        `${platformLabel} sign-in required - log in in the Auto Apply window, then resume Auto Apply.`;
+async function pauseForLoginRequired(
+    session,
+    tabId,
+    job,
+    platformLabel = 'Reed',
+) {
+    const prompt = `${platformLabel} sign-in required - log in in the Auto Apply window, then resume Auto Apply.`;
 
     const pauseContext = {
         job: {
@@ -3447,7 +3472,12 @@ async function pauseForLoginRequired(session, tabId, job, platformLabel = 'Reed'
         .catch(() => {});
 }
 
-async function waitForLoginRequiredResume(session, tabId, job, platformLabel = 'Reed') {
+async function waitForLoginRequiredResume(
+    session,
+    tabId,
+    job,
+    platformLabel = 'Reed',
+) {
     await pauseForLoginRequired(session, tabId, job, platformLabel);
     const loginResume = await waitForAutoApplyResumeWithTimeout(300_000);
 
@@ -3474,7 +3504,13 @@ async function waitForLoginRequiredResume(session, tabId, job, platformLabel = '
  * @param {object|null|undefined} health
  * @returns {Promise<{ stopped?: boolean, timedOut?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
  */
-async function waitForBoardLoginIfNeeded(session, tabId, job, platformLabel, health) {
+async function waitForBoardLoginIfNeeded(
+    session,
+    tabId,
+    job,
+    platformLabel,
+    health,
+) {
     if (!healthIndicatesLoginRequired(health)) {
         return { session };
     }
@@ -3509,7 +3545,9 @@ async function ensureBoardLoginBeforeCollect(session, tabId, platform) {
         return { session };
     }
 
-    const health = await sendTabMessage(tabId, { type: scanType }, 0).catch(() => null);
+    const health = await sendTabMessage(tabId, { type: scanType }, 0).catch(
+        () => null,
+    );
 
     if (!healthIndicatesLoginRequired(health)) {
         return { session };
@@ -3584,7 +3622,10 @@ async function pauseForExternalApply(session, tabId, job) {
  * @returns {Promise<{ skipped?: boolean, stopped?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
  */
 async function waitForExternalApplyPauseIfNeeded(session, tabId, job) {
-    if (!session?.pauseOnExternalApply || !isExternalApplyJobCard(session, job)) {
+    if (
+        !session?.pauseOnExternalApply ||
+        !isExternalApplyJobCard(session, job)
+    ) {
         return { skipped: true, session };
     }
 
@@ -3698,7 +3739,8 @@ async function skipAfterDiscoveredExternalApply(
 ) {
     const markedJob = {
         ...job,
-        reedApply: session.platform === REED_PLATFORM_ID ? false : job?.reedApply,
+        reedApply:
+            session.platform === REED_PLATFORM_ID ? false : job?.reedApply,
         easyApply:
             session.platform === REED_PLATFORM_ID ||
             session.platform === INDEED_PLATFORM_ID ||
@@ -3736,9 +3778,7 @@ async function skipAfterDiscoveredExternalApply(
     );
 
     if (gated) {
-        return detail
-            ? { ...gated, detail: gated.detail || detail }
-            : gated;
+        return detail ? { ...gated, detail: gated.detail || detail } : gated;
     }
 
     await recordAnalyticsEvent(session, 'skipped', job, {
@@ -4018,18 +4058,21 @@ function sessionAllowsAutoSubmit(session) {
  */
 async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
     const kind = options.kind === 'resume_step' ? 'resume_step' : 'submit';
-    const prompt = typeof options.prompt === 'string' && options.prompt.trim()
-        ? options.prompt.trim()
-        : (kind === 'resume_step'
-            ? 'Confirm the selected resume looks correct, then resume Auto Apply to continue.'
-            : 'Review the application, then resume Auto Apply to submit.');
+    const prompt =
+        typeof options.prompt === 'string' && options.prompt.trim()
+            ? options.prompt.trim()
+            : kind === 'resume_step'
+              ? 'Confirm the selected resume looks correct, then resume Auto Apply to continue.'
+              : 'Review the application, then resume Auto Apply to submit.';
     const pauseContext = {
         job: {
             jobId: job?.jobId || null,
             title: job?.title || 'Application',
             company: job?.company || '',
         },
-        stepFingerprint: options.stepFingerprint || (kind === 'resume_step' ? 'resume-review' : 'review-before-submit'),
+        stepFingerprint:
+            options.stepFingerprint ||
+            (kind === 'resume_step' ? 'resume-review' : 'review-before-submit'),
         tabId,
         blockerField: null,
         clarifyingQuestion: prompt,
@@ -4041,11 +4084,12 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
         pauseReason: 'review_before_submit',
     };
 
-    const logMessage = typeof options.logMessage === 'string' && options.logMessage.trim()
-        ? options.logMessage.trim()
-        : (kind === 'resume_step'
-            ? `[paused] ${job?.title || 'Application'}: confirm resume selection, then Resume in Assist.`
-            : `[paused] ${job?.title || 'Application'}: review before submit - Resume in Assist to submit.`);
+    const logMessage =
+        typeof options.logMessage === 'string' && options.logMessage.trim()
+            ? options.logMessage.trim()
+            : kind === 'resume_step'
+              ? `[paused] ${job?.title || 'Application'}: confirm resume selection, then Resume in Assist.`
+              : `[paused] ${job?.title || 'Application'}: review before submit - Resume in Assist to submit.`;
 
     await updateSession((current) =>
         pauseAutoApplyForInput(
@@ -4072,9 +4116,9 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
  */
 export function applyStateNeedsSubmitPause(state) {
     return Boolean(
-        state?.isReviewStep
-        || (state?.canSubmit && !state?.canContinue)
-        || (state?.hasSubmitButton && !state?.canContinue),
+        state?.isReviewStep ||
+        (state?.canSubmit && !state?.canContinue) ||
+        (state?.hasSubmitButton && !state?.canContinue),
     );
 }
 
@@ -4087,7 +4131,12 @@ export function applyStateNeedsSubmitPause(state) {
  * @param {{ kind?: 'submit'|'resume_step', stepFingerprint?: string|null, resumeAt?: string }} [options]
  * @returns {Promise<{ skipped?: boolean, stopped?: boolean, resumed?: boolean, session: import('./auto-apply-session.js').AutoApplySession }>}
  */
-async function waitForReviewBeforeSubmitIfNeeded(session, tabId, job, options = {}) {
+async function waitForReviewBeforeSubmitIfNeeded(
+    session,
+    tabId,
+    job,
+    options = {},
+) {
     if (sessionAllowsAutoSubmit(session)) {
         return { skipped: true, session };
     }
@@ -4174,9 +4223,7 @@ export async function waitForCoverLetterInputIfNeeded(
         ? options.inventoryFields
         : [];
 
-    if (
-        !stepHasCoverLetterInput(options.draftResult, inventoryFields)
-    ) {
+    if (!stepHasCoverLetterInput(options.draftResult, inventoryFields)) {
         try {
             const inventory = await collectFieldsFromTab(tabId, undefined, {
                 allowInteractiveOptionHarvest: false,
@@ -4265,10 +4312,7 @@ async function handleAdvanceValidationRetry(
 
     // Step-level Indeed errors often map to no_mapping / required_empty blockers;
     // still pause whenever validation copy is present.
-    if (
-        !hasValidationErrors &&
-        effectiveBlocker.reason !== 'validation'
-    ) {
+    if (!hasValidationErrors && effectiveBlocker.reason !== 'validation') {
         return { retried: false, session };
     }
 
@@ -4408,6 +4452,7 @@ async function runDraftAllForStep(
     stepLabel,
     runDraftAll,
     session,
+    platformId = null,
 ) {
     invalidateTabFrameCache(tabId);
     await sendTabMessage(tabId, { type: 'RELOAD_CONTENT_PROFILE' }, 0).catch(
@@ -4415,42 +4460,52 @@ async function runDraftAllForStep(
     );
 
     let draftAllTimeoutMs = DRAFT_ALL_STEP_TIMEOUT_MS;
+    let inventoryFieldCount = null;
 
     try {
         const inventory = await collectFieldsFromTab(tabId, undefined, {
-            allowInteractiveOptionHarvest: true,
+            allowInteractiveOptionHarvest:
+                platformId !== CV_LIBRARY_PLATFORM_ID,
         });
-        const fieldCount = Number(
+        inventoryFieldCount = Number(
             inventory?.fields?.length || inventory?.elements?.length || 0,
         );
 
-        draftAllTimeoutMs = resolveDraftAllStepTimeoutMs(fieldCount);
+        draftAllTimeoutMs = resolveDraftAllStepTimeoutMs(inventoryFieldCount);
     } catch {
         // Keep default timeout when inventory is unavailable.
     }
 
-    const draftResult = await Promise.race([
-        runDraftAll(tabId),
-        (async () => {
-            const deadline = Date.now() + draftAllTimeoutMs;
+    const draftResult = shouldSkipDraftAllForStep(inventoryFieldCount)
+        ? {
+              pendingFields: [],
+              filledFields: [],
+              skippedFields: [],
+              failedFields: [],
+              fieldsFilled: 0,
+          }
+        : await Promise.race([
+              runDraftAll(tabId),
+              (async () => {
+                  const deadline = Date.now() + draftAllTimeoutMs;
 
-            while (Date.now() < deadline) {
-                if (await shouldStop(session)) {
-                    return {
-                        error: 'Auto Apply stopped.',
-                        stopped: true,
-                    };
-                }
+                  while (Date.now() < deadline) {
+                      if (await shouldStop(session)) {
+                          return {
+                              error: 'Auto Apply stopped.',
+                              stopped: true,
+                          };
+                      }
 
-                await sleep(400);
-            }
+                      await sleep(400);
+                  }
 
-            return {
-                error: `Draft All timed out after ${Math.round(draftAllTimeoutMs / 1000)}s`,
-                timedOut: true,
-            };
-        })(),
-    ]);
+                  return {
+                      error: `Draft All timed out after ${Math.round(draftAllTimeoutMs / 1000)}s`,
+                      timedOut: true,
+                  };
+              })(),
+          ]);
 
     if (draftResult?.stopped) {
         return draftResult;
@@ -5150,7 +5205,8 @@ async function processLinkedInJob(
                 job,
                 {
                     kind: 'resume_step',
-                    stepFingerprint: modalState?.stepFingerprint || 'linkedin-resume',
+                    stepFingerprint:
+                        modalState?.stepFingerprint || 'linkedin-resume',
                     resumeAt: 'fill_and_advance',
                 },
             );
@@ -5169,7 +5225,8 @@ async function processLinkedInJob(
                 job,
                 {
                     kind: 'submit',
-                    stepFingerprint: modalState?.stepFingerprint || 'linkedin-review',
+                    stepFingerprint:
+                        modalState?.stepFingerprint || 'linkedin-review',
                     resumeAt: 'fill_and_advance',
                 },
             );
@@ -5562,12 +5619,12 @@ async function waitForReedApplyFlowOpen(tabId, timeoutMs = 30_000) {
         // Require a real modal/form with controls - not merely open:true from a
         // job-detail Apply button (legacy false positive).
         if (
-            state?.open
-            && (state.modalOpen
-                || state.contentReady
-                || state.canContinue
-                || state.canSubmit
-                || state.isReviewStep)
+            state?.open &&
+            (state.modalOpen ||
+                state.contentReady ||
+                state.canContinue ||
+                state.canSubmit ||
+                state.isReviewStep)
         ) {
             return true;
         }
@@ -6974,7 +7031,9 @@ async function processIndeedJobInner(
             // Speed-tier race: questions URL can still be empty on first scan.
             if (
                 isIndeedQuestionsStep(applyState) &&
-                /no application questions/i.test(String(draftResult?.error || ''))
+                /no application questions/i.test(
+                    String(draftResult?.error || ''),
+                )
             ) {
                 await logSession(
                     'warn',
@@ -7032,8 +7091,10 @@ async function processIndeedJobInner(
                         ...draftResult,
                         pendingFields: [
                             {
-                                question: applyState.stepLabel || 'Indeed questions',
-                                label: applyState.stepLabel || 'Indeed questions',
+                                question:
+                                    applyState.stepLabel || 'Indeed questions',
+                                label:
+                                    applyState.stepLabel || 'Indeed questions',
                                 reason: 'required_empty',
                             },
                         ],
@@ -7046,7 +7107,11 @@ async function processIndeedJobInner(
                 profileData = emptyPause.profileData ?? profileData;
 
                 if (emptyPause.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
             }
         }
@@ -7062,7 +7127,8 @@ async function processIndeedJobInner(
                 job,
                 {
                     kind: 'submit',
-                    stepFingerprint: applyState.stepFingerprint || 'indeed-review',
+                    stepFingerprint:
+                        applyState.stepFingerprint || 'indeed-review',
                 },
             );
 
@@ -7100,9 +7166,9 @@ async function processIndeedJobInner(
         }
 
         const advanceBlockedByCaptcha =
-            Boolean(advanceResponse?.error?.includes('captcha'))
-            || (advanceResponse?.action === 'blocked'
-                && (applyState?.captchaPresent || applyState?.submitDisabled));
+            Boolean(advanceResponse?.error?.includes('captcha')) ||
+            (advanceResponse?.action === 'blocked' &&
+                (applyState?.captchaPresent || applyState?.submitDisabled));
 
         if (advanceBlockedByCaptcha) {
             await logSession(
@@ -7793,8 +7859,10 @@ async function processTotalJobsJob(
         }
 
         session = loginWait.session || session;
-    } else if (health?.primary?.code === 'server_error'
-        || health?.blocking?.[0]?.code === 'server_error') {
+    } else if (
+        health?.primary?.code === 'server_error' ||
+        health?.blocking?.[0]?.code === 'server_error'
+    ) {
         await logSession(
             'warn',
             `[skip] ${job.title}: Totaljobs server error - skipping job.`,
@@ -7906,8 +7974,8 @@ async function processTotalJobsJob(
     if (postOpenVerify?.submitted) {
         await logSession(
             'success',
-            `[submitted] ${job.title} at ${job.company}`
-                + (sessionAllowsAutoSubmit(session)
+            `[submitted] ${job.title} at ${job.company}` +
+                (sessionAllowsAutoSubmit(session)
                     ? '.'
                     : ' (Totaljobs one-click after review pause).'),
         );
@@ -8020,7 +8088,8 @@ async function processTotalJobsJob(
             tabId,
             'TOTALJOBS_APPLY_STATE',
         ).catch(() => postDraftState || applyState);
-        const shouldPauseBeforeSubmit = applyStateNeedsSubmitPause(submitGateState);
+        const shouldPauseBeforeSubmit =
+            applyStateNeedsSubmitPause(submitGateState);
 
         if (shouldPauseBeforeSubmit) {
             const submitReview = await waitForReviewBeforeSubmitIfNeeded(
@@ -8029,7 +8098,8 @@ async function processTotalJobsJob(
                 job,
                 {
                     kind: 'submit',
-                    stepFingerprint: submitGateState?.stepFingerprint || 'totaljobs-review',
+                    stepFingerprint:
+                        submitGateState?.stepFingerprint || 'totaljobs-review',
                 },
             );
 
@@ -8045,7 +8115,11 @@ async function processTotalJobsJob(
             'TOTALJOBS_FILL_AND_ADVANCE',
         );
 
-        if (advanceResponse?.action === 'submit' || submitGateState?.isReviewStep || shouldPauseBeforeSubmit) {
+        if (
+            advanceResponse?.action === 'submit' ||
+            submitGateState?.isReviewStep ||
+            shouldPauseBeforeSubmit
+        ) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
@@ -8268,8 +8342,8 @@ async function collectReedJobsFromTab(tabId, session = null) {
         const easyApplyOnly = session?.easyApplyOnly !== false;
         const freshJobs = jobs.filter(
             (job) =>
-                (!easyApplyOnly || job.reedApply !== false)
-                && !job.alreadyApplied,
+                (!easyApplyOnly || job.reedApply !== false) &&
+                !job.alreadyApplied,
         );
 
         if (freshJobs.length > 0) {
@@ -8726,10 +8800,16 @@ async function processReedJob(
             const message =
                 error instanceof Error ? error.message : String(error);
 
-            if (/sign-in required/i.test(message) || isReedLoginUrl(await readTabUrl(tabId))) {
+            if (
+                /sign-in required/i.test(message) ||
+                isReedLoginUrl(await readTabUrl(tabId))
+            ) {
                 return {
                     ok: false,
-                    primary: { code: 'login_required', message: 'Reed sign-in required to apply.' },
+                    primary: {
+                        code: 'login_required',
+                        message: 'Reed sign-in required to apply.',
+                    },
                 };
             }
 
@@ -8738,8 +8818,8 @@ async function processReedJob(
     );
 
     if (
-        healthIndicatesLoginRequired(health)
-        || isReedLoginUrl(await readTabUrl(tabId))
+        healthIndicatesLoginRequired(health) ||
+        isReedLoginUrl(await readTabUrl(tabId))
     ) {
         const loginWait = await waitForBoardLoginIfNeeded(
             session,
@@ -8774,8 +8854,10 @@ async function processReedJob(
         return { outcome: 'retry', reason: 'login_resumed', tabId };
     }
 
-    if (health?.primary?.code === 'server_error'
-        || health?.blocking?.[0]?.code === 'server_error') {
+    if (
+        health?.primary?.code === 'server_error' ||
+        health?.blocking?.[0]?.code === 'server_error'
+    ) {
         await logSession(
             'warn',
             `[skip] ${job.title}: Reed server error - skipping job.`,
@@ -8809,7 +8891,10 @@ async function processReedJob(
             const message =
                 error instanceof Error ? error.message : String(error);
 
-            if (/sign-in required/i.test(message) || isReedLoginUrl(await readTabUrl(tabId))) {
+            if (
+                /sign-in required/i.test(message) ||
+                isReedLoginUrl(await readTabUrl(tabId))
+            ) {
                 return {
                     success: false,
                     loginRequired: true,
@@ -8847,9 +8932,9 @@ async function processReedJob(
     );
 
     if (
-        applyResponse?.loginRequired
-        || /sign-in required/i.test(applyResponse?.error || '')
-        || isReedLoginUrl(await readTabUrl(tabId))
+        applyResponse?.loginRequired ||
+        /sign-in required/i.test(applyResponse?.error || '') ||
+        isReedLoginUrl(await readTabUrl(tabId))
     ) {
         const loginWait = await waitForLoginRequiredResume(
             session,
@@ -8897,17 +8982,18 @@ async function processReedJob(
 
     // When OPEN_APPLY already left a ready modal, skip another long
     // content-script poll (SCAN_PAGE_HEALTH can burn 45s on SPA noise).
-    const postOpenState = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(
-        () => null,
-    );
+    const postOpenState = await sendReedMessage(
+        tabId,
+        'REED_APPLY_STATE',
+    ).catch(() => null);
     const applyAlreadyReady = Boolean(
-        postOpenState?.open
-        && (postOpenState.modalOpen
-            || postOpenState.contentReady
-            || postOpenState.canSubmit
-            || postOpenState.canContinue
-            || postOpenState.isReviewStep
-            || postOpenState.submitted),
+        postOpenState?.open &&
+        (postOpenState.modalOpen ||
+            postOpenState.contentReady ||
+            postOpenState.canSubmit ||
+            postOpenState.canContinue ||
+            postOpenState.isReviewStep ||
+            postOpenState.submitted),
     );
 
     if (!applyAlreadyReady) {
@@ -8917,8 +9003,8 @@ async function processReedJob(
         invalidateTabFrameCache(tabId);
     }
 
-    const applyFlowReady = applyAlreadyReady
-        || await waitForReedApplyFlowOpen(tabId);
+    const applyFlowReady =
+        applyAlreadyReady || (await waitForReedApplyFlowOpen(tabId));
 
     if (!applyFlowReady) {
         throw new Error('Reed Easy Apply form did not open after navigation.');
@@ -9035,8 +9121,8 @@ async function processReedJob(
         // Application summary (About you + CV + Submit) has no inventoriable
         // fields - skip Draft All and advance straight to Submit.
         const skipDraft =
-            applyState.isReviewStep
-            || (applyState.canSubmit && !applyState.canContinue);
+            applyState.isReviewStep ||
+            (applyState.canSubmit && !applyState.canContinue);
 
         const draftResult = skipDraft
             ? {
@@ -9074,16 +9160,15 @@ async function processReedJob(
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        if (
-            applyStateNeedsSubmitPause(applyState)
-        ) {
+        if (applyStateNeedsSubmitPause(applyState)) {
             const submitReview = await waitForReviewBeforeSubmitIfNeeded(
                 session,
                 tabId,
                 job,
                 {
                     kind: 'submit',
-                    stepFingerprint: applyState.stepFingerprint || 'reed-review',
+                    stepFingerprint:
+                        applyState.stepFingerprint || 'reed-review',
                 },
             );
 
@@ -9150,9 +9235,9 @@ async function processReedJob(
                     const tabUrl = String(tab?.url || '');
                     const tabTitle = String(tab?.title || '');
                     const lostPostSubmitPage =
-                        /404|page not found/i.test(tabTitle)
-                        || /[?&]keywords=/i.test(tabUrl)
-                        || /\/jobs\/jobs-in-/i.test(tabUrl);
+                        /404|page not found/i.test(tabTitle) ||
+                        /[?&]keywords=/i.test(tabUrl) ||
+                        /\/jobs\/jobs-in-/i.test(tabUrl);
 
                     if (lostPostSubmitPage && job?.jobId) {
                         const recoverUrl = buildReedJobOpenUrl(job.jobId, {
@@ -9398,10 +9483,14 @@ async function ensureGlassdoorTab(session) {
     await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(
         () => {},
     );
-    const prepared = await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH', {
-        expectedKeyword: session.roleDescription,
-        expectedLocation: session.filters?.location || null,
-    }).catch(() => ({ searchMatched: false }));
+    const prepared = await sendGlassdoorMessage(
+        tabId,
+        'GLASSDOOR_PREPARE_JOB_SEARCH',
+        {
+            expectedKeyword: session.roleDescription,
+            expectedLocation: session.filters?.location || null,
+        },
+    ).catch(() => ({ searchMatched: false }));
 
     if (prepared?.searchMatched !== true) {
         throw new Error(
@@ -9512,14 +9601,14 @@ async function appendUniqueGlassdoorJobs(tabId, session) {
         const key = canonicalGlassdoorJobKey(job);
 
         if (
-            existingKeys.has(key)
-            || batchSeen.has(key)
-            || outcomeKeys.has(key)
-            || (job.jobId && outcomeKeys.has(`id:${job.jobId}`))
-            || (easyApplyOnly
-                && (job.glassdoorApply === false || job.easyApply === false))
-            || job.alreadyApplied
-            || job.title === 'Unknown role'
+            existingKeys.has(key) ||
+            batchSeen.has(key) ||
+            outcomeKeys.has(key) ||
+            (job.jobId && outcomeKeys.has(`id:${job.jobId}`)) ||
+            (easyApplyOnly &&
+                (job.glassdoorApply === false || job.easyApply === false)) ||
+            job.alreadyApplied ||
+            job.title === 'Unknown role'
         ) {
             return false;
         }
@@ -10050,7 +10139,9 @@ async function processGlassdoorJobInner(
             const tab = await chrome.tabs.get(tabId);
             const title = String(tab?.title || '');
 
-            if (/just a moment|attention required|security check/i.test(title)) {
+            if (
+                /just a moment|attention required|security check/i.test(title)
+            ) {
                 const captchaWait = await waitForIndeedCaptchaResume(
                     session,
                     tabId,
@@ -10206,7 +10297,10 @@ async function processGlassdoorJobInner(
                     observedTitle: smartApplyMatch.observedTitle,
                 },
             });
-            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(
+                tabId,
+                session,
+            );
 
             return {
                 outcome: 'skipped',
@@ -10263,7 +10357,10 @@ async function processGlassdoorJobInner(
                     stage: 'fill_loop',
                 },
             });
-            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(tabId, session);
+            tabId = await leaveStaleIndeedSmartApplyForGlassdoor(
+                tabId,
+                session,
+            );
 
             return {
                 outcome: 'skipped',
@@ -10320,7 +10417,11 @@ async function processGlassdoorJobInner(
                 );
 
                 if (captchaOutcome.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
 
                 if (captchaOutcome.timedOut) {
@@ -10349,8 +10450,9 @@ async function processGlassdoorJobInner(
                 `[review] ${job.title}: attempting submit.`,
             );
 
-            const shouldPauseBeforeSubmit = applyStateNeedsSubmitPause(applyState)
-                || Boolean(applyState.isReviewStep);
+            const shouldPauseBeforeSubmit =
+                applyStateNeedsSubmitPause(applyState) ||
+                Boolean(applyState.isReviewStep);
 
             if (shouldPauseBeforeSubmit) {
                 const submitReview = await waitForReviewBeforeSubmitIfNeeded(
@@ -10359,14 +10461,19 @@ async function processGlassdoorJobInner(
                     job,
                     {
                         kind: 'submit',
-                        stepFingerprint: applyState.stepFingerprint || 'glassdoor-review',
+                        stepFingerprint:
+                            applyState.stepFingerprint || 'glassdoor-review',
                     },
                 );
 
                 session = submitReview.session || session;
 
                 if (submitReview.stopped) {
-                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    return {
+                        outcome: 'stopped',
+                        reason: 'user_input_stop',
+                        tabId,
+                    };
                 }
             }
 
@@ -10396,11 +10503,12 @@ async function processGlassdoorJobInner(
                         break;
                     }
 
-                    const confirmResult = await waitForApplicationSubmitConfirmation(
-                        tabId,
-                        GLASSDOOR_PLATFORM_ID,
-                        session,
-                    ).catch(() => null);
+                    const confirmResult =
+                        await waitForApplicationSubmitConfirmation(
+                            tabId,
+                            GLASSDOOR_PLATFORM_ID,
+                            session,
+                        ).catch(() => null);
 
                     if (confirmResult?.submitted) {
                         await logSession(
@@ -10465,8 +10573,8 @@ async function processGlassdoorJobInner(
                 if (verify?.submitted || reviewState?.submitted) {
                     submitted = true;
                 } else if (
-                    advanceResponse?.error?.includes('captcha')
-                    || reviewState?.captchaPresent
+                    advanceResponse?.error?.includes('captcha') ||
+                    reviewState?.captchaPresent
                 ) {
                     await logSession(
                         'warn',
@@ -10580,8 +10688,11 @@ async function processGlassdoorJobInner(
                 break;
             }
 
-            if (state?.open && state.stepFingerprint
-                && state.stepFingerprint !== applyState.stepFingerprint) {
+            if (
+                state?.open &&
+                state.stepFingerprint &&
+                state.stepFingerprint !== applyState.stepFingerprint
+            ) {
                 await logSession(
                     'info',
                     `[advance] ${job.title}: continued after FILL_AND_ADVANCE timeout.`,
@@ -10657,7 +10768,11 @@ async function processGlassdoorJobInner(
                     metadata: { reason: 'captcha_required' },
                 });
 
-                return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                return {
+                    outcome: 'skipped',
+                    reason: 'captcha_required',
+                    tabId,
+                };
             }
 
             session = captchaOutcome.session || session;
@@ -10668,8 +10783,8 @@ async function processGlassdoorJobInner(
         if (!advanceResponse?.success) {
             // Non-transition Continue is retryable - do not hard-skip the job.
             if (
-                advanceResponse?.action === 'continue'
-                && advanceResponse?.transitioned === false
+                advanceResponse?.action === 'continue' &&
+                advanceResponse?.transitioned === false
             ) {
                 await logSession(
                     'warn',
@@ -10873,8 +10988,11 @@ export async function startAutoApply({
 
         // Force-refresh so tinker/API setting changes are not masked by the
         // 15-minute background profile cache (live LinkedIn pause miss).
-        const profileData = await getProfileForAutoApply({ forceRefresh: true });
-        const profileSettings = extractAutoApplySettingsFromProfile(profileData);
+        const profileData = await getProfileForAutoApply({
+            forceRefresh: true,
+        });
+        const profileSettings =
+            extractAutoApplySettingsFromProfile(profileData);
         const trimmedRole = sanitizeAutoApplyRoleDescription(
             String(roleDescription || '').trim(),
             profileData,
@@ -10886,7 +11004,8 @@ export async function startAutoApply({
             );
         }
 
-        configuredRunDraftAll = typeof runDraftAll === 'function' ? runDraftAll : null;
+        configuredRunDraftAll =
+            typeof runDraftAll === 'function' ? runDraftAll : null;
 
         const resolvedFilters = resolveAutoApplySearchFilters({
             filters,
@@ -10951,7 +11070,10 @@ export async function startAutoApply({
 
             if (hostBinding) {
                 await rememberSidePanelHostTab({
-                    tabId: typeof hostBinding.tabId === 'number' ? hostBinding.tabId : undefined,
+                    tabId:
+                        typeof hostBinding.tabId === 'number'
+                            ? hostBinding.tabId
+                            : undefined,
                     windowId: hostBinding.windowId,
                 });
             }
@@ -10969,11 +11091,13 @@ export async function startAutoApply({
 
             if (typeof hostBinding.tabId === 'number') {
                 try {
-                    const hostTabDetails = await chrome.tabs.get(hostBinding.tabId);
+                    const hostTabDetails = await chrome.tabs.get(
+                        hostBinding.tabId,
+                    );
 
                     if (
-                        hostTabDetails?.url
-                        && urlBelongsToPlatform(hostTabDetails.url, platform)
+                        hostTabDetails?.url &&
+                        urlBelongsToPlatform(hostTabDetails.url, platform)
                     ) {
                         sessionTabId = hostBinding.tabId;
                     }
@@ -10986,7 +11110,10 @@ export async function startAutoApply({
                 }
             }
 
-            if (sessionWindowId && !(await isAutoApplyWindowOpen(sessionWindowId))) {
+            if (
+                sessionWindowId &&
+                !(await isAutoApplyWindowOpen(sessionWindowId))
+            ) {
                 sessionWindowId = null;
                 sessionTabId = null;
             }
@@ -11123,331 +11250,338 @@ async function runIndeedAutoApplyLoop(
     const resumeExisting = options.resumeExisting === true;
     const previousWriteOwner = sessionWriteOwnerRunId;
     sessionWriteOwnerRunId = initialSession.runId;
-    const { ownsLatest, shouldStop: shouldStopOwned } = bindAutoApplyRunOwnership(
-        initialSession,
-        {
+    const { ownsLatest, shouldStop: shouldStopOwned } =
+        bindAutoApplyRunOwnership(initialSession, {
             loadAutoApplySession,
             updateSession,
             logSession,
             shouldStop,
-        },
-    );
+        });
 
     try {
-    resetWatchdog();
+        resetWatchdog();
 
-    let session = initialSession;
-    let tabId = session.tabId && resumeExisting
-        ? session.tabId
-        : await ensureIndeedTab(session);
+        let session = initialSession;
+        let tabId =
+            session.tabId && resumeExisting
+                ? session.tabId
+                : await ensureIndeedTab(session);
 
-    if (await shouldStopOwned(session)) {
-        return;
-    }
-
-    if (resumeExisting && session.queue?.length) {
-        await logSession(
-            'info',
-            'Resuming Indeed Auto Apply from the paused job.',
-        );
-        session = (await updateSession({ tabId, status: 'running' })) || session;
-        markWatchdogProgress(session);
-    } else {
-        session = (await updateSession({ tabId })) || session;
-        markWatchdogProgress(session);
-
-        {
-            const loginPreflight = await ensureBoardLoginBeforeCollect(
-                session,
-                tabId,
-                INDEED_PLATFORM_ID,
-            );
-
-            session = loginPreflight.session || session;
-
-            if (loginPreflight.stopped) {
-                await finalizeStoppedSession();
-
-                return;
-            }
+        if (await shouldStopOwned(session)) {
+            return;
         }
 
-        await logSession('info', 'Collecting Indeed job listings…');
-
-        {
-            const collectOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
-                tabId,
-                session,
+        if (resumeExisting && session.queue?.length) {
+            await logSession(
+                'info',
+                'Resuming Indeed Auto Apply from the paused job.',
             );
-            session = collectOutcome.session || session;
+            session =
+                (await updateSession({ tabId, status: 'running' })) || session;
+            markWatchdogProgress(session);
+        } else {
+            session = (await updateSession({ tabId })) || session;
             markWatchdogProgress(session);
 
-            if (collectOutcome.stopped) {
-                await finalizeStoppedSession();
-
-                return;
-            }
-
-            if (collectOutcome.captchaTimedOut && !session.queue.length) {
-                throw new Error(
-                    'Indeed security check blocked job collection. Solve the CAPTCHA in the Auto Apply window, then start again.',
-                );
-            }
-        }
-
-        if (!session.queue.length) {
-            throw new Error(
-                'No Indeed Apply job listings found on the search page.',
-            );
-        }
-
-        await logSession(
-            'info',
-            session.easyApplyOnly !== false
-                ? `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`
-                : `Found ${session.queue.length} jobs (Indeed Apply filter off; includes external apply).`,
-        );
-    }
-
-    while (
-        (await loadAutoApplySession())?.stats.applied < session.maxApplications
-    ) {
-        session = await loadAutoApplySession();
-
-        if (!ownsLatest(session)) {
-            return;
-        }
-
-        if (session.stopRequested) {
-            await finalizeStoppedSession();
-
-            return;
-        }
-
-        if (session.currentIndex >= session.queue.length) {
-            tabId = await returnToIndeedSearch(tabId, session);
-            session = (await updateSession({ tabId })) || session;
-            await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(
-                () => {},
-            );
-            await sleep(randomDelay(600, 400));
-
-            const nextPage = await sendIndeedMessage(
-                tabId,
-                'INDEED_NEXT_SEARCH_PAGE',
-            );
-
-            if (!nextPage?.success) {
-                await logSession(
-                    'warn',
-                    `No more Indeed search pages (${nextPage?.error || 'pagination unavailable'}).`,
-                );
-                break;
-            }
-
-            await logSession('info', 'Loading next page of Indeed results…');
             {
-                const pageOutcome = await appendUniqueIndeedJobsWithCaptchaPause(
-                    tabId,
+                const loginPreflight = await ensureBoardLoginBeforeCollect(
                     session,
+                    tabId,
+                    INDEED_PLATFORM_ID,
                 );
-                session = pageOutcome.session || session;
+
+                session = loginPreflight.session || session;
+
+                if (loginPreflight.stopped) {
+                    await finalizeStoppedSession();
+
+                    return;
+                }
+            }
+
+            await logSession('info', 'Collecting Indeed job listings…');
+
+            {
+                const collectOutcome =
+                    await appendUniqueIndeedJobsWithCaptchaPause(
+                        tabId,
+                        session,
+                    );
+                session = collectOutcome.session || session;
                 markWatchdogProgress(session);
 
-                if (pageOutcome.stopped) {
+                if (collectOutcome.stopped) {
                     await finalizeStoppedSession();
 
                     return;
                 }
 
-                if (pageOutcome.captchaTimedOut) {
+                if (collectOutcome.captchaTimedOut && !session.queue.length) {
+                    throw new Error(
+                        'Indeed security check blocked job collection. Solve the CAPTCHA in the Auto Apply window, then start again.',
+                    );
+                }
+            }
+
+            if (!session.queue.length) {
+                throw new Error(
+                    'No Indeed Apply job listings found on the search page.',
+                );
+            }
+
+            await logSession(
+                'info',
+                session.easyApplyOnly !== false
+                    ? `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`
+                    : `Found ${session.queue.length} jobs (Indeed Apply filter off; includes external apply).`,
+            );
+        }
+
+        while (
+            (await loadAutoApplySession())?.stats.applied <
+            session.maxApplications
+        ) {
+            session = await loadAutoApplySession();
+
+            if (!ownsLatest(session)) {
+                return;
+            }
+
+            if (session.stopRequested) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
+            if (session.currentIndex >= session.queue.length) {
+                tabId = await returnToIndeedSearch(tabId, session);
+                session = (await updateSession({ tabId })) || session;
+                await sendIndeedMessage(
+                    tabId,
+                    'INDEED_PREPARE_JOB_SEARCH',
+                ).catch(() => {});
+                await sleep(randomDelay(600, 400));
+
+                const nextPage = await sendIndeedMessage(
+                    tabId,
+                    'INDEED_NEXT_SEARCH_PAGE',
+                );
+
+                if (!nextPage?.success) {
                     await logSession(
                         'warn',
-                        'Indeed security check blocked the next search page - stopping collection.',
+                        `No more Indeed search pages (${nextPage?.error || 'pagination unavailable'}).`,
                     );
+                    break;
+                }
+
+                await logSession(
+                    'info',
+                    'Loading next page of Indeed results…',
+                );
+                {
+                    const pageOutcome =
+                        await appendUniqueIndeedJobsWithCaptchaPause(
+                            tabId,
+                            session,
+                        );
+                    session = pageOutcome.session || session;
+                    markWatchdogProgress(session);
+
+                    if (pageOutcome.stopped) {
+                        await finalizeStoppedSession();
+
+                        return;
+                    }
+
+                    if (pageOutcome.captchaTimedOut) {
+                        await logSession(
+                            'warn',
+                            'Indeed security check blocked the next search page - stopping collection.',
+                        );
+                        break;
+                    }
+                }
+
+                if (session.currentIndex >= session.queue.length) {
                     break;
                 }
             }
 
-            if (session.currentIndex >= session.queue.length) {
-                break;
-            }
-        }
+            if (isWatchdogStuck(session)) {
+                if (await shouldStop(session)) {
+                    await finalizeStoppedSession();
 
-        if (isWatchdogStuck(session)) {
+                    return;
+                }
+
+                tabId = await recoverIndeedTab(
+                    tabId,
+                    session,
+                    'No Indeed Auto Apply progress detected',
+                );
+                session = (await updateSession({ tabId })) || session;
+                markWatchdogProgress(session);
+
+                continue;
+            }
+
+            const job = session.queue[session.currentIndex];
+
+            try {
+                const result = await processIndeedJob(
+                    tabId,
+                    job,
+                    runDraftAll,
+                    session,
+                    profileData,
+                );
+
+                if (result.tabId && result.tabId !== tabId) {
+                    tabId = result.tabId;
+                    session = (await updateSession({ tabId })) || session;
+                }
+
+                if (result.outcome === 'stopped') {
+                    await finalizeStoppedSession();
+
+                    return;
+                }
+
+                session =
+                    (await updateSession((current) => {
+                        const stats = { ...current.stats };
+
+                        if (result.outcome === 'applied') {
+                            stats.applied += 1;
+                        } else {
+                            stats.skipped += 1;
+
+                            if (
+                                result.reason === 'low_fit_score' ||
+                                result.reason === 'short_job_description'
+                            ) {
+                                stats.fitSkipped += 1;
+                            }
+                        }
+
+                        const withLog = appendAutoApplyLog(
+                            current,
+                            result.outcome === 'applied' ? 'success' : 'info',
+                            formatJobOutcomeLogMessage(job, result),
+                        );
+                        const withOutcome = recordStructuredJobOutcome(
+                            withLog,
+                            job,
+                            result,
+                        );
+
+                        return {
+                            ...withOutcome,
+                            stats,
+                            currentIndex: current.currentIndex + 1,
+                        };
+                    })) || session;
+
+                markWatchdogProgress(session);
+            } catch (error) {
+                if (
+                    isAutoApplyStopError(error) ||
+                    (await shouldStop(session))
+                ) {
+                    await finalizeStoppedSession();
+
+                    return;
+                }
+
+                await recordAnalyticsEvent(
+                    session,
+                    'error',
+                    job,
+                    {
+                        metadata: {
+                            message: error.message || 'Auto Apply job failed.',
+                        },
+                    },
+                    tabId,
+                );
+
+                session =
+                    (await updateSession((current) => {
+                        const stats = {
+                            ...current.stats,
+                            errors: current.stats.errors + 1,
+                        };
+                        const withLog = appendAutoApplyLog(
+                            current,
+                            'error',
+                            `${job.title}: ${error.message}`,
+                        );
+                        const withOutcome = appendProcessedJobOutcome(
+                            withLog,
+                            job,
+                            AUTO_APPLY_OUTCOME.ERROR,
+                            error.message || 'job_failed',
+                        );
+
+                        return {
+                            ...withOutcome,
+                            stats,
+                            currentIndex: current.currentIndex + 1,
+                            lastError: isExtensionMessagingError(error.message)
+                                ? current.lastError
+                                : error.message,
+                        };
+                    })) || session;
+
+                markWatchdogProgress(session);
+            }
+
+            try {
+                tabId = await returnToIndeedSearch(tabId, session);
+                session = (await updateSession({ tabId })) || session;
+            } catch {
+                // Best-effort return to search between jobs.
+            }
+
             if (await shouldStop(session)) {
                 await finalizeStoppedSession();
 
                 return;
             }
 
-            tabId = await recoverIndeedTab(
-                tabId,
-                session,
-                'No Indeed Auto Apply progress detected',
-            );
-            session = (await updateSession({ tabId })) || session;
-            markWatchdogProgress(session);
-
-            continue;
-        }
-
-        const job = session.queue[session.currentIndex];
-
-        try {
-            const result = await processIndeedJob(
-                tabId,
-                job,
-                runDraftAll,
-                session,
-                profileData,
+            const slept = await interruptibleSleep(
+                randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs),
             );
 
-            if (result.tabId && result.tabId !== tabId) {
-                tabId = result.tabId;
-                session = (await updateSession({ tabId })) || session;
-            }
-
-            if (result.outcome === 'stopped') {
+            if (!slept) {
                 await finalizeStoppedSession();
 
                 return;
             }
-
-            session =
-                (await updateSession((current) => {
-                    const stats = { ...current.stats };
-
-                    if (result.outcome === 'applied') {
-                        stats.applied += 1;
-                    } else {
-                        stats.skipped += 1;
-
-                        if (
-                            result.reason === 'low_fit_score' ||
-                            result.reason === 'short_job_description'
-                        ) {
-                            stats.fitSkipped += 1;
-                        }
-                    }
-
-                    const withLog = appendAutoApplyLog(
-                        current,
-                        result.outcome === 'applied' ? 'success' : 'info',
-                        formatJobOutcomeLogMessage(job, result),
-                    );
-                    const withOutcome = recordStructuredJobOutcome(
-                        withLog,
-                        job,
-                        result,
-                    );
-
-                    return {
-                        ...withOutcome,
-                        stats,
-                        currentIndex: current.currentIndex + 1,
-                    };
-                })) || session;
-
-            markWatchdogProgress(session);
-        } catch (error) {
-            if (
-                isAutoApplyStopError(error) ||
-                (await shouldStop(session))
-            ) {
-                await finalizeStoppedSession();
-
-                return;
-            }
-
-            await recordAnalyticsEvent(
-                session,
-                'error',
-                job,
-                {
-                    metadata: {
-                        message: error.message || 'Auto Apply job failed.',
-                    },
-                },
-                tabId,
-            );
-
-            session =
-                (await updateSession((current) => {
-                    const stats = {
-                        ...current.stats,
-                        errors: current.stats.errors + 1,
-                    };
-                    const withLog = appendAutoApplyLog(
-                        current,
-                        'error',
-                        `${job.title}: ${error.message}`,
-                    );
-                    const withOutcome = appendProcessedJobOutcome(
-                        withLog,
-                        job,
-                        AUTO_APPLY_OUTCOME.ERROR,
-                        error.message || 'job_failed',
-                    );
-
-                    return {
-                        ...withOutcome,
-                        stats,
-                        currentIndex: current.currentIndex + 1,
-                        lastError: isExtensionMessagingError(error.message)
-                            ? current.lastError
-                            : error.message,
-                    };
-                })) || session;
-
-            markWatchdogProgress(session);
         }
 
-        try {
-            tabId = await returnToIndeedSearch(tabId, session);
-            session = (await updateSession({ tabId })) || session;
-        } catch {
-            // Best-effort return to search between jobs.
-        }
+        session = await loadAutoApplySession();
 
-        if (await shouldStop(session)) {
-            await finalizeStoppedSession();
-
+        if (!ownsLatest(session)) {
             return;
         }
 
-        const slept = await interruptibleSleep(
-            randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs),
+        session =
+            (await updateSession((current) => ({
+                ...current,
+                status: current.stopRequested ? 'stopped' : 'completed',
+                finishedAt: new Date().toISOString(),
+            }))) || session;
+
+        await logSession(
+            'success',
+            `Auto Apply finished. Applied: ${session?.stats.applied || 0}, skipped: ${session?.stats.skipped || 0}, fit skipped: ${session?.stats.fitSkipped || 0}, errors: ${session?.stats.errors || 0}.`,
         );
 
-        if (!slept) {
-            await finalizeStoppedSession();
-
-            return;
+        if (session) {
+            await finalizeAutoApplyAnalyticsSession(session);
         }
-    }
-
-    session = await loadAutoApplySession();
-
-    if (!ownsLatest(session)) {
-        return;
-    }
-
-    session =
-        (await updateSession((current) => ({
-            ...current,
-            status: current.stopRequested ? 'stopped' : 'completed',
-            finishedAt: new Date().toISOString(),
-        }))) || session;
-
-    await logSession(
-        'success',
-        `Auto Apply finished. Applied: ${session?.stats.applied || 0}, skipped: ${session?.stats.skipped || 0}, fit skipped: ${session?.stats.fitSkipped || 0}, errors: ${session?.stats.errors || 0}.`,
-    );
-
-    if (session) {
-        await finalizeAutoApplyAnalyticsSession(session);
-    }
     } finally {
         sessionWriteOwnerRunId = previousWriteOwner;
     }
@@ -11466,9 +11600,14 @@ async function runAutoApplyLoop(
     await persistAutoApplyStopRequested(false);
 
     if (initialSession.platform === INDEED_PLATFORM_ID) {
-        return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData, {
-            resumeExisting,
-        });
+        return runIndeedAutoApplyLoop(
+            initialSession,
+            runDraftAll,
+            profileData,
+            {
+                resumeExisting,
+            },
+        );
     }
 
     if (initialSession.platform === TOTALJOBS_PLATFORM_ID) {
@@ -11519,16 +11658,18 @@ async function runAutoApplyLoop(
     resetWatchdog();
 
     let session = initialSession;
-    let tabId = session.tabId && resumeExisting
-        ? session.tabId
-        : await ensureLinkedInTab(session);
+    let tabId =
+        session.tabId && resumeExisting
+            ? session.tabId
+            : await ensureLinkedInTab(session);
 
     if (resumeExisting && session.queue?.length) {
         await logSession(
             'info',
             'Resuming LinkedIn Auto Apply from the paused job.',
         );
-        session = (await updateSession({ tabId, status: 'running' })) || session;
+        session =
+            (await updateSession({ tabId, status: 'running' })) || session;
         markWatchdogProgress(session);
     } else {
         session = (await updateSession({ tabId })) || session;
@@ -11541,7 +11682,9 @@ async function runAutoApplyLoop(
         markWatchdogProgress(session);
 
         if (!session.queue.length) {
-            throw new Error('No LinkedIn job listings found on the search page.');
+            throw new Error(
+                'No LinkedIn job listings found on the search page.',
+            );
         }
 
         await logSession(
@@ -11669,10 +11812,7 @@ async function runAutoApplyLoop(
 
             markWatchdogProgress(session);
         } catch (error) {
-            if (
-                isAutoApplyStopError(error) ||
-                (await shouldStop(session))
-            ) {
+            if (isAutoApplyStopError(error) || (await shouldStop(session))) {
                 await finalizeStoppedSession();
 
                 return;
@@ -11790,6 +11930,8 @@ async function runAutoApplyLoop(
 let profileLoader = null;
 /** @type {((input: { type?: string, sitekey: string, pageUrl: string }) => Promise<{ token: string, provider?: string }>)|null} */
 let captchaSolver = null;
+/** @type {((job: object) => Promise<object|null>)|null} */
+let coverLetterGenerator = null;
 
 export function configureAutoApplyProfileLoader(loader) {
     profileLoader = typeof loader === 'function' ? loader : null;
@@ -11797,6 +11939,43 @@ export function configureAutoApplyProfileLoader(loader) {
 
 export function configureAutoApplyCaptchaSolver(solver) {
     captchaSolver = typeof solver === 'function' ? solver : null;
+}
+
+export function configureAutoApplyCoverLetterGenerator(generator) {
+    coverLetterGenerator = typeof generator === 'function' ? generator : null;
+}
+
+async function generateAutoApplyCoverLetter(job, profileData = null) {
+    if (!coverLetterGenerator) {
+        return {
+            success: false,
+            error: 'Cover-letter generator is unavailable.',
+        };
+    }
+
+    const response = await coverLetterGenerator(job);
+    const text = String(
+        response?.cover_letter || response?.content || '',
+    ).trim();
+    const validation = validateGeneratedCoverLetterText({
+        text,
+        job,
+        profileData,
+    });
+
+    if (!validation.valid) {
+        return {
+            success: false,
+            error: `Generated cover letter failed quality checks: ${validation.reasons.join(', ')}`,
+            reasons: validation.reasons,
+        };
+    }
+
+    return {
+        success: true,
+        text: validation.text,
+        source: 'assist_cover_letter',
+    };
 }
 
 async function getProfileForAutoApply({ forceRefresh = false } = {}) {
@@ -11820,7 +11999,10 @@ function resolveAutoApplyResumeLogMessage(pauseContext) {
         return 'Resuming Auto Apply after sign-in.';
     }
 
-    if (pauseContext?.identityConfirm || pauseContext?.pauseReason === 'identity_confirm') {
+    if (
+        pauseContext?.identityConfirm ||
+        pauseContext?.pauseReason === 'identity_confirm'
+    ) {
         return 'Resuming Auto Apply after contact confirmation.';
     }
 
@@ -11839,12 +12021,16 @@ export async function resumeAutoApplyFromPause() {
     const session = await loadAutoApplySession();
 
     if (!session || session.status !== 'paused_for_input') {
-        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_RESUMED' }).catch(() => {});
+        chrome.runtime
+            .sendMessage({ type: 'AUTO_APPLY_RESUMED' })
+            .catch(() => {});
 
         return session;
     }
 
-    const resumeLogMessage = resolveAutoApplyResumeLogMessage(session.pauseContext);
+    const resumeLogMessage = resolveAutoApplyResumeLogMessage(
+        session.pauseContext,
+    );
     const needsRehydrate = !isAutoApplyRunning();
 
     const resumed = await updateSession((current) =>
@@ -12232,6 +12418,7 @@ const { buildCvLibraryRunnerContext } = createCvLibraryOrchestrator({
     waitForReviewBeforeSubmitIfNeeded,
     waitForCoverLetterInputIfNeeded,
     applyStateNeedsSubmitPause,
+    generateAutoApplyCoverLetter,
 });
 
 const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
