@@ -153,6 +153,7 @@ import { createSimplyHiredOrchestrator } from './simplyhired-orchestrator.js';
 import { runTotalJobsAutoApplyLoop } from './totaljobs-auto-apply-runner.js';
 import {
     buildTotalJobsJobOpenUrl,
+    isTotalJobsAlreadyAppliedState,
     isTotalJobsJobsSearchUrl,
     urlsMatchTotalJobsSearch,
 } from './totaljobs-platform.js';
@@ -7802,6 +7803,21 @@ async function processTotalJobsJob(
         return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
     }
 
+    const preOpenBlacklistGate = await applyJobBlacklistGate(
+        job,
+        session,
+        tabId,
+    );
+
+    if (!preOpenBlacklistGate.proceed) {
+        return {
+            outcome: 'skipped',
+            reason: preOpenBlacklistGate.reason,
+            detail: preOpenBlacklistGate.detail,
+            tabId,
+        };
+    }
+
     await logSession('info', `Opening ${job.title} at ${job.company}`);
     await recordAnalyticsEvent(session, 'job_opened', job);
 
@@ -7899,6 +7915,19 @@ async function processTotalJobsJob(
     await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', {
         light: true,
     }).catch(() => {});
+
+    const initialApplyState = await sendTotalJobsMessage(
+        tabId,
+        'TOTALJOBS_APPLY_STATE',
+    ).catch(() => null);
+
+    if (isTotalJobsAlreadyAppliedState(initialApplyState)) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'already_applied' },
+        });
+
+        return { outcome: 'skipped', reason: 'already_applied', tabId };
+    }
 
     // Totaljobs often one-click submits when Apply is clicked (saved profile).
     // Pause before opening Apply so pause-before-submit cannot be bypassed.

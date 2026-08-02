@@ -3,10 +3,18 @@ import test from 'node:test';
 import {
     buildTotalJobsJobOpenUrl,
     buildTotalJobsJobSearchUrl,
+    isTotalJobsAlreadyAppliedState,
     isTotalJobsJobsSearchUrl,
     readTotalJobsJobIdFromHref,
     urlsMatchTotalJobsSearch,
 } from '../../extension/src/shared/totaljobs-platform.js';
+
+test('isTotalJobsAlreadyAppliedState requires an explicit applied marker', () => {
+    assert.equal(isTotalJobsAlreadyAppliedState({ alreadyApplied: true }), true);
+    assert.equal(isTotalJobsAlreadyAppliedState({ alreadyApplied: false }), false);
+    assert.equal(isTotalJobsAlreadyAppliedState({ submitted: true }), false);
+    assert.equal(isTotalJobsAlreadyAppliedState(null), false);
+});
 
 test('buildTotalJobsJobSearchUrl includes role and location slugs', () => {
     const url = buildTotalJobsJobSearchUrl('Software Engineer', { filters: { location: 'London' } });

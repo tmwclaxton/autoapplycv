@@ -73,6 +73,32 @@ const validationPause = detectUnfilledBlockers(
 assert.equal(validationPause.blocked, true);
 assert.equal(validationPause.reason, 'validation');
 
+const siblingValidationState = {
+    validationErrors: ['Enter a whole number between 0 and 99'],
+    invalidFields: [{
+        label: 'How many years of work experience do you have with embedded systems?',
+        dom: { id: 'numeric-embedded' },
+    }],
+};
+const filledSiblingField = {
+    label: 'How many years of work experience do you have with C?',
+    dom: { id: 'numeric-c' },
+};
+
+assert.equal(
+    findFieldValidationError(siblingValidationState, filledSiblingField),
+    null,
+    'A filled sibling field must not inherit another field validation error',
+);
+assert.equal(
+    findFieldValidationError(
+        siblingValidationState,
+        siblingValidationState.invalidFields[0],
+    ),
+    'Enter a whole number between 0 and 99',
+    'The identified invalid field must retain its validation error',
+);
+
 const pendingAfterAnswer = filterFilledPendingFields(
     [
         { ref: 'f3', label: 'Do you have a degree?' },

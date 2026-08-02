@@ -1,6 +1,14 @@
 export const TOTALJOBS_PLATFORM_ID = 'totaljobs';
 
 /**
+ * @param {object|null|undefined} applyState
+ * @returns {boolean}
+ */
+export function isTotalJobsAlreadyAppliedState(applyState) {
+    return applyState?.alreadyApplied === true;
+}
+
+/**
  * @typedef {Object} TotalJobsSearchFilters
  * @property {string} [location]
  */

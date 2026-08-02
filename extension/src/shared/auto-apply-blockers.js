@@ -184,7 +184,8 @@ export function findFieldValidationError(modalState, field) {
 
     // Indeed often surfaces step-level copy ("Choose an option to continue")
     // without binding it to an inventoriable field - still pause with that text.
-    if (validationErrors.length > 0) {
+    // When invalid fields are identified, do not assign a sibling's error.
+    if (invalidFields.length === 0 && validationErrors.length > 0) {
         const specificError = validationErrors.find(
             (error) => !isGenericValidationMessage(error),
         );
