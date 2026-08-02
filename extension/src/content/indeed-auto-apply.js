@@ -1271,6 +1271,39 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return best.slice(0, 20000);
     }
 
+    function readJobDetailTitle() {
+        const root = readJobViewRoot();
+        const title = root.querySelector(
+            '[data-testid="jobsearch-JobInfoHeader-title"], h2.jobsearch-JobInfoHeader-title, h1.jobsearch-JobInfoHeader-title, [class*="JobInfoHeader-title"]',
+        );
+
+        return normalize(title?.textContent);
+    }
+
+    function jobDetailTitleMatchesExpected(expectedTitle, observedTitle) {
+        const normalizeTitle = (value) =>
+            normalize(value)
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+        const expected = normalizeTitle(expectedTitle);
+        const observed = normalizeTitle(observedTitle);
+
+        if (!expected) {
+            return true;
+        }
+
+        if (!observed) {
+            return false;
+        }
+
+        return (
+            expected === observed
+            || expected.includes(observed)
+            || observed.includes(expected)
+        );
+    }
+
     async function prepareJobDescriptionForRead() {
         await prepareJobView({ light: true });
 
@@ -1280,9 +1313,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
     async function waitForJobDescriptionReady(
         minLength = 200,
         timeoutMs = 20_000,
+        expectedJobId = null,
+        expectedTitle = null,
     ) {
         const deadline = Date.now() + timeoutMs;
         let prepared = false;
+        let description = '';
+        let jobId = null;
+        let title = '';
 
         while (Date.now() < deadline) {
             if (!prepared) {
@@ -1290,16 +1328,45 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 prepared = true;
             }
 
-            const text = readJobDescriptionText();
+            description = readJobDescriptionText();
+            jobId = readJobIdFromDetailView();
+            title = readJobDetailTitle();
+            const jobIdMatches =
+                !expectedJobId
+                || String(jobId || '').toLowerCase()
+                    === String(expectedJobId).toLowerCase();
+            const titleMatches = jobDetailTitleMatchesExpected(
+                expectedTitle,
+                title,
+            );
 
-            if (text.length >= minLength) {
-                return { ready: true, length: text.length };
+            if (description.length >= minLength && jobIdMatches && titleMatches) {
+                return {
+                    ready: true,
+                    length: description.length,
+                    description,
+                    jobId,
+                    title,
+                };
             }
 
             await humanPause(500, 900);
         }
 
-        return { ready: false, length: readJobDescriptionText().length };
+        return {
+            ready: false,
+            length: description.length,
+            description,
+            jobId,
+            title,
+            identityMismatch:
+                Boolean(expectedJobId || expectedTitle)
+                && (
+                    String(jobId || '').toLowerCase()
+                        !== String(expectedJobId || '').toLowerCase()
+                    || !jobDetailTitleMatchesExpected(expectedTitle, title)
+                ),
+        };
     }
 
     async function clickIndeedApply(jobId = null) {

@@ -52,6 +52,16 @@ assert.match(
     /indeedStoredIdentityConflictsWithProfile/,
     'Indeed apply must use shared identity-conflict helper against preticked Indeed draft',
 );
+assert.match(
+    orchestrator,
+    /INDEED_WAIT_FOR_JOB_DESCRIPTION[\s\S]*?jobId: job\?\.jobId[\s\S]*?jobTitle: job\?\.title/,
+    'Indeed fit scoring must wait for the queued job identity',
+);
+assert.match(
+    orchestrator,
+    /fetchIndeedJobDescriptionForFit[\s\S]*?if \(identityMismatch\)[\s\S]*?reason: 'job_unavailable'/,
+    'Indeed fit scoring must reject stale detail content',
+);
 assert.doesNotMatch(
     processIndeedJobBlock,
     /tryAnswerScreenerField|attemptAutoAnswerBlocker/,

@@ -73,6 +73,27 @@ test('Indeed Continue/Submit waits use hydrationPause and stop checks', () => {
     );
 });
 
+test('Indeed description hydration waits for the selected job identity', () => {
+    const source = readFileSync(
+        'extension/src/content/indeed-auto-apply.js',
+        'utf8',
+    );
+    const contentIndex = readFileSync(
+        'extension/src/content/index.js',
+        'utf8',
+    );
+
+    assert.match(source, /function readJobDetailTitle\(/);
+    assert.match(
+        source,
+        /description\.length >= minLength && jobIdMatches && titleMatches/,
+    );
+    assert.match(
+        contentIndex,
+        /message\.jobId \|\| null,[\s\S]*?message\.jobTitle \|\| null/,
+    );
+});
+
 test('SmartApply questions hydrate wait is at least 10s', () => {
     const source = readFileSync('extension/src/background/index.js', 'utf8');
     assert.match(source, /hydrateDeadline = Date\.now\(\) \+ 10_000/);

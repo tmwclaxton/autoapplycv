@@ -6054,17 +6054,31 @@ async function openIndeedJobInner(tabId, job, session) {
 async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
     const deadline = Date.now() + 15_000;
     let description = '';
+    let observedJobMeta = null;
+    let identityMismatch = false;
 
     while (Date.now() < deadline) {
-        await sendIndeedMessage(tabId, 'INDEED_WAIT_FOR_JOB_DESCRIPTION', {
-            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
-        }).catch(() => {});
+        const detailResponse = await sendIndeedMessage(
+            tabId,
+            'INDEED_WAIT_FOR_JOB_DESCRIPTION',
+            {
+                minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+                jobId: job?.jobId || null,
+                jobTitle: job?.title || null,
+            },
+        ).catch(() => null);
+        description = String(detailResponse?.description || '').trim();
+        observedJobMeta = {
+            jobId: detailResponse?.jobId || null,
+            title: detailResponse?.title || null,
+        };
+        identityMismatch = detailResponse?.identityMismatch === true;
 
-        const metaResponse = await fetchJobMetaFromTab(tabId);
-        description = resolveJobDescriptionFromMetaResponse(metaResponse);
-
-        if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
-            return { jobMeta: metaResponse?.job || null, description };
+        if (
+            detailResponse?.success
+            && description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT
+        ) {
+            return { jobMeta: observedJobMeta, description };
         }
 
         await sleep(randomDelay(800, 500));
@@ -6090,18 +6104,38 @@ async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
         const retryDeadline = Date.now() + 15_000;
 
         while (Date.now() < retryDeadline) {
-            const metaResponse = await fetchJobMetaFromTab(tabId);
-            description = resolveJobDescriptionFromMetaResponse(metaResponse);
+            const detailResponse = await sendIndeedMessage(
+                tabId,
+                'INDEED_WAIT_FOR_JOB_DESCRIPTION',
+                {
+                    minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+                    jobId: job?.jobId || null,
+                    jobTitle: job?.title || null,
+                },
+            ).catch(() => null);
+            description = String(detailResponse?.description || '').trim();
+            observedJobMeta = {
+                jobId: detailResponse?.jobId || null,
+                title: detailResponse?.title || null,
+            };
+            identityMismatch = detailResponse?.identityMismatch === true;
 
-            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
-                return { jobMeta: metaResponse?.job || null, description };
+            if (
+                detailResponse?.success
+                && description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT
+            ) {
+                return { jobMeta: observedJobMeta, description };
             }
 
             await sleep(randomDelay(800, 500));
         }
     }
 
-    return { jobMeta: null, description };
+    return {
+        jobMeta: observedJobMeta,
+        description: identityMismatch ? '' : description,
+        identityMismatch,
+    };
 }
 
 async function evaluateIndeedJobFit(tabId, job, session) {
@@ -6115,7 +6149,21 @@ async function evaluateIndeedJobFit(tabId, job, session) {
         return { proceed: true, score: null };
     }
 
-    const { description } = await fetchIndeedJobDescriptionForFit(tabId, job);
+    const {
+        description,
+        jobMeta,
+        identityMismatch,
+    } = await fetchIndeedJobDescriptionForFit(tabId, job);
+
+    if (identityMismatch) {
+        return {
+            proceed: false,
+            reason: 'job_unavailable',
+            detail:
+                `Indeed selected "${jobMeta?.title || 'another job'}" `
+                + `instead of "${job.title}".`,
+        };
+    }
 
     const blacklistWithDescription = await applyJobBlacklistGate(
         job,

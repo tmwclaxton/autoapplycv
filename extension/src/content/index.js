@@ -2763,6 +2763,8 @@
                     void AutoCVApplyIndeedAutoApply.waitForJobDescriptionReady(
                         minLength,
                         20_000,
+                        message.jobId || null,
+                        message.jobTitle || null,
                     )
                         .then((result) =>
                             sendResponse({ success: result.ready, ...result }),
