@@ -80,6 +80,28 @@ assert.ok(
 
 console.log('simplyhired-prepare-sparse-serp.test.mjs: ok');
 
+const selectedDetailWithStaleUnavailableText = load(
+    `<!doctype html><html><body>
+      <div data-testid="searchSerpJob" data-jobkey="selectedJob">
+        <h2 data-testid="searchSerpJobTitle"><a href="/job/selectedJob">Selected role</a></h2>
+      </div>
+      <h1 data-testid="viewJobTitle">Selected role</h1>
+      <iframe title="Job application form"></iframe>
+      <div hidden>Job posting is not available</div>
+    </body></html>`,
+    'https://www.simplyhired.co.uk/search?q=designer&l=London&job=selectedJob',
+);
+
+const selectedDetailResult = await selectedDetailWithStaleUnavailableText.waitForJobDetailReady(
+    'selectedJob',
+    35_000,
+);
+
+assert.equal(selectedDetailResult.success, true);
+assert.equal(selectedDetailResult.jobId, 'selectedJob');
+
+console.log('simplyhired-selected-detail-stale-unavailable.test.mjs: ok');
+
 const unavailable = load(
     `<!doctype html><html><head><title>Job posting is not available</title></head><body>
       <main>Job posting is not available</main>

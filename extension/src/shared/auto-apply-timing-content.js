@@ -15,6 +15,7 @@ var AutoCVApplyTiming = (() => {
     /** Match auto-apply-timing.js INDEED_HYDRATION_MIN_MULTIPLIER (balanced). */
     const HYDRATION_MIN_MULTIPLIER = MULTIPLIERS[3];
     const STOP_REQUESTED_KEY = 'autoApplyStopRequested';
+    const STORAGE_READ_TIMEOUT_MS = 1_000;
 
     /** @type {number|null} */
     let cachedMultiplier = null;
@@ -39,7 +40,19 @@ var AutoCVApplyTiming = (() => {
 
     async function refreshMultiplier() {
         try {
-            const stored = await chrome.storage.session.get([ACTIVE_KEY]);
+            const stored = await Promise.race([
+                chrome.storage.session.get([ACTIVE_KEY]),
+                new Promise((resolve) => {
+                    window.setTimeout(() => resolve(null), STORAGE_READ_TIMEOUT_MS);
+                }),
+            ]);
+
+            if (!stored) {
+                cachedMultiplier = 1;
+
+                return;
+            }
+
             cachedMultiplier = resolveDelayMultiplier(stored[ACTIVE_KEY]);
         } catch {
             cachedMultiplier = 1;

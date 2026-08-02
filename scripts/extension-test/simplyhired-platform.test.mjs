@@ -6,6 +6,7 @@ import {
     buildSimplyHiredJobSearchUrl,
     isSimplyHiredIndeedHandoffUrl,
     isSimplyHiredJobsSearchUrl,
+    isSimplyHiredSelectedJobUrl,
     readSimplyHiredJobIdFromHref,
     urlsMatchSimplyHiredSearch,
 } from '../../extension/src/shared/simplyhired-platform.js';
@@ -108,4 +109,23 @@ test('urlsMatchSimplyHiredSearch matches role and location', () => {
     );
     assert.equal(isSimplyHiredJobsSearchUrl('https://www.simplyhired.co.uk/search?q=developer'), true);
     assert.equal(isSimplyHiredJobsSearchUrl('https://www.simplyhired.co.uk/job/abc'), false);
+});
+
+test('isSimplyHiredSelectedJobUrl recognizes a live SERP detail panel', () => {
+    assert.equal(
+        isSimplyHiredSelectedJobUrl(
+            'https://www.simplyhired.co.uk/search?q=designer&l=London&job=selected-job-id',
+        ),
+        true,
+    );
+    assert.equal(
+        isSimplyHiredSelectedJobUrl(
+            'https://www.simplyhired.co.uk/search?q=designer&l=London',
+        ),
+        false,
+    );
+    assert.equal(
+        isSimplyHiredSelectedJobUrl('https://www.simplyhired.co.uk/job/selected-job-id'),
+        false,
+    );
 });

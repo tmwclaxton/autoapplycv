@@ -147,6 +147,26 @@ export function isSimplyHiredJobsSearchUrl(url) {
 }
 
 /**
+ * SimplyHired renders selected job details inside the search route and records
+ * the active card in the `job` query parameter.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isSimplyHiredSelectedJobUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        return (
+            isSimplyHiredJobsSearchUrl(url)
+            && String(parsed.searchParams.get('job') || '').trim() !== ''
+        );
+    } catch {
+        return false;
+    }
+}
+
+/**
  * @param {string} href
  * @returns {string|null}
  */

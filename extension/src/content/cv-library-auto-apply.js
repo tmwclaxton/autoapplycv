@@ -126,7 +126,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         for (const selector of selectors) {
             const button = document.querySelector(selector);
 
-            if (button instanceof HTMLElement) {
+            if (
+                button instanceof HTMLElement &&
+                isElementVisible(button)
+            ) {
                 await clickElement(button, { quick: true });
                 await humanPause(400, 700);
 
@@ -135,7 +138,10 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
         }
 
         for (const button of document.querySelectorAll('button')) {
-            if (!(button instanceof HTMLElement)) {
+            if (
+                !(button instanceof HTMLElement) ||
+                !isElementVisible(button)
+            ) {
                 continue;
             }
 

@@ -3,6 +3,7 @@ import {
     isCloudflareChallengeUrl,
     isSimplyHiredIndeedHandoffUrl,
     isSimplyHiredJobsSearchUrl,
+    isSimplyHiredSelectedJobUrl,
     SIMPLYHIRED_PLATFORM_ID,
     urlsMatchSimplyHiredSearch,
 } from './simplyhired-platform.js';
@@ -849,7 +850,10 @@ export function createSimplyHiredOrchestrator(deps) {
         }
 
         if (!indeedHandoff) {
-            if (isSimplyHiredJobsSearchUrl(postOpenNav.url)) {
+            if (
+                isSimplyHiredJobsSearchUrl(postOpenNav.url)
+                && !isSimplyHiredSelectedJobUrl(postOpenNav.url)
+            ) {
                 await recordAnalyticsEvent(session, 'skipped', job, {
                     metadata: { reason: 'job_unavailable' },
                 });
@@ -883,7 +887,10 @@ export function createSimplyHiredOrchestrator(deps) {
 
                 if (nav.indeedHandoff || nav.captcha) {
                     indeedHandoff = true;
-                } else if (isSimplyHiredJobsSearchUrl(nav.url)) {
+                } else if (
+                    isSimplyHiredJobsSearchUrl(nav.url)
+                    && !isSimplyHiredSelectedJobUrl(nav.url)
+                ) {
                     await recordAnalyticsEvent(session, 'skipped', job, {
                         metadata: { reason: 'job_unavailable' },
                     });

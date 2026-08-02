@@ -14,3 +14,12 @@ test('CV-Library Easy Apply matches apply-now and 1-click-apply data-qa controls
     assert.match(source, /data-qa\^="1-click-apply"/);
     assert.match(source, /\/job\/apply\//);
 });
+
+test('CV-Library ignores hidden stale cookie controls', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+    const consentBody = source.match(
+        /async function acceptCookieConsent\(\) \{[\s\S]*?^\s{4}\}/m,
+    )?.[0] || '';
+
+    assert.match(consentBody, /isElementVisible\(button\)/);
+});

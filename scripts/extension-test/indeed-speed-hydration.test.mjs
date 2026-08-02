@@ -51,6 +51,11 @@ test('content timing exposes hydrationPause and stop check', () => {
     assert.match(source, /function hydrationPause\(/);
     assert.match(source, /function isAutoApplyStopRequested\(/);
     assert.match(source, /HYDRATION_MIN_MULTIPLIER/);
+    assert.match(
+        source,
+        /Promise\.race\(\[[\s\S]*chrome\.storage\.session\.get[\s\S]*STORAGE_READ_TIMEOUT_MS/,
+        'content timing must fall back when session storage does not answer',
+    );
 });
 
 test('Indeed Continue/Submit waits use hydrationPause and stop checks', () => {
@@ -63,7 +68,7 @@ test('Indeed Continue/Submit waits use hydrationPause and stop checks', () => {
     assert.match(source, /throwIfAutoApplyStopped/);
     assert.match(
         source,
-        /await hydrationPause\(350, 650\)/,
+        /await hydrationPause\(400, 650\)/,
         'Submit discovery must use hydrationPause',
     );
 });

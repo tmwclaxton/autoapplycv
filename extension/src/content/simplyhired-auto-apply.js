@@ -454,12 +454,20 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
             ? href.split('?')[0]
             : (targetId ? `/job/${targetId}` : null);
 
-        // Do not click SERP title links: full /job navigations unload the content
-        // script mid-handler and surface as SELECT_JOB tab-message timeouts.
-        // Orchestrator opens the job URL directly (same pattern as Reed/Totaljobs).
+        if (!(titleLink instanceof HTMLElement)) {
+            return {
+                success: false,
+                needsNavigation: true,
+                jobId: targetId,
+                path,
+            };
+        }
+
+        await clickElement(titleLink, { quick: true });
+
         return {
-            success: false,
-            needsNavigation: true,
+            success: true,
+            needsNavigation: false,
             jobId: targetId,
             path,
         };
@@ -470,16 +478,6 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
-            const unavailable = readUnavailableJobMarker();
-
-            if (unavailable) {
-                return {
-                    success: false,
-                    jobUnavailable: true,
-                    error: unavailable,
-                };
-            }
-
             if (readJobIdFromUrl() === targetId && isSimplyHiredJobPage()) {
                 if (readApplyButton() || readExternalApplyMarker() || hasIndeedApplyIframe()) {
                     return { success: true, jobId: targetId };
@@ -504,6 +502,16 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
                 && (readApplyButton() || readExternalApplyMarker() || hasIndeedApplyIframe())
             ) {
                 return { success: true, jobId: targetId };
+            }
+
+            const unavailable = readUnavailableJobMarker();
+
+            if (unavailable) {
+                return {
+                    success: false,
+                    jobUnavailable: true,
+                    error: unavailable,
+                };
             }
 
             await humanPause(500, 800);

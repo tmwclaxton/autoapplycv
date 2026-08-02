@@ -34,11 +34,7 @@ function findJobCardById(document, jobId) {
     return null;
 }
 
-/**
- * Mirrors SimplyHired selectJobById: never click SERP links (full navigation
- * unloads the content script). Return needsNavigation + path for orchestrator.
- */
-function selectJobById(document, jobId) {
+function selectJobById(document, jobId, click) {
     const targetId = String(jobId || '').trim();
     const match = findJobCardById(document, targetId);
 
@@ -57,27 +53,42 @@ function selectJobById(document, jobId) {
         ? href.split('?')[0]
         : (targetId ? `/job/${targetId}` : null);
 
+    if (!titleLink) {
+        return {
+            success: false,
+            needsNavigation: true,
+            jobId: targetId,
+            path: pathFromHref,
+        };
+    }
+
+    click(titleLink);
+
     return {
-        success: false,
-        needsNavigation: true,
+        success: true,
+        needsNavigation: false,
         jobId: targetId,
         path: pathFromHref,
     };
 }
 
-test('SimplyHired SELECT_JOB returns needsNavigation without requiring a click', () => {
+test('SimplyHired SELECT_JOB keeps Quick Apply in the live detail panel', () => {
     const html = fs.readFileSync(fixturePath, 'utf8');
     const { document } = new JSDOM(html).window;
     const firstCard = document.querySelector('[data-testid="searchSerpJob"]');
     const jobId = firstCard?.getAttribute('data-jobkey')
         || readJobIdFromHref(readJobCardTitleLink(firstCard)?.getAttribute('href') || '');
+    let clicked = false;
 
     assert.ok(jobId, 'fixture should expose a job id');
 
-    const result = selectJobById(document, jobId);
+    const result = selectJobById(document, jobId, () => {
+        clicked = true;
+    });
 
-    assert.equal(result.success, false);
-    assert.equal(result.needsNavigation, true);
+    assert.equal(clicked, true);
+    assert.equal(result.success, true);
+    assert.equal(result.needsNavigation, false);
     assert.equal(result.jobId, jobId);
     assert.ok(result.path?.startsWith('/job/'), `expected /job path, got ${result.path}`);
 });
@@ -85,7 +96,7 @@ test('SimplyHired SELECT_JOB returns needsNavigation without requiring a click',
 test('SimplyHired SELECT_JOB missing card still requests direct navigation', () => {
     const html = fs.readFileSync(fixturePath, 'utf8');
     const { document } = new JSDOM(html).window;
-    const result = selectJobById(document, 'missing-job-id-xyz');
+    const result = selectJobById(document, 'missing-job-id-xyz', () => {});
 
     assert.equal(result.success, false);
     assert.equal(result.needsNavigation, true);
