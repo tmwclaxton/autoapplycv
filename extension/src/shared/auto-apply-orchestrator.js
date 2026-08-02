@@ -12485,6 +12485,7 @@ const { buildSimplyHiredRunnerContext } = createSimplyHiredOrchestrator({
     AUTO_APPLY_DELAY_MS,
     fetchJobMetaFromTab,
     resolveJobDescriptionFromMetaResponse,
+    jobTitlesLooselyMatch,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     applyJobBlacklistGate,
     formatIndeedSkipLogMessage,

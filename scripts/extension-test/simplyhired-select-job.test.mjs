@@ -114,3 +114,28 @@ test('SimplyHired SELECT_JOB timeout maps to needsNavigation for orchestrator', 
     assert.equal(timedOut.needsNavigation, true);
     assert.equal(Boolean(!timedOut.success || timedOut.needsNavigation), true);
 });
+
+test('SimplyHired fit scoring rejects a stale job detail title', () => {
+    const orchestrator = fs.readFileSync(
+        path.resolve('extension/src/shared/simplyhired-orchestrator.js'),
+        'utf8',
+    );
+    const mainOrchestrator = fs.readFileSync(
+        path.resolve('extension/src/shared/auto-apply-orchestrator.js'),
+        'utf8',
+    );
+
+    assert.ok(
+        orchestrator.includes(
+            'deps.jobTitlesLooselyMatch(job?.title, observedJobMeta?.title)',
+        ),
+    );
+    assert.match(
+        orchestrator,
+        /if \(identityMismatch\)[\s\S]*?reason: 'job_unavailable'/,
+    );
+    assert.match(
+        mainOrchestrator,
+        /createSimplyHiredOrchestrator\(\{[\s\S]*?jobTitlesLooselyMatch,/,
+    );
+});

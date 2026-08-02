@@ -626,6 +626,7 @@ export function createSimplyHiredOrchestrator(deps) {
     async function fetchSimplyHiredJobDescriptionForFit(tabId, job = null) {
         const deadline = Date.now() + 15_000;
         let description = '';
+        let observedJobMeta = null;
 
         while (Date.now() < deadline) {
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_WAIT_FOR_JOB_DESCRIPTION', {
@@ -634,11 +635,19 @@ export function createSimplyHiredOrchestrator(deps) {
 
             const metaResponse = await fetchJobMetaFromTab(tabId);
             description = resolveJobDescriptionFromMetaResponse(metaResponse);
+            observedJobMeta = metaResponse?.job || null;
 
-            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
-                return { jobMeta: metaResponse?.job || null, description };
+            if (
+                description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT
+                && (
+                    typeof deps.jobTitlesLooselyMatch !== 'function'
+                    || deps.jobTitlesLooselyMatch(job?.title, observedJobMeta?.title)
+                )
+            ) {
+                return { jobMeta: observedJobMeta, description };
             }
 
+            description = '';
             await sleep(randomDelay(800, 500));
         }
 
@@ -660,16 +669,31 @@ export function createSimplyHiredOrchestrator(deps) {
             while (Date.now() < retryDeadline) {
                 const metaResponse = await fetchJobMetaFromTab(tabId);
                 description = resolveJobDescriptionFromMetaResponse(metaResponse);
+                observedJobMeta = metaResponse?.job || null;
 
-                if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
-                    return { jobMeta: metaResponse?.job || null, description };
+                if (
+                    description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT
+                    && (
+                        typeof deps.jobTitlesLooselyMatch !== 'function'
+                        || deps.jobTitlesLooselyMatch(job?.title, observedJobMeta?.title)
+                    )
+                ) {
+                    return { jobMeta: observedJobMeta, description };
                 }
 
+                description = '';
                 await sleep(randomDelay(800, 500));
             }
         }
 
-        return { jobMeta: null, description };
+        return {
+            jobMeta: observedJobMeta,
+            description,
+            identityMismatch:
+                Boolean(observedJobMeta?.title)
+                && typeof deps.jobTitlesLooselyMatch === 'function'
+                && !deps.jobTitlesLooselyMatch(job?.title, observedJobMeta.title),
+        };
     }
 
     async function evaluateSimplyHiredJobFit(tabId, job, session) {
@@ -685,7 +709,21 @@ export function createSimplyHiredOrchestrator(deps) {
             return { proceed: true, score: null };
         }
 
-        const { description } = await fetchSimplyHiredJobDescriptionForFit(tabId, job);
+        const {
+            description,
+            jobMeta,
+            identityMismatch,
+        } = await fetchSimplyHiredJobDescriptionForFit(tabId, job);
+
+        if (identityMismatch) {
+            return {
+                proceed: false,
+                reason: 'job_unavailable',
+                detail:
+                    `SimplyHired selected "${jobMeta?.title || 'another job'}" `
+                    + `instead of "${job.title}".`,
+            };
+        }
 
         if (typeof deps.applyJobBlacklistGate === 'function') {
             const blacklistWithDescription = await deps.applyJobBlacklistGate(
