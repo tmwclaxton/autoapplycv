@@ -48,6 +48,12 @@ test('CV-Library uses the shared cover-letter generator and fills its result', (
     );
     assert.ok(contentSource.includes('defaultCheckbox.click()'));
     assert.ok(contentSource.includes('customSavedLetterCombobox'));
+    assert.match(
+        source,
+        /hasGeneratedCoverLetter[\s\S]*?COUNT_DRAFTABLE_FIELDS[\s\S]*?shouldSkipDraftAll/,
+    );
+    assert.ok(source.includes('generatedCoverLetterThisStep = true'));
+    assert.ok(!source.includes('coverLetterPauseHandled'));
 });
 
 test('CV-Library empty cover-letter pages skip interactive option harvesting', () => {

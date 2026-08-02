@@ -984,6 +984,8 @@ export function createCvLibraryOrchestrator(deps) {
                 );
             }
 
+            let generatedCoverLetterThisStep = false;
+
             if (
                 applyState.hasCoverLetterInput &&
                 !applyState.hasGeneratedCoverLetter &&
@@ -1043,6 +1045,8 @@ export function createCvLibraryOrchestrator(deps) {
                     );
                 }
 
+                generatedCoverLetterThisStep = true;
+
                 await logSession(
                     'info',
                     `[cover letter] ${job.title}: generated a tailored letter for ${job.company}.`,
@@ -1080,12 +1084,27 @@ export function createCvLibraryOrchestrator(deps) {
 
             await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
 
-            const draftResult = applyState.isReviewStep
+            const hasGeneratedCoverLetter =
+                applyState.hasGeneratedCoverLetter ||
+                generatedCoverLetterThisStep;
+            const generatedCoverInventory =
+                hasGeneratedCoverLetter
+                    ? await sendCvLibraryMessage(
+                          tabId,
+                          'COUNT_DRAFTABLE_FIELDS',
+                      ).catch(() => null)
+                    : null;
+            const shouldSkipDraftAll =
+                applyState.isReviewStep ||
+                (hasGeneratedCoverLetter &&
+                    Number(generatedCoverInventory?.count || 0) === 0);
+            const draftResult = shouldSkipDraftAll
                 ? {
                       pendingFields: [],
                       filledFields: [],
                       skippedFields: [],
                       failedFields: [],
+                      fieldsFilled: 0,
                   }
                 : await runDraftAllForStep(
                       tabId,
@@ -1118,38 +1137,6 @@ export function createCvLibraryOrchestrator(deps) {
 
             if (pauseOutcome.stopped) {
                 return { outcome: 'stopped', reason: 'user_input_stop', tabId };
-            }
-
-            const coverLetterState = postDraftState || applyState;
-
-            if (
-                !coverLetterPauseHandled &&
-                typeof waitForCoverLetterInputIfNeeded === 'function' &&
-                coverLetterState?.hasCoverLetterInput
-            ) {
-                const coverPause = await waitForCoverLetterInputIfNeeded(
-                    session,
-                    tabId,
-                    job,
-                    {
-                        inventoryFields: [
-                            {
-                                label: 'Cover letter',
-                                field_type: 'textarea',
-                            },
-                        ],
-                    },
-                );
-
-                session = coverPause.session || session;
-
-                if (coverPause.stopped) {
-                    return {
-                        outcome: 'stopped',
-                        reason: 'user_input_stop',
-                        tabId,
-                    };
-                }
             }
 
             const submitGateState = postDraftState || applyState;
