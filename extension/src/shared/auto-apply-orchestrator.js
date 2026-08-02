@@ -2829,10 +2829,21 @@ async function collectJobsFromTab(tabId) {
             continue;
         }
 
-        if ((response.jobs?.length || 0) > 0) {
+        const hasHydratedEasyApplyJob = (response.jobs || []).some(
+            (job) =>
+                job?.easyApply === true &&
+                job?.alreadyApplied !== true &&
+                String(job?.jobId || '') !== 'search' &&
+                String(job?.title || '') !== 'Unknown role' &&
+                String(job?.company || '') !== 'Unknown company',
+        );
+
+        if (hasHydratedEasyApplyJob) {
             return response.jobs;
         }
 
+        lastError =
+            'No hydrated LinkedIn Easy Apply job cards were found on the search page.';
         await sleep(1500);
     }
 

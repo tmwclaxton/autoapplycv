@@ -99,4 +99,10 @@ assert(
     'LinkedIn Easy Apply navigation must recover before a click looks hung',
 );
 
+assert.match(
+    orchestratorSource,
+    /hasHydratedEasyApplyJob[\s\S]*?job\?\.easyApply === true[\s\S]*?job\?\.jobId \|\| ''\) !== 'search'[\s\S]*?if \(hasHydratedEasyApplyJob\)/,
+    'LinkedIn collection must wait for a real hydrated Easy Apply card',
+);
+
 console.log('auto-apply linkedin draft step tests passed');
