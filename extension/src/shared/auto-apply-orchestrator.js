@@ -10,6 +10,7 @@ import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
+    filterFilledPendingFields,
     findFieldValidationError,
     isGenericValidationMessage,
     normalizeBlockerField,
@@ -1365,7 +1366,7 @@ async function logSession(level, message, ownerRunId = sessionWriteOwnerRunId) {
 
 const LINKEDIN_SLOW_MESSAGE_TIMEOUT_MS = {
     LINKEDIN_SELECT_JOB: 45_000,
-    LINKEDIN_OPEN_EASY_APPLY: 45_000,
+    LINKEDIN_OPEN_EASY_APPLY: 8_000,
     LINKEDIN_CLICK_EASY_APPLY: 45_000,
     LINKEDIN_WAIT_FOR_JOB_DETAIL: 45_000,
     LINKEDIN_WAIT_FOR_JOB_DESCRIPTION: 45_000,
@@ -2973,38 +2974,76 @@ async function savePendingFieldsForTab(tabId, fields) {
 
 async function enrichDraftResultWithGaps(tabId, draftResult, options = {}) {
     const useStoredPending = options.useStoredPending !== false;
-    const pendingFields = draftResult?.pendingFields?.length
+    let pendingFields = draftResult?.pendingFields?.length
         ? draftResult.pendingFields
         : useStoredPending
           ? await loadPendingFieldsForTab(tabId)
           : [];
 
     let unfilledRequiredFields = draftResult?.unfilledRequiredFields || [];
+    let snapshotElements = [];
+    let formFrameId = null;
 
-    if (unfilledRequiredFields.length === 0) {
+    if (unfilledRequiredFields.length === 0 || pendingFields.length > 0) {
         try {
-            const formFrameId = await findBestFormFrameId(tabId);
+            formFrameId = await findBestFormFrameId(tabId);
             const snapshotResponse = await sendTabMessage(
                 tabId,
                 { type: 'BUILD_FIELD_SNAPSHOT' },
                 formFrameId,
             );
-            const required = (
-                snapshotResponse?.snapshot?.elements || []
-            ).filter((element) => element.required);
+            snapshotElements = snapshotResponse?.snapshot?.elements || [];
+
+            if (unfilledRequiredFields.length === 0) {
+                const required = snapshotElements.filter(
+                    (element) => element.required,
+                );
+                const filterResponse = await sendTabMessage(
+                    tabId,
+                    {
+                        type: 'FILTER_UNFILLED_REQUIRED_FIELDS',
+                        elements: required,
+                    },
+                    formFrameId,
+                );
+                unfilledRequiredFields = (filterResponse?.elements || []).map(
+                    snapshotElementToDraftField,
+                );
+            }
+        } catch {
+            // Best-effort gap detection after Draft All.
+        }
+    }
+
+    if (pendingFields.length > 0 && snapshotElements.length > 0) {
+        try {
+            const pendingRefs = new Set(
+                pendingFields.map((field) => field?.ref).filter(Boolean),
+            );
+            const pendingSnapshotElements = snapshotElements.filter((element) =>
+                pendingRefs.has(element?.ref),
+            );
             const filterResponse = await sendTabMessage(
                 tabId,
                 {
                     type: 'FILTER_UNFILLED_REQUIRED_FIELDS',
-                    elements: required,
+                    elements: pendingSnapshotElements,
                 },
                 formFrameId,
             );
-            unfilledRequiredFields = (filterResponse?.elements || []).map(
-                snapshotElementToDraftField,
+            const unfilledPendingElements = filterResponse?.elements || [];
+            const filteredPendingFields = filterFilledPendingFields(
+                pendingFields,
+                pendingSnapshotElements,
+                unfilledPendingElements,
             );
+
+            if (filteredPendingFields.length !== pendingFields.length) {
+                pendingFields = filteredPendingFields;
+                await savePendingFieldsForTab(tabId, pendingFields);
+            }
         } catch {
-            // Best-effort gap detection after Draft All.
+            // Keep pending fields when their live fill state cannot be verified.
         }
     }
 

@@ -19,7 +19,7 @@ const linkedInJobBody = orchestratorSource.match(
 )?.[0] || '';
 
 assert(
-    linkedInJobBody.includes('const draftResult = await runDraftAllForStep('),
+    linkedInJobBody.includes(': await runDraftAllForStep('),
     'LinkedIn job flow should call runDraftAllForStep',
 );
 
@@ -45,17 +45,16 @@ assert(
     'Draft All should not be in an else branch that skips review/resume steps',
 );
 
-assert(
-    /if \(!isResumeStep\) \{[\s\S]*?ensureStepFilledOrPaused/.test(
-        linkedInJobBody,
-    ),
-    'review steps should run ensureStepFilledOrPaused before submit',
+assert.match(
+    linkedInJobBody,
+    /if \(isReviewStep\) \{[\s\S]*?waitForReviewBeforeSubmitIfNeeded/,
+    'review steps should pause before submit when configured',
 );
 
 assert.match(
     linkedInJobBody,
-    /ensureStepFilledOrPaused\([\s\S]*?\{ useStoredPending: !isReviewStep \}/,
-    'review gap detection should ignore stale stored pending fields',
+    /if \(!isResumeStep && !isReviewStep\) \{[\s\S]*?ensureStepFilledOrPaused/,
+    'question steps should verify Draft All gaps before advancing',
 );
 
 assert.match(
@@ -87,6 +86,17 @@ assert(
 assert(
     !orchestratorSource.includes('advanceType'),
     'LinkedIn advance helper must not reference removed advanceType variable',
+);
+
+const openEasyApplyTimeoutMs = Number(
+    orchestratorSource.match(
+        /LINKEDIN_OPEN_EASY_APPLY:\s*([\d_]+)/,
+    )?.[1]?.replaceAll('_', ''),
+);
+
+assert(
+    openEasyApplyTimeoutMs > 0 && openEasyApplyTimeoutMs <= 10_000,
+    'LinkedIn Easy Apply navigation must recover before a click looks hung',
 );
 
 console.log('auto-apply linkedin draft step tests passed');

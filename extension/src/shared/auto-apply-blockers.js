@@ -420,6 +420,36 @@ export function detectUnfilledBlockers(modalState, draftResult = {}, options = {
 }
 
 /**
+ * Draft All may return a pending field even though its answer landed in the DOM.
+ * Keep fields that are still unfilled, plus fields that are no longer present in
+ * the current snapshot so navigation races do not silently discard them.
+ *
+ * @param {Array<object>} pendingFields
+ * @param {Array<object>} snapshotFields
+ * @param {Array<object>} unfilledFields
+ * @returns {Array<object>}
+ */
+export function filterFilledPendingFields(
+    pendingFields,
+    snapshotFields,
+    unfilledFields,
+) {
+    const snapshotRefs = new Set(
+        (snapshotFields || []).map((field) => field?.ref).filter(Boolean),
+    );
+    const unfilledRefs = new Set(
+        (unfilledFields || []).map((field) => field?.ref).filter(Boolean),
+    );
+
+    return (pendingFields || []).filter(
+        (field) =>
+            !field?.ref ||
+            !snapshotRefs.has(field.ref) ||
+            unfilledRefs.has(field.ref),
+    );
+}
+
+/**
  * @param {{ label?: string, question?: string }} field
  * @param {object|null|undefined} [profileData]
  * @returns {string}

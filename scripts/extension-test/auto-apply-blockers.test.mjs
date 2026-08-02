@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {
     detectUnfilledBlockers,
+    filterFilledPendingFields,
     findFieldValidationError,
 } from '../../extension/src/shared/auto-apply-blockers.js';
 
@@ -71,5 +72,26 @@ const validationPause = detectUnfilledBlockers(
 );
 assert.equal(validationPause.blocked, true);
 assert.equal(validationPause.reason, 'validation');
+
+const pendingAfterAnswer = filterFilledPendingFields(
+    [
+        { ref: 'f3', label: 'Do you have a degree?' },
+        { ref: 'f4', label: 'Do you have product experience?' },
+        { ref: 'stale-frame', label: 'Field from a previous frame' },
+    ],
+    [
+        { ref: 'f3' },
+        { ref: 'f4' },
+    ],
+    [
+        { ref: 'f3' },
+    ],
+);
+
+assert.deepEqual(
+    pendingAfterAnswer.map((field) => field.ref),
+    ['f3', 'stale-frame'],
+    'pending fields already filled in the live DOM must not pause Auto Apply again',
+);
 
 console.log('auto-apply blockers tests passed');

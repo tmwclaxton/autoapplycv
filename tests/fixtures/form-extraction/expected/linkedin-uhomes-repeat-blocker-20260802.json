@@ -1,0 +1,352 @@
+{
+  "id": "linkedin-uhomes-repeat-blocker-20260802",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "¿has obtenido el siguiente título: grado/licenciatura?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Sí",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648090,multipleChoice)-0",
+        "name": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648090,multipleChoice)",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "¿puedes trabajar presencialmente?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Sí",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648082,multipleChoice)-0",
+        "name": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648082,multipleChoice)",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "¿necesitas que una empresa te tramite el permiso de trabajo ahora o en el futuro?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Sí",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648066,multipleChoice)-0",
+        "name": "urn:li:fsd_formElement:urn:li:jobs_applyformcommon_easyApplyFormElement:(4447296355,34805648066,multipleChoice)",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have a bachelor’s or master’s degree from a reputable university, preferably in: computer science, data science, software engineering, ai, computer engineering or any other engineering?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Selecciona una opción",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "text-entity-list-form-component-formElement-urn-li-jobs-applyformcommon-easyApplyFormElement-4447296355-34805648074-multipleChoice",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have more than 2 years of profesional experience in product management (web or mobile), preferably with consumer internet products, ai-powered products, llms, ai agents, or ai-driven?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Selecciona una opción",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "text-entity-list-form-component-formElement-urn-li-jobs-applyformcommon-easyApplyFormElement-4447296355-34805648058-multipleChoice",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: distance",
+      "field_type": "range",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "range",
+        "id": "distance-filter-bar-slider",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "5",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: date posted",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Any time Filter by Any time",
+        "Past month Filter by Past month",
+        "Past week Filter by Past week",
+        "Past 24 hours Filter by Past 24 hours"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "timePostedRange-",
+        "name": "date-posted-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: experience level",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Internship Filter by Internship",
+        "Entry level Filter by Entry level",
+        "Associate Filter by Associate",
+        "Mid-Senior level Filter by Mid-Senior level",
+        "Director Filter by Director",
+        "Executive Filter by Executive"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "experience-1",
+        "name": "experience-level-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: salary",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "£20,000+ Filter by £20,000+",
+        "£30,000+ Filter by £30,000+",
+        "£40,000+ Filter by £40,000+",
+        "£50,000+ Filter by £50,000+",
+        "£60,000+ Filter by £60,000+",
+        "£70,000+ Filter by £70,000+",
+        "£80,000+ Filter by £80,000+",
+        "£90,000+ Filter by £90,000+",
+        "£100,000+ Filter by £100,000+"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "salaryBucketV2-41",
+        "name": "salary-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: company",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "Add a company",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "filter results by: remote",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hybrid Filter by Hybrid",
+        "On-site Filter by On-site",
+        "Remote Filter by Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "workplaceType-3",
+        "name": "remote-filter-value",
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "set job alert for product manager in london",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Set job alert for Product manager in London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "adToggle_ember29",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search by title, skill, or company",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jobs-search-box-keyword-id-ember100",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city, state, or zip code",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jobs-search-box-location-id-ember100",
+        "name": null,
+        "data_testid": null,
+        "sr_data_test": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Review your application"
+    }
+  ],
+  "vet_notes": []
+}
