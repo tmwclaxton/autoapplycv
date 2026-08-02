@@ -45,4 +45,17 @@ test('open-time external discovery reuses pause-on-external gate', () => {
         reedOpenFailure,
         /openResult\.skipReason === 'no_reed_apply'[\s\S]*?skipAfterDiscoveredExternalApply\([\s\S]*?'no_reed_apply'/,
     );
+
+    const glassdoorAvailabilityStart = source.indexOf(
+        'const applyAvailability = await sendGlassdoorMessage(',
+    );
+    const glassdoorAvailability = source.slice(
+        glassdoorAvailabilityStart,
+        source.indexOf('const fitSession', glassdoorAvailabilityStart),
+    );
+
+    assert.match(
+        glassdoorAvailability,
+        /applyAvailability\?\.easyApply === false[\s\S]*?skipAfterDiscoveredExternalApply\([\s\S]*?'no_glassdoor_apply'/,
+    );
 });

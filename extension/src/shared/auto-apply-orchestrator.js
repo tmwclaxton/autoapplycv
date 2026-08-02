@@ -10080,18 +10080,15 @@ async function processGlassdoorJobInner(
         applyAvailability?.easyApply === false ||
         !applyAvailability?.hasApplyButton
     ) {
-        await recordAnalyticsEvent(session, 'skipped', job, {
-            metadata: { reason: 'no_glassdoor_apply' },
-        });
-
-        return {
-            outcome: 'skipped',
-            reason: 'no_glassdoor_apply',
-            detail: applyAvailability?.externalApply
+        return skipAfterDiscoveredExternalApply(
+            session,
+            tabId,
+            job,
+            'no_glassdoor_apply',
+            applyAvailability?.externalApply
                 ? 'Job uses external apply, not Easy Apply.'
                 : 'Glassdoor Easy Apply button not found on job page.',
-            tabId,
-        };
+        );
     }
 
     const fitSession = await loadAutoApplySession();
