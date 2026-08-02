@@ -23,3 +23,19 @@ test('CV-Library ignores hidden stale cookie controls', () => {
 
     assert.match(consentBody, /isElementVisible\(button\)/);
 });
+
+test('CV-Library visible application controls override stale login copy', () => {
+    const source = readFileSync(SOURCE, 'utf8');
+    const healthBody = source.match(
+        /async function scanPageHealth\(\) \{[\s\S]*?^\s{4}\}/m,
+    )?.[0] || '';
+
+    assert.match(
+        healthBody,
+        /hasInteractiveApplication[\s\S]*findContinueButton\(\)[\s\S]*findSubmitButton\(\)/,
+    );
+    assert.match(
+        healthBody,
+        /!hasInteractiveApplication[\s\S]*login to start your application/,
+    );
+});

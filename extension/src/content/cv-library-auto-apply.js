@@ -932,7 +932,19 @@ var AutoCVApplyCvLibraryAutoApply = (() => {
             };
         }
 
-        if (isCvLibraryLoginPage() || (/login to start your application/i.test(bodyText) && isCvLibraryApplyFlowPage())) {
+        const hasInteractiveApplication = !isCvLibraryLoginPage()
+            && Boolean(findContinueButton() || findSubmitButton());
+
+        if (
+            !hasInteractiveApplication
+            && (
+                isCvLibraryLoginPage()
+                || (
+                    /login to start your application/i.test(bodyText)
+                    && isCvLibraryApplyFlowPage()
+                )
+            )
+        ) {
             return {
                 ok: false,
                 primary: {
