@@ -139,3 +139,72 @@ test('SimplyHired fit scoring rejects a stale job detail title', () => {
         /createSimplyHiredOrchestrator\(\{[\s\S]*?jobTitlesLooselyMatch,/,
     );
 });
+
+test('SimplyHired Quick Apply returns before its navigation closes the message channel', async () => {
+    const source = fs.readFileSync(
+        path.resolve('extension/src/content/simplyhired-auto-apply.js'),
+        'utf8',
+    );
+    const dom = new JSDOM(
+        '<a data-testid="viewJobHeaderFooterApplyButton" data-mdref="/out?r=tracked-quick-apply" href="/out?r=live-quick-apply">Quick Apply</a>',
+        {
+            runScripts: 'dangerously',
+            url: 'https://www.simplyhired.com/search?q=product+designer',
+        },
+    );
+    const { window } = dom;
+    let clicked = false;
+    let pauseCount = 0;
+
+    window.HTMLElement.prototype.getClientRects = () => [{}];
+    window.HTMLElement.prototype.scrollIntoView = () => {};
+    window.AutoCVApplyTiming = {
+        humanPause: async () => {
+            pauseCount += 1;
+        },
+    };
+    window.document
+        .querySelector('[data-testid="viewJobHeaderFooterApplyButton"]')
+        .addEventListener('click', (event) => {
+            event.preventDefault();
+            clicked = true;
+        });
+    window.eval(source);
+
+    const result =
+        await window.AutoCVApplySimplyHiredAutoApply.clickSimplyHiredApply();
+
+    assert.equal(clicked, true);
+    assert.deepEqual(
+        JSON.parse(JSON.stringify(result)),
+        {
+            success: true,
+            quickApply: true,
+            clicked: true,
+            navigating: true,
+            navigationUrl: '/out?r=tracked-quick-apply',
+        },
+    );
+    assert.equal(
+        pauseCount,
+        2,
+        'navigating Quick Apply links must not wait for an iframe after click',
+    );
+    window.close();
+});
+
+test('SimplyHired orchestrator directly follows a Quick Apply link when synthetic click is ignored', () => {
+    const orchestrator = fs.readFileSync(
+        path.resolve('extension/src/shared/simplyhired-orchestrator.js'),
+        'utf8',
+    );
+
+    assert.match(
+        orchestrator,
+        /applyResponse\?\.navigating && applyResponse\?\.navigationUrl/,
+    );
+    assert.match(
+        orchestrator,
+        /embeddedApplyState\?\.open[\s\S]*?chrome\.tabs\.update\(tabId, \{ url: targetUrl \}\)/,
+    );
+});

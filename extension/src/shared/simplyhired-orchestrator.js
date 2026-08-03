@@ -973,6 +973,31 @@ export function createSimplyHiredOrchestrator(deps) {
 
             const applyResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_OPEN_APPLY');
 
+            if (applyResponse?.navigating && applyResponse?.navigationUrl) {
+                const afterSyntheticClick = await inspectSimplyHiredNavigation(tabId);
+                const embeddedApplyState = await sendTabMessage(
+                    tabId,
+                    { type: 'INDEED_APPLY_STATE' },
+                    0,
+                ).catch(() => null);
+
+                if (embeddedApplyState?.open) {
+                    indeedHandoff = true;
+                } else if (
+                    !afterSyntheticClick.indeedHandoff
+                    && !afterSyntheticClick.captcha
+                ) {
+                    const targetUrl = new URL(
+                        applyResponse.navigationUrl,
+                        afterSyntheticClick.url,
+                    ).href;
+
+                    await chrome.tabs.update(tabId, { url: targetUrl });
+                    await waitForTabLoadComplete(tabId);
+                    invalidateTabFrameCache(tabId);
+                }
+            }
+
             if (applyResponse?.indeedHandoff || applyResponse?.captcha) {
                 indeedHandoff = true;
 

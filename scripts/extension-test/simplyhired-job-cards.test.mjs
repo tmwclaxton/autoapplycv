@@ -7,6 +7,9 @@ import { JSDOM } from 'jsdom';
 const fixturePath = path.resolve(
     'tests/fixtures/form-extraction/html/web-www-simplyhired-com-search.html',
 );
+const liveQuickApplyFixturePath = path.resolve(
+    'tests/fixtures/form-extraction/html/simplyhired-quick-apply-shade-20260803.html',
+);
 
 function normalize(text) {
     return String(text || '').replace(/\s+/g, ' ').trim();
@@ -71,5 +74,24 @@ test('SimplyHired live search fixture exposes Quick Apply cards with titles', ()
     assert.ok(
         jobs.some((job) => /relocation agent/i.test(job.title)),
         'fixture should include a known job title',
+    );
+});
+
+test('SimplyHired live Quick Apply fixture exposes navigational apply links', () => {
+    const html = fs.readFileSync(liveQuickApplyFixturePath, 'utf8');
+    const { document } = new JSDOM(html).window;
+    const jobs = collectQuickApplyJobs(document);
+    const quickApplyLink = document.querySelector(
+        'a[data-testid="viewJobHeaderFooterApplyButton"]',
+    );
+
+    assert.ok(jobs.length >= 3, `expected at least three Quick Apply jobs, got ${jobs.length}`);
+    assert.equal(
+        quickApplyLink?.textContent.trim(),
+        'Quick Apply',
+    );
+    assert.match(
+        quickApplyLink?.getAttribute('href') || '',
+        /^\/out\?/,
     );
 });

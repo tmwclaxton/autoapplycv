@@ -384,8 +384,25 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
             const applyButton = readApplyButton();
 
             if (applyButton) {
+                const href = applyButton.getAttribute('href') || '';
+                const navigationUrl =
+                    applyButton.getAttribute('data-mdref') || href;
+                const navigatesToApply =
+                    /^\/out\?/i.test(navigationUrl)
+                    || /indeedapply|smartapply/i.test(navigationUrl);
+
                 await scrollIntoViewHuman(applyButton);
                 await clickElement(applyButton, { quick: false });
+
+                if (navigatesToApply) {
+                    return {
+                        success: true,
+                        quickApply: true,
+                        clicked: true,
+                        navigating: true,
+                        navigationUrl,
+                    };
+                }
 
                 const iframeDeadline = Date.now() + 18_000;
 
@@ -395,12 +412,6 @@ var AutoCVApplySimplyHiredAutoApply = (() => {
                     }
 
                     await humanPause(500, 800);
-                }
-
-                const href = applyButton.getAttribute('href') || '';
-
-                if (/^\/out\?/i.test(href) || /indeedapply|smartapply/i.test(href)) {
-                    return { success: true, quickApply: true, clicked: true, navigating: true };
                 }
 
                 return { success: true, quickApply: true, clicked: true };
