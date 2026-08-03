@@ -29,7 +29,7 @@ class SyntheticAnalyticsService
         );
 
         if ($cvsParsed === null) {
-            $chance = (float) config('analytics.synthetic_cvs_parsed_hourly_chance', 0.12);
+            $chance = (float) config('analytics.synthetic_cvs_parsed_hourly_chance', 0.02);
             $cvsParsed = (mt_rand(1, 10000) / 10000) <= $chance ? 1 : 0;
         }
 
@@ -116,7 +116,7 @@ class SyntheticAnalyticsService
 
     public function expectedDailyCvsParsed(): float
     {
-        return (float) config('analytics.synthetic_cvs_parsed_hourly_chance', 0.12) * 24;
+        return (float) config('analytics.synthetic_cvs_parsed_hourly_chance', 0.02) * 24;
     }
 
     private function todayStat(): AutofillSyntheticDailyStat

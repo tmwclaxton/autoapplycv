@@ -24,8 +24,9 @@ return [
     /*
      * CV parses are rarer than answers. Each hour has this chance (0-1) of
      * recording one synthetic parse when the hourly job runs.
+     * 0.02 ≈ 0.5 expected synthetic CVs/day (was 0.12 ≈ 2.9/day).
      */
-    'synthetic_cvs_parsed_hourly_chance' => 0.12,
+    'synthetic_cvs_parsed_hourly_chance' => 0.02,
 
     'synthetic_backfill_days' => 30,
 
