@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\User;
 use App\Services\NanoGptService;
 use App\Support\AiAssistCosts;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

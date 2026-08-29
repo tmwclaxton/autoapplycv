@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\GoCardlessService;
@@ -9,7 +10,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Inertia\Support\Header;
 use InvalidArgumentException;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

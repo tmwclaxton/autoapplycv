@@ -3,12 +3,12 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\ExtensionAutoApplyEventType;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\ExtensionAutoApplyEvent;
 use App\Models\ExtensionAutoApplySession;
 use App\Models\ExtensionPageCapture;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Tests\TestCase;
 
 class AdminDashboardTest extends TestCase

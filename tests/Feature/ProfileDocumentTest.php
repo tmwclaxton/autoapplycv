@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\ProfileDocumentCategory;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\CvUpload;
 use App\Models\ProfileDocument;
 use App\Models\User;
@@ -11,7 +12,6 @@ use App\Services\CvParserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
