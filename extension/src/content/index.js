@@ -2213,9 +2213,30 @@
                         return;
                     }
 
+                    const jobs =
+                        AutoCVApplyLinkedInAutoApply.collectJobCards();
+                    const selectorMatches =
+                        typeof AutoCVApplyLinkedInAutoApply.collectJobCardDiagnostics ===
+                        'function'
+                            ? AutoCVApplyLinkedInAutoApply.collectJobCardDiagnostics()
+                            : [];
+
+                    if (!jobs.length) {
+                        contentLog(
+                            'warn',
+                            'linkedin.collect-cards',
+                            'No LinkedIn job cards parsed from search page',
+                            {
+                                selectorMatches,
+                                href: location.href,
+                            },
+                        );
+                    }
+
                     sendResponse({
                         success: true,
-                        jobs: AutoCVApplyLinkedInAutoApply.collectJobCards(),
+                        jobs,
+                        selectorMatches,
                     });
 
                     return;

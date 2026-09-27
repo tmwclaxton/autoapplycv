@@ -19,6 +19,18 @@ class LinkedInAutoApplyTest extends TestCase
         );
     }
 
+    public function test_linkedin_sdui_job_cards_unit_script_passes(): void
+    {
+        $result = Process::path(base_path())
+            ->timeout(60)
+            ->run(['node', 'scripts/extension-test/linkedin-sdui-job-cards.test.mjs']);
+
+        $this->assertTrue(
+            $result->successful(),
+            'LinkedIn SDUI job cards unit script failed:'."\n".$result->errorOutput().$result->output(),
+        );
+    }
+
     public function test_auto_apply_fit_unit_script_passes(): void
     {
         $result = Process::path(base_path())

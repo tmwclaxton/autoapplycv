@@ -1,8 +1,9 @@
 /**
  * Pure LinkedIn parser exposed to content script (classic script global).
+ * Keep in sync with extension/src/shared/linkedin-platform.js card helpers.
  */
 var AutoCVApplyLinkedInParser = (() => {
-    const JOB_CARD_SELECTORS = [
+    const LEGACY_JOB_CARD_SELECTORS = [
         'li.scaffold-layout__list-item[data-occludable-job-id]',
         'li.jobs-search-results__list-item',
         'div.job-card-container[data-job-id]',
@@ -11,23 +12,16 @@ var AutoCVApplyLinkedInParser = (() => {
         'div.job-card-list__entity-lockup',
     ];
 
-    const EASY_APPLY_TEXT = /\beasy\s+apply\b/i;
-    const APPLIED_TEXT = /\bapplied\b/i;
+    const SDUI_JOB_CARD_SELECTORS = [
+        '[componentkey^="job-card-component-ref-"][role="button"]',
+        'div[role="button"][componentkey^="job-card-component-ref-"]',
+        '[componentkey^="job-card-component-ref-"]',
+    ];
 
-    function readJobIdFromCard(root) {
-        const directId = root.getAttribute('data-occludable-job-id')
-            || root.getAttribute('data-job-id')
-            || root.querySelector('[data-job-id]')?.getAttribute('data-job-id');
-
-        if (directId) {
-            return String(directId);
-        }
-
-        const link = root.querySelector('a[href*="/jobs/view/"]');
-        const match = link?.getAttribute('href')?.match(/\/jobs\/view\/(\d+)/);
-
-        return match?.[1] || null;
-    }
+    const JOB_CARD_SELECTORS = [
+        ...SDUI_JOB_CARD_SELECTORS,
+        ...LEGACY_JOB_CARD_SELECTORS,
+    ];
 
     const JOB_TITLE_SELECTORS = [
         '.job-card-list__title-link strong',
@@ -51,13 +45,165 @@ var AutoCVApplyLinkedInParser = (() => {
         '.job-card-container__company-name a',
     ];
 
+    const EASY_APPLY_TEXT = /\beasy\s+apply\b/i;
+    const APPLIED_TEXT = /\bapplied\b/i;
+    const SDUI_JOB_CARD_KEY_PATTERN = /job-card-component-ref-(\d+)/i;
+    const SELECTED_TITLE_PREFIX = /^selected,\s*/i;
+
+    function readJobIdFromComponentKey(componentKey) {
+        const match = String(componentKey || '').match(SDUI_JOB_CARD_KEY_PATTERN);
+
+        return match?.[1] || null;
+    }
+
+    function isDomElement(node) {
+        return Boolean(
+            node
+            && node.nodeType === 1
+            && typeof node.getAttribute === 'function'
+            && typeof node.closest === 'function',
+        );
+    }
+
+    function resolveSduiJobCardRoot(node) {
+        if (!isDomElement(node)) {
+            return node;
+        }
+
+        const jobId = readJobIdFromComponentKey(node.getAttribute('componentkey'));
+
+        if (!jobId) {
+            return node;
+        }
+
+        const withRole = node.closest(
+            `[componentkey="job-card-component-ref-${jobId}"][role="button"]`,
+        );
+
+        if (withRole) {
+            return withRole;
+        }
+
+        return (
+            node.closest(`[componentkey="job-card-component-ref-${jobId}"]`) || node
+        );
+    }
+
+    function readJobIdFromCard(root) {
+        if (!root || typeof root.getAttribute !== 'function') {
+            return null;
+        }
+
+        const fromComponentKey = readJobIdFromComponentKey(
+            root.getAttribute('componentkey'),
+        );
+
+        if (fromComponentKey) {
+            return fromComponentKey;
+        }
+
+        const nestedKey = root
+            .querySelector?.('[componentkey^="job-card-component-ref-"]')
+            ?.getAttribute('componentkey');
+        const fromNested = readJobIdFromComponentKey(nestedKey);
+
+        if (fromNested) {
+            return fromNested;
+        }
+
+        const directId = root.getAttribute('data-occludable-job-id')
+            || root.getAttribute('data-job-id')
+            || root.querySelector('[data-job-id]')?.getAttribute('data-job-id');
+
+        if (directId) {
+            return String(directId);
+        }
+
+        const link = root.querySelector('a[href*="/jobs/view/"]');
+        const match = link?.getAttribute('href')?.match(/\/jobs\/view\/(\d+)/);
+
+        return match?.[1] || null;
+    }
+
+    function readSduiJobCardTextFields(root) {
+        const paragraphs = [...(root.querySelectorAll?.('p') || [])];
+        let title = null;
+        let company = null;
+        let location = null;
+
+        for (const paragraph of paragraphs) {
+            if (!isDomElement(paragraph)) {
+                continue;
+            }
+
+            const raw = paragraph.textContent?.replace(/\s+/g, ' ').trim() || '';
+
+            if (
+                !raw
+                || /^posted\b/i.test(raw)
+                || EASY_APPLY_TEXT.test(raw)
+                || /\bconnection[s]?\s+work/i.test(raw)
+                || /^·$/.test(raw)
+            ) {
+                continue;
+            }
+
+            const ariaHidden = paragraph
+                .querySelector('span[aria-hidden="true"]')
+                ?.textContent?.replace(/\s+/g, ' ')
+                .trim();
+            const candidate = (ariaHidden || raw).replace(SELECTED_TITLE_PREFIX, '').trim();
+
+            if (!candidate || /^\d+$/.test(candidate)) {
+                continue;
+            }
+
+            if (!title) {
+                title = candidate;
+                continue;
+            }
+
+            if (!company) {
+                company = candidate;
+                continue;
+            }
+
+            if (!location) {
+                location = candidate;
+                break;
+            }
+        }
+
+        return { title, company, location };
+    }
+
     function readJobTitleFromCard(root) {
+        const sdui = readSduiJobCardTextFields(root);
+
+        if (sdui.title && sdui.title.length > 1) {
+            return sdui.title;
+        }
+
         for (const selector of JOB_TITLE_SELECTORS) {
             const titleEl = root.querySelector(selector);
             const text = titleEl?.textContent?.replace(/\s+/g, ' ').trim();
 
             if (text && text.length > 1 && !/^\d+$/.test(text)) {
-                return text;
+                return text.replace(SELECTED_TITLE_PREFIX, '').trim();
+            }
+        }
+
+        const dismiss = root.querySelector?.('button[aria-label^="Dismiss "]');
+        const dismissLabel = dismiss?.getAttribute('aria-label')?.replace(/\s+/g, ' ').trim();
+
+        if (dismissLabel) {
+            const fromDismiss = dismissLabel
+                .replace(/^Dismiss\s+/i, '')
+                .replace(/\s+job$/i, '')
+                .trim();
+
+            if (fromDismiss.length > 1) {
+                return fromDismiss;
             }
         }
 
@@ -80,6 +226,12 @@ var AutoCVApplyLinkedInParser = (() => {
     }
 
     function readCompanyFromCard(root) {
+        const sdui = readSduiJobCardTextFields(root);
+
+        if (sdui.company && sdui.company.length > 1) {
+            return sdui.company;
+        }
+
         for (const selector of JOB_COMPANY_SELECTORS) {
             const companyEl = root.querySelector(selector);
             const text = companyEl?.textContent?.replace(/\s+/g, ' ').trim();
@@ -120,13 +272,25 @@ var AutoCVApplyLinkedInParser = (() => {
         return Boolean(root.querySelector('.jobs-apply-button--applied, [aria-label*="Applied"]'));
     }
 
+    function countLinkedInJobCardSelectorMatches(rootDocument) {
+        if (!rootDocument || typeof rootDocument.querySelectorAll !== 'function') {
+            return JOB_CARD_SELECTORS.map((selector) => ({ selector, count: 0 }));
+        }
+
+        return JOB_CARD_SELECTORS.map((selector) => ({
+            selector,
+            count: rootDocument.querySelectorAll(selector).length,
+        }));
+    }
+
     function parseLinkedInJobCards(document) {
         const seen = new Set();
         const cards = [];
 
         for (const selector of JOB_CARD_SELECTORS) {
             for (const node of document.querySelectorAll(selector)) {
-                const jobId = readJobIdFromCard(node);
+                const root = resolveSduiJobCardRoot(node);
+                const jobId = readJobIdFromCard(root);
 
                 if (!jobId || seen.has(jobId)) {
                     continue;
@@ -134,12 +298,15 @@ var AutoCVApplyLinkedInParser = (() => {
 
                 seen.add(jobId);
 
+                const sdui = readSduiJobCardTextFields(root);
+
                 cards.push({
                     jobId,
-                    title: readJobTitleFromCard(node),
-                    company: readCompanyFromCard(node),
-                    easyApply: jobCardHasEasyApply(node),
-                    alreadyApplied: jobCardIsAlreadyApplied(node),
+                    title: readJobTitleFromCard(root),
+                    company: readCompanyFromCard(root),
+                    location: sdui.location || null,
+                    easyApply: jobCardHasEasyApply(root),
+                    alreadyApplied: jobCardIsAlreadyApplied(root),
                 });
             }
         }
@@ -148,10 +315,17 @@ var AutoCVApplyLinkedInParser = (() => {
     }
 
     return {
+        JOB_CARD_SELECTORS,
+        SDUI_JOB_CARD_SELECTORS,
+        LEGACY_JOB_CARD_SELECTORS,
         parseLinkedInJobCards,
+        countLinkedInJobCardSelectorMatches,
         readJobIdFromCard,
+        readJobIdFromComponentKey,
+        resolveSduiJobCardRoot,
         readJobTitleFromCard,
         readCompanyFromCard,
+        readSduiJobCardTextFields,
         jobCardHasEasyApply,
         jobCardIsAlreadyApplied,
     };
