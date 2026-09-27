@@ -2809,9 +2809,23 @@ async function ensureLinkedInTab(session) {
     return tabId;
 }
 
+function formatLinkedInCardSelectorDiagnostics(selectorMatches = []) {
+    if (!Array.isArray(selectorMatches) || selectorMatches.length === 0) {
+        return 'selector matches unavailable';
+    }
+
+    return selectorMatches
+        .map(
+            (row) =>
+                `${String(row?.selector || '?')}=${Number(row?.count || 0)}`,
+        )
+        .join(', ');
+}
+
 async function collectJobsFromTab(tabId) {
     const deadline = Date.now() + 60_000;
     let lastError = 'Could not read LinkedIn job cards.';
+    let lastSelectorMatches = [];
 
     while (Date.now() < deadline) {
         await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_SEARCH').catch(
@@ -2830,6 +2844,10 @@ async function collectJobsFromTab(tabId) {
             continue;
         }
 
+        if (Array.isArray(response.selectorMatches)) {
+            lastSelectorMatches = response.selectorMatches;
+        }
+
         const hasHydratedEasyApplyJob = (response.jobs || []).some(
             (job) =>
                 job?.easyApply === true &&
@@ -2843,8 +2861,14 @@ async function collectJobsFromTab(tabId) {
             return response.jobs;
         }
 
-        lastError =
-            'No hydrated LinkedIn Easy Apply job cards were found on the search page.';
+        const diagnostics = formatLinkedInCardSelectorDiagnostics(
+            lastSelectorMatches,
+        );
+        lastError = `No hydrated LinkedIn Easy Apply job cards were found on the search page. (${diagnostics})`;
+        await logSession(
+            'warn',
+            `LinkedIn card collect empty/unhydrated (${(response.jobs || []).length} parsed). ${diagnostics}`,
+        );
         await sleep(1500);
     }
 

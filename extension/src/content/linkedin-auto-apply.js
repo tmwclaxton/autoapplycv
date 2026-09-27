@@ -147,6 +147,8 @@ var AutoCVApplyLinkedInAutoApply = (() => {
     ].join(', ');
 
     const JOB_CARD_ROOT_SELECTORS = [
+        '[componentkey^="job-card-component-ref-"][role="button"]',
+        '[componentkey^="job-card-component-ref-"]',
         'li.scaffold-layout__list-item',
         'li.jobs-search-results__list-item',
         'li[data-occludable-job-id]',
@@ -476,9 +478,26 @@ var AutoCVApplyLinkedInAutoApply = (() => {
             return null;
         }
 
+        if (
+            typeof AutoCVApplyLinkedInParser !== 'undefined' &&
+            typeof AutoCVApplyLinkedInParser.resolveSduiJobCardRoot ===
+                'function' &&
+            match.getAttribute?.('componentkey')
+        ) {
+            const sduiRoot = AutoCVApplyLinkedInParser.resolveSduiJobCardRoot(
+                match,
+            );
+
+            if (sduiRoot instanceof HTMLElement) {
+                return sduiRoot;
+            }
+        }
+
         return (
             match.closest(
                 [
+                    '[componentkey^="job-card-component-ref-"][role="button"]',
+                    '[componentkey^="job-card-component-ref-"]',
                     'li.scaffold-layout__list-item',
                     'li.jobs-search-results__list-item',
                     'li[data-occludable-job-id]',
@@ -494,6 +513,8 @@ var AutoCVApplyLinkedInAutoApply = (() => {
     function findJobCardById(jobId) {
         const escapedJobId = escapeCssIdent(jobId);
         const selectors = [
+            `[componentkey="job-card-component-ref-${escapedJobId}"][role="button"]`,
+            `[componentkey="job-card-component-ref-${escapedJobId}"]`,
             `[data-occludable-job-id="${escapedJobId}"]`,
             `[data-job-id="${escapedJobId}"]`,
             `[data-entity-urn*="jobPosting:${escapedJobId}"]`,
@@ -516,6 +537,7 @@ var AutoCVApplyLinkedInAutoApply = (() => {
 
     function findJobListScrollContainer() {
         const candidates = [
+            '[data-testid="lazy-column"]',
             '.jobs-search-results-list',
             '.scaffold-layout__list',
             'ul.jobs-search-results__list',
@@ -824,6 +846,20 @@ var AutoCVApplyLinkedInAutoApply = (() => {
         return null;
     }
 
+    function collectJobCardDiagnostics() {
+        if (
+            typeof AutoCVApplyLinkedInParser !== 'undefined' &&
+            typeof AutoCVApplyLinkedInParser.countLinkedInJobCardSelectorMatches ===
+                'function'
+        ) {
+            return AutoCVApplyLinkedInParser.countLinkedInJobCardSelectorMatches(
+                document,
+            );
+        }
+
+        return [];
+    }
+
     function collectJobCards() {
         if (typeof AutoCVApplyLinkedInParser !== 'undefined') {
             return AutoCVApplyLinkedInParser.parseLinkedInJobCards(document);
@@ -903,9 +939,11 @@ var AutoCVApplyLinkedInAutoApply = (() => {
     async function prepareJobSearch() {
         await acceptCookieConsent();
 
-        const listRoot = document.querySelector(
-            '.jobs-search-results-list, .scaffold-layout__list, ul.jobs-search-results__list',
-        );
+        const listRoot =
+            findJobListScrollContainer() ||
+            document.querySelector(
+                '[data-testid="lazy-column"], .jobs-search-results-list, .scaffold-layout__list, ul.jobs-search-results__list',
+            );
 
         if (listRoot instanceof HTMLElement) {
             listRoot.scrollTo({
@@ -939,7 +977,14 @@ var AutoCVApplyLinkedInAutoApply = (() => {
 
         await humanPause(420, 980);
 
+        // SDUI cards are themselves role=button; prefer the card root over nested dismiss.
         const clickable =
+            (card.getAttribute('role') === 'button' &&
+            /^job-card-component-ref-/i.test(
+                card.getAttribute('componentkey') || '',
+            )
+                ? card
+                : null) ||
             card.querySelector(
                 [
                     'a[href*="/jobs/view/"]',
@@ -948,7 +993,8 @@ var AutoCVApplyLinkedInAutoApply = (() => {
                     '.job-card-container__clickable',
                     '.job-card-list__entity-lockup',
                 ].join(', '),
-            ) || card;
+            ) ||
+            card;
 
         await clickElement(clickable);
 
@@ -2425,6 +2471,7 @@ var AutoCVApplyLinkedInAutoApply = (() => {
             [
                 'button[aria-label="View next page"]',
                 'button.artdeco-pagination__button--next',
+                '[data-testid="pagination-controls-next-button-visible"]',
             ].join(', '),
         );
 
@@ -2652,6 +2699,7 @@ var AutoCVApplyLinkedInAutoApply = (() => {
 
     return {
         collectJobCards,
+        collectJobCardDiagnostics,
         prepareJobSearch,
         selectJobById,
         revealJobCardById,
