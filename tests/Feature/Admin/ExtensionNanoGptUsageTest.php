@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\CvProfile;
 use App\Models\ExtensionNanoGptUsage;
 use App\Models\User;
 use App\Services\NanoGptService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

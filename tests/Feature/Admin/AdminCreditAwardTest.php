@@ -3,11 +3,11 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\SubscriptionTier;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\CreditGrant;
 use App\Models\User;
 use App\Services\AiTokenService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Tests\TestCase;
 
 class AdminCreditAwardTest extends TestCase

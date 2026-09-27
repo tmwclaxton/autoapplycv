@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Settings;
 
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Tests\TestCase;
 
 class ProfileUpdateTest extends TestCase

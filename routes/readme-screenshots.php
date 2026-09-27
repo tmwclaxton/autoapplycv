@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\ReadmeScreenshotController;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use Illuminate\Support\Facades\Route;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 
 Route::middleware(['web'])
     ->withoutMiddleware([ValidateSessionWithWorkOS::class])

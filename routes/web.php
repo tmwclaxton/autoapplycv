@@ -20,8 +20,8 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProfileDocumentController;
 use App\Http\Controllers\Settings\ProfileController as SettingsProfileController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use Illuminate\Support\Facades\Route;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 
 Route::inertia('/', 'Welcome')->name('home');
 Route::inertia('/about', 'About')->name('about');

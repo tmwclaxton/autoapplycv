@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\ValidateSessionWithWorkOS;
 use App\Models\User;
 use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
