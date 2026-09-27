@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
@@ -24,6 +25,8 @@ use Throwable;
  */
 class ExpandPublishedBlogPostsCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'blog:expand-published
                             {--limit=6 : Max published posts to expand}
                             {--slug= : Expand a single slug}
@@ -79,6 +82,10 @@ class ExpandPublishedBlogPostsCommand extends Command
         NanoGptBlogHeroImageService $heroImages,
         FirecrawlService $firecrawl,
     ): int {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         try {
             $lengthKey = BlogArticleFormats::resolveArticleLength((string) $this->option('length'));
         } catch (\InvalidArgumentException $e) {

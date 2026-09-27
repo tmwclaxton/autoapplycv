@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\CvParserService;
 use App\Support\CvCorpusFixtureFile;
 use App\Support\CvCorpusManifest;
@@ -10,12 +11,18 @@ use Illuminate\Console\Command;
 
 class AnnotateCvCorpusCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'cv:corpus-annotate';
 
     protected $description = 'Build manifest expectations from mechanical CV text extraction';
 
     public function handle(CvParserService $parser): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         ini_set('memory_limit', '512M');
 
         $scenarios = [];

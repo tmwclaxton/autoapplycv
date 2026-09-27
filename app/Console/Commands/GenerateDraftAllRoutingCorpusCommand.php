@@ -2,12 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\DraftAllRoutingCorpusGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
 class GenerateDraftAllRoutingCorpusCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'draft-all:generate-routing-corpus
                             {--count=500 : Number of NanoGPT-generated routing cases (max 500)}
                             {--batch=25 : Cases requested per NanoGPT call}
@@ -20,6 +23,10 @@ class GenerateDraftAllRoutingCorpusCommand extends Command
 
     public function handle(DraftAllRoutingCorpusGenerator $generator): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->error('NANOGPT_API_KEY is required.');
 

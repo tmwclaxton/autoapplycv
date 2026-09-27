@@ -2,12 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\CoverLetterQualityAuditor;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
 class CoverLetterQualityAuditCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     public const REPORT_PATH = 'tests/fixtures/cover-letter-quality/latest-report.json';
 
     protected $signature = 'cover-letter-quality:audit
@@ -18,6 +21,10 @@ class CoverLetterQualityAuditCommand extends Command
 
     public function handle(CoverLetterQualityAuditor $auditor): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->error('NANOGPT_API_KEY is required.');
 

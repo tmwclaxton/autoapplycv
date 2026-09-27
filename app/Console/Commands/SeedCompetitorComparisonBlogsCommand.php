@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\CompetitorComparisonArticleService;
@@ -22,6 +23,8 @@ use Illuminate\Console\Command;
  */
 class SeedCompetitorComparisonBlogsCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'blog:seed-competitor-comparisons
                             {--only= : Seed a single comparison id (e.g. lazyapply, autoapplymax)}
                             {--publish : Create/update as published instead of draft}
@@ -33,6 +36,10 @@ class SeedCompetitorComparisonBlogsCommand extends Command
 
     public function handle(CompetitorComparisonArticleService $articles): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $only = strtolower(trim((string) $this->option('only')));
         $publish = (bool) $this->option('publish');
         $dryRun = (bool) $this->option('dry-run');

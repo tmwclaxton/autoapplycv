@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\FormCorpusInventoryOracleService;
 use Illuminate\Console\Command;
 
 class InventoryOracleCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'form-corpus:inventory-oracle
                             {--payload= : JSON payload string (otherwise read stdin)}';
 
@@ -14,6 +17,10 @@ class InventoryOracleCommand extends Command
 
     public function handle(FormCorpusInventoryOracleService $oracle): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->writeJson([
                 'fields' => [],

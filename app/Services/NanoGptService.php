@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NanoGptBudgetExceededException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -16,8 +17,9 @@ class NanoGptService
 
     private string $defaultModel = 'openai/gpt-4.1-mini';
 
-    public function __construct()
-    {
+    public function __construct(
+        private readonly NanoGptBudgetService $budget,
+    ) {
         $this->apiKey = config('services.nanogpt.api_key');
         $this->baseUrl = config('services.nanogpt.base_url', 'https://nano-gpt.com/api/v1');
     }
@@ -34,6 +36,8 @@ class NanoGptService
         $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
 
         try {
+            $this->ensureWithinBudget();
+
             $response = $this->postChatCompletions(
                 messages: $messages,
                 options: $options,
@@ -41,6 +45,8 @@ class NanoGptService
                 connectTimeout: $connectTimeout,
                 stream: true,
             );
+        } catch (NanoGptBudgetExceededException $exception) {
+            return $this->handleBudgetExceeded($exception);
         } catch (ConnectionException $exception) {
             Log::error('NanoGPT stream connection error', [
                 'message' => $exception->getMessage(),
@@ -116,13 +122,21 @@ class NanoGptService
             $onDelta($delta);
         }
 
+        $usagePayload = $this->buildUsagePayload(
+            usage: is_array($streamUsage) ? $streamUsage : null,
+            pricing: $streamPricing,
+            messages: $messages,
+            requestedModel: $streamModel,
+        );
+
+        $this->recordSpendFromUsagePayload(
+            usage: is_array($streamUsage) ? $streamUsage : null,
+            pricing: is_array($streamPricing) ? $streamPricing : null,
+            usagePayload: $usagePayload,
+        );
+
         if ($usage !== null) {
-            $usage = $this->buildUsagePayload(
-                usage: is_array($streamUsage) ? $streamUsage : null,
-                pricing: $streamPricing,
-                messages: $messages,
-                requestedModel: $streamModel,
-            );
+            $usage = $usagePayload;
         }
 
         return trim($content) !== '' ? $content : null;
@@ -175,6 +189,8 @@ class NanoGptService
         $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
 
         try {
+            $this->ensureWithinBudget();
+
             $response = $this->postChatCompletions(
                 messages: $messages,
                 options: $options,
@@ -182,6 +198,8 @@ class NanoGptService
                 connectTimeout: $connectTimeout,
                 stream: false,
             );
+        } catch (NanoGptBudgetExceededException $exception) {
+            return $this->handleBudgetExceeded($exception);
         } catch (ConnectionException $exception) {
             Log::error('NanoGPT connection error', [
                 'message' => $exception->getMessage(),
@@ -213,11 +231,19 @@ class NanoGptService
             return null;
         }
 
+        $rawUsage = $response->json('usage');
+        $rawPricing = $response->json('x_nanogpt_pricing');
         $usagePayload = $this->buildUsagePayload(
-            usage: $response->json('usage'),
-            pricing: $response->json('x_nanogpt_pricing'),
+            usage: is_array($rawUsage) ? $rawUsage : null,
+            pricing: $rawPricing,
             messages: $messages,
             requestedModel: (string) ($response->json('model') ?? $requestedModel),
+        );
+
+        $this->recordSpendFromUsagePayload(
+            usage: is_array($rawUsage) ? $rawUsage : null,
+            pricing: is_array($rawPricing) ? $rawPricing : null,
+            usagePayload: $usagePayload,
         );
 
         return [
@@ -646,5 +672,52 @@ class NanoGptService
             ->implode('');
 
         return max(1, (int) ceil(mb_strlen($characters) / 4));
+    }
+
+    /**
+     * @throws NanoGptBudgetExceededException
+     */
+    private function ensureWithinBudget(): void
+    {
+        $this->budget->assertWithinBudget();
+    }
+
+    /**
+     * Soft-skip in console/queue workers so commands exit cleanly and jobs do not hit failed_jobs.
+     * HTTP requests (and PHPUnit) rethrow so callers get a clear budget-exceeded response.
+     *
+     * @throws NanoGptBudgetExceededException
+     */
+    private function handleBudgetExceeded(NanoGptBudgetExceededException $exception): mixed
+    {
+        if (app()->runningInConsole() && ! app()->runningUnitTests()) {
+            return null;
+        }
+
+        throw $exception;
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $usage
+     * @param  array<string, mixed>|null  $pricing
+     * @param  array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits: float|null, model: string}  $usagePayload
+     */
+    private function recordSpendFromUsagePayload(?array $usage, ?array $pricing, array $usagePayload): void
+    {
+        try {
+            $this->budget->recordChatSpend(
+                usage: $usage,
+                pricing: $pricing,
+                promptTokens: (int) $usagePayload['prompt_tokens'],
+                completionTokens: (int) $usagePayload['completion_tokens'],
+                totalTokens: (int) $usagePayload['total_tokens'],
+                model: (string) $usagePayload['model'],
+            );
+        } catch (Throwable $exception) {
+            Log::warning('Failed to record NanoGPT spend.', [
+                'message' => $exception->getMessage(),
+                'model' => $usagePayload['model'] ?? null,
+            ]);
+        }
     }
 }

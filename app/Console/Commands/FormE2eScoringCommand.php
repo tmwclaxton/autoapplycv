@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\FormE2eScoringAuditor;
 use App\Support\FormE2eScoringManifest;
 use Illuminate\Console\Command;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class FormE2eScoringCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'form-e2e:score
                             {--limit= : Run only the first N fixtures (dev sampling)}
                             {--batch=6 : NanoGPT judge batch size}
@@ -18,6 +21,10 @@ class FormE2eScoringCommand extends Command
 
     public function handle(FormE2eScoringAuditor $auditor): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->error('NANOGPT_API_KEY is required.');
 

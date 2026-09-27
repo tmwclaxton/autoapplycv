@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +14,18 @@ use Tests\TestCase;
 
 class NanoGptBlogHeroImageServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Config::set('services.nanogpt.monthly_spend_cap_gbp', 50.0);
+        Config::set('services.nanogpt.usd_to_gbp_rate', 0.80);
+        Config::set('services.nanogpt.spend_alert_email', 'owner@example.com');
+        Config::set('mail.default', 'array');
+    }
+
     public function test_it_returns_null_when_api_key_is_missing(): void
     {
         Storage::fake('public');
@@ -21,7 +34,7 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
 
         Http::fake();
 
-        $url = (new NanoGptBlogHeroImageService)->generateAndStore('Sunrise over hills');
+        $url = app(NanoGptBlogHeroImageService::class)->generateAndStore('Sunrise over hills');
 
         $this->assertNull($url);
         Http::assertNothingSent();
@@ -53,7 +66,7 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
             return Http::response('not found', 404);
         });
 
-        $path = (new NanoGptBlogHeroImageService)->generateAndStore('Soft abstract shapes');
+        $path = app(NanoGptBlogHeroImageService::class)->generateAndStore('Soft abstract shapes');
 
         $this->assertIsString($path);
         $this->assertStringStartsWith('blogs/heroes/', $path);
@@ -83,7 +96,7 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
                 ->andReturn('A hopeful job seeker finishing an application amid soft lamp light.');
         });
 
-        $prompt = (new NanoGptBlogHeroImageService)->buildPrompt($nanoGpt, 'How to autofill Workday', [
+        $prompt = app(NanoGptBlogHeroImageService::class)->buildPrompt($nanoGpt, 'How to autofill Workday', [
             'slug' => 'workday-autofill',
             'title' => 'How to autofill Workday',
             'tags' => ['workday', 'ats'],
@@ -97,7 +110,7 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
 
     public function test_resolve_scene_is_deterministic_for_fixed_seed(): void
     {
-        $service = new NanoGptBlogHeroImageService;
+        $service = app(NanoGptBlogHeroImageService::class);
         $context = [
             'slug' => 'linkedin-easy-apply-guide',
             'title' => 'LinkedIn Easy Apply on the commute',
@@ -113,7 +126,7 @@ class NanoGptBlogHeroImageServiceTest extends TestCase
 
     public function test_resolve_scene_offset_changes_scene_id(): void
     {
-        $service = new NanoGptBlogHeroImageService;
+        $service = app(NanoGptBlogHeroImageService::class);
         $topic = 'Tailor your CV to the job description match score';
         $context = [
             'slug' => 'tailor-cv-jd-match',

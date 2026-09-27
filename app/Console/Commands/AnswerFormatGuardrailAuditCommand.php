@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\AnswerFormatGuardrailAuditor;
 use App\Services\AnswerFormatSemanticJudge;
 use App\Support\AnswerFormatGuardrailCorpus;
@@ -9,6 +10,8 @@ use Illuminate\Console\Command;
 
 class AnswerFormatGuardrailAuditCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'answer-format-guardrails:audit
                             {--limit= : Run only the first N scenarios after other filters}
                             {--shape= : Only scenarios with this answer_shape}
@@ -24,6 +27,10 @@ class AnswerFormatGuardrailAuditCommand extends Command
 
     public function handle(AnswerFormatGuardrailAuditor $auditor): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->error('NANOGPT_API_KEY is required.');
 

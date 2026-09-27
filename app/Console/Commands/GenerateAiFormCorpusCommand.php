@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\FormCorpusAiGeneratorService;
 use App\Support\FormCorpusManifest;
 use Illuminate\Console\Command;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Process;
 
 class GenerateAiFormCorpusCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'form-corpus:generate-ai
                             {--id= : Generate a single fixture id}
                             {--start-id=syn-ai-0001 : First id when generating a batch}
@@ -22,6 +25,10 @@ class GenerateAiFormCorpusCommand extends Command
 
     public function handle(FormCorpusAiGeneratorService $generator): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $limit = $this->resolveLimit();
         $singleId = $this->option('id');
         $targetCell = $this->option('target-cell');
