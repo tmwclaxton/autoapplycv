@@ -150,4 +150,26 @@ class OnboardingTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('profile.full_name', 'Jane Smith');
     }
+
+    public function test_profile_update_replaces_yes_city_from_location(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'city' => 'London',
+            'location' => 'Wycombe, England',
+        ]);
+
+        $this->actingAs($user)
+            ->patchJson(route('cv.profile.update'), [
+                'city' => 'Yes',
+                'location' => 'Wycombe, England',
+            ])
+            ->assertOk()
+            ->assertJsonPath('profile.city', 'Wycombe');
+
+        $this->assertDatabaseHas('cv_profiles', [
+            'user_id' => $user->id,
+            'city' => 'Wycombe',
+        ]);
+    }
 }

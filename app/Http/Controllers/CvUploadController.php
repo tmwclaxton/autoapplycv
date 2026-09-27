@@ -19,6 +19,7 @@ use App\Support\ApplicationSettings;
 use App\Support\CoverLetterDesignSettings;
 use App\Support\CvExtractionProfileMerge;
 use App\Support\CvExtractionSchema;
+use App\Support\ProfileLocalitySanitizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -214,6 +215,22 @@ class CvUploadController extends Controller
             );
             $validated['cover_letter_design'] = $normalized['cover_letter_design'];
             $validated['cover_letter_font'] = $normalized['cover_letter_font'];
+        }
+
+        if (array_key_exists('city', $validated) || array_key_exists('location', $validated)) {
+            $location = array_key_exists('location', $validated)
+                ? (is_string($validated['location'] ?? null) ? $validated['location'] : null)
+                : $existing?->location;
+            $city = array_key_exists('city', $validated)
+                ? (is_string($validated['city'] ?? null) ? $validated['city'] : null)
+                : $existing?->city;
+
+            if (array_key_exists('location', $validated) && ProfileLocalitySanitizer::isBareYesNo($validated['location'] ?? null)) {
+                $validated['location'] = null;
+                $location = null;
+            }
+
+            $validated['city'] = ProfileLocalitySanitizer::sanitizeCity($city, is_string($location) ? $location : null);
         }
 
         $profile = CvProfile::updateOrCreate(

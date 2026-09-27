@@ -4306,7 +4306,30 @@ export function isProfileMappingMismatch(field, mapping) {
         return true;
     }
 
+    // Yes/No screens must never overwrite locality profile fields (city=Yes).
+    if (
+        mapping &&
+        isLocalityProfilePath(mapping.path) &&
+        (isBooleanYesNoField(field) ||
+            fieldHasYesNoOptions(field) ||
+            classifyFieldExpectation(field) === 'yes_no_choice')
+    ) {
+        return true;
+    }
+
     return false;
+}
+
+function isLocalityProfilePath(path) {
+    return (
+        path === 'city' ||
+        path === 'location' ||
+        path === 'postcode' ||
+        path === 'country' ||
+        path === 'structured_data.address_line_1' ||
+        path === 'structured_data.address_line_2' ||
+        path === 'structured_data.state_region'
+    );
 }
 
 const NAMED_WORK_AUTH_COUNTRIES = [
@@ -5153,6 +5176,16 @@ export function resolveProfileMappingForLabel(
         mappingMatchesLabel(affirmHybridEntry, normalized)
     ) {
         return affirmHybridEntry;
+    }
+
+    // Relocate preference must win over bare "city"/"town" keyword matches
+    // ("willing to relocate to another city?" previously wrote Yes into city).
+    const relocateEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.willing_to_relocate',
+    );
+
+    if (relocateEntry && mappingMatchesLabel(relocateEntry, normalized)) {
+        return relocateEntry;
     }
 
     if (isCityLocationQuestionLabel(label)) {
@@ -7971,6 +8004,16 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData, options
             }
         }
 
+        // Never auto-apply future-jobs / marketing opt-ins (unchecked is correct).
+        // Must run before type-coherence so LLM "Yes" on retention selects is
+        // discarded rather than left pending as yes_no_on_choice.
+        if (
+            isMeaningfulAnswer(resolvedAnswer) &&
+            isMarketingOrFutureConsentField(field)
+        ) {
+            continue;
+        }
+
         // Shared post-answer type-coherence gate (memo / heuristic / NanoGPT).
         // Prefer leave-pending over wrong fills (Yes on city, salary on notice, etc.).
         if (
@@ -8049,14 +8092,6 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData, options
                     },
                 ),
             );
-            continue;
-        }
-
-        // Never auto-apply future-jobs / marketing opt-ins (unchecked is correct).
-        if (
-            isMeaningfulAnswer(resolvedAnswer) &&
-            isMarketingOrFutureConsentField(field)
-        ) {
             continue;
         }
 

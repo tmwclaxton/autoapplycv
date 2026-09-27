@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Head, Link, setLayoutProps, useForm, usePage } from '@inertiajs/vue3';
+import {
+    Head,
+    Link,
+    router,
+    setLayoutProps,
+    useForm,
+    usePage,
+} from '@inertiajs/vue3';
 import {
     Activity,
     BarChart3,
@@ -453,7 +460,11 @@ function syncAdminTabToUrl(tab: typeof activeTab.value): void {
         url.searchParams.set('tab', tab);
     }
 
-    window.history.replaceState(window.history.state, '', url);
+    router.replace({
+        url: `${url.pathname}${url.search}${url.hash}`,
+        preserveState: true,
+        preserveScroll: true,
+    });
 }
 
 onMounted(() => {

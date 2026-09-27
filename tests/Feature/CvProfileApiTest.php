@@ -113,4 +113,27 @@ class CvProfileApiTest extends TestCase
             ->getJson('/api/profile')
             ->assertStatus(404);
     }
+
+    public function test_api_profile_update_sanitizes_bare_yes_city(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'city' => 'London',
+            'location' => 'Wycombe, England',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->withToken($token)
+            ->patchJson('/api/profile', [
+                'city' => 'Yes',
+                'location' => 'Wycombe, England',
+            ])
+            ->assertOk()
+            ->assertJsonPath('profile.city', 'Wycombe');
+
+        $this->assertDatabaseHas('cv_profiles', [
+            'user_id' => $user->id,
+            'city' => 'Wycombe',
+        ]);
+    }
 }

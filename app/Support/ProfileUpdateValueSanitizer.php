@@ -158,6 +158,10 @@ class ProfileUpdateValueSanitizer
             return true;
         }
 
+        if (ProfileLocalitySanitizer::isLocalityField($field) && ProfileLocalitySanitizer::isBareYesNo($value)) {
+            return true;
+        }
+
         if (self::isConversationalOrQuestionMessage($value)) {
             return true;
         }
