@@ -4221,6 +4221,23 @@ var AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function paintAshbyYesNoButtons(container, targetButton) {
+        if (!container || !targetButton) {
+            return;
+        }
+
+        for (const candidate of container.querySelectorAll('button')) {
+            const selected = candidate === targetButton;
+            candidate.setAttribute('aria-pressed', selected ? 'true' : 'false');
+
+            if (selected) {
+                candidate.classList.add('_active_1svni_57');
+            } else {
+                candidate.classList.remove('_active_1svni_57');
+            }
+        }
+    }
+
     function commitAshbyYesNoViaReactCheckbox(scope, booleanAnswer, root = document) {
         const fieldScope =
             findAshbyYesNoScope(root, { anchor: scope }) || scope;
@@ -4282,7 +4299,15 @@ var AutoCVApplyFormHeuristics = (() => {
         checkbox.dispatchEvent(new Event('input', { bubbles: true }));
         checkbox.dispatchEvent(new Event('change', { bubbles: true }));
 
-        return isAshbyYesNoCommitted(fieldScope, booleanAnswer, root);
+        // Paint buttons only after checkbox state is set - aria-pressed alone
+        // must never be treated as a successful Ashby Submit commit.
+        if (isAshbyYesNoCommitted(fieldScope, booleanAnswer, root)) {
+            paintAshbyYesNoButtons(container, targetButton);
+
+            return true;
+        }
+
+        return false;
     }
 
     async function setAshbyYesNoValue(buttons, answer, options = {}) {
