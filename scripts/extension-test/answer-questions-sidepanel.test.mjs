@@ -62,6 +62,25 @@ test('sidepanel shows Cancel while answering and sends CANCEL_DRAFT_ALL', () => 
     assert.match(sidepanelHtml, /id="answer-questions-cancel-btn"/);
     assert.match(sidepanelJs, /CANCEL_DRAFT_ALL/);
     assert.match(sidepanelJs, /cancelAnswerQuestionsOnPage/);
+    assert.match(sidepanelJs, /response\?\.cancelled/);
+    assert.match(backgroundJs, /broadcastDraftEvent\('DRAFT_ALL_DONE'/);
+    assert.match(backgroundJs, /DraftAllCancelledError|assertDraftAllRunActive/);
+    assert.match(backgroundJs, /shouldAttemptResumeUploadGate/);
+    assert.match(backgroundJs, /PROBE_RESUME_UPLOAD_GATE/);
+});
+
+test('sidepanel tabs stay single-line and status text can wrap at narrow widths', () => {
+    assert.match(sidepanelCss, /\.tabs\s*\{[^}]*overflow-x:\s*auto/s);
+    assert.match(sidepanelCss, /\.tab\s*\{[^}]*white-space:\s*nowrap/s);
+    assert.match(sidepanelCss, /\.tab\s*\{[^}]*font-size:\s*10px/s);
+    assert.match(
+        sidepanelCss,
+        /\.shell-answer-questions-status\s*\{[^}]*overflow-wrap:\s*anywhere/s,
+    );
+    assert.match(
+        sidepanelCss,
+        /\.auto-apply-status\s*\{[^}]*overflow:\s*visible|\.status-line\s*\{[^}]*overflow:\s*visible/s,
+    );
 });
 
 test('sidepanel maps missing content-script errors to a refresh hint', () => {

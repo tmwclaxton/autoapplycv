@@ -18,6 +18,9 @@ class DraftAllExtensionTest extends TestCase
             'scripts/extension-test/draft-all-stream.test.mjs',
             'scripts/extension-test/form-frame-messaging.test.mjs',
             'scripts/extension-test/answer-questions-sidepanel.test.mjs',
+            'scripts/extension-test/draft-all-resume-gate.test.mjs',
+            'scripts/extension-test/linkedin-easy-apply-radio-questions.test.mjs',
+            'scripts/extension-test/debug-log-priority.test.mjs',
         ];
     }
 

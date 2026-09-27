@@ -2342,6 +2342,37 @@ var AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    /**
+     * LinkedIn Easy Apply radios/checkboxes use clipped .fb-form-element__checkbox
+     * inputs (often offsetParent null + empty client rects). Treat them as
+     * inventoriable whenever they sit in an Easy Apply fieldset / form element.
+     */
+    function isLinkedInStyledChoiceInput(element) {
+        if (
+            !element ||
+            (element.type !== 'radio' && element.type !== 'checkbox')
+        ) {
+            return false;
+        }
+
+        if (
+            element.classList?.contains('fb-form-element__checkbox') ||
+            element.hasAttribute?.('data-test-text-selectable-option__input')
+        ) {
+            return Boolean(
+                element.closest?.(
+                    '.jobs-easy-apply-modal, .jobs-easy-apply-content, form.jobs-easy-apply-form, .fb-dash-form-element, [data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component], [data-test-form-element]',
+                ),
+            );
+        }
+
+        return Boolean(
+            element.closest?.(
+                '[data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component]',
+            ),
+        );
+    }
+
     function isOracleApplyFlowCombobox(element) {
         return (
             element?.getAttribute?.('role') === 'combobox' &&
@@ -7225,6 +7256,7 @@ var AutoCVApplyFormHeuristics = (() => {
             input.type !== 'hidden' &&
             (isAshbyStyledChoiceInput(input) ||
                 isOracleApplyFlowStyledChoiceInput(input) ||
+                isLinkedInStyledChoiceInput(input) ||
                 isVisible(input))
         );
     }
@@ -9706,9 +9738,14 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const formElement =
             element.closest('.fb-dash-form-element') || element.parentElement;
-        const title = formElement?.querySelector?.(
-            '[data-test-text-entity-list-form-title], .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
+        const legendTitle = formElement?.querySelector?.(
+            'legend [data-test-form-builder-radio-button-form-component__title], legend .fb-dash-form-element__label, legend',
         );
+        const title =
+            legendTitle ||
+            formElement?.querySelector?.(
+                '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
+            );
 
         if (title && !title.contains(element)) {
             const text = normalize(title.textContent);
@@ -13649,7 +13686,8 @@ var AutoCVApplyFormHeuristics = (() => {
 
             if (
                 isAshbyStyledChoiceInput(element) ||
-                isOracleApplyFlowStyledChoiceInput(element)
+                isOracleApplyFlowStyledChoiceInput(element) ||
+                isLinkedInStyledChoiceInput(element)
             ) {
                 return true;
             }
@@ -14041,7 +14079,8 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const styledChoice =
             isAshbyStyledChoiceInput(element) ||
-            isOracleApplyFlowStyledChoiceInput(element);
+            isOracleApplyFlowStyledChoiceInput(element) ||
+            isLinkedInStyledChoiceInput(element);
         const recruiteeFormControl = isRecruiteeApplicationFormControl(element);
         const leverSurveyControl = isLeverDeferredSurveyControl(element);
         const chosenSelect = isChosenEnhancedSelect(element);

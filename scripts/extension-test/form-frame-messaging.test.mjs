@@ -10,6 +10,7 @@ const {
     computeApplyDraftBatchTimeoutMs,
     formatContentScriptUserError,
     invalidateTabFrameCache,
+    isIgnorableProbeFrameUrl,
     isIndeedApplyPreloadUrl,
     isIndeedApplyUrl,
     isMissingContentScriptError,
@@ -332,5 +333,31 @@ test('pickIndeedApplyTabId prefers smartapply tab opened from search host', () =
             },
         ]),
         hostTabId,
+    );
+});
+
+test('ignorable tracker / ad iframes are skipped for frame discovery', () => {
+    assert.equal(isIgnorableProbeFrameUrl('about:blank'), true);
+    assert.equal(
+        isIgnorableProbeFrameUrl('https://googleads.g.doubleclick.net/pagead/id'),
+        true,
+    );
+    assert.equal(
+        isIgnorableProbeFrameUrl('https://www.google.com/recaptcha/api2/anchor'),
+        true,
+    );
+    assert.equal(
+        isIgnorableProbeFrameUrl('https://li.protechts.net/static/js/x.js'),
+        true,
+    );
+    assert.equal(
+        isIgnorableProbeFrameUrl(
+            'https://job-boards.greenhouse.io/embed/job_app?token=1',
+        ),
+        false,
+    );
+    assert.equal(
+        scoreFrame(3, true, 'https://googleads.g.doubleclick.net/pagead/id'),
+        -1,
     );
 });

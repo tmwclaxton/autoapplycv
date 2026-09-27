@@ -23,8 +23,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 12px 14px;
+    gap: 8px;
+    padding: 8px 12px;
 }
 
 .shell-header-actions {
@@ -59,27 +59,34 @@ body {
 
 .shell-mark {
     flex-shrink: 0;
+    width: 28px;
+    height: 28px;
     transform: rotate(-4deg);
     box-shadow: var(--postbox-stamp-shadow);
 }
 
 .shell-mark-fallback {
     display: flex;
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     color: var(--postbox-red);
 }
 
 .shell-brand strong {
     display: block;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--postbox-navy);
+}
+
+.shell-brand .postbox-tagline {
+    font-size: 10px;
+    line-height: 1.2;
 }
 
 .shell-main {
@@ -106,7 +113,7 @@ body {
 
 .shell-answer-questions {
     flex-shrink: 0;
-    padding: 0 16px 12px;
+    padding: 0 12px 8px;
 }
 
 .shell-answer-questions-actions {
@@ -134,7 +141,11 @@ body {
 }
 
 .shell-answer-questions-status {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
+    max-height: none;
+    overflow: visible;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .shell-scroll {
@@ -249,8 +260,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    gap: 12px;
-    padding: 12px 16px 8px;
+    gap: 8px;
+    padding: 8px 12px 4px;
 }
 
 .usage-count {
@@ -267,8 +278,8 @@ body {
 }
 
 .usage-bar {
-    height: 8px;
-    margin: 0 16px 12px;
+    height: 6px;
+    margin: 0 12px 8px;
     border: 2px solid var(--postbox-navy);
     background: var(--postbox-grey);
     overflow: hidden;
@@ -283,25 +294,32 @@ body {
 
 .tabs {
     display: flex;
+    flex-wrap: nowrap;
     gap: 0;
     flex-shrink: 0;
-    padding: 0 12px;
+    padding: 0 8px;
     border-bottom: 2px solid var(--postbox-navy);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tab {
-    flex: 1;
+    flex: 0 0 auto;
     border: none;
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
     background: transparent;
     color: var(--postbox-grey-dark);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    padding: 10px 4px;
+    padding: 7px 8px;
     cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.2;
 }
 
 .tab:hover {
@@ -394,6 +412,17 @@ body {
 
 .status-line {
     min-height: 18px;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+}
+
+.auto-apply-status {
+    flex-shrink: 0;
+    margin-top: 4px;
+    margin-bottom: 0;
+    padding: 2px 0;
+    max-height: none;
 }
 
 .optional {
@@ -1304,10 +1333,7 @@ body {
 
 .auto-apply-actions {
     margin-top: 2px;
-}
-
-.auto-apply-status {
-    margin-bottom: 0;
+    flex-shrink: 0;
 }
 
 .auto-apply-activity-toolbar {

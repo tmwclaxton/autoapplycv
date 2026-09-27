@@ -91,6 +91,14 @@ import {
     partitionDraftAllBatchAnswers,
 } from './draft-all-pipeline.js';
 import {
+    DraftAllCancelledError,
+    DRAFT_ALL_AWAIT_TIMEOUT_MS,
+    RESUME_GATE_POLL_TIMEOUT_MS,
+    isDraftAllCancelledError,
+    shouldAttemptResumeUploadGate,
+    withDraftAllTimeout,
+} from './draft-all-resume-gate.js';
+import {
     requestDraftAllStream,
     requestDraftField,
     requestAssistChatStream,
@@ -535,8 +543,20 @@ function cancelDraftAll(reason = 'cancelled') {
     logWarn('background', 'draft-all.cancel', 'Draft All cancelled', {
         reason,
     });
+    broadcastDraftEvent('DRAFT_ALL_DONE', {
+        message: 'Cancelled.',
+        pendingCount: 0,
+        cancelled: true,
+        reason,
+    });
 
     return { success: true, cancelled: true, reason };
+}
+
+function assertDraftAllRunActive(runToken, reason = 'cancelled') {
+    if (runToken !== draftAllRunToken || !draftAllRunning) {
+        throw new DraftAllCancelledError(reason);
+    }
 }
 
 async function resolveInteractiveOptionHarvestAllowed() {
@@ -2800,12 +2820,53 @@ async function advanceFirstStageChatStepIfNeeded(tabId, pageUrl, formFrameId) {
     return nextFrameId;
 }
 
+async function probeResumeGateSignals(tabId, formFrameId) {
+    try {
+        const response = await withDraftAllTimeout(
+            sendTabMessage(
+                tabId,
+                { type: 'PROBE_RESUME_UPLOAD_GATE' },
+                formFrameId,
+                { timeoutMs: 8_000 },
+            ),
+            10_000,
+            'checking whether this step needs a CV upload',
+        );
+
+        return {
+            hasResumeFileInput: response?.hasResumeFileInput === true,
+            hasSelectedResume: response?.hasSelectedResume === true,
+            isLinkedInEasyApply: response?.isLinkedInEasyApply === true,
+        };
+    } catch {
+        return {
+            hasResumeFileInput: false,
+            hasSelectedResume: false,
+            isLinkedInEasyApply: /linkedin\.com/i.test(
+                String(
+                    (
+                        await chrome.tabs.get(tabId).catch(() => null)
+                    )?.url || '',
+                ),
+            ),
+        };
+    }
+}
+
 /**
  * FirstStage and similar boards gate the form behind a CV-only upload step.
  * Attach the resume, accept privacy consent, advance Continue through CV
  * processing, then re-scan once the wizard has real questions.
  */
-async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
+async function tryResumeUploadGateAndRescan(
+    tabId,
+    tab,
+    formFrameId,
+    job,
+    { runToken = draftAllRunToken } = {},
+) {
+    assertDraftAllRunActive(runToken);
+
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
         message: 'Uploading CV to continue the application…',
     });
@@ -2818,17 +2879,27 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
         tabId,
     );
 
-    await fillApplicationDocumentsOnTab(tabId, formFrameId, job || null);
+    await withDraftAllTimeout(
+        fillApplicationDocumentsOnTab(tabId, formFrameId, job || null),
+        DRAFT_ALL_AWAIT_TIMEOUT_MS,
+        'uploading the CV to continue the application',
+    );
+    assertDraftAllRunActive(runToken);
     await new Promise((resolve) => {
         setTimeout(resolve, 1500);
     });
+    assertDraftAllRunActive(runToken);
 
     invalidateTabFrameCache(tabId);
     await ensureTabContentScript(tabId);
     let nextFrameId = await findBestFormFrameId(tabId, { force: true });
 
     try {
-        const consentSnap = await collectSnapshotFromTab(tabId, nextFrameId);
+        const consentSnap = await withDraftAllTimeout(
+            collectSnapshotFromTab(tabId, nextFrameId),
+            DRAFT_ALL_AWAIT_TIMEOUT_MS,
+            're-scanning the form after CV upload',
+        );
         const consentElement = (consentSnap?.snapshot?.elements || []).find(
             (element) =>
                 element?.field_type === 'checkbox' &&
@@ -2852,6 +2923,10 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
             );
         }
     } catch (error) {
+        if (isDraftAllCancelledError(error)) {
+            throw error;
+        }
+
         logWarn(
             'background',
             'draft-all.resume-gate',
@@ -2869,6 +2944,7 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
                 tabId,
                 { type: 'BRIDGE_CLICK_TEXT', text: 'Continue' },
                 nextFrameId,
+                { timeoutMs: 8_000 },
             );
         } catch {
             // Continue may not be present yet.
@@ -2877,12 +2953,14 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
 
     await clickContinue();
 
-    const deadline = Date.now() + 60_000;
+    const deadline = Date.now() + RESUME_GATE_POLL_TIMEOUT_MS;
 
     while (Date.now() < deadline) {
+        assertDraftAllRunActive(runToken);
         await new Promise((resolve) => {
             setTimeout(resolve, 2000);
         });
+        assertDraftAllRunActive(runToken);
 
         let currentTab;
 
@@ -2910,13 +2988,20 @@ async function tryResumeUploadGateAndRescan(tabId, tab, formFrameId, job) {
             continue;
         }
 
-        // Still on the job/apply modal with Ready to Upload / Continue.
+        // LinkedIn / non-FirstStage pages: do not keep clicking Continue for a
+        // minute when CV processing never starts.
+        if (!/firststage\.co/i.test(url)) {
+            break;
+        }
+
+        // Still on the FirstStage job/apply modal with Ready to Upload / Continue.
         invalidateTabFrameCache(tabId);
         await ensureTabContentScript(tabId);
         nextFrameId = await findBestFormFrameId(tabId, { force: true });
         await clickContinue();
     }
 
+    assertDraftAllRunActive(runToken);
     invalidateTabFrameCache(tabId);
     await ensureTabContentScript(tabId);
 
@@ -2939,15 +3024,28 @@ async function resolveDraftFieldsViaInventory(
     options = {},
 ) {
     const resumeGateAttempted = options.resumeGateAttempted === true;
+    const runToken =
+        typeof options.runToken === 'number'
+            ? options.runToken
+            : draftAllRunToken;
 
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
         message: 'Scanning form and extracting job details…',
     });
 
     const [initialCollect, jobContext] = await Promise.all([
-        collectInitialSnapshot(tabId, tab, perf),
-        resolveJobContextForDraft(tabId, tab, perf),
+        withDraftAllTimeout(
+            collectInitialSnapshot(tabId, tab, perf),
+            DRAFT_ALL_AWAIT_TIMEOUT_MS,
+            'scanning the page for application questions',
+        ),
+        withDraftAllTimeout(
+            resolveJobContextForDraft(tabId, tab, perf),
+            DRAFT_ALL_AWAIT_TIMEOUT_MS,
+            'extracting job details from this page',
+        ),
     ]);
+    assertDraftAllRunActive(runToken);
 
     // Repaint outlines from the live inventory (clears stale sidepanel-open highlights).
     void refreshFieldHighlightsForTab(tabId);
@@ -3009,12 +3107,40 @@ async function resolveDraftFieldsViaInventory(
             return false;
         }
 
+        assertDraftAllRunActive(runToken);
+        const signals = await probeResumeGateSignals(tabId, formFrameId);
+        const pageUrl = tab?.url || '';
+
+        if (
+            !shouldAttemptResumeUploadGate({
+                elements: snapshot?.elements || [],
+                pageUrl,
+                hasResumeFileInput: signals.hasResumeFileInput,
+                hasSelectedResume: signals.hasSelectedResume,
+                isLinkedInEasyApply: signals.isLinkedInEasyApply,
+            })
+        ) {
+            logInfo(
+                'background',
+                'draft-all.resume-gate',
+                'Skipping CV upload gate - no file input or resume already selected',
+                {
+                    elementCount: (snapshot?.elements || []).length,
+                    ...signals,
+                },
+                tabId,
+            );
+
+            return false;
+        }
+
         gateAttempted = true;
         const rescanned = await tryResumeUploadGateAndRescan(
             tabId,
             tab,
             formFrameId,
             job,
+            { runToken },
         );
 
         if (!rescanned?.success || !rescanned.snapshot) {
@@ -3547,7 +3673,11 @@ async function runDraftAll(tabId, e2eOptions = null) {
                       force: true,
                   }),
               }
-            : await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
+            : await resolveDraftFieldsViaInventory(tabId, tab, settings, perf, {
+                  runToken,
+              });
+
+        assertDraftAllRunActive(runToken);
 
         if (resolved.error) {
             logWarn(
@@ -4525,6 +4655,25 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 postValidation.validationScan.invalidFieldCount,
         };
     } catch (error) {
+        if (isDraftAllCancelledError(error)) {
+            logWarn(
+                'background',
+                'draft-all.cancel',
+                'Draft All stopped after cancel',
+                {
+                    reason: error.reason || 'cancelled',
+                },
+                tabId,
+            );
+
+            return {
+                success: true,
+                cancelled: true,
+                message: 'Cancelled.',
+                reason: error.reason || 'cancelled',
+            };
+        }
+
         logDraftError(
             'draft-all.error',
             'Draft All unhandled error',
@@ -4968,10 +5117,15 @@ async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
     await fillApplicationDocumentsSequence({
         fillResume: async () => {
             try {
-                await sendTabMessage(
-                    tabId,
-                    { type: 'FILL_RESUME' },
-                    formFrameId,
+                await withDraftAllTimeout(
+                    sendTabMessage(
+                        tabId,
+                        { type: 'FILL_RESUME' },
+                        formFrameId,
+                        { timeoutMs: 30_000 },
+                    ),
+                    35_000,
+                    'attaching the CV to a file input',
                 );
             } catch {
                 // Best-effort profile fill after draft apply.
@@ -4983,10 +5137,15 @@ async function fillApplicationDocumentsOnTab(tabId, formFrameId, job = null) {
             }
 
             try {
-                await sendTabMessage(
-                    tabId,
-                    { type: 'FILL_COVER_LETTER', job },
-                    formFrameId,
+                await withDraftAllTimeout(
+                    sendTabMessage(
+                        tabId,
+                        { type: 'FILL_COVER_LETTER', job },
+                        formFrameId,
+                        { timeoutMs: 45_000 },
+                    ),
+                    50_000,
+                    'attaching the cover letter',
                 );
             } catch {
                 // Best-effort cover letter fill when the form has a cover letter upload.

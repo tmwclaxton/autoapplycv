@@ -1,8 +1,42 @@
 import { logDebug, logInfo } from './debug-log.js';
 import { isInjectableBrowserTabUrl } from './side-panel-host-tab.js';
 
+/**
+ * Ad / tracker / blank iframes that must not be probed for draftable fields.
+ * Probing every doubleclick/recaptcha frame floods the debug ring buffer.
+ *
+ * @param {string} frameUrl
+ * @returns {boolean}
+ */
+export function isIgnorableProbeFrameUrl(frameUrl = '') {
+    const url = String(frameUrl || '').trim().toLowerCase();
+
+    // Empty URL is the main/top frame in some Chrome APIs - never ignore.
+    if (!url) {
+        return false;
+    }
+
+    if (url === 'about:blank' || url.startsWith('about:blank#')) {
+        return true;
+    }
+
+    if (url.startsWith('about:') || url.startsWith('chrome:') || url.startsWith('chrome-extension:')) {
+        return true;
+    }
+
+    return (
+        /doubleclick\.net|googlesyndication\.com|googleadservices\.com|googletagmanager\.com|google-analytics\.com|adservice\.google|facebook\.com\/tr|li\.protechts\.net|snap\.licdn\.com|platform\.linkedin\.com\/litms|recaptcha|hcaptcha\.com|challenges\.cloudflare\.com|hotjar\.com|nr-data\.net|sentry\.io|cdn\.segment\.com/i.test(
+            url,
+        )
+    );
+}
+
 export function scoreFrame(count, isFormHost, frameUrl = '') {
     if (typeof count !== 'number') {
+        return -1;
+    }
+
+    if (isIgnorableProbeFrameUrl(frameUrl)) {
         return -1;
     }
 
@@ -552,14 +586,6 @@ async function probeFrameDraftableCount(tabId, frameId, frameUrl = '') {
         );
 
         if (!response?.success) {
-            logDebug(
-                'background',
-                'frame.discovery',
-                'Frame probe unsuccessful',
-                { frameId, frameUrl },
-                tabId,
-            );
-
             return null;
         }
 
@@ -569,31 +595,26 @@ async function probeFrameDraftableCount(tabId, frameId, frameUrl = '') {
             frameUrl,
         );
 
-        logDebug(
-            'background',
-            'frame.discovery',
-            'Frame scored',
-            {
-                frameId,
-                frameUrl,
-                count: response.count,
-                isFormHost: response.isFormHost,
-                score,
-            },
-            tabId,
-        );
+        // Only keep meaningful probe rows in the ring buffer.
+        if (score > 0) {
+            logDebug(
+                'background',
+                'frame.discovery',
+                'Frame scored',
+                {
+                    frameId,
+                    frameUrl,
+                    count: response.count,
+                    isFormHost: response.isFormHost,
+                    score,
+                },
+                tabId,
+            );
+        }
 
         return { frameId, score, count: response.count || 0 };
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-
-        logDebug(
-            'background',
-            'frame.discovery',
-            'Frame probe threw',
-            { frameId, frameUrl, error: message },
-            tabId,
-        );
 
         return { frameId, score: -1, missingScript: isMissingContentScriptError(message) };
     }
@@ -616,17 +637,25 @@ export async function findBestFormFrameId(tabId, { force = false } = {}) {
         return 0;
     }
 
-    const frameMeta = frames.map((frame) => ({
+    const allFrameMeta = frames.map((frame) => ({
         frameId: frame.frameId,
         url: frame.url || '',
     }));
+    const frameMeta = allFrameMeta.filter(
+        (frame) => !isIgnorableProbeFrameUrl(frame.url),
+    );
+    const skippedFrameCount = allFrameMeta.length - frameMeta.length;
     const frameIds = frameMeta.map((frame) => frame.frameId);
 
-    logDebug('background', 'frame.discovery', 'Probing frames for draftable fields', {
-        tabId,
-        frameCount: frameIds.length,
-        frameIds,
-    }, tabId);
+    // Throttled discovery summary only - per-frame "Frame scored" noise is skipped for ignorable URLs.
+    if (frameIds.length > 0 || skippedFrameCount > 0) {
+        logDebug('background', 'frame.discovery', 'Probing frames for draftable fields', {
+            tabId,
+            frameCount: frameIds.length,
+            skippedFrameCount,
+            frameIds,
+        }, tabId);
+    }
 
     if (!force) {
         try {
