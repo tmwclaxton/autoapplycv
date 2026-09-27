@@ -30,30 +30,30 @@ const maxWidthClass = {
         <header class="postbox-bar-top">
             <div
                 :class="[
-                    'mx-auto flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 sm:gap-x-4 sm:px-6 sm:py-4 lg:flex-nowrap lg:gap-y-0',
+                    'mx-auto flex w-full flex-nowrap items-center justify-between gap-x-2 px-3 py-3 sm:gap-x-3 sm:px-6 sm:py-4',
                     maxWidthClass[maxWidth],
                 ]"
             >
                 <Link
                     :href="home()"
-                    class="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3 lg:shrink-0"
+                    class="flex min-w-0 shrink items-center gap-2 sm:gap-3"
                 >
                     <PostboxMark />
                     <div class="min-w-0">
                         <p
-                            class="text-base font-bold tracking-tight sm:text-lg"
+                            class="truncate text-base font-bold tracking-tight sm:text-lg"
                         >
                             AutoCVApply
                         </p>
                         <p
-                            class="postbox-tagline truncate text-xs sm:text-sm lg:hidden 2xl:block"
+                            class="postbox-tagline hidden truncate text-xs sm:text-sm 2xl:block"
                         >
                             {{ tagline }}
                         </p>
                     </div>
                 </Link>
                 <nav
-                    class="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto lg:min-w-0"
+                    class="flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2"
                 >
                     <slot name="nav" />
                     <Link
@@ -61,7 +61,7 @@ const maxWidthClass = {
                         :href="logout()"
                         method="post"
                         as="button"
-                        class="postbox-btn-ghost px-2 text-xs sm:px-3 sm:text-sm"
+                        class="postbox-btn-ghost shrink-0 px-2 text-xs sm:px-3 sm:text-sm"
                     >
                         Sign out
                     </Link>

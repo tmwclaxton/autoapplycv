@@ -14,6 +14,7 @@ use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
 use App\Support\CoverLetterDesignSettings;
 use App\Support\CvExtractionSchema;
+use App\Support\ProfileLocalitySanitizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,30 @@ class ProfileController extends Controller
             $validated['cover_letter_design'],
             $validated['cover_letter_font'],
         );
+
+        $existing = $user->cvProfile;
+
+        if (array_key_exists('city', $validated) || array_key_exists('location', $validated)) {
+            $location = array_key_exists('location', $validated)
+                ? (is_string($validated['location'] ?? null) ? $validated['location'] : null)
+                : $existing?->location;
+            $city = array_key_exists('city', $validated)
+                ? (is_string($validated['city'] ?? null) ? $validated['city'] : null)
+                : $existing?->city;
+
+            if (array_key_exists('location', $validated) && ProfileLocalitySanitizer::isBareYesNo($validated['location'] ?? null)) {
+                $validated['location'] = null;
+                $location = null;
+            }
+
+            $validated['city'] = ProfileLocalitySanitizer::sanitizeCity($city, is_string($location) ? $location : null);
+        }
+
+        if ($structuredPatch !== []) {
+            $structuredPatch = ProfileLocalitySanitizer::sanitizeProfileAttributes([
+                'structured_data' => $structuredPatch,
+            ])['structured_data'] ?? $structuredPatch;
+        }
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],

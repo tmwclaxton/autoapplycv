@@ -23,7 +23,7 @@ const navLinkClass = (href: string): string =>
         : 'border-transparent text-postbox-navy hover:border-postbox-navy hover:bg-postbox-grey';
 
 const desktopNavLinkClass =
-    'shrink-0 whitespace-nowrap !px-2 !py-2 text-xs xl:!px-3 xl:text-sm';
+    'shrink-0 whitespace-nowrap !px-1.5 !py-1.5 text-xs xl:!px-3 xl:!py-2 xl:text-sm';
 
 const items = [
     { label: 'Dashboard', href: dashboard().url },
@@ -35,8 +35,8 @@ const adminHref = '/admin';
 </script>
 
 <template>
-    <div class="flex items-center gap-2">
-        <div class="lg:hidden">
+    <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <div class="xl:hidden">
             <Sheet>
                 <SheetTrigger as-child>
                     <button
@@ -92,7 +92,7 @@ const adminHref = '/admin';
             </Sheet>
         </div>
 
-        <div class="hidden flex-nowrap items-center gap-1 lg:flex xl:gap-2">
+        <div class="hidden flex-nowrap items-center gap-1 xl:flex">
             <ThemeToggle />
             <Link
                 v-for="item in items"
@@ -112,7 +112,7 @@ const adminHref = '/admin';
                 Admin
             </Link>
             <span
-                class="hidden max-w-[8rem] truncate text-sm font-medium text-muted-foreground xl:block"
+                class="hidden max-w-[7rem] truncate text-sm font-medium text-muted-foreground 2xl:block"
                 :title="page.props.auth.user?.name ?? undefined"
             >
                 {{ page.props.auth.user?.name }}

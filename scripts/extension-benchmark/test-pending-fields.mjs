@@ -242,6 +242,24 @@ assert(
     'hours commitment mapped to salary should be flagged as mismatch',
 );
 
+assert(
+    resolveProfileMappingForLabel('Are you willing to relocate to another city?')
+        ?.path === 'application_settings.willing_to_relocate',
+    'relocate-to-city labels must map to willing_to_relocate, not city',
+);
+
+assert(
+    isProfileMappingMismatch(
+        {
+            label: 'Do you live in this city?',
+            field_type: 'radio',
+            options: ['Yes', 'No'],
+        },
+        { path: 'city' },
+    ),
+    'Yes/No live-in-city screens must not write into profile.city',
+);
+
 const gaps = buildPendingFieldsFromProfileGaps(fields, emptySalaryProfile);
 assert(gaps.some((field) => field.ref === 'f2'), 'missing monthly salary should be pending');
 assert(gaps.some((field) => field.ref === 'f3'), 'missing yearly salary should be pending');

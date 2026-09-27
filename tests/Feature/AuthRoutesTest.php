@@ -2,10 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AuthRoutesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_login_route_redirects_to_workos(): void
     {
         $response = $this->get(route('login'));
@@ -44,5 +48,33 @@ class AuthRoutesTest extends TestCase
     {
         $this->get('/authenticate?code=')
             ->assertRedirect(route('login'));
+    }
+
+    public function test_authenticate_state_mismatch_redirects_to_login_not_raw_403(): void
+    {
+        $response = $this->withSession([
+            'state' => json_encode(['state' => 'expected-state', 'previous_url' => base64_encode('/')]),
+        ])->get('/authenticate?code=fake-code&state='.urlencode(json_encode(['state' => 'wrong-state'])));
+
+        $response->assertRedirect(route('login'));
+        $response->assertStatus(302);
+    }
+
+    public function test_authenticate_when_already_signed_in_redirects_to_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/authenticate?code=fake-code&state='.urlencode(json_encode(['state' => 'anything'])))
+            ->assertRedirect(route('dashboard'));
+    }
+
+    public function test_authenticate_without_code_when_signed_in_redirects_to_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get('/authenticate')
+            ->assertRedirect(route('dashboard'));
     }
 }

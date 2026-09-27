@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, setLayoutProps, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
 import {
     Briefcase,
@@ -179,7 +179,13 @@ function syncDashboardTabToUrl(tab: typeof activeTab.value): void {
         url.searchParams.set('tab', tab);
     }
 
-    window.history.replaceState(window.history.state, '', url);
+    // Keep Inertia's history/page.url in sync so header Links (e.g. Manage plan)
+    // still navigate after tab query changes.
+    router.replace({
+        url: `${url.pathname}${url.search}${url.hash}`,
+        preserveState: true,
+        preserveScroll: true,
+    });
 }
 
 function scrollToDashboardAnchor(): void {
