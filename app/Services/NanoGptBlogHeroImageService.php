@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NanoGptBudgetExceededException;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogHeroSceneVariety;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +14,10 @@ use Throwable;
 
 class NanoGptBlogHeroImageService
 {
+    public function __construct(
+        private readonly NanoGptBudgetService $budget,
+    ) {}
+
     /**
      * Generate a hero image from a text prompt via NanoGPT and store it on the configured disk.
      *
@@ -32,14 +37,29 @@ class NanoGptBlogHeroImageService
             return null;
         }
 
+        try {
+            $this->budget->assertWithinBudget();
+        } catch (NanoGptBudgetExceededException $exception) {
+            Log::warning('NanoGptBlogHeroImageService: monthly spend cap reached; skipping hero image.', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            if (app()->runningInConsole() && ! app()->runningUnitTests()) {
+                return null;
+            }
+
+            throw $exception;
+        }
+
         $baseUrl = rtrim((string) config('services.nanogpt.image_base_url'), '/');
+        $model = (string) config('services.nanogpt.image_model');
 
         try {
             $response = Http::withToken($apiKey)
                 ->timeout(180)
                 ->connectTimeout(30)
                 ->post("{$baseUrl}/images/generations", [
-                    'model' => config('services.nanogpt.image_model'),
+                    'model' => $model,
                     'prompt' => $prompt,
                     'n' => 1,
                     'size' => config('services.nanogpt.image_size'),
@@ -55,7 +75,10 @@ class NanoGptBlogHeroImageService
                 return null;
             }
 
-            $binary = $this->binaryFromResponse($response->json());
+            $payload = $response->json();
+            $this->recordImageSpend($payload, $model);
+
+            $binary = $this->binaryFromResponse(is_array($payload) ? $payload : null);
             if ($binary === null || $binary === '') {
                 Log::warning('NanoGptBlogHeroImageService: empty image bytes from API.');
 
@@ -63,12 +86,57 @@ class NanoGptBlogHeroImageService
             }
 
             return $this->storePngAndReturnPath($binary);
+        } catch (NanoGptBudgetExceededException $exception) {
+            throw $exception;
         } catch (Throwable $e) {
             Log::warning('NanoGptBlogHeroImageService: unexpected error.', [
                 'message' => $e->getMessage(),
             ]);
 
             return null;
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $payload
+     */
+    protected function recordImageSpend(?array $payload, string $model): void
+    {
+        try {
+            $reportedCost = null;
+            $remainingBalance = null;
+
+            if (is_array($payload)) {
+                foreach (['cost', 'credits'] as $key) {
+                    if (isset($payload[$key]) && is_numeric($payload[$key])) {
+                        $reportedCost = (float) $payload[$key];
+                        break;
+                    }
+                }
+
+                $pricing = $payload['x_nanogpt_pricing'] ?? null;
+                if (is_array($pricing) && isset($pricing['cost']) && is_numeric($pricing['cost'])) {
+                    $reportedCost = (float) $pricing['cost'];
+                }
+
+                foreach (['remainingBalance', 'remaining_balance', 'balance'] as $key) {
+                    $candidate = $payload[$key] ?? (is_array($pricing) ? ($pricing[$key] ?? null) : null);
+                    if (is_numeric($candidate)) {
+                        $remainingBalance = (float) $candidate;
+                        break;
+                    }
+                }
+            }
+
+            $this->budget->recordImageSpend(
+                reportedCostUsd: $reportedCost,
+                remainingBalanceUsd: $remainingBalance,
+                model: $model,
+            );
+        } catch (Throwable $exception) {
+            Log::warning('NanoGptBlogHeroImageService: failed to record spend.', [
+                'message' => $exception->getMessage(),
+            ]);
         }
     }
 

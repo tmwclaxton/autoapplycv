@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\FormCorpusFirecrawlScrutinyService;
 use Illuminate\Console\Command;
 
 class ScrutinizeFirecrawlPageCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'form-corpus:scrutinize-firecrawl-page
                             {--payload= : JSON payload string (otherwise read stdin)}';
 
@@ -14,6 +17,10 @@ class ScrutinizeFirecrawlPageCommand extends Command
 
     public function handle(FormCorpusFirecrawlScrutinyService $scrutiny): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->writeJson([
                 'accept' => false,

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Support\CvExtractionSchema;
@@ -10,12 +11,18 @@ use Illuminate\Http\UploadedFile;
 
 class BenchmarkCvUploadCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'cv:benchmark {path : Absolute path to a CV file (PDF, DOCX, etc.)}';
 
     protected $description = 'Time each stage of CV upload: text extract, NanoGPT parse, and total';
 
     public function handle(CvParserService $parser, CvExtractionService $extraction): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $path = $this->argument('path');
 
         if (! is_readable($path)) {

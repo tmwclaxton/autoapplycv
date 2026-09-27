@@ -71,6 +71,34 @@ return [
         'image_base_url' => env('NANOGPT_IMAGE_BASE_URL', 'https://nano-gpt.com/v1'),
         'image_model' => env('NANOGPT_IMAGE_MODEL', 'recraft-ai/recraft-v4.1/text-to-image'),
         'image_size' => env('NANOGPT_IMAGE_SIZE', '1024x576'),
+        // Hard monthly NanoGPT credit budget (Europe/London calendar month).
+        'monthly_spend_cap_gbp' => (float) env('NANOGPT_MONTHLY_SPEND_CAP_GBP', 50),
+        // NanoGPT prices in USD; convert reported/estimated costs to GBP for the cap.
+        'usd_to_gbp_rate' => (float) env('NANOGPT_USD_TO_GBP_RATE', 0.79),
+        // Owner alert recipient; falls back to admin.allowed_emails[0] when unset.
+        'spend_alert_email' => env('NANOGPT_SPEND_ALERT_EMAIL'),
+        'spend_warning_thresholds' => [80, 100],
+        // Used when image generation responses omit a cost field.
+        'estimated_image_cost_usd' => (float) env('NANOGPT_ESTIMATED_IMAGE_COST_USD', 0.04),
+        // Fallback USD rates per 1M tokens when the API does not report cost.
+        'fallback_pricing' => [
+            'prompt_per_million_usd' => 0.15,
+            'completion_per_million_usd' => 0.60,
+        ],
+        'model_pricing' => [
+            'openai/gpt-4.1-mini' => [
+                'prompt_per_million_usd' => 0.40,
+                'completion_per_million_usd' => 1.60,
+            ],
+            'google/gemini-3.1-flash-lite' => [
+                'prompt_per_million_usd' => 0.10,
+                'completion_per_million_usd' => 0.40,
+            ],
+            'deepseek/deepseek-v4-flash' => [
+                'prompt_per_million_usd' => 0.14,
+                'completion_per_million_usd' => 0.28,
+            ],
+        ],
     ],
 
     'gocardless' => [

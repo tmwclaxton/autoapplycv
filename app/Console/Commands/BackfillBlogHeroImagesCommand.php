@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Models\Blog;
 use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class BackfillBlogHeroImagesCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'blog:backfill-hero-images
                             {--slug= : Only backfill a single post by slug}
                             {--missing-files : Regenerate posts whose image file is missing from disk}
@@ -23,6 +26,10 @@ class BackfillBlogHeroImagesCommand extends Command
 
     public function handle(NanoGptService $nanoGpt, NanoGptBlogHeroImageService $heroImages): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $force = (bool) $this->option('force');
         $cliche = (bool) $this->option('cliche');
         $missingFiles = (bool) $this->option('missing-files');

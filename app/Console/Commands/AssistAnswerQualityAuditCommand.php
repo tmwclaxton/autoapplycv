@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\AssistAnswerQualityAuditor;
 use App\Support\AssistAnswerQualityCorpus;
 use Illuminate\Console\Command;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class AssistAnswerQualityAuditCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'assist-answer-quality:audit
                             {--limit= : Run only the first N scenarios (dev sampling)}
                             {--batch=6 : NanoGPT judge batch size}
@@ -19,6 +22,10 @@ class AssistAnswerQualityAuditCommand extends Command
 
     public function handle(AssistAnswerQualityAuditor $auditor): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         if (blank(config('services.nanogpt.api_key'))) {
             $this->error('NANOGPT_API_KEY is required.');
 

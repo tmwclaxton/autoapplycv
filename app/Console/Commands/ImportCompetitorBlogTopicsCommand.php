@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
@@ -29,6 +30,8 @@ use Throwable;
  */
 class ImportCompetitorBlogTopicsCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'blog:import-competitor-topics
                             {--limit=10 : Max topics to process this run}
                             {--offset=0 : Skip the first N pending sitemap URLs}
@@ -47,6 +50,10 @@ class ImportCompetitorBlogTopicsCommand extends Command
         FirecrawlService $firecrawl,
         NanoGptService $nanoGpt,
     ): int {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $limit = max(1, (int) $this->option('limit'));
         $offset = max(0, (int) $this->option('offset'));
         $sourceFilter = trim((string) $this->option('source'));

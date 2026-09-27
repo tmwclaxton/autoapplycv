@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Support\CvCorpusFixtureFile;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\File;
 
 class StressTestCvCorpusCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'cv:stress-test
                             {--id= : Run a single scenario id}
                             {--skip-ai : Mechanical extract only, skip NanoGPT parse}
@@ -21,6 +24,10 @@ class StressTestCvCorpusCommand extends Command
 
     public function handle(CvParserService $parser, CvExtractionService $extraction): int
     {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         ini_set('memory_limit', '512M');
 
         if (blank(config('services.nanogpt.api_key')) && ! $this->option('skip-ai')) {

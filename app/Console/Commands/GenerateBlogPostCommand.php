@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Concerns\SoftSkipsOnNanoGptBudgetExceeded;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
@@ -17,6 +18,8 @@ use Illuminate\Support\Str;
 
 class GenerateBlogPostCommand extends Command
 {
+    use SoftSkipsOnNanoGptBudgetExceeded;
+
     protected $signature = 'blog:generate
                             {--length=default : Article length: short, medium, long, pillar, default, or random}
                             {--cluster= : Force an SEO cluster id from config/blog.php}
@@ -35,6 +38,10 @@ class GenerateBlogPostCommand extends Command
         NanoGptBlogHeroImageService $heroImages,
         FirecrawlService $firecrawl,
     ): int {
+        if (($skip = $this->softSkipIfNanoGptBudgetExceeded()) !== null) {
+            return $skip;
+        }
+
         $this->info('Generating AutoCVApply blog post...');
 
         try {

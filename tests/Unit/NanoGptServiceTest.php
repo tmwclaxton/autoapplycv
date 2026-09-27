@@ -4,12 +4,15 @@ namespace Tests\Unit;
 
 use App\Exceptions\NanoGptRequestException;
 use App\Services\NanoGptService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class NanoGptServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,7 +25,11 @@ class NanoGptServiceTest extends TestCase
             'services.nanogpt.retry_attempts' => 3,
             'services.nanogpt.retry_delay_ms' => [0, 0],
             'services.nanogpt.fallback_models' => [':throughput', ':speed'],
+            'services.nanogpt.monthly_spend_cap_gbp' => 50.0,
+            'services.nanogpt.usd_to_gbp_rate' => 0.80,
+            'services.nanogpt.spend_alert_email' => 'owner@example.com',
             'cv.extraction_model_fallbacks' => [],
+            'mail.default' => 'array',
         ]);
     }
 
