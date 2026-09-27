@@ -819,6 +819,38 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'RESOLVE_JOB_CONTEXT') {
+        void (async () => {
+            try {
+                const storage = await chrome.storage.session.get([
+                    SIDE_PANEL_HOST_WINDOW_ID_KEY,
+                ]);
+                const hostWindowId =
+                    typeof storage[SIDE_PANEL_HOST_WINDOW_ID_KEY] === 'number'
+                        ? storage[SIDE_PANEL_HOST_WINDOW_ID_KEY]
+                        : null;
+                const tabId = await resolveActiveTabId(
+                    message.tabId || null,
+                    hostWindowId,
+                );
+                const tab = await chrome.tabs.get(tabId);
+                const result = await resolveJobContextForDraft(tabId, tab);
+
+                sendResponse(result);
+            } catch (error) {
+                sendResponse({
+                    ok: false,
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : 'Could not resolve job context.',
+                });
+            }
+        })();
+
+        return true;
+    }
+
     if (message.type === 'UPLOAD_CV') {
         uploadCv(message.file)
             .then(sendResponse)

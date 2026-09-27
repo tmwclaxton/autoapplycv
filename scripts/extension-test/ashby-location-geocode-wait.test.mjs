@@ -21,7 +21,9 @@ test('Ashby location combobox waits for Places geocode and retries city-only', (
     assert.match(source, /_systemfield_location/i);
     assert.match(source, /ashbyLocation \? 2000 : 250/);
     assert.match(source, /Ashby location option matched on retry/);
-    assert.match(source, /typedQueries\.push\(cityOnly\)/);
+    assert.match(source, /expandAshbyLocationTypedQueries/);
+    assert.match(source, /Ashby location skipped first-option fallback/);
+    assert.match(source, /where do you currently live/i);
     assert.match(
         source,
         /Keep `_systemfield_location` on char-by-char so Ashby Places fires/,

@@ -2607,16 +2607,35 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         const selected = readAshbyYesNoSelectedButton(container);
+        const checkbox = container.querySelector('input[type="checkbox"]');
 
         if (selected) {
             const selection = selected.textContent.replace(/\s+/g, ' ').trim();
 
-            // Trust the visible Yes/No button state. Live Ashby keeps the hidden
-            // checkbox checked=true for both Yes and No (value carries the choice).
-            return optionMatchesAnswer(selection, booleanAnswer);
-        }
+            if (!optionMatchesAnswer(selection, booleanAnswer)) {
+                return false;
+            }
 
-        const checkbox = container.querySelector('input[type="checkbox"]');
+            // Live Ashby submit validation reads React state via the hidden
+            // checkbox (checked=true, value="Yes"|"No"). aria-pressed alone can
+            // be painted by inert DOM sync without updating React - reject that.
+            if (checkbox) {
+                if (!checkbox.checked) {
+                    return false;
+                }
+
+                const value = String(checkbox.value || '').trim();
+
+                if (value && optionMatchesAnswer(value, booleanAnswer)) {
+                    return true;
+                }
+
+                // Legacy mocks flip checked for Yes with an empty value.
+                return optionMatchesAnswer(booleanAnswer, 'yes') && value === '';
+            }
+
+            return true;
+        }
 
         if (!checkbox?.checked) {
             return false;
@@ -2630,6 +2649,75 @@ var AutoCVApplyFormHeuristics = (() => {
 
         // Legacy mocks only flip checked for Yes with an empty value.
         return optionMatchesAnswer(booleanAnswer, 'yes') && value === '';
+    }
+
+    function readReactEventProps(element) {
+        if (!element) {
+            return null;
+        }
+
+        const ownKeys = Object.keys(element);
+        const propsKey = ownKeys.find(
+            (key) =>
+                key.startsWith('__reactProps$') ||
+                key.startsWith('__reactEventHandlers$'),
+        );
+
+        if (propsKey) {
+            return element[propsKey] || null;
+        }
+
+        const fiberKey = ownKeys.find(
+            (key) =>
+                key.startsWith('__reactFiber$') ||
+                key.startsWith('__reactInternalInstance$'),
+        );
+        const fiber = fiberKey ? element[fiberKey] : null;
+
+        return fiber?.memoizedProps || fiber?.pendingProps || null;
+    }
+
+    function invokeReactClickHandlers(element) {
+        const props = readReactEventProps(element);
+
+        if (!props) {
+            return false;
+        }
+
+        const syntheticEvent = {
+            type: 'click',
+            target: element,
+            currentTarget: element,
+            bubbles: true,
+            cancelable: true,
+            defaultPrevented: false,
+            preventDefault() {
+                this.defaultPrevented = true;
+            },
+            stopPropagation() {},
+            isPropagationStopped() {
+                return false;
+            },
+            persist() {},
+            nativeEvent: new MouseEvent('click', { bubbles: true }),
+        };
+
+        let invoked = false;
+
+        for (const name of [
+            'onPointerDown',
+            'onMouseDown',
+            'onPointerUp',
+            'onMouseUp',
+            'onClick',
+        ]) {
+            if (typeof props[name] === 'function') {
+                props[name](syntheticEvent);
+                invoked = true;
+            }
+        }
+
+        return invoked;
     }
 
     function readAshbyYesNoValueForInput(input) {
@@ -4126,10 +4214,14 @@ var AutoCVApplyFormHeuristics = (() => {
     function clickAshbyYesNoButton(button) {
         button.scrollIntoView?.({ block: 'center', inline: 'nearest' });
         button.focus();
-        nativeClick(button);
+
+        // Prefer React's own handlers so Ashby form state updates for Submit.
+        if (!invokeReactClickHandlers(button)) {
+            nativeClick(button);
+        }
     }
 
-    function syncAshbyYesNoInertDom(scope, booleanAnswer, root = document) {
+    function commitAshbyYesNoViaReactCheckbox(scope, booleanAnswer, root = document) {
         const fieldScope =
             findAshbyYesNoScope(root, { anchor: scope }) || scope;
         const container = queryAshbyYesNoContainer(fieldScope);
@@ -4145,38 +4237,50 @@ var AutoCVApplyFormHeuristics = (() => {
                 booleanAnswer,
             ),
         );
+        const checkbox = container.querySelector('input[type="checkbox"]');
 
-        if (!targetButton) {
+        if (!targetButton || !checkbox) {
             return false;
         }
 
-        for (const candidate of buttons) {
-            candidate.setAttribute(
-                'aria-pressed',
-                candidate === targetButton ? 'true' : 'false',
-            );
+        const optionLabel = targetButton.textContent
+            .replace(/\s+/g, ' ')
+            .trim();
+        const props = readReactEventProps(checkbox);
+
+        setNativeValue(checkbox, optionLabel);
+        setNativeChecked(checkbox, true);
+
+        if (typeof props?.onChange === 'function') {
+            props.onChange({
+                type: 'change',
+                target: checkbox,
+                currentTarget: checkbox,
+                bubbles: true,
+                cancelable: true,
+                preventDefault() {},
+                stopPropagation() {},
+                persist() {},
+                nativeEvent: new Event('change', { bubbles: true }),
+            });
         }
 
-        const checkbox = container.querySelector('input[type="checkbox"]');
-
-        if (checkbox) {
-            // Live Ashby: checked=true for any answered Yes/No; value holds "Yes"/"No".
-            const optionLabel = targetButton.textContent
-                .replace(/\s+/g, ' ')
-                .trim();
-            setNativeValue(checkbox, optionLabel);
-            setNativeChecked(checkbox, true);
-            targetButton.classList.add('_active_1svni_57');
-
-            for (const candidate of buttons) {
-                if (candidate !== targetButton) {
-                    candidate.classList.remove('_active_1svni_57');
-                }
-            }
-
-            checkbox.dispatchEvent(new Event('input', { bubbles: true }));
-            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        if (typeof props?.onClick === 'function') {
+            props.onClick({
+                type: 'click',
+                target: checkbox,
+                currentTarget: checkbox,
+                bubbles: true,
+                cancelable: true,
+                preventDefault() {},
+                stopPropagation() {},
+                persist() {},
+                nativeEvent: new MouseEvent('click', { bubbles: true }),
+            });
         }
+
+        checkbox.dispatchEvent(new Event('input', { bubbles: true }));
+        checkbox.dispatchEvent(new Event('change', { bubbles: true }));
 
         return isAshbyYesNoCommitted(fieldScope, booleanAnswer, root);
     }
@@ -4235,6 +4339,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 });
 
                 clickStrategies[attempt](button);
+                invokeReactClickHandlers(button);
                 // Live Ashby experience gates (4+ years) sometimes need a longer
                 // settle than sponsorship Yes/No before aria-pressed flips.
                 await sleep(attempt < 2 ? 160 : 280);
@@ -4253,6 +4358,7 @@ var AutoCVApplyFormHeuristics = (() => {
                             dataFieldPath,
                             selection: readAshbyYesNoSelection(scope, root),
                             checkboxChecked: checkbox?.checked ?? null,
+                            checkboxValue: checkbox?.value ?? null,
                             attempt: attempt + 1,
                         },
                     );
@@ -4260,35 +4366,40 @@ var AutoCVApplyFormHeuristics = (() => {
                     return true;
                 }
 
-                // Force inert checkbox/value sync between click strategies when
-                // the visible button did not stick (empty-value Ashby checkboxes).
+                // Prefer React onChange on the hidden checkbox over inert DOM
+                // paint - Ashby Submit ignores aria-pressed-only updates.
                 if (
                     scope &&
-                    syncAshbyYesNoInertDom(scope, booleanAnswer, root)
+                    commitAshbyYesNoViaReactCheckbox(
+                        scope,
+                        booleanAnswer,
+                        root,
+                    )
                 ) {
-                    if (isAshbyYesNoCommitted(scope, booleanAnswer, root)) {
-                        heuristicsLog(
-                            'info',
-                            'apply.yesno',
-                            'Yes/No committed after inert sync mid-retry',
-                            {
-                                dataFieldPath,
-                                booleanAnswer,
-                                attempt: attempt + 1,
-                            },
-                        );
+                    heuristicsLog(
+                        'info',
+                        'apply.yesno',
+                        'Yes/No committed via React checkbox handlers',
+                        {
+                            dataFieldPath,
+                            booleanAnswer,
+                            attempt: attempt + 1,
+                        },
+                    );
 
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
 
-        if (scope && syncAshbyYesNoInertDom(scope, booleanAnswer, root)) {
+        if (
+            scope &&
+            commitAshbyYesNoViaReactCheckbox(scope, booleanAnswer, root)
+        ) {
             heuristicsLog(
                 'info',
                 'apply.yesno',
-                'Yes/No synced on inert DOM fallback',
+                'Yes/No committed via React checkbox fallback',
                 {
                     dataFieldPath,
                     booleanAnswer,
@@ -5478,9 +5589,111 @@ var AutoCVApplyFormHeuristics = (() => {
 
         return (
             /\bwhere are you (?:currently )?located\b/i.test(label) ||
+            /\bwhere do you currently live\b/i.test(label) ||
+            /\bwhere do you live\b/i.test(label) ||
+            /\bcurrent(?:ly)? (?:live|living|based)\b/i.test(label) ||
             (/\b(?:current )?location\b/i.test(label) &&
                 !/\bcountry\b/i.test(label))
         );
+    }
+
+    function answerLooksUkLocation(answer) {
+        return /united kingdom|\buk\b|england|scotland|wales|britain/i.test(
+            String(answer || ''),
+        );
+    }
+
+    function optionLooksForeignToUkLocation(optionText) {
+        return /\b(?:australia|queensland|united states|\busa\b|\bus\b|canada|india|germany|france|arkansas)\b/i.test(
+            String(optionText || ''),
+        );
+    }
+
+    function expandAshbyLocationTypedQueries(stringValue) {
+        const value = String(stringValue || '').trim();
+        const queries = [];
+        const push = (query) => {
+            const text = String(query || '').trim();
+
+            if (text.length >= 2 && !queries.includes(text)) {
+                queries.push(text);
+            }
+        };
+
+        push(value);
+
+        const city = value.split(',')[0].trim();
+        const isUk = answerLooksUkLocation(value);
+        // Profile truncation "Wycombe, England" must still reach High Wycombe UK.
+        const highWycombe =
+            /^wycombe$/i.test(city) || /^high\s+wycombe$/i.test(city);
+
+        if (highWycombe) {
+            push('High Wycombe');
+            push('High Wycombe, England');
+            push('High Wycombe, United Kingdom');
+            push('High Wycombe, Buckinghamshire, United Kingdom');
+        }
+
+        if (city && city !== value) {
+            push(city);
+        }
+
+        if (isUk && city) {
+            push(`${city}, United Kingdom`);
+            push(`${city}, England`);
+        }
+
+        if (isUk && highWycombe) {
+            push('High Wycombe, UK');
+        }
+
+        return queries;
+    }
+
+    function scoreAshbyLocationOptionMatch(optionText, answer) {
+        const option = normalizeOption(optionText);
+        const city = normalizeOption(String(answer || '').split(',')[0] || '');
+        const answerIsUk =
+            answerLooksUkLocation(answer) ||
+            city === 'wycombe' ||
+            city === 'high wycombe';
+
+        // Foreign Places hits for UK home cities must never score.
+        if (answerIsUk && optionLooksForeignToUkLocation(optionText)) {
+            return 0;
+        }
+
+        let score = scoreComboboxOptionMatch(optionText, answer);
+
+        if (score <= 0) {
+            // Truncated "Wycombe" should still prefer High Wycombe UK options.
+            if (
+                city === 'wycombe' &&
+                option.includes('high wycombe') &&
+                answerLooksUkLocation(optionText)
+            ) {
+                score = 220;
+            } else if (
+                (city === 'wycombe' || city === 'high wycombe') &&
+                option.includes('high wycombe') &&
+                answerLooksUkLocation(optionText)
+            ) {
+                score = 200;
+            } else if (
+                city === 'wycombe' &&
+                option.startsWith('wycombe') &&
+                answerLooksUkLocation(optionText)
+            ) {
+                score = 160;
+            }
+        }
+
+        if (score > 0 && answerLooksUkLocation(optionText)) {
+            score += 80;
+        }
+
+        return score;
     }
 
     function isGreenhousePhoneCountryCombobox(element) {
@@ -6619,11 +6832,18 @@ var AutoCVApplyFormHeuristics = (() => {
                 const prefixHit = normalizeOption(optionText).includes(
                     normalizedAnswer.slice(0, 24),
                 );
-                const score = Math.max(
-                    scoreComboboxOptionMatch(optionText, stringValue),
-                    optionMatchesAnswer(optionText, stringValue) ? 500 : 0,
-                    prefixHit && normalizedAnswer.length >= 3 ? 200 : 0,
-                );
+                const ashbyLocation = isAshbyLocationCombobox(element);
+                // Ashby Places: never let bare optionMatchesAnswer promote
+                // "Wycombe, Queensland, Australia" for answer "Wycombe".
+                const score = ashbyLocation
+                    ? scoreAshbyLocationOptionMatch(optionText, stringValue)
+                    : Math.max(
+                          scoreComboboxOptionMatch(optionText, stringValue),
+                          optionMatchesAnswer(optionText, stringValue)
+                              ? 500
+                              : 0,
+                          prefixHit && normalizedAnswer.length >= 3 ? 200 : 0,
+                      );
 
                 if (score > bestScore) {
                     bestScore = score;
@@ -6665,11 +6885,16 @@ var AutoCVApplyFormHeuristics = (() => {
 
         if (!(bestOption && bestScore >= 100) && !isYesNoAnswer && canType) {
             const ashbyLocation = isAshbyLocationCombobox(element);
-            const typedQueries = [stringValue];
+            const typedQueries = ashbyLocation
+                ? expandAshbyLocationTypedQueries(stringValue)
+                : [stringValue];
 
             // Full "City, Region, Country" often returns zero Ashby Places hits;
             // city-only matches (live Mercor High Wycombe).
-            if (ashbyLocation && stringValue.includes(',')) {
+            if (
+                !ashbyLocation &&
+                stringValue.includes(',')
+            ) {
                 const cityOnly = stringValue.split(',')[0].trim();
 
                 if (cityOnly.length >= 2 && cityOnly !== stringValue) {
@@ -6868,61 +7093,77 @@ var AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
-            const fallbackText = optionTexts[0] || '';
-            heuristicsLog(
-                'warn',
-                'apply.combobox',
-                'Combobox using first option fallback',
-                { fallbackText },
-            );
+            // Never invent the first Places hit for Ashby location - live IFS
+            // returned "Wycombe, Queensland, Australia" ahead of High Wycombe UK.
+            if (isAshbyLocationCombobox(element)) {
+                heuristicsLog(
+                    'warn',
+                    'apply.combobox',
+                    'Ashby location skipped first-option fallback',
+                    {
+                        answerPreview: String(stringValue || '').slice(0, 64),
+                        optionPreview: optionTexts[0]?.slice(0, 64) || '',
+                    },
+                );
+            } else {
+                const fallbackText = optionTexts[0] || '';
+                heuristicsLog(
+                    'warn',
+                    'apply.combobox',
+                    'Combobox using first option fallback',
+                    { fallbackText },
+                );
 
-            return commitComboboxOptionSelection(
-                element,
-                options[0],
-                stringValue || fallbackText,
-            );
+                return commitComboboxOptionSelection(
+                    element,
+                    options[0],
+                    stringValue || fallbackText,
+                );
+            }
         }
 
-        // Last Ashby Places retry: city token + longer geocode window.
+        // Last Ashby Places retry: expanded UK queries + longer geocode window.
         if (isAshbyLocationCombobox(element) && canType) {
-            const cityOnly =
-                stringValue.split(',')[0].trim() || stringValue.trim();
+            const retryQueries = expandAshbyLocationTypedQueries(stringValue);
             const entry = getAshbyFieldEntry(element);
             const toggle = entry?.querySelector(
                 'button[class*="toggleButton"], button[aria-label*="oggle"]',
             );
 
-            dispatchPointerClick(element);
+            for (const cityQuery of retryQueries) {
+                dispatchPointerClick(element);
 
-            if (toggle) {
-                dispatchPointerClick(toggle);
-            }
+                if (toggle) {
+                    dispatchPointerClick(toggle);
+                }
 
-            await fillTypeaheadSearchText(element, cityOnly);
-            await pauseMs(250);
-            options = await waitForComboboxOptions(doc, element, 2500);
-            ({ bestOption, bestOptionText, bestScore } =
-                scoreOpenComboboxOptions(options));
+                await fillTypeaheadSearchText(element, cityQuery);
+                await pauseMs(250);
+                options = await waitForComboboxOptions(doc, element, 2500);
+                ({ bestOption, bestOptionText, bestScore } =
+                    scoreOpenComboboxOptions(options));
 
-            if (bestOption && bestScore >= 100) {
-                heuristicsLog(
-                    'info',
-                    'apply.combobox',
-                    'Ashby location option matched on retry',
-                    {
-                        optionText: bestOptionText,
-                        score: bestScore,
-                    },
-                );
+                if (bestOption && bestScore >= 100) {
+                    heuristicsLog(
+                        'info',
+                        'apply.combobox',
+                        'Ashby location option matched on retry',
+                        {
+                            optionText: bestOptionText,
+                            score: bestScore,
+                            typedQuery: cityQuery,
+                        },
+                    );
 
-                const committed = await commitComboboxOptionSelection(
-                    element,
-                    bestOption,
-                    stringValue,
-                );
+                    const committed = await commitComboboxOptionSelection(
+                        element,
+                        bestOption,
+                        stringValue,
+                    );
 
-                if (committed) {
-                    return true;
+                    if (committed) {
+                        return true;
+                    }
                 }
             }
         }
@@ -15217,6 +15458,7 @@ var AutoCVApplyFormHeuristics = (() => {
         setRoleRadioGroupValue,
         optionMatchesAnswer,
         scoreComboboxOptionMatch,
+        scoreAshbyLocationOptionMatch,
         findSelectOptionMatch,
         valueMatchesAnswer,
         verifyFieldApplied,
