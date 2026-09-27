@@ -4036,6 +4036,39 @@ function sanitizeLocationToken(value, profileData) {
 }
 
 /**
+ * Profile truncation sometimes stores "Wycombe" for High Wycombe UK. Expand
+ * before city/location typeahead fill so Greenhouse/SR validate the option.
+ */
+export function expandTruncatedUkCityName(city, profileData = null) {
+    const text = String(city || '').trim();
+
+    if (!text) {
+        return '';
+    }
+
+    if (!/^wycombe$/i.test(text)) {
+        return text;
+    }
+
+    const location = String(
+        readProfileValue(profileData, 'location') || '',
+    ).toLowerCase();
+    const country = String(
+        readProfileValue(profileData, 'country') || '',
+    ).toLowerCase();
+    const postcode = String(
+        readProfileValue(profileData, 'postcode') || '',
+    ).toUpperCase();
+    const ukContext =
+        /\b(england|scotland|wales|united kingdom|\buk\b)\b/.test(location) ||
+        /\b(united kingdom|\buk\b|england|scotland|wales)\b/.test(country) ||
+        /^HP\d/i.test(postcode) ||
+        !country;
+
+    return ukContext ? 'High Wycombe' : text;
+}
+
+/**
  * Prefer residential city from location when it disagrees with a job-search city
  * (e.g. city=London + location=Wycombe + postcode=HP12...).
  */
@@ -4061,11 +4094,11 @@ export function resolveResidenceCityValue(profileData) {
             locationKey.includes(cityKey);
 
         if (!overlapping) {
-            return locationCity;
+            return expandTruncatedUkCityName(locationCity, profileData);
         }
     }
 
-    return city || locationCity;
+    return expandTruncatedUkCityName(city || locationCity, profileData);
 }
 
 /**
@@ -4147,9 +4180,9 @@ function resolveSafeLocationAnswerForField(field, profileData) {
  */
 export function enrichLocationCityPrefix(location, city) {
     const locationText = String(location || '').trim();
-    const cityText = String(city || '').trim();
+    let cityText = String(city || '').trim();
 
-    if (!locationText || !cityText || !/,/.test(locationText)) {
+    if (!locationText) {
         return locationText;
     }
 
@@ -4163,14 +4196,40 @@ export function enrichLocationCityPrefix(location, city) {
         return locationText;
     }
 
+    // Bare "Wycombe, England" must become "High Wycombe, England" even when the
+    // city field is also truncated (live Greenhouse/SR city validation).
+    if (!cityText && /^wycombe$/i.test(locationCity)) {
+        cityText = 'High Wycombe';
+    } else if (/^wycombe$/i.test(cityText)) {
+        cityText = 'High Wycombe';
+    } else if (/^wycombe$/i.test(locationCity) && /high\s+wycombe/i.test(cityText)) {
+        // keep cityText
+    } else if (/^wycombe$/i.test(locationCity) && !cityText) {
+        cityText = 'High Wycombe';
+    }
+
+    if (!cityText || !/,/.test(locationText)) {
+        if (/^wycombe$/i.test(locationCity)) {
+            return ['High Wycombe', ...parts.slice(1)].join(', ');
+        }
+
+        return locationText;
+    }
+
     const cityKey = cityText.toLowerCase();
     const locationKey = locationCity.toLowerCase();
 
     if (
         cityKey !== locationKey &&
-        (cityKey.endsWith(` ${locationKey}`) || cityKey.endsWith(locationKey))
+        (cityKey.endsWith(` ${locationKey}`) ||
+            cityKey.endsWith(locationKey) ||
+            (locationKey === 'wycombe' && cityKey === 'high wycombe'))
     ) {
         return [cityText, ...parts.slice(1)].join(', ');
+    }
+
+    if (locationKey === 'wycombe') {
+        return ['High Wycombe', ...parts.slice(1)].join(', ');
     }
 
     return locationText;

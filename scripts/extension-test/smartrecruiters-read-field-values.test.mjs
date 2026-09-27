@@ -34,6 +34,7 @@ function bootHeuristics(dom) {
         Event: dom.window.Event,
         InputEvent: dom.window.InputEvent,
         FocusEvent: dom.window.FocusEvent,
+        KeyboardEvent: dom.window.KeyboardEvent,
         MouseEvent: dom.window.MouseEvent,
     };
 
