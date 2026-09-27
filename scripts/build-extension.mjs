@@ -585,6 +585,10 @@ copyFileSync(
     join(DIST, 'answer-normalization-content.js'),
 );
 copyFileSync(
+    join(SRC, 'content/cv-upload-attach.js'),
+    join(DIST, 'cv-upload-attach.js'),
+);
+copyFileSync(
     join(SRC, 'content/form-heuristics.js'),
     join(DIST, 'form-heuristics.js'),
 );

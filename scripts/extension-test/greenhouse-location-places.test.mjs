@@ -26,7 +26,9 @@ test('setGreenhouseLocationValue budgets Places fill and prefers exact city', ()
         source.indexOf('function commitReactSelectStaticValue'),
     );
 
-    assert.match(fnSlice, /isUk \? `\$\{city\}, United Kingdom`/);
+    assert.match(fnSlice, /expandAshbyLocationTypedQueries/);
+    assert.match(fnSlice, /scoreAshbyLocationOptionMatch/);
+    assert.match(fnSlice, /high\\s\+wycombe/i);
     assert.match(fnSlice, /resultCity === normalizedCity/);
     assert.match(fnSlice, /normalizedCity\.includes\(resultCity\)/);
     assert.match(fnSlice, /commitReactSelectStaticValue/);

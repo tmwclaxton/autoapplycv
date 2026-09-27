@@ -729,30 +729,61 @@
             const file = new File([blob], result.fileName || 'document.pdf', {
                 type: result.mimeType || blob.type || 'application/pdf',
             });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-
             const view = fileInput.ownerDocument?.defaultView || window;
-            const prototype = view.HTMLInputElement?.prototype;
-            const descriptor = prototype
-                ? Object.getOwnPropertyDescriptor(prototype, 'files')
-                : null;
+            const CvUpload =
+                typeof AutoCVApplyCvUploadAttach !== 'undefined'
+                    ? AutoCVApplyCvUploadAttach
+                    : globalThis.AutoCVApplyCvUploadAttach;
+            let attachResult = null;
 
-            if (descriptor?.set) {
-                descriptor.set.call(fileInput, dataTransfer.files);
+            if (CvUpload?.commitAtsResumeFileAttach) {
+                attachResult = CvUpload.commitAtsResumeFileAttach(
+                    fileInput,
+                    file,
+                    { view },
+                );
             } else {
-                fileInput.files = dataTransfer.files;
-            }
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                const prototype = view.HTMLInputElement?.prototype;
+                const descriptor = prototype
+                    ? Object.getOwnPropertyDescriptor(prototype, 'files')
+                    : null;
 
-            fileInput.dispatchEvent(new Event('input', { bubbles: true }));
-            fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+                if (descriptor?.set) {
+                    descriptor.set.call(fileInput, dataTransfer.files);
+                } else {
+                    fileInput.files = dataTransfer.files;
+                }
+
+                fileInput.dispatchEvent(
+                    new Event('input', { bubbles: true, composed: true }),
+                );
+                fileInput.dispatchEvent(
+                    new Event('change', { bubbles: true, composed: true }),
+                );
+                attachResult = {
+                    assigned: (fileInput.files?.length || 0) > 0,
+                    dropzoneAddFile: false,
+                    reactChange: false,
+                    fileCount: fileInput.files?.length || 0,
+                };
+            }
 
             contentLog('info', logPhase, 'File attached', {
                 fileName: result.fileName,
                 mimeType: result.mimeType,
+                assigned: attachResult?.assigned,
+                dropzoneAddFile: attachResult?.dropzoneAddFile,
+                reactChange: attachResult?.reactChange,
+                fileCount: attachResult?.fileCount,
             });
 
-            return true;
+            return Boolean(
+                attachResult?.assigned ||
+                    attachResult?.dropzoneAddFile ||
+                    (fileInput.files?.length || 0) > 0,
+            );
         } catch (error) {
             contentLog('warn', logPhase, 'File attach failed', {
                 error: error instanceof Error ? error.message : error,

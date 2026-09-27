@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.25.361",
+    "version": "2.25.362",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
     "permissions": [
         "storage",
@@ -58,6 +58,7 @@
                 "debug-log-client.js",
                 "form-content-signature.js",
                 "answer-normalization-content.js",
+                "cv-upload-attach.js",
                 "form-heuristics.js",
                 "field-inventory.js",
                 "form-validation-errors.js",

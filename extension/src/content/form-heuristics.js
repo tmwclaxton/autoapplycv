@@ -5952,19 +5952,24 @@ var AutoCVApplyFormHeuristics = (() => {
         const budgetExceeded = () =>
             Date.now() - startedAt >= GREENHOUSE_LOCATION_BUDGET_MS;
         const doc = element.ownerDocument || document;
-        const city = stringValue.split(',')[0].trim() || stringValue;
-        const isUk = /united kingdom|\buk\b|england|scotland|wales/i.test(
-            stringValue,
-        );
-        const queries = [
-            ...new Set(
-                [
-                    city,
-                    isUk ? `${city}, United Kingdom` : '',
-                    stringValue !== city ? stringValue : '',
-                ].filter(Boolean),
-            ),
-        ];
+        // Reuse Ashby High Wycombe expansion so truncated "Wycombe" validates.
+        const queries = expandAshbyLocationTypedQueries(stringValue).slice();
+        queries.sort((left, right) => {
+            const leftHigh = /^high\s+wycombe/i.test(left) ? 0 : 1;
+            const rightHigh = /^high\s+wycombe/i.test(right) ? 0 : 1;
+
+            return leftHigh - rightHigh;
+        });
+        const city =
+            (
+                queries.find((query) =>
+                    /^high\s+wycombe/i.test(query.split(',')[0] || ''),
+                ) ||
+                queries[0] ||
+                stringValue
+            )
+                .split(',')[0]
+                .trim() || stringValue;
 
         await closeOpenComboboxMenus(doc);
 
@@ -6042,6 +6047,7 @@ var AutoCVApplyFormHeuristics = (() => {
                     optionText.split(',')[0] || '',
                 );
                 let score = Math.max(
+                    scoreAshbyLocationOptionMatch(optionText, stringValue),
                     scoreComboboxOptionMatch(optionText, stringValue),
                     optionMatchesAnswer(optionText, stringValue) ? 500 : 0,
                 );
@@ -6063,6 +6069,13 @@ var AutoCVApplyFormHeuristics = (() => {
                     normalizedCity.includes(resultCity)
                 ) {
                     score -= 14;
+                }
+
+                if (
+                    /^wycombe$/i.test(resultCity) &&
+                    /high\s+wycombe/i.test(normalizedCity)
+                ) {
+                    score -= 40;
                 }
 
                 if (
@@ -11001,14 +11014,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
         const host = findSmartRecruitersLocationHost(element) || element;
         const textInput = findSmartRecruitersLocationTextInput(host) || element;
-        const city = stringValue.split(',')[0].trim() || stringValue;
-        const query = city.length >= 3 ? city : stringValue;
-
-        textInput.focus();
-        dispatchPointerClick(textInput);
-        await fillReactTextControl(textInput, query);
-        await sleep(600);
-
+        const queries = expandAshbyLocationTypedQueries(stringValue);
         const optionSelectors = [
             '[role="option"]',
             '[data-test*="option"]',
@@ -11017,50 +11023,110 @@ var AutoCVApplyFormHeuristics = (() => {
             '.spl-autocomplete__option',
             '[class*="autocomplete"] [class*="option"]',
         ];
-        let options = [];
 
-        for (const selector of optionSelectors) {
-            options = querySelectorAllDeep(
-                textInput.ownerDocument || document,
-                selector,
-            ).filter((node) => normalize(node.textContent || '').length >= 2);
-
-            if (options.length > 0) {
-                break;
+        for (const query of queries) {
+            if (query.length < 3) {
+                continue;
             }
-        }
 
-        const normalizedQuery = normalize(query);
-        const match =
-            options.find((node) =>
-                normalize(node.textContent || '').includes(normalizedQuery),
-            ) || options[0];
+            textInput.focus();
+            dispatchPointerClick(textInput);
+            await fillReactTextControl(textInput, query);
+            await sleep(600);
 
-        if (match) {
-            dispatchPointerClick(match);
-            await sleep(120);
+            let options = [];
 
-            const readback = String(
-                textInput.value ||
-                    readSmartRecruitersControlValue(textInput) ||
-                    '',
-            ).trim();
-
-            if (readback.length >= 2) {
-                heuristicsLog(
-                    'info',
-                    'apply.location',
-                    'smartrecruiters location selected',
-                    {
-                        query,
-                        readbackPreview: readback.slice(0, 80),
-                    },
+            for (const selector of optionSelectors) {
+                options = querySelectorAllDeep(
+                    textInput.ownerDocument || document,
+                    selector,
+                ).filter(
+                    (node) => normalize(node.textContent || '').length >= 2,
                 );
 
-                return true;
+                if (options.length > 0) {
+                    break;
+                }
+            }
+
+            let bestOption = null;
+            let bestScore = 0;
+
+            for (const node of options) {
+                const optionText = String(node.textContent || '').trim();
+                const score = scoreAshbyLocationOptionMatch(
+                    optionText,
+                    stringValue,
+                );
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestOption = node;
+                }
+            }
+
+            const normalizedQuery = normalize(query);
+            const match =
+                (bestOption && bestScore >= 100 ? bestOption : null) ||
+                options.find((node) =>
+                    normalize(node.textContent || '').includes(normalizedQuery),
+                );
+
+            if (match) {
+                dispatchPointerClick(match);
+                await sleep(120);
+
+                const readback = String(
+                    textInput.value ||
+                        readSmartRecruitersControlValue(textInput) ||
+                        '',
+                ).trim();
+
+                if (
+                    readback.length >= 2 &&
+                    !/^wycombe$/i.test(readback.split(',')[0].trim())
+                ) {
+                    heuristicsLog(
+                        'info',
+                        'apply.location',
+                        'smartrecruiters location selected',
+                        {
+                            query,
+                            readbackPreview: readback.slice(0, 80),
+                        },
+                    );
+
+                    return true;
+                }
+
+                // Bare "Wycombe" readback is not a valid SR city commit.
+                if (
+                    readback.length >= 2 &&
+                    /high\s+wycombe/i.test(readback)
+                ) {
+                    heuristicsLog(
+                        'info',
+                        'apply.location',
+                        'smartrecruiters location selected',
+                        {
+                            query,
+                            readbackPreview: readback.slice(0, 80),
+                        },
+                    );
+
+                    return true;
+                }
             }
         }
 
+        const fallbackQuery =
+            queries.find((query) => /high\s+wycombe/i.test(query)) ||
+            queries[0] ||
+            stringValue;
+        textInput.focus();
+        dispatchPointerClick(textInput);
+        await fillReactTextControl(textInput, fallbackQuery.split(',')[0]);
+        await sleep(400);
         textInput.dispatchEvent(
             new KeyboardEvent('keydown', {
                 key: 'ArrowDown',
@@ -11084,13 +11150,16 @@ var AutoCVApplyFormHeuristics = (() => {
             textInput.value || readSmartRecruitersControlValue(textInput) || '',
         ).trim();
 
-        if (keyboardReadback.length >= 2) {
+        if (
+            keyboardReadback.length >= 2 &&
+            !/^wycombe$/i.test(keyboardReadback.split(',')[0].trim())
+        ) {
             heuristicsLog(
                 'info',
                 'apply.location',
                 'smartrecruiters location keyboard-selected',
                 {
-                    query,
+                    query: fallbackQuery,
                     readbackPreview: keyboardReadback.slice(0, 80),
                 },
             );
@@ -11103,14 +11172,13 @@ var AutoCVApplyFormHeuristics = (() => {
             'apply.location',
             'smartrecruiters location fill did not commit',
             {
-                query,
-                optionCount: options.length,
+                query: fallbackQuery,
             },
         );
 
         return (
-            keyboardReadback.length >= 2 ||
-            String(textInput.value || '').trim().length >= 2
+            keyboardReadback.length >= 2 &&
+            !/^wycombe$/i.test(keyboardReadback.split(',')[0].trim())
         );
     }
 
@@ -11140,7 +11208,7 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         const host = findSmartRecruitersPhoneHost(element) || element;
-        const telInput = findSmartRecruitersPhoneTelInput(host);
+        let telInput = findSmartRecruitersPhoneTelInput(host);
         const { iso, dialCodeDigits, nationalDigits } =
             parseIndeedPhoneParts(stringValue);
         const country = iso || 'GB';
@@ -11149,44 +11217,75 @@ var AutoCVApplyFormHeuristics = (() => {
             : dialCodeDigits
               ? `+${dialCodeDigits}${nationalDigits}`
               : stringValue;
+        const national =
+            nationalDigits || stringValue.replace(/\D/g, '').replace(/^44/, '');
         const payload = {
             country,
             number: e164,
         };
 
-        if (host && host !== telInput) {
-            host.value = payload;
-            host.setAttribute('value', JSON.stringify(payload));
-            host.dispatchEvent(
+        const writeHostPayload = (phoneHost) => {
+            if (!phoneHost || phoneHost === telInput) {
+                return;
+            }
+
+            phoneHost.value = payload;
+            phoneHost.setAttribute('value', JSON.stringify(payload));
+            phoneHost.dispatchEvent(
                 new Event('input', { bubbles: true, composed: true }),
             );
-            host.dispatchEvent(
+            phoneHost.dispatchEvent(
                 new Event('change', { bubbles: true, composed: true }),
             );
-        }
+        };
 
-        if (telInput) {
-            telInput.focus();
-            dispatchPointerClick(telInput);
-            setNativeValue(
-                telInput,
-                nationalDigits || stringValue.replace(/\D/g, ''),
-            );
-            telInput.dispatchEvent(
+        writeHostPayload(host);
+
+        const writeTelDigits = async (input) => {
+            if (!input) {
+                return;
+            }
+
+            input.focus();
+            dispatchPointerClick(input);
+
+            try {
+                await fillReactTextControl(input, national);
+            } catch {
+                setNativeValue(input, national);
+            }
+
+            if (normalizePhoneDigits(input.value || '').length < 8) {
+                setNativeValue(input, national);
+            }
+
+            input.dispatchEvent(
                 new InputEvent('input', {
                     bubbles: true,
                     composed: true,
                     cancelable: true,
                     inputType: 'insertFromPaste',
-                    data: stringValue,
+                    data: national,
                 }),
             );
-            telInput.dispatchEvent(
+            input.dispatchEvent(
                 new Event('change', { bubbles: true, composed: true }),
             );
-            telInput.dispatchEvent(
+            input.dispatchEvent(
                 new FocusEvent('blur', { bubbles: true, composed: true }),
             );
+        };
+
+        await writeTelDigits(telInput);
+
+        // SR remounts the shadow tel after host JSON updates - re-resolve and
+        // rewrite so the visible control is not left blank (live AECOM).
+        await sleep(180);
+        telInput = findSmartRecruitersPhoneTelInput(host) || telInput;
+        writeHostPayload(host);
+
+        if (telInput && normalizePhoneDigits(telInput.value || '').length < 8) {
+            await writeTelDigits(telInput);
         }
 
         const readTarget = telInput || host;
@@ -11929,51 +12028,59 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        // SmartRecruiters inventoriable dropzone label.
+        if (/\bapply with resume\b/.test(label)) {
+            return true;
+        }
+
         return /\b(resume|cv|curriculum vitae)\b/.test(label);
     }
 
     /**
      * Prefer explicit resume scopes. Never grab the first Workable
      * input_files_input_* / dropzone (often photo/avatar).
+     * Pierce open shadow roots so SmartRecruiters spl-dropzone inputs are found
+     * (inventory already uses querySelectorAllDeep; FILL_RESUME must match).
      */
     function findApplicationResumeFileInput(root = document) {
-        if (!root?.querySelector) {
+        if (!root?.querySelector && !root?.querySelectorAll) {
             return null;
         }
 
-        const preferred =
-            root.querySelector(
-                '[data-ui="resume"] input[type="file"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][data-qa="input-resume"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"]#_systemfield_resume:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][name="candidate.cv"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][name="documents.cv"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][name="resume"]:not([disabled])',
-            ) ||
-            root.querySelector(
-                'input[type="file"][id*="resume" i]:not([disabled])',
-            );
+        const atsSelectors = [
+            'input[type="file"]#resume:not([disabled])',
+            'input[type="file"]#candidate_resume_remote_url:not([disabled])',
+            'input[type="file"].dz-hidden-input:not([disabled])',
+            '[data-ui="resume"] input[type="file"]:not([disabled])',
+            'input[type="file"][data-qa="input-resume"]:not([disabled])',
+            'input[type="file"][data-field-path="_systemfield_resume"]:not([disabled])',
+            'input[type="file"]#_systemfield_resume:not([disabled])',
+            'input[type="file"][name="candidate.cv"]:not([disabled])',
+            'input[type="file"][name="documents.cv"]:not([disabled])',
+            'input[type="file"][name="resume"]:not([disabled])',
+            'input[type="file"][id*="resume" i]:not([disabled])',
+            '[data-test="resume-upload"] input[type="file"]:not([disabled])',
+            '[data-test="apply-with-resume-container"] input[type="file"]:not([disabled])',
+            'spl-dropzone input[type="file"]:not([disabled])',
+            'oc-resume-upload input[type="file"]:not([disabled])',
+            'oc-apply-with-resume input[type="file"]:not([disabled])',
+            '[aria-labelledby="upload-label-resume"] input[type="file"]:not([disabled])',
+        ];
 
-        if (preferred && isApplicationResumeFileInput(preferred)) {
-            return preferred;
+        for (const selector of atsSelectors) {
+            const matches = querySelectorAllDeep(root, selector);
+
+            for (const candidate of matches) {
+                if (isApplicationResumeFileInput(candidate)) {
+                    return candidate;
+                }
+            }
         }
 
         return (
-            Array.from(
-                root.querySelectorAll('input[type="file"]:not([disabled])'),
+            querySelectorAllDeep(
+                root,
+                'input[type="file"]:not([disabled])',
             ).find(isApplicationResumeFileInput) || null
         );
     }
