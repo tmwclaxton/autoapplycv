@@ -13,6 +13,12 @@ Route::middleware(['guest'])->group(function () {
     ]))->name('register');
 
     Route::get('authenticate', function (AuthKitAuthenticationRequest $request) {
+        $code = $request->query('code');
+
+        if (! is_string($code) || $code === '') {
+            return redirect()->route('login');
+        }
+
         $user = $request->authenticate();
 
         // WorkOS AuthKitAuthenticationRequest already dispatches Registered for

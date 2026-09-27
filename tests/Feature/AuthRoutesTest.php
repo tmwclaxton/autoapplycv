@@ -33,4 +33,16 @@ class AuthRoutesTest extends TestCase
             'WorkOS already dispatches Registered; auth.php must not dispatch it again.',
         );
     }
+
+    public function test_authenticate_without_code_redirects_to_login(): void
+    {
+        $this->get('/authenticate')
+            ->assertRedirect(route('login'));
+    }
+
+    public function test_authenticate_with_empty_code_redirects_to_login(): void
+    {
+        $this->get('/authenticate?code=')
+            ->assertRedirect(route('login'));
+    }
 }
