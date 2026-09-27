@@ -663,15 +663,28 @@
         try {
             const ctx = extensionContext();
             const result = await new Promise((resolve, reject) => {
+                const timeoutId = setTimeout(() => {
+                    reject(
+                        new Error(
+                            `Timed out after 30000ms waiting for ${messageType}.`,
+                        ),
+                    );
+                }, 30_000);
+
                 const onResponse = (response) => {
+                    clearTimeout(timeoutId);
+
                     if (response?.error) {
                         reject(new Error(response.error));
+                    } else if (!response) {
+                        reject(new Error(`${messageType} returned no payload.`));
                     } else {
                         resolve(response);
                     }
                 };
 
                 if (!ctx) {
+                    clearTimeout(timeoutId);
                     reject(new Error('Extension context unavailable.'));
 
                     return;
@@ -1211,6 +1224,39 @@
         return document;
     }
 
+    function isJobApplicationHighlightSurface() {
+        const href = String(location.href || '');
+        const host = String(location.hostname || '')
+            .replace(/^www\./, '')
+            .toLowerCase();
+
+        if (
+            /^(drive|docs|mail|calendar|meet|maps|photos)\.google\.com$/i.test(
+                host,
+            ) ||
+            /^(youtube|twitter|x|facebook|instagram|reddit)\.com$/i.test(host)
+        ) {
+            return false;
+        }
+
+        if (
+            /jobs?|careers?|apply|greenhouse|lever\.co|ashbyhq|workday|smartrecruiters|bamboohr|workable|icims|jobvite|taleo|successfactors|firststage|linkedin\.com\/jobs/i.test(
+                href,
+            )
+        ) {
+            return true;
+        }
+
+        return (
+            typeof AutoCVApplyFormHeuristics !== 'undefined' &&
+            typeof AutoCVApplyFormHeuristics.frameHasApplicationForm ===
+                'function' &&
+            AutoCVApplyFormHeuristics.frameHasApplicationForm(document)
+        );
+    }
+
+    let lastHighlightPaintKey = '';
+
     async function runFieldHighlightRefresh(explicitPaintFieldHighlights) {
         if (typeof AutoCVApplyFieldHighlighter === 'undefined') {
             return;
@@ -1232,6 +1278,7 @@
             // Outlines only while the side panel is open on this tab's Chrome window.
             if (!paintFieldHighlights) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
 
                 return;
             }
@@ -1240,6 +1287,20 @@
 
             if (!authenticated) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
+
+                return;
+            }
+
+            const easyApplyOpen =
+                typeof AutoCVApplyLinkedInAutoApply !== 'undefined' &&
+                typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal ===
+                    'function' &&
+                Boolean(AutoCVApplyLinkedInAutoApply.readEasyApplyModal());
+
+            if (!easyApplyOpen && !isJobApplicationHighlightSurface()) {
+                AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
 
                 return;
             }
@@ -1248,6 +1309,7 @@
 
             if (!profileData?.profile) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
 
                 return;
             }
@@ -1257,6 +1319,7 @@
             // LinkedIn SERP without a job-detail / Easy Apply scope: no outlines.
             if (!root) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
 
                 return;
             }
@@ -1271,15 +1334,11 @@
                 {},
                 { includeFilled: true },
             );
-            const easyApplyOpen =
-                typeof AutoCVApplyLinkedInAutoApply !== 'undefined' &&
-                typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal ===
-                    'function' &&
-                Boolean(AutoCVApplyLinkedInAutoApply.readEasyApplyModal());
 
             // Empty Easy Apply shell: keep retrying until contact fields hydrate.
             if (count === 0 && easyApplyOpen) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
                 scheduleEasyApplyHighlightRetry();
                 contentLog(
                     'debug',
@@ -1295,6 +1354,7 @@
 
             if (count === 0) {
                 AutoCVApplyFieldHighlighter.clearHighlights();
+                lastHighlightPaintKey = '';
 
                 return;
             }
@@ -1306,12 +1366,24 @@
                 easyApplyHighlightRetryTimer = null;
             }
 
+            const paintKey = [
+                location.href.split('?')[0],
+                count,
+                easyApplyOpen ? '1' : '0',
+                root === document ? 'document' : root?.tagName || '',
+            ].join('|');
+
+            if (paintKey === lastHighlightPaintKey) {
+                return;
+            }
+
             AutoCVApplyFieldHighlighter.applyHighlights(
                 root,
                 profileData.profile,
                 settings,
                 {},
             );
+            lastHighlightPaintKey = paintKey;
             contentLog('info', 'highlight.apply', 'Painted field outlines', {
                 count,
                 paintFieldHighlights,
@@ -1323,6 +1395,7 @@
             });
         } catch {
             AutoCVApplyFieldHighlighter.clearHighlights();
+            lastHighlightPaintKey = '';
         }
     }
 
@@ -1426,24 +1499,67 @@
                     return;
                 }
 
-                contentLog(
-                    'debug',
-                    'message.received',
-                    `Handler: ${message.type}`,
-                    {
-                        type: message.type,
-                        ref: message.ref,
-                        label: message.label,
-                        answerPreview:
-                            typeof message.answer === 'string'
-                                ? message.answer.slice(0, 80)
-                                : message.answer,
-                        batchSize: message.answers?.length,
-                    },
-                );
+                // Skip noisy probe/visibility handlers - they flood the 500-entry ring buffer.
+                if (
+                    message.type !== 'COUNT_DRAFTABLE_FIELDS' &&
+                    message.type !== 'AUTOFILL_VISIBILITY_CHANGED' &&
+                    message.type !== 'PROBE_RESUME_UPLOAD_GATE'
+                ) {
+                    contentLog(
+                        'debug',
+                        'message.received',
+                        `Handler: ${message.type}`,
+                        {
+                            type: message.type,
+                            ref: message.ref,
+                            label: message.label,
+                            answerPreview:
+                                typeof message.answer === 'string'
+                                    ? message.answer.slice(0, 80)
+                                    : message.answer,
+                            batchSize: message.answers?.length,
+                        },
+                    );
+                }
 
                 if (message.type === 'COUNT_DRAFTABLE_FIELDS') {
                     sendResponse(await countDraftableFieldsInDocument());
+
+                    return;
+                }
+
+                if (message.type === 'PROBE_RESUME_UPLOAD_GATE') {
+                    const resumeInput =
+                        typeof findResumeFileInput === 'function'
+                            ? findResumeFileInput()
+                            : null;
+                    const easyApplyModal =
+                        typeof AutoCVApplyLinkedInAutoApply !== 'undefined' &&
+                        typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal ===
+                            'function'
+                            ? AutoCVApplyLinkedInAutoApply.readEasyApplyModal()
+                            : null;
+                    const hasSelectedResume =
+                        Boolean(easyApplyModal) &&
+                        typeof AutoCVApplyLinkedInEasyApplyFields !==
+                            'undefined' &&
+                        typeof AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume ===
+                            'function'
+                            ? AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume(
+                                  easyApplyModal,
+                              )
+                            : Boolean(
+                                  document.querySelector(
+                                      '.jobs-document-upload-redesign-card__container--selected, .jobs-document-upload-redesign-card__container input[type="radio"]:checked',
+                                  ),
+                              );
+
+                    sendResponse({
+                        success: true,
+                        hasResumeFileInput: Boolean(resumeInput),
+                        hasSelectedResume,
+                        isLinkedInEasyApply: Boolean(easyApplyModal),
+                    });
 
                     return;
                 }

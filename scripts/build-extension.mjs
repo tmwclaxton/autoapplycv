@@ -305,6 +305,10 @@ copyFileSync(
     join(DIST, 'draft-all-optimizations.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/draft-all-resume-gate.js'),
+    join(DIST, 'draft-all-resume-gate.js'),
+);
+copyFileSync(
     join(SRC, 'shared/speak-language-answer.js'),
     join(DIST, 'speak-language-answer.js'),
 );

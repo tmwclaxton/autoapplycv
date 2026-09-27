@@ -166,6 +166,13 @@ async function startAnswerQuestionsOnPage() {
             return;
         }
 
+        if (response?.cancelled) {
+            setAnswerQuestionsRunning(false, '');
+            showMessage(response?.message || 'Cancelled.', 'success');
+
+            return;
+        }
+
         const doneMessage = response?.message || 'Questions answered.';
         setAnswerQuestionsRunning(false, '');
         showMessage(doneMessage, 'success');
