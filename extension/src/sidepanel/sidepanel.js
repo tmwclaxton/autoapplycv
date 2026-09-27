@@ -285,6 +285,10 @@ export function switchToTab(tabKey) {
     panel.classList.add('active');
     setJobContextVisible(tabKey);
 
+    if (aiTabs.has(tabKey)) {
+        void hydrateJobContextFromActiveTab().catch(() => {});
+    }
+
     if (tabKey === 'documents' && documentsPanel) {
         documentsPanel.refreshDocuments({ force: true }).catch((error) => {
             showMessage(error.message, 'error');
@@ -371,9 +375,77 @@ function buildJobPayload() {
     };
 }
 
+function applyJobContextToForm(job) {
+    if (!job || typeof job !== 'object') {
+        return false;
+    }
+
+    const titleInput = document.getElementById('ai-job-title');
+    const companyInput = document.getElementById('ai-job-company');
+    const descriptionInput = document.getElementById('ai-job-description');
+    const title = String(job.title || '').trim();
+    const company = String(job.company || '').trim();
+    const description = String(
+        job.job_description || job.description || '',
+    ).trim();
+    let applied = false;
+
+    if (titleInput && title && !titleInput.value.trim()) {
+        titleInput.value = title;
+        applied = true;
+    }
+
+    if (
+        companyInput &&
+        company &&
+        !/^unknown\b/i.test(company) &&
+        !companyInput.value.trim()
+    ) {
+        companyInput.value = company;
+        applied = true;
+    }
+
+    if (descriptionInput && description && !descriptionInput.value.trim()) {
+        descriptionInput.value = description;
+        applied = true;
+    }
+
+    return applied;
+}
+
+async function hydrateJobContextFromActiveTab({ force = false } = {}) {
+    const titleInput = document.getElementById('ai-job-title');
+    const companyInput = document.getElementById('ai-job-company');
+    const descriptionInput = document.getElementById('ai-job-description');
+    const alreadyFilled =
+        Boolean(titleInput?.value.trim()) &&
+        Boolean(companyInput?.value.trim()) &&
+        Boolean(descriptionInput?.value.trim());
+
+    if (alreadyFilled && !force) {
+        return false;
+    }
+
+    try {
+        const response = await new Promise((resolve) => {
+            chrome.runtime.sendMessage({ type: 'RESOLVE_JOB_CONTEXT' }, resolve);
+        });
+
+        if (!response?.ok || !response.job) {
+            return false;
+        }
+
+        return applyJobContextToForm(response.job);
+    } catch {
+        return false;
+    }
+}
+
 function validateJobDescription(description) {
     if (description.length < 40) {
-        throw new Error('Paste a job description (40+ characters).');
+        throw new Error(
+            'Paste a job description (40+ characters), or open a job page so AutoCVApply can detect it.',
+        );
     }
 }
 
@@ -621,6 +693,7 @@ document.getElementById('ai-ats-btn').addEventListener('click', async () => {
     statusEl.textContent = 'Working…';
 
     try {
+        await hydrateJobContextFromActiveTab();
         const job = buildJobPayload();
         validateJobDescription(job.description);
 
@@ -646,6 +719,7 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
     statusEl.textContent = 'Working…';
 
     try {
+        await hydrateJobContextFromActiveTab();
         const job = buildJobPayload();
         validateJobDescription(job.description);
 

@@ -145,7 +145,23 @@ function parseJobTitleFromPageTitle(pageTitle, company) {
         return null;
     }
 
-    const separators = [' | ', ' - ', ' \u2014 ', ' \u2013 ', ' at '];
+    const separators = [' | ', ' - ', ' \u2014 ', ' \u2013 ', ' at ', ' @ '];
+
+    // Ashby / Lever often use "Role @ Company" without spaces around @.
+    const atMatch = title.match(/^(.+?)\s*@\s*(.+)$/);
+
+    if (atMatch?.[1]?.trim().length >= 3) {
+        const role = atMatch[1].trim();
+        const companyFromAt = atMatch[2].trim();
+
+        if (
+            !company ||
+            companyFromAt.toLowerCase() === company.toLowerCase() ||
+            companyFromAt.length >= 2
+        ) {
+            return role.slice(0, 255);
+        }
+    }
 
     for (const separator of separators) {
         const parts = title
@@ -1010,10 +1026,34 @@ export function tryInferJobContextFromPage(pagePayload, tabTitle = '') {
     }
 
     const title = parseJobTitleFromPageTitle(pageTitle, company);
-    const jobDescription =
+    let jobDescription =
         pageText.length >= MIN_INFERRED_JOB_TEXT_LENGTH
             ? pageText.slice(0, 20000)
             : null;
+
+    // Ashby application URLs often expose little body text; still seed ATS/Cover
+    // from the inferred role + company so tabs do not ask for manual paste.
+    if (
+        !jobDescription &&
+        source === 'ashby' &&
+        (title || company) &&
+        pageText.length >= 40
+    ) {
+        jobDescription = pageText.slice(0, 20000);
+    }
+
+    if (
+        !jobDescription &&
+        source === 'ashby' &&
+        (title || company)
+    ) {
+        jobDescription = [title, company ? `at ${company}` : '', pageText]
+            .filter(Boolean)
+            .join(' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 20000);
+    }
 
     if (!title && !company && !jobDescription) {
         return null;

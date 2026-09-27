@@ -467,6 +467,13 @@
             '[class*="JobDescription"]',
             '[id*="job-description"]',
             '.jobs-search__job-details--container',
+            // Ashby posting + application shells
+            '[class*="ashby-job-description"]',
+            '[class*="job-posting"]',
+            '[class*="JobPosting"]',
+            '[data-testid="job-description-text"]',
+            'article',
+            '[role="article"]',
         ];
 
         let best = '';
@@ -490,6 +497,25 @@
 
             if (mainText.length > best.length) {
                 best = mainText;
+            }
+        }
+
+        // Ashby /application pages often only expose the form; still return
+        // title + visible heading text so ATS/Cover can infer the role.
+        if (best.length < 40 && /ashbyhq\.com/i.test(window.location.hostname)) {
+            const heading =
+                document
+                    .querySelector('h1, h2, [class*="title"]')
+                    ?.textContent?.replace(/\s+/g, ' ')
+                    .trim() || '';
+            const combined = [document.title, heading, best]
+                .filter(Boolean)
+                .join(' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (combined.length > best.length) {
+                best = combined;
             }
         }
 
@@ -2104,15 +2130,50 @@
                             );
                         }
 
+                        const page = buildPagePayloadForJobContext();
+                        const description =
+                            extractJobDescriptionFromPage() ||
+                            page.page_text ||
+                            null;
+                        let company = 'Unknown company';
+                        let title = document.title || 'Job application';
+
+                        try {
+                            const ashbyMatch = window.location.href.match(
+                                /jobs\.ashbyhq\.com\/([^/?#]+)/i,
+                            );
+
+                            if (ashbyMatch?.[1]) {
+                                company = ashbyMatch[1]
+                                    .replace(/[-_]+/g, ' ')
+                                    .replace(/\b\w/g, (char) =>
+                                        char.toUpperCase(),
+                                    );
+                            }
+
+                            const atMatch = String(document.title || '').match(
+                                /^(.+?)\s*@\s*(.+)$/,
+                            );
+
+                            if (atMatch?.[1]) {
+                                title = atMatch[1].trim();
+
+                                if (atMatch[2]?.trim()) {
+                                    company = atMatch[2].trim();
+                                }
+                            }
+                        } catch {
+                            // Keep defaults.
+                        }
+
                         sendResponse({
                             job: {
-                                title: document.title || 'Job application',
-                                company: 'Unknown company',
+                                title,
+                                company,
                                 link: window.location.href.split('?')[0],
-                                job_description:
-                                    extractJobDescriptionFromPage(),
+                                job_description: description,
                             },
-                            page: buildPagePayloadForJobContext(),
+                            page,
                         });
                     })();
 

@@ -1489,6 +1489,30 @@ function pickLocalizedYesNoOption(field, wantYes) {
     return wantYes ? 'Yes' : 'No';
 }
 
+function profileWillingToAttendEmployerOffice(profileData) {
+    const willingRaw = readProfileValue(
+        profileData,
+        'application_settings.willing_to_relocate',
+    );
+    const hybridRaw = readProfileValue(
+        profileData,
+        'application_settings.affirm_local_hybrid',
+    );
+    const commuteRaw = readProfileValue(
+        profileData,
+        'application_settings.affirm_local_commute',
+    );
+
+    return (
+        willingRaw === true ||
+        isAffirmativeRelocateAnswer(willingRaw) ||
+        hybridRaw === true ||
+        /^yes\b/i.test(String(hybridRaw || '').trim()) ||
+        commuteRaw === true ||
+        /^yes\b/i.test(String(commuteRaw || '').trim())
+    );
+}
+
 export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
     const label = field?.label || field?.question || '';
 
@@ -1504,6 +1528,21 @@ export function resolveOfficeCommuteDeclineAnswer(field, profileData) {
     if (
         !profileInUk ||
         profileNearRelocateDestination(label, profileLocation)
+    ) {
+        return '';
+    }
+
+    // Unnamed "work from our office N days" for relocate-open UK profiles is a
+    // Yes (Magentic London hybrid). Only decline when a foreign office city is
+    // named and the profile is not near it.
+    const officeCities = extractOfficeCitiesFromLabel(
+        normalizeQuestionLabel(label),
+    );
+
+    if (
+        isEmployerOfficeAttendanceQuestionLabel(label) &&
+        officeCities.length === 0 &&
+        profileWillingToAttendEmployerOffice(profileData)
     ) {
         return '';
     }
@@ -1549,10 +1588,15 @@ export function resolveOfficeCommuteAffirmAnswer(field, profileData) {
     const officeCities = extractOfficeCitiesFromLabel(
         normalizeQuestionLabel(label),
     );
+    const unnamedEmployerOffice =
+        isEmployerOfficeAttendanceQuestionLabel(label) &&
+        officeCities.length === 0 &&
+        profileWillingToAttendEmployerOffice(profileData);
 
     if (
-        officeCities.length === 0 ||
-        !profileNearOfficeCities(officeCities, profileLocation)
+        !unnamedEmployerOffice &&
+        (officeCities.length === 0 ||
+            !profileNearOfficeCities(officeCities, profileLocation))
     ) {
         return '';
     }
