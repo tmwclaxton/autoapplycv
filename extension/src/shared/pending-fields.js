@@ -587,6 +587,12 @@ const PROFILE_FIELD_MAPPINGS = [
             'comfortable working in a hybrid',
             'hybrid setting',
             'work in a hybrid',
+            'comfortable working in an onsite',
+            'comfortable working in an on-site',
+            'onsite setting',
+            'on-site setting',
+            'working in an onsite',
+            'working in an on-site',
         ],
     },
     {
@@ -2110,15 +2116,33 @@ export function isSkillSpecificYearsExperienceQuestionLabel(label) {
 }
 
 /**
- * Tool-scoped years must stay blank without a matching profile skill - never copy
- * total years_of_experience or let NanoGPT invent (live Ashby Real Figma years).
- * Broad "software development experience" still uses total YOE via preference/screener.
- * Required skill-years become sidebar pending instead of silent unfilledRequired.
+ * Skill/tool years ("How many years … with Python?") used to clear + sidebar-pend
+ * so total YOE was never invented onto niche tools. LinkedIn Easy Apply Auto Apply
+ * stalls on those pages with 0 submissions when YOE is already on the profile, so
+ * when effective YOE is known we fill that digit instead of deferring.
+ * Without YOE, keep clear + pending (no NanoGPT invent).
  */
-export function partitionSkillSpecificYearsExperienceFields(fields) {
+export function partitionSkillSpecificYearsExperienceFields(
+    fields,
+    profileData = null,
+) {
     const remainingFields = [];
     const clearAnswers = [];
     const pendingFields = [];
+    const skillYearsAnswers = [];
+    // Prefer explicit settings YOE for LinkedIn "years with X" digits (Auto Apply
+    // profile shows yearsOfExperience). Fall back to experience-timeline YOE.
+    const settingsYears = Number.parseInt(
+        String(
+            profileData?.application_settings?.years_of_experience ??
+                profileData?.application_settings?.yearsOfExperience ??
+                '',
+        ).trim(),
+        10,
+    );
+    const years = Number.isNaN(settingsYears)
+        ? effectiveYearsOfExperience(profileData)
+        : settingsYears;
 
     for (const field of fields || []) {
         const label = field?.label || field?.question || '';
@@ -2128,21 +2152,31 @@ export function partitionSkillSpecificYearsExperienceFields(fields) {
             continue;
         }
 
+        if (years != null) {
+            skillYearsAnswers.push({
+                ...field,
+                answer: String(years),
+            });
+            continue;
+        }
+
         clearAnswers.push({
             ...field,
             answer: '__CLEAR__',
         });
 
-        // Always sidebar-pending (not only when inventory marks required). Ashby
-        // often omits required until submit; otherwise these resurface as
-        // unfilledRequired with a wrong total-years mapping (live Smarkets).
         const pending = createPendingField(field, null, 'missing_profile_data');
         pending.pending_hint =
-            'Enter how many years of experience you have with this specific skill/tool. We do not invent this from your total years of experience.';
+            'Enter how many years of experience you have with this specific skill/tool.';
         pendingFields.push(pending);
     }
 
-    return { remainingFields, clearAnswers, pendingFields };
+    return {
+        remainingFields,
+        clearAnswers,
+        pendingFields,
+        skillYearsAnswers,
+    };
 }
 
 /**
@@ -5961,8 +5995,24 @@ export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
         field?.field_type || field?.type || '',
     ).toLowerCase();
 
-    // Optional skill-years stay silent; required ones need a sidebar answer.
+    // Skill-years are filled from profile YOE when known; otherwise required ones need sidebar.
     if (isSkillSpecificYearsExperienceQuestionLabel(label)) {
+        const settingsYears = Number.parseInt(
+            String(
+                profileData?.application_settings?.years_of_experience ??
+                    profileData?.application_settings?.yearsOfExperience ??
+                    '',
+            ).trim(),
+            10,
+        );
+
+        if (
+            !Number.isNaN(settingsYears) ||
+            effectiveYearsOfExperience(profileData) != null
+        ) {
+            return false;
+        }
+
         return Boolean(field?.required);
     }
 

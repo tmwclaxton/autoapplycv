@@ -96,7 +96,7 @@ test('serving notice follow-up answers No, not a career essay', () => {
     assert.equal(resolveHeuristicScreenerAnswer(field, PROFILE), 'No');
 });
 
-test('Draft All plan clears skill years and maps notice radio', () => {
+test('Draft All plan fills skill years from YOE and maps notice radio', () => {
     const plan = buildDraftAllApplyPlan({
         fields: [
             {
@@ -140,12 +140,10 @@ test('Draft All plan clears skill years and maps notice radio', () => {
     assert.equal(byRef.f17, '30 Days');
     assert.equal(byRef.f18, 'No');
     assert.equal(byRef.f19, '2');
-    assert.equal(byRef.f20, '__CLEAR__');
+    assert.equal(byRef.f20, '2');
     assert.ok(!(plan.llmFields || []).some((field) => field.ref === 'f20'));
     assert.ok(
-        (plan.pendingFields || []).some(
-            (field) =>
-                field.ref === 'f20' && field.reason === 'missing_profile_data',
-        ),
+        !(plan.pendingFields || []).some((field) => field.ref === 'f20'),
+        'skill years with profile YOE must not sidebar-pend',
     );
 });

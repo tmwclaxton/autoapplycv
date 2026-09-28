@@ -357,7 +357,7 @@ test('SDUI Additional Questions modal inventories years + Yes/No radios', () => 
     );
 });
 
-test('SDUI Additional Questions draft plan maps sponsorship No; skill years pending', () => {
+test('SDUI Additional Questions draft plan fills skill years + sponsorship No', () => {
     const html = readFileSync(
         join(
             ROOT,
@@ -409,18 +409,90 @@ test('SDUI Additional Questions draft plan maps sponsorship No; skill years pend
     const pythonRef = fields.find((f) => /years.*Python/i.test(f.label))?.ref;
     assert.ok(pythonRef);
     const pythonStaged = staged.find((row) => row.ref === pythonRef);
+    assert.ok(
+        pythonStaged,
+        'Python skill-years must be answered from profile YOE',
+    );
+    assert.equal(String(pythonStaged.answer), '4');
+    assert.ok(
+        !(plan.pendingFields || []).some((row) => row.ref === pythonRef),
+        'skill-years with profile YOE must not defer to sidebar',
+    );
+});
 
-    if (pythonStaged) {
-        assert.equal(
-            String(pythonStaged.answer),
-            '__CLEAR__',
-            'skill-years must not dump total YOE',
-        );
-    }
+test('SDUI HartleyCo-style screening radios map onsite/sponsorship/RTW from profile', () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-screening-radios.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4469766154/',
+    );
 
     assert.ok(
-        (plan.pendingFields || []).some((row) => row.ref === pythonRef) ||
-            pythonStaged?.answer === '__CLEAR__',
-        'Python skill-years should clear/pending for honest fill',
+        window.AutoCVApplyLinkedInAutoApply.readEasyApplyModal(),
+        'HartleyCo SDUI modal must be detected',
     );
+
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const fields = (snapshot.elements || []).map((el, index) => ({
+        id: index,
+        ref: el.ref || `f${index}`,
+        label: el.question,
+        field_type: el.field_type,
+        options: el.options,
+        required: true,
+    }));
+
+    assert.ok(
+        fields.length >= 3,
+        `expected onsite/sponsorship/RTW radios, got ${JSON.stringify(
+            fields.map((f) => f.label),
+        )}`,
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields,
+        profileData: UK_PROFILE,
+        questionMemo: {},
+        pageUrl: 'https://www.linkedin.com/jobs/view/4469766154/',
+    });
+    const staged = Object.fromEntries(
+        (plan.applyStages || [])
+            .flatMap((stage) => stage.answers || [])
+            .map((row) => [
+                fields.find((f) => f.ref === row.ref)?.label || row.ref,
+                String(row.answer),
+            ]),
+    );
+
+    const onsiteKey = Object.keys(staged).find((label) =>
+        /onsite/i.test(label),
+    );
+    const sponsorKey = Object.keys(staged).find((label) =>
+        /sponsorship/i.test(label),
+    );
+    const rtwKey = Object.keys(staged).find((label) =>
+        /legally authorized|right to work/i.test(label),
+    );
+
+    assert.ok(onsiteKey, `onsite answered, got ${JSON.stringify(staged)}`);
+    assert.match(staged[onsiteKey], /^yes$/i);
+    assert.ok(
+        sponsorKey,
+        `sponsorship answered, got ${JSON.stringify(staged)}`,
+    );
+    assert.match(staged[sponsorKey], /^no$/i);
+    assert.ok(rtwKey, `RTW answered, got ${JSON.stringify(staged)}`);
+    assert.match(staged[rtwKey], /^yes$/i);
+    assert.equal((plan.pendingFields || []).length, 0);
 });

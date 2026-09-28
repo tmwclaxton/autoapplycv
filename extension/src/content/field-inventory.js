@@ -971,10 +971,20 @@ var AutoCVApplyFieldInventory = (() => {
     async function applyAnswerByRef(root, ref, answer, options = {}) {
         const entry = resolveApplyEntry(ref, options);
 
-        if (!entry || !answer) {
+        if (!entry) {
             inventoryLog('warn', 'apply.ref', 'applyAnswerByRef - ref not in registry', {
                 ref,
-                hasEntry: Boolean(entry),
+                hasEntry: false,
+            });
+
+            return false;
+        }
+
+        // Empty string clears text inputs; only null/undefined is missing.
+        if (answer == null) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRef - missing answer', {
+                ref,
+                hasEntry: true,
             });
 
             return false;
@@ -1015,8 +1025,14 @@ var AutoCVApplyFieldInventory = (() => {
         let applied = false;
         const entry = resolveApplyEntry(ref, options);
 
-        if (!entry || !answer) {
+        if (!entry) {
             inventoryLog('warn', 'apply.ref', 'applyAnswerByRefAllFrames - ref not in registry', { ref });
+
+            return false;
+        }
+
+        if (answer == null) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRefAllFrames - missing answer', { ref });
 
             return false;
         }

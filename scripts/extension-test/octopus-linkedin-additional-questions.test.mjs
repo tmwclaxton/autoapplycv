@@ -127,7 +127,7 @@ test('MDM essay never maps to phone identity or accepts phone answers', () => {
     assert.equal(identityAnswers.length, 0);
 });
 
-test('Macbook / enterprise IT years are skill-scoped not total YOE', () => {
+test('Macbook / enterprise IT years fill from profile YOE when known', () => {
     assert.equal(isSkillScopedYearsExperienceLabel(MAC_LABEL), true);
     assert.equal(
         resolvePreferenceProfileAnswer(
@@ -151,18 +151,15 @@ test('Macbook / enterprise IT years are skill-scoped not total YOE', () => {
     });
 
     const preference = plan.applyStages.find((stage) => stage.type === 'preference');
-    assert.ok(
-        !preference?.answers?.some((row) => row.ref === 'f4'),
-        'must not dump years_of_experience onto Macbook years',
+    const macAnswer = preference?.answers?.find((row) => row.ref === 'f4');
+    assert.equal(
+        String(macAnswer?.answer || ''),
+        String(SOFTWARE_PROFILE.application_settings.years_of_experience),
+        'skill-scoped years use profile YOE so Auto Apply can submit',
     );
     assert.ok(
-        plan.pendingFields?.some((row) => row.ref === 'f4') ||
-            plan.applyStages.some(
-                (stage) =>
-                    stage.type === 'clear' &&
-                    stage.answers?.some((row) => row.ref === 'f4'),
-            ),
-        'Macbook years should clear/pending for honest fill',
+        !(plan.pendingFields || []).some((row) => row.ref === 'f4'),
+        'must not sidebar-pend when YOE is available',
     );
 });
 

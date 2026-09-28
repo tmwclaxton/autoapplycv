@@ -2,11 +2,6 @@
  * Normalize draft and user answers to the shape employer forms expect.
  */
 
-import {
-    isGenericTotalExperienceQuestionLabel,
-    isSkillSpecificYearsExperienceQuestionLabel,
-} from './pending-fields.js';
-
 const YEARS_INTEGER_PATTERN = /^\d+$/;
 const YEARS_WITH_UNIT_PATTERN = /^(\d+)\s*\+?\s*(?:years?|yrs?)\b/i;
 const EMBEDDED_YEARS_PATTERN = /\b(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i;
@@ -675,6 +670,11 @@ export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
     const trimmedEarly = String(answer ?? '').trim();
     const fieldTypeEarly = String(options.fieldType || '').toLowerCase();
 
+    // Keep clear sentinels intact so years normalization cannot rewrite them to YOE.
+    if (trimmedEarly === '__CLEAR__') {
+        return '__CLEAR__';
+    }
+
     // Yes/No "4+ years" must coerce before numeric years normalization returns "7".
     if (
         (CHOICE_FIELD_TYPES.has(fieldTypeEarly) ||
@@ -693,12 +693,9 @@ export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
     }
 
     if (isYearsExperienceQuestion(label)) {
-        const yearsOptions = isSkillSpecificYearsExperienceQuestionLabel(label)
-            || !isGenericTotalExperienceQuestionLabel(label)
-            ? { ...options, profileYears: null, fallback: '' }
-            : options;
-
-        return normalizeYearsExperienceAnswer(answer, yearsOptions);
+        // LinkedIn / employer "years with Python" screeners use profile YOE when
+        // the draft plan answered with digits or left the field empty with YOE set.
+        return normalizeYearsExperienceAnswer(answer, options);
     }
 
     if (isNoticePeriodStyleQuestion(label)) {

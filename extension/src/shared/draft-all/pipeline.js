@@ -318,9 +318,11 @@ export function buildDraftAllApplyPlan({
         screeningPartition.pendingFields,
     );
 
-    // Skill/tool years (Figma, etc.) before preference can copy total YOE.
-    const skillYearsPartition =
-        partitionSkillSpecificYearsExperienceFields(remainingFields);
+    // Skill/tool years before preference: fill from profile YOE when known.
+    const skillYearsPartition = partitionSkillSpecificYearsExperienceFields(
+        remainingFields,
+        profileData,
+    );
     remainingFields = skillYearsPartition.remainingFields;
     pendingFields = mergePendingFields(
         pendingFields,
@@ -477,13 +479,15 @@ export function buildDraftAllApplyPlan({
         });
     }
 
-    if (preferencePartition.preferenceAnswers.length > 0) {
+    const preferenceAnswers = [
+        ...(skillYearsPartition.skillYearsAnswers || []),
+        ...(preferencePartition.preferenceAnswers || []),
+    ];
+
+    if (preferenceAnswers.length > 0) {
         applyStages.push({
             type: 'preference',
-            answers: tagAnswersWithSource(
-                preferencePartition.preferenceAnswers,
-                'screener',
-            ),
+            answers: tagAnswersWithSource(preferenceAnswers, 'screener'),
         });
     }
 
