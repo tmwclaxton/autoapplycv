@@ -7945,6 +7945,11 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        // Memo / DOM value junk: never treat answer "on"/"off" as selecting Yes/No.
+        if (normalizedAnswer === 'on' || normalizedAnswer === 'off') {
+            return false;
+        }
+
         if (option === normalizedAnswer) {
             return true;
         }
@@ -9999,6 +10004,44 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     /**
+     * Bare Yes/No (and similar) option copy must never become the question label.
+     * Live LinkedIn SDUI often surfaces the first option label when the legend
+     * selector misses, which then memo-matches junk answers like "on".
+     */
+    function isBareChoiceOptionLabelText(text) {
+        const normalized = normalize(text)
+            .replace(/\*+$/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        return /^(yes|no|true|false|y|n|tak|nie|oui|non|ja|nein|si|sí|on|off)$/i.test(
+            normalized,
+        );
+    }
+
+    function isUsableLinkedInQuestionLabel(text) {
+        const normalized = normalize(text);
+
+        if (normalized.length < 8) {
+            return false;
+        }
+
+        if (isBareChoiceOptionLabelText(normalized)) {
+            return false;
+        }
+
+        if (
+            /form\s*element\s*urn|easy\s*apply\s*form\s*element/i.test(
+                normalized,
+            )
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * LinkedIn Easy Apply contact/screener fields use fb-dash / artdeco labels that
      * are more reliable than falling back to the long Ember formElement id.
      */
@@ -10008,7 +10051,7 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         const inEasyApply = element.closest?.(
-            '.jobs-easy-apply-modal, .jobs-easy-apply-content, [data-test-modal].jobs-easy-apply-modal, form.jobs-easy-apply-form, .fb-dash-form-element',
+            '.jobs-easy-apply-modal, .jobs-easy-apply-content, [data-test-modal].jobs-easy-apply-modal, form.jobs-easy-apply-form, .fb-dash-form-element, [data-test-form-element], [role="dialog"]',
         );
 
         if (!inEasyApply) {
@@ -10016,27 +10059,70 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         const formElement =
-            element.closest('.fb-dash-form-element') || element.parentElement;
-        const legendTitle = formElement?.querySelector?.(
-            'legend [data-test-form-builder-radio-button-form-component__title], legend .fb-dash-form-element__label, legend',
-        );
-        const title =
-            legendTitle ||
-            formElement?.querySelector?.(
-                '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
-            );
+            element.closest(
+                '.fb-dash-form-element, [data-test-form-element], fieldset[data-test-form-builder-radio-button-form-component], fieldset',
+            ) || element.parentElement;
+        const isChoice =
+            element.type === 'radio' || element.type === 'checkbox';
+        const titleCandidates = [];
 
-        if (title && !title.contains(element)) {
+        const pushTitleCandidate = (node) => {
+            if (!node || titleCandidates.includes(node)) {
+                return;
+            }
+
+            titleCandidates.push(node);
+        };
+
+        pushTitleCandidate(formElement?.querySelector?.('legend'));
+        pushTitleCandidate(
+            formElement?.querySelector?.(
+                'legend [data-test-form-builder-radio-button-form-component__title], legend .fb-dash-form-element__label-title--is-required, legend .fb-dash-form-element__label',
+            ),
+        );
+
+        for (const node of formElement?.querySelectorAll?.(
+            '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
+        ) || []) {
+            // Option labels for radios/checkboxes are not the question.
+            if (
+                isChoice &&
+                (node.matches?.(
+                    'label[for], [data-test-text-selectable-option__label]',
+                ) ||
+                    isBareChoiceOptionLabelText(node.textContent || ''))
+            ) {
+                continue;
+            }
+
+            pushTitleCandidate(node);
+        }
+
+        for (const title of titleCandidates) {
+            if (!title || title.contains?.(element)) {
+                continue;
+            }
+
             const text = normalize(title.textContent);
 
-            if (
-                text.length >= 2 &&
-                !/form\s*element\s*urn|easy\s*apply\s*form\s*element/i.test(
-                    text,
-                )
-            ) {
+            if (isUsableLinkedInQuestionLabel(text)) {
                 return text;
             }
+        }
+
+        if (isChoice) {
+            const fieldset =
+                element.closest('fieldset') ||
+                formElement?.querySelector?.('fieldset') ||
+                formElement;
+            const groupLabel = fieldset ? getRadiogroupLabel(fieldset) : '';
+
+            if (isUsableLinkedInQuestionLabel(groupLabel)) {
+                return groupLabel;
+            }
+
+            // Never fall back to label[for=…] for radios - that is the option text.
+            return '';
         }
 
         const id = element.getAttribute('id');
@@ -10050,12 +10136,7 @@ var AutoCVApplyFormHeuristics = (() => {
             const explicit = doc.querySelector(`label[for="${escapedId}"]`);
             const explicitText = normalize(explicit?.textContent || '');
 
-            if (
-                explicitText.length >= 2 &&
-                !/form\s*element\s*urn|easy\s*apply\s*form\s*element/i.test(
-                    explicitText,
-                )
-            ) {
+            if (isUsableLinkedInQuestionLabel(explicitText)) {
                 return explicitText;
             }
         }
