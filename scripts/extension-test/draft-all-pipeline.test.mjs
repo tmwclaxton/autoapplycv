@@ -1190,7 +1190,7 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
         questionMemo: {},
     });
 
-    // Broad software-development years use profile YOE via preference stage; tool-scoped Go years clear.
+    // Broad software-development years and tool-scoped Go years both use profile YOE.
     const preferenceStage = plan.applyStages.find(
         (stage) => stage.type === 'preference',
     );
@@ -1202,12 +1202,18 @@ test('buildDraftAllApplyPlan defers Indeed open screeners to NanoGPT', () => {
         true,
     );
     assert.equal(
+        preferenceStage.answers.some(
+            (answer) => answer.ref === 'f2' && String(answer.answer) === '5',
+        ),
+        true,
+    );
+    assert.equal(
         plan.applyStages.some(
             (stage) =>
                 stage.type === 'clear' &&
                 stage.answers.some((answer) => answer.ref === 'f2'),
         ),
-        true,
+        false,
     );
     assert.equal(plan.llmFields.length, 3);
     assert.equal(
