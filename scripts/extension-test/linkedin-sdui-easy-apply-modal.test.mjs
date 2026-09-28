@@ -658,3 +658,102 @@ test('SDUI radio trap draft plan answers onsite/sponsorship/coding/customers; ig
     );
     assert.equal(window.document.getElementById('sponsor-yes')?.checked, false);
 });
+
+test('SDUI no-fieldset radios inventory one field per group with real titles', async () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-nofieldset-radios.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4471603025/',
+    );
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const radios = (snapshot.elements || []).filter(
+        (el) => el.field_type === 'radio',
+    );
+    const questions = radios.map((el) => String(el.question || ''));
+
+    assert.equal(
+        radios.length,
+        3,
+        `expected 3 radio groups (not collapsed to one "yes"), got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        !questions.some((q) => /^yes$/i.test(q.trim())),
+        `must not inventory option label as question, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(questions.some((q) => /legally authorized/i.test(q)));
+    assert.ok(questions.some((q) => /hybrid setting/i.test(q)));
+    assert.ok(questions.some((q) => /sponsorship/i.test(q)));
+
+    for (const radio of radios) {
+        assert.equal(
+            radio.required,
+            true,
+            `${radio.question} should be required from title *`,
+        );
+        assert.deepEqual([...(radio.options || [])].map(String), ['Yes', 'No']);
+    }
+
+    const fields = radios.map((el, index) => ({
+        id: index,
+        ref: el.ref || `f${index}`,
+        label: el.question,
+        field_type: 'radio',
+        options: el.options,
+        required: true,
+    }));
+    const plan = buildDraftAllApplyPlan({
+        fields,
+        profileData: {
+            ...UK_PROFILE,
+            application_settings: {
+                ...UK_PROFILE.application_settings,
+                affirm_local_hybrid: 'yes',
+            },
+        },
+        questionMemo: { yes: 'on' },
+        pageUrl: 'https://www.linkedin.com/jobs/view/4471603025/',
+    });
+    const staged = Object.fromEntries(
+        (plan.applyStages || [])
+            .flatMap((stage) => stage.answers || [])
+            .map((row) => [
+                fields.find((f) => f.ref === row.ref)?.label || row.ref,
+                String(row.answer),
+            ]),
+    );
+
+    const rtw = Object.keys(staged).find((label) =>
+        /legally authorized/i.test(label),
+    );
+    const hybrid = Object.keys(staged).find((label) => /hybrid/i.test(label));
+    const sponsor = Object.keys(staged).find((label) =>
+        /sponsorship/i.test(label),
+    );
+
+    assert.ok(rtw, JSON.stringify(staged));
+    assert.match(staged[rtw], /^yes$/i);
+    assert.ok(hybrid, JSON.stringify(staged));
+    assert.match(staged[hybrid], /^yes$/i);
+    assert.ok(sponsor, JSON.stringify(staged));
+    assert.match(staged[sponsor], /^no$/i);
+
+    const applied = await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+        window.document,
+        sponsor,
+        'No',
+    );
+    assert.equal(applied, true);
+    assert.equal(window.document.getElementById('sponsor-no')?.checked, true);
+    assert.equal(window.document.getElementById('sponsor-yes')?.checked, false);
+});

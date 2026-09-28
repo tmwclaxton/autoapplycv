@@ -757,9 +757,22 @@ var AutoCVApplyFieldInventory = (() => {
         // When Easy Apply is open, only inventory the modal - never SERP filters / tracker frames.
         if (easyApplyModal) {
             appendSnapshotFromRoot(easyApplyModal, profile, settings, memo, merged, jobPostingLocation);
+            const radioSummary = (merged.elements || [])
+                .filter((el) => el.field_type === 'radio')
+                .map((el) => ({
+                    question: String(el.question || '').slice(0, 80),
+                    required: Boolean(el.required),
+                    optionCount: Array.isArray(el.options) ? el.options.length : 0,
+                }));
             inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames scoped to Easy Apply modal', {
                 elementCount: merged.elements.length,
                 controlCount: merged.controls.length,
+                radioCount: radioSummary.length,
+                radioSummary,
+                extensionVersion:
+                    typeof chrome !== 'undefined' && chrome.runtime?.getManifest
+                        ? chrome.runtime.getManifest()?.version || null
+                        : null,
             });
 
             return merged;
