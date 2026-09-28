@@ -7226,6 +7226,24 @@ var AutoCVApplyFormHeuristics = (() => {
             return workableOption;
         }
 
+        // LinkedIn Easy Apply: value is often the junk DOM token "on"; the visible
+        // Yes/No lives on data-test-text-selectable-option__input / the label.
+        const linkedInOption =
+            input.getAttribute?.('data-test-text-selectable-option__input') ||
+            input
+                .closest?.('[data-test-text-selectable-option]')
+                ?.getAttribute?.('data-test-text-selectable-option') ||
+            '';
+        const linkedInOptionText = String(linkedInOption || '').trim();
+
+        if (
+            linkedInOptionText &&
+            !/^\d+$/.test(linkedInOptionText) &&
+            !/^(on|off)$/i.test(linkedInOptionText)
+        ) {
+            return stripWorkableSvgFallbackNoise(linkedInOptionText);
+        }
+
         let raw = '';
 
         if (input.labels?.length) {
@@ -7263,8 +7281,11 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        if (!raw) {
-            raw = String(input.value || '');
+        const valueRaw = String(input.value || '');
+
+        // Never surface LinkedIn's value="on" as the option label.
+        if (!raw || /^(on|off)$/i.test(String(raw).trim())) {
+            raw = /^(on|off)$/i.test(valueRaw) ? '' : valueRaw;
         }
 
         return stripWorkableSvgFallbackNoise(raw);
@@ -7612,6 +7633,20 @@ var AutoCVApplyFormHeuristics = (() => {
             ) {
                 return leverQuestion;
             }
+        }
+
+        // LinkedIn Easy Apply SDUI often wraps each Yes/No group in
+        // .fb-dash-form-element without a fieldset / role=radiogroup.
+        const linkedInFormElement = element.closest(
+            '.fb-dash-form-element, [data-test-form-element]',
+        );
+
+        if (
+            linkedInFormElement &&
+            collectVisibleChoiceInputs(linkedInFormElement, inputType).length >=
+                2
+        ) {
+            return linkedInFormElement;
         }
 
         const fieldWrapper = element.closest(
@@ -8556,8 +8591,30 @@ var AutoCVApplyFormHeuristics = (() => {
     }
 
     function getRadiogroupLabel(group) {
+        if (!group) {
+            return '';
+        }
+
+        // When called with a radio/checkbox input (no fieldset on LinkedIn SDUI),
+        // escalate to the Easy Apply form element. Otherwise closest('div') is the
+        // option row and querySelector('label') returns bare "Yes".
+        if (
+            group.matches?.(
+                'input[type="radio"], input[type="checkbox"], label',
+            ) ||
+            group.getAttribute?.('data-test-text-selectable-option') != null
+        ) {
+            const linkedInFormElement = group.closest?.(
+                '.fb-dash-form-element, [data-test-form-element], fieldset',
+            );
+
+            if (linkedInFormElement && linkedInFormElement !== group) {
+                return getRadiogroupLabel(linkedInFormElement);
+            }
+        }
+
         const doc = group.ownerDocument || document;
-        const labelledBy = group.getAttribute('aria-labelledby');
+        const labelledBy = group.getAttribute?.('aria-labelledby');
 
         if (labelledBy) {
             for (const id of labelledBy.split(/\s+/)) {
@@ -8567,7 +8624,8 @@ var AutoCVApplyFormHeuristics = (() => {
                     : '';
 
                 if (
-                    labelledText.length >= 2 &&
+                    labelledText.length >= 8 &&
+                    !isBareChoiceOptionLabelText(labelledText) &&
                     !isRecruiteeSectionHeadingLabel(labelledText)
                 ) {
                     return labelledText;
@@ -8575,7 +8633,7 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        const legend = group.querySelector('legend');
+        const legend = group.querySelector?.('legend');
         const legendText = legend?.textContent
             ? normalize(legend.textContent)
             : '';
@@ -8584,30 +8642,71 @@ var AutoCVApplyFormHeuristics = (() => {
         // real question lives on the checkbox aria-labelledby / adjacent copy.
         if (
             legendText.length >= 2 &&
+            !isBareChoiceOptionLabelText(legendText) &&
             !isRecruiteeSectionHeadingLabel(legendText)
         ) {
             return legendText;
         }
 
-        const heading = group
-            .closest('fieldset, section, div')
-            ?.querySelector(
-                'legend, label[aria-required], [class*="question"], h1, h2, h3, h4, p',
-            );
+        // LinkedIn SDUI: title span may sit outside <legend> or with no fieldset.
+        for (const titleNode of group.querySelectorAll?.(
+            '[data-test-form-builder-radio-button-form-component__title], [data-test-checkbox-form-title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label',
+        ) || []) {
+            if (
+                titleNode.matches?.(
+                    'label[for], [data-test-text-selectable-option__label]',
+                ) ||
+                isBareChoiceOptionLabelText(titleNode.textContent || '')
+            ) {
+                continue;
+            }
+
+            const titleText = normalize(titleNode.textContent || '');
+
+            if (
+                titleText.length >= 8 &&
+                !isBareChoiceOptionLabelText(titleText)
+            ) {
+                return titleText;
+            }
+        }
+
+        // Do not use closest('div') + label - that is the Yes/No option row on LinkedIn.
+        const headingRoot =
+            group.matches?.('fieldset, [role="radiogroup"], [role="group"], .fb-dash-form-element, [data-test-form-element]')
+                ? group
+                : group.closest?.(
+                      'fieldset, [role="radiogroup"], [role="group"], .fb-dash-form-element, [data-test-form-element], section',
+                  );
+        const heading = headingRoot?.querySelector?.(
+            'legend, [data-test-form-builder-radio-button-form-component__title], [data-test-checkbox-form-title], .fb-dash-form-element__label-title--is-required, label[aria-required], [class*="question"], h1, h2, h3, h4, p',
+        );
         const headingText =
             heading?.textContent &&
-            !heading.querySelector('input, textarea, select, [role="radio"]')
+            !heading.querySelector(
+                'input, textarea, select, [role="radio"], [data-test-text-selectable-option]',
+            )
                 ? normalize(heading.textContent)
                 : '';
 
         if (
             headingText.length >= 2 &&
+            !isBareChoiceOptionLabelText(headingText) &&
             !isRecruiteeSectionHeadingLabel(headingText)
         ) {
             return headingText;
         }
 
-        return normalize(group.getAttribute('aria-label') || '');
+        const ariaLabel = normalize(group.getAttribute?.('aria-label') || '');
+
+        if (
+            ariaLabel.length >= 2 &&
+            !isBareChoiceOptionLabelText(ariaLabel)
+        ) {
+            return ariaLabel;
+        }
+
+        return '';
     }
 
     function getTotaljobsGenesisSegmentedControlLabel(container) {
@@ -10111,17 +10210,8 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (isChoice) {
-            const fieldset =
-                element.closest('fieldset') ||
-                formElement?.querySelector?.('fieldset') ||
-                formElement;
-            const groupLabel = fieldset ? getRadiogroupLabel(fieldset) : '';
-
-            if (isUsableLinkedInQuestionLabel(groupLabel)) {
-                return groupLabel;
-            }
-
             // Never fall back to label[for=…] for radios - that is the option text.
+            // Title candidates above already scanned the form element / legend.
             return '';
         }
 
@@ -14775,29 +14865,58 @@ var AutoCVApplyFormHeuristics = (() => {
                     continue;
                 }
 
-                const groupRoot = element.closest(
-                    '[role="group"], [role="radiogroup"], fieldset',
+                const linkedInFormElement = element.closest(
+                    '.fb-dash-form-element, [data-test-form-element]',
                 );
+                const groupRoot =
+                    element.closest(
+                        '[role="group"], [role="radiogroup"], fieldset',
+                    ) || linkedInFormElement;
                 const qualificationLabel =
                     getIndeedQualificationQuestionLabel(element);
                 const questionLabel = getQuestionLabel(element);
                 const radioGroupLabel = getRadiogroupLabel(
                     groupRoot || element,
                 );
-                const label =
+                let label =
                     qualificationLabel.length >= 3
                         ? qualificationLabel
                         : radioGroupLabel || questionLabel;
+
+                // Live LinkedIn SDUI without fieldset used to inventori as "yes"
+                // (option label) and collapse every Yes/No group via labelIdentity.
+                if (isBareChoiceOptionLabelText(label) && linkedInFormElement) {
+                    const recovered = getLinkedInEasyApplyFieldLabel(element);
+
+                    if (isUsableLinkedInQuestionLabel(recovered)) {
+                        label = recovered;
+                    }
+                }
+
+                if (isBareChoiceOptionLabelText(label) || label.length < 3) {
+                    heuristicsLog(
+                        'warn',
+                        'inventory.radio',
+                        'Skipping radio/checkbox group with bare option label',
+                        {
+                            groupName: String(groupName || '').slice(0, 80),
+                            label: String(label || '').slice(0, 40),
+                            hasLinkedInFormElement: Boolean(linkedInFormElement),
+                            hasFieldset: Boolean(
+                                element.closest('fieldset'),
+                            ),
+                        },
+                    );
+                    continue;
+                }
+
                 const identity = draftableIdentityKey(element, label, {
                     groupName,
                 });
+                // Only dedupe by label when it is a real question - never for Yes/No.
                 const labelIdentity = `label:${label}`;
 
-                if (
-                    label.length < 3 ||
-                    seen.has(identity) ||
-                    seen.has(labelIdentity)
-                ) {
+                if (seen.has(identity) || seen.has(labelIdentity)) {
                     continue;
                 }
 
