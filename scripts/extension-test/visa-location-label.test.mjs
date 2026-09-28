@@ -673,7 +673,28 @@ test('Smarkets RTW free-text uses legally_authorized status sentence', () => {
     );
 });
 
-test('skill-scoped years always become pending even when not marked required', () => {
+test('skill-scoped years fill from profile YOE instead of sidebar pending', () => {
+    const partitioned = partitionSkillSpecificYearsExperienceFields(
+        [
+            {
+                ref: 'f11',
+                label:
+                    'how many years of experience do you have working with python or rust?',
+                field_type: 'text',
+                required: false,
+            },
+        ],
+        { application_settings: { years_of_experience: '3' } },
+    );
+
+    assert.equal(partitioned.remainingFields.length, 0);
+    assert.equal(partitioned.clearAnswers.length, 0);
+    assert.equal(partitioned.pendingFields.length, 0);
+    assert.equal(partitioned.skillYearsAnswers.length, 1);
+    assert.equal(partitioned.skillYearsAnswers[0].answer, '3');
+});
+
+test('skill-scoped years pend when profile YOE is missing', () => {
     const partitioned = partitionSkillSpecificYearsExperienceFields([
         {
             ref: 'f11',

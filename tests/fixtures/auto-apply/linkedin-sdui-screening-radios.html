@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>LinkedIn Easy Apply - Screening Radios (SDUI)</title>
+        <style>
+            .fb-form-element__checkbox {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="jobs-details">
+            <h1>Founding AI Engineer</h1>
+            <button type="button" class="jobs-apply-button">Easy Apply</button>
+        </main>
+
+        <div
+            role="dialog"
+            aria-modal="true"
+            class="artdeco-modal"
+            style="
+                position: fixed;
+                inset: 40px;
+                z-index: 9999;
+                background: #fff;
+                display: block;
+            "
+        >
+            <h2 id="jobs-apply-header">Apply to HartleyCo</h2>
+            <p>3/4 pages</p>
+            <div class="artdeco-modal__content">
+                <h3>Additional Questions</h3>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <fieldset
+                        data-test-form-builder-radio-button-form-component="true"
+                    >
+                        <legend>
+                            <span
+                                class="fb-dash-form-element__label fb-dash-form-element__label-title--is-required"
+                            >
+                                Are you comfortable working in an onsite
+                                setting?*
+                            </span>
+                        </legend>
+                        <div class="display-flex">
+                            <input
+                                id="onsite-yes"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="onsite"
+                                value="Yes"
+                                data-test-text-selectable-option__input="Yes"
+                                aria-required="true"
+                            />
+                            <label for="onsite-yes">Yes</label>
+                        </div>
+                        <div class="display-flex">
+                            <input
+                                id="onsite-no"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="onsite"
+                                value="No"
+                                data-test-text-selectable-option__input="No"
+                                aria-required="true"
+                            />
+                            <label for="onsite-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <fieldset
+                        data-test-form-builder-radio-button-form-component="true"
+                    >
+                        <legend>
+                            <span
+                                class="fb-dash-form-element__label fb-dash-form-element__label-title--is-required"
+                            >
+                                Will you now or in the future require
+                                sponsorship for employment visa status?*
+                            </span>
+                        </legend>
+                        <div class="display-flex">
+                            <input
+                                id="sponsor-yes"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="visa_sponsorship"
+                                value="Yes"
+                                data-test-text-selectable-option__input="Yes"
+                                aria-required="true"
+                            />
+                            <label for="sponsor-yes">Yes</label>
+                        </div>
+                        <div class="display-flex">
+                            <input
+                                id="sponsor-no"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="visa_sponsorship"
+                                value="No"
+                                data-test-text-selectable-option__input="No"
+                                aria-required="true"
+                            />
+                            <label for="sponsor-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <fieldset
+                        data-test-form-builder-radio-button-form-component="true"
+                    >
+                        <legend>
+                            <span
+                                class="fb-dash-form-element__label fb-dash-form-element__label-title--is-required"
+                            >
+                                Are you legally authorized to work in United
+                                Kingdom?*
+                            </span>
+                        </legend>
+                        <div class="display-flex">
+                            <input
+                                id="rtw-yes"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="work_auth"
+                                value="Yes"
+                                data-test-text-selectable-option__input="Yes"
+                                aria-required="true"
+                            />
+                            <label for="rtw-yes">Yes</label>
+                        </div>
+                        <div class="display-flex">
+                            <input
+                                id="rtw-no"
+                                class="fb-form-element__checkbox"
+                                type="radio"
+                                name="work_auth"
+                                value="No"
+                                data-test-text-selectable-option__input="No"
+                                aria-required="true"
+                            />
+                            <label for="rtw-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="artdeco-modal__actionbar">
+                <button
+                    type="button"
+                    class="artdeco-button artdeco-button--muted"
+                >
+                    Back
+                </button>
+                <button
+                    type="button"
+                    class="artdeco-button artdeco-button--primary"
+                    aria-label="Review your application"
+                >
+                    Review
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

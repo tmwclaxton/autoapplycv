@@ -5,7 +5,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const { normalizeFieldAnswerForQuestion } = await import(
-    pathToFileURL(join(ROOT, 'extension/src/shared/answer-normalization.js')).href
+    pathToFileURL(join(ROOT, 'extension/src/shared/answer-normalization.js'))
+        .href
 );
 
 const skillLabel = 'How many years of work experience do you have with C++?';
@@ -13,12 +14,22 @@ const totalLabel = 'How many years of experience do you have in total?';
 
 assert.equal(
     normalizeFieldAnswerForQuestion(skillLabel, '', { profileYears: '2' }),
-    '',
-    'skill-specific years must not fall back to profile total years',
+    '2',
+    'skill-specific years use profile YOE so LinkedIn screening can submit',
 );
 
 assert.equal(
-    normalizeFieldAnswerForQuestion(skillLabel, '4 years', { profileYears: '2' }),
+    normalizeFieldAnswerForQuestion(skillLabel, '__CLEAR__', {
+        profileYears: '2',
+    }),
+    '__CLEAR__',
+    'clear sentinel must not be rewritten to profile YOE',
+);
+
+assert.equal(
+    normalizeFieldAnswerForQuestion(skillLabel, '4 years', {
+        profileYears: '2',
+    }),
     '4',
 );
 
