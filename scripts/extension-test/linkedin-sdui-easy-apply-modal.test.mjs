@@ -11,6 +11,7 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';
+import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const FORM_HEURISTICS_PATH = join(
@@ -232,7 +233,10 @@ test('background empty Easy Apply step messaging is LinkedIn-aware', () => {
         'utf8',
     );
 
-    assert.match(source, /Easy Apply is open, but there are no unanswered questions/);
+    assert.match(
+        source,
+        /Easy Apply is open, but there are no unanswered questions/,
+    );
     assert.match(source, /Click Next to continue/);
     assert.match(source, /form has not finished loading/);
     assert.match(
@@ -246,5 +250,174 @@ test('background empty Easy Apply step messaging is LinkedIn-aware', () => {
     assert.match(
         readFileSync(LINKEDIN_AUTO_APPLY_SCRIPT, 'utf8'),
         /querySelectorAllDeepLocal/,
+    );
+});
+
+const UK_PROFILE = {
+    country: 'United Kingdom',
+    email: 'toby@example.com',
+    phone: '+447700900123',
+    first_name: 'Toby',
+    last_name: 'Claxton',
+    skills: ['Python', 'React', 'Node.js', 'TypeScript'],
+    experience: [
+        {
+            company: 'Acme',
+            title: 'Software Engineer',
+            start_date: '2020-01',
+            end_date: 'Present',
+            technologies: ['Python', 'React', 'Node.js'],
+        },
+    ],
+    application_settings: {
+        legally_authorized: 'yes',
+        visa_sponsorship: 'no',
+        years_of_experience: '4',
+        affirm_local_hybrid: 'yes',
+    },
+};
+
+test('SDUI Additional Questions modal inventories years + Yes/No radios', () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-additional-questions.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4462990314/',
+    );
+
+    const modal = window.AutoCVApplyLinkedInAutoApply.readEasyApplyModal();
+    assert.ok(modal, 'SDUI Additional Questions dialog must be detected');
+    assert.match(String(modal.textContent || ''), /Additional Questions/i);
+    assert.equal(
+        window.AutoCVApplyLinkedInAutoApply.getEasyApplyModalState().open,
+        true,
+    );
+    assert.equal(
+        window.AutoCVApplyFieldInventory.resolveHighlightRoot(),
+        modal,
+        'inventory root must be the Apply dialog, not job detail',
+    );
+
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const questions = (snapshot.elements || []).map((el) =>
+        String(el.question || ''),
+    );
+
+    assert.ok(
+        questions.some((q) => /years.*Python/i.test(q)),
+        `expected Python years field, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /years.*React/i.test(q)),
+        `expected React years field, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /sponsorship/i.test(q)),
+        `expected sponsorship radio, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /commuting/i.test(q)),
+        `expected commute radio, got ${JSON.stringify(questions)}`,
+    );
+
+    const years = (snapshot.elements || []).filter((el) =>
+        /years of work experience/i.test(el.question || ''),
+    );
+    assert.ok(
+        years.length >= 3,
+        `expected at least 3 skill-years inputs, got ${years.length}`,
+    );
+    for (const field of years) {
+        assert.ok(
+            ['text', 'number', 'tel'].includes(String(field.field_type || '')),
+            `years field type unexpected: ${field.field_type}`,
+        );
+    }
+
+    const sponsorship = (snapshot.elements || []).find((el) =>
+        /sponsorship/i.test(el.question || ''),
+    );
+    assert.equal(sponsorship?.field_type, 'radio');
+    assert.ok(
+        (sponsorship?.options || []).some((opt) => /^yes$/i.test(String(opt))),
+    );
+    assert.ok(
+        (sponsorship?.options || []).some((opt) => /^no$/i.test(String(opt))),
+    );
+});
+
+test('SDUI Additional Questions draft plan maps sponsorship No; skill years pending', () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-additional-questions.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4468548584/',
+    );
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+
+    const fields = (snapshot.elements || []).map((el, index) => ({
+        id: index,
+        ref: el.ref || `f${index}`,
+        label: el.question,
+        field_type: el.field_type,
+        options: el.options,
+        required: el.required !== false,
+    }));
+
+    assert.ok(
+        fields.length >= 4,
+        `expected Additional Questions fields for Draft All, got ${fields.length}`,
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields,
+        profileData: UK_PROFILE,
+        questionMemo: {},
+        pageUrl: 'https://www.linkedin.com/jobs/view/4468548584/',
+    });
+
+    const staged = (plan.applyStages || []).flatMap(
+        (stage) => stage.answers || [],
+    );
+    const sponsorshipAnswer = staged.find((row) =>
+        /sponsorship/i.test(fields.find((f) => f.ref === row.ref)?.label || ''),
+    );
+    assert.ok(sponsorshipAnswer, 'sponsorship must be answered from profile');
+    assert.match(String(sponsorshipAnswer.answer), /^no$/i);
+
+    const pythonRef = fields.find((f) => /years.*Python/i.test(f.label))?.ref;
+    assert.ok(pythonRef);
+    const pythonStaged = staged.find((row) => row.ref === pythonRef);
+    if (pythonStaged) {
+        assert.equal(
+            String(pythonStaged.answer),
+            '__CLEAR__',
+            'skill-years must not dump total YOE',
+        );
+    }
+    assert.ok(
+        (plan.pendingFields || []).some((row) => row.ref === pythonRef) ||
+            pythonStaged?.answer === '__CLEAR__',
+        'Python skill-years should clear/pending for honest fill',
     );
 });

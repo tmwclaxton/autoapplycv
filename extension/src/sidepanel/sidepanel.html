@@ -1,500 +1,1047 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AutoCVApply</title>
-    <link rel="icon" type="image/png" href="/icons/icon32.png" />
-    <link rel="stylesheet" href="postbox-theme.css" />
-    <link rel="stylesheet" href="sidepanel.css" />
-</head>
-<body class="postbox-page">
-    <div class="shell">
-        <header class="postbox-bar-top shell-header">
-            <div class="shell-header-inner">
-                <div class="shell-brand">
-                    <img class="shell-mark" width="28" height="28" alt="AutoCVApply" />
-                    <div>
-                        <strong>AutoCVApply</strong>
-                        <div class="postbox-tagline">Stop retyping your life story.</div>
-                    </div>
-                </div>
-                <div class="shell-header-actions">
-                    <button type="button" id="open-dashboard-btn" class="postbox-badge header-action">Dashboard</button>
-                    <button type="button" id="logout-btn" class="postbox-badge header-action header-action-danger" hidden>Sign out</button>
-                    <span id="usage-pill" class="postbox-badge">—</span>
-                </div>
-            </div>
-        </header>
-
-        <div id="message" class="message"></div>
-
-        <main class="shell-main">
-            <div id="unauth-state" class="shell-panel is-visible">
-                <div class="shell-scroll">
-                    <div class="status-card unauth postbox-panel">
-                        <div class="status-row"><span class="dot red"></span> Not connected</div>
-                    </div>
-
-                    <label class="postbox-label" for="login-endpoint">Login endpoint</label>
-                    <input
-                        id="login-endpoint"
-                        class="postbox-input"
-                        type="url"
-                        spellcheck="false"
-                        placeholder="https://autocvapply.com"
-                    />
-                    <p class="postbox-hint">Defaults to production. Change this only for local development.</p>
-
-                    <div class="stack">
-                        <button type="button" class="postbox-btn" id="workos-login-btn">Sign in with AutoCVApply</button>
-                    </div>
-
-                    <p class="postbox-hint login-divider">or paste connection JSON</p>
-
-                    <label class="postbox-label" for="token-input">Connection JSON</label>
-                    <textarea id="token-input" class="postbox-input" rows="4" placeholder='{"token":"…","api_base":"…"}'></textarea>
-                    <div class="stack">
-                        <button class="postbox-btn-outline" id="save-token-btn">Connect with JSON</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="auth-state" class="shell-panel">
-                <div class="shell-auth-meta">
-                    <div class="status-bar">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AutoCVApply</title>
+        <link rel="icon" type="image/png" href="/icons/icon32.png" />
+        <link rel="stylesheet" href="postbox-theme.css" />
+        <link rel="stylesheet" href="sidepanel.css" />
+    </head>
+    <body class="postbox-page">
+        <div class="shell">
+            <header class="postbox-bar-top shell-header">
+                <div class="shell-header-inner">
+                    <div class="shell-brand">
+                        <img
+                            class="shell-mark"
+                            width="28"
+                            height="28"
+                            alt="AutoCVApply"
+                        />
                         <div>
-                            <div class="status-row"><span class="dot green"></span> <span id="profile-name">Connected</span></div>
-                            <div class="usage-meta" id="usage-meta"></div>
+                            <strong>AutoCVApply</strong>
+                            <div class="postbox-tagline">
+                                Stop retyping your life story.
+                            </div>
                         </div>
-                        <div class="usage-count" id="usage-count">0 / 0</div>
                     </div>
-                    <div class="usage-bar"><div class="usage-fill" id="usage-fill"></div></div>
-                </div>
-
-                <div class="shell-answer-questions">
-                    <div class="shell-answer-questions-actions">
-                        <button type="button" class="postbox-btn" id="answer-questions-btn" aria-label="Answer All Questions on Web Page">
-                            Answer All Questions on Web Page
+                    <div class="shell-header-actions">
+                        <button
+                            type="button"
+                            id="open-dashboard-btn"
+                            class="postbox-badge header-action"
+                        >
+                            Dashboard
                         </button>
-                        <button type="button" class="postbox-btn-outline" id="answer-questions-cancel-btn" aria-label="Cancel answering questions" hidden>
-                            Cancel
+                        <button
+                            type="button"
+                            id="logout-btn"
+                            class="postbox-badge header-action header-action-danger"
+                            hidden
+                        >
+                            Sign out
                         </button>
+                        <span id="usage-pill" class="postbox-badge">—</span>
                     </div>
-                    <p id="answer-questions-status" class="postbox-hint shell-answer-questions-status" hidden></p>
+                </div>
+            </header>
+
+            <div id="message" class="message"></div>
+
+            <main class="shell-main">
+                <div id="unauth-state" class="shell-panel is-visible">
+                    <div class="shell-scroll">
+                        <div class="status-card unauth postbox-panel">
+                            <div class="status-row">
+                                <span class="dot red"></span> Not connected
+                            </div>
+                        </div>
+
+                        <label class="postbox-label" for="login-endpoint"
+                            >Login endpoint</label
+                        >
+                        <input
+                            id="login-endpoint"
+                            class="postbox-input"
+                            type="url"
+                            spellcheck="false"
+                            placeholder="https://autocvapply.com"
+                        />
+                        <p class="postbox-hint">
+                            Defaults to production. Change this only for local
+                            development.
+                        </p>
+
+                        <div class="stack">
+                            <button
+                                type="button"
+                                class="postbox-btn"
+                                id="workos-login-btn"
+                            >
+                                Sign in with AutoCVApply
+                            </button>
+                        </div>
+
+                        <p class="postbox-hint login-divider">
+                            or paste connection JSON
+                        </p>
+
+                        <label class="postbox-label" for="token-input"
+                            >Connection JSON</label
+                        >
+                        <textarea
+                            id="token-input"
+                            class="postbox-input"
+                            rows="4"
+                            placeholder='{"token":"…","api_base":"…"}'
+                        ></textarea>
+                        <div class="stack">
+                            <button
+                                class="postbox-btn-outline"
+                                id="save-token-btn"
+                            >
+                                Connect with JSON
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <nav class="tabs">
-                    <button class="tab postbox-tab-active" data-tab="assist">Assist</button>
-                    <button class="tab" data-tab="auto-apply">Auto Apply</button>
-                    <button class="tab" data-tab="ats">ATS</button>
-                    <button class="tab" data-tab="cover">Cover</button>
-                    <button class="tab" data-tab="documents">Documents</button>
-                    <button class="tab" data-tab="blacklist">Blacklist</button>
-                </nav>
-
-                <div id="job-context" class="job-context" hidden>
-                    <label class="postbox-label">Job title <span class="optional">(optional)</span></label>
-                    <input id="ai-job-title" class="postbox-input" placeholder="Software Engineer" />
-                    <label class="postbox-label">Company <span class="optional">(optional)</span></label>
-                    <input id="ai-job-company" class="postbox-input" placeholder="Acme Ltd" />
-                    <label class="postbox-label">Job description</label>
-                    <textarea id="ai-job-description" class="postbox-input" rows="4" placeholder="Paste job description…"></textarea>
-                </div>
-
-                <div class="tab-viewport">
-                    <div class="tab-panel active" id="assist-tab">
-                        <div class="shell-assist-panel">
-                            <section id="pending-fields-section" class="pending-fields-section" hidden>
-                                <div class="pending-fields-header">
-                                    <h2 class="pending-fields-title">We need your help</h2>
-                                    <p id="pending-fields-clarifying-question" class="pending-fields-clarifying-question" hidden></p>
-                                    <p id="pending-fields-summary" class="postbox-hint pending-fields-summary"></p>
+                <div id="auth-state" class="shell-panel">
+                    <div class="shell-auth-meta">
+                        <div class="status-bar">
+                            <div>
+                                <div class="status-row">
+                                    <span class="dot green"></span>
+                                    <span id="profile-name">Connected</span>
                                 </div>
-                                <div id="pending-fields-list" class="pending-fields-list"></div>
-                            </section>
+                                <div class="usage-meta" id="usage-meta"></div>
+                            </div>
+                            <div class="usage-count" id="usage-count">
+                                0 / 0
+                            </div>
+                        </div>
+                        <div class="usage-bar">
+                            <div class="usage-fill" id="usage-fill"></div>
+                        </div>
+                    </div>
 
-                            <section
-                                id="auto-apply-manual-resume-section"
-                                class="pending-fields-section auto-apply-manual-resume-section"
+                    <div class="shell-answer-questions">
+                        <div class="shell-answer-questions-actions">
+                            <button
+                                type="button"
+                                class="postbox-btn"
+                                id="answer-questions-btn"
+                                aria-label="Answer All Questions on Web Page"
+                            >
+                                Answer All Questions on Web Page
+                            </button>
+                            <button
+                                type="button"
+                                class="postbox-btn-outline"
+                                id="answer-questions-cancel-btn"
+                                aria-label="Cancel answering questions"
                                 hidden
                             >
-                                <div class="pending-fields-header">
-                                    <h2 id="auto-apply-manual-resume-title" class="pending-fields-title">
-                                        CAPTCHA / security check
-                                    </h2>
-                                    <p
-                                        id="auto-apply-manual-resume-detail"
-                                        class="pending-fields-clarifying-question"
-                                    ></p>
-                                    <p
-                                        id="auto-apply-manual-resume-summary"
-                                        class="postbox-hint pending-fields-summary"
-                                    ></p>
+                                Cancel
+                            </button>
+                        </div>
+                        <p
+                            id="answer-questions-status"
+                            class="postbox-hint shell-answer-questions-status"
+                            hidden
+                        ></p>
+                    </div>
+
+                    <nav class="tabs">
+                        <button
+                            class="tab postbox-tab-active"
+                            data-tab="assist"
+                        >
+                            Assist
+                        </button>
+                        <button class="tab" data-tab="auto-apply">
+                            Auto Apply
+                        </button>
+                        <button class="tab" data-tab="ats">ATS</button>
+                        <button class="tab" data-tab="cover">Cover</button>
+                        <button class="tab" data-tab="documents">
+                            Documents
+                        </button>
+                        <button class="tab" data-tab="blacklist">
+                            Blacklist
+                        </button>
+                    </nav>
+
+                    <div id="job-context" class="job-context" hidden>
+                        <label class="postbox-label"
+                            >Job title
+                            <span class="optional">(optional)</span></label
+                        >
+                        <input
+                            id="ai-job-title"
+                            class="postbox-input"
+                            placeholder="Software Engineer"
+                        />
+                        <label class="postbox-label"
+                            >Company
+                            <span class="optional">(optional)</span></label
+                        >
+                        <input
+                            id="ai-job-company"
+                            class="postbox-input"
+                            placeholder="Acme Ltd"
+                        />
+                        <label class="postbox-label">Job description</label>
+                        <textarea
+                            id="ai-job-description"
+                            class="postbox-input"
+                            rows="4"
+                            placeholder="Paste job description…"
+                        ></textarea>
+                    </div>
+
+                    <div class="tab-viewport">
+                        <div class="tab-panel active" id="assist-tab">
+                            <div class="shell-assist-panel">
+                                <section
+                                    id="pending-fields-section"
+                                    class="pending-fields-section"
+                                    hidden
+                                >
+                                    <div class="pending-fields-header">
+                                        <h2 class="pending-fields-title">
+                                            We need your help
+                                        </h2>
+                                        <p
+                                            id="pending-fields-clarifying-question"
+                                            class="pending-fields-clarifying-question"
+                                            hidden
+                                        ></p>
+                                        <p
+                                            id="pending-fields-summary"
+                                            class="postbox-hint pending-fields-summary"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        id="pending-fields-list"
+                                        class="pending-fields-list"
+                                    ></div>
+                                </section>
+
+                                <section
+                                    id="auto-apply-manual-resume-section"
+                                    class="pending-fields-section auto-apply-manual-resume-section"
+                                    hidden
+                                >
+                                    <div class="pending-fields-header">
+                                        <h2
+                                            id="auto-apply-manual-resume-title"
+                                            class="pending-fields-title"
+                                        >
+                                            CAPTCHA / security check
+                                        </h2>
+                                        <p
+                                            id="auto-apply-manual-resume-detail"
+                                            class="pending-fields-clarifying-question"
+                                        ></p>
+                                        <p
+                                            id="auto-apply-manual-resume-summary"
+                                            class="postbox-hint pending-fields-summary"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        class="auto-apply-manual-resume-actions"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="postbox-btn auto-apply-manual-resume-btn"
+                                            id="auto-apply-manual-resume-btn"
+                                        >
+                                            Resume
+                                        </button>
+                                    </div>
+                                </section>
+
+                                <div
+                                    id="assist-messages-scroll"
+                                    class="assist-messages-scroll"
+                                >
+                                    <div
+                                        id="assist-messages"
+                                        class="assist-messages"
+                                    ></div>
                                 </div>
-                                <div class="auto-apply-manual-resume-actions">
+
+                                <div
+                                    class="assist-composer postbox-panel"
+                                    id="assist-composer"
+                                >
+                                    <p
+                                        id="assist-composer-lock-hint"
+                                        class="postbox-hint assist-composer-lock-hint"
+                                        hidden
+                                    >
+                                        Answer in We need your help above first.
+                                    </p>
+                                    <label
+                                        class="postbox-label"
+                                        for="assist-input"
+                                        >Ask AutoCVApply</label
+                                    >
+                                    <textarea
+                                        id="assist-input"
+                                        class="postbox-input assist-input"
+                                        rows="3"
+                                        placeholder="Draft an answer for the selected field, improve my summary, or suggest profile changes…"
+                                    ></textarea>
+                                    <div class="assist-composer-actions">
+                                        <button
+                                            type="button"
+                                            class="postbox-btn"
+                                            id="assist-send-btn"
+                                        >
+                                            Send
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="postbox-btn-outline assist-clear-btn"
+                                            id="assist-clear-btn"
+                                        >
+                                            Clear chat
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="auto-apply-tab">
+                            <div class="shell-scroll shell-auto-apply-panel">
+                                <div class="auto-apply-row-2">
+                                    <div
+                                        class="auto-apply-field auto-apply-field-grow"
+                                    >
+                                        <label
+                                            class="postbox-label"
+                                            for="auto-apply-platform"
+                                            >Platform</label
+                                        >
+                                        <select
+                                            id="auto-apply-platform"
+                                            class="postbox-input postbox-input-compact"
+                                        ></select>
+                                    </div>
+                                    <div
+                                        class="auto-apply-field auto-apply-field-max"
+                                    >
+                                        <label
+                                            class="postbox-label"
+                                            for="auto-apply-max"
+                                            >Max</label
+                                        >
+                                        <input
+                                            id="auto-apply-max"
+                                            class="postbox-input postbox-input-compact"
+                                            type="number"
+                                            min="1"
+                                            max="25"
+                                            value="3"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div
+                                    id="auto-apply-market-field"
+                                    class="auto-apply-field"
+                                    hidden
+                                >
+                                    <label
+                                        class="postbox-label"
+                                        for="auto-apply-market"
+                                        >Market</label
+                                    >
+                                    <select
+                                        id="auto-apply-market"
+                                        class="postbox-input postbox-input-compact"
+                                    >
+                                        <option value="auto">
+                                            Auto (from location)
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="auto-apply-field">
+                                    <label
+                                        class="postbox-label"
+                                        for="auto-apply-role"
+                                        >Role</label
+                                    >
+                                    <textarea
+                                        id="auto-apply-role"
+                                        class="postbox-input postbox-input-compact auto-apply-role-input"
+                                        name="autocvapply-job-search-role"
+                                        rows="2"
+                                        placeholder="e.g. software engineer remote UK"
+                                        autocomplete="off"
+                                        autocapitalize="off"
+                                        autocorrect="off"
+                                        spellcheck="false"
+                                        data-1p-ignore="true"
+                                        data-lpignore="true"
+                                    ></textarea>
+                                </div>
+
+                                <details
+                                    id="auto-apply-filters-details"
+                                    class="auto-apply-details"
+                                >
+                                    <summary class="auto-apply-details-summary">
+                                        Search filters
+                                    </summary>
+                                    <div class="auto-apply-details-body">
+                                        <div class="auto-apply-field">
+                                            <label
+                                                class="postbox-label"
+                                                for="auto-apply-location"
+                                                >Location</label
+                                            >
+                                            <input
+                                                id="auto-apply-location"
+                                                class="postbox-input postbox-input-compact"
+                                                type="text"
+                                                placeholder="United Kingdom, London…"
+                                            />
+                                            <p
+                                                id="auto-apply-location-hint"
+                                                class="auto-apply-field-hint"
+                                                hidden
+                                            >
+                                                Auto picks the job site from
+                                                your location text. Override
+                                                Market if results land on the
+                                                wrong country site.
+                                            </p>
+                                        </div>
+
+                                        <div class="auto-apply-field-grid">
+                                            <div class="auto-apply-field">
+                                                <label
+                                                    class="postbox-label"
+                                                    for="auto-apply-work-type"
+                                                    >Work type</label
+                                                >
+                                                <select
+                                                    id="auto-apply-work-type"
+                                                    class="postbox-input postbox-input-compact"
+                                                >
+                                                    <option value="">
+                                                        Any
+                                                    </option>
+                                                    <option value="remote">
+                                                        Remote
+                                                    </option>
+                                                    <option value="hybrid">
+                                                        Hybrid
+                                                    </option>
+                                                    <option value="on_site">
+                                                        On-site
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="auto-apply-field">
+                                                <label
+                                                    class="postbox-label"
+                                                    for="auto-apply-experience"
+                                                    >Experience</label
+                                                >
+                                                <select
+                                                    id="auto-apply-experience"
+                                                    class="postbox-input postbox-input-compact"
+                                                >
+                                                    <option value="">
+                                                        Any
+                                                    </option>
+                                                    <option value="entry">
+                                                        Entry
+                                                    </option>
+                                                    <option value="associate">
+                                                        Associate
+                                                    </option>
+                                                    <option value="mid_senior">
+                                                        Mid-senior
+                                                    </option>
+                                                    <option value="director">
+                                                        Director
+                                                    </option>
+                                                    <option value="executive">
+                                                        Executive
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="auto-apply-field">
+                                                <label
+                                                    class="postbox-label"
+                                                    for="auto-apply-date-posted"
+                                                    >Posted</label
+                                                >
+                                                <select
+                                                    id="auto-apply-date-posted"
+                                                    class="postbox-input postbox-input-compact"
+                                                >
+                                                    <option value="">
+                                                        Any time
+                                                    </option>
+                                                    <option value="24h">
+                                                        24 hours
+                                                    </option>
+                                                    <option value="week">
+                                                        Past week
+                                                    </option>
+                                                    <option value="month">
+                                                        Past month
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="auto-apply-field">
+                                                <label
+                                                    class="postbox-label"
+                                                    for="auto-apply-min-salary"
+                                                    >Min salary</label
+                                                >
+                                                <select
+                                                    id="auto-apply-min-salary"
+                                                    class="postbox-input postbox-input-compact"
+                                                >
+                                                    <option value="">
+                                                        Any
+                                                    </option>
+                                                    <option value="40k">
+                                                        £40k+
+                                                    </option>
+                                                    <option value="50k">
+                                                        £50k+
+                                                    </option>
+                                                    <option value="60k">
+                                                        £60k+
+                                                    </option>
+                                                    <option value="80k">
+                                                        £80k+
+                                                    </option>
+                                                    <option value="100k">
+                                                        £100k+
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="postbox-hint auto-apply-inline-hint"
+                                        >
+                                            UK LinkedIn brackets. Salary in your
+                                            role text is also used for fit
+                                            scoring.
+                                        </p>
+                                    </div>
+                                </details>
+
+                                <details
+                                    id="auto-apply-settings-details"
+                                    class="auto-apply-details"
+                                >
+                                    <summary class="auto-apply-details-summary">
+                                        Auto Apply settings
+                                    </summary>
+                                    <div class="auto-apply-details-body">
+                                        <div class="auto-apply-timing-bar">
+                                            <div
+                                                class="auto-apply-timing-header"
+                                            >
+                                                <span class="postbox-label"
+                                                    >Timing</span
+                                                >
+                                                <span
+                                                    id="auto-apply-timing-value"
+                                                    class="auto-apply-timing-value"
+                                                    >Careful timing</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="auto-apply-timing-slider-row"
+                                            >
+                                                <span
+                                                    class="auto-apply-timing-end-label"
+                                                    >Careful timing</span
+                                                >
+                                                <input
+                                                    id="auto-apply-timing-level"
+                                                    class="auto-apply-timing-slider"
+                                                    type="range"
+                                                    min="1"
+                                                    max="5"
+                                                    step="1"
+                                                    value="1"
+                                                    aria-label="Auto Apply timing from careful to speed"
+                                                />
+                                                <span
+                                                    class="auto-apply-timing-end-label"
+                                                    >Speed</span
+                                                >
+                                            </div>
+                                            <p
+                                                class="postbox-hint auto-apply-inline-hint"
+                                            >
+                                                Left is slower and more
+                                                human-like. Right is faster and
+                                                less human-like, and does not
+                                                prevent platform detection.
+                                            </p>
+                                        </div>
+
+                                        <p
+                                            class="postbox-hint auto-apply-inline-hint"
+                                        >
+                                            Sign in to the job board in your
+                                            browser before starting Auto Apply.
+                                            If the board asks you to log in
+                                            mid-run, Auto Apply pauses so you
+                                            can sign in and resume.
+                                        </p>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-pause-before-submit"
+                                            >
+                                                <input
+                                                    id="auto-apply-pause-before-submit"
+                                                    type="checkbox"
+                                                />
+                                                <span
+                                                    >Pauses before Submit</span
+                                                >
+                                            </label>
+                                        </div>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-easy-apply-only"
+                                            >
+                                                <input
+                                                    id="auto-apply-easy-apply-only"
+                                                    type="checkbox"
+                                                    checked
+                                                />
+                                                <span>Easy Apply only</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-pause-on-external"
+                                            >
+                                                <input
+                                                    id="auto-apply-pause-on-external"
+                                                    type="checkbox"
+                                                />
+                                                <span
+                                                    >Pause on external
+                                                    apply</span
+                                                >
+                                            </label>
+                                        </div>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-stop-for-cover-letter"
+                                            >
+                                                <input
+                                                    id="auto-apply-stop-for-cover-letter"
+                                                    type="checkbox"
+                                                />
+                                                <span
+                                                    >Stop for cover letter
+                                                    input</span
+                                                >
+                                            </label>
+                                        </div>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-auto-generate-cover-letter"
+                                            >
+                                                <input
+                                                    id="auto-apply-auto-generate-cover-letter"
+                                                    type="checkbox"
+                                                    checked
+                                                />
+                                                <span
+                                                    >Auto-generate cover
+                                                    letter</span
+                                                >
+                                            </label>
+                                        </div>
+
+                                        <div class="auto-apply-fit-bar">
+                                            <label
+                                                class="auto-apply-fit-toggle"
+                                                for="auto-apply-fit-enabled"
+                                            >
+                                                <input
+                                                    id="auto-apply-fit-enabled"
+                                                    type="checkbox"
+                                                    checked
+                                                />
+                                                <span
+                                                    >Skip below fit score</span
+                                                >
+                                            </label>
+                                            <div class="auto-apply-fit-score">
+                                                <label
+                                                    class="postbox-label"
+                                                    for="auto-apply-min-fit-score"
+                                                    >Min</label
+                                                >
+                                                <input
+                                                    id="auto-apply-min-fit-score"
+                                                    class="postbox-input postbox-input-compact"
+                                                    type="number"
+                                                    min="0"
+                                                    max="100"
+                                                    value="10"
+                                                />
+                                            </div>
+                                            <p
+                                                class="postbox-hint auto-apply-inline-hint"
+                                            >
+                                                5 credits per scored job
+                                            </p>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <div class="auto-apply-actions btn-row">
                                     <button
                                         type="button"
-                                        class="postbox-btn auto-apply-manual-resume-btn"
-                                        id="auto-apply-manual-resume-btn"
+                                        class="postbox-btn"
+                                        id="auto-apply-start-btn"
+                                    >
+                                        Start
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="postbox-btn-outline"
+                                        id="auto-apply-stop-btn"
+                                        disabled
+                                    >
+                                        Stop
+                                    </button>
+                                </div>
+
+                                <div
+                                    id="auto-apply-status"
+                                    class="status-line auto-apply-status"
+                                >
+                                    Ready. Set a role and start.
+                                </div>
+                                <div
+                                    id="auto-apply-intervention"
+                                    class="auto-apply-intervention postbox-panel"
+                                    hidden
+                                >
+                                    <strong
+                                        id="auto-apply-intervention-headline"
+                                        class="auto-apply-intervention-headline"
+                                    ></strong>
+                                    <p
+                                        id="auto-apply-intervention-detail"
+                                        class="postbox-hint auto-apply-intervention-detail"
+                                    ></p>
+                                    <p
+                                        id="auto-apply-intervention-next"
+                                        class="postbox-hint auto-apply-intervention-next"
+                                    ></p>
+                                </div>
+                                <div
+                                    id="auto-apply-pause-banner"
+                                    class="auto-apply-pause-banner postbox-panel"
+                                    hidden
+                                >
+                                    <strong id="auto-apply-pause-banner-title"
+                                        >Paused</strong
+                                    >
+                                    <p
+                                        id="auto-apply-pause-message"
+                                        class="postbox-hint auto-apply-pause-message"
+                                    ></p>
+                                    <button
+                                        type="button"
+                                        class="postbox-btn auto-apply-pause-resume-btn"
+                                        id="auto-apply-pause-resume-btn"
+                                        hidden
                                     >
                                         Resume
                                     </button>
                                 </div>
-                            </section>
-
-                            <div id="assist-messages-scroll" class="assist-messages-scroll">
-                                <div id="assist-messages" class="assist-messages"></div>
-                            </div>
-
-                            <div class="assist-composer postbox-panel" id="assist-composer">
-                                <p id="assist-composer-lock-hint" class="postbox-hint assist-composer-lock-hint" hidden>
-                                    Answer in We need your help above first.
-                                </p>
-                                <label class="postbox-label" for="assist-input">Ask AutoCVApply</label>
-                                <textarea
-                                    id="assist-input"
-                                    class="postbox-input assist-input"
-                                    rows="3"
-                                    placeholder="Draft an answer for the selected field, improve my summary, or suggest profile changes…"
-                                ></textarea>
-                                <div class="assist-composer-actions">
-                                    <button type="button" class="postbox-btn" id="assist-send-btn">Send</button>
-                                    <button
-                                        type="button"
-                                        class="postbox-btn-outline assist-clear-btn"
-                                        id="assist-clear-btn"
-                                    >
-                                        Clear chat
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-panel" id="auto-apply-tab">
-                        <div class="shell-scroll shell-auto-apply-panel">
-                            <div class="auto-apply-row-2">
-                                <div class="auto-apply-field auto-apply-field-grow">
-                                    <label class="postbox-label" for="auto-apply-platform">Platform</label>
-                                    <select id="auto-apply-platform" class="postbox-input postbox-input-compact"></select>
-                                </div>
-                                <div class="auto-apply-field auto-apply-field-max">
-                                    <label class="postbox-label" for="auto-apply-max">Max</label>
-                                    <input id="auto-apply-max" class="postbox-input postbox-input-compact" type="number" min="1" max="25" value="3" />
-                                </div>
-                            </div>
-
-                            <div id="auto-apply-market-field" class="auto-apply-field" hidden>
-                                <label class="postbox-label" for="auto-apply-market">Market</label>
-                                <select id="auto-apply-market" class="postbox-input postbox-input-compact">
-                                    <option value="auto">Auto (from location)</option>
-                                </select>
-                            </div>
-
-                            <div class="auto-apply-field">
-                                <label class="postbox-label" for="auto-apply-role">Role</label>
-                                <textarea
-                                    id="auto-apply-role"
-                                    class="postbox-input postbox-input-compact auto-apply-role-input"
-                                    name="autocvapply-job-search-role"
-                                    rows="2"
-                                    placeholder="software engineer remote UK"
-                                    autocomplete="off"
-                                    autocapitalize="off"
-                                    autocorrect="off"
-                                    spellcheck="false"
-                                    data-1p-ignore="true"
-                                    data-lpignore="true"
-                                ></textarea>
-                            </div>
-
-                            <details id="auto-apply-filters-details" class="auto-apply-details">
-                                <summary class="auto-apply-details-summary">Search filters</summary>
-                                <div class="auto-apply-details-body">
-                                    <div class="auto-apply-field">
-                                        <label class="postbox-label" for="auto-apply-location">Location</label>
-                                        <input
-                                            id="auto-apply-location"
-                                            class="postbox-input postbox-input-compact"
-                                            type="text"
-                                            placeholder="United Kingdom, London…"
-                                        />
-                                        <p id="auto-apply-location-hint" class="auto-apply-field-hint" hidden>
-                                            Auto picks the job site from your location text. Override Market if results land on the wrong country site.
-                                        </p>
-                                    </div>
-
-                                    <div class="auto-apply-field-grid">
-                                        <div class="auto-apply-field">
-                                            <label class="postbox-label" for="auto-apply-work-type">Work type</label>
-                                            <select id="auto-apply-work-type" class="postbox-input postbox-input-compact">
-                                                <option value="">Any</option>
-                                                <option value="remote">Remote</option>
-                                                <option value="hybrid">Hybrid</option>
-                                                <option value="on_site">On-site</option>
-                                            </select>
-                                        </div>
-                                        <div class="auto-apply-field">
-                                            <label class="postbox-label" for="auto-apply-experience">Experience</label>
-                                            <select id="auto-apply-experience" class="postbox-input postbox-input-compact">
-                                                <option value="">Any</option>
-                                                <option value="entry">Entry</option>
-                                                <option value="associate">Associate</option>
-                                                <option value="mid_senior">Mid-senior</option>
-                                                <option value="director">Director</option>
-                                                <option value="executive">Executive</option>
-                                            </select>
-                                        </div>
-                                        <div class="auto-apply-field">
-                                            <label class="postbox-label" for="auto-apply-date-posted">Posted</label>
-                                            <select id="auto-apply-date-posted" class="postbox-input postbox-input-compact">
-                                                <option value="">Any time</option>
-                                                <option value="24h">24 hours</option>
-                                                <option value="week">Past week</option>
-                                                <option value="month">Past month</option>
-                                            </select>
-                                        </div>
-                                        <div class="auto-apply-field">
-                                            <label class="postbox-label" for="auto-apply-min-salary">Min salary</label>
-                                            <select id="auto-apply-min-salary" class="postbox-input postbox-input-compact">
-                                                <option value="">Any</option>
-                                                <option value="40k">£40k+</option>
-                                                <option value="50k">£50k+</option>
-                                                <option value="60k">£60k+</option>
-                                                <option value="80k">£80k+</option>
-                                                <option value="100k">£100k+</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <p class="postbox-hint auto-apply-inline-hint">UK LinkedIn brackets. Salary in your role text is also used for fit scoring.</p>
-                                </div>
-                            </details>
-
-                            <details id="auto-apply-settings-details" class="auto-apply-details">
-                                <summary class="auto-apply-details-summary">Auto Apply settings</summary>
-                                <div class="auto-apply-details-body">
-                                    <div class="auto-apply-timing-bar">
-                                        <div class="auto-apply-timing-header">
-                                            <span class="postbox-label">Timing</span>
-                                            <span id="auto-apply-timing-value" class="auto-apply-timing-value">Careful timing</span>
-                                        </div>
-                                        <div class="auto-apply-timing-slider-row">
-                                            <span class="auto-apply-timing-end-label">Careful timing</span>
-                                            <input
-                                                id="auto-apply-timing-level"
-                                                class="auto-apply-timing-slider"
-                                                type="range"
-                                                min="1"
-                                                max="5"
-                                                step="1"
-                                                value="1"
-                                                aria-label="Auto Apply timing from careful to speed"
-                                            />
-                                            <span class="auto-apply-timing-end-label">Speed</span>
-                                        </div>
-                                        <p class="postbox-hint auto-apply-inline-hint">Left is slower and more human-like. Right is faster and less human-like, and does not prevent platform detection.</p>
-                                    </div>
-
-                                    <p class="postbox-hint auto-apply-inline-hint">
-                                        Sign in to the job board in your browser before starting Auto Apply. If the board asks you to log in mid-run, Auto Apply pauses so you can sign in and resume.
-                                    </p>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-before-submit">
-                                            <input id="auto-apply-pause-before-submit" type="checkbox" />
-                                            <span>Pauses before Submit</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-easy-apply-only">
-                                            <input id="auto-apply-easy-apply-only" type="checkbox" checked />
-                                            <span>Easy Apply only</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-pause-on-external">
-                                            <input id="auto-apply-pause-on-external" type="checkbox" />
-                                            <span>Pause on external apply</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-stop-for-cover-letter">
-                                            <input id="auto-apply-stop-for-cover-letter" type="checkbox" />
-                                            <span>Stop for cover letter input</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-auto-generate-cover-letter">
-                                            <input id="auto-apply-auto-generate-cover-letter" type="checkbox" checked />
-                                            <span>Auto-generate cover letter</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="auto-apply-fit-bar">
-                                        <label class="auto-apply-fit-toggle" for="auto-apply-fit-enabled">
-                                            <input id="auto-apply-fit-enabled" type="checkbox" checked />
-                                            <span>Skip below fit score</span>
-                                        </label>
-                                        <div class="auto-apply-fit-score">
-                                            <label class="postbox-label" for="auto-apply-min-fit-score">Min</label>
-                                            <input
-                                                id="auto-apply-min-fit-score"
-                                                class="postbox-input postbox-input-compact"
-                                                type="number"
-                                                min="0"
-                                                max="100"
-                                                value="10"
-                                            />
-                                        </div>
-                                        <p class="postbox-hint auto-apply-inline-hint">5 credits per scored job</p>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <div class="auto-apply-actions btn-row">
-                                <button type="button" class="postbox-btn" id="auto-apply-start-btn">Start</button>
-                                <button type="button" class="postbox-btn-outline" id="auto-apply-stop-btn" disabled>Stop</button>
-                            </div>
-
-                            <div id="auto-apply-status" class="status-line auto-apply-status">Ready. Set a role and start.</div>
-                            <div id="auto-apply-intervention" class="auto-apply-intervention postbox-panel" hidden>
-                                <strong id="auto-apply-intervention-headline" class="auto-apply-intervention-headline"></strong>
-                                <p id="auto-apply-intervention-detail" class="postbox-hint auto-apply-intervention-detail"></p>
-                                <p id="auto-apply-intervention-next" class="postbox-hint auto-apply-intervention-next"></p>
-                            </div>
-                            <div id="auto-apply-pause-banner" class="auto-apply-pause-banner postbox-panel" hidden>
-                                <strong id="auto-apply-pause-banner-title">Paused</strong>
-                                <p id="auto-apply-pause-message" class="postbox-hint auto-apply-pause-message"></p>
-                                <button
-                                    type="button"
-                                    class="postbox-btn auto-apply-pause-resume-btn"
-                                    id="auto-apply-pause-resume-btn"
+                                <div
+                                    id="auto-apply-activity-toolbar"
+                                    class="auto-apply-activity-toolbar"
                                     hidden
                                 >
-                                    Resume
-                                </button>
-                            </div>
-                            <div id="auto-apply-activity-toolbar" class="auto-apply-activity-toolbar" hidden>
-                                <button
-                                    type="button"
-                                    id="auto-apply-activity-toggle"
-                                    class="auto-apply-activity-toggle postbox-btn-outline"
-                                    aria-expanded="false"
-                                    aria-controls="auto-apply-activity-panel"
-                                >
-                                    Show activity
-                                </button>
-                                <button
-                                    type="button"
-                                    id="auto-apply-clear-log-btn"
-                                    class="postbox-btn-outline auto-apply-clear-log-btn"
-                                    disabled
-                                >
-                                    Clear log
-                                </button>
-                            </div>
-
-                            <div id="auto-apply-activity-panel" class="auto-apply-activity-panel" hidden>
-                                <div id="auto-apply-stats" class="auto-apply-stats postbox-hint"></div>
-
-                                <section class="auto-apply-log postbox-panel" aria-live="polite">
-                                    <h2 class="auto-apply-log-title">Activity log</h2>
-                                    <div id="auto-apply-log" class="auto-apply-log-body"></div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-panel" id="ats-tab">
-                        <div class="shell-scroll shell-ai-panel">
-                            <button class="postbox-btn" id="ai-ats-btn">Run ATS score</button>
-                            <textarea id="ats-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="ATS results appear here…" hidden></textarea>
-                            <button class="postbox-btn-outline" id="ats-copy-btn" type="button" hidden>Copy output</button>
-                            <div id="ats-status" class="status-line"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-panel" id="cover-tab">
-                        <div class="shell-scroll shell-ai-panel">
-                            <button class="postbox-btn" id="ai-cover-letter-btn">Generate cover letter</button>
-                            <textarea id="cover-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Cover letter appears here…" hidden></textarea>
-                            <div class="btn-row" id="cover-actions" hidden>
-                                <button class="postbox-btn-outline" id="cover-copy-btn" type="button">Copy output</button>
-                                <button class="postbox-btn-outline" id="cover-pdf-btn" type="button">Download PDF</button>
-                            </div>
-                            <div id="cover-status" class="status-line"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-panel" id="documents-tab">
-                        <div class="shell-scroll shell-documents-panel">
-                            <p class="postbox-hint">
-                                Upload your CV to refresh your parsed profile, store certificates and supporting files,
-                                and download cover letters saved when you generate them in Cover or Answer All Questions on Web Page.
-                            </p>
-
-                            <section class="card postbox-panel">
-                                <label class="postbox-label" for="documents-category">Category</label>
-                                <select id="documents-category" class="postbox-input"></select>
-
-                                <label class="postbox-label" for="documents-title">Title (optional)</label>
-                                <input id="documents-title" class="postbox-input" placeholder="e.g. BSc graduation certificate" />
-
-                                <label class="postbox-label" for="documents-notes">Notes (optional)</label>
-                                <input id="documents-notes" class="postbox-input" placeholder="e.g. Includes official transcript stamp" />
-
-                                <input id="documents-file-input" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp" hidden />
-
-                                <div class="document-upload-row">
-                                    <button type="button" class="postbox-btn" id="documents-upload-btn">Choose file</button>
-                                    <span class="postbox-hint">PDF, Word, image, or spreadsheet · up to 10MB</span>
+                                    <button
+                                        type="button"
+                                        id="auto-apply-activity-toggle"
+                                        class="auto-apply-activity-toggle postbox-btn-outline"
+                                        aria-expanded="false"
+                                        aria-controls="auto-apply-activity-panel"
+                                    >
+                                        Show activity
+                                    </button>
+                                    <button
+                                        type="button"
+                                        id="auto-apply-clear-log-btn"
+                                        class="postbox-btn-outline auto-apply-clear-log-btn"
+                                        disabled
+                                    >
+                                        Clear log
+                                    </button>
                                 </div>
 
-                                <p id="documents-cv-hint" class="postbox-hint" hidden>
-                                    CV uploads replace your previous CV and re-parse your profile, just like on the dashboard.
+                                <div
+                                    id="auto-apply-activity-panel"
+                                    class="auto-apply-activity-panel"
+                                    hidden
+                                >
+                                    <div
+                                        id="auto-apply-stats"
+                                        class="auto-apply-stats postbox-hint"
+                                    ></div>
+
+                                    <section
+                                        class="auto-apply-log postbox-panel"
+                                        aria-live="polite"
+                                    >
+                                        <h2 class="auto-apply-log-title">
+                                            Activity log
+                                        </h2>
+                                        <div
+                                            id="auto-apply-log"
+                                            class="auto-apply-log-body"
+                                        ></div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="ats-tab">
+                            <div class="shell-scroll shell-ai-panel">
+                                <button class="postbox-btn" id="ai-ats-btn">
+                                    Run ATS score
+                                </button>
+                                <textarea
+                                    id="ats-output"
+                                    class="postbox-input output shell-grow-input"
+                                    rows="10"
+                                    readonly
+                                    placeholder="ATS results appear here…"
+                                    hidden
+                                ></textarea>
+                                <button
+                                    class="postbox-btn-outline"
+                                    id="ats-copy-btn"
+                                    type="button"
+                                    hidden
+                                >
+                                    Copy output
+                                </button>
+                                <div id="ats-status" class="status-line"></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="cover-tab">
+                            <div class="shell-scroll shell-ai-panel">
+                                <button
+                                    class="postbox-btn"
+                                    id="ai-cover-letter-btn"
+                                >
+                                    Generate cover letter
+                                </button>
+                                <textarea
+                                    id="cover-output"
+                                    class="postbox-input output shell-grow-input"
+                                    rows="10"
+                                    readonly
+                                    placeholder="Cover letter appears here…"
+                                    hidden
+                                ></textarea>
+                                <div class="btn-row" id="cover-actions" hidden>
+                                    <button
+                                        class="postbox-btn-outline"
+                                        id="cover-copy-btn"
+                                        type="button"
+                                    >
+                                        Copy output
+                                    </button>
+                                    <button
+                                        class="postbox-btn-outline"
+                                        id="cover-pdf-btn"
+                                        type="button"
+                                    >
+                                        Download PDF
+                                    </button>
+                                </div>
+                                <div
+                                    id="cover-status"
+                                    class="status-line"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-panel" id="documents-tab">
+                            <div class="shell-scroll shell-documents-panel">
+                                <p class="postbox-hint">
+                                    Upload your CV to refresh your parsed
+                                    profile, store certificates and supporting
+                                    files, and download cover letters saved when
+                                    you generate them in Cover or Answer All
+                                    Questions on Web Page.
                                 </p>
 
-                                <div id="documents-upload-status" class="status-line"></div>
-                            </section>
+                                <section class="card postbox-panel">
+                                    <label
+                                        class="postbox-label"
+                                        for="documents-category"
+                                        >Category</label
+                                    >
+                                    <select
+                                        id="documents-category"
+                                        class="postbox-input"
+                                    ></select>
 
-                            <div id="documents-list" class="document-list"></div>
-                            <p id="documents-empty" class="postbox-hint" hidden>No documents saved yet. Generate a cover letter on the Cover tab or upload files above.</p>
+                                    <label
+                                        class="postbox-label"
+                                        for="documents-title"
+                                        >Title (optional)</label
+                                    >
+                                    <input
+                                        id="documents-title"
+                                        class="postbox-input"
+                                        placeholder="e.g. BSc graduation certificate"
+                                    />
+
+                                    <label
+                                        class="postbox-label"
+                                        for="documents-notes"
+                                        >Notes (optional)</label
+                                    >
+                                    <input
+                                        id="documents-notes"
+                                        class="postbox-input"
+                                        placeholder="e.g. Includes official transcript stamp"
+                                    />
+
+                                    <input
+                                        id="documents-file-input"
+                                        type="file"
+                                        accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"
+                                        hidden
+                                    />
+
+                                    <div class="document-upload-row">
+                                        <button
+                                            type="button"
+                                            class="postbox-btn"
+                                            id="documents-upload-btn"
+                                        >
+                                            Choose file
+                                        </button>
+                                        <span class="postbox-hint"
+                                            >PDF, Word, image, or spreadsheet ·
+                                            up to 10MB</span
+                                        >
+                                    </div>
+
+                                    <p
+                                        id="documents-cv-hint"
+                                        class="postbox-hint"
+                                        hidden
+                                    >
+                                        CV uploads replace your previous CV and
+                                        re-parse your profile, just like on the
+                                        dashboard.
+                                    </p>
+
+                                    <div
+                                        id="documents-upload-status"
+                                        class="status-line"
+                                    ></div>
+                                </section>
+
+                                <div
+                                    id="documents-list"
+                                    class="document-list"
+                                ></div>
+                                <p
+                                    id="documents-empty"
+                                    class="postbox-hint"
+                                    hidden
+                                >
+                                    No documents saved yet. Generate a cover
+                                    letter on the Cover tab or upload files
+                                    above.
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="tab-panel" id="blacklist-tab">
-                        <div class="shell-scroll shell-auto-apply-panel">
-                            <p class="postbox-hint">
-                                Plain-English rules for employers and roles Auto Apply should skip.
-                                Empty means no blacklist. Examples: no construction jobs and avoid Microsoft
-                            </p>
-                            <label class="postbox-label" for="auto-apply-job-blacklist">Avoid list</label>
-                            <textarea
-                                id="auto-apply-job-blacklist"
-                                class="postbox-input shell-grow-input"
-                                rows="10"
-                                maxlength="5000"
-                                placeholder="no construction jobs&#10;avoid Microsoft&#10;&quot;Acme Corp&quot;"
-                                spellcheck="true"
-                            ></textarea>
-                            <p class="postbox-hint auto-apply-inline-hint">Saved to your profile. Max 5000 characters.</p>
+                        <div class="tab-panel" id="blacklist-tab">
+                            <div class="shell-scroll shell-auto-apply-panel">
+                                <p class="postbox-hint">
+                                    Plain-English rules for employers and roles
+                                    Auto Apply should skip. Empty means no
+                                    blacklist. Examples: no construction jobs
+                                    and avoid Microsoft
+                                </p>
+                                <label
+                                    class="postbox-label"
+                                    for="auto-apply-job-blacklist"
+                                    >Avoid list</label
+                                >
+                                <textarea
+                                    id="auto-apply-job-blacklist"
+                                    class="postbox-input shell-grow-input"
+                                    rows="10"
+                                    maxlength="5000"
+                                    placeholder='no construction jobs&#10;avoid Microsoft&#10;"Acme Corp"'
+                                    spellcheck="true"
+                                ></textarea>
+                                <p class="postbox-hint auto-apply-inline-hint">
+                                    Saved to your profile. Max 5000 characters.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
 
-        <footer class="footer postbox-bar-bottom shell-footer">
-            <button type="button" id="open-debug-logs-btn" class="postbox-link footer-debug-link">Debug logs</button>
-            <a class="postbox-link" href="https://autocvapply.com" target="_blank">autocvapply.com</a>
-        </footer>
-    </div>
+            <footer class="footer postbox-bar-bottom shell-footer">
+                <button
+                    type="button"
+                    id="open-debug-logs-btn"
+                    class="postbox-link footer-debug-link"
+                >
+                    Debug logs
+                </button>
+                <a
+                    class="postbox-link"
+                    href="https://autocvapply.com"
+                    target="_blank"
+                    >autocvapply.com</a
+                >
+            </footer>
+        </div>
 
-    <script type="module" src="sidepanel.js"></script>
-</body>
+        <script type="module" src="sidepanel.js"></script>
+    </body>
 </html>
