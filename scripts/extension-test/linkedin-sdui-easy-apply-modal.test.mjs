@@ -12,6 +12,12 @@ import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';
 import { buildDraftAllApplyPlan } from '../../extension/src/shared/draft-all/pipeline.js';
+import {
+    isJunkMemoAnswer,
+    isJunkMemoQuestionLabel,
+    matchMemoAnswer,
+    partitionFieldsByQuestionMemo,
+} from '../../extension/src/shared/draft-all-optimizations.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const FORM_HEURISTICS_PATH = join(
@@ -495,4 +501,160 @@ test('SDUI HartleyCo-style screening radios map onsite/sponsorship/RTW from prof
     assert.ok(rtwKey, `RTW answered, got ${JSON.stringify(staged)}`);
     assert.match(staged[rtwKey], /^yes$/i);
     assert.equal((plan.pendingFields || []).length, 0);
+});
+
+test('SDUI radio option-label trap uses legend text, not Yes', () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-radio-option-label-trap.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4459296956/',
+    );
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const questions = (snapshot.elements || []).map((el) =>
+        String(el.question || ''),
+    );
+
+    assert.ok(
+        !questions.some((q) => /^yes$/i.test(q.trim())),
+        `radio question must not be option label Yes, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /onsite setting/i.test(q)),
+        `expected onsite legend, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /sponsorship/i.test(q)),
+        `expected sponsorship legend, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /coding test/i.test(q)),
+        `expected coding-test legend, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        questions.some((q) => /customers/i.test(q)),
+        `expected customer-exposure legend, got ${JSON.stringify(questions)}`,
+    );
+
+    const onsite = (snapshot.elements || []).find((el) =>
+        /onsite setting/i.test(el.question || ''),
+    );
+    assert.equal(
+        onsite?.required,
+        true,
+        'onsite must detect required from legend *',
+    );
+    assert.deepEqual([...(onsite?.options || [])].map(String), ['Yes', 'No']);
+});
+
+test('SDUI radio trap draft plan answers onsite/sponsorship/coding/customers; ignores junk memo', async () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-radio-option-label-trap.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4465219319/',
+    );
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const fields = (snapshot.elements || []).map((el, index) => ({
+        id: index,
+        ref: el.ref || `f${index}`,
+        label: el.question,
+        field_type: el.field_type,
+        options: el.options,
+        required: el.required,
+    }));
+
+    assert.equal(
+        matchMemoAnswer({ yes: 'on', Yes: 'on' }, 'yes'),
+        null,
+        'junk yes→on memo must be ignored',
+    );
+    assert.equal(isJunkMemoQuestionLabel('yes'), true);
+    assert.equal(isJunkMemoAnswer('on'), true);
+
+    const memoPartition = partitionFieldsByQuestionMemo(
+        fields,
+        {
+            yes: 'on',
+            'Are you comfortable working in an onsite setting?': 'on',
+        },
+        UK_PROFILE,
+    );
+    assert.equal(
+        memoPartition.memoAnswers.length,
+        0,
+        'must not apply junk on memo to radios',
+    );
+
+    const plan = buildDraftAllApplyPlan({
+        fields,
+        profileData: UK_PROFILE,
+        questionMemo: { yes: 'on' },
+        pageUrl: 'https://www.linkedin.com/jobs/view/4465219319/',
+    });
+    const staged = (plan.applyStages || []).flatMap(
+        (stage) => stage.answers || [],
+    );
+    const byLabel = Object.fromEntries(
+        staged.map((row) => [
+            fields.find((f) => f.ref === row.ref)?.label || row.ref,
+            String(row.answer),
+        ]),
+    );
+
+    const onsite = Object.keys(byLabel).find((label) => /onsite/i.test(label));
+    const sponsor = Object.keys(byLabel).find((label) =>
+        /sponsorship/i.test(label),
+    );
+    const coding = Object.keys(byLabel).find((label) =>
+        /coding test/i.test(label),
+    );
+    const customers = Object.keys(byLabel).find((label) =>
+        /customers/i.test(label),
+    );
+
+    assert.ok(onsite, JSON.stringify(byLabel));
+    assert.match(byLabel[onsite], /^yes$/i);
+    assert.ok(sponsor, JSON.stringify(byLabel));
+    assert.match(byLabel[sponsor], /^no$/i);
+    assert.ok(coding, JSON.stringify(byLabel));
+    assert.match(byLabel[coding], /^yes$/i);
+    assert.ok(customers, JSON.stringify(byLabel));
+    assert.match(byLabel[customers], /^yes$/i);
+
+    // Apply by visible Yes/No label, not value "on".
+    const sponsorField = fields.find((f) => /sponsorship/i.test(f.label));
+    assert.ok(sponsorField);
+    const applied = await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+        window.document,
+        sponsorField.label,
+        'No',
+    );
+    assert.equal(applied, true);
+    assert.equal(
+        window.document.getElementById('sponsor-no')?.checked,
+        true,
+        'sponsorship No must be checked after label apply',
+    );
+    assert.equal(window.document.getElementById('sponsor-yes')?.checked, false);
 });

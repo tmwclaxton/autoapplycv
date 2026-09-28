@@ -2269,6 +2269,71 @@ export function isWillingToRelocateQuestionLabel(label) {
 }
 
 /**
+ * "Comfortable with a coding test / live coding / technical assessment?" filter-pass Yes.
+ */
+export function isTechnicalAssessmentWillingnessQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (
+        !/\b(comfortable|willing|able|happy|open to|ok with|okay with|agree to)\b/.test(
+            normalized,
+        )
+    ) {
+        return false;
+    }
+
+    return /\b(coding test|live coding|technical (?:test|assessment|interview)|take[- ]?home(?: test| assessment)?|hackerrank|codility|pair programm|whiteboard)\b/.test(
+        normalized,
+    );
+}
+
+/**
+ * Customer / client exposure or problem-solving for customers - filter-pass Yes.
+ */
+export function isCustomerFacingExposureQuestion(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/\bworking with customers\b/.test(normalized)) {
+        return true;
+    }
+
+    if (
+        /\b(customer|client|stakeholder)s?\b/.test(normalized) &&
+        /\b(exposure|facing|problem solving|working with|support(?:ing)?)\b/.test(
+            normalized,
+        )
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
+function resolveYesNoAffirmationAnswer(field) {
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    if (options.length > 0) {
+        const yesOption = options.find((option) =>
+            /^yes\b/i.test(String(option).trim()),
+        );
+
+        if (yesOption) {
+            return String(yesOption).trim();
+        }
+    }
+
+    return fieldHasYesNoOptions(field) ? 'Yes' : '';
+}
+
+/**
  * Employer yes/no start screeners that expect an affirmative answer.
  * Open questions like "When can you start?" are excluded - those still use notice period.
  */
@@ -7323,6 +7388,17 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
     if (isMeaningfulAnswer(urgentStartAnswer)) {
         return urgentStartAnswer;
+    }
+
+    if (
+        isTechnicalAssessmentWillingnessQuestion(label) ||
+        isCustomerFacingExposureQuestion(label)
+    ) {
+        const affirmation = resolveYesNoAffirmationAnswer(field);
+
+        if (isMeaningfulAnswer(affirmation)) {
+            return affirmation;
+        }
     }
 
     if (isUsLocationConfirmationQuestion(label)) {

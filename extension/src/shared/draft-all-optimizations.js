@@ -364,14 +364,33 @@ export function resolveSavedApplicationAnswer(
     return answer;
 }
 
+/** Bare option labels / DOM values that must never key or fill from memo. */
+export function isJunkMemoQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    return /^(yes|no|true|false|y|n|on|off|pdf)$/i.test(normalized);
+}
+
+export function isJunkMemoAnswer(answer) {
+    return /^(on|off)$/i.test(String(answer || '').trim());
+}
+
 export function matchMemoAnswer(questionMemo, fieldLabel) {
     if (!questionMemo || typeof questionMemo !== 'object') {
         return null;
     }
 
+    if (isJunkMemoQuestionLabel(fieldLabel)) {
+        return null;
+    }
+
     const answer = questionMemo[fieldLabel];
 
-    if (typeof answer === 'string' && answer.trim() !== '') {
+    if (
+        typeof answer === 'string' &&
+        answer.trim() !== '' &&
+        !isJunkMemoAnswer(answer)
+    ) {
         return answer;
     }
 
@@ -383,6 +402,10 @@ export function matchMemoAnswer(questionMemo, fieldLabel) {
 
     for (const [memoLabel, memoAnswer] of Object.entries(questionMemo)) {
         if (typeof memoAnswer !== 'string' || memoAnswer.trim() === '') {
+            continue;
+        }
+
+        if (isJunkMemoQuestionLabel(memoLabel) || isJunkMemoAnswer(memoAnswer)) {
             continue;
         }
 
@@ -503,6 +526,12 @@ export function partitionFieldsByQuestionMemo(
 
         // Personio Stelle/Bereich must use the current job title, not a stale essay.
         if (isPositionApplyingForQuestionLabel(label)) {
+            remainingFields.push(field);
+            continue;
+        }
+
+        // Bare "yes"/"no" labels or answer "on" are LinkedIn option/DOM junk.
+        if (isJunkMemoQuestionLabel(label)) {
             remainingFields.push(field);
             continue;
         }

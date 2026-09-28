@@ -434,6 +434,34 @@ var AutoCVApplyFieldInventory = (() => {
             }
         }
 
+        // LinkedIn Easy Apply: required title class / trailing * on the legend.
+        const linkedInFormElement = anchor.closest(
+            '.fb-dash-form-element, [data-test-form-element], fieldset[data-test-form-builder-radio-button-form-component]',
+        );
+
+        if (linkedInFormElement) {
+            if (
+                linkedInFormElement.querySelector(
+                    '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
+                )
+            ) {
+                return true;
+            }
+
+            const linkedInTitle = (
+                linkedInFormElement.querySelector(
+                    'legend, [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label',
+                )?.textContent
+                || ''
+            )
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (/\S\*\s*$/.test(linkedInTitle) || /\*\s*required\b/i.test(linkedInTitle)) {
+                return true;
+            }
+        }
+
         // Teamtailor and similar: question title includes "*Required" beside the control.
         const questionRoot = anchor.closest(
             'fieldset, [class*="question"], [class*="Question"], [data-question], .form-group',
@@ -447,7 +475,7 @@ var AutoCVApplyFieldInventory = (() => {
                 .trim()
                 .slice(0, 180);
 
-            if (/\*\s*required\b|\brequired\s*\*/i.test(heading) || /\S\*\s*required\b/i.test(heading)) {
+            if (/\*\s*required\b|\brequired\s*\*/i.test(heading) || /\S\*\s*required\b/i.test(heading) || /\S\*\s*$/.test(heading.slice(0, 120))) {
                 return true;
             }
         }
