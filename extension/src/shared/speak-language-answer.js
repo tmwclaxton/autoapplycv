@@ -263,6 +263,69 @@ export function resolveAdditionalLanguagesFreeTextAnswer(field, profileData) {
 }
 
 /**
+ * LinkedIn Easy Apply: "What is your level of proficiency in English?"
+ * Pick Native/bilingual (or strongest listed option) for English-speaking
+ * profile countries; otherwise leave for LLM/sidebar.
+ */
+export function isLanguageProficiencyLevelQuestion(field) {
+    const label = normalizeLanguageToken(field?.label || field?.question || '');
+    const options = Array.isArray(field?.options) ? field.options : [];
+
+    if (!label || options.length < 2) {
+        return false;
+    }
+
+    if (
+        !/\b(?:level of )?proficiency in\b/.test(label) &&
+        !/\b(?:language )?proficien(?:t|cy)\b/.test(label)
+    ) {
+        return false;
+    }
+
+    return /\b(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b/.test(
+        label,
+    );
+}
+
+export function resolveLanguageProficiencyLevelAnswer(field, profileData) {
+    if (!isLanguageProficiencyLevelQuestion(field)) {
+        return null;
+    }
+
+    const label = normalizeLanguageToken(field?.label || field?.question || '');
+    const askedEnglish = /\benglish\b/.test(label);
+    const names = profileLanguageNames(profileData);
+    const hasAskedLanguage = askedEnglish
+        ? names.includes('english') || isEnglishSpeakingProfileCountry(profileData)
+        : names.some((name) => label.includes(name));
+
+    if (!hasAskedLanguage) {
+        return null;
+    }
+
+    const options = (Array.isArray(field?.options) ? field.options : [])
+        .map((option) => String(option || '').trim())
+        .filter((option) => option && !/^select an option$/i.test(option));
+
+    const ranked = [
+        /native|bilingual|mother\s*tongue|first language/i,
+        /full professional|professional working|fluent/i,
+        /professional/i,
+        /conversational|limited working|working knowledge/i,
+    ];
+
+    for (const pattern of ranked) {
+        const match = options.find((option) => pattern.test(option));
+
+        if (match) {
+            return match;
+        }
+    }
+
+    return options[0] || null;
+}
+
+/**
  * Answer speak-language Yes/No when profile languages are populated.
  * English defaults to Yes for English-speaking profile countries even when the
  * languages list is empty. Other languages stay pending (do not invent No).

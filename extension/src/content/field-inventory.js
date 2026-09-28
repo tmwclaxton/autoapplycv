@@ -448,6 +448,38 @@ var AutoCVApplyFieldInventory = (() => {
                 return true;
             }
 
+            // Live SDUI may place the required title as a previous sibling of the
+            // form element that only wraps Yes/No options.
+            let sibling = linkedInFormElement.previousElementSibling;
+            let hops = 0;
+
+            while (sibling && hops < 3) {
+                if (
+                    sibling.matches?.(
+                        '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
+                    ) ||
+                    sibling.querySelector?.(
+                        '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
+                    )
+                ) {
+                    return true;
+                }
+
+                const siblingTitle = (sibling.textContent || '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+
+                if (
+                    /\S\*\s*$/.test(siblingTitle) ||
+                    /\*\s*required\b/i.test(siblingTitle)
+                ) {
+                    return true;
+                }
+
+                sibling = sibling.previousElementSibling;
+                hops += 1;
+            }
+
             const linkedInTitle = (
                 linkedInFormElement.querySelector(
                     'legend, [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label',

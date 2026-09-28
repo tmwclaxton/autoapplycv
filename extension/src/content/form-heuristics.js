@@ -2355,6 +2355,20 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        // Any radio/checkbox inside a LinkedIn form element is inventoriable,
+        // even when A/B drops fb-form-element__checkbox / data-test attrs.
+        if (
+            element.closest?.(
+                '.fb-dash-form-element, [data-test-form-element], [data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component]',
+            )
+        ) {
+            return Boolean(
+                element.closest?.(
+                    '.jobs-easy-apply-modal, .jobs-easy-apply-content, form.jobs-easy-apply-form, .fb-dash-form-element, [data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component], [data-test-form-element], [role="dialog"]',
+                ),
+            );
+        }
+
         if (
             element.classList?.contains('fb-form-element__checkbox') ||
             element.hasAttribute?.('data-test-text-selectable-option__input')
@@ -2366,11 +2380,7 @@ var AutoCVApplyFormHeuristics = (() => {
             );
         }
 
-        return Boolean(
-            element.closest?.(
-                '[data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component]',
-            ),
-        );
+        return false;
     }
 
     function isOracleApplyFlowCombobox(element) {
@@ -7595,6 +7605,20 @@ var AutoCVApplyFormHeuristics = (() => {
             return workableGroup;
         }
 
+        // LinkedIn Easy Apply: prefer the per-question .fb-dash-form-element over a
+        // page-level [role="group"] that would merge every Yes/No into one group.
+        const linkedInFormElement = element.closest(
+            '.fb-dash-form-element, [data-test-form-element]',
+        );
+
+        if (
+            linkedInFormElement &&
+            collectVisibleChoiceInputs(linkedInFormElement, inputType).length >=
+                2
+        ) {
+            return linkedInFormElement;
+        }
+
         const ariaScope = element.closest(
             'fieldset, [role="radiogroup"], [role="group"]',
         );
@@ -7633,20 +7657,6 @@ var AutoCVApplyFormHeuristics = (() => {
             ) {
                 return leverQuestion;
             }
-        }
-
-        // LinkedIn Easy Apply SDUI often wraps each Yes/No group in
-        // .fb-dash-form-element without a fieldset / role=radiogroup.
-        const linkedInFormElement = element.closest(
-            '.fb-dash-form-element, [data-test-form-element]',
-        );
-
-        if (
-            linkedInFormElement &&
-            collectVisibleChoiceInputs(linkedInFormElement, inputType).length >=
-                2
-        ) {
-            return linkedInFormElement;
         }
 
         const fieldWrapper = element.closest(
@@ -7747,13 +7757,51 @@ var AutoCVApplyFormHeuristics = (() => {
             return element.name;
         }
 
-        const container = getQuestionContainer(element);
+        // LinkedIn SDUI without name=: never use bare Yes/No as the group key
+        // (that collapsed every radio group into one via processedGroups).
+        const linkedInFormElement = element.closest?.(
+            '.fb-dash-form-element, [data-test-form-element]',
+        );
 
-        return (
+        if (
+            linkedInFormElement &&
+            (element.type === 'radio' || element.type === 'checkbox')
+        ) {
+            const recovered =
+                getLinkedInEasyApplyFieldLabel(element) ||
+                getRadiogroupLabel(linkedInFormElement);
+
+            if (isUsableLinkedInQuestionLabel(recovered)) {
+                return `linkedin:${recovered}`;
+            }
+
+            const siblings = Array.from(
+                (
+                    linkedInFormElement.parentElement ||
+                    linkedInFormElement.ownerDocument ||
+                    document
+                ).querySelectorAll?.(
+                    '.fb-dash-form-element, [data-test-form-element]',
+                ) || [],
+            );
+            const index = siblings.indexOf(linkedInFormElement);
+
+            if (index >= 0) {
+                return `linkedin-form-element:${index}`;
+            }
+        }
+
+        const container = getQuestionContainer(element);
+        const fallback =
             container?.getAttribute('data-testid') ||
             container?.getAttribute('name') ||
-            getQuestionLabel(element)
-        );
+            getQuestionLabel(element);
+
+        if (isBareChoiceOptionLabelText(fallback)) {
+            return '';
+        }
+
+        return fallback;
     }
 
     function getGroupInputs(element) {
@@ -10184,17 +10232,56 @@ var AutoCVApplyFormHeuristics = (() => {
             '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
         ) || []) {
             // Option labels for radios/checkboxes are not the question.
+            // Keep long non-bare label[for] titles (some SDUI variants use them).
             if (
                 isChoice &&
-                (node.matches?.(
-                    'label[for], [data-test-text-selectable-option__label]',
-                ) ||
-                    isBareChoiceOptionLabelText(node.textContent || ''))
+                (node.matches?.('[data-test-text-selectable-option__label]') ||
+                    node.closest?.('[data-test-text-selectable-option]') ||
+                    (node.matches?.('label[for]') &&
+                        isBareChoiceOptionLabelText(node.textContent || '')))
+            ) {
+                continue;
+            }
+
+            if (
+                isChoice &&
+                isBareChoiceOptionLabelText(node.textContent || '')
             ) {
                 continue;
             }
 
             pushTitleCandidate(node);
+        }
+
+        // Live SDUI sometimes places the title span as a previous sibling of the
+        // .fb-dash-form-element that only wraps the Yes/No options.
+        if (isChoice && formElement?.previousElementSibling) {
+            let sibling = formElement.previousElementSibling;
+            let hops = 0;
+
+            while (sibling && hops < 4) {
+                if (
+                    sibling.matches?.(
+                        '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, [data-test-text-entity-list-form-title], label',
+                    ) ||
+                    sibling.querySelector?.(
+                        '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label',
+                    )
+                ) {
+                    pushTitleCandidate(
+                        sibling.matches?.(
+                            '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, [data-test-text-entity-list-form-title], label',
+                        )
+                            ? sibling
+                            : sibling.querySelector(
+                                  '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label',
+                              ),
+                    );
+                }
+
+                sibling = sibling.previousElementSibling;
+                hops += 1;
+            }
         }
 
         for (const title of titleCandidates) {
@@ -10210,8 +10297,8 @@ var AutoCVApplyFormHeuristics = (() => {
         }
 
         if (isChoice) {
-            // Never fall back to label[for=…] for radios - that is the option text.
-            // Title candidates above already scanned the form element / legend.
+            // Never fall back to bare option label[for=…] for radios.
+            // Title candidates above already scanned the form element / siblings.
             return '';
         }
 

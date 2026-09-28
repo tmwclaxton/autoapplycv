@@ -98,9 +98,12 @@ const preferenceAnswers = new Map(
         .map((answer) => [answer.ref, answer.answer]),
 );
 
+assert.equal(preferenceAnswers.get('f0'), '2');
+assert.equal(preferenceAnswers.get('f1'), '2');
+assert.equal(preferenceAnswers.get('f2'), '2');
 assert.equal(preferenceAnswers.get('f3'), 'Yes');
 assert.equal(preferenceAnswers.get('f5'), 'Yes');
-assert.equal(plan.llmFields.map((field) => field.ref).sort().join(','), 'f0,f1,f2,f4');
+assert.equal(plan.llmFields.map((field) => field.ref).sort().join(','), 'f4');
 
 const blocker = detectUnfilledBlockers(
     { validationErrors: [], invalidFields: [] },

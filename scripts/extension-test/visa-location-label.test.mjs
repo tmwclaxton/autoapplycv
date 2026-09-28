@@ -182,6 +182,39 @@ test('unfilled Lever current location stays pending even when profile has city',
     assert.equal(isLocationAutocompleteQuestionLabel('current location'), true);
 });
 
+test('commute to job location Yes/No is not a city locality field', () => {
+    const label = "Are you comfortable commuting to this job's location?*";
+    const field = {
+        ref: 'f0',
+        label,
+        field_type: 'radio',
+        options: ['Yes', 'No'],
+        required: true,
+    };
+    const profile = {
+        country: 'United Kingdom',
+        city: 'High Wycombe',
+        location: 'High Wycombe, England',
+        application_settings: { affirm_local_commute: 'yes' },
+    };
+
+    assert.equal(isLocationAutocompleteQuestionLabel(label), false);
+    assert.equal(isLocalityIdentityField(field), false);
+    assert.equal(
+        resolveProfileMappingForLabel(label, profile)?.path,
+        'application_settings.affirm_local_commute',
+    );
+
+    const { localityAnswers, remainingFields } =
+        partitionMissingLocalityIdentityFields([field], profile);
+    assert.equal(localityAnswers.length, 0);
+    assert.equal(remainingFields.length, 1);
+    assert.notEqual(
+        resolveIdentityProfileAnswer(field, profile),
+        'High Wycombe',
+    );
+});
+
 test('foreign-only job application locations stay pending for UK profile', () => {
     const field = {
         ref: 'f0',

@@ -282,6 +282,9 @@ const LANGUAGE_PROFICIENCY_QUESTION_PATTERNS = [
     /\b(?:communicate|speak|write|read|converse)\b.*\b(?:at|in)\b.*\b(?:professional|business|native|fluent)\b/i,
     /\b(?:professional|business|native|fluent)\b.*\b(?:in\s+)?(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b/i,
     /\b(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b.*\b(?:proficien(?:t|cy)|fluent|fluency|language skills?|communicate|speak|write|read)\b/i,
+    // LinkedIn Easy Apply: "What is your level of proficiency in English?"
+    /\blevel of proficiency in\b.*\b(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b/i,
+    /\bproficiency in\b.*\b(?:swedish|english|german|french|spanish|norwegian|danish|finnish|dutch|portuguese|italian|polish|arabic|mandarin|cantonese|japanese|korean|hindi)\b/i,
     // Formlabs: "In what languages are you fluent? (oral and written)"
     /\blanguages?\s+are\s+you\s+fluent\b/i,
     /\bwhat\s+languages?\s+are\s+you\s+fluent\b/i,
@@ -587,6 +590,10 @@ const PROFILE_FIELD_MAPPINGS = [
             'comfortable working in a hybrid',
             'hybrid setting',
             'work in a hybrid',
+            'comfortable working in a remote',
+            'remote setting',
+            'work in a remote',
+            'working in a remote',
             'comfortable working in an onsite',
             'comfortable working in an on-site',
             'onsite setting',
@@ -4010,6 +4017,30 @@ export function isLocationAutocompleteQuestionLabel(label) {
         return false;
     }
 
+    // LinkedIn Easy Apply: "Are you comfortable commuting to this job's location?"
+    // is a Yes/No comfort gate, not a city autocomplete. Matching bare "location"
+    // here used to dump profile.city (High Wycombe) onto the radio.
+    const affirmCommuteEntry = PROFILE_FIELD_MAPPINGS.find(
+        (entry) => entry.path === 'application_settings.affirm_local_commute',
+    );
+
+    if (
+        affirmCommuteEntry &&
+        mappingMatchesLabel(
+            affirmCommuteEntry,
+            normalizeLabelForMapping(label),
+        )
+    ) {
+        return false;
+    }
+
+    if (
+        /\b(?:commute|commuting)\b/.test(normalized) &&
+        /\blocation\b/.test(normalized)
+    ) {
+        return false;
+    }
+
     if (isCityLocationQuestionLabel(label)) {
         return true;
     }
@@ -5358,6 +5389,12 @@ export function resolveProfileMappingForLabel(
         return profileMappingByPath('application_settings.visa_sponsorship');
     }
 
+    // "Do you have 5+ years…?" Yes/No gates: map to YOE so preference can coerce.
+    // isGenericTotalExperienceQuestionLabel excludes these (threshold early-return).
+    if (extractYearsExperienceThreshold(label) !== null) {
+        return profileMappingByPath('application_settings.years_of_experience');
+    }
+
     const affirmCommuteEntry = PROFILE_FIELD_MAPPINGS.find(
         (entry) => entry.path === 'application_settings.affirm_local_commute',
     );
@@ -6236,7 +6273,9 @@ function profileHasResolvableLanguageAnswer(field, profileData) {
     if (
         englishDefaultCountry &&
         /\benglish\b/.test(normalized) &&
-        /\b(?:speak|fluent|language|languages)\b/.test(normalized)
+        /\b(?:speak|fluent|language|languages|proficien(?:t|cy))\b/.test(
+            normalized,
+        )
     ) {
         return true;
     }
@@ -6715,6 +6754,11 @@ export function isLocalityIdentityField(field) {
     const label = field?.label || field?.question || '';
 
     if (isJobApplicationLocationChoiceLabel(label)) {
+        return false;
+    }
+
+    // Yes/No screens (commute/remote/sponsorship) must never be treated as city.
+    if (fieldHasYesNoOptions(field)) {
         return false;
     }
 

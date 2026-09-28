@@ -41,6 +41,7 @@ import {
     isSpeakLanguageYesNoQuestion,
     resolveAdditionalLanguagesFreeTextAnswer,
     resolveLanguageFluencyMultiSelectAnswer,
+    resolveLanguageProficiencyLevelAnswer,
     resolveSpeakLanguageFromProfile,
 } from './speak-language-answer.js';
 
@@ -48,6 +49,7 @@ export { isSourceOfHireQuestionLabel };
 export {
     resolveAdditionalLanguagesFreeTextAnswer,
     resolveLanguageFluencyMultiSelectAnswer,
+    resolveLanguageProficiencyLevelAnswer,
     resolveSpeakLanguageFromProfile,
 } from './speak-language-answer.js';
 
@@ -812,6 +814,18 @@ export function resolveHeuristicScreenerAnswer(
     if (isMeaningfulAnswer(fluencyMultiSelectAnswer)) {
         return normalizeHeuristicAnswerForField(
             fluencyMultiSelectAnswer,
+            normalizedField,
+        );
+    }
+
+    const proficiencyLevelAnswer = resolveLanguageProficiencyLevelAnswer(
+        normalizedField,
+        profileData,
+    );
+
+    if (isMeaningfulAnswer(proficiencyLevelAnswer)) {
+        return normalizeHeuristicAnswerForField(
+            proficiencyLevelAnswer,
             normalizedField,
         );
     }
