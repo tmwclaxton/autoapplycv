@@ -15567,6 +15567,8 @@ var AutoCVApplyFormHeuristics = (() => {
         countDraftableFields,
         eachDraftableField,
         forEachIframeDocument,
+        querySelectorAllDeep,
+        outermostShadowHost,
         harvestLazyComboboxOptionLabels,
         frameHasApplicationForm,
         getChoiceGroupScope,

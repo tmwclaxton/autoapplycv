@@ -127,6 +127,7 @@ var AutoCVApplyLinkedInAutoApply = (() => {
     const MODAL_SELECTORS = [
         '[data-test-modal].jobs-easy-apply-modal',
         '.jobs-easy-apply-modal',
+        '[data-test-modal-id="easy-apply-modal"]',
         '[data-test-modal]',
         '.jobs-easy-apply-modal__content',
         '.jobs-easy-apply-content',
@@ -134,6 +135,14 @@ var AutoCVApplyLinkedInAutoApply = (() => {
         'div[role="dialog"] .jobs-easy-apply-content',
         'div[role="dialog"][aria-labelledby*="easy-apply"]',
         'div[role="dialog"][aria-labelledby="jobs-apply-header"]',
+        '#jobs-apply-header',
+        '[data-easy-apply-next-button]',
+        '[data-live-test-easy-apply-next-button]',
+        '[data-live-test-easy-apply-submit-button]',
+        // LinkedIn 2026 SDUI apply flow often drops jobs-easy-apply-* classes.
+        '.artdeco-modal__actionbar [aria-label*="Continue to next step"]',
+        '.artdeco-modal',
+        'dialog[open]',
         'div[role="dialog"]',
     ].join(', ');
 
@@ -1034,48 +1043,226 @@ var AutoCVApplyLinkedInAutoApply = (() => {
         return null;
     }
 
-    function readEasyApplyModal() {
-        for (const selector of MODAL_SELECTORS.split(', ')) {
-            const match = queryVisible(selector);
+    function querySelectorAllDeepLocal(root, selector) {
+        const heuristics =
+            typeof AutoCVApplyFormHeuristics !== 'undefined'
+                ? AutoCVApplyFormHeuristics
+                : null;
 
-            if (!match) {
-                continue;
+        if (typeof heuristics?.querySelectorAllDeep === 'function') {
+            return heuristics.querySelectorAllDeep(root, selector);
+        }
+
+        if (!root?.querySelectorAll) {
+            return [];
+        }
+
+        const results = [];
+        const seen = new Set();
+        const visit = (node) => {
+            if (!node?.querySelectorAll) {
+                return;
             }
 
-            const modalRoot =
-                match.closest(
-                    '[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]',
-                ) || match;
-
-            if (isSaveApplicationDialog(modalRoot)) {
-                continue;
-            }
-
-            if (
-                selector.includes('role="dialog"') &&
-                !match.querySelector(
-                    [
-                        '.jobs-easy-apply-content',
-                        '.jobs-easy-apply-modal__content',
-                        '.jobs-easy-apply-footer',
-                        'form',
-                    ].join(', '),
-                )
-            ) {
-                const hasEasyApplyText = /\beasy\s+apply\b/i.test(
-                    match.textContent || '',
-                );
-
-                if (!hasEasyApplyText) {
-                    continue;
+            for (const el of node.querySelectorAll(selector)) {
+                if (!seen.has(el)) {
+                    seen.add(el);
+                    results.push(el);
                 }
             }
 
-            return (
-                match.closest(
-                    '[data-test-modal], .jobs-easy-apply-modal, div[role="dialog"]',
-                ) || match
+            for (const el of node.querySelectorAll('*')) {
+                if (el.shadowRoot) {
+                    visit(el.shadowRoot);
+                }
+            }
+        };
+
+        visit(root);
+
+        return results;
+    }
+
+    function collectDocumentsForEasyApplyModalSearch() {
+        const docs = [];
+        const seen = new Set();
+        const visit = (doc) => {
+            if (!doc || seen.has(doc)) {
+                return;
+            }
+
+            seen.add(doc);
+            docs.push(doc);
+
+            for (const iframe of doc.querySelectorAll('iframe')) {
+                try {
+                    const child =
+                        iframe.contentDocument ||
+                        iframe.contentWindow?.document;
+
+                    if (child) {
+                        visit(child);
+                    }
+                } catch {
+                    // Cross-origin iframe - skip.
+                }
+            }
+        };
+
+        visit(document);
+
+        return docs;
+    }
+
+    function resolveEasyApplyModalRoot(match) {
+        if (!(match instanceof HTMLElement)) {
+            return null;
+        }
+
+        // Stay inside the open shadow tree when present - climbing to the host
+        // loses Apply-to / Contact copy (host light DOM is often empty in SDUI).
+        return (
+            match.closest(
+                [
+                    '[data-test-modal-id="easy-apply-modal"]',
+                    '[data-test-modal].jobs-easy-apply-modal',
+                    '.jobs-easy-apply-modal',
+                    '.artdeco-modal',
+                    'dialog',
+                    '[data-test-modal]',
+                    'div[role="dialog"]',
+                ].join(', '),
+            ) || match
+        );
+    }
+
+    /**
+     * LinkedIn 2026 SDUI Easy Apply often drops `.jobs-easy-apply-*` and the
+     * literal "Easy Apply" copy. Detect from Apply-to headings, contact/resume
+     * step chrome, and easy-apply action buttons.
+     */
+    function looksLikeEasyApplyModal(modal) {
+        if (!(modal instanceof HTMLElement) || isSaveApplicationDialog(modal)) {
+            return false;
+        }
+
+        if (
+            modal.classList?.contains('jobs-easy-apply-modal') ||
+            modal.getAttribute('data-test-modal-id') === 'easy-apply-modal' ||
+            modal.querySelector(
+                [
+                    '.jobs-easy-apply-content',
+                    '.jobs-easy-apply-modal__content',
+                    '.jobs-easy-apply-footer',
+                    '#jobs-apply-header',
+                    '[data-easy-apply-next-button]',
+                    '[data-live-test-easy-apply-next-button]',
+                    '[data-live-test-easy-apply-submit-button]',
+                ].join(', '),
+            )
+        ) {
+            return true;
+        }
+
+        const text = normalize(modal.textContent || '').slice(0, 2500);
+        const hasApplyHeading =
+            /\beasy\s+apply\b/i.test(text) ||
+            /\bapply\s+to\b/i.test(text) ||
+            Boolean(
+                modal.querySelector(
+                    'h2, h3, [data-test-dialog-title], #jobs-apply-header',
+                ) && /\bapply\b/i.test(text),
             );
+        const hasStepChrome =
+            /\b(contact info|contact information|resume|cv|additional questions|work authorization|review your application|home address|mobile phone number)\b/i.test(
+                text,
+            );
+        const hasPrimaryAction = Boolean(
+            modal.querySelector(
+                [
+                    'button[aria-label*="Continue to next step"]',
+                    'button[aria-label*="Submit application"]',
+                    'button[aria-label*="Review"]',
+                    'button[data-easy-apply-next-button]',
+                    'button[data-live-test-easy-apply-next-button]',
+                    'button[data-live-test-easy-apply-submit-button]',
+                    '.artdeco-modal__actionbar .artdeco-button--primary',
+                    'footer .artdeco-button--primary',
+                ].join(', '),
+            ),
+        );
+        const hasFormControls = Boolean(
+            modal.querySelector(
+                'input, textarea, select, [role="combobox"], [role="radio"], [role="checkbox"], progress',
+            ),
+        );
+
+        if (hasApplyHeading && (hasStepChrome || hasPrimaryAction || hasFormControls)) {
+            return true;
+        }
+
+        if (hasStepChrome && hasPrimaryAction) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function readEasyApplyModal() {
+        const selectors = MODAL_SELECTORS.split(', ');
+        const docs = collectDocumentsForEasyApplyModalSearch();
+        const seen = new Set();
+
+        for (const doc of docs) {
+            for (const selector of selectors) {
+                let matches = [];
+
+                try {
+                    matches = querySelectorAllDeepLocal(doc, selector);
+                } catch {
+                    matches = [];
+                }
+
+                for (const match of matches) {
+                    if (!(match instanceof HTMLElement)) {
+                        continue;
+                    }
+
+                    const modalRoot = resolveEasyApplyModalRoot(match);
+
+                    if (
+                        !modalRoot ||
+                        seen.has(modalRoot) ||
+                        !looksLikeEasyApplyModal(modalRoot)
+                    ) {
+                        continue;
+                    }
+
+                    seen.add(modalRoot);
+
+                    // Prefer a visible root, but accept fixed/absolute apply shells
+                    // that JSDOM reports with zero layout boxes.
+                    if (
+                        isElementVisible(modalRoot) ||
+                        isElementVisible(match)
+                    ) {
+                        return modalRoot;
+                    }
+
+                    // Classic Easy Apply fixtures / early SDUI mounts can be
+                    // position:fixed with zero client rects in jsdom.
+                    const style = window.getComputedStyle(modalRoot);
+
+                    if (
+                        (style.position === 'fixed' ||
+                            style.position === 'absolute') &&
+                        style.display !== 'none' &&
+                        style.visibility !== 'hidden'
+                    ) {
+                        return modalRoot;
+                    }
+                }
+            }
         }
 
         return null;

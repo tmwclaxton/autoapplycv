@@ -3199,6 +3199,29 @@ async function resolveDraftFieldsViaInventory(
     }
 
     if (!snapshot?.elements?.length) {
+        if (isLinkedInJobsApplySurfaceUrl(tab?.url || '')) {
+            const modalState = await sendTabMessage(
+                tabId,
+                { type: 'LINKEDIN_EASY_APPLY_STATE' },
+                formFrameId || 0,
+                { timeoutMs: 2_500 },
+            ).catch(() => null);
+
+            if (modalState?.open) {
+                if (modalState.emptyShell || modalState.loading) {
+                    return {
+                        error:
+                            'Easy Apply is open but the form has not finished loading. Wait a moment and try Answer All again, or click into the modal.',
+                    };
+                }
+
+                return {
+                    error:
+                        'Easy Apply is open, but there are no unanswered questions on this step. Click Next to continue to the next page.',
+                };
+            }
+        }
+
         return { error: 'No application questions found on this page.' };
     }
 

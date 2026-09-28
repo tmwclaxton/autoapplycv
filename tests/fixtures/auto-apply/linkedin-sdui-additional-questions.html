@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>LinkedIn Easy Apply - Additional Questions (SDUI)</title>
+    </head>
+    <body>
+        <!-- Job detail behind the modal (must not win inventory when Apply dialog is open). -->
+        <main class="jobs-details">
+            <h1>Software Engineer</h1>
+            <button type="button" class="jobs-apply-button">Easy Apply</button>
+            <div id="job-details">
+                <p>Build products with Python and React.</p>
+            </div>
+        </main>
+
+        <!--
+  Live LinkedIn 2026 SDUI Easy Apply (FreshtechIT / La Fosse / numi):
+  - no .jobs-easy-apply-* classes
+  - "Apply to …" heading + "Additional Questions"
+  - numeric years text inputs + Yes/No sponsorship radios
+-->
+        <div
+            role="dialog"
+            aria-modal="true"
+            class="artdeco-modal"
+            style="
+                position: fixed;
+                inset: 40px;
+                z-index: 9999;
+                background: #fff;
+                display: block;
+            "
+        >
+            <h2 id="jobs-apply-header">Apply to FreshtechIT</h2>
+            <p>3/4 pages</p>
+            <div class="artdeco-modal__content">
+                <h3>Additional Questions</h3>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <label
+                        for="years-python"
+                        class="fb-dash-form-element__label"
+                    >
+                        How many years of work experience do you have with
+                        Python (Programming Language)?*
+                    </label>
+                    <input
+                        id="years-python"
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="20"
+                        aria-required="true"
+                        value=""
+                    />
+                    <span>0/20</span>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <label
+                        for="years-react"
+                        class="fb-dash-form-element__label"
+                    >
+                        How many years of work experience do you have with
+                        React.js?*
+                    </label>
+                    <input
+                        id="years-react"
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="20"
+                        aria-required="true"
+                        value=""
+                    />
+                    <span>0/20</span>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <label for="years-node" class="fb-dash-form-element__label">
+                        How many years of work experience do you have with
+                        Node.js?*
+                    </label>
+                    <input
+                        id="years-node"
+                        type="text"
+                        inputmode="numeric"
+                        maxlength="20"
+                        aria-required="true"
+                        value="4"
+                    />
+                    <span>1/20</span>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <fieldset
+                        data-test-form-builder-radio-button-form-component="true"
+                    >
+                        <legend>
+                            <span
+                                class="fb-dash-form-element__label fb-dash-form-element__label-title--is-required"
+                            >
+                                Will you now or in the future require
+                                sponsorship for employment visa status?*
+                            </span>
+                        </legend>
+                        <div class="display-flex">
+                            <input
+                                id="sponsor-yes"
+                                type="radio"
+                                name="visa_sponsorship"
+                                value="Yes"
+                                aria-required="true"
+                            />
+                            <label for="sponsor-yes">Yes</label>
+                        </div>
+                        <div class="display-flex">
+                            <input
+                                id="sponsor-no"
+                                type="radio"
+                                name="visa_sponsorship"
+                                value="No"
+                                aria-required="true"
+                            />
+                            <label for="sponsor-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div data-test-form-element="" class="fb-dash-form-element">
+                    <fieldset
+                        data-test-form-builder-radio-button-form-component="true"
+                    >
+                        <legend>
+                            <span class="fb-dash-form-element__label">
+                                Are you comfortable commuting to this job's
+                                location?*
+                            </span>
+                        </legend>
+                        <div class="display-flex">
+                            <input
+                                id="commute-yes"
+                                type="radio"
+                                name="commute"
+                                value="Yes"
+                            />
+                            <label for="commute-yes">Yes</label>
+                        </div>
+                        <div class="display-flex">
+                            <input
+                                id="commute-no"
+                                type="radio"
+                                name="commute"
+                                value="No"
+                            />
+                            <label for="commute-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="artdeco-modal__actionbar">
+                <button
+                    type="button"
+                    class="artdeco-button artdeco-button--muted"
+                >
+                    Back
+                </button>
+                <button
+                    type="button"
+                    class="artdeco-button artdeco-button--primary"
+                    aria-label="Review your application"
+                >
+                    Review
+                </button>
+            </div>
+        </div>
+    </body>
+</html>
