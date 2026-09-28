@@ -337,6 +337,7 @@ test('SDUI Additional Questions modal inventories years + Yes/No radios', () => 
         years.length >= 3,
         `expected at least 3 skill-years inputs, got ${years.length}`,
     );
+
     for (const field of years) {
         assert.ok(
             ['text', 'number', 'tel'].includes(String(field.field_type || '')),
@@ -408,6 +409,7 @@ test('SDUI Additional Questions draft plan maps sponsorship No; skill years pend
     const pythonRef = fields.find((f) => /years.*Python/i.test(f.label))?.ref;
     assert.ok(pythonRef);
     const pythonStaged = staged.find((row) => row.ref === pythonRef);
+
     if (pythonStaged) {
         assert.equal(
             String(pythonStaged.answer),
@@ -415,6 +417,7 @@ test('SDUI Additional Questions draft plan maps sponsorship No; skill years pend
             'skill-years must not dump total YOE',
         );
     }
+
     assert.ok(
         (plan.pendingFields || []).some((row) => row.ref === pythonRef) ||
             pythonStaged?.answer === '__CLEAR__',
