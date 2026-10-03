@@ -4,12 +4,17 @@ namespace Tests\Unit\FormCorpus;
 
 use App\Services\FormCorpusAiGeneratorService;
 use App\Services\NanoGptService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
 use Mockery;
 use Tests\TestCase;
 
 class GenerateAiFormCorpusCommandTest extends TestCase
 {
+    // The commands soft-skip via SoftSkipsOnNanoGptBudgetExceeded, which reads
+    // nano_gpt_spend_entries, so these tests need the migrated schema.
+    use RefreshDatabase;
+
     protected function tearDown(): void
     {
         $briefPath = base_path('tests/fixtures/form-extraction/briefs/syn-ai-0001.json');

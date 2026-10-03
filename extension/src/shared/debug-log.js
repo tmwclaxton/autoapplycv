@@ -250,20 +250,38 @@ async function loadFromStorage() {
         STORAGE_SEQ_KEY,
         STORAGE_PRIORITY_KEY,
     ]);
-    buffer = Array.isArray(stored[STORAGE_KEY]) ? stored[STORAGE_KEY] : [];
-    priorityBuffer = Array.isArray(stored[STORAGE_PRIORITY_KEY])
-        ? stored[STORAGE_PRIORITY_KEY]
-        : [];
 
-    if (typeof stored[STORAGE_SEQ_KEY] === 'number') {
-        nextId = stored[STORAGE_SEQ_KEY];
-    } else if (buffer.length > 0) {
-        nextId = Math.max(...buffer.map((entry) => entry.id || 0)) + 1;
-    } else {
-        nextId = 1;
+    if (loaded) {
+        return;
     }
 
+    // Entries appended while the service worker was still loading storage
+    // must not be overwritten by the stored snapshot.
+    const pending = buffer;
+    const pendingPriority = priorityBuffer;
+
+    buffer = [
+        ...(Array.isArray(stored[STORAGE_KEY]) ? stored[STORAGE_KEY] : []),
+        ...pending,
+    ];
+    priorityBuffer = [
+        ...(Array.isArray(stored[STORAGE_PRIORITY_KEY])
+            ? stored[STORAGE_PRIORITY_KEY]
+            : []),
+        ...pendingPriority,
+    ];
+
+    const maxId = buffer.reduce(
+        (max, entry) => Math.max(max, Number(entry?.id) || 0),
+        0,
+    );
+    const storedSeq =
+        typeof stored[STORAGE_SEQ_KEY] === 'number' ? stored[STORAGE_SEQ_KEY] : 1;
+
+    nextId = Math.max(nextId, storedSeq, maxId + 1);
+
     loaded = true;
+    trimBuffers();
 }
 
 function schedulePersist() {
@@ -346,6 +364,61 @@ export async function getPriorityLogs() {
     await loadFromStorage();
 
     return [...priorityBuffer];
+}
+
+/**
+ * Read the persisted log snapshot fresh from storage (no module cache).
+ * Used by extension pages (debug viewer) that do not own the ring buffer.
+ */
+export async function readStoredLogs() {
+    const stored = await chrome.storage.local.get([STORAGE_KEY]);
+
+    return Array.isArray(stored[STORAGE_KEY]) ? stored[STORAGE_KEY] : [];
+}
+
+/**
+ * Debug viewer: fetch the background's live ring buffer. Falls back to a fresh
+ * storage read when the service worker cannot answer.
+ *
+ * Never use getAllLogs() from a page: that reads this module instance's own
+ * buffer, which is loaded once and then goes stale (and stays [] forever after
+ * a page-side clear), so exports came back as "[]".
+ */
+export async function fetchLogsFromBackground() {
+    try {
+        const response = await chrome.runtime.sendMessage({
+            type: 'GET_DEBUG_LOGS',
+        });
+
+        if (Array.isArray(response)) {
+            return response;
+        }
+    } catch {
+        // Service worker unavailable - fall through to storage.
+    }
+
+    return readStoredLogs();
+}
+
+/**
+ * Debug viewer: clear the background's in-memory buffer and storage.
+ * Clearing only this module instance left the background buffer intact (old
+ * rows were re-persisted) and froze the page's view at [].
+ */
+export async function clearLogsEverywhere() {
+    try {
+        const response = await chrome.runtime.sendMessage({
+            type: 'CLEAR_DEBUG_LOGS',
+        });
+
+        if (response?.success) {
+            return;
+        }
+    } catch {
+        // Fall back to clearing storage directly below.
+    }
+
+    await clearLogs();
 }
 
 export async function clearLogs() {
@@ -458,12 +531,12 @@ export const __debugLogTestUtils = {
     NOISY_THROTTLE_MS,
     MAX_ENTRIES,
     MAX_PRIORITY_ENTRIES,
-    resetForTests() {
+    resetForTests({ loadedState = true } = {}) {
         buffer = [];
         priorityBuffer = [];
         nextId = 1;
         recentNoisyKeys.clear();
-        loaded = true;
+        loaded = loadedState;
 
         if (persistTimer) {
             clearTimeout(persistTimer);

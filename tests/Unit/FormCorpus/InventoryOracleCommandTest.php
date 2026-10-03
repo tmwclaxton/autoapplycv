@@ -2,14 +2,21 @@
 
 namespace Tests\Unit\FormCorpus;
 
+use App\Models\NanoGptSpendEntry;
 use App\Services\FormCorpusInventoryOracleService;
+use App\Services\NanoGptBudgetService;
 use App\Services\NanoGptService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Mockery;
 use Tests\TestCase;
 
 class InventoryOracleCommandTest extends TestCase
 {
+    // The commands soft-skip via SoftSkipsOnNanoGptBudgetExceeded, which reads
+    // nano_gpt_spend_entries, so these tests need the migrated schema.
+    use RefreshDatabase;
+
     protected function tearDown(): void
     {
         Mockery::close();
@@ -106,6 +113,33 @@ class InventoryOracleCommandTest extends TestCase
         $this->assertSame([], $result['fields']);
         $this->assertArrayHasKey('error', $result);
         $this->assertStringContainsString('html_excerpt', $result['error']);
+    }
+
+    public function test_inventory_oracle_command_soft_skips_when_monthly_cap_reached(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.monthly_spend_cap_gbp' => 1.0,
+        ]);
+
+        NanoGptSpendEntry::factory()->create([
+            'period' => app(NanoGptBudgetService::class)->currentPeriodKey(),
+            'cost_usd' => 5.0,
+            'cost_gbp' => 5.0,
+        ]);
+
+        $this->mock(NanoGptService::class, function ($mock): void {
+            $mock->shouldNotReceive('chatJson');
+        });
+
+        $this->artisan('form-corpus:inventory-oracle', [
+            '--payload' => json_encode([
+                'url' => 'https://jobs.example.com/apply',
+                'html_excerpt' => '<form></form>',
+            ], JSON_THROW_ON_ERROR),
+        ])
+            ->assertSuccessful()
+            ->expectsOutputToContain('NanoGPT monthly spend cap reached');
     }
 
     public function test_inventory_oracle_command_fails_without_api_key(): void

@@ -502,6 +502,15 @@ var AutoCVApplyFieldInventory = (() => {
             }
         }
 
+        // LinkedIn 2026 React SDUI: "Question?*" <p> before <fieldset role=radiogroup>.
+        if (
+            (anchor.type === 'radio' || anchor.type === 'checkbox') &&
+            typeof AutoCVApplyFormHeuristics?.isLinkedInSduiChoiceRequired === 'function' &&
+            AutoCVApplyFormHeuristics.isLinkedInSduiChoiceRequired(anchor)
+        ) {
+            return { required: true, strategy: 'sdui-question-asterisk' };
+        }
+
         // Teamtailor and similar: question title includes "*Required" beside the control.
         const questionRoot = anchor.closest(
             'fieldset, [class*="question"], [class*="Question"], [data-question], .form-group',

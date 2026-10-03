@@ -1,4 +1,4 @@
-import { clearLogs, getAllLogs } from './debug-log.js';
+import { clearLogsEverywhere, fetchLogsFromBackground } from './debug-log.js';
 
 const logListEl = document.getElementById('log-list');
 const statsEl = document.getElementById('stats');
@@ -144,7 +144,7 @@ function scheduleRender() {
 }
 
 async function refreshLogs() {
-    allLogs = await getAllLogs();
+    allLogs = await fetchLogsFromBackground();
     scheduleRender();
 }
 
@@ -168,9 +168,8 @@ clearBtn.addEventListener('click', async () => {
         return;
     }
 
-    await clearLogs();
-    allLogs = [];
-    scheduleRender();
+    await clearLogsEverywhere();
+    await refreshLogs();
 });
 
 exportBtn.addEventListener('click', () => {
