@@ -10192,6 +10192,28 @@ var AutoCVApplyFormHeuristics = (() => {
      * LinkedIn Easy Apply contact/screener fields use fb-dash / artdeco labels that
      * are more reliable than falling back to the long Ember formElement id.
      */
+    // Diagnostics only: which title source the last getLinkedInEasyApplyFieldLabel
+    // call used (legend / form-element-title / previous-sibling-title / none).
+    let lastLinkedInTitleSource = 'none';
+
+    function describeChoiceGroupRoot(groupRoot) {
+        if (!groupRoot) {
+            return 'none';
+        }
+
+        if (groupRoot.matches?.('.fb-dash-form-element, [data-test-form-element]')) {
+            return 'fb-dash-form-element';
+        }
+
+        if (groupRoot.matches?.('fieldset')) {
+            return 'fieldset';
+        }
+
+        const role = groupRoot.getAttribute?.('role');
+
+        return role ? `role-${role}` : String(groupRoot.tagName || 'unknown').toLowerCase();
+    }
+
     function getLinkedInEasyApplyFieldLabel(element) {
         if (!(element instanceof Element)) {
             return '';
@@ -10212,6 +10234,10 @@ var AutoCVApplyFormHeuristics = (() => {
         const isChoice =
             element.type === 'radio' || element.type === 'checkbox';
         const titleCandidates = [];
+        const titleCandidateSources = new Map();
+        let candidateSource = 'legend';
+
+        lastLinkedInTitleSource = 'none';
 
         const pushTitleCandidate = (node) => {
             if (!node || titleCandidates.includes(node)) {
@@ -10219,6 +10245,7 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             titleCandidates.push(node);
+            titleCandidateSources.set(node, candidateSource);
         };
 
         pushTitleCandidate(formElement?.querySelector?.('legend'));
@@ -10227,6 +10254,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 'legend [data-test-form-builder-radio-button-form-component__title], legend .fb-dash-form-element__label-title--is-required, legend .fb-dash-form-element__label',
             ),
         );
+        candidateSource = 'form-element-title';
 
         for (const node of formElement?.querySelectorAll?.(
             '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
@@ -10258,6 +10286,8 @@ var AutoCVApplyFormHeuristics = (() => {
         if (isChoice && formElement?.previousElementSibling) {
             let sibling = formElement.previousElementSibling;
             let hops = 0;
+
+            candidateSource = 'previous-sibling-title';
 
             while (sibling && hops < 4) {
                 if (
@@ -10292,6 +10322,9 @@ var AutoCVApplyFormHeuristics = (() => {
             const text = normalize(title.textContent);
 
             if (isUsableLinkedInQuestionLabel(text)) {
+                lastLinkedInTitleSource =
+                    titleCandidateSources.get(title) || 'unknown';
+
                 return text;
             }
         }
@@ -14955,13 +14988,25 @@ var AutoCVApplyFormHeuristics = (() => {
                 const linkedInFormElement = element.closest(
                     '.fb-dash-form-element, [data-test-form-element]',
                 );
+                // Match getChoiceGroupScope: a per-question LinkedIn form element
+                // wins over a page-level [role="group"], whose first legend would
+                // otherwise label (and labelIdentity-merge) every Yes/No group.
+                const linkedInGroupRoot =
+                    linkedInFormElement &&
+                    collectVisibleChoiceInputs(linkedInFormElement, element.type)
+                        .length >= 2
+                        ? linkedInFormElement
+                        : null;
                 const groupRoot =
+                    linkedInGroupRoot ||
                     element.closest(
                         '[role="group"], [role="radiogroup"], fieldset',
-                    ) || linkedInFormElement;
+                    ) ||
+                    linkedInFormElement;
                 const qualificationLabel =
                     getIndeedQualificationQuestionLabel(element);
                 const questionLabel = getQuestionLabel(element);
+                const questionTitleSource = lastLinkedInTitleSource;
                 const radioGroupLabel = getRadiogroupLabel(
                     groupRoot || element,
                 );
@@ -14969,6 +15014,12 @@ var AutoCVApplyFormHeuristics = (() => {
                     qualificationLabel.length >= 3
                         ? qualificationLabel
                         : radioGroupLabel || questionLabel;
+                let labelStrategy =
+                    qualificationLabel.length >= 3
+                        ? 'indeed-qualification'
+                        : radioGroupLabel
+                          ? 'radiogroup-label'
+                          : `question-label:${questionTitleSource}`;
 
                 // Live LinkedIn SDUI without fieldset used to inventori as "yes"
                 // (option label) and collapse every Yes/No group via labelIdentity.
@@ -14977,6 +15028,7 @@ var AutoCVApplyFormHeuristics = (() => {
 
                     if (isUsableLinkedInQuestionLabel(recovered)) {
                         label = recovered;
+                        labelStrategy = `linkedin-recovered:${lastLinkedInTitleSource}`;
                     }
                 }
 
@@ -15013,16 +15065,38 @@ var AutoCVApplyFormHeuristics = (() => {
                 const groupInputs = getGroupInputs(element);
                 const groupTarget =
                     groupInputs.length > 1 ? groupInputs : element;
+                const choiceField = {
+                    id,
+                    label,
+                    field_type:
+                        element.type === 'radio' ? 'radio' : 'checkbox',
+                    max_chars: undefined,
+                    options: getGroupOptions(element),
+                };
+
+                if (linkedInFormElement) {
+                    // Non-enumerable so it never reaches messages / API payloads;
+                    // field-inventory copies it into the snapshot.build debug log.
+                    Object.defineProperty(choiceField, '_diag', {
+                        value: {
+                            labelStrategy,
+                            groupRoot: describeChoiceGroupRoot(groupRoot),
+                            groupKey: String(groupName || '').startsWith(
+                                'linkedin-form-element:',
+                            )
+                                ? 'form-element-index'
+                                : String(groupName || '').startsWith('linkedin:')
+                                  ? 'linkedin-title'
+                                  : groupName
+                                    ? 'name-or-container'
+                                    : 'empty',
+                        },
+                        enumerable: false,
+                    });
+                }
 
                 callback(
-                    {
-                        id,
-                        label,
-                        field_type:
-                            element.type === 'radio' ? 'radio' : 'checkbox',
-                        max_chars: undefined,
-                        options: getGroupOptions(element),
-                    },
+                    choiceField,
                     groupTarget,
                     groupInputs.length > 1 ? groupInputs : null,
                 );

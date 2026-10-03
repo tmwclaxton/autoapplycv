@@ -5391,7 +5391,12 @@ export function resolveProfileMappingForLabel(
 
     // "Do you have 5+ years…?" Yes/No gates: map to YOE so preference can coerce.
     // isGenericTotalExperienceQuestionLabel excludes these (threshold early-return).
-    if (extractYearsExperienceThreshold(label) !== null) {
+    // Exclude age gates ("Are you over 18 years of age?" / "at least 18 years old"):
+    // mapping those to YOE would coerce to No for anyone with < 18 years experience.
+    if (
+        extractYearsExperienceThreshold(label) !== null &&
+        !/\b(?:age|old|aged)\b/i.test(label)
+    ) {
         return profileMappingByPath('application_settings.years_of_experience');
     }
 
