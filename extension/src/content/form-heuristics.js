@@ -2355,6 +2355,20 @@ var AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        // Any radio/checkbox inside a LinkedIn form element is inventoriable,
+        // even when A/B drops fb-form-element__checkbox / data-test attrs.
+        if (
+            element.closest?.(
+                '.fb-dash-form-element, [data-test-form-element], [data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component]',
+            )
+        ) {
+            return Boolean(
+                element.closest?.(
+                    '.jobs-easy-apply-modal, .jobs-easy-apply-content, form.jobs-easy-apply-form, .fb-dash-form-element, [data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component], [data-test-form-element], [role="dialog"]',
+                ),
+            );
+        }
+
         if (
             element.classList?.contains('fb-form-element__checkbox') ||
             element.hasAttribute?.('data-test-text-selectable-option__input')
@@ -2366,11 +2380,7 @@ var AutoCVApplyFormHeuristics = (() => {
             );
         }
 
-        return Boolean(
-            element.closest?.(
-                '[data-test-form-builder-radio-button-form-component], [data-test-checkbox-form-component]',
-            ),
-        );
+        return false;
     }
 
     function isOracleApplyFlowCombobox(element) {
@@ -7263,6 +7273,21 @@ var AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        // LinkedIn React SDUI: empty <label for>; option text is a <p> inside the
+        // [role=radio] host (whose aria-label is the question, not the option).
+        if (!raw || String(raw).trim().length < 1) {
+            const roleHost = input.closest?.('[role="radio"], [role="checkbox"]');
+            const hostText = roleHost
+                ? String(roleHost.textContent || '')
+                      .replace(/\s+/g, ' ')
+                      .trim()
+                : '';
+
+            if (hostText && hostText.length <= 200) {
+                raw = hostText;
+            }
+        }
+
         // Lever application-answer radios often have empty value; the visible
         // copy lives in a sibling .application-answer / label span.
         if (!raw || String(raw).trim().length < 2) {
@@ -7595,6 +7620,20 @@ var AutoCVApplyFormHeuristics = (() => {
             return workableGroup;
         }
 
+        // LinkedIn Easy Apply: prefer the per-question .fb-dash-form-element over a
+        // page-level [role="group"] that would merge every Yes/No into one group.
+        const linkedInFormElement = element.closest(
+            '.fb-dash-form-element, [data-test-form-element]',
+        );
+
+        if (
+            linkedInFormElement &&
+            collectVisibleChoiceInputs(linkedInFormElement, inputType).length >=
+                2
+        ) {
+            return linkedInFormElement;
+        }
+
         const ariaScope = element.closest(
             'fieldset, [role="radiogroup"], [role="group"]',
         );
@@ -7633,20 +7672,6 @@ var AutoCVApplyFormHeuristics = (() => {
             ) {
                 return leverQuestion;
             }
-        }
-
-        // LinkedIn Easy Apply SDUI often wraps each Yes/No group in
-        // .fb-dash-form-element without a fieldset / role=radiogroup.
-        const linkedInFormElement = element.closest(
-            '.fb-dash-form-element, [data-test-form-element]',
-        );
-
-        if (
-            linkedInFormElement &&
-            collectVisibleChoiceInputs(linkedInFormElement, inputType).length >=
-                2
-        ) {
-            return linkedInFormElement;
         }
 
         const fieldWrapper = element.closest(
@@ -7747,13 +7772,51 @@ var AutoCVApplyFormHeuristics = (() => {
             return element.name;
         }
 
-        const container = getQuestionContainer(element);
+        // LinkedIn SDUI without name=: never use bare Yes/No as the group key
+        // (that collapsed every radio group into one via processedGroups).
+        const linkedInFormElement = element.closest?.(
+            '.fb-dash-form-element, [data-test-form-element]',
+        );
 
-        return (
+        if (
+            linkedInFormElement &&
+            (element.type === 'radio' || element.type === 'checkbox')
+        ) {
+            const recovered =
+                getLinkedInEasyApplyFieldLabel(element) ||
+                getRadiogroupLabel(linkedInFormElement);
+
+            if (isUsableLinkedInQuestionLabel(recovered)) {
+                return `linkedin:${recovered}`;
+            }
+
+            const siblings = Array.from(
+                (
+                    linkedInFormElement.parentElement ||
+                    linkedInFormElement.ownerDocument ||
+                    document
+                ).querySelectorAll?.(
+                    '.fb-dash-form-element, [data-test-form-element]',
+                ) || [],
+            );
+            const index = siblings.indexOf(linkedInFormElement);
+
+            if (index >= 0) {
+                return `linkedin-form-element:${index}`;
+            }
+        }
+
+        const container = getQuestionContainer(element);
+        const fallback =
             container?.getAttribute('data-testid') ||
             container?.getAttribute('name') ||
-            getQuestionLabel(element)
-        );
+            getQuestionLabel(element);
+
+        if (isBareChoiceOptionLabelText(fallback)) {
+            return '';
+        }
+
+        return fallback;
     }
 
     function getGroupInputs(element) {
@@ -10144,6 +10207,241 @@ var AutoCVApplyFormHeuristics = (() => {
      * LinkedIn Easy Apply contact/screener fields use fb-dash / artdeco labels that
      * are more reliable than falling back to the long Ember formElement id.
      */
+    // Diagnostics only: which title source the last getLinkedInEasyApplyFieldLabel
+    // call used (legend / form-element-title / previous-sibling-title / none).
+    let lastLinkedInTitleSource = 'none';
+
+    // React useId tokens / LinkedIn generated names are never question text
+    // ("_r_35_", "radio-group-_r_39_ _r_3a_", ":r1:", "ember123").
+    const GENERATED_DOM_TOKEN_PATTERN =
+        /^(?:radio-group-)?(?:_r_[0-9a-z]+_|:r[0-9a-z]+:|\u00abr[0-9a-z]+\u00bb|ember\d+)$/i;
+
+    function isGeneratedDomIdLabel(text) {
+        const tokens = String(text || '')
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+        return (
+            tokens.length > 0 &&
+            tokens.every((token) => GENERATED_DOM_TOKEN_PATTERN.test(token))
+        );
+    }
+
+    function isLinkedInDocument(element) {
+        const doc = element?.ownerDocument || document;
+        const host = String(doc?.location?.hostname || '').toLowerCase();
+
+        return host === 'linkedin.com' || host.endsWith('.linkedin.com');
+    }
+
+    const LINKEDIN_APPLY_SURFACE_SELECTOR =
+        'dialog, [role="dialog"], [data-sdui-screen], .jobs-easy-apply-modal, .jobs-easy-apply-content, form.jobs-easy-apply-form';
+
+    /** LinkedIn Easy Apply modal (legacy Ember or 2026 React SDUI <dialog>). */
+    function isLinkedInApplySurfaceElement(element) {
+        return (
+            isLinkedInDocument(element) &&
+            Boolean(element?.closest?.(LINKEDIN_APPLY_SURFACE_SELECTOR))
+        );
+    }
+
+    function elementHasFormControls(node) {
+        return Boolean(
+            node?.matches?.(
+                'input:not([type="hidden"]), select, textarea, [role="radio"], [role="checkbox"], [role="combobox"]',
+            ) ||
+                node?.querySelector?.(
+                    'input:not([type="hidden"]), select, textarea, [role="radio"], [role="checkbox"], [role="combobox"]',
+                ),
+        );
+    }
+
+    /**
+     * Visible text of a single radio/checkbox option row: the [role=radio]
+     * host on SDUI, else the smallest ancestor that wraps only this control.
+     */
+    function getChoiceInputRowText(input) {
+        const roleHost = input?.closest?.('[role="radio"], [role="checkbox"]');
+
+        if (roleHost) {
+            const hostText = String(roleHost.textContent || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (hostText && hostText.length <= 300) {
+                return hostText;
+            }
+        }
+
+        let node = input?.parentElement;
+
+        for (let depth = 0; node && depth < 4; depth += 1) {
+            const controls = node.querySelectorAll?.(
+                'input:not([type="hidden"]), select, textarea',
+            );
+
+            if (!controls || controls.length !== 1) {
+                break;
+            }
+
+            const text = String(node.textContent || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (text) {
+                return text.length <= 300 ? text : '';
+            }
+
+            node = node.parentElement;
+        }
+
+        return '';
+    }
+
+    /**
+     * LinkedIn 2026 React SDUI Easy Apply (real capture, 2.25.367):
+     *   <p>Question?*</p>
+     *   <fieldset role="radiogroup">  (no legend / aria-labelledby)
+     *     <div role="radio" aria-label="Question?"> <input type=radio name=radio-group-_r_39_>
+     *       <label for></label> <p>Yes</p> ...
+     * Returns the question text, the raw node (for the * required marker) and
+     * which strategy matched.
+     */
+    function describeLinkedInSduiChoiceQuestion(element) {
+        const empty = { text: '', node: null, strategy: 'none' };
+
+        if (
+            !element ||
+            (element.type !== 'radio' && element.type !== 'checkbox') ||
+            !isLinkedInApplySurfaceElement(element)
+        ) {
+            return empty;
+        }
+
+        const group = element.closest(
+            'fieldset, [role="radiogroup"], [role="group"]',
+        );
+        const stopAt = element.closest(LINKEDIN_APPLY_SURFACE_SELECTOR);
+        let current = group || element.parentElement;
+
+        for (let depth = 0; current && current !== stopAt && depth < 5; depth += 1) {
+            let sibling = current.previousElementSibling;
+
+            for (let hops = 0; sibling && hops < 3; hops += 1) {
+                if (elementHasFormControls(sibling)) {
+                    sibling = null;
+                    break;
+                }
+
+                const text = normalize(sibling.textContent || '');
+
+                if (
+                    isUsableLinkedInQuestionLabel(text) &&
+                    !isGeneratedDomIdLabel(text)
+                ) {
+                    return {
+                        text,
+                        node: sibling,
+                        strategy: 'sdui-preceding-text',
+                    };
+                }
+
+                sibling = sibling.previousElementSibling;
+            }
+
+            if (sibling === null && current.previousElementSibling) {
+                // Hit the previous question's controls: stop climbing.
+                break;
+            }
+
+            current = current.parentElement;
+        }
+
+        if (element.type === 'radio' && group) {
+            const ariaLabels = Array.from(
+                group.querySelectorAll('[role="radio"][aria-label]'),
+            ).map((host) => normalize(host.getAttribute('aria-label') || ''));
+
+            if (
+                ariaLabels.length >= 2 &&
+                ariaLabels.every((label) => label === ariaLabels[0]) &&
+                isUsableLinkedInQuestionLabel(ariaLabels[0])
+            ) {
+                return {
+                    text: ariaLabels[0],
+                    node: null,
+                    strategy: 'sdui-shared-option-aria-label',
+                };
+            }
+        }
+
+        return empty;
+    }
+
+    function isLinkedInSduiChoiceRequired(element) {
+        const { node } = describeLinkedInSduiChoiceQuestion(element);
+
+        return Boolean(
+            node && /[*\u2731]\s*$/.test(String(node.textContent || '').trim()),
+        );
+    }
+
+    const FILE_NAME_OPTION_PATTERN =
+        /\.(?:pdf|docx?|rtf|odt|pages|txt)\b|\b(?:uploaded|last used)\s+(?:on\s+)?\d/i;
+
+    /**
+     * LinkedIn resume picker (uploaded CV cards as radios): never a question.
+     * 2.25.367 inventoried it as question "pdf" and NanoGPT "answered" it with
+     * the profile URL.
+     */
+    function isLinkedInResumePickerChoice(element, label = '') {
+        if (
+            element?.type !== 'radio' ||
+            !isLinkedInApplySurfaceElement(element)
+        ) {
+            return false;
+        }
+
+        if (/^(?:pdf|docx?|rtf|odt|txt|resume|cv)$/i.test(normalize(label))) {
+            return true;
+        }
+
+        if (
+            element.closest?.(
+                '[class*="document-upload"], [class*="resume-picker"], [class*="jobs-resume"], [data-testid*="resume" i], [data-testid*="document" i], [componentkey*="resume" i], [componentkey*="document" i]',
+            )
+        ) {
+            return true;
+        }
+
+        const inputs = getGroupInputs(element);
+
+        return (inputs.length > 0 ? inputs : [element]).some((input) =>
+            FILE_NAME_OPTION_PATTERN.test(
+                `${getChoiceInputRowText(input)} ${input.getAttribute?.('aria-label') || ''} ${input.value || ''}`,
+            ),
+        );
+    }
+
+    function describeChoiceGroupRoot(groupRoot) {
+        if (!groupRoot) {
+            return 'none';
+        }
+
+        if (groupRoot.matches?.('.fb-dash-form-element, [data-test-form-element]')) {
+            return 'fb-dash-form-element';
+        }
+
+        if (groupRoot.matches?.('fieldset')) {
+            return 'fieldset';
+        }
+
+        const role = groupRoot.getAttribute?.('role');
+
+        return role ? `role-${role}` : String(groupRoot.tagName || 'unknown').toLowerCase();
+    }
+
     function getLinkedInEasyApplyFieldLabel(element) {
         if (!(element instanceof Element)) {
             return '';
@@ -10164,6 +10462,10 @@ var AutoCVApplyFormHeuristics = (() => {
         const isChoice =
             element.type === 'radio' || element.type === 'checkbox';
         const titleCandidates = [];
+        const titleCandidateSources = new Map();
+        let candidateSource = 'legend';
+
+        lastLinkedInTitleSource = 'none';
 
         const pushTitleCandidate = (node) => {
             if (!node || titleCandidates.includes(node)) {
@@ -10171,6 +10473,7 @@ var AutoCVApplyFormHeuristics = (() => {
             }
 
             titleCandidates.push(node);
+            titleCandidateSources.set(node, candidateSource);
         };
 
         pushTitleCandidate(formElement?.querySelector?.('legend'));
@@ -10179,22 +10482,64 @@ var AutoCVApplyFormHeuristics = (() => {
                 'legend [data-test-form-builder-radio-button-form-component__title], legend .fb-dash-form-element__label-title--is-required, legend .fb-dash-form-element__label',
             ),
         );
+        candidateSource = 'form-element-title';
 
         for (const node of formElement?.querySelectorAll?.(
             '[data-test-text-entity-list-form-title], [data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, .artdeco-text-input--label, label.artdeco-text-input--label',
         ) || []) {
             // Option labels for radios/checkboxes are not the question.
+            // Keep long non-bare label[for] titles (some SDUI variants use them).
             if (
                 isChoice &&
-                (node.matches?.(
-                    'label[for], [data-test-text-selectable-option__label]',
-                ) ||
-                    isBareChoiceOptionLabelText(node.textContent || ''))
+                (node.matches?.('[data-test-text-selectable-option__label]') ||
+                    node.closest?.('[data-test-text-selectable-option]') ||
+                    (node.matches?.('label[for]') &&
+                        isBareChoiceOptionLabelText(node.textContent || '')))
+            ) {
+                continue;
+            }
+
+            if (
+                isChoice &&
+                isBareChoiceOptionLabelText(node.textContent || '')
             ) {
                 continue;
             }
 
             pushTitleCandidate(node);
+        }
+
+        // Live SDUI sometimes places the title span as a previous sibling of the
+        // .fb-dash-form-element that only wraps the Yes/No options.
+        if (isChoice && formElement?.previousElementSibling) {
+            let sibling = formElement.previousElementSibling;
+            let hops = 0;
+
+            candidateSource = 'previous-sibling-title';
+
+            while (sibling && hops < 4) {
+                if (
+                    sibling.matches?.(
+                        '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, [data-test-text-entity-list-form-title], label',
+                    ) ||
+                    sibling.querySelector?.(
+                        '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label',
+                    )
+                ) {
+                    pushTitleCandidate(
+                        sibling.matches?.(
+                            '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label, [data-test-text-entity-list-form-title], label',
+                        )
+                            ? sibling
+                            : sibling.querySelector(
+                                  '[data-test-form-builder-radio-button-form-component__title], .fb-dash-form-element__label-title--is-required, .fb-dash-form-element__label',
+                              ),
+                    );
+                }
+
+                sibling = sibling.previousElementSibling;
+                hops += 1;
+            }
         }
 
         for (const title of titleCandidates) {
@@ -10205,13 +10550,16 @@ var AutoCVApplyFormHeuristics = (() => {
             const text = normalize(title.textContent);
 
             if (isUsableLinkedInQuestionLabel(text)) {
+                lastLinkedInTitleSource =
+                    titleCandidateSources.get(title) || 'unknown';
+
                 return text;
             }
         }
 
         if (isChoice) {
-            // Never fall back to label[for=…] for radios - that is the option text.
-            // Title candidates above already scanned the form element / legend.
+            // Never fall back to bare option label[for=…] for radios.
+            // Title candidates above already scanned the form element / siblings.
             return '';
         }
 
@@ -10454,6 +10802,19 @@ var AutoCVApplyFormHeuristics = (() => {
             return humanLabel;
         }
 
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            const rowText = normalize(getChoiceInputRowText(element));
+
+            if (
+                rowText.length >= 3 &&
+                !isBareChoiceOptionLabelText(rowText) &&
+                !isGeneratedDomIdLabel(rowText)
+            ) {
+                return rowText;
+            }
+        }
+
+        // Never surface React useId / generated names ("_r_35_") as a question.
         return normalize(
             [
                 humanLabel,
@@ -10461,6 +10822,7 @@ var AutoCVApplyFormHeuristics = (() => {
                 element.getAttribute('id'),
             ]
                 .filter(Boolean)
+                .filter((part) => !isGeneratedDomIdLabel(part))
                 .join(' '),
         );
     }
@@ -14868,13 +15230,27 @@ var AutoCVApplyFormHeuristics = (() => {
                 const linkedInFormElement = element.closest(
                     '.fb-dash-form-element, [data-test-form-element]',
                 );
+                // Match getChoiceGroupScope: a per-question LinkedIn form element
+                // wins over a page-level [role="group"], whose first legend would
+                // otherwise label (and labelIdentity-merge) every Yes/No group.
+                const linkedInGroupRoot =
+                    linkedInFormElement &&
+                    collectVisibleChoiceInputs(linkedInFormElement, element.type)
+                        .length >= 2
+                        ? linkedInFormElement
+                        : null;
                 const groupRoot =
+                    linkedInGroupRoot ||
                     element.closest(
                         '[role="group"], [role="radiogroup"], fieldset',
-                    ) || linkedInFormElement;
+                    ) ||
+                    linkedInFormElement;
+                const onLinkedInApplySurface =
+                    linkedInFormElement || isLinkedInApplySurfaceElement(element);
                 const qualificationLabel =
                     getIndeedQualificationQuestionLabel(element);
                 const questionLabel = getQuestionLabel(element);
+                const questionTitleSource = lastLinkedInTitleSource;
                 const radioGroupLabel = getRadiogroupLabel(
                     groupRoot || element,
                 );
@@ -14882,6 +15258,12 @@ var AutoCVApplyFormHeuristics = (() => {
                     qualificationLabel.length >= 3
                         ? qualificationLabel
                         : radioGroupLabel || questionLabel;
+                let labelStrategy =
+                    qualificationLabel.length >= 3
+                        ? 'indeed-qualification'
+                        : radioGroupLabel
+                          ? 'radiogroup-label'
+                          : `question-label:${questionTitleSource}`;
 
                 // Live LinkedIn SDUI without fieldset used to inventori as "yes"
                 // (option label) and collapse every Yes/No group via labelIdentity.
@@ -14890,10 +15272,60 @@ var AutoCVApplyFormHeuristics = (() => {
 
                     if (isUsableLinkedInQuestionLabel(recovered)) {
                         label = recovered;
+                        labelStrategy = `linkedin-recovered:${lastLinkedInTitleSource}`;
                     }
                 }
 
-                if (isBareChoiceOptionLabelText(label) || label.length < 3) {
+                // 2026 React SDUI: question <p> sits before <fieldset role=radiogroup>;
+                // without this the label fell through to name/id junk
+                // ("radio-group-_r_39_ _r_3a_") with 0 options (live 2.25.367).
+                if (
+                    onLinkedInApplySurface &&
+                    (isBareChoiceOptionLabelText(label) ||
+                        label.length < 3 ||
+                        isGeneratedDomIdLabel(label) ||
+                        labelStrategy.startsWith('question-label'))
+                ) {
+                    const sdui = describeLinkedInSduiChoiceQuestion(element);
+                    const lone =
+                        element.type === 'checkbox' &&
+                        getGroupInputs(element).length <= 1;
+
+                    if (lone) {
+                        const ownText = normalize(getChoiceInputRowText(element));
+
+                        if (
+                            ownText.length >= 3 &&
+                            !isGeneratedDomIdLabel(ownText) &&
+                            (isGeneratedDomIdLabel(label) || label.length < 3)
+                        ) {
+                            label = ownText;
+                            labelStrategy = 'checkbox-row-text';
+                        }
+                    } else if (sdui.text) {
+                        label = sdui.text;
+                        labelStrategy = sdui.strategy;
+                    }
+                }
+
+                if (
+                    onLinkedInApplySurface &&
+                    isLinkedInResumePickerChoice(element, label)
+                ) {
+                    heuristicsLog(
+                        'debug',
+                        'inventory.radio',
+                        'Skipping LinkedIn resume picker radio group',
+                        { label: String(label || '').slice(0, 40) },
+                    );
+                    continue;
+                }
+
+                if (
+                    isBareChoiceOptionLabelText(label) ||
+                    label.length < 3 ||
+                    isGeneratedDomIdLabel(label)
+                ) {
                     heuristicsLog(
                         'warn',
                         'inventory.radio',
@@ -14926,16 +15358,38 @@ var AutoCVApplyFormHeuristics = (() => {
                 const groupInputs = getGroupInputs(element);
                 const groupTarget =
                     groupInputs.length > 1 ? groupInputs : element;
+                const choiceField = {
+                    id,
+                    label,
+                    field_type:
+                        element.type === 'radio' ? 'radio' : 'checkbox',
+                    max_chars: undefined,
+                    options: getGroupOptions(element),
+                };
+
+                if (onLinkedInApplySurface) {
+                    // Non-enumerable so it never reaches messages / API payloads;
+                    // field-inventory copies it into the snapshot.build debug log.
+                    Object.defineProperty(choiceField, '_diag', {
+                        value: {
+                            labelStrategy,
+                            groupRoot: describeChoiceGroupRoot(groupRoot),
+                            groupKey: String(groupName || '').startsWith(
+                                'linkedin-form-element:',
+                            )
+                                ? 'form-element-index'
+                                : String(groupName || '').startsWith('linkedin:')
+                                  ? 'linkedin-title'
+                                  : groupName
+                                    ? 'name-or-container'
+                                    : 'empty',
+                        },
+                        enumerable: false,
+                    });
+                }
 
                 callback(
-                    {
-                        id,
-                        label,
-                        field_type:
-                            element.type === 'radio' ? 'radio' : 'checkbox',
-                        max_chars: undefined,
-                        options: getGroupOptions(element),
-                    },
+                    choiceField,
                     groupTarget,
                     groupInputs.length > 1 ? groupInputs : null,
                 );
@@ -15777,6 +16231,7 @@ var AutoCVApplyFormHeuristics = (() => {
         getGroupInputs,
         getQuestionLabel,
         isInactiveConditionalField,
+        isLinkedInSduiChoiceRequired,
         isQuickDraftEligible,
         isTargetConnected,
         looksLikeApplicationForm,

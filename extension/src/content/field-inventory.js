@@ -22,9 +22,13 @@ var AutoCVApplyFieldInventory = (() => {
     const refRegistry = new Map();
     const controlRegistry = new Map();
 
+    // Diagnostics only (LinkedIn choice groups): label/required strategy per ref.
+    const choiceDiagByRef = new Map();
+
     function resetRegistry() {
         refRegistry.clear();
         controlRegistry.clear();
+        choiceDiagByRef.clear();
     }
 
     function registerTarget(target, roleRadios) {
@@ -383,22 +387,26 @@ var AutoCVApplyFieldInventory = (() => {
         return controls.slice(0, 8);
     }
 
-    function resolveFieldRequired(anchor) {
+    /**
+     * Whether a field is required, plus the branch that decided it
+     * (surfaced in the Easy Apply snapshot.build debug log).
+     */
+    function resolveFieldRequiredWithStrategy(anchor) {
         if (!anchor) {
-            return false;
+            return { required: false, strategy: 'no-anchor' };
         }
 
         if (typeof AutoCVApplyFormHeuristics?.isInactiveConditionalField === 'function'
             && AutoCVApplyFormHeuristics.isInactiveConditionalField(anchor)) {
-            return false;
+            return { required: false, strategy: 'inactive-conditional' };
         }
 
         if (anchor.required === true || anchor.getAttribute('aria-required') === 'true') {
-            return true;
+            return { required: true, strategy: 'html-required' };
         }
 
         if (anchor.closest('[aria-required="true"]')) {
-            return true;
+            return { required: true, strategy: 'aria-required-ancestor' };
         }
 
         const labelledBy = anchor.getAttribute('aria-labelledby');
@@ -410,7 +418,7 @@ var AutoCVApplyFieldInventory = (() => {
                 const labelEl = doc.getElementById(id);
 
                 if (labelEl?.getAttribute('aria-required') === 'true') {
-                    return true;
+                    return { required: true, strategy: 'aria-labelledby' };
                 }
             }
         }
@@ -429,7 +437,7 @@ var AutoCVApplyFieldInventory = (() => {
                 const marker = (explicitLabel.textContent || '').replace(/\s+/g, ' ');
 
                 if (/\*/.test(marker) || explicitLabel.querySelector('em')?.textContent?.includes('*')) {
-                    return true;
+                    return { required: true, strategy: 'label-for-asterisk' };
                 }
             }
         }
@@ -445,7 +453,39 @@ var AutoCVApplyFieldInventory = (() => {
                     '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
                 )
             ) {
-                return true;
+                return { required: true, strategy: 'linkedin-required-class' };
+            }
+
+            // Live SDUI may place the required title as a previous sibling of the
+            // form element that only wraps Yes/No options.
+            let sibling = linkedInFormElement.previousElementSibling;
+            let hops = 0;
+
+            while (sibling && hops < 3) {
+                if (
+                    sibling.matches?.(
+                        '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
+                    ) ||
+                    sibling.querySelector?.(
+                        '.fb-dash-form-element__label-title--is-required, [class*="label-title--is-required"]',
+                    )
+                ) {
+                    return { required: true, strategy: 'linkedin-sibling-required-class' };
+                }
+
+                const siblingTitle = (sibling.textContent || '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+
+                if (
+                    /\S\*\s*$/.test(siblingTitle) ||
+                    /\*\s*required\b/i.test(siblingTitle)
+                ) {
+                    return { required: true, strategy: 'linkedin-sibling-asterisk' };
+                }
+
+                sibling = sibling.previousElementSibling;
+                hops += 1;
             }
 
             const linkedInTitle = (
@@ -458,8 +498,17 @@ var AutoCVApplyFieldInventory = (() => {
                 .trim();
 
             if (/\S\*\s*$/.test(linkedInTitle) || /\*\s*required\b/i.test(linkedInTitle)) {
-                return true;
+                return { required: true, strategy: 'linkedin-title-asterisk' };
             }
+        }
+
+        // LinkedIn 2026 React SDUI: "Question?*" <p> before <fieldset role=radiogroup>.
+        if (
+            (anchor.type === 'radio' || anchor.type === 'checkbox') &&
+            typeof AutoCVApplyFormHeuristics?.isLinkedInSduiChoiceRequired === 'function' &&
+            AutoCVApplyFormHeuristics.isLinkedInSduiChoiceRequired(anchor)
+        ) {
+            return { required: true, strategy: 'sdui-question-asterisk' };
         }
 
         // Teamtailor and similar: question title includes "*Required" beside the control.
@@ -476,11 +525,11 @@ var AutoCVApplyFieldInventory = (() => {
                 .slice(0, 180);
 
             if (/\*\s*required\b|\brequired\s*\*/i.test(heading) || /\S\*\s*required\b/i.test(heading) || /\S\*\s*$/.test(heading.slice(0, 120))) {
-                return true;
+                return { required: true, strategy: 'question-heading-required' };
             }
         }
 
-        return false;
+        return { required: false, strategy: 'none' };
     }
 
     function appendSnapshotFromRoot(root, profile, settings, memo, merged, jobPostingLocation = null) {
@@ -494,6 +543,14 @@ var AutoCVApplyFieldInventory = (() => {
             (field, target, roleRadios) => {
                 const anchor = roleRadios?.[0] || target;
                 const ref = registerTarget(target, roleRadios);
+                const requiredResult = resolveFieldRequiredWithStrategy(anchor);
+
+                if (field._diag) {
+                    choiceDiagByRef.set(ref, {
+                        ...field._diag,
+                        requiredStrategy: requiredResult.strategy,
+                    });
+                }
 
                 merged.elements.push({
                     ref,
@@ -501,7 +558,7 @@ var AutoCVApplyFieldInventory = (() => {
                     field_type: field.field_type,
                     max_chars: field.max_chars,
                     options: field.options,
-                    required: resolveFieldRequired(anchor),
+                    required: requiredResult.required,
                     context: anchor ? getContextText(anchor) : null,
                     job_posting_location: jobPostingLocation,
                     dom: buildDomMetadata(target, roleRadios),
@@ -760,15 +817,19 @@ var AutoCVApplyFieldInventory = (() => {
             const radioSummary = (merged.elements || [])
                 .filter((el) => el.field_type === 'radio')
                 .map((el) => ({
+                    ref: el.ref,
                     question: String(el.question || '').slice(0, 80),
                     required: Boolean(el.required),
                     optionCount: Array.isArray(el.options) ? el.options.length : 0,
+                    ...(choiceDiagByRef.get(el.ref) || { labelStrategy: 'no-diag' }),
                 }));
             inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames scoped to Easy Apply modal', {
                 elementCount: merged.elements.length,
                 controlCount: merged.controls.length,
                 radioCount: radioSummary.length,
                 radioSummary,
+                // Bump when the LinkedIn radio inventory diagnostics change.
+                radioDiag: 'linkedin-radio-diag-v1',
                 extensionVersion:
                     typeof chrome !== 'undefined' && chrome.runtime?.getManifest
                         ? chrome.runtime.getManifest()?.version || null

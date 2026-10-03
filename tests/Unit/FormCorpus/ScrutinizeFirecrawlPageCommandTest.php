@@ -4,11 +4,16 @@ namespace Tests\Unit\FormCorpus;
 
 use App\Services\FormCorpusFirecrawlScrutinyService;
 use App\Services\NanoGptService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
 
 class ScrutinizeFirecrawlPageCommandTest extends TestCase
 {
+    // The commands soft-skip via SoftSkipsOnNanoGptBudgetExceeded, which reads
+    // nano_gpt_spend_entries, so these tests need the migrated schema.
+    use RefreshDatabase;
+
     protected function tearDown(): void
     {
         Mockery::close();

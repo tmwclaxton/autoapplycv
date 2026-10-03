@@ -757,3 +757,255 @@ test('SDUI no-fieldset radios inventory one field per group with real titles', a
     assert.equal(window.document.getElementById('sponsor-no')?.checked, true);
     assert.equal(window.document.getElementById('sponsor-yes')?.checked, false);
 });
+
+test('SDUI weekly-fail fixture inventories radios/years and plans Yes/No + digits (not city)', async () => {
+    const html = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-weekly-fail-radios-years.html',
+        ),
+        'utf8',
+    );
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4471603025/',
+    );
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+
+    const radios = (snapshot.elements || []).filter(
+        (el) => el.field_type === 'radio',
+    );
+    const numbers = (snapshot.elements || []).filter(
+        (el) =>
+            el.field_type === 'number' ||
+            /years of/i.test(String(el.question || '')),
+    );
+    const questions = radios.map((el) => String(el.question || ''));
+
+    assert.ok(
+        radios.length >= 5,
+        `expected sponsorship/remote/5+/commute/10+ radios, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(
+        !questions.some((q) => /^yes$/i.test(q.trim())),
+        `must not inventory option label as question, got ${JSON.stringify(questions)}`,
+    );
+    assert.ok(questions.some((q) => /sponsorship/i.test(q)));
+    assert.ok(questions.some((q) => /remote setting/i.test(q)));
+    assert.ok(questions.some((q) => /5\+\s*years/i.test(q)));
+    assert.ok(questions.some((q) => /commuting to this job/i.test(q)));
+    assert.ok(questions.some((q) => /10\+\s*years/i.test(q)));
+    assert.ok(
+        numbers.length >= 3,
+        `expected Python/Engineering/Agentic years, got ${JSON.stringify(
+            numbers.map((el) => el.question),
+        )}`,
+    );
+
+    for (const radio of radios) {
+        assert.equal(
+            radio.required,
+            true,
+            `${radio.question} should be required from title *`,
+        );
+    }
+
+    const fields = (snapshot.elements || []).map((el, index) => ({
+        id: index,
+        ref: el.ref || `f${index}`,
+        label: el.question,
+        field_type: el.field_type,
+        options: el.options,
+        required: Boolean(el.required),
+        max_chars: el.max_chars,
+        dom: el.dom,
+    }));
+    const plan = buildDraftAllApplyPlan({
+        fields,
+        profileData: {
+            ...UK_PROFILE,
+            application_settings: {
+                ...UK_PROFILE.application_settings,
+                years_of_experience: '8',
+                affirm_local_commute: 'yes',
+                affirm_local_hybrid: 'yes',
+                expected_salary_yearly: '100000',
+            },
+        },
+        questionMemo: { yes: 'on' },
+        pageUrl: 'https://www.linkedin.com/jobs/view/4471603025/',
+    });
+
+    const staged = Object.fromEntries(
+        (plan.applyStages || [])
+            .flatMap((stage) =>
+                (stage.answers || []).map((row) => ({
+                    ...row,
+                    stage: stage.type,
+                })),
+            )
+            .map((row) => [
+                fields.find((f) => f.ref === row.ref)?.label || row.ref,
+                { answer: String(row.answer), stage: row.stage },
+            ]),
+    );
+
+    const commute = Object.keys(staged).find((label) =>
+        /commuting to this job/i.test(label),
+    );
+    assert.ok(commute, `commute missing from plan: ${JSON.stringify(staged)}`);
+    assert.match(
+        staged[commute].answer,
+        /^yes$/i,
+        `commute must be Yes, not city; got ${JSON.stringify(staged[commute])}`,
+    );
+    assert.notEqual(staged[commute].stage, 'identity');
+
+    const sponsor = Object.keys(staged).find((label) =>
+        /sponsorship/i.test(label),
+    );
+    assert.ok(sponsor);
+    assert.match(staged[sponsor].answer, /^no$/i);
+
+    const remote = Object.keys(staged).find((label) =>
+        /remote setting/i.test(label),
+    );
+    assert.ok(remote);
+    assert.match(staged[remote].answer, /^yes$/i);
+
+    const yoe5 = Object.keys(staged).find((label) =>
+        /5\+\s*years/i.test(label),
+    );
+    assert.ok(yoe5);
+    assert.match(staged[yoe5].answer, /^yes$/i);
+
+    const python = Object.keys(staged).find((label) => /python/i.test(label));
+    assert.ok(python);
+    assert.match(staged[python].answer, /^\d+$/);
+
+    const salary = Object.keys(staged).find((label) => /salary/i.test(label));
+    assert.ok(salary);
+    assert.match(staged[salary].answer, /100000/);
+
+    const english = Object.keys(staged).find((label) =>
+        /proficiency in english/i.test(label),
+    );
+    assert.ok(
+        english,
+        `english proficiency missing: ${JSON.stringify(staged)}`,
+    );
+    assert.match(staged[english].answer, /native|bilingual|professional/i);
+
+    const appliedCommute =
+        await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+            window.document,
+            commute,
+            'Yes',
+        );
+    assert.equal(appliedCommute, true);
+    assert.equal(window.document.getElementById('commute-yes')?.checked, true);
+
+    const appliedYears =
+        await window.AutoCVApplyFormHeuristics.applyAnswerByLabel(
+            window.document,
+            python,
+            staged[python].answer,
+        );
+    assert.equal(appliedYears, true);
+    assert.equal(
+        window.document.getElementById('years-python-numeric')?.value,
+        staged[python].answer,
+    );
+});
+
+test('SDUI page-level role=group does not merge Yes/No groups; snapshot log carries radio diag', () => {
+    const fixture = readFileSync(
+        join(
+            ROOT,
+            'tests/fixtures/auto-apply/linkedin-sdui-nofieldset-radios.html',
+        ),
+        'utf8',
+    );
+    // Live variant: no name= on inputs and one page-level [role="group"] whose
+    // aria-labelledby heading would otherwise label every group the same.
+    const html = fixture
+        .replace(/\sname="urn:li:fsd_formElement:[^"]*"/g, '')
+        .replace(
+            '<h3>Additional Questions</h3>',
+            '<div role="group" aria-labelledby="addq-heading"><h3 id="addq-heading">Additional Questions</h3>',
+        )
+        .replace(/(<\/div>\s*<\/div>\s*<\/body>)/, '</div>$1');
+    const window = loadLinkedInWindow(
+        html,
+        'https://www.linkedin.com/jobs/view/4471603025/',
+    );
+    const logs = [];
+    window.AutoCVApplyDebugLog = {
+        logDebug: (...args) => logs.push(args),
+        logInfo: (...args) => logs.push(args),
+        logWarn: (...args) => logs.push(args),
+        logError: (...args) => logs.push(args),
+    };
+
+    assert.ok(
+        window.document.querySelector('[role="group"] .fb-dash-form-element'),
+    );
+
+    const snapshot = window.AutoCVApplyFieldInventory.buildSnapshotAllFrames(
+        window.document,
+        { profile: UK_PROFILE },
+        {},
+        {},
+    );
+    const radios = (snapshot.elements || []).filter(
+        (el) => el.field_type === 'radio',
+    );
+    const questions = radios.map((el) => String(el.question || ''));
+
+    assert.equal(radios.length, 3, JSON.stringify(questions));
+    assert.ok(
+        !questions.some((q) => /additional questions/i.test(q)),
+        JSON.stringify(questions),
+    );
+    assert.ok(
+        radios.every((el) => el.required === true),
+        JSON.stringify(radios.map((r) => r.required)),
+    );
+
+    const build = logs.find(
+        ([, phase, message]) =>
+            phase === 'snapshot.build' && /Easy Apply modal/.test(message),
+    );
+    assert.ok(build, 'snapshot.build log emitted');
+    const data = build[3];
+    assert.equal(data.radioDiag, 'linkedin-radio-diag-v1');
+    assert.equal(data.radioSummary.length, 3);
+
+    for (const row of data.radioSummary) {
+        assert.equal(
+            row.groupRoot,
+            'fb-dash-form-element',
+            JSON.stringify(row),
+        );
+        assert.equal(row.groupKey, 'linkedin-title', JSON.stringify(row));
+        assert.equal(
+            row.requiredStrategy,
+            'linkedin-required-class',
+            JSON.stringify(row),
+        );
+        assert.ok(
+            row.labelStrategy && row.labelStrategy !== 'no-diag',
+            JSON.stringify(row),
+        );
+    }
+
+    // Diagnostics must never leak into the snapshot payload.
+    assert.ok(
+        radios.every((el) => !('_diag' in el) && !('labelStrategy' in el)),
+    );
+});
