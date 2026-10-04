@@ -126,6 +126,7 @@ return [
         'draft_all_answer_vet_enabled' => true,
         'draft_all_answer_vet_max_fields' => 12,
         'draft_all_answer_vet_max_tokens' => 2048,
+        'draft_all_answer_vet_model' => env('NANOGPT_DRAFT_VET_MODEL'),
     ],
 
     /*

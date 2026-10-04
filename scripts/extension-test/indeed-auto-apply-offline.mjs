@@ -22,6 +22,13 @@ function loadIndeedAutoApply(domWindow) {
         window: domWindow,
         document: domWindow.document,
         HTMLElement: domWindow.HTMLElement,
+        Element: domWindow.Element,
+        Node: domWindow.Node,
+        HTMLInputElement: domWindow.HTMLInputElement,
+        HTMLSelectElement: domWindow.HTMLSelectElement,
+        HTMLTextAreaElement: domWindow.HTMLTextAreaElement,
+        HTMLButtonElement: domWindow.HTMLButtonElement,
+        Event: domWindow.Event,
         setTimeout: domWindow.setTimeout.bind(domWindow),
         clearTimeout: domWindow.clearTimeout.bind(domWindow),
         MouseEvent: domWindow.MouseEvent,
@@ -259,5 +266,64 @@ const interventionState = interventionContinueApi.getIndeedApplyState();
 
 assert.equal(interventionState.open, true);
 assert.equal(interventionState.canContinue, true);
+
+// Intervention CTA ranking: "Continue editing answers" (back to questions)
+// used to win over "Continue applying" because it came first in the DOM and
+// matched the broad \bcontinue\b label.
+const interventionRetreatDom = new JSDOM(
+    `<html><body>
+      <button type="button">Continue editing answers</button>
+      <button type="button">Exit and continue later</button>
+      <button type="button">Continue applying</button>
+    </body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/intervention',
+    },
+);
+interventionRetreatDom.window.HTMLElement.prototype.getClientRects = () => [
+    { width: 120, height: 32 },
+];
+const interventionRetreatState = loadIndeedAutoApply(
+    interventionRetreatDom.window,
+).getIndeedApplyState();
+
+assert.equal(interventionRetreatState.canContinue, true);
+assert.equal(interventionRetreatState.actionLabel, 'Continue applying');
+
+const interventionOnlyRetreatDom = new JSDOM(
+    `<html><body>
+      <button type="button">Continue editing answers</button>
+      <button type="button">Next</button>
+    </body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/intervention',
+    },
+);
+interventionOnlyRetreatDom.window.HTMLElement.prototype.getClientRects =
+    () => [{ width: 120, height: 32 }];
+const interventionOnlyRetreatState = loadIndeedAutoApply(
+    interventionOnlyRetreatDom.window,
+).getIndeedApplyState();
+
+assert.equal(interventionOnlyRetreatState.actionLabel, 'Next');
+
+// Without layout (no client rects) the generic finder must still skip
+// retreat/exit CTAs.
+const interventionNoLayoutDom = new JSDOM(
+    `<html><body>
+      <button type="button">Exit and continue later</button>
+      <button type="button">Continue editing answers</button>
+      <button type="button">Continue</button>
+    </body></html>`,
+    {
+        url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/intervention',
+    },
+);
+
+assert.equal(
+    loadIndeedAutoApply(interventionNoLayoutDom.window).getIndeedApplyState()
+        .actionLabel,
+    'Continue',
+);
 
 console.log('Indeed auto-apply offline tests passed.');

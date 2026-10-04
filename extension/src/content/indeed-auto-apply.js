@@ -2189,13 +2189,24 @@ var AutoCVApplyIndeedAutoApply = (() => {
                         button.textContent,
                 );
 
-                if (isIndeedContinueLabel(label)) {
+                if (
+                    isIndeedContinueLabel(label) &&
+                    !isIndeedFlowExitLabel(label)
+                ) {
                     return button;
                 }
             }
         }
 
         return null;
+    }
+
+    // Labels that contain "continue"/"next" but leave the flow or go back
+    // (e.g. "Exit and continue later", "Continue editing answers").
+    function isIndeedFlowExitLabel(label) {
+        return /\b(exit|leave|cancel|withdraw|go back|back to|return to|editing|edit (my |your )?answers|continue later)\b/i.test(
+            label,
+        );
     }
 
     function isIndeedContinueLabel(label) {
@@ -2230,12 +2241,36 @@ var AutoCVApplyIndeedAutoApply = (() => {
         return false;
     }
 
+    function isIndeedSoftGateApplyLabel(label) {
+        return (
+            /^(apply anyway|keep applying|still want to apply|continue applying|continue to apply|continue with application|continue application)$/i.test(
+                label,
+            ) ||
+            /\b(apply anyway|keep applying|still want to apply|continue applying|continue (with )?(my |your |the )?application)\b/i.test(
+                label,
+            ) ||
+            /^yes[,.]?\s*(i\s+)?(still\s+)?(want to\s+)?(continue|apply)\b/i.test(
+                label,
+            )
+        );
+    }
+
+    // Intervention CTAs that go back to the questions or leave the flow. The
+    // broad \bcontinue\b matcher used to accept e.g. "Continue editing".
+    function isIndeedInterventionRetreatLabel(label) {
+        return /\b(edit|editing|update|change|review (my |your )?answers|go back|back to|return|exit|leave|cancel|withdraw|not now|later|close)\b/i.test(
+            label,
+        );
+    }
+
     function readInterventionContinueButton() {
         const slug = readApplyStepSlug() || '';
 
         if (!/intervention/i.test(slug)) {
             return null;
         }
+
+        let fallback = null;
 
         for (const button of document.querySelectorAll(
             'button, [role="button"], a[role="button"]',
@@ -2248,14 +2283,26 @@ var AutoCVApplyIndeedAutoApply = (() => {
                 continue;
             }
 
+            if (!isElementVisible(button)) {
+                continue;
+            }
+
             const label = readControlLabel(button);
 
-            if (isIndeedContinueLabel(label) && isElementVisible(button)) {
+            if (isIndeedSoftGateApplyLabel(label)) {
                 return button;
+            }
+
+            if (
+                !fallback &&
+                isIndeedContinueLabel(label) &&
+                !isIndeedInterventionRetreatLabel(label)
+            ) {
+                fallback = button;
             }
         }
 
-        return null;
+        return fallback;
     }
 
     function readControlLabel(control) {
@@ -2957,24 +3004,287 @@ var AutoCVApplyIndeedAutoApply = (() => {
         };
     }
 
-    async function selectResumeCardIfNeeded() {
+    function indeedLog(level, message, data = {}) {
+        const logger =
+            typeof AutoCVApplyDebugLog !== 'undefined'
+                ? AutoCVApplyDebugLog[
+                      `log${level.charAt(0).toUpperCase()}${level.slice(1)}`
+                  ]
+                : null;
+
+        if (typeof logger === 'function') {
+            try {
+                logger('content', 'indeed.resume', message, data);
+            } catch {
+                // Logging is best-effort.
+            }
+        }
+    }
+
+    /**
+     * Compare CV file names: case/space-insensitive, ignoring the extension
+     * Indeed appends when it converts an upload ("cv.docx" -> "cv.docx.pdf").
+     * "(5)" copy suffixes stay significant: they mark a different upload.
+     */
+    function indeedResumeFileKey(name) {
+        let key = String(name || '')
+            .toLowerCase()
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        for (let pass = 0; pass < 2; pass += 1) {
+            key = key.replace(/\.(?:pdf|docx?|rtf|odt|txt)$/i, '').trim();
+        }
+
+        return key;
+    }
+
+    function readIndeedFileResumeCard() {
+        const card = document.querySelector(
+            '[data-testid="resume-selection-file-resume-radio-card"]',
+        );
+
+        if (!(card instanceof HTMLElement)) {
+            return null;
+        }
+
+        const radio = card.querySelector(
+            '[data-testid="resume-selection-file-resume-radio-card-input"]',
+        );
+        const label = card.querySelector(
+            '[data-testid="resume-selection-file-resume-radio-card-label"]',
+        );
+        const fileInput =
+            card.querySelector(
+                '[data-testid="resume-selection-file-resume-radio-card-file-input"]',
+            ) ||
+            document.querySelector(
+                '[data-testid="resume-selection-file-resume-radio-card-file-input"]',
+            );
+
+        return {
+            card,
+            radio: radio instanceof HTMLInputElement ? radio : null,
+            fileInput: fileInput instanceof HTMLInputElement ? fileInput : null,
+            fileName: normalize(label?.textContent || ''),
+            checked:
+                Boolean(radio?.checked) ||
+                card.getAttribute('data-checked') === 'true',
+        };
+    }
+
+    function readSessionFlag(key) {
+        try {
+            return window.sessionStorage?.getItem(key) === '1';
+        } catch {
+            return false;
+        }
+    }
+
+    function writeSessionFlag(key) {
+        try {
+            window.sessionStorage?.setItem(key, '1');
+        } catch {
+            // Storage can be unavailable in sandboxed frames.
+        }
+    }
+
+    function requestDefaultCvDocument(timeoutMs = 12_000) {
+        const ctx =
+            typeof AutoCVApplyExtensionContext !== 'undefined'
+                ? AutoCVApplyExtensionContext
+                : null;
+
+        if (!ctx || typeof ctx.safeRuntimeSendCallback !== 'function') {
+            return Promise.resolve(null);
+        }
+
+        return new Promise((resolve) => {
+            const timer = setTimeout(() => resolve(null), timeoutMs);
+
+            try {
+                ctx.safeRuntimeSendCallback(
+                    { type: 'GET_CV_DOCUMENT' },
+                    (response) => {
+                        clearTimeout(timer);
+                        resolve(response && !response.error ? response : null);
+                    },
+                );
+            } catch {
+                clearTimeout(timer);
+                resolve(null);
+            }
+        });
+    }
+
+    async function buildCvFile(cvDocument) {
+        if (!cvDocument?.base64 || typeof fetch !== 'function') {
+            return null;
+        }
+
+        const response = await fetch(cvDocument.base64);
+        const blob = await response.blob();
+
+        return new File([blob], cvDocument.fileName || 'cv.pdf', {
+            type: cvDocument.mimeType || blob.type || 'application/pdf',
+        });
+    }
+
+    function assignResumeFile(fileInput, file) {
+        if (
+            typeof AutoCVApplyCvUploadAttach !== 'undefined' &&
+            typeof AutoCVApplyCvUploadAttach.assignFileListToInput ===
+                'function'
+        ) {
+            if (!AutoCVApplyCvUploadAttach.assignFileListToInput(fileInput, file)) {
+                return false;
+            }
+        } else {
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+        }
+
+        fileInput.dispatchEvent(new Event('input', { bubbles: true }));
+        fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return true;
+    }
+
+    async function waitForIndeedResumeFileName(expectedKey, timeoutMs) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const card = readIndeedFileResumeCard();
+
+            if (card && indeedResumeFileKey(card.fileName) === expectedKey) {
+                return card;
+            }
+
+            await hydrationPause(400, 650);
+        }
+
+        return null;
+    }
+
+    async function ensureIndeedResumeCardChecked() {
+        const card = readIndeedFileResumeCard();
+
+        if (!card || card.checked) {
+            return Boolean(card?.checked);
+        }
+
+        const target =
+            card.card.querySelector(
+                '[data-testid="resume-selection-file-resume-radio-card-label"]',
+            ) ||
+            card.radio ||
+            card.card;
+
+        if (target instanceof HTMLElement) {
+            await clickElement(target, { quick: true });
+        }
+
+        return Boolean(readIndeedFileResumeCard()?.checked);
+    }
+
+    /**
+     * Indeed keeps one uploaded file CV per account. Use the user's default
+     * AutoCVApply CV: when the stored file has a different name (e.g. an old
+     * "TobyClaxton04_2026.docx (5).pdf"), upload the default CV into the card's
+     * file input, then make sure the file card is the selected option. Never
+     * click "Select file": that only opens the OS file picker.
+     */
+    async function selectResumeCardIfNeeded(options = {}) {
         const slug = readApplyStepSlug() || '';
 
         if (!slug.includes('resume-selection')) {
             return { selected: false };
         }
 
-        const cardButton = document.querySelector(
-            '[data-testid="resume-selection-file-resume-radio-card-button"]',
-        );
+        const card = readIndeedFileResumeCard();
 
-        if (cardButton instanceof HTMLElement) {
-            await clickElement(cardButton);
-
-            return { selected: true };
+        if (!card) {
+            return { selected: false, reason: 'no_file_resume_card' };
         }
 
-        return { selected: false };
+        const getCvDocument =
+            typeof options.getCvDocument === 'function'
+                ? options.getCvDocument
+                : requestDefaultCvDocument;
+        let uploaded = false;
+        let cvDocument = null;
+
+        try {
+            cvDocument = await getCvDocument();
+        } catch {
+            cvDocument = null;
+        }
+
+        const wantedKey = indeedResumeFileKey(cvDocument?.fileName);
+        const currentKey = indeedResumeFileKey(card.fileName);
+
+        const failedUploadKey = `autocvapply:indeed-cv-upload-failed:${wantedKey}`;
+
+        if (wantedKey && wantedKey !== currentKey && readSessionFlag(failedUploadKey)) {
+            indeedLog('info', 'Skipping Indeed CV re-upload (did not stick earlier this session)', {
+                stored: card.fileName,
+                wanted: cvDocument?.fileName,
+            });
+        } else if (wantedKey && wantedKey !== currentKey) {
+            if (card.fileInput) {
+                try {
+                    const file = await buildCvFile(cvDocument);
+
+                    if (file && assignResumeFile(card.fileInput, file)) {
+                        const updated = await waitForIndeedResumeFileName(
+                            wantedKey,
+                            Number(options.uploadTimeoutMs ?? 12_000),
+                        );
+                        uploaded = Boolean(updated);
+
+                        if (!uploaded) {
+                            writeSessionFlag(failedUploadKey);
+                        }
+
+                        indeedLog(
+                            uploaded ? 'info' : 'warn',
+                            uploaded
+                                ? 'Uploaded default CV to Indeed resume card'
+                                : 'Default CV upload did not show on the Indeed resume card',
+                            {
+                                previous: card.fileName,
+                                uploaded: cvDocument.fileName,
+                            },
+                        );
+                    }
+                } catch (error) {
+                    indeedLog('warn', 'Default CV upload to Indeed failed', {
+                        error: error instanceof Error ? error.message : String(error),
+                        previous: card.fileName,
+                    });
+                }
+            } else {
+                indeedLog('warn', 'Indeed resume card has no file input; keeping stored CV', {
+                    stored: card.fileName,
+                    wanted: cvDocument.fileName,
+                });
+            }
+        }
+
+        const checked = await ensureIndeedResumeCardChecked();
+        const finalCard = readIndeedFileResumeCard();
+
+        return {
+            selected: checked,
+            uploaded,
+            fileName: finalCard?.fileName || card.fileName,
+            matchesDefault: Boolean(
+                wantedKey &&
+                    indeedResumeFileKey(finalCard?.fileName || card.fileName) ===
+                        wantedKey,
+            ),
+        };
     }
 
     async function waitForSubmissionConfirmation(timeoutMs = 30_000) {
@@ -3503,6 +3813,8 @@ var AutoCVApplyIndeedAutoApply = (() => {
         getIndeedApplyState,
         abandonIndeedApply,
         clickContinueOrSubmit,
+        selectResumeCardIfNeeded,
+        indeedResumeFileKey,
         verifySubmitted,
         isIndeedResumeCardStep,
         isIndeedReviewStep,

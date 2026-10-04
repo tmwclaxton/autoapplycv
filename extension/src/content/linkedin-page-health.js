@@ -33,9 +33,64 @@ var AutoCVApplyLinkedInPageHealth = (() => {
         return String(text || '').replace(/\s+/g, ' ').trim();
     }
 
+    // Only short, visible alert-like surfaces count. Scanning body.textContent
+    // matched hidden <code>/<script> payloads, job descriptions ("rate limits"
+    // in an AI engineer spec) and Easy Apply question text, so a normal job
+    // page could stop a run with "[rate_limit] rate limit".
+    const ALERT_SURFACE_SELECTOR = [
+        '[role="alert"]',
+        '[role="alertdialog"]',
+        '[aria-live="assertive"]',
+        '.artdeco-toast-item',
+        '[data-test-artdeco-toast-item-type]',
+        '.artdeco-global-alert',
+        '.global-alert',
+        '.error-container',
+        '.artdeco-empty-state',
+        '[data-test-error-page]',
+        '.artdeco-modal',
+        '[role="dialog"]',
+        'dialog[open]',
+    ].join(', ');
+
+    const DIALOG_SELECTOR = '.artdeco-modal, [role="dialog"], dialog';
+
+    // Page content that can legitimately mention "rate limit", "try again
+    // later" or "something went wrong" without LinkedIn showing an error.
+    const CONTENT_REGION_SELECTOR = [
+        '.jobs-description',
+        '.jobs-description-content',
+        '.jobs-box__html-content',
+        '.show-more-less-html',
+        '[data-testid="expandable-text-box"]',
+        '.job-card-container',
+        '.jobs-search-results-list',
+        '.scaffold-layout__list',
+        '[componentkey^="job-card-component-ref-"]',
+    ].join(', ');
+
+    const NON_TEXT_SELECTOR = 'script, style, noscript, template, code, textarea, select, option, [hidden], [aria-hidden="true"]';
+
+    const MAX_ALERT_TEXT = 400;
+    const ERROR_PAGE_MAX_TEXT = 1200;
+
     function isVisible(element) {
         if (!(element instanceof HTMLElement)) {
             return false;
+        }
+
+        if (element.closest('[hidden], [aria-hidden="true"]')) {
+            return false;
+        }
+
+        if (typeof element.checkVisibility === 'function') {
+            try {
+                if (!element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
+                    return false;
+                }
+            } catch {
+                // Fall through to the style/box checks below.
+            }
         }
 
         const style = window.getComputedStyle(element);
@@ -56,6 +111,118 @@ var AutoCVApplyLinkedInPageHealth = (() => {
 
         return (style.position === 'fixed' || style.position === 'absolute')
             && style.display !== 'none';
+    }
+
+    /**
+     * Visible-ish text under root, skipping scripts, hidden subtrees and form
+     * control values. Stops once maxLength is exceeded.
+     */
+    function readRenderedText(root, maxLength = Infinity) {
+        if (!root) {
+            return '';
+        }
+
+        const doc = root.ownerDocument || root;
+        const view = doc.defaultView || window;
+        const walker = doc.createTreeWalker(root, view.NodeFilter.SHOW_TEXT);
+        let text = '';
+
+        for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const parent = node.parentElement;
+
+            if (!parent || parent.closest(NON_TEXT_SELECTOR)) {
+                continue;
+            }
+
+            text += ` ${node.nodeValue || ''}`;
+
+            if (text.length > maxLength * 2) {
+                break;
+            }
+        }
+
+        return normalize(text);
+    }
+
+    function matchTextPatterns(text, source) {
+        const issues = [];
+
+        if (!text) {
+            return issues;
+        }
+
+        for (const { code, pattern } of TEXT_PATTERNS) {
+            const match = text.match(pattern);
+
+            if (match) {
+                issues.push({
+                    code,
+                    message: match[0],
+                    source,
+                    context: text.slice(0, 200),
+                });
+            }
+        }
+
+        return issues;
+    }
+
+    function isAlertSurfaceCandidate(node) {
+        if (!(node instanceof HTMLElement)) {
+            return false;
+        }
+
+        if (node.closest(CONTENT_REGION_SELECTOR)) {
+            return false;
+        }
+
+        // Easy Apply steps are dialogs full of question text; an error dialog
+        // has buttons only.
+        if (
+            node.matches(DIALOG_SELECTOR)
+            && node.querySelector('input:not([type="hidden"]), select, textarea, [role="radio"], [role="combobox"]')
+        ) {
+            return false;
+        }
+
+        return isVisible(node);
+    }
+
+    function readAlertSurfaceIssues(root = document) {
+        const issues = [];
+
+        for (const node of root.querySelectorAll(ALERT_SURFACE_SELECTOR)) {
+            if (!isAlertSurfaceCandidate(node)) {
+                continue;
+            }
+
+            const text = readRenderedText(node, MAX_ALERT_TEXT);
+
+            if (!text || text.length > MAX_ALERT_TEXT) {
+                continue;
+            }
+
+            issues.push(...matchTextPatterns(text, 'alert'));
+        }
+
+        return issues;
+    }
+
+    /** A bare error page (e.g. LinkedIn's 429 page) has very little rendered text. */
+    function readErrorPageIssues(root = document) {
+        const body = root.body || null;
+
+        if (!body) {
+            return [];
+        }
+
+        const text = readRenderedText(body, ERROR_PAGE_MAX_TEXT);
+
+        if (!text || text.length > ERROR_PAGE_MAX_TEXT) {
+            return [];
+        }
+
+        return matchTextPatterns(text, 'text');
     }
 
     function readUrlIssues() {
@@ -91,22 +258,7 @@ var AutoCVApplyLinkedInPageHealth = (() => {
     }
 
     function readTextIssues(root = document) {
-        const bodyText = normalize(root.body?.textContent || '');
-        const issues = [];
-
-        for (const { code, pattern } of TEXT_PATTERNS) {
-            const match = bodyText.match(pattern);
-
-            if (match) {
-                issues.push({
-                    code,
-                    message: match[0],
-                    source: 'text',
-                });
-            }
-        }
-
-        return issues;
+        return [...readAlertSurfaceIssues(root), ...readErrorPageIssues(root)];
     }
 
     function readSelectorIssues(root = document) {
@@ -235,6 +387,9 @@ var AutoCVApplyLinkedInPageHealth = (() => {
         formatIssueLog,
         readUrlIssues,
         readTextIssues,
+        readAlertSurfaceIssues,
+        readErrorPageIssues,
+        readRenderedText,
         readSelectorIssues,
         readLoadingOverlay,
     };

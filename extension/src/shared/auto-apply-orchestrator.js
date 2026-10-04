@@ -122,6 +122,8 @@ import {
 import {
     buildIndeedJobOpenUrl,
     isIndeedJobsSearchUrl,
+    isIndeedQualificationGateStep,
+    recordIndeedStepVisit,
     urlsMatchIndeedSearch,
 } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
@@ -538,6 +540,9 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
             login_required: 'sign-in required on job board',
             board_server_error: 'job board returned a server error',
             captcha_required: 'CAPTCHA / security check',
+            indeed_qualification_loop:
+                'Indeed restarted the application after its qualification check',
+            indeed_step_loop: 'Indeed kept restarting the application',
         }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
 
@@ -2399,6 +2404,13 @@ async function dismissSaveApplicationPrompt(tabId) {
 function formatLinkedInIssue(issue) {
     if (!issue) {
         return 'LinkedIn page error.';
+    }
+
+    const context = String(issue.context || '').trim();
+
+    // Quote the surface text that matched so a false positive is diagnosable.
+    if (context && context.toLowerCase() !== String(issue.message || '').toLowerCase()) {
+        return `[${issue.code}] ${issue.message} (${issue.source || 'page'}: "${context.slice(0, 160)}")`;
     }
 
     return `[${issue.code}] ${issue.message}`;
@@ -6938,9 +6950,13 @@ async function processIndeedJobInner(
     }
 
     let submitted = false;
+    let submitClicked = false;
     let guard = 0;
     let lastStepFingerprint = null;
     let sameStepCount = 0;
+    const indeedStepVisits = new Map();
+    let sawQualificationGate = false;
+    let lastVisitedStep = null;
 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
@@ -6954,6 +6970,42 @@ async function processIndeedJobInner(
             break;
         }
 
+        if (applyState?.open && applyState.stepFingerprint) {
+            if (isIndeedQualificationGateStep(applyState.stepFingerprint)) {
+                sawQualificationGate = true;
+            }
+
+            const visit = recordIndeedStepVisit(
+                indeedStepVisits,
+                applyState.stepFingerprint,
+                lastVisitedStep,
+            );
+            lastVisitedStep = applyState.stepFingerprint;
+
+            if (visit.looping) {
+                // Indeed bounced back to the start after the qualification
+                // check (seen on Information Tech Consultants): Continue on
+                // supporting-info lands on resume-selection again. Clicking on
+                // only burns steps and eventually exits the flow.
+                await logSession(
+                    'warn',
+                    `[skip] ${job.title}: Indeed keeps restarting the application at "${applyState.stepFingerprint}" ` +
+                        `(${visit.visits}x)` +
+                        (sawQualificationGate
+                            ? ' after its qualification check - the employer screener likely rejected an answer. Apply manually if you still want this job.'
+                            : '. Apply manually if you still want this job.'),
+                );
+
+                return {
+                    outcome: 'skipped',
+                    reason: sawQualificationGate
+                        ? 'indeed_qualification_loop'
+                        : 'indeed_step_loop',
+                    tabId,
+                };
+            }
+        }
+
         if (!applyState?.open) {
             const closedVerify = await sendIndeedApplyFlowMessage(tabId, {
                 type: 'INDEED_VERIFY_SUBMITTED',
@@ -6961,6 +7013,15 @@ async function processIndeedJobInner(
 
             if (closedVerify?.submitted) {
                 submitted = true;
+            } else if (submitClicked && applyState?.alreadyApplied) {
+                // After Submit, Indeed can hand the tab back to the job page
+                // (no SmartApply post-apply step); its "Applied" badge is the
+                // confirmation. Only trusted once this run clicked Submit.
+                submitted = true;
+                await logSession(
+                    'info',
+                    `[submit] ${job.title}: confirmed by Indeed "Applied" marker after leaving SmartApply.`,
+                );
             }
 
             break;
@@ -7289,6 +7350,7 @@ async function processIndeedJobInner(
         }
 
         if (advanceResponse?.action === 'submit') {
+            submitClicked = true;
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
@@ -7476,8 +7538,26 @@ async function processIndeedJobInner(
         submitted = Boolean(verifyResponse?.submitted);
     }
 
+    if (!submitted && submitClicked) {
+        const finalState = await sendIndeedApplyFlowMessage(tabId, {
+            type: 'INDEED_APPLY_STATE',
+        }).catch(() => null);
+
+        if (finalState?.submitted || (!finalState?.open && finalState?.alreadyApplied)) {
+            submitted = true;
+            await logSession(
+                'info',
+                `[submit] ${job.title}: confirmed after Submit (${finalState?.submitted ? 'post-apply' : 'Applied marker'}).`,
+            );
+        }
+    }
+
     if (!submitted) {
-        throw new Error('Could not submit Indeed Apply application.');
+        throw new Error(
+            submitClicked
+                ? 'Clicked Submit on Indeed Apply but no confirmation appeared - check Indeed "My jobs" before re-applying.'
+                : `Could not submit Indeed Apply application (last step: ${lastVisitedStep || 'unknown'}).`,
+        );
     }
 
     await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
@@ -10434,6 +10514,9 @@ async function processGlassdoorJobInner(
     let guard = 0;
     let lastStepFingerprint = null;
     let sameStepCount = 0;
+    const indeedStepVisits = new Map();
+    let sawQualificationGate = false;
+    let lastVisitedStep = null;
 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
@@ -10445,6 +10528,42 @@ async function processGlassdoorJobInner(
         if (applyState?.submitted) {
             submitted = true;
             break;
+        }
+
+        if (applyState?.open && applyState.stepFingerprint) {
+            if (isIndeedQualificationGateStep(applyState.stepFingerprint)) {
+                sawQualificationGate = true;
+            }
+
+            const visit = recordIndeedStepVisit(
+                indeedStepVisits,
+                applyState.stepFingerprint,
+                lastVisitedStep,
+            );
+            lastVisitedStep = applyState.stepFingerprint;
+
+            if (visit.looping) {
+                // Indeed bounced back to the start after the qualification
+                // check (seen on Information Tech Consultants): Continue on
+                // supporting-info lands on resume-selection again. Clicking on
+                // only burns steps and eventually exits the flow.
+                await logSession(
+                    'warn',
+                    `[skip] ${job.title}: Indeed keeps restarting the application at "${applyState.stepFingerprint}" ` +
+                        `(${visit.visits}x)` +
+                        (sawQualificationGate
+                            ? ' after its qualification check - the employer screener likely rejected an answer. Apply manually if you still want this job.'
+                            : '. Apply manually if you still want this job.'),
+                );
+
+                return {
+                    outcome: 'skipped',
+                    reason: sawQualificationGate
+                        ? 'indeed_qualification_loop'
+                        : 'indeed_step_loop',
+                    tabId,
+                };
+            }
         }
 
         if (!applyState?.open) {

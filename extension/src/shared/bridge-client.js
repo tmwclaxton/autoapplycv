@@ -5,6 +5,8 @@ const DEFAULT_BRIDGE_PORT = 7432;
 const RECONNECT_BASE_MS = 1000;
 const RECONNECT_MAX_MS = 30000;
 const STATUS_INTERVAL_MS = 15000;
+/** Log an unreachable bridge on the first failure, then once per this many retries. */
+const BRIDGE_FAILURE_LOG_EVERY = 20;
 
 /** @type {WebSocket | null} */
 let socket = null;
@@ -69,6 +71,22 @@ export async function shouldEnableExtensionBridge() {
 
     return isLocalhostApiBase(apiBase);
 }
+
+/**
+ * Unpacked installs enable the local dev bridge (ws://127.0.0.1:7432) by
+ * default. With nothing listening, every 30s retry logged a socket error and a
+ * disconnect, which buried real errors in the 500-entry debug log. Only log
+ * the first failure of a streak and then every BRIDGE_FAILURE_LOG_EVERY-th.
+ *
+ * @param {number} failureCount consecutive failed attempts, starting at 1
+ */
+export function shouldLogBridgeFailure(failureCount) {
+    const count = Number(failureCount) || 0;
+
+    return count <= 1 || count % BRIDGE_FAILURE_LOG_EVERY === 0;
+}
+
+let consecutiveFailures = 0;
 
 function clearReconnectTimer() {
     if (reconnectTimer) {
@@ -214,7 +232,23 @@ async function handleCommand(message) {
 }
 
 function attachSocketHandlers(ws) {
+    let opened = false;
+    let failureLogged = false;
+
+    const noteFailure = () => {
+        if (failureLogged) {
+            return false;
+        }
+
+        failureLogged = true;
+        consecutiveFailures += 1;
+
+        return shouldLogBridgeFailure(consecutiveFailures);
+    };
+
     ws.addEventListener('open', () => {
+        opened = true;
+        consecutiveFailures = 0;
         reconnectAttempt = 0;
         logInfo('background', 'bridge.connect', 'Extension bridge connected', {
             url: bridgeWsUrl(),
@@ -267,12 +301,28 @@ function attachSocketHandlers(ws) {
     ws.addEventListener('close', () => {
         socket = null;
         clearStatusTimer();
-        logDebug('background', 'bridge.disconnect', 'Extension bridge disconnected');
+
+        if (opened) {
+            logDebug('background', 'bridge.disconnect', 'Extension bridge disconnected');
+        } else if (noteFailure()) {
+            logDebug('background', 'bridge.unreachable', 'Local extension bridge not reachable (dev tooling only; retrying quietly)', {
+                url: bridgeWsUrl(),
+                consecutiveFailures,
+            });
+        }
+
         scheduleReconnect();
     });
 
     ws.addEventListener('error', () => {
-        logDebug('background', 'bridge.error', 'Extension bridge socket error');
+        if (opened) {
+            logDebug('background', 'bridge.error', 'Extension bridge socket error');
+        } else if (noteFailure()) {
+            logDebug('background', 'bridge.unreachable', 'Local extension bridge not reachable (dev tooling only; retrying quietly)', {
+                url: bridgeWsUrl(),
+                consecutiveFailures,
+            });
+        }
     });
 }
 

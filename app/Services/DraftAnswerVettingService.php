@@ -33,7 +33,9 @@ class DraftAnswerVettingService
             return ['verdicts' => [], 'usage' => null];
         }
 
-        $model = $this->nanoGpt->resolveModel('assist');
+        // NanoGptService has no resolveModel(); calling it 500'd every vet
+        // request in production (fail-open, so answers went unvetted).
+        $model = (string) (config('cv.ai_assist.draft_all_answer_vet_model') ?: config('cv.extraction_model'));
         $skills = array_values(array_filter(array_map(
             static fn ($skill): string => is_string($skill) ? trim($skill) : '',
             (array) ($profile->skills ?? []),

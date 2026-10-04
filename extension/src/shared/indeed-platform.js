@@ -177,3 +177,45 @@ export function urlsMatchIndeedSearch(currentUrl, expectedUrl, filters = null) {
         return false;
     }
 }
+
+/** Re-entering a SmartApply step this many times means Indeed restarted the flow. */
+export const INDEED_STEP_REVISIT_LIMIT = 3;
+
+/**
+ * Track SmartApply step visits to catch restart loops. Indeed sometimes sends
+ * the candidate back to the start after the qualification check
+ * (questions -> intervention -> supporting-info -> resume-selection ->
+ * questions ...); repeated polls of the same step (validation retries) do not
+ * count, only re-entering a step after leaving it.
+ *
+ * @param {Map<string, number>} visits
+ * @param {string|null|undefined} stepFingerprint
+ * @param {string|null|undefined} previousFingerprint
+ * @returns {{ visits: number, looping: boolean }}
+ */
+export function recordIndeedStepVisit(
+    visits,
+    stepFingerprint,
+    previousFingerprint,
+    limit = INDEED_STEP_REVISIT_LIMIT,
+) {
+    const key = String(stepFingerprint || '').trim();
+
+    if (!key || !(visits instanceof Map)) {
+        return { visits: 0, looping: false };
+    }
+
+    if (key === String(previousFingerprint || '').trim()) {
+        return { visits: visits.get(key) || 1, looping: false };
+    }
+
+    const count = (visits.get(key) || 0) + 1;
+    visits.set(key, count);
+
+    return { visits: count, looping: count >= limit };
+}
+
+/** Steps that only exist on Indeed's employer qualification soft-gate. */
+export function isIndeedQualificationGateStep(stepFingerprint) {
+    return /intervention|supporting-info/i.test(String(stepFingerprint || ''));
+}
