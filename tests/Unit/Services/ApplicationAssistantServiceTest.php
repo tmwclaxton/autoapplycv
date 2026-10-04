@@ -624,6 +624,8 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertStringContainsString('Example University', $prompt);
         $this->assertStringContainsString('Open to hybrid London roles.', $prompt);
         $this->assertStringContainsString('1 month', $prompt);
+        // Start-window screeners compare against the computed earliest start.
+        $this->assertMatchesRegularExpression('/"computed_earliest_start":"\\d{1,2} [A-Z][a-z]+ \\d{4}"/', $prompt);
         $this->assertStringNotContainsString('SECRET_RAW_CV_SHOULD_NOT_APPEAR', $prompt);
         $this->assertStringNotContainsString('SECRET_FORMATTED_CV_SHOULD_NOT_APPEAR', $prompt);
     }

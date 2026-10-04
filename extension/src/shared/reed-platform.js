@@ -1,3 +1,5 @@
+import { simplifyBoardSearchLocation } from './board-location.js';
+
 export const REED_PLATFORM_ID = 'reed';
 
 /**
@@ -33,7 +35,7 @@ export function buildReedJobSearchUrl(roleDescription, {
         throw new Error('Role description is required.');
     }
 
-    const location = String(filters?.location || '').trim();
+    const location = simplifyBoardSearchLocation(filters?.location);
     const locationSlug = slugifyReedSegment(location);
     const path = locationSlug
         ? `/jobs/${roleSlug}-jobs-in-${locationSlug}`
@@ -207,7 +209,7 @@ export function urlsMatchReedSearch(currentUrl, expectedUrl, filters = null) {
                 return false;
             }
 
-            const location = String(filters?.location || '').trim();
+            const location = simplifyBoardSearchLocation(filters?.location);
 
             if (location) {
                 const locationSlug = slugifyReedSegment(location);

@@ -1,3 +1,5 @@
+import { simplifyBoardSearchLocation } from './board-location.js';
+
 export const TOTALJOBS_PLATFORM_ID = 'totaljobs';
 
 /**
@@ -37,7 +39,7 @@ export function buildTotalJobsJobSearchUrl(roleDescription, { filters = null } =
         throw new Error('Role description is required.');
     }
 
-    const location = String(filters?.location || '').trim();
+    const location = simplifyBoardSearchLocation(filters?.location);
     const locationSlug = slugifyTotalJobsSegment(location);
 
     if (locationSlug) {
@@ -120,7 +122,7 @@ export function urlsMatchTotalJobsSearch(currentUrl, expectedUrl, filters = null
             return false;
         }
 
-        const location = String(filters?.location || '').trim();
+        const location = simplifyBoardSearchLocation(filters?.location);
 
         if (location) {
             const locationSlug = slugifyTotalJobsSegment(location);

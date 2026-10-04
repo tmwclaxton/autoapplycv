@@ -24,5 +24,6 @@ export function mapApplicationSettingsForAssist(settings) {
         legallyAuthorized: merged.legally_authorized ?? 'yes',
         willingToRelocate: merged.willing_to_relocate ?? 'yes',
         driversLicense: merged.drivers_license ?? 'yes',
+        noticePeriod: merged.notice_period ?? '',
     };
 }

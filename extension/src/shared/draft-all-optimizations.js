@@ -932,6 +932,8 @@ export function partitionBatchAnswersForApply(answers) {
 
 export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
     const profileYears = options.profileYears ?? null;
+    const noticePeriod = options.noticePeriod ?? null;
+    const earliestStart = options.earliestStart ?? null;
 
     return (answers || []).map((answer) => {
         const field = fieldsByRef?.get?.(answer.ref);
@@ -951,6 +953,8 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
                     null,
                 options: fieldOptions,
                 fallbackNoticePeriod: '2 weeks',
+                noticePeriod,
+                earliestStart,
             },
         );
 

@@ -153,4 +153,43 @@ class DraftAnswerVettingTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('verdicts.0.verdict', 'ok');
     }
+
+    public function test_vetting_prompt_carries_notice_period_for_start_window_questions(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'skills' => ['Python'],
+            'application_settings' => ['notice_period' => '2 months'],
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->withArgs(function (array $messages, array $options): bool {
+                    $system = (string) ($messages[0]['content'] ?? '');
+                    $user = json_decode((string) ($messages[1]['content'] ?? '{}'), true);
+
+                    return str_contains($system, 'Start-window yes/no questions')
+                        && data_get($user, 'profile.application_settings.notice_period') === '2 months'
+                        && is_string(data_get($user, 'profile.computed_earliest_start'));
+                })
+                ->andReturn([
+                    'verdicts' => [
+                        ['ref' => 'f0', 'label' => 'Can you start in the next three weeks?', 'verdict' => 'revise', 'answer' => 'No', 'reason' => 'notice_period_2_months'],
+                    ],
+                ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/vet-answers', [
+                'job' => ['title' => 'Machine Learning Engineer', 'company' => 'Searchability NS&D'],
+                'candidates' => [
+                    ['ref' => 'f0', 'label' => 'Can you start in the next three weeks?', 'field_type' => 'radio', 'answer' => 'Yes', 'options' => ['Yes', 'No']],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('verdicts.0.verdict', 'revise')
+            ->assertJsonPath('verdicts.0.answer', 'No');
+    }
 }

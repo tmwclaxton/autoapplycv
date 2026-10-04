@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\CvProfile;
+use App\Support\ApplicationSettings;
 use App\Support\ProfileIdentityFieldResolver;
 
 /**
@@ -41,6 +42,8 @@ class DraftAnswerVettingService
             (array) ($profile->skills ?? []),
         )));
         $experienceSummary = [];
+        $noticeSetting = data_get($settings, 'notice_period') ?: data_get($settings, 'noticePeriod') ?: data_get($profile->application_settings, 'notice_period');
+        $noticePeriod = is_string($noticeSetting) && trim($noticeSetting) !== '' ? trim($noticeSetting) : null;
 
         foreach (array_slice((array) ($profile->experience ?? []), 0, 6) as $role) {
             if (! is_array($role)) {
@@ -64,6 +67,7 @@ class DraftAnswerVettingService
                     .'Use "revise" with a corrected answer when a small fix makes it honest and on-topic (for example change invented Okta Yes to No, or replace a phone bleed with null via reject instead). '
                     .'Named tools/platforms (Okta, MDM, Helpline, IAM, Jamf, Intune, macOS enterprise support, 1st-3rd line tech support): Yes only when clearly in profile skills/experience/technologies; otherwise reject or revise to No. '
                     .'Skill ratings out of 5/10: reject invented high scores for tools not on the CV. '
+                    .'Start-window yes/no questions ("Can you start in the next three weeks?", "start within 30 days", "start immediately"): the answer must agree with application_settings.notice_period / computed_earliest_start - revise Yes to No when the notice period is longer than the window. '
                     .'Never invent employers, tools, years, or contact details. '
                     .ProfileIdentityFieldResolver::identityPromptRules(),
             ],
@@ -85,7 +89,11 @@ class DraftAnswerVettingService
                                 ?? data_get($profile->application_settings, 'expected_salary_yearly'),
                             'legally_authorized' => data_get($profile->application_settings, 'legally_authorized'),
                             'visa_sponsorship' => data_get($profile->application_settings, 'visa_sponsorship'),
+                            'notice_period' => $noticePeriod,
                         ],
+                        'computed_earliest_start' => $noticePeriod !== null
+                            ? ApplicationSettings::computeEarliestStart($noticePeriod)
+                            : null,
                     ],
                     'candidates' => $slice,
                 ], JSON_THROW_ON_ERROR),

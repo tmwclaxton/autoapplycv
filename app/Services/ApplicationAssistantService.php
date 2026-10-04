@@ -9,6 +9,7 @@ use App\Models\JobApplication;
 use App\Support\AiPhraseDenylist;
 use App\Support\AnswerTypeCoherence;
 use App\Support\ApplicationAnswers;
+use App\Support\ApplicationSettings;
 use App\Support\CoverLetterBodyText;
 use App\Support\ExperienceThresholdAnswerGuard;
 use App\Support\JobCompanyAnswerGuard;
@@ -127,6 +128,7 @@ class ApplicationAssistantService
                         .'Never invent employers, degrees, dates, skills, tools, cities, salaries, or notice periods not listed in the profile. '
                         .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
                         .'For logistics or preference yes/no questions (relocate, commute, hybrid, sponsorship, right to work, start date readiness) return only "Yes" or "No" (or the exact option text) using application_settings when present - never a paragraph. '
+                        .'For start-window yes/no questions ("Can you start in the next three weeks?", "able to start within 30 days", "start immediately", "start on 6th October"): compare application_settings.notice_period (or computed_earliest_start) with that window and answer No when the notice period is longer than the window - never answer Yes just because the employer sounds urgent. '
                         .'For named-tool or platform competence yes/no (Okta, MDM, Jamf, Intune, Helpline, IAM, Active Directory, ServiceNow, Salesforce, AWS, Azure, etc.): answer Yes only when that tool appears in profile.skills or profile.experience technologies/highlights; otherwise return No (or the exact No option). Never invent tool experience. '
                         .'For skill ratings out of 5 or 10, only give a mid/high score when the tool is evidenced on the CV; otherwise return a low score or null. '
                         .'For checkbox groups that allow multiple selections, return comma-separated option texts. '
@@ -1280,8 +1282,23 @@ class ApplicationAssistantService
                 (array) ($profile->application_settings ?? []),
                 $settings,
             ),
+            'computed_earliest_start' => $this->earliestStartFromSettings(
+                array_replace((array) ($profile->application_settings ?? []), $settings),
+            ),
             'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
         ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $applicationSettings
+     */
+    private function earliestStartFromSettings(array $applicationSettings): ?string
+    {
+        $notice = ($applicationSettings['notice_period'] ?? null) ?: ($applicationSettings['noticePeriod'] ?? null);
+
+        return is_string($notice) && trim($notice) !== ''
+            ? ApplicationSettings::computeEarliestStart($notice)
+            : null;
     }
 
     /**

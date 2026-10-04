@@ -1,3 +1,5 @@
+import { simplifyBoardSearchLocation } from './board-location.js';
+
 export const CV_LIBRARY_PLATFORM_ID = 'cvlibrary';
 
 /**
@@ -41,7 +43,7 @@ export function buildCvLibraryJobSearchUrl(roleDescription, {
         throw new Error('Role description is required.');
     }
 
-    const location = String(filters?.location || '').trim();
+    const location = simplifyBoardSearchLocation(filters?.location);
     const locationSlug = slugifyCvLibrarySegment(location);
     const path = locationSlug
         ? `/${roleSlug}-jobs-in-${locationSlug}`
@@ -161,7 +163,7 @@ export function urlsMatchCvLibrarySearch(currentUrl, expectedUrl, filters = null
 
         const currentLocation = current.pathname.match(/-jobs-in-([^/]+)/i)?.[1] || '';
         const expectedLocation = expected.pathname.match(/-jobs-in-([^/]+)/i)?.[1]
-            || slugifyCvLibrarySegment(String(filters?.location || '').trim());
+            || slugifyCvLibrarySegment(simplifyBoardSearchLocation(filters?.location));
 
         if (expectedLocation && slugifyCvLibrarySegment(currentLocation) !== slugifyCvLibrarySegment(expectedLocation)) {
             return false;

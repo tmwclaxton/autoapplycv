@@ -6,6 +6,8 @@ import {
     findExactChoiceOptionMatch,
     isNoticePeriodStyleQuestion,
     normalizeFieldAnswerForQuestion,
+    answerStartWindowQuestion,
+    parseStartWindowFromQuestion,
 } from './answer-normalization.js';
 import {
     isMeaningfulAnswer,
@@ -2378,7 +2380,49 @@ export function isUrgentStartAffirmationQuestion(label) {
         return true;
     }
 
+    // "Are you available to start within 3 weeks?" / "Could you join in the
+    // next month?" - a measurable start window answered from notice period.
+    if (/\b(?:start|join|commence|begin)\b/.test(normalized)
+        && parseStartWindowFromQuestion(label)) {
+        return true;
+    }
+
     return false;
+}
+
+/**
+ * Notice-period aware No for start-window screeners: "Can you start in the
+ * next three weeks?" with a 2 month notice period must not be Yes.
+ * Returns '' when the window fits or the notice period is unknown.
+ */
+function resolveStartWindowNoticeAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+    const noticePeriod = readProfileValue(
+        profileData,
+        'application_settings.notice_period',
+    );
+    const earliestStart = readProfileValue(profileData, 'computed_earliest_start');
+
+    if (!isMeaningfulAnswer(noticePeriod) && !isMeaningfulAnswer(earliestStart)) {
+        return '';
+    }
+
+    const options = Array.isArray(field?.options) ? field.options : [];
+    const answer = answerStartWindowQuestion(
+        label,
+        isMeaningfulAnswer(noticePeriod) ? noticePeriod : null,
+        {
+            options,
+            fieldType: field?.field_type || null,
+            earliestStart: isMeaningfulAnswer(earliestStart) ? earliestStart : null,
+        },
+    );
+
+    if (!answer || /^yes\b/i.test(answer)) {
+        return '';
+    }
+
+    return answer;
 }
 
 function extractStartDatePhraseFromLabel(label) {
@@ -2399,11 +2443,17 @@ function extractStartDatePhraseFromLabel(label) {
         );
 }
 
-function resolveUrgentStartAffirmationAnswer(field) {
+function resolveUrgentStartAffirmationAnswer(field, profileData = null) {
     const label = field?.label || field?.question || '';
 
     if (!isUrgentStartAffirmationQuestion(label)) {
         return '';
+    }
+
+    const noticeAnswer = resolveStartWindowNoticeAnswer(field, profileData);
+
+    if (noticeAnswer) {
+        return noticeAnswer;
     }
 
     const options = Array.isArray(field?.options) ? field.options : [];
@@ -7433,7 +7483,10 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
         return rightToWorkStatusEarly;
     }
 
-    const urgentStartAnswer = resolveUrgentStartAffirmationAnswer(field);
+    const urgentStartAnswer = resolveUrgentStartAffirmationAnswer(
+        field,
+        profileData,
+    );
 
     if (isMeaningfulAnswer(urgentStartAnswer)) {
         return urgentStartAnswer;
@@ -7623,6 +7676,12 @@ export function resolvePreferenceProfileAnswer(field, profileData) {
 
         if (!hasStartFact) {
             return '';
+        }
+
+        const windowAnswer = resolveStartWindowNoticeAnswer(field, profileData);
+
+        if (windowAnswer) {
+            return windowAnswer;
         }
 
         return pickLocalizedYesNoOption(field, true) || 'Yes';

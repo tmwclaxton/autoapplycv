@@ -675,6 +675,16 @@ export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
         return '__CLEAR__';
     }
 
+    // "Can you start in the next three weeks?" must follow the saved notice
+    // period (Reed Searchability: answered Yes with a 2 month notice).
+    if (options.noticePeriod != null || options.earliestStart != null) {
+        const startAnswer = reconcileStartWindowAnswer(label, trimmedEarly, options);
+
+        if (startAnswer != null) {
+            return startAnswer;
+        }
+    }
+
     // Yes/No "4+ years" must coerce before numeric years normalization returns "7".
     if (
         (CHOICE_FIELD_TYPES.has(fieldTypeEarly) ||
@@ -718,4 +728,301 @@ export function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
     }
 
     return trimmed;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const COUNT_WORDS = {
+    a: 1,
+    an: 1,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+    ten: 10,
+    eleven: 11,
+    twelve: 12,
+    couple: 2,
+    'a couple of': 2,
+    few: 3,
+    'a few': 3,
+};
+const COUNT_TOKEN = '(\\d{1,3}|a couple of|a few|couple of|couple|few|an?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)';
+const UNIT_TOKEN = '(days?|weeks?|wks?|months?|mos?)';
+const MONTH_NAMES = [
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec',
+];
+/** "Immediately"/"ASAP" start screeners: allow up to a week. */
+const IMMEDIATE_START_WINDOW_DAYS = 7;
+
+function parseCountToken(token) {
+    const text = String(token || '').trim().toLowerCase().replace(/\s+of$/, '');
+
+    if (/^\d+$/.test(text)) {
+        return Number(text);
+    }
+
+    return COUNT_WORDS[text] ?? COUNT_WORDS[`${text} of`] ?? null;
+}
+
+function unitToDays(unit) {
+    const text = String(unit || '').toLowerCase();
+
+    if (text.startsWith('d')) {
+        return 1;
+    }
+
+    if (text.startsWith('w')) {
+        return 7;
+    }
+
+    return 30;
+}
+
+/**
+ * Notice period / duration text to calendar days. Ranges use the upper bound
+ * ("1-2 months" -> 60) so start-date answers stay honest.
+ * @returns {number|null}
+ */
+export function parseDurationToDays(text) {
+    const value = String(text ?? '').trim().toLowerCase();
+
+    if (!value) {
+        return null;
+    }
+
+    if (/^(?:immediate(?:ly)?|asap|available now|none|no notice|0)\b/.test(value)) {
+        return 0;
+    }
+
+    const range = value.match(
+        new RegExp(`\\b\\d{1,3}\\s*(?:-|to|–)\\s*${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`),
+    );
+
+    if (range) {
+        const count = parseCountToken(range[1]);
+
+        return count == null ? null : count * unitToDays(range[2]);
+    }
+
+    const single = value.match(new RegExp(`\\b${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`));
+
+    if (single) {
+        const count = parseCountToken(single[1]);
+
+        return count == null ? null : count * unitToDays(single[2]);
+    }
+
+    return parseNoticePeriodToDays(value);
+}
+
+function parseDayMonthFromLabel(text, now) {
+    const match = text.match(
+        /\b(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?:\s+(\d{4}))?\b/i,
+    );
+
+    if (!match) {
+        return null;
+    }
+
+    const day = Number(match[1]);
+    const month = MONTH_NAMES.indexOf(match[2].slice(0, 3).toLowerCase());
+
+    if (month < 0 || day < 1 || day > 31) {
+        return null;
+    }
+
+    const year = match[3] ? Number(match[3]) : now.getFullYear();
+    let date = new Date(year, month, day);
+
+    if (!match[3] && date.getTime() < now.getTime() - DAY_MS) {
+        date = new Date(year + 1, month, day);
+    }
+
+    return date;
+}
+
+/**
+ * Start-window yes/no screeners: "Can you start in the next three weeks?",
+ * "Are you able to start within 30 days?", "Can you start immediately?",
+ * "Can you start on 6th Oct?". Returns null for open questions.
+ * @returns {{ windowDays: number, kind: 'window'|'immediate'|'date' } | null}
+ */
+export function parseStartWindowFromQuestion(label, { now = new Date() } = {}) {
+    const text = String(label || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+    // Needs a start verb: "available to work 40 hours in a week" is not a
+    // start-date question.
+    if (!text || !/\b(?:start(?:ing)?|join(?:ing)?|commence|begin)\b/.test(text)) {
+        return null;
+    }
+
+    // Capability phrasing only: "Did you start your degree on 1st September?"
+    // is history, not availability.
+    if (!/\b(?:can|could|able|available|availability|ready|willing|would|happy|possible)\b/.test(text)) {
+        return null;
+    }
+
+    if (/\bwhen (?:can|could|would) you\b|\bwhat is your\b|\bhow (?:soon|long)\b/.test(text)) {
+        return null;
+    }
+
+    const window = text.match(
+        new RegExp(
+            `\\b(?:within|in|inside)\\s+(?:the\\s+)?(?:next\\s+)?(?:less than\\s+)?${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`,
+        ),
+    );
+
+    if (window) {
+        const count = parseCountToken(window[1]);
+
+        if (count != null) {
+            return { windowDays: count * unitToDays(window[2]), kind: 'window' };
+        }
+    }
+
+    const nextUnit = text.match(
+        /\b(?:within|in)\s+(?:the\s+)?(?:next\s+)?(?:a\s+)?(fortnight|week|month)\b/,
+    );
+
+    if (nextUnit) {
+        const days = { fortnight: 14, week: 7, month: 30 }[nextUnit[1]];
+
+        return { windowDays: days, kind: 'window' };
+    }
+
+    const date = parseDayMonthFromLabel(text, now);
+
+    if (date) {
+        return {
+            windowDays: Math.max(0, Math.ceil((date.getTime() - now.getTime()) / DAY_MS)),
+            kind: 'date',
+        };
+    }
+
+    if (/\b(?:immediately|asap|as soon as possible|right away|straight away|at short notice)\b/.test(text)) {
+        return { windowDays: IMMEDIATE_START_WINDOW_DAYS, kind: 'immediate' };
+    }
+
+    return null;
+}
+
+function daysUntilDate(value, now) {
+    const text = String(value ?? '').trim();
+
+    if (!text) {
+        return null;
+    }
+
+    // Profile API sends "4 November 2026"; ISO dates also accepted.
+    const date = /^\d{4}-\d{2}-\d{2}/.test(text)
+        ? new Date(`${text.slice(0, 10)}T00:00:00`)
+        : new Date(text);
+
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return Math.max(0, Math.ceil((date.getTime() - now.getTime()) / DAY_MS));
+}
+
+/**
+ * Whether the candidate can start inside the question's window, from their
+ * notice period (or computed earliest start date).
+ * @returns {{ canStart: boolean, windowDays: number, noticeDays: number } | null}
+ */
+export function resolveStartWindowFit(
+    label,
+    noticePeriod,
+    { now = new Date(), earliestStart = null } = {},
+) {
+    const window = parseStartWindowFromQuestion(label, { now });
+
+    if (!window) {
+        return null;
+    }
+
+    const noticeDays =
+        parseDurationToDays(noticePeriod) ?? daysUntilDate(earliestStart, now);
+
+    if (noticeDays == null) {
+        return null;
+    }
+
+    return {
+        canStart: noticeDays <= window.windowDays,
+        windowDays: window.windowDays,
+        noticeDays,
+    };
+}
+
+/**
+ * Deterministic answer for start-window screeners. Choice fields get the exact
+ * Yes/No option; text fields get "Yes" or "No - my notice period is 2 months."
+ * Returns null when the question has no measurable window, the notice period
+ * is unknown, or a choice field has no Yes/No option.
+ */
+export function answerStartWindowQuestion(label, noticePeriod, options = {}) {
+    const fit = resolveStartWindowFit(label, noticePeriod, options);
+
+    if (!fit) {
+        return null;
+    }
+
+    const choiceOptions = Array.isArray(options.options)
+        ? options.options.map((option) => String(option ?? '').trim()).filter(Boolean)
+        : [];
+    const fieldType = String(options.fieldType || '').toLowerCase();
+
+    if (choiceOptions.length > 0 || CHOICE_FIELD_TYPES.has(fieldType)) {
+        const pattern = fit.canStart ? /^yes\b/i : /^no\b/i;
+
+        return choiceOptions.find((option) => pattern.test(option)) || null;
+    }
+
+    if (fit.canStart) {
+        return 'Yes';
+    }
+
+    const notice = String(noticePeriod ?? '').trim();
+
+    return notice ? `No - my notice period is ${notice}.` : 'No';
+}
+
+/**
+ * Override a drafted start-window answer that contradicts the notice period.
+ * Keeps an already-consistent answer (e.g. "Yes, I can start on 11th December.").
+ * @returns {string|null}
+ */
+export function reconcileStartWindowAnswer(label, answer, options = {}) {
+    const fit = resolveStartWindowFit(label, options.noticePeriod, options);
+
+    if (!fit) {
+        return null;
+    }
+
+    const current = String(answer ?? '').trim();
+    const saysYes = /^yes\b/i.test(current);
+    const saysNo = /^no\b/i.test(current);
+
+    if ((fit.canStart && saysYes) || (!fit.canStart && saysNo)) {
+        return null;
+    }
+
+    return answerStartWindowQuestion(label, options.noticePeriod, options);
 }

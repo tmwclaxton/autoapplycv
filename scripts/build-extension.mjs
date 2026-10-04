@@ -430,6 +430,10 @@ copyFileSync(
     join(DIST, 'reed-platform.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/board-location.js'),
+    join(DIST, 'board-location.js'),
+);
+copyFileSync(
     join(SRC, 'shared/cv-library-platform.js'),
     join(DIST, 'cv-library-platform.js'),
 );

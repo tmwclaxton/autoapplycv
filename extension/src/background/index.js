@@ -3379,6 +3379,7 @@ async function reapplyStickySelectAnswersAfterDocuments({
     stickyAnswers,
     fieldsByRef,
     profileYears,
+    startFacts = {},
 }) {
     if (!Array.isArray(stickyAnswers) || stickyAnswers.length === 0) {
         return { formFrameId: null, applied: 0, success: true };
@@ -3389,6 +3390,7 @@ async function reapplyStickySelectAnswersAfterDocuments({
     let formFrameId = await findBestFormFrameId(tabId, { force: true });
     const enrichedAnswers = enrichApplyAnswers(stickyAnswers, fieldsByRef, {
         profileYears,
+        ...startFacts,
     });
     let applied = 0;
     let success = true;
@@ -3455,6 +3457,7 @@ async function fillDocumentsThenReapplyStickyAnswers({
     draftPlan,
     fieldsByRef,
     profileYears,
+    startFacts = {},
 }) {
     await fillApplicationDocumentsOnTab(tabId, formFrameId, job);
 
@@ -3478,6 +3481,7 @@ async function fillDocumentsThenReapplyStickyAnswers({
             tabId,
             enrichApplyAnswers(identityAnswers, fieldsByRef, {
                 profileYears,
+                ...startFacts,
             }),
             nextFrameId,
         );
@@ -3518,6 +3522,7 @@ async function fillDocumentsThenReapplyStickyAnswers({
             stickyAnswers,
             fieldsByRef,
             profileYears,
+            startFacts,
         });
 
         stickyApplied += Number(stickyReplay.applied || 0);
@@ -3794,6 +3799,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         const profileYears =
             profileData?.application_settings?.years_of_experience ?? null;
+        // Start-window screeners ("start in the next three weeks?") must
+        // follow the saved notice period, whatever stage drafted them.
+        const startFacts = {
+            noticePeriod:
+                profileData?.application_settings?.notice_period ?? null,
+            earliestStart: profileData?.computed_earliest_start ?? null,
+        };
 
         const stageProgressMessages = {
             memo: (count) => `Applying ${count} saved answer(s)…`,
@@ -3904,6 +3916,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 fieldsByRef,
                 {
                     profileYears,
+                    ...startFacts,
                 },
             );
             // Greenhouse react-select can clear sibling comboboxes mid-batch.
@@ -4052,6 +4065,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         draftPlan,
                         fieldsByRef,
                         profileYears,
+                        startFacts,
                     });
 
                 if (typeof stickyReplay.formFrameId === 'number') {
@@ -4310,6 +4324,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         tabId,
                         enrichApplyAnswers(toApply, fieldsByRef, {
                             profileYears,
+                            ...startFacts,
                         }),
                         formFrameId,
                     )
@@ -4405,6 +4420,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                             draftPlan,
                             fieldsByRef,
                             profileYears,
+                            startFacts,
                         })
                             .then((replay) => {
                                 perf.end('resume.fill');
@@ -4509,7 +4525,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     enrichApplyAnswers(
                         coverLetterRecovery.toApply,
                         fieldsByRef,
-                        { profileYears },
+                        { profileYears, ...startFacts },
                     ),
                     formFrameId,
                 );
@@ -4611,6 +4627,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                         draftPlan,
                         fieldsByRef,
                         profileYears,
+                        startFacts,
                     });
 
                 if (typeof stickyReplay.formFrameId === 'number') {
