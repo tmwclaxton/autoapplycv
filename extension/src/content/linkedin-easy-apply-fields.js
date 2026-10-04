@@ -457,25 +457,454 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         );
     }
 
+    const RESUME_FILE_EXTENSION_PATTERN = /\.(?:pdf|docx?|rtf|odt|pages|txt)\b/i;
+    const RESUME_DATE_LINE_PATTERN = /\b(?:uploaded|last used)\s+(?:on\s+)?(?:\d|[a-z]{3,9}\.?\s+\d)/i;
+    const RESUME_BADGE_PATTERN = /^(?:pdf|docx?|rtf|odt|pages|txt)$/i;
+    const RESUME_MONTHS = {
+        jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+        jul: 6, aug: 7, sep: 8, sept: 8, oct: 9, nov: 10, dec: 11,
+    };
+
+    function readLegacyResumeHeading(modal) {
+        const sectionHeading = modal.querySelector(
+            '.jobs-easy-apply-form-section__title, form h3.t-bold, form h3, .ph5 h3.t-bold, .ph5 h3',
+        );
+
+        return normalize(sectionHeading?.textContent || modal.querySelector('h3')?.textContent || '');
+    }
+
+    function looksLikeResumeOptionText(text) {
+        const value = normalize(text);
+
+        return value.length > 0
+            && value.length <= 300
+            && (RESUME_FILE_EXTENSION_PATTERN.test(value) || RESUME_DATE_LINE_PATTERN.test(value));
+    }
+
+    function isHiddenResumeNode(node) {
+        return Boolean(node?.closest?.('[hidden], [aria-hidden="true"]'));
+    }
+
+    /**
+     * Smallest ancestor of a bare radio input (no [role=radio] host) that wraps
+     * only this radio, i.e. the visible option row.
+     */
+    function findRadioRowHost(input) {
+        let node = input.parentElement;
+        let best = null;
+
+        for (let depth = 0; node && depth < 6; depth += 1) {
+            if (node.querySelectorAll('input[type="radio"]').length !== 1) {
+                break;
+            }
+
+            best = node;
+
+            if (looksLikeResumeOptionText(node.textContent)) {
+                return node;
+            }
+
+            node = node.parentElement;
+        }
+
+        return best;
+    }
+
+    function readResumeOptionFileName(host) {
+        if (!(host instanceof HTMLElement)) {
+            return '';
+        }
+
+        const explicit = normalize(
+            host.querySelector('.jobs-document-upload-redesign-card__file-name')?.textContent || '',
+        );
+
+        if (explicit) {
+            return explicit;
+        }
+
+        for (const leaf of host.querySelectorAll('h3, h4, p, span, div, a, strong')) {
+            if (leaf.childElementCount > 0) {
+                continue;
+            }
+
+            const text = normalize(leaf.textContent);
+
+            if (
+                text
+                && text.length <= 200
+                && RESUME_FILE_EXTENSION_PATTERN.test(text)
+                && !RESUME_DATE_LINE_PATTERN.test(text)
+                && !RESUME_BADGE_PATTERN.test(text)
+                && !/^(?:download|select|deselect|remove|delete)\b/i.test(text)
+            ) {
+                return text;
+            }
+        }
+
+        const flat = normalize(host.textContent).replace(/^(?:pdf|docx?|rtf|odt|pages|txt)\s+/i, '');
+        const match = flat.match(/^(.*?\.(?:pdf|docx?|rtf|odt|pages|txt))(?:\s*\(\d+\))?\b/i);
+
+        return match ? normalize(match[1]) : '';
+    }
+
+    function readResumeOptionDateParts(text, kind) {
+        const pattern = kind === 'uploaded'
+            ? /\buploaded\s+(?:on\s+)?([^·|]+)/i
+            : /\blast used\s+(?:on\s+)?([^·|]+)/i;
+        const match = normalize(text).match(pattern);
+
+        if (!match) {
+            return null;
+        }
+
+        const raw = normalize(match[1]);
+        const numeric = raw.match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2,4})\b/);
+
+        if (numeric) {
+            let year = Number(numeric[3]);
+
+            if (year < 100) {
+                year += 2000;
+            }
+
+            return { kind: 'numeric', a: Number(numeric[1]), b: Number(numeric[2]), year };
+        }
+
+        const monthFirst = raw.match(/^([a-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})\b/i);
+
+        if (monthFirst) {
+            const month = RESUME_MONTHS[monthFirst[1].slice(0, 4).toLowerCase()]
+                ?? RESUME_MONTHS[monthFirst[1].slice(0, 3).toLowerCase()];
+
+            if (month !== undefined) {
+                return { kind: 'named', month, day: Number(monthFirst[2]), year: Number(monthFirst[3]) };
+            }
+        }
+
+        const dayFirst = raw.match(/^(\d{1,2})\s+([a-z]{3,9})\.?,?\s+(\d{4})\b/i);
+
+        if (dayFirst) {
+            const month = RESUME_MONTHS[dayFirst[2].slice(0, 4).toLowerCase()]
+                ?? RESUME_MONTHS[dayFirst[2].slice(0, 3).toLowerCase()];
+
+            if (month !== undefined) {
+                return { kind: 'named', month, day: Number(dayFirst[1]), year: Number(dayFirst[3]) };
+            }
+        }
+
+        return null;
+    }
+
+    function resumeDatePartsToTime(parts, dayFirst) {
+        if (!parts) {
+            return null;
+        }
+
+        let month;
+        let day;
+
+        if (parts.kind === 'named') {
+            month = parts.month;
+            day = parts.day;
+        } else if (parts.a > 12 && parts.b <= 12) {
+            day = parts.a;
+            month = parts.b - 1;
+        } else if (parts.b > 12 && parts.a <= 12) {
+            month = parts.a - 1;
+            day = parts.b;
+        } else if (dayFirst) {
+            day = parts.a;
+            month = parts.b - 1;
+        } else {
+            month = parts.a - 1;
+            day = parts.b;
+        }
+
+        if (month < 0 || month > 11 || day < 1 || day > 31) {
+            return null;
+        }
+
+        return Date.UTC(parts.year, month, day);
+    }
+
+    /**
+     * Numeric "Uploaded on 3/10/2026" is ambiguous. Infer the order from any
+     * unambiguous date on the same picker, else from the page language
+     * (LinkedIn en/en-US renders M/D/YYYY).
+     */
+    function inferResumeDayFirst(modal, partsList) {
+        for (const parts of partsList) {
+            if (parts?.kind !== 'numeric') {
+                continue;
+            }
+
+            if (parts.a > 12 && parts.b <= 12) {
+                return true;
+            }
+
+            if (parts.b > 12 && parts.a <= 12) {
+                return false;
+            }
+        }
+
+        const lang = String(modal?.ownerDocument?.documentElement?.getAttribute('lang') || '').toLowerCase();
+
+        if (!lang || lang === 'en' || /^en-(?:us|ca|ph)\b/.test(lang)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function isResumeOptionSelected(option) {
+        if (!option) {
+            return false;
+        }
+
+        if (option.kind === 'ember') {
+            return option.host.classList.contains('jobs-document-upload-redesign-card__container--selected')
+                || Boolean(option.input?.checked);
+        }
+
+        if (option.input) {
+            return Boolean(option.input.checked);
+        }
+
+        return option.host.getAttribute('aria-checked') === 'true';
+    }
+
+    /**
+     * Every CV choice on LinkedIn's resume picker: legacy Ember cards
+     * (.jobs-document-upload-redesign-card__container) or the 2026 React SDUI
+     * <fieldset role="radiogroup"> of <div role="radio"> cards whose text is
+     * "PDF <file name> Uploaded on M/D/YYYY".
+     */
+    function listResumeOptions(modal) {
+        if (!modal) {
+            return [];
+        }
+
+        const raw = [];
+        const emberCards = [...modal.querySelectorAll('.jobs-document-upload-redesign-card__container')];
+
+        if (emberCards.length > 0) {
+            for (const host of emberCards) {
+                raw.push({ host, input: host.querySelector('input[type="radio"]'), kind: 'ember' });
+            }
+        } else {
+            const seen = new Set();
+
+            for (const host of modal.querySelectorAll('[role="radio"]')) {
+                if (!looksLikeResumeOptionText(host.textContent) || seen.has(host)) {
+                    continue;
+                }
+
+                seen.add(host);
+                raw.push({ host, input: host.querySelector('input[type="radio"]'), kind: 'sdui' });
+            }
+
+            for (const input of modal.querySelectorAll('input[type="radio"]')) {
+                if (input.closest('[role="radio"]')) {
+                    continue;
+                }
+
+                const host = findRadioRowHost(input);
+
+                if (!host || seen.has(host) || !looksLikeResumeOptionText(host.textContent)) {
+                    continue;
+                }
+
+                seen.add(host);
+                raw.push({ host, input, kind: 'sdui' });
+            }
+        }
+
+        const visible = raw.filter((entry) => !isHiddenResumeNode(entry.host));
+        const withParts = visible.map((entry) => {
+            const text = normalize(entry.host.textContent);
+
+            return {
+                ...entry,
+                text,
+                uploadedParts: readResumeOptionDateParts(text, 'uploaded'),
+                lastUsedParts: readResumeOptionDateParts(text, 'last used'),
+            };
+        });
+        const dayFirst = inferResumeDayFirst(
+            modal,
+            withParts.flatMap((entry) => [entry.uploadedParts, entry.lastUsedParts]),
+        );
+
+        return withParts.map((entry, index) => {
+            const fileName = readResumeOptionFileName(entry.host);
+            const option = {
+                host: entry.host,
+                input: entry.input instanceof HTMLInputElement ? entry.input : null,
+                kind: entry.kind,
+                index,
+                fileName,
+                label: fileName || readResumeCardLabel(entry.host),
+                uploadedAt: resumeDatePartsToTime(entry.uploadedParts, dayFirst),
+                lastUsedAt: resumeDatePartsToTime(entry.lastUsedParts, dayFirst),
+            };
+
+            option.selected = isResumeOptionSelected(option);
+
+            return option;
+        });
+    }
+
+    /** Compare CV file names ignoring case, extensions, "(1)" copies and punctuation. */
+    function resumeNameKey(name) {
+        return String(name || '')
+            .toLowerCase()
+            .replace(/\.(?:pdf|docx?|rtf|odt|pages|txt)\b/g, '')
+            .replace(/\(\d+\)/g, '')
+            .replace(/[^a-z0-9]+/g, '');
+    }
+
+    function pickNewestResumeOption(options, dateKey) {
+        const dated = options.filter((option) => Number.isFinite(option[dateKey]));
+
+        if (dated.length === 0) {
+            return null;
+        }
+
+        return [...dated].sort((a, b) => {
+            if (b[dateKey] !== a[dateKey]) {
+                return b[dateKey] - a[dateKey];
+            }
+
+            if (a.selected !== b.selected) {
+                return a.selected ? -1 : 1;
+            }
+
+            return a.index - b.index;
+        })[0];
+    }
+
+    /**
+     * Which LinkedIn resume to use: the user's default AutoCVApply CV (matched by
+     * file name), else the most recently uploaded card, else the most recently
+     * used card, else whatever LinkedIn already selected, else the first listed.
+     * "Uploaded on" wins over "Last used on": an older CV can carry a newer
+     * last-used date precisely because it was picked by mistake before.
+     *
+     * @returns {{ option: object, reason: string } | null}
+     */
+    function chooseResumeOption(options, { preferredResumeNames = [] } = {}) {
+        if (!Array.isArray(options) || options.length === 0) {
+            return null;
+        }
+
+        const preferredKeys = preferredResumeNames
+            .map((name) => resumeNameKey(name))
+            .filter((key) => key.length >= 3);
+
+        if (preferredKeys.length > 0) {
+            const matches = options.filter((option) => {
+                const key = resumeNameKey(option.fileName || option.label);
+
+                return key && preferredKeys.includes(key);
+            });
+
+            if (matches.length > 0) {
+                const option = pickNewestResumeOption(matches, 'uploadedAt')
+                    || matches.find((entry) => entry.selected)
+                    || matches[0];
+
+                return { option, reason: 'default-cv' };
+            }
+        }
+
+        const newestUploaded = pickNewestResumeOption(options, 'uploadedAt');
+
+        if (newestUploaded) {
+            return { option: newestUploaded, reason: 'most-recent-upload' };
+        }
+
+        const newestUsed = pickNewestResumeOption(options, 'lastUsedAt');
+
+        if (newestUsed) {
+            return { option: newestUsed, reason: 'most-recent-used' };
+        }
+
+        const selected = options.find((option) => option.selected);
+
+        if (selected) {
+            return { option: selected, reason: 'already-selected' };
+        }
+
+        return { option: options[0], reason: 'first-listed' };
+    }
+
+    function findLinkedInResumeFileInput(modal) {
+        if (!modal) {
+            return null;
+        }
+
+        const legacy = modal.querySelector('input[type="file"][id*="upload-resume" i]:not([disabled])')
+            || modal.querySelector('.js-jobs-document-upload__container input[type="file"]:not([disabled])')
+            || modal.querySelector('input[type="file"][name="file"]:not([disabled])');
+
+        if (legacy) {
+            return legacy;
+        }
+
+        // SDUI: a bare file input next to an "Upload resume" control. Skip cover
+        // letter uploads.
+        for (const input of modal.querySelectorAll('input[type="file"]:not([disabled])')) {
+            const attrs = `${input.id || ''} ${input.name || ''} ${input.getAttribute('aria-label') || ''}`;
+            let context = '';
+            let node = input.parentElement;
+
+            for (let depth = 0; node && depth < 4 && !context; depth += 1) {
+                const text = normalize(node.textContent);
+
+                if (text) {
+                    context = text.slice(0, 200);
+                }
+
+                node = node.parentElement;
+            }
+
+            const haystack = `${attrs} ${context}`;
+
+            if (/cover[\s_-]*letter/i.test(haystack) && !/\bresume\b|\bcv\b/i.test(attrs)) {
+                continue;
+            }
+
+            if (/\bresume\b|\bcv\b|r[eé]sum[eé]/i.test(haystack)) {
+                return input;
+            }
+        }
+
+        return null;
+    }
+
     function isResumeStep(modal) {
         if (!modal) {
             return false;
         }
 
-        const sectionHeading = modal.querySelector(
-            '.jobs-easy-apply-form-section__title, form h3.t-bold, form h3, .ph5 h3.t-bold, .ph5 h3',
-        );
-        const heading = normalize(sectionHeading?.textContent || modal.querySelector('h3')?.textContent || '');
+        const heading = readLegacyResumeHeading(modal);
 
         if (/^resume$/i.test(heading) || /\bresume\b/i.test(heading)) {
             return true;
         }
 
-        return Boolean(
+        if (
             modal.querySelector('.jobs-document-upload-redesign-card__container')
             || modal.querySelector('input[type="file"][id*="upload-resume" i]')
-            || modal.querySelector('.jobs-document-upload__upload-button'),
-        );
+            || modal.querySelector('.jobs-document-upload__upload-button')
+        ) {
+            return true;
+        }
+
+        // SDUI has no h3 / legacy classes: the step is a resume step when it lists
+        // CV cards or offers a resume upload input.
+        return listResumeOptions(modal).length > 0 || Boolean(findLinkedInResumeFileInput(modal));
     }
 
     function hasSelectedResume(modal) {
@@ -491,7 +920,11 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
             '.jobs-document-upload-redesign-card__container input[type="radio"]:checked',
         );
 
-        return Boolean(checkedRadio);
+        if (checkedRadio) {
+            return true;
+        }
+
+        return listResumeOptions(modal).some((option) => option.selected);
     }
 
     function readResumeCardLabel(card) {
@@ -522,7 +955,8 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
     }
 
     function scoreResumeCard(card, preferredNames = []) {
-        const label = readResumeCardLabel(card);
+        const label = readResumeCardLabel(card).toLowerCase();
+        const labelKey = resumeNameKey(readResumeOptionFileName(card) || label);
         let score = 0;
 
         for (const rawName of preferredNames) {
@@ -534,7 +968,11 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
 
             const baseName = fileName.replace(/\.[^.]+$/, '');
 
-            if (label.includes(fileName) || (baseName && label.includes(baseName))) {
+            if (
+                (labelKey && labelKey === resumeNameKey(fileName))
+                || label.includes(fileName)
+                || (baseName && label.includes(baseName))
+            ) {
                 score += 20;
             }
         }
@@ -559,12 +997,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
     }
 
     function listResumeCards(modal) {
-        return [...modal.querySelectorAll('.jobs-document-upload-redesign-card__container')];
-    }
-
-    function listUnselectedResumeCards(modal) {
-        return listResumeCards(modal)
-            .filter((card) => !card.classList.contains('jobs-document-upload-redesign-card__container--selected'));
+        return listResumeOptions(modal).map((option) => option.host);
     }
 
     /**
@@ -587,7 +1020,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
                     node.getAttribute('aria-label') || node.textContent || '',
                 );
 
-                return /show\s+\d+\s+more\s+resumes?/i.test(label);
+                return /show\s+(?:\d+\s+)?more\s+(?:resumes?|documents?|files?)/i.test(label);
             });
 
             if (!(button instanceof HTMLElement) || button.disabled) {
@@ -602,43 +1035,26 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         return expanded;
     }
 
+    /**
+     * The card to click for the user's default / newest CV, or null when that card
+     * is already selected (or there are no cards).
+     */
     function findResumeCardToSelect(modal, options = {}) {
         if (!modal) {
             return null;
         }
 
-        const preferredNames = Array.isArray(options.preferredResumeNames)
-            ? options.preferredResumeNames
-            : [];
+        const choice = chooseResumeOption(listResumeOptions(modal), {
+            preferredResumeNames: Array.isArray(options.preferredResumeNames)
+                ? options.preferredResumeNames
+                : [],
+        });
 
-        const selected = modal.querySelector(
-            '.jobs-document-upload-redesign-card__container--selected',
-        );
-
-        if (selected instanceof HTMLElement) {
-            const selectedScore = scoreResumeCard(selected, preferredNames);
-            const better = listUnselectedResumeCards(modal)
-                .map((card) => ({ card, score: scoreResumeCard(card, preferredNames) }))
-                .sort((a, b) => b.score - a.score)[0];
-
-            if (better && better.score >= selectedScore + 8) {
-                return better.card;
-            }
-
+        if (!choice || choice.option.selected) {
             return null;
         }
 
-        const cards = listUnselectedResumeCards(modal);
-
-        if (cards.length === 0) {
-            return null;
-        }
-
-        cards.sort(
-            (a, b) => scoreResumeCard(b, preferredNames) - scoreResumeCard(a, preferredNames),
-        );
-
-        return cards[0] || null;
+        return choice.option.host;
     }
 
     function clickResumeCard(card) {
@@ -665,14 +1081,40 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         return true;
     }
 
-    function findLinkedInResumeFileInput(modal) {
-        if (!modal) {
-            return null;
+    /**
+     * SDUI cards are React-controlled radios: a real click on the input lets React
+     * see the change (assigning .checked first would make React ignore it).
+     */
+    function clickResumeOption(option) {
+        if (!option) {
+            return false;
         }
 
-        return modal.querySelector('input[type="file"][id*="upload-resume" i]:not([disabled])')
-            || modal.querySelector('.js-jobs-document-upload__container input[type="file"]:not([disabled])')
-            || modal.querySelector('input[type="file"][name="file"]:not([disabled])');
+        if (option.kind === 'ember') {
+            return clickResumeCard(option.host);
+        }
+
+        if (option.input) {
+            option.input.click();
+
+            if (option.input.checked) {
+                return true;
+            }
+        }
+
+        const label = option.host.querySelector('label[for]');
+
+        if (label instanceof HTMLElement) {
+            label.click();
+
+            if (option.input?.checked) {
+                return true;
+            }
+        }
+
+        option.host.click();
+
+        return true;
     }
 
     async function attachCvToFileInput(fileInput, getCvDocument) {
@@ -733,25 +1175,54 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
                     preferredResumeNames = [String(preview.fileName)];
                 }
             } catch {
-                // Ranking still works with AutoCVApply / PDF heuristics.
+                // Falls back to the most recently uploaded card.
             }
         }
 
         await expandCollapsedResumeCards(modal);
 
-        const card = findResumeCardToSelect(modal, { preferredResumeNames });
+        const choice = chooseResumeOption(listResumeOptions(modal), { preferredResumeNames });
 
-        if (card) {
-            clickResumeCard(card);
+        if (choice) {
+            const selectedLabel = choice.option.fileName || choice.option.label;
+
+            if (choice.option.selected) {
+                return {
+                    filled: 0,
+                    success: true,
+                    skipped: false,
+                    resumeSelected: true,
+                    method: 'already-selected',
+                    reason: choice.reason,
+                    selectedLabel,
+                };
+            }
+
+            clickResumeOption(choice.option);
             await sleep(350);
 
-            if (hasSelectedResume(modal)) {
+            const fresh = listResumeOptions(modal).find((entry) => entry.host === choice.option.host);
+
+            if (fresh?.selected || isResumeOptionSelected(choice.option)) {
                 return {
                     filled: 1,
                     success: true,
                     resumeSelected: true,
                     method: 'select-card',
-                    selectedLabel: readResumeCardLabel(card),
+                    reason: choice.reason,
+                    selectedLabel,
+                };
+            }
+
+            if (hasSelectedResume(modal)) {
+                return {
+                    filled: 0,
+                    success: true,
+                    resumeSelected: true,
+                    method: 'select-card-unverified',
+                    reason: choice.reason,
+                    selectedLabel,
+                    errors: [`Could not confirm LinkedIn selected resume "${selectedLabel}".`],
                 };
             }
         }
@@ -887,6 +1358,9 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         findResumeCardToSelect,
         hasSelectedResume,
         listResumeCards,
+        listResumeOptions,
+        chooseResumeOption,
+        resumeNameKey,
         readResumeCardLabel,
         scoreResumeCard,
         isContactInfoStep,

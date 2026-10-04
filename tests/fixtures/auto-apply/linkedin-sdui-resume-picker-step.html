@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Easy Apply resume step (LinkedIn SDUI)</title>
+<!--
+  LinkedIn 2026 React SDUI Easy Apply resume picker, reconstructed for 2.25.369.
+  No live DOM capture of this step exists (the run's DOM export only covered
+  the MBN radio step), so this mirrors the real SDUI conventions captured in
+  linkedin-sdui-react-radio-step-mbn.html (dialog[data-testid=dialog],
+  [data-sdui-screen], <p> step title, <fieldset role="radiogroup"> of
+  <div role="radio"> wrapping <input type="radio" name="radio-group-_r_NN_">
+  and an EMPTY <label for>) plus what the 2.25.368 Jobgether / Gazelle Global /
+  Uniting Ambition debug logs show for this step: one radio group whose label
+  resolved to "pdf" (the first <p> inside the group is the PDF badge), CV file
+  names as option text, no pre-selected card, and no Ember
+  .jobs-document-upload-redesign-card markup. 2.25.368 sent it to NanoGPT as
+  question "pdf", which answered "TobyClaxtonCV03_2026.pdf" (an older CV) and
+  applyAnswerByLabel ticked that card. File names/dates are illustrative.
+-->
+</head>
+<body>
+<dialog data-testid="dialog" aria-labelledby="dialog-header" open="">
+<button type="button" aria-label="Dismiss"><span></span></button>
+<div>
+<header id="dialog-header">
+<h2>Apply to Jobgether</h2>
+</header>
+<div data-testid="dialog-content">
+<div data-sdui-screen="com.linkedin.sdui.flagshipnav.jobs.easyapply.EasyApply">
+<div data-display-contents="true">
+<div componentkey="5d1f0c7e-3b8a-4b8e-9a43-8f3c0e1d2a11">
+<div>
+<div>
+<div>
+<div id="7c2b9e44-1f0a-4c55-8d0e-6a9f1b2c3d4e">50 percent complete</div>
+<div aria-labelledby="7c2b9e44-1f0a-4c55-8d0e-6a9f1b2c3d4e">
+<svg aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" role="progressbar"></svg>
+</div>
+<p>2/4 pages</p>
+</div>
+<div>
+<div>
+<div data-testid="lazy-column" data-component-type="LazyColumn">
+<div>
+<p>Resume</p>
+<p>Be sure to include an updated resume*</p>
+<div componentkey="easyApplyFieldFocus_ea_validation_p1_0_22119451000">
+<fieldset aria-describedby="error-message-_r_1b_" role="radiogroup">
+<div>
+<div role="radio" tabindex="0" aria-checked="false">
+<div>
+<div>
+<input id="_r_1c_" type="radio" name="radio-group-_r_1b_">
+<label for="_r_1c_"></label>
+</div>
+<div>
+<div>
+<p>PDF</p>
+</div>
+<div>
+<p>TobyClaxtonCV03_2026.pdf</p>
+<p>Uploaded on 3/14/2026</p>
+</div>
+</div>
+</div>
+</div>
+<div role="radio" tabindex="0" aria-checked="false">
+<div>
+<div>
+<input id="_r_1d_" type="radio" name="radio-group-_r_1b_">
+<label for="_r_1d_"></label>
+</div>
+<div>
+<div>
+<p>PDF</p>
+</div>
+<div>
+<p>TobyClaxtonCV10_2026.pdf</p>
+<p>Uploaded on 10/3/2026</p>
+</div>
+</div>
+</div>
+</div>
+<div role="radio" tabindex="0" aria-checked="false">
+<div>
+<div>
+<input id="_r_1e_" type="radio" name="radio-group-_r_1b_">
+<label for="_r_1e_"></label>
+</div>
+<div>
+<div>
+<p>PDF</p>
+</div>
+<div>
+<p>Toby_Claxton_Resume_2025.pdf</p>
+<p>Uploaded on 11/20/2025</p>
+</div>
+</div>
+</div>
+</div>
+<div role="radio" tabindex="0" aria-checked="false">
+<div>
+<div>
+<input id="_r_1f_" type="radio" name="radio-group-_r_1b_">
+<label for="_r_1f_"></label>
+</div>
+<div>
+<div>
+<p>DOC</p>
+</div>
+<div>
+<p>TobyClaxtonCV04_2026.docx</p>
+<p>Uploaded on 4/2/2026</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</fieldset>
+</div>
+<div>
+<button type="button" aria-label="Upload resume">
+<span>Upload resume</span>
+</button>
+<input type="file" accept=".pdf,.doc,.docx" aria-label="Upload resume" style="display: none;">
+<p>DOC, DOCX, PDF (2 MB)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<button type="button" aria-label="Back to previous step"><span>Back</span></button>
+<button type="button" aria-label="Continue to next step" data-easy-apply-next-button=""><span>Next</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</dialog>
+</body>
+</html>

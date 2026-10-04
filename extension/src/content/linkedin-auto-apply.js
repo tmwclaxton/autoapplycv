@@ -1842,9 +1842,37 @@ var AutoCVApplyLinkedInAutoApply = (() => {
             return { filled: 0, success: false, skipped: true, errors: [] };
         }
 
-        return AutoCVApplyLinkedInEasyApplyFields.fillResumeStep(modal, {
-            getCvDocument: fetchCvDocumentForUpload,
-        });
+        const result = await AutoCVApplyLinkedInEasyApplyFields.fillResumeStep(
+            modal,
+            {
+                getCvDocument: fetchCvDocumentForUpload,
+            },
+        );
+
+        if (
+            !result?.skipped &&
+            typeof AutoCVApplyDebugLog !== 'undefined' &&
+            typeof AutoCVApplyDebugLog.logInfo === 'function'
+        ) {
+            AutoCVApplyDebugLog.logInfo(
+                'content',
+                'fill.resume',
+                'LinkedIn resume picker',
+                {
+                    method: result?.method || null,
+                    reason: result?.reason || null,
+                    selectedLabel: String(result?.selectedLabel || '').slice(
+                        0,
+                        80,
+                    ),
+                    resumeSelected: result?.resumeSelected === true,
+                    filled: Number(result?.filled || 0),
+                    errors: result?.errors || [],
+                },
+            );
+        }
+
+        return result;
     }
 
     async function prefillEasyApplyStep(profileData) {

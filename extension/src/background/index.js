@@ -54,6 +54,7 @@ import {
     buildCoverLetterPdfBytes,
     buildCoverLetterPdfFileName,
 } from './cover-letter-pdf.js';
+import { pickDefaultCvDocument } from './cv-document-choice.js';
 import {
     clearLogs,
     exportLogsForTest,
@@ -4933,10 +4934,7 @@ async function getCvDocument() {
     }
 
     const profileData = await getProfile();
-    const documents = profileData.documents || [];
-    const cvDocument =
-        documents.find((document) => document.category === 'cv') ||
-        documents[0];
+    const cvDocument = pickDefaultCvDocument(profileData.documents || []);
 
     if (!cvDocument?.id) {
         throw new Error('No CV document found on your profile');
@@ -4947,6 +4945,7 @@ async function getCvDocument() {
         base64: `data:${payload.mimeType};base64,${payload.base64}`,
         fileName: payload.fileName,
         mimeType: payload.mimeType,
+        documentId: cvDocument.id,
     };
     cachedCvDocumentAt = now;
 

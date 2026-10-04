@@ -8880,12 +8880,66 @@ var AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
+            if (isLinkedInResumePickerRoleGroup(group, radios, label)) {
+                // Never a question: the CV is chosen by the LinkedIn resume step
+                // (default AutoCVApply CV, else newest upload), not by the AI.
+                radios.forEach((radio) => seenRadios.add(radio));
+
+                if (!loggedResumePickerGroups.has(group)) {
+                    loggedResumePickerGroups.add(group);
+                    heuristicsLog(
+                        'debug',
+                        'inventory.radio',
+                        'Skipping LinkedIn resume picker role=radio group',
+                        {
+                            label: String(label || '').slice(0, 40),
+                            optionCount: radios.length,
+                        },
+                    );
+                }
+
+                continue;
+            }
+
             seen.add(key);
             radios.forEach((radio) => seenRadios.add(radio));
             groups.push({ group, radios, label });
         }
 
         return groups;
+    }
+
+    const loggedResumePickerGroups = new WeakSet();
+
+    /**
+     * LinkedIn SDUI resume picker: <fieldset role="radiogroup"> of
+     * <div role="radio"> CV cards ("PDF <file>.pdf Uploaded on M/D/YYYY").
+     * 2.25.368 skipped it only on the native-input path; this role=radio path
+     * still emitted it as question "pdf" (the first <p> is the PDF badge), so
+     * NanoGPT picked a CV file name and applyAnswerByLabel ticked an older CV.
+     */
+    function isLinkedInResumePickerRoleGroup(group, radios, label = '') {
+        if (!isLinkedInApplySurfaceElement(group)) {
+            return false;
+        }
+
+        if (/^(?:pdf|docx?|rtf|odt|txt|resume|cv)$/i.test(normalize(label))) {
+            return true;
+        }
+
+        if (
+            group.closest?.(
+                '[class*="document-upload"], [class*="resume-picker"], [class*="jobs-resume"], [data-testid*="resume" i], [data-testid*="document" i], [componentkey*="resume" i], [componentkey*="document" i]',
+            )
+        ) {
+            return true;
+        }
+
+        return radios.some((radio) =>
+            FILE_NAME_OPTION_PATTERN.test(
+                `${String(radio.textContent || '').replace(/\s+/g, ' ')} ${radio.getAttribute?.('aria-label') || ''}`,
+            ),
+        );
     }
 
     function isRoleGroupAnswered(radios) {
@@ -15810,6 +15864,12 @@ var AutoCVApplyFormHeuristics = (() => {
                     !labelsMatch(groupLabel, normalizedTarget) &&
                     !labelsMatch(getQuestionLabel(element), normalizedTarget)
                 ) {
+                    continue;
+                }
+
+                // The LinkedIn resume step picks the CV itself; a stale AI
+                // answer must never tick a CV card by label.
+                if (isLinkedInResumePickerChoice(element, groupLabel)) {
                     continue;
                 }
 

@@ -902,8 +902,49 @@
         return fileInput;
     }
 
+    /**
+     * LinkedIn Easy Apply resume step: pick the user's default AutoCVApply CV
+     * (or the newest uploaded card) on LinkedIn's own resume picker. Returns
+     * null when this is not a LinkedIn resume step.
+     */
+    async function fillLinkedInResumePicker() {
+        if (
+            typeof AutoCVApplyLinkedInAutoApply === 'undefined' ||
+            typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined' ||
+            typeof AutoCVApplyLinkedInAutoApply.readEasyApplyModal !==
+                'function' ||
+            typeof AutoCVApplyLinkedInAutoApply.prefillResumeStep !== 'function'
+        ) {
+            return null;
+        }
+
+        const modal = AutoCVApplyLinkedInAutoApply.readEasyApplyModal();
+
+        if (
+            !modal ||
+            !AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)
+        ) {
+            return null;
+        }
+
+        // prefillResumeStep logs the chosen card (fill.resume).
+        return AutoCVApplyLinkedInAutoApply.prefillResumeStep(null);
+    }
+
     async function fillResumeFileInput() {
         contentLog('debug', 'fill.resume', 'Attempting resume file attach', {});
+
+        try {
+            const linkedIn = await fillLinkedInResumePicker();
+
+            if (linkedIn) {
+                return linkedIn.resumeSelected === true;
+            }
+        } catch (error) {
+            contentLog('warn', 'fill.resume', 'LinkedIn resume picker failed', {
+                error: error instanceof Error ? error.message : error,
+            });
+        }
 
         return attachDocumentToFileInput(
             findResumeFileInput(),
