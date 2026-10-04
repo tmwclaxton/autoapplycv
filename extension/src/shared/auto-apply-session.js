@@ -299,5 +299,91 @@ export function buildStoppedSessionState(current, { clearLog = true } = {}) {
         pauseContext: null,
         lastError: null,
         log: clearLog ? [] : (current.log || []),
+        // A stopped run must not leave a pending job behind: a later Resume or
+        // rehydrate replayed the old LinkedIn queue (SR2) during a Totaljobs run.
+        queue: [],
+        currentIndex: 0,
     };
+}
+
+/**
+ * Drop resume state that belongs to a different job board before a paused run
+ * is rehydrated: queue entries or a pause job whose URL is foreign to
+ * `platformId`, and a tab that is no longer on that board.
+ *
+ * @param {AutoApplySession} session
+ * @param {{ platformId: string, urlBelongsToPlatform: (url: string, platformId: string) => boolean, tabUrl?: string|null }} options
+ * @returns {{ session: AutoApplySession, reasons: string[] }}
+ */
+export function sanitizeResumeSessionForPlatform(session, options) {
+    const { platformId, urlBelongsToPlatform } = options || {};
+    const reasons = [];
+
+    if (!session || !platformId || typeof urlBelongsToPlatform !== 'function') {
+        return { session, reasons };
+    }
+
+    const isForeignEntry = (entry) => {
+        if (!entry || typeof entry !== 'object') {
+            return false;
+        }
+
+        if (entry.platform && entry.platform !== platformId) {
+            return true;
+        }
+
+        const url = entry.url || entry.jobUrl || entry.link || null;
+
+        return Boolean(url) && !urlBelongsToPlatform(String(url), platformId);
+    };
+
+    let next = session;
+
+    if (session.platform && session.platform !== platformId) {
+        reasons.push('foreign_platform');
+        next = { ...next, queue: [], currentIndex: 0, pauseContext: null, tabId: null };
+
+        return { session: next, reasons };
+    }
+
+    if (Array.isArray(next.queue) && next.queue.some(isForeignEntry)) {
+        reasons.push('foreign_queue');
+        next = { ...next, queue: [], currentIndex: 0 };
+    }
+
+    if (next.pauseContext?.job && isForeignEntry(next.pauseContext.job)) {
+        reasons.push('foreign_pause_job');
+        next = { ...next, pauseContext: null };
+    }
+
+    if (
+        next.tabId
+        && typeof options.tabUrl === 'string'
+        && options.tabUrl
+        && !urlBelongsToPlatform(options.tabUrl, platformId)
+    ) {
+        reasons.push('foreign_tab');
+        next = { ...next, tabId: null };
+    }
+
+    return { session: next, reasons };
+}
+
+/**
+ * True when `owner` (the session a loop or wait started with) still owns the
+ * stored session. A missing stored session is not owned.
+ *
+ * @param {Pick<AutoApplySession, 'runId'|'platform'>|null|undefined} owner
+ * @param {Pick<AutoApplySession, 'runId'|'platform'>|null|undefined} latest
+ */
+export function autoApplyRunOwnsLatest(owner, latest) {
+    if (!latest) {
+        return false;
+    }
+
+    if (!owner) {
+        return true;
+    }
+
+    return isSameAutoApplyRun(owner, latest);
 }

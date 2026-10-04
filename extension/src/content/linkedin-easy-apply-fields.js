@@ -473,6 +473,33 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         return normalize(sectionHeading?.textContent || modal.querySelector('h3')?.textContent || '');
     }
 
+    /**
+     * Text of a node with its text nodes joined by spaces. React/SDUI markup has
+     * no whitespace between <p> tags, so textContent glues "x.pdf" onto
+     * "Uploaded on ..." ("x.pdfUploaded"), which defeats the \b patterns.
+     */
+    function spacedText(node) {
+        if (!node) {
+            return '';
+        }
+
+        const doc = node.ownerDocument || document;
+        const view = doc.defaultView || window;
+
+        if (typeof doc.createTreeWalker !== 'function' || !view.NodeFilter) {
+            return normalize(node.textContent);
+        }
+
+        const walker = doc.createTreeWalker(node, view.NodeFilter.SHOW_TEXT);
+        const parts = [];
+
+        for (let current = walker.nextNode(); current; current = walker.nextNode()) {
+            parts.push(current.nodeValue || '');
+        }
+
+        return normalize(parts.join(' '));
+    }
+
     function looksLikeResumeOptionText(text) {
         const value = normalize(text);
 
@@ -500,7 +527,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
 
             best = node;
 
-            if (looksLikeResumeOptionText(node.textContent)) {
+            if (looksLikeResumeOptionText(spacedText(node))) {
                 return node;
             }
 
@@ -542,7 +569,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
             }
         }
 
-        const flat = normalize(host.textContent).replace(/^(?:pdf|docx?|rtf|odt|pages|txt)\s+/i, '');
+        const flat = spacedText(host).replace(/^(?:pdf|docx?|rtf|odt|pages|txt)\s+/i, '');
         const match = flat.match(/^(.*?\.(?:pdf|docx?|rtf|odt|pages|txt))(?:\s*\(\d+\))?\b/i);
 
         return match ? normalize(match[1]) : '';
@@ -696,7 +723,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
             const seen = new Set();
 
             for (const host of modal.querySelectorAll('[role="radio"]')) {
-                if (!looksLikeResumeOptionText(host.textContent) || seen.has(host)) {
+                if (!looksLikeResumeOptionText(spacedText(host)) || seen.has(host)) {
                     continue;
                 }
 
@@ -711,7 +738,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
 
                 const host = findRadioRowHost(input);
 
-                if (!host || seen.has(host) || !looksLikeResumeOptionText(host.textContent)) {
+                if (!host || seen.has(host) || !looksLikeResumeOptionText(spacedText(host))) {
                     continue;
                 }
 
@@ -722,7 +749,7 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
 
         const visible = raw.filter((entry) => !isHiddenResumeNode(entry.host));
         const withParts = visible.map((entry) => {
-            const text = normalize(entry.host.textContent);
+            const text = spacedText(entry.host);
 
             return {
                 ...entry,
@@ -1157,6 +1184,97 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
         return true;
     }
 
+    const DEFAULT_CV_UPLOAD_FAILED_KEY = 'autocvapply.linkedinDefaultCvUploadFailed';
+
+    function readFailedDefaultCvUploads() {
+        try {
+            const raw = window.sessionStorage?.getItem(DEFAULT_CV_UPLOAD_FAILED_KEY);
+            const parsed = raw ? JSON.parse(raw) : [];
+
+            return Array.isArray(parsed) ? parsed : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function rememberFailedDefaultCvUpload(key) {
+        try {
+            const keys = new Set(readFailedDefaultCvUploads());
+            keys.add(key);
+            window.sessionStorage?.setItem(DEFAULT_CV_UPLOAD_FAILED_KEY, JSON.stringify([...keys]));
+        } catch {
+            // Session storage unavailable: retry next time.
+        }
+    }
+
+    /**
+     * Upload the user's default AutoCVApply CV into LinkedIn's resume picker and
+     * wait for LinkedIn to list (and select) the new card. Returns a fill result
+     * on success, else null so the caller falls back to the saved cards.
+     */
+    async function uploadDefaultCvToResumePicker(modal, { getCvDocument, preferredResumeNames, timeoutMs = 12000 }) {
+        const preferredKeys = preferredResumeNames.map((name) => resumeNameKey(name)).filter((key) => key.length >= 3);
+        const failureKey = preferredKeys[0] || '';
+        const fileInput = findLinkedInResumeFileInput(modal);
+
+        if (!fileInput || !failureKey || readFailedDefaultCvUploads().includes(failureKey)) {
+            return null;
+        }
+
+        const findDefaultCard = () => listResumeOptions(modal).find((option) => {
+            const key = resumeNameKey(option.fileName || option.label);
+
+            return key && preferredKeys.includes(key);
+        });
+
+        let attached = false;
+
+        try {
+            attached = await attachCvToFileInput(fileInput, getCvDocument);
+        } catch {
+            attached = false;
+        }
+
+        if (!attached) {
+            rememberFailedDefaultCvUpload(failureKey);
+
+            return null;
+        }
+
+        const deadline = Date.now() + Math.max(0, timeoutMs);
+        let card = findDefaultCard();
+
+        while (!card && Date.now() < deadline) {
+            await sleep(250);
+            card = findDefaultCard();
+        }
+
+        if (!card) {
+            rememberFailedDefaultCvUpload(failureKey);
+
+            return null;
+        }
+
+        const selectedLabel = card.fileName || card.label;
+
+        if (!card.selected) {
+            clickResumeOption(card);
+            await sleep(350);
+        }
+
+        const fresh = listResumeOptions(modal).find((entry) => entry.host === card.host) || card;
+
+        return {
+            filled: 1,
+            success: true,
+            skipped: false,
+            resumeSelected: fresh.selected || isResumeOptionSelected(card) || hasSelectedResume(modal),
+            method: 'upload-default-cv',
+            reason: 'default-cv',
+            selectedLabel,
+        };
+    }
+
     async function fillResumeStep(modal, options = {}) {
         if (!modal || !isResumeStep(modal)) {
             return { filled: 0, success: true, skipped: true, resumeSelected: false };
@@ -1167,21 +1285,52 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
             ? options.preferredResumeNames.filter(Boolean)
             : [];
 
-        if (preferredResumeNames.length === 0 && typeof options.getCvDocument === 'function') {
-            try {
-                const preview = await options.getCvDocument();
-
-                if (preview?.fileName) {
-                    preferredResumeNames = [String(preview.fileName)];
+        // Fetch the default CV once; reused for the name match and any upload.
+        let cvDocumentPromise = null;
+        const getCvDocument = typeof options.getCvDocument === 'function'
+            ? () => {
+                if (!cvDocumentPromise) {
+                    cvDocumentPromise = Promise.resolve()
+                        .then(() => options.getCvDocument())
+                        .catch(() => null);
                 }
-            } catch {
-                // Falls back to the most recently uploaded card.
+
+                return cvDocumentPromise;
+            }
+            : null;
+
+        if (preferredResumeNames.length === 0 && getCvDocument) {
+            const preview = await getCvDocument();
+
+            if (preview?.fileName) {
+                preferredResumeNames = [String(preview.fileName)];
             }
         }
 
         await expandCollapsedResumeCards(modal);
 
-        const choice = chooseResumeOption(listResumeOptions(modal), { preferredResumeNames });
+        let choice = chooseResumeOption(listResumeOptions(modal), { preferredResumeNames });
+
+        // The default CV is known but not on LinkedIn's picker: upload it rather
+        // than falling back to another (possibly years-old) saved card.
+        if (
+            choice
+            && choice.reason !== 'default-cv'
+            && preferredResumeNames.length > 0
+            && getCvDocument
+        ) {
+            const uploaded = await uploadDefaultCvToResumePicker(modal, {
+                getCvDocument,
+                preferredResumeNames,
+                timeoutMs: Number.isFinite(options.uploadTimeoutMs) ? options.uploadTimeoutMs : 12000,
+            });
+
+            if (uploaded) {
+                return uploaded;
+            }
+
+            choice = chooseResumeOption(listResumeOptions(modal), { preferredResumeNames });
+        }
 
         if (choice) {
             const selectedLabel = choice.option.fileName || choice.option.label;
@@ -1233,8 +1382,8 @@ var AutoCVApplyLinkedInEasyApplyFields = (() => {
 
         const fileInput = findLinkedInResumeFileInput(modal);
 
-        if (fileInput && typeof options.getCvDocument === 'function') {
-            const attached = await attachCvToFileInput(fileInput, options.getCvDocument);
+        if (fileInput && getCvDocument) {
+            const attached = await attachCvToFileInput(fileInput, getCvDocument);
             await sleep(300);
 
             return {

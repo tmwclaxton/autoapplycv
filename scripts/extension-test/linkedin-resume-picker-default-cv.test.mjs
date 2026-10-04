@@ -181,10 +181,119 @@ test('SDUI: default CV not on LinkedIn falls back to the most recently uploaded 
     const fields = window.AutoCVApplyLinkedInEasyApplyFields;
     const result = await fields.fillResumeStep(sduiModal(window), {
         getCvDocument: cvDocument('Completely_Different_Name.pdf'),
+        uploadTimeoutMs: 50,
     });
 
     assert.equal(result.reason, 'most-recent-upload', JSON.stringify(result));
     assert.match(checkedFileName(window), /TobyClaxtonCV10_2026\.pdf/);
+});
+
+/**
+ * Let jsdom accept a programmatic file upload (no DataTransfer / fetch there).
+ */
+function enableFileUploads(window) {
+    window.fetch = async () => ({ blob: async () => new window.Blob(['%PDF-1.4']) });
+    window.DataTransfer = class {
+        constructor() {
+            this.list = [];
+            this.items = { add: (file) => this.list.push(file) };
+        }
+
+        get files() {
+            return this.list;
+        }
+    };
+    Object.defineProperty(window.HTMLInputElement.prototype, 'files', {
+        configurable: true,
+        get() {
+            return this.uploadedFiles || [];
+        },
+        set(value) {
+            this.uploadedFiles = value;
+        },
+    });
+}
+
+function addUploadedCard(window, fileName) {
+    const group = window.document.querySelector('fieldset[role="radiogroup"] > div');
+
+    for (const input of group.querySelectorAll('input[type="radio"]')) {
+        input.checked = false;
+        input.closest('[role="radio"]').setAttribute('aria-checked', 'false');
+    }
+
+    const card = window.document.createElement('div');
+    card.setAttribute('role', 'radio');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-checked', 'true');
+    card.innerHTML = `<div><div><input id="_r_up_" type="radio" name="radio-group-_r_1b_" checked=""><label for="_r_up_"></label></div><div><div><p>PDF</p></div><div><p>${fileName}</p><p>Uploaded on 10/4/2026</p></div></div></div>`;
+    group.prepend(card);
+}
+
+test('SDUI: default CV missing from the picker is uploaded instead of picking an old card (SR2)', async () => {
+    const { window } = loadWindow(SDUI_FIXTURE);
+    const fields = window.AutoCVApplyLinkedInEasyApplyFields;
+    enableFileUploads(window);
+
+    const fileInput = window.document.querySelector('input[type="file"]');
+    let uploadedName = null;
+    fileInput.addEventListener('change', () => {
+        uploadedName = fileInput.files[0]?.name || null;
+        setTimeout(() => addUploadedCard(window, uploadedName), 60);
+    });
+
+    const result = await fields.fillResumeStep(sduiModal(window), {
+        getCvDocument: cvDocument('CV - Toby Claxton (Oct 2026).pdf'),
+        uploadTimeoutMs: 2000,
+    });
+
+    assert.equal(uploadedName, 'CV - Toby Claxton (Oct 2026).pdf');
+    assert.equal(result.method, 'upload-default-cv', JSON.stringify(result));
+    assert.equal(result.reason, 'default-cv');
+    assert.equal(result.resumeSelected, true);
+    assert.match(checkedFileName(window), /CV - Toby Claxton \(Oct 2026\)\.pdf/);
+});
+
+test('SDUI: React markup without whitespace between tags still lists every CV card', () => {
+    const { window } = loadWindow(SDUI_FIXTURE.replace(/>\s+</g, '><'));
+    const fields = window.AutoCVApplyLinkedInEasyApplyFields;
+    const options = fields.listResumeOptions(sduiModal(window));
+
+    assert.deepEqual(
+        Array.from(options, (option) => String(option.fileName)),
+        ['TobyClaxtonCV03_2026.pdf', 'TobyClaxtonCV10_2026.pdf', 'Toby_Claxton_Resume_2025.pdf', 'TobyClaxtonCV04_2026.docx'],
+    );
+    assert.ok(options.every((option) => Number.isFinite(option.uploadedAt)), 'upload dates parse');
+    assert.equal(fields.chooseResumeOption(options, {}).option.fileName, 'TobyClaxtonCV10_2026.pdf');
+});
+
+test('SDUI: a default-CV upload LinkedIn never lists falls back once and is not retried', async () => {
+    const { window } = loadWindow(SDUI_FIXTURE);
+    const fields = window.AutoCVApplyLinkedInEasyApplyFields;
+    enableFileUploads(window);
+
+    let changes = 0;
+    const fileInput = window.document.querySelector('input[type="file"]');
+    fileInput.addEventListener('change', () => {
+        changes += 1;
+    });
+
+    const first = await fields.fillResumeStep(sduiModal(window), {
+        getCvDocument: cvDocument('Never_Listed_CV.pdf'),
+        uploadTimeoutMs: 100,
+    });
+
+    assert.equal(first.reason, 'most-recent-upload', JSON.stringify(first));
+    assert.match(checkedFileName(window), /TobyClaxtonCV10_2026\.pdf/);
+    assert.equal(changes, 1);
+
+    fileInput.uploadedFiles = [];
+    await fields.fillResumeStep(sduiModal(window), {
+        getCvDocument: cvDocument('Never_Listed_CV.pdf'),
+        uploadTimeoutMs: 100,
+    });
+
+    assert.equal(changes, 1, 'failed upload is remembered for the tab session');
 });
 
 test('SDUI: an older pre-selected CV with a newer "Last used on" is replaced by the newest upload', async () => {

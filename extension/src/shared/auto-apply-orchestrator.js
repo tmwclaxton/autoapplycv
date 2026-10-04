@@ -56,6 +56,7 @@ import { sanitizeAutoApplyRoleDescription } from './auto-apply-role.js';
 import { bindAutoApplyRunOwnership } from './auto-apply-run-ownership.js';
 import {
     appendAutoApplyLog,
+    autoApplyRunOwnsLatest,
     buildStoppedSessionState,
     clearAutoApplySession,
     createInitialSession,
@@ -65,6 +66,7 @@ import {
     loadAutoApplySession,
     pauseAutoApplyForInput,
     resumeAutoApplyFromInput,
+    sanitizeResumeSessionForPlatform,
     saveAutoApplySession,
 } from './auto-apply-session.js';
 import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
@@ -3122,12 +3124,57 @@ async function enrichDraftResultWithGaps(tabId, draftResult, options = {}) {
     };
 }
 
-async function waitForAutoApplyResume() {
-    return waitForAutoApplyResumeWithTimeout(null);
+/**
+ * Owner run id for scoped session writes. Undefined falls back to the module
+ * default (updateSession's default parameter).
+ *
+ * @param {{ runId?: string|null }|null|undefined} session
+ * @returns {string|undefined}
+ */
+function ownerRunIdFor(session) {
+    return session?.runId || undefined;
 }
 
-async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
+/**
+ * Throw a stop error when `owner`'s run no longer owns the stored session
+ * (Stop + new start, platform switch, force reset). A zombie loop that kept
+ * going after force-reset detached it otherwise drove its old LinkedIn job
+ * (SR2) inside the next Totaljobs run.
+ *
+ * @param {{ runId?: string|null, platform?: string|null }|null|undefined} owner
+ * @param {string} [context]
+ */
+async function assertAutoApplyRunOwned(owner, context = 'Auto Apply') {
+    if (!owner?.runId) {
+        return null;
+    }
+
+    const latest = await loadAutoApplySession();
+
+    if (!autoApplyRunOwnsLatest(owner, latest)) {
+        throw createAutoApplyStopError(
+            `${context}: this Auto Apply run was replaced (Stop or platform change) - abandoning its pending job.`,
+        );
+    }
+
+    return latest;
+}
+
+async function waitForAutoApplyResume(owner = null) {
+    return waitForAutoApplyResumeWithTimeout(null, owner);
+}
+
+export async function waitForAutoApplyResumeWithTimeout(
+    timeoutMs = null,
+    owner = null,
+) {
     const deadline = timeoutMs ? Date.now() + timeoutMs : null;
+    // The run this wait belongs to. Without an explicit owner, the run that was
+    // stored when the wait began: a Resume aimed at a newer run (Totaljobs)
+    // must never wake a waiter left over from an older one (LinkedIn SR2).
+    let ownerRun = owner?.runId
+        ? { runId: owner.runId, platform: owner.platform || null }
+        : null;
 
     while (true) {
         const session = await loadAutoApplySession();
@@ -3135,6 +3182,16 @@ async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
         if (!session) {
             throw new Error(
                 'Auto Apply session ended while waiting for your answer.',
+            );
+        }
+
+        if (!ownerRun && session.runId) {
+            ownerRun = { runId: session.runId, platform: session.platform };
+        }
+
+        if (ownerRun && !isSameAutoApplyRun(ownerRun, session)) {
+            throw createAutoApplyStopError(
+                'Auto Apply run was replaced while paused - abandoning the stale paused job.',
             );
         }
 
@@ -3301,6 +3358,7 @@ async function pauseForUserInput(
             ),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     chrome.runtime
@@ -3455,6 +3513,7 @@ async function pauseForCaptchaReview(
             appendAutoApplyLog(current, 'warn', logMessage),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     await startAutoApplyPauseKeepalive();
@@ -3506,6 +3565,7 @@ async function pauseForLoginRequired(
             ),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     await startAutoApplyPauseKeepalive();
@@ -3527,7 +3587,10 @@ async function waitForLoginRequiredResume(
     platformLabel = 'Reed',
 ) {
     await pauseForLoginRequired(session, tabId, job, platformLabel);
-    const loginResume = await waitForAutoApplyResumeWithTimeout(300_000);
+    const loginResume = await waitForAutoApplyResumeWithTimeout(
+        300_000,
+        session,
+    );
 
     if (loginResume.stopRequested) {
         return { stopped: true, session: loginResume };
@@ -3649,6 +3712,7 @@ async function pauseForExternalApply(session, tabId, job) {
             ),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     await startAutoApplyPauseKeepalive();
@@ -3678,7 +3742,7 @@ async function waitForExternalApplyPauseIfNeeded(session, tabId, job) {
     }
 
     await pauseForExternalApply(session, tabId, job);
-    const resumed = await waitForAutoApplyResume();
+    const resumed = await waitForAutoApplyResume(session);
 
     if (resumed.stopRequested) {
         return { stopped: true, session: resumed };
@@ -3896,6 +3960,7 @@ async function pauseForIdentityConfirm(
             ),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     chrome.runtime
@@ -3909,8 +3974,8 @@ async function pauseForIdentityConfirm(
     await startAutoApplyPauseKeepalive();
 }
 
-async function waitForIdentityConfirmResume(_session) {
-    const resumed = await waitForAutoApplyResumeWithTimeout(300_000);
+async function waitForIdentityConfirmResume(session) {
+    const resumed = await waitForAutoApplyResumeWithTimeout(300_000, session);
 
     if (resumed.stopRequested) {
         return { stopped: true, session: resumed };
@@ -3952,7 +4017,7 @@ async function waitForIndeedCaptchaResume(
 
     await pauseForCaptchaReview(session, tabId, job, modalState, options);
     // Wait until Resume or Stop - no timeout so a late Resume still continues.
-    const captchaResume = await waitForAutoApplyResume();
+    const captchaResume = await waitForAutoApplyResume(session);
 
     if (captchaResume.stopRequested) {
         return { stopped: true, session: captchaResume };
@@ -4144,6 +4209,7 @@ async function pauseForReviewBeforeSubmit(session, tabId, job, options = {}) {
             appendAutoApplyLog(current, 'warn', logMessage),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     await startAutoApplyPauseKeepalive();
@@ -4190,7 +4256,7 @@ async function waitForReviewBeforeSubmitIfNeeded(
     }
 
     await pauseForReviewBeforeSubmit(session, tabId, job, options);
-    const resumed = await waitForAutoApplyResume();
+    const resumed = await waitForAutoApplyResume(session);
 
     if (resumed.stopRequested) {
         return { stopped: true, session: resumed };
@@ -4234,6 +4300,7 @@ async function pauseForCoverLetterInput(session, tabId, job) {
             ),
             pauseContext,
         ),
+        ownerRunIdFor(session),
     );
 
     await startAutoApplyPauseKeepalive();
@@ -4287,7 +4354,7 @@ export async function waitForCoverLetterInputIfNeeded(
     }
 
     await pauseForCoverLetterInput(session, tabId, job);
-    const resumed = await waitForAutoApplyResume();
+    const resumed = await waitForAutoApplyResume(session);
 
     if (resumed.stopRequested) {
         return { stopped: true, session: resumed };
@@ -4398,7 +4465,7 @@ async function handleAdvanceValidationRetry(
         },
     );
 
-    const resumedSession = await waitForAutoApplyResume();
+    const resumedSession = await waitForAutoApplyResume(session);
 
     if (resumedSession.stopRequested) {
         return { retried: true, stopped: true, session: resumedSession };
@@ -4474,7 +4541,7 @@ async function ensureStepFilledOrPaused(
         profileData,
     );
 
-    const resumedSession = await waitForAutoApplyResume();
+    const resumedSession = await waitForAutoApplyResume(session);
 
     if (resumedSession.stopRequested) {
         return {
@@ -4623,6 +4690,7 @@ async function processLinkedInJob(
     session,
     profileData = null,
 ) {
+    await assertAutoApplyRunOwned(session, `LinkedIn ${job?.title || 'job'}`);
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
     if (job.title === 'Unknown role' || job.company === 'Unknown company') {
@@ -4695,6 +4763,7 @@ async function processLinkedInJob(
 
     await sleep(randomDelay(450, 350));
 
+    await assertAutoApplyRunOwned(session, `LinkedIn ${job.title}`);
     await wakeAutoApplyTab(tabId).catch(() => {});
 
     let applyResponse = await sendLinkedInMessage(
@@ -4931,6 +5000,7 @@ async function processLinkedInJob(
 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
+        await assertAutoApplyRunOwned(session, `LinkedIn ${job.title}`);
 
         const modalState = await readLinkedInModalState(tabId, { retries: 5 });
 
@@ -5082,6 +5152,7 @@ async function processLinkedInJob(
                                 easyApplyEmptyShell: true,
                             },
                         ),
+                        ownerRunIdFor(session),
                     );
 
                     chrome.runtime
@@ -5092,8 +5163,10 @@ async function processLinkedInJob(
                         })
                         .catch(() => {});
 
-                    const resumeWait =
-                        await waitForAutoApplyResumeWithTimeout(180_000);
+                    const resumeWait = await waitForAutoApplyResumeWithTimeout(
+                        180_000,
+                        session,
+                    );
 
                     if (resumeWait.stopRequested) {
                         return {
@@ -11465,9 +11538,23 @@ async function shouldStop(session = null) {
     return false;
 }
 
-async function finalizeStoppedSession() {
-    const session = await updateSession((current) =>
-        buildStoppedSessionState(current),
+/**
+ * @param {{ runId?: string|null, platform?: string|null }|null} [owner] The
+ *   run being finalized. A superseded (zombie) run must not stop the run that
+ *   replaced it.
+ */
+export async function finalizeStoppedSession(owner = null) {
+    if (owner?.runId) {
+        const latest = await loadAutoApplySession();
+
+        if (!autoApplyRunOwnsLatest(owner, latest)) {
+            return null;
+        }
+    }
+
+    const session = await updateSession(
+        (current) => buildStoppedSessionState(current),
+        ownerRunIdFor(owner),
     );
 
     if (session) {
@@ -11531,7 +11618,7 @@ async function runIndeedAutoApplyLoop(
                 session = loginPreflight.session || session;
 
                 if (loginPreflight.stopped) {
-                    await finalizeStoppedSession();
+                    await finalizeStoppedSession(initialSession);
 
                     return;
                 }
@@ -11549,7 +11636,7 @@ async function runIndeedAutoApplyLoop(
                 markWatchdogProgress(session);
 
                 if (collectOutcome.stopped) {
-                    await finalizeStoppedSession();
+                    await finalizeStoppedSession(initialSession);
 
                     return;
                 }
@@ -11586,7 +11673,7 @@ async function runIndeedAutoApplyLoop(
             }
 
             if (session.stopRequested) {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -11631,7 +11718,7 @@ async function runIndeedAutoApplyLoop(
                     markWatchdogProgress(session);
 
                     if (pageOutcome.stopped) {
-                        await finalizeStoppedSession();
+                        await finalizeStoppedSession(initialSession);
 
                         return;
                     }
@@ -11652,7 +11739,7 @@ async function runIndeedAutoApplyLoop(
 
             if (isWatchdogStuck(session)) {
                 if (await shouldStop(session)) {
-                    await finalizeStoppedSession();
+                    await finalizeStoppedSession(initialSession);
 
                     return;
                 }
@@ -11685,7 +11772,7 @@ async function runIndeedAutoApplyLoop(
                 }
 
                 if (result.outcome === 'stopped') {
-                    await finalizeStoppedSession();
+                    await finalizeStoppedSession(initialSession);
 
                     return;
                 }
@@ -11731,7 +11818,7 @@ async function runIndeedAutoApplyLoop(
                     isAutoApplyStopError(error) ||
                     (await shouldStop(session))
                 ) {
-                    await finalizeStoppedSession();
+                    await finalizeStoppedSession(initialSession);
 
                     return;
                 }
@@ -11787,7 +11874,7 @@ async function runIndeedAutoApplyLoop(
             }
 
             if (await shouldStop(session)) {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -11797,7 +11884,7 @@ async function runIndeedAutoApplyLoop(
             );
 
             if (!slept) {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -11829,6 +11916,78 @@ async function runIndeedAutoApplyLoop(
     }
 }
 
+/**
+ * Bind a board runner's finalize helper to the run it serves so a superseded
+ * loop cannot mark the next run as stopped.
+ *
+ * @template {Record<string, unknown>} T
+ * @param {T} ctx
+ * @param {import('./auto-apply-session.js').AutoApplySession} owner
+ * @returns {T}
+ */
+function bindRunnerContextToRun(ctx, owner) {
+    return {
+        ...ctx,
+        finalizeStoppedSession: () => finalizeStoppedSession(owner),
+    };
+}
+
+/**
+ * Before a paused run is rehydrated, drop any queue / pause job / tab that is
+ * not on `platformId` so Resume cannot replay another board's job.
+ *
+ * @param {import('./auto-apply-session.js').AutoApplySession} session
+ * @param {string} platformId
+ */
+async function sanitizeResumeSessionTargets(session, platformId) {
+    let tabUrl = null;
+
+    if (session?.tabId) {
+        try {
+            const tab = await chrome.tabs.get(session.tabId);
+            tabUrl = tab?.url || tab?.pendingUrl || '';
+        } catch {
+            tabUrl = '';
+        }
+    }
+
+    const { session: sanitized, reasons } = sanitizeResumeSessionForPlatform(
+        session,
+        {
+            platformId,
+            urlBelongsToPlatform,
+            // A closed tab cannot be resumed either.
+            tabUrl: tabUrl === '' ? 'about:blank' : tabUrl,
+        },
+    );
+
+    if (!reasons.length) {
+        return session;
+    }
+
+    const updated = await updateSession(
+        (current) =>
+            appendAutoApplyLog(
+                {
+                    ...current,
+                    queue: sanitized.queue,
+                    currentIndex: sanitized.currentIndex,
+                    pauseContext: sanitized.pauseContext,
+                    tabId: sanitized.tabId,
+                },
+                'warn',
+                `[resume] Dropped stale resume state (${reasons.join(', ')}) - restarting the ${platformId} search instead of replaying it.`,
+            ),
+        session.runId,
+    );
+
+    return updated || sanitized;
+}
+
+async function sanitizeLinkedInResumeSession(session) {
+    return sanitizeResumeSessionTargets(session, LINKEDIN_PLATFORM_ID);
+}
+
 async function runAutoApplyLoop(
     initialSession,
     runDraftAll,
@@ -11854,7 +12013,10 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === TOTALJOBS_PLATFORM_ID) {
         return runTotalJobsAutoApplyLoop(
-            buildTotalJobsRunnerContext(),
+            bindRunnerContextToRun(
+                buildTotalJobsRunnerContext(),
+                initialSession,
+            ),
             initialSession,
             runDraftAll,
             profileData,
@@ -11863,7 +12025,10 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === GLASSDOOR_PLATFORM_ID) {
         return runGlassdoorAutoApplyLoop(
-            buildGlassdoorRunnerContext(),
+            bindRunnerContextToRun(
+                buildGlassdoorRunnerContext(),
+                initialSession,
+            ),
             initialSession,
             runDraftAll,
             profileData,
@@ -11872,7 +12037,10 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === SIMPLYHIRED_PLATFORM_ID) {
         return runSimplyHiredAutoApplyLoop(
-            buildSimplyHiredRunnerContext(initialSession),
+            bindRunnerContextToRun(
+                buildSimplyHiredRunnerContext(initialSession),
+                initialSession,
+            ),
             initialSession,
             runDraftAll,
             profileData,
@@ -11881,7 +12049,10 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === REED_PLATFORM_ID) {
         return runReedAutoApplyLoop(
-            buildReedRunnerContext(),
+            bindRunnerContextToRun(
+                buildReedRunnerContext(),
+                initialSession,
+            ),
             initialSession,
             runDraftAll,
             profileData,
@@ -11890,16 +12061,34 @@ async function runAutoApplyLoop(
 
     if (initialSession.platform === CV_LIBRARY_PLATFORM_ID) {
         return runCvLibraryAutoApplyLoop(
-            buildCvLibraryRunnerContext(),
+            bindRunnerContextToRun(
+                buildCvLibraryRunnerContext(),
+                initialSession,
+            ),
             initialSession,
             runDraftAll,
             profileData,
         );
     }
 
+    if (
+        initialSession.platform &&
+        initialSession.platform !== LINKEDIN_PLATFORM_ID
+    ) {
+        // Never fall through to the LinkedIn path for another board's session.
+        throw new Error(
+            `Unsupported Auto Apply platform "${initialSession.platform}".`,
+        );
+    }
+
     resetWatchdog();
 
     let session = initialSession;
+
+    if (resumeExisting) {
+        session = (await sanitizeLinkedInResumeSession(session)) || session;
+    }
+
     let tabId =
         session.tabId && resumeExisting
             ? session.tabId
@@ -11944,8 +12133,26 @@ async function runAutoApplyLoop(
             return;
         }
 
+        if (!autoApplyRunOwnsLatest(initialSession, session)) {
+            // Superseded by Stop + a new start or a platform switch: exit
+            // without touching (or driving jobs for) the newer run.
+            logInfo(
+                'background',
+                'auto-apply.zombie-exit',
+                'LinkedIn Auto Apply loop exited: run was replaced',
+                {
+                    ownerRunId: initialSession.runId || null,
+                    latestRunId: session.runId || null,
+                    latestPlatform: session.platform || null,
+                },
+                tabId,
+            );
+
+            return;
+        }
+
         if (session.stopRequested) {
-            await finalizeStoppedSession();
+            await finalizeStoppedSession(initialSession);
 
             return;
         }
@@ -11971,7 +12178,7 @@ async function runAutoApplyLoop(
 
         if (isWatchdogStuck(session)) {
             if (await shouldStop(session)) {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -12010,7 +12217,7 @@ async function runAutoApplyLoop(
             }
 
             if (result.outcome === 'stopped') {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -12055,7 +12262,7 @@ async function runAutoApplyLoop(
             markWatchdogProgress(session);
         } catch (error) {
             if (isAutoApplyStopError(error) || (await shouldStop(session))) {
-                await finalizeStoppedSession();
+                await finalizeStoppedSession(initialSession);
 
                 return;
             }
@@ -12121,7 +12328,7 @@ async function runAutoApplyLoop(
         }
 
         if (await shouldStop(session)) {
-            await finalizeStoppedSession();
+            await finalizeStoppedSession(initialSession);
 
             return;
         }
@@ -12131,7 +12338,7 @@ async function runAutoApplyLoop(
         );
 
         if (!slept) {
-            await finalizeStoppedSession();
+            await finalizeStoppedSession(initialSession);
 
             return;
         }
@@ -12394,6 +12601,23 @@ export async function stopAutoApply() {
     });
 
     bumpAutoApplyStopEpoch();
+
+    if (!isAutoApplyRunning()) {
+        // No loop in memory (service worker restarted during a pause): nobody
+        // will finalize, so clear the pending queue / paused job now. A later
+        // Resume must not replay it inside another run.
+        const stopped = await updateSession(
+            (current) => buildStoppedSessionState(current, { clearLog: false }),
+            session.runId || undefined,
+        );
+
+        if (stopped) {
+            broadcastAutoApplyStatus(stopped);
+            void finalizeAutoApplyAnalyticsSession(stopped).catch(() => {});
+        }
+
+        return stopped || updated;
+    }
 
     if (updated) {
         broadcastAutoApplyStatus(updated);
