@@ -22,6 +22,18 @@ export function isNoticePeriodStyleQuestion(label) {
         return true;
     }
 
+    // "How many weeks' notice do you need to give?" / "How much notice do you
+    // have?" - notice asks without the words "notice period".
+    if (/\bnotice\b/.test(text) && !/\b(?:privacy|cookie|legal|data protection|short) notice\b/.test(text)) {
+        if (
+            extractRequestedNoticeUnit(text)
+            || /\bhow (?:much|long)\b[^?]*\bnotice\b/.test(text)
+            || /\bnotice (?:do|would|will) you (?:need|have|require|give|be required)\b/.test(text)
+        ) {
+            return true;
+        }
+    }
+
     // Teamtailor / Greenhouse / Personio availability free-text.
     if (
         /^(?:available from|earliest start|earliest availability|verf[uü]gbar ab)\b/.test(
@@ -174,8 +186,48 @@ export function normalizeNoticePeriodAnswer(label, answer, options = {}) {
         return text;
     }
 
+    // "What is your notice period in weeks?" wants a number in that unit
+    // (2 months -> 8), not the saved free text "2 months".
+    const requestedUnit = extractRequestedNoticeUnit(label);
+    const hasChoiceOptions = filterMeaningfulChoiceOptions(options.options).length > 0;
+
+    if (requestedUnit && !hasChoiceOptions) {
+        if (/^\d+(?:\.\d+)?$/.test(text)) {
+            // Years-of-experience digits leaking into the notice box: use the
+            // saved notice period (or fallback) in the asked unit instead.
+            const profileYearsText = String(options.profileYears ?? '').trim();
+            const knownNotice = options.noticePeriod ?? options.fallbackNoticePeriod ?? null;
+
+            if (profileYearsText !== '' && text === profileYearsText && knownNotice != null) {
+                const fromNotice = convertNoticePeriodToUnit(knownNotice, requestedUnit);
+
+                if (fromNotice != null) {
+                    return fromNotice;
+                }
+            }
+
+            return text;
+        }
+
+        const converted = convertNoticePeriodToUnit(text, requestedUnit);
+
+        if (converted != null) {
+            return converted;
+        }
+    }
+
     if (isNumericNoticePeriodField(options) && /^\d+$/.test(text)) {
         return text;
+    }
+
+    // Numeric input with no unit in the question: bare notice numbers mean
+    // weeks elsewhere, so "2 months" -> "8" instead of failing validation.
+    if (isNumericNoticePeriodField(options) && !hasChoiceOptions) {
+        const weeks = convertNoticePeriodToUnit(text, 'weeks');
+
+        if (weeks != null) {
+            return weeks;
+        }
     }
 
     const mappedChoice = mapNoticePeriodAnswerToChoiceOption(text, options.options);
@@ -831,6 +883,126 @@ export function parseDurationToDays(text) {
     return parseNoticePeriodToDays(value);
 }
 
+const NOTICE_UNIT_QUALIFIER = '(?:calendar\\s+|working\\s+|business\\s+)?';
+const NOTICE_UNIT_WORD = '(days?|weeks?|months?)';
+
+/**
+ * Unit a notice question asks the answer in: "What is your notice period in
+ * weeks?" / "Notice period (days)" / "How many weeks' notice do you need?".
+ * Start-window Yes/No screeners ("Can you start within 3 weeks?") and
+ * threshold asks ("Is your notice period less than 4 weeks?") return null.
+ * @returns {'days'|'weeks'|'months'|null}
+ */
+export function extractRequestedNoticeUnit(label) {
+    const text = String(label || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+    if (!text || !/\b(?:notice|availab\w*|start|join)\b/.test(text)) {
+        return null;
+    }
+
+    // A count before the unit is a window/threshold, not a unit ask.
+    if (new RegExp(`\\b${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`).test(text)
+        && !/\bhow many\b|\bnumber of\b/.test(text)) {
+        return null;
+    }
+
+    const patterns = [
+        new RegExp(`\\bhow many\\s+${NOTICE_UNIT_QUALIFIER}${NOTICE_UNIT_WORD}\\b`),
+        new RegExp(`\\bnumber of\\s+${NOTICE_UNIT_QUALIFIER}${NOTICE_UNIT_WORD}\\b`),
+        new RegExp(`\\b(?:in|as)\\s+${NOTICE_UNIT_QUALIFIER}${NOTICE_UNIT_WORD}\\b`),
+        new RegExp(`[(\\[]\\s*(?:in\\s+)?${NOTICE_UNIT_QUALIFIER}${NOTICE_UNIT_WORD}\\s*[)\\]]`),
+        new RegExp(`\\bnotice(?: period)?\\s*[-:\u2013,]\\s*(?:in\\s+)?${NOTICE_UNIT_WORD}\\b`),
+        new RegExp(`(?:^|[.?!:;,]\\s*)${NOTICE_UNIT_QUALIFIER}${NOTICE_UNIT_WORD}['\u2019]?\\s+(?:of\\s+)?notice\\b`),
+    ];
+
+    for (const pattern of patterns) {
+        const match = text.match(pattern);
+
+        if (match) {
+            const unit = match[1].replace(/s$/, '');
+
+            return `${unit}s`;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Notice text to { count, unit }: "2 months" -> { 2, 'month' }, "1-2 weeks"
+ * -> { 2, 'week' }, "Immediately" -> { 0, 'day' }. Bare numbers are ambiguous.
+ * @returns {{ count: number, unit: 'day'|'week'|'month' } | null}
+ */
+export function parseNoticePeriodAmount(text) {
+    const value = String(text ?? '').trim().toLowerCase();
+
+    if (!value) {
+        return null;
+    }
+
+    if (/^(?:immediate(?:ly)?|asap|available now|available immediately|none|no notice|0)\b/.test(value)) {
+        return { count: 0, unit: 'day' };
+    }
+
+    const range = value.match(
+        new RegExp(`\\b\\d{1,3}\\s*(?:-|to|\u2013)\\s*${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`),
+    );
+    const single = range ? null : value.match(new RegExp(`\\b${COUNT_TOKEN}\\s*${UNIT_TOKEN}\\b`));
+    const match = range || single;
+
+    if (!match) {
+        return null;
+    }
+
+    const count = parseCountToken(match[1]);
+
+    if (count == null) {
+        return null;
+    }
+
+    const unitDays = unitToDays(match[2]);
+    const unit = unitDays === 1 ? 'day' : unitDays === 7 ? 'week' : 'month';
+
+    return { count, unit };
+}
+
+/**
+ * Express a saved notice period as a bare number in the asked unit.
+ * Months count as 4 weeks / 30 days (UK recruiter convention: 2 months -> 8
+ * weeks); conversions to a larger unit round up so notice is never understated.
+ * @param {string} noticePeriod
+ * @param {'days'|'weeks'|'months'|string} unit
+ * @returns {string|null}
+ */
+export function convertNoticePeriodToUnit(noticePeriod, unit) {
+    const amount = parseNoticePeriodAmount(noticePeriod);
+    const target = String(unit || '').toLowerCase().replace(/s$/, '');
+
+    if (!amount || !['day', 'week', 'month'].includes(target)) {
+        return null;
+    }
+
+    const { count, unit: from } = amount;
+
+    if (count === 0) {
+        return '0';
+    }
+
+    if (from === target) {
+        return String(count);
+    }
+
+    if (target === 'day') {
+        return String(from === 'week' ? count * 7 : count * 30);
+    }
+
+    if (target === 'week') {
+        return String(from === 'month' ? count * 4 : Math.ceil(count / 7));
+    }
+
+    return String(from === 'week' ? Math.ceil(count / 4) : Math.ceil(count / 30));
+}
+
 function parseDayMonthFromLabel(text, now) {
     const match = text.match(
         /\b(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?:\s+(\d{4}))?\b/i,
@@ -989,10 +1161,16 @@ export function answerStartWindowQuestion(label, noticePeriod, options = {}) {
         : [];
     const fieldType = String(options.fieldType || '').toLowerCase();
 
-    if (choiceOptions.length > 0 || CHOICE_FIELD_TYPES.has(fieldType)) {
+    if (choiceOptions.length > 0) {
         const pattern = fit.canStart ? /^yes\b/i : /^no\b/i;
 
         return choiceOptions.find((option) => pattern.test(option)) || null;
+    }
+
+    // Yes/No radio or select inventoried before its options were harvested
+    // (LinkedIn SDUI): still answer, the apply step matches the option text.
+    if (CHOICE_FIELD_TYPES.has(fieldType)) {
+        return fit.canStart ? 'Yes' : 'No';
     }
 
     if (fit.canStart) {

@@ -1,6 +1,7 @@
 import {
     extractYearsExperienceThreshold,
     filterMeaningfulChoiceOptions,
+    isNoticePeriodStyleQuestion,
     normalizeFieldAnswerForQuestion,
     normalizeNoticePeriodAnswer,
 } from './answer-normalization.js';
@@ -316,6 +317,7 @@ function isNoticePeriodOrAvailabilityQuestion(label) {
     }
 
     return (
+        isNoticePeriodStyleQuestion(question) ||
         /\bnotice period\b/.test(question) ||
         /okres wypowiedzenia/.test(question) ||
         /\bdost[eę]pno[sś][cć]\b/.test(question) ||
@@ -331,12 +333,15 @@ function resolveNoticePeriodFromSettings(settings = {}, field = null) {
     const domId = field?.dom?.id || field?.dom?.input_id || null;
     const fieldType = field?.type || field?.field_type || 'text';
 
+    const fieldLabel = String(field?.label || field?.question || '');
+
     if (!isMeaningfulAnswer(settings.notice_period)) {
         return null;
     }
 
+    // Keep the real question so "notice period in weeks" converts the unit.
     return normalizeNoticePeriodAnswer(
-        'notice period',
+        isNoticePeriodStyleQuestion(fieldLabel) ? fieldLabel : 'notice period',
         String(settings.notice_period).trim(),
         {
             fieldType,
@@ -479,7 +484,15 @@ function normalizeHeuristicAnswerForField(answer, field) {
     if (!isSalaryScreenerQuestion(label)) {
         if (isNoticePeriodOrAvailabilityQuestion(label)) {
             if (isNumericField) {
-                const numeric = value.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
+                // Convert "2 months" to the asked unit (weeks by default)
+                // before taking digits, so a weeks box gets 8, not 2.
+                const converted = normalizeNoticePeriodAnswer(label, value, {
+                    fieldType: 'number',
+                    options: field?.options ?? null,
+                });
+                const numeric = String(converted || value)
+                    .replace(/,/g, '')
+                    .match(/\d+(?:\.\d+)?/);
 
                 return numeric?.[0] || value;
             }

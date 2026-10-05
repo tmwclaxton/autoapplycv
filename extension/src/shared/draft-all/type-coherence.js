@@ -63,14 +63,45 @@ function looksLikeBinaryYesNoQuestionLabel(label) {
         return false;
     }
 
+    // Employers often lead with a statement: "We must fill this position
+    // urgently. Can you start immediately?" - test every sentence, not only
+    // the start of the label (LinkedIn La Fosse radio was left blank).
+    const clauses = String(label || '')
+        .split(/[.!?;:\n]+/)
+        .map((clause) => normalizeQuestionLabel(clause))
+        .filter(Boolean);
+
+    if (
+        clauses.some((clause) =>
+            /^(?:are|do|does|have|has|is|were|was|will|would|can|could|did) (?:you|we|they)\b/.test(
+                clause,
+            ),
+        )
+    ) {
+        return true;
+    }
+
     return (
-        /^(?:are|do|does|have|has|is|were|was|will|can|could|did) (?:you|we|they)\b/.test(
+        /\b(?:previously been employed|legally authorized|authorized to work|right to work|require sponsorship|need sponsorship|willing to relocate)\b/.test(
             normalized,
         )
-        || /\b(?:previously been employed|legally authorized|authorized to work|right to work|require sponsorship|need sponsorship|willing to relocate)\b/.test(
+        || /\b(?:can|could|are|will|would) you (?:be (?:able|available) to )?(?:start|join|commence|begin)\b/.test(
             normalized,
         )
     );
+}
+
+/** "Notice period in weeks" / "How many days notice" ask for a bare number. */
+function labelRequestsNoticeUnit(normalized) {
+    if (!/\bnotice\b/.test(normalized)) {
+        return false;
+    }
+
+    const unit = '(?:calendar |working |business )?(?:days?|weeks?|months?)';
+
+    return new RegExp(`\\b(?:how many|number of|in) ${unit}\\b`).test(normalized)
+        || new RegExp(`\\bnotice(?: period)? (?:in )?${unit}$`).test(normalized)
+        || new RegExp(`(?:^|\\b(?:many|of) )${unit} (?:of )?notice\\b`).test(normalized);
 }
 
 function isChoiceYesNoField(field) {
@@ -260,6 +291,11 @@ function isNoticeField(field) {
 
     // English + Polish (Recruitee "okres wypowiedzenia", "dostępność").
     if (/\bnotice period\b/.test(normalized) || /okres wypowiedzenia/.test(normalized)) {
+        return true;
+    }
+
+    // "How many weeks notice do you need to give?"
+    if (labelRequestsNoticeUnit(normalized)) {
         return true;
     }
 
@@ -593,11 +629,15 @@ export function evaluateAnswerTypeCoherence(field, answer) {
     }
 
     // Free-text notice/availability must include a unit ("2 weeks"), not a bare integer.
+    // Unless the question names the unit ("notice period in weeks" -> "8") or
+    // the input is numeric (LinkedIn "-numeric" text inputs).
     if (
         category === 'notice'
         && isFreeTextField(field)
         && /^\d{1,3}$/.test(text)
         && String(field?.field_type || '').toLowerCase() !== 'number'
+        && !/numeric/i.test(String(field?.dom?.id || field?.dom?.input_id || ''))
+        && !labelRequestsNoticeUnit(normalizeQuestionLabel(field?.label || field?.question || ''))
     ) {
         return {
             coherent: false,

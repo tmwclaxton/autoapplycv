@@ -106,6 +106,14 @@ export function shouldRejectPhoneAnswerOnField(field, answer) {
         return false;
     }
 
+    // "Notice period in weeks" -> "8" is a duration, not a phone fragment.
+    if (
+        classifyFieldExpectation(field) === 'notice' &&
+        /^\d{1,3}$/.test(String(answer || '').trim())
+    ) {
+        return false;
+    }
+
     if (
         isSmsOrMarketingConsentField(field) ||
         isMarketingOrFutureConsentField(field)
