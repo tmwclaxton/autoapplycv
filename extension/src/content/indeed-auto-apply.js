@@ -3117,17 +3117,32 @@ var AutoCVApplyIndeedAutoApply = (() => {
         });
     }
 
-    async function buildCvFile(cvDocument) {
+    async function buildCvFile(cvDocument, timeoutMs = 10_000) {
         if (!cvDocument?.base64 || typeof fetch !== 'function') {
             return null;
         }
 
-        const response = await fetch(cvDocument.base64);
-        const blob = await response.blob();
+        const controller =
+            typeof AbortController === 'function' ? new AbortController() : null;
+        const timer = controller
+            ? setTimeout(() => controller.abort(), timeoutMs)
+            : null;
 
-        return new File([blob], cvDocument.fileName || 'cv.pdf', {
-            type: cvDocument.mimeType || blob.type || 'application/pdf',
-        });
+        try {
+            const response = await fetch(
+                cvDocument.base64,
+                controller ? { signal: controller.signal } : undefined,
+            );
+            const blob = await response.blob();
+
+            return new File([blob], cvDocument.fileName || 'cv.pdf', {
+                type: cvDocument.mimeType || blob.type || 'application/pdf',
+            });
+        } finally {
+            if (timer) {
+                clearTimeout(timer);
+            }
+        }
     }
 
     function assignResumeFile(fileInput, file) {
