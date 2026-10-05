@@ -894,7 +894,7 @@ var AutoCVApplyGlassdoorAutoApply = (() => {
 
         if (
             /^security$/i.test(title) ||
-            /humans only|mistakenly blocked|security protections may|verify you are human/i.test(
+            /humans only|mistakenly blocked|security protections may|verify you are human|additional verification(?: required)?|ray id\b/i.test(
                 bodyText,
             )
         ) {

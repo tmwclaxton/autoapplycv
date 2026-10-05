@@ -157,4 +157,19 @@ assert.equal(checkpointPrep.captchaType, 'security_checkpoint');
 assert.equal(checkpointPrep.securityCheckpoint, true);
 assert.equal(checkpointPrep.sitekey, null);
 
+
+{
+    const { api } = load(
+        `<!doctype html><html><head><title>Additional Verification Required</title></head><body>
+        <div id="challenge-running"></div>
+        <p>Verify you are human. Ray ID: 9abc123</p>
+        </body></html>`,
+        'https://uk.indeed.com/jobs?q=AI+Engineer&l=London',
+    );
+    const prep = await api.prepareCaptchaForSolve();
+    assert.equal(prep.present, true);
+    assert.equal(prep.securityCheckpoint, true);
+    assert.equal(prep.solvable, false);
+}
+
 console.log('indeed-captcha-detect.test.mjs: ok');

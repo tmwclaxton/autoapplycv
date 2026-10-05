@@ -2088,7 +2088,7 @@ var AutoCVApplyIndeedAutoApply = (() => {
         const bodyText = normalize(document.body?.textContent);
 
         if (
-            /security check|just a moment|attention required|cf-browser-verification/i.test(
+            /security check|just a moment|attention required|additional verification|cf-browser-verification|verify you are human|checking if the site connection is secure/i.test(
                 title,
             )
         ) {
@@ -2097,14 +2097,14 @@ var AutoCVApplyIndeedAutoApply = (() => {
 
         if (
             document.querySelector(
-                '#challenge-running, #challenge-stage, #cf-challenge-running, .cf-browser-verification, #challenge-form',
+                '#challenge-running, #challenge-stage, #cf-challenge-running, .cf-browser-verification, #challenge-form, #cf-please-wait, [data-translate="challenge_headline"]',
             )
         ) {
             return true;
         }
 
         if (
-            /humans only|mistakenly blocked|security protections may|verify you are human|unusual traffic|checking your browser|enable javascript and cookies/i.test(
+            /humans only|mistakenly blocked|security protections may|verify you are human|unusual traffic|checking your browser|enable javascript and cookies|additional verification(?: required)?|ray id\b/i.test(
                 bodyText,
             )
         ) {

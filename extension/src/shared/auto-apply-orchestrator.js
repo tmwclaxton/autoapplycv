@@ -49,6 +49,7 @@ import {
     SIMPLYHIRED_PLATFORM_ID,
     TOTALJOBS_PLATFORM_ID,
     normalizeAutoApplyPlatform,
+    urlAllowedForAutoApplyNavigation,
     urlBelongsToPlatform,
 } from './auto-apply-platforms.js';
 import { extractAutoApplySettingsFromProfile } from './auto-apply-profile-settings.js';
@@ -73,6 +74,7 @@ import { resolveAutoApplySearchFilters } from './auto-apply-start-filters.js';
 import {
     bumpAutoApplyStopEpoch,
     createAutoApplyStopError,
+    getAutoApplyNavigationGeneration,
     getAutoApplyStopEpoch,
     hasAutoApplyStopEpochChanged,
     interruptibleAutoApplySleep,
@@ -121,6 +123,7 @@ import {
     isGlassdoorJobsSearchUrl,
     urlsMatchGlassdoorSearch,
 } from './glassdoor-platform.js';
+import { titleLooksLikeHumanCheck } from './human-check-page.js';
 import {
     buildIndeedJobOpenUrl,
     isIndeedJobsSearchUrl,
@@ -755,6 +758,61 @@ async function evaluateJobFit(tabId, job, session) {
 /** @type {Promise<void>|null} */
 let activeRunPromise = null;
 
+/** Run allowed to call openUrlInAutoApplyWindow. Cleared on Stop / force-reset. */
+let activeNavigationRunId = null;
+/** @type {string|null} */
+let activeNavigationPlatform = null;
+
+export function bindAutoApplyNavigation(session) {
+    activeNavigationRunId = session?.runId || null;
+    activeNavigationPlatform = session?.platform || null;
+}
+
+export function clearAutoApplyNavigation() {
+    activeNavigationRunId = null;
+    activeNavigationPlatform = null;
+}
+
+/**
+ * Refuse tab navigations from a detached loop after Stop / platform switch.
+ * Glassdoor may open Indeed SmartApply; other cross-board URLs are blocked.
+ *
+ * @param {string} url
+ * @param {number} generationAtStart
+ */
+export async function assertAutoApplyNavigationAllowed(url, generationAtStart) {
+    if (generationAtStart !== getAutoApplyNavigationGeneration()) {
+        throw createAutoApplyStopError(
+            'Navigation cancelled because Auto Apply was stopped or replaced.',
+        );
+    }
+
+    if (!activeNavigationRunId || !activeNavigationPlatform) {
+        throw createAutoApplyStopError(
+            'Navigation cancelled: Auto Apply is not driving tabs.',
+        );
+    }
+
+    const latest = await loadAutoApplySession();
+
+    if (
+        !latest
+        || !isActiveAutoApplyStatus(latest.status)
+        || latest.runId !== activeNavigationRunId
+        || (latest.platform && latest.platform !== activeNavigationPlatform)
+    ) {
+        throw createAutoApplyStopError(
+            'Navigation cancelled: this Auto Apply run no longer owns the session.',
+        );
+    }
+
+    if (!urlAllowedForAutoApplyNavigation(url, activeNavigationPlatform)) {
+        throw createAutoApplyStopError(
+            `Blocked stale navigation away from ${activeNavigationPlatform}.`,
+        );
+    }
+}
+
 /** @type {Function|null} */
 let configuredRunDraftAll = null;
 
@@ -1142,6 +1200,9 @@ async function resolveSidePanelHostForAutoApply() {
 }
 
 async function openUrlInAutoApplyWindow(url, tabId = null) {
+    const generationAtStart = getAutoApplyNavigationGeneration();
+    await assertAutoApplyNavigationAllowed(url, generationAtStart);
+
     let windowId = await resolveAutoApplyWindowId();
     const session = await loadAutoApplySession();
     let preferHostWindow = session?.usesDedicatedWindow === false;
@@ -1186,6 +1247,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 
     // Dedicated background window only when no side-panel host window is available.
     if (!windowId && !tabId) {
+        await assertAutoApplyNavigationAllowed(url, generationAtStart);
         const created = await createAutoApplyWindow(url);
         await rememberAutoApplyWindow(created.windowId, created.tabId, {
             usesDedicatedWindow: true,
@@ -1199,6 +1261,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
     }
 
     if (!windowId) {
+        await assertAutoApplyNavigationAllowed(url, generationAtStart);
         const created = await createAutoApplyWindow('about:blank');
         await rememberAutoApplyWindow(created.windowId, created.tabId, {
             usesDedicatedWindow: true,
@@ -1217,6 +1280,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
                     await chrome.tabs.move(tabId, { windowId, index: -1 });
                 }
 
+                await assertAutoApplyNavigationAllowed(url, generationAtStart);
                 await navigateAutoApplyTab(tabId, url, {
                     active: preferVisibleTab,
                 });
@@ -1232,6 +1296,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
         }
     }
 
+    await assertAutoApplyNavigationAllowed(url, generationAtStart);
     const tab = await createAutoApplyTab(windowId, url, {
         active: preferVisibleTab,
     });
@@ -3437,9 +3502,7 @@ async function tabTitleLooksLikeCaptchaChallenge(tabId) {
         const tab = await chrome.tabs.get(tabId);
         const title = String(tab?.title || '');
 
-        return /just a moment|security check|attention required|cf-browser-verification|verify you are human/i.test(
-            title,
-        );
+        return titleLooksLikeHumanCheck(title);
     } catch {
         return false;
     }
@@ -5677,6 +5740,17 @@ async function waitForIndeedContentScript(tabId, timeoutMs = 45_000) {
     const deadline = Date.now() + timeoutMs;
 
     while (Date.now() < deadline) {
+        // Cloudflare "Additional Verification Required" blocks content scripts;
+        // detect via the tab title instead of waiting out the full timeout.
+        if (await tabTitleLooksLikeCaptchaChallenge(tabId)) {
+            const error = new Error(
+                'Indeed security check - verify you are human, then resume Auto Apply.',
+            );
+            error.code = 'INDEED_SECURITY_CHECKPOINT';
+
+            throw error;
+        }
+
         try {
             await sendTabMessage(tabId, { type: 'INDEED_SCAN_PAGE_HEALTH' }, 0);
 
@@ -5692,6 +5766,15 @@ async function waitForIndeedContentScript(tabId, timeoutMs = 45_000) {
 
             await sleep(400);
         }
+    }
+
+    if (await tabTitleLooksLikeCaptchaChallenge(tabId)) {
+        const error = new Error(
+            'Indeed security check - verify you are human, then resume Auto Apply.',
+        );
+        error.code = 'INDEED_SECURITY_CHECKPOINT';
+
+        throw error;
     }
 
     throw new Error('Indeed content script did not load in time.');
@@ -5808,6 +5891,45 @@ async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
     throw new Error('Glassdoor content script did not load in time.');
 }
 
+function isIndeedSecurityCheckpointError(error) {
+    return Boolean(
+        error
+            && typeof error === 'object'
+            && error.code === 'INDEED_SECURITY_CHECKPOINT',
+    );
+}
+
+/**
+ * After navigation, wait for the Indeed content script - or accept a Cloudflare
+ * interstitial so the caller can pause for a human check instead of erroring.
+ *
+ * @param {number} tabId
+ * @returns {Promise<number>}
+ */
+async function finishIndeedTabReady(tabId) {
+    await waitForTabLoadComplete(tabId);
+
+    try {
+        await waitForIndeedContentScript(tabId);
+    } catch (error) {
+        if (
+            isIndeedSecurityCheckpointError(error)
+            || (await tabTitleLooksLikeCaptchaChallenge(tabId))
+        ) {
+            return tabId;
+        }
+
+        throw error;
+    }
+
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
+        () => {},
+    );
+
+    return tabId;
+}
+
 async function ensureIndeedTab(session) {
     if (session.platform !== INDEED_PLATFORM_ID) {
         throw new Error(
@@ -5841,17 +5963,8 @@ async function ensureIndeedTab(session) {
                         searchUrl,
                         tab.id,
                     );
-                    await waitForTabLoadComplete(tabId);
-                    await waitForIndeedContentScript(tabId);
-                    await sleep(
-                        randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation),
-                    );
-                    await sendIndeedMessage(
-                        tabId,
-                        'INDEED_ACCEPT_COOKIE_CONSENT',
-                    ).catch(() => {});
 
-                    return tabId;
+                    return finishIndeedTabReady(tabId);
                 }
 
                 return tab.id;
@@ -5873,14 +5986,7 @@ async function ensureIndeedTab(session) {
     await logSession('info', `Indeed search: ${searchUrl}`);
     const tabId = await openUrlInAutoApplyWindow(searchUrl);
 
-    await waitForTabLoadComplete(tabId);
-    await waitForIndeedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(
-        () => {},
-    );
-
-    return tabId;
+    return finishIndeedTabReady(tabId);
 }
 
 async function collectIndeedJobsFromTab(tabId) {
@@ -11285,6 +11391,15 @@ export async function startAutoApply({
             }
 
             await forceResetAutoApply();
+        } else {
+            const existing = await loadAutoApplySession();
+
+            // Orphaned pause/run in storage with no in-memory loop (service worker
+            // restart, or a force-reset that detached a zombie): clear it so a
+            // platform switch cannot inherit its tab / queue.
+            if (existing && isActiveAutoApplyStatus(existing.status)) {
+                await forceResetAutoApply();
+            }
         }
 
         const normalizedPlatform = normalizeAutoApplyPlatform(platform);
@@ -11550,6 +11665,14 @@ export async function finalizeStoppedSession(owner = null) {
         if (!autoApplyRunOwnsLatest(owner, latest)) {
             return null;
         }
+    }
+
+    if (
+        !owner?.runId
+        || !activeNavigationRunId
+        || owner.runId === activeNavigationRunId
+    ) {
+        clearAutoApplyNavigation();
     }
 
     const session = await updateSession(
@@ -11996,6 +12119,7 @@ async function runAutoApplyLoop(
 ) {
     const resumeExisting = options.resumeExisting === true;
     sessionWriteOwnerRunId = initialSession.runId;
+    bindAutoApplyNavigation(initialSession);
     configureAutoApplyTiming(initialSession.timingLevel);
     await persistActiveAutoApplyTiming(initialSession.timingLevel);
     await persistAutoApplyStopRequested(false);
@@ -12606,6 +12730,7 @@ export async function stopAutoApply() {
         // No loop in memory (service worker restarted during a pause): nobody
         // will finalize, so clear the pending queue / paused job now. A later
         // Resume must not replay it inside another run.
+        clearAutoApplyNavigation();
         const stopped = await updateSession(
             (current) => buildStoppedSessionState(current, { clearLog: false }),
             session.runId || undefined,
@@ -12760,6 +12885,7 @@ export async function forceResetAutoApply() {
     // Invalidate in-flight writers immediately so a superseded platform cannot
     // keep mutating the next session while we wait for the old loop to exit.
     sessionWriteOwnerRunId = undefined;
+    clearAutoApplyNavigation();
     bumpAutoApplyStopEpoch();
 
     const session = await loadAutoApplySession();

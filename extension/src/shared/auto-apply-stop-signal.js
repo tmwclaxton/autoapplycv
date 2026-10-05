@@ -11,12 +11,22 @@ export const AUTO_APPLY_STOP_ERROR_CODE = 'AUTO_APPLY_STOP';
 /** @type {number} */
 let autoApplyStopEpoch = 0;
 
+/** @type {number} */
+let autoApplyNavigationGeneration = 0;
+
 export function getAutoApplyStopEpoch() {
     return autoApplyStopEpoch;
 }
 
+export function getAutoApplyNavigationGeneration() {
+    return autoApplyNavigationGeneration;
+}
+
 export function bumpAutoApplyStopEpoch() {
     autoApplyStopEpoch += 1;
+    // Stop / force-reset / platform switch must also cancel in-flight tab
+    // navigations from a detached (zombie) loop.
+    autoApplyNavigationGeneration += 1;
 
     return autoApplyStopEpoch;
 }

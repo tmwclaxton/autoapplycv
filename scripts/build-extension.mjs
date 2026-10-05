@@ -574,6 +574,10 @@ copyFileSync(
     join(DIST, 'auto-apply-stop-signal.js'),
 );
 copyFileSync(
+    join(SRC, 'shared/human-check-page.js'),
+    join(DIST, 'human-check-page.js'),
+);
+copyFileSync(
     join(SRC, 'shared/auto-apply-orchestrator.js'),
     join(DIST, 'auto-apply-orchestrator.js'),
 );

@@ -392,3 +392,35 @@ export {
     SIMPLYHIRED_PLATFORM_ID,
     TOTALJOBS_PLATFORM_ID,
 };
+
+
+/**
+ * URLs a live Auto Apply run may open. Glassdoor / SimplyHired Easy Apply
+ * continues on Indeed SmartApply, so Indeed hosts are allowed for those boards.
+ * A zombie loop from another board must not navigate during the active run.
+ *
+ * @param {string|null|undefined} url
+ * @param {string} platformId
+ * @returns {boolean}
+ */
+export function urlAllowedForAutoApplyNavigation(url, platformId) {
+    const value = String(url || '').trim();
+
+    if (!value || /^about:(blank|newtab)$/i.test(value)) {
+        return true;
+    }
+
+    if (urlBelongsToPlatform(value, platformId)) {
+        return true;
+    }
+
+    if (
+        (platformId === GLASSDOOR_PLATFORM_ID
+            || platformId === SIMPLYHIRED_PLATFORM_ID)
+        && urlBelongsToPlatform(value, INDEED_PLATFORM_ID)
+    ) {
+        return true;
+    }
+
+    return false;
+}
