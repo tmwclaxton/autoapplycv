@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1: Build frontend assets (Node + PHP for Wayfinder during Vite build)
 # -----------------------------------------------------------------------------
-FROM ubuntu:24.04 AS assets
+FROM php:8.5.12-cli-bookworm AS assets
 
 ARG NODE_VERSION=24
 
@@ -9,22 +9,18 @@ WORKDIR /app
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::BrokenProxy    true;" >> /etc/apt/apt.conf.d/99custom
+# Official PHP image + docker-php-extension-installer (no ondrej PPA).
+COPY --from=mlocati/php-extension-installer:2 /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg \
+    ca-certificates curl gnupg zip unzip git \
     && mkdir -p /etc/apt/keyrings \
-    && curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xb8dc7e53946656efbce4c1dd71daeaab4ad4cab6' | gpg --dearmor -o /etc/apt/keyrings/ppa_ondrej_php.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_VERSION}.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
-    php8.5-cli php8.5-mbstring php8.5-xml php8.5-curl php8.5-zip php8.5-bcmath php8.5-intl php8.5-fileinfo php8.5-gd \
-    nodejs zip \
-    && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+    && apt-get install -y --no-install-recommends nodejs \
+    && install-php-extensions bcmath intl gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY composer.json composer.lock* ./
@@ -43,13 +39,12 @@ RUN node scripts/build-extension.mjs
 # -----------------------------------------------------------------------------
 # Stage 2: Production PHP image
 # -----------------------------------------------------------------------------
-FROM ubuntu:24.04 AS production
+FROM php:8.5.12-fpm-bookworm AS production
 
 LABEL maintainer="AutoCVApply"
 
 ARG WWWGROUP=1000
 ARG WWWUSER=1337
-ARG POSTGRES_VERSION=18
 
 WORKDIR /var/www/html
 
@@ -61,27 +56,27 @@ ENV WWWGROUP=${WWWGROUP}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
-    echo "Acquire::BrokenProxy    true;" >> /etc/apt/apt.conf.d/99custom
+COPY --from=mlocati/php-extension-installer:2 /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Same extension set as the previous ondrej php8.5 build (php -m of the running container).
 RUN apt-get update && apt-get upgrade -y \
-    && mkdir -p /etc/apt/keyrings \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor libcap2-bin libpng-dev dnsutils \
-    && curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xb8dc7e53946656efbce4c1dd71daeaab4ad4cab6' | gpg --dearmor | tee /etc/apt/keyrings/ppa_ondrej_php.gpg > /dev/null \
-    && echo "deb [signed-by=/etc/apt/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /etc/apt/keyrings/pgdg.gpg >/dev/null \
-    && echo "deb [signed-by=/etc/apt/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt noble-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
-    && apt-get update \
-    && apt-get install -y \
-        php8.5-cli php8.5-fpm php8.5-pgsql php8.5-sqlite3 php8.5-gd \
-        php8.5-curl php8.5-mbstring php8.5-xml php8.5-zip php8.5-bcmath \
-        php8.5-tokenizer php8.5-fileinfo php8.5-intl php8.5-redis \
+    && apt-get install -y --no-install-recommends \
+        gnupg gosu curl ca-certificates zip unzip git supervisor libcap2-bin libpng-dev dnsutils \
         nginx \
         tesseract-ocr tesseract-ocr-eng poppler-utils \
+    && install-php-extensions \
+        bcmath calendar exif ffi ftp gd gettext igbinary intl opcache pcntl pdo_pgsql pgsql \
+        redis shmop sockets sysvmsg sysvsem sysvshm xsl zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+# Keep the Ubuntu package layout the supervisor/nginx/pool configs expect.
+RUN ln -sf /usr/local/bin/php /usr/bin/php \
+    && ln -sf /usr/local/sbin/php-fpm /usr/sbin/php-fpm8.5 \
+    && mkdir -p /run/php /etc/php/8.5/fpm/pool.d \
+    && rm -f /usr/local/etc/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/www.conf.default \
+    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && printf 'memory_limit = -1\nsession.gc_probability = 0\n' > "$PHP_INI_DIR/conf.d/98-autocvapply-compat.ini"
 
 RUN groupadd --force -g $WWWGROUP sail && \
     useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u $WWWUSER sail
@@ -99,7 +94,7 @@ COPY public/favicon.ico public/favicon.svg public/apple-touch-icon.png ./public/
 
 COPY docker/production/nginx.conf /etc/nginx/nginx.conf
 COPY docker/production/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/production/www-pool.conf /etc/php/8.5/fpm/pool.d/www.conf
+COPY docker/production/www-pool.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN chmod +x /var/www/html/docker/production/start.sh 2>/dev/null || true
 
