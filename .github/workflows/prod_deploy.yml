@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, lgs-autocvapply]
     permissions:
       contents: read
       packages: write
@@ -34,7 +34,7 @@ jobs:
         run: |
           export DOCKER_BUILDKIT=1
           docker pull ${{ env.IMAGE }} || true
-          docker build \
+          docker build --pull \
             --file DockerfileProd \
             --cache-from ${{ env.IMAGE }} \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
@@ -46,7 +46,7 @@ jobs:
 
   deploy:
     name: Deploy to self-hosted server
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, lgs-autocvapply]
     needs: build
     permissions:
       contents: read
@@ -62,9 +62,12 @@ jobs:
 
       - name: Install cloudflared
         run: |
-          curl -fsSL --output /tmp/cloudflared.deb \
-            "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64.deb"
-          sudo dpkg -i /tmp/cloudflared.deb
+          mkdir -p "$HOME/.local/bin"
+          curl -fsSL --output "$HOME/.local/bin/cloudflared" \
+            "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64"
+          chmod +x "$HOME/.local/bin/cloudflared"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$PATH"
           cloudflared --version
 
       - name: Configure SSH
@@ -72,7 +75,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          cat >> ~/.ssh/config << EOF
+          cat > ~/.ssh/config << EOF
           Host ${{ env.DEPLOY_HOST }}
             User ${{ env.DEPLOY_USER }}
             IdentityFile ~/.ssh/deploy_key
