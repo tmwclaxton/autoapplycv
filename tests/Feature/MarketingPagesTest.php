@@ -174,6 +174,55 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString("name.startsWith('Tools/')", $app);
     }
 
+    public function test_marketing_footer_includes_dofollow_sister_site_links(): void
+    {
+        $grantgunnerUrl = 'https://www.grantgunner.org';
+        $canvassrUrl = 'https://www.canvassr.org';
+
+        $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
+        $footer = (string) file_get_contents(
+            resource_path('js/components/postbox/PostboxSiteFooter.vue'),
+        );
+        $about = (string) file_get_contents(resource_path('js/pages/About.vue'));
+
+        $this->assertStringContainsString("GRANTGUNNER_URL = '{$grantgunnerUrl}'", $site);
+        $this->assertStringContainsString("CANVASSR_URL = '{$canvassrUrl}'", $site);
+
+        preg_match(
+            '/export const FOOTER_SISTER_LINKS[^=]*=\s*\[([\s\S]*?)\] as const;/',
+            $site,
+            $sisterLinks,
+        );
+        $this->assertNotEmpty($sisterLinks, 'Expected FOOTER_SISTER_LINKS in site.ts');
+        $this->assertStringContainsString('GRANTGUNNER_URL', $sisterLinks[1]);
+        $this->assertStringContainsString('CANVASSR_URL', $sisterLinks[1]);
+        $this->assertStringContainsString(
+            'GrantGunner - AI grant finding and drafting for charities',
+            $sisterLinks[1],
+        );
+        $this->assertStringContainsString(
+            'Canvassr - gig platform for door-to-door fundraising',
+            $sisterLinks[1],
+        );
+        $this->assertStringNotContainsString('nofollow', $sisterLinks[1]);
+
+        $this->assertStringContainsString('footer-more-heading', $footer);
+        $this->assertStringContainsString('More from us', $footer);
+        $this->assertStringContainsString('FOOTER_SISTER_LINKS', $footer);
+        $this->assertStringContainsString(':href="item.href"', $footer);
+        $this->assertStringContainsString('rel="noopener noreferrer"', $footer);
+        $this->assertStringNotContainsString('nofollow', $footer);
+        $this->assertStringNotContainsString('sponsored', $footer);
+        $this->assertStringNotContainsString('ugc', $footer);
+
+        $this->assertStringContainsString('GRANTGUNNER_URL', $about);
+        $this->assertStringContainsString('CANVASSR_URL', $about);
+        $this->assertStringContainsString('Who runs it', $about);
+        $this->assertStringContainsString('AI grant finding and drafting for charities', $about);
+        $this->assertStringContainsString('gig platform for door-to-door fundraising', $about);
+        $this->assertStringNotContainsString('nofollow', $about);
+    }
+
     public function test_welcome_page_includes_cover_letter_section(): void
     {
         $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));

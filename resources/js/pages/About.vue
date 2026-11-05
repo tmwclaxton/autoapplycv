@@ -6,8 +6,10 @@ import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import {
+    CANVASSR_URL,
     FORM_CORPUS_SCENARIO_COUNT,
     GITHUB_REPOSITORY_URL,
+    GRANTGUNNER_URL,
     PLATFORM_MARKETING_INLINE,
 } from '@/lib/site';
 </script>
@@ -113,6 +115,21 @@ import {
             <p>
                 AutoCVApply is maintained as a personal project. If something
                 breaks, say so on GitHub or via the contact page.
+            </p>
+            <p>
+                The same person also runs
+                <a
+                    :href="GRANTGUNNER_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GrantGunner</a
+                >, AI grant finding and drafting for charities, and
+                <a
+                    :href="CANVASSR_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Canvassr</a
+                >, a gig platform for door-to-door fundraising.
             </p>
         </PostboxProse>
 
