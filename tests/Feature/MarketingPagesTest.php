@@ -223,6 +223,35 @@ class MarketingPagesTest extends TestCase
         $this->assertStringNotContainsString('nofollow', $about);
     }
 
+    public function test_first_html_includes_dofollow_sister_site_links(): void
+    {
+        $layout = (string) file_get_contents(resource_path('views/app.blade.php'));
+        $partial = (string) file_get_contents(
+            resource_path('views/partials/marketing-sister-links.blade.php'),
+        );
+
+        $this->assertStringContainsString(
+            "@include('partials.marketing-sister-links')",
+            $layout,
+        );
+        $this->assertStringContainsString('id="marketing-sister-links"', $partial);
+        $this->assertStringNotContainsString('nofollow', $partial);
+        $this->assertStringNotContainsString('sponsored', $partial);
+        $this->assertStringNotContainsString('ugc', $partial);
+
+        foreach (['home', 'about'] as $route) {
+            $this->get(route($route))
+                ->assertOk()
+                ->assertSee('id="marketing-sister-links"', false)
+                ->assertSee('href="https://www.grantgunner.org"', false)
+                ->assertSee('href="https://www.canvassr.org"', false)
+                ->assertSee('More from us', false)
+                ->assertSee('GrantGunner - AI grant finding and drafting for charities', false)
+                ->assertSee('Canvassr - gig platform for door-to-door fundraising', false)
+                ->assertDontSee('nofollow', false);
+        }
+    }
+
     public function test_welcome_page_includes_cover_letter_section(): void
     {
         $source = (string) file_get_contents(resource_path('js/pages/Welcome.vue'));
