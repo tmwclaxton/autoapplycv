@@ -6,6 +6,7 @@ import {
     Chrome,
     CircleHelp,
     Cookie,
+    ExternalLink,
     Github,
     Scale,
     Shield,
@@ -19,6 +20,7 @@ import {
     FIREFOX_ADDONS_URL,
     FOOTER_LEGAL_LINKS,
     FOOTER_RESOURCE_LINKS,
+    FOOTER_SISTER_LINKS,
     GITHUB_REPOSITORY_URL,
     INSTAGRAM_URL,
     X_URL,
@@ -53,13 +55,16 @@ const legalIcons: Record<keyof typeof legalRouteMap, LucideIcon> = {
 
 const linkClass =
     'postbox-link inline-flex items-center gap-1.5 no-underline hover:underline';
+
+const sisterLinkClass =
+    'postbox-link inline-flex items-start gap-1.5 no-underline hover:underline';
 </script>
 
 <template>
     <footer class="postbox-bar-bottom px-4 py-8 sm:px-6 sm:py-10">
         <div class="mx-auto flex max-w-6xl flex-col gap-8">
             <div
-                class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5"
+                class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6"
             >
                 <div
                     class="col-span-2 flex flex-col gap-3 sm:col-span-3 lg:col-span-1"
@@ -189,6 +194,31 @@ const linkClass =
                                     aria-hidden="true"
                                 />
                                 X.com
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-labelledby="footer-more-heading">
+                    <p id="footer-more-heading" class="postbox-label mb-3">
+                        More from us
+                    </p>
+                    <ul class="flex flex-col gap-2 text-sm" role="list">
+                        <li
+                            v-for="item in FOOTER_SISTER_LINKS"
+                            :key="item.href"
+                        >
+                            <a
+                                :href="item.href"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                :class="sisterLinkClass"
+                            >
+                                <ExternalLink
+                                    class="mt-0.5 size-4 shrink-0"
+                                    aria-hidden="true"
+                                />
+                                {{ item.label }}
                             </a>
                         </li>
                     </ul>

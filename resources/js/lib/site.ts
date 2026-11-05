@@ -15,6 +15,10 @@ export const FIREFOX_ADDONS_URL =
 
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
+export const GRANTGUNNER_URL = 'https://www.grantgunner.org';
+
+export const CANVASSR_URL = 'https://www.canvassr.org';
+
 export const FORM_CORPUS_SCENARIO_COUNT = 6229;
 export const FORM_CORPUS_VETTED_COUNT = 3942;
 
@@ -298,4 +302,16 @@ export const FOOTER_RESOURCE_LINKS = [
 export const FOOTER_LEGAL_LINKS = [
     { label: 'Terms', route: 'terms' },
     { label: 'Privacy', route: 'privacy' },
+] as const;
+
+/** Sister sites in the footer. Plain anchors stay dofollow (no nofollow or sponsored). */
+export const FOOTER_SISTER_LINKS = [
+    {
+        label: 'GrantGunner - AI grant finding and drafting for charities',
+        href: GRANTGUNNER_URL,
+    },
+    {
+        label: 'Canvassr - gig platform for door-to-door fundraising',
+        href: CANVASSR_URL,
+    },
 ] as const;
