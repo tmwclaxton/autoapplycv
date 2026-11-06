@@ -174,10 +174,9 @@ class MarketingPagesTest extends TestCase
         $this->assertStringContainsString("name.startsWith('Tools/')", $app);
     }
 
-    public function test_marketing_footer_includes_dofollow_sister_site_links(): void
+    public function test_marketing_footer_includes_one_dofollow_grantgunner_link(): void
     {
         $grantgunnerUrl = 'https://www.grantgunner.org';
-        $canvassrUrl = 'https://www.canvassr.org';
 
         $site = (string) file_get_contents(resource_path('js/lib/site.ts'));
         $footer = (string) file_get_contents(
@@ -186,7 +185,8 @@ class MarketingPagesTest extends TestCase
         $about = (string) file_get_contents(resource_path('js/pages/About.vue'));
 
         $this->assertStringContainsString("GRANTGUNNER_URL = '{$grantgunnerUrl}'", $site);
-        $this->assertStringContainsString("CANVASSR_URL = '{$canvassrUrl}'", $site);
+        $this->assertStringNotContainsString('CANVASSR_URL', $site);
+        $this->assertStringNotContainsString('canvassr.org', $site);
 
         preg_match(
             '/export const FOOTER_SISTER_LINKS[^=]*=\s*\[([\s\S]*?)\] as const;/',
@@ -194,14 +194,10 @@ class MarketingPagesTest extends TestCase
             $sisterLinks,
         );
         $this->assertNotEmpty($sisterLinks, 'Expected FOOTER_SISTER_LINKS in site.ts');
-        $this->assertStringContainsString('GRANTGUNNER_URL', $sisterLinks[1]);
-        $this->assertStringContainsString('CANVASSR_URL', $sisterLinks[1]);
+        $this->assertSame(1, preg_match_all('/href:\s*GRANTGUNNER_URL/', $sisterLinks[1]));
+        $this->assertStringNotContainsString('CANVASSR', $sisterLinks[1]);
         $this->assertStringContainsString(
             'GrantGunner - AI grant finding and drafting for charities',
-            $sisterLinks[1],
-        );
-        $this->assertStringContainsString(
-            'Canvassr - gig platform for door-to-door fundraising',
             $sisterLinks[1],
         );
         $this->assertStringNotContainsString('nofollow', $sisterLinks[1]);
@@ -214,41 +210,35 @@ class MarketingPagesTest extends TestCase
         $this->assertStringNotContainsString('nofollow', $footer);
         $this->assertStringNotContainsString('sponsored', $footer);
         $this->assertStringNotContainsString('ugc', $footer);
+        $this->assertStringNotContainsString('canvassr', strtolower($footer));
 
         $this->assertStringContainsString('GRANTGUNNER_URL', $about);
-        $this->assertStringContainsString('CANVASSR_URL', $about);
+        $this->assertStringNotContainsString('CANVASSR_URL', $about);
+        $this->assertStringNotContainsString('canvassr.org', $about);
         $this->assertStringContainsString('Who runs it', $about);
         $this->assertStringContainsString('AI grant finding and drafting for charities', $about);
-        $this->assertStringContainsString('gig platform for door-to-door fundraising', $about);
         $this->assertStringNotContainsString('nofollow', $about);
     }
 
-    public function test_first_html_includes_dofollow_sister_site_links(): void
+    public function test_app_layout_does_not_render_an_orphan_sister_footer(): void
     {
         $layout = (string) file_get_contents(resource_path('views/app.blade.php'));
-        $partial = (string) file_get_contents(
+
+        $this->assertStringNotContainsString('marketing-sister-links', $layout);
+        $this->assertFileDoesNotExist(
             resource_path('views/partials/marketing-sister-links.blade.php'),
         );
 
-        $this->assertStringContainsString(
-            "@include('partials.marketing-sister-links')",
-            $layout,
-        );
-        $this->assertStringContainsString('id="marketing-sister-links"', $partial);
-        $this->assertStringNotContainsString('nofollow', $partial);
-        $this->assertStringNotContainsString('sponsored', $partial);
-        $this->assertStringNotContainsString('ugc', $partial);
-
         foreach (['home', 'about'] as $route) {
-            $this->get(route($route))
-                ->assertOk()
-                ->assertSee('id="marketing-sister-links"', false)
-                ->assertSee('href="https://www.grantgunner.org"', false)
-                ->assertSee('href="https://www.canvassr.org"', false)
-                ->assertSee('More from us', false)
-                ->assertSee('GrantGunner - AI grant finding and drafting for charities', false)
-                ->assertSee('Canvassr - gig platform for door-to-door fundraising', false)
-                ->assertDontSee('nofollow', false);
+            $response = $this->get(route($route));
+
+            $response->assertOk();
+
+            $html = $response->getContent();
+            $this->assertIsString($html);
+            $this->assertStringNotContainsString('id="marketing-sister-links"', $html);
+            $this->assertStringNotContainsString('canvassr.org', $html);
+            $this->assertStringNotContainsString('nofollow', $html);
         }
     }
 

@@ -6,7 +6,6 @@ import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import {
-    CANVASSR_URL,
     FORM_CORPUS_SCENARIO_COUNT,
     GITHUB_REPOSITORY_URL,
     GRANTGUNNER_URL,
@@ -123,13 +122,7 @@ import {
                     target="_blank"
                     rel="noopener noreferrer"
                     >GrantGunner</a
-                >, AI grant finding and drafting for charities, and
-                <a
-                    :href="CANVASSR_URL"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Canvassr</a
-                >, a gig platform for door-to-door fundraising.
+                >, AI grant finding and drafting for charities.
             </p>
         </PostboxProse>
 
